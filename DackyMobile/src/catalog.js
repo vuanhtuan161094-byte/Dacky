@@ -4,6 +4,15 @@
  * been imported into runtime. Every gameplay value remains SIMULATED; names
  * that are mythological references do not imply source parity.
  */
+import { APPROVED_SOURCE_FACTS, SOURCE_REUSE_DECISION } from './approved-source-data.js';
+import { applyApprovedSourceFields } from './source-adapter.js';
+
+const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
+  rows,
+  APPROVED_SOURCE_FACTS[domain] || {},
+  SOURCE_REUSE_DECISION
+);
+
 export const CONTENT_EVIDENCE = Object.freeze({
   status: 'SIMULATED',
   source: 'Independent offline-first design; public Mobile catalog captured 2026-11-25 (version 5d78c226cb), runtime import pending',
@@ -44,13 +53,13 @@ const buildingRows = [
   ['caravan','Vạn Lý Trạm','ngoại thành','驛', 'trade', 0, 65, 50, 20]
 ];
 
-export const BUILDINGS = Object.freeze(buildingRows.map(([id,name,zone,glyph,effect,food,timber,stone,iron], index) => ({
+export const BUILDINGS = Object.freeze(adaptSourceFacts('buildings', buildingRows.map(([id,name,zone,glyph,effect,food,timber,stone,iron], index) => ({
   id, name, zone, glyph, effect, index,
   baseCost: { food: food * 3, timber: timber * 3, stone: stone * 2, iron: iron * 2, gold: 40 + index * 7 },
   seconds: 12 + index % 4 * 3,
   maxLevel: 30,
   evidence: 'SIMULATED'
-})));
+}))));
 
 const troopNames = [
   ['Dân binh','bộ binh','平'], ['Đao thuẫn thủ','bộ binh','盾'], ['Trường thương quân','bộ binh','槍'],
@@ -70,7 +79,7 @@ const troopNames = [
 const counterByRole=Object.freeze({'bộ binh':'kỵ binh','kỵ binh':'xạ thủ','xạ thủ':'bộ binh','công thành':'bộ binh','trinh sát':'công thành','đạo binh':'trinh sát'});
 const laneByRole=Object.freeze({'bộ binh':'front','kỵ binh':'front','xạ thủ':'rear','công thành':'siege','trinh sát':'rear','đạo binh':'front'});
 const rangeByRole=Object.freeze({'bộ binh':1,'kỵ binh':2,'xạ thủ':5,'công thành':6,'trinh sát':4,'đạo binh':3});
-export const TROOPS = Object.freeze(troopNames.map(([name,role,glyph], i) => {
+export const TROOPS = Object.freeze(adaptSourceFacts('troops', troopNames.map(([name,role,glyph], i) => {
   const tier = Math.floor(i / 6) + 1;
   const scale = 1 + tier * 0.42;
   const counter=counterByRole[role];
@@ -82,7 +91,7 @@ export const TROOPS = Object.freeze(troopNames.map(([name,role,glyph], i) => {
     cost: { food: 18 * tier, timber: role === 'công thành' ? 20 * tier : 4 * tier, iron: 9 * tier, gold: 8 * tier },
     trainSeconds: 5 + tier * 2, unlockCity: Math.min(30, tier * 2), evidence: 'SIMULATED'
   };
-}));
+})));
 
 const heroRows = [
   ['Khương Tử Nha','quân sư','water','太師'], ['Na Tra','tiên phong','fire','乾坤'], ['Dương Tiễn','hộ vệ','metal','天眼'],
@@ -98,7 +107,7 @@ const heroRoles=['quân sư','tiên phong','hộ vệ','thống soái','đột k
 const heroElements=['fire','water','earth','metal','wood','wind'];
 const heroSignatures=['Xích Viêm','Huyền Hà','Bát Quái','Thanh Long','Bạch Hổ','Tử Vi','Phục Ma','Lôi Vân','Cửu Cung'];
 for(let i=0;i<522;i++) heroRows.push([`${heroFamilies[Math.floor(i/heroGivenNames.length)]} ${heroGivenNames[i%heroGivenNames.length]}`,heroRoles[i%heroRoles.length],heroElements[i%heroElements.length],heroSignatures[i%heroSignatures.length]]);
-export const HEROES = Object.freeze(heroRows.map(([name,role,element,signature], i) => {
+export const HEROES = Object.freeze(adaptSourceFacts('heroes', heroRows.map(([name,role,element,signature], i) => {
   const generatedQuality = i < 18 ? (i < 4 ? 'Thiên' : i < 11 ? 'Địa' : 'Nhân') : ((i * 37) % 100 < 8 ? 'Thiên' : (i * 37) % 100 < 38 ? 'Địa' : 'Nhân');
   return {
     id: `hero-${String(i + 1).padStart(2,'0')}`, name, role, element, signature, quality:generatedQuality,
@@ -107,16 +116,16 @@ export const HEROES = Object.freeze(heroRows.map(([name,role,element,signature],
     skillText: ['gây sát thương diện rộng','giảm thương cho quân ta','đánh nhanh tuyến trước','tăng sĩ khí đội hình'][i % 4],
     evidence: 'SIMULATED'
   };
-}));
+})));
 
 export const HERO_QUALITY_MULTIPLIERS=Object.freeze({'Nhân':1,'Địa':1.12,'Thiên':1.28});
 
-export const HERO_SKILLS=Object.freeze([
+export const HERO_SKILLS=Object.freeze(adaptSourceFacts('heroSkills', [
   {id:'skill-fire',name:'Hỏa Phù Liệt Trận',passive:'Tăng sát thương đội hình',activeName:'Liệt Hỏa Thiên Hàng',active:'damage',triggerRound:2,baseCoefficient:0.04,perMastery:0.012,evidence:'SIMULATED'},
   {id:'skill-water',name:'Huyền Thủy Hộ Thể',passive:'Giảm sát thương nhận vào',activeName:'Huyền Thủy Kết Giới',active:'shield',triggerRound:1,baseCoefficient:0.05,perMastery:0.012,evidence:'SIMULATED'},
   {id:'skill-wind',name:'Phong Lôi Kích',passive:'Tăng sức mạnh đòn mở đầu',activeName:'Phong Lôi Tiên Kích',active:'damage',triggerRound:1,baseCoefficient:0.04,perMastery:0.014,evidence:'SIMULATED'},
   {id:'skill-formation',name:'Thất Tinh Trợ Chiến',passive:'Tăng sức bền đội hình',activeName:'Thất Tinh Hồi Khí',active:'heal',triggerRound:3,baseCoefficient:0.03,perMastery:0.012,evidence:'SIMULATED'}
-]);
+]));
 
 const gearNames = [
   ['Bạch Ngọc Kiếm','vũ khí','玉劍'], ['Trấn Sơn Đao','vũ khí','鎮刀'], ['Phục Ma Cung','vũ khí','伏弓'],
@@ -142,7 +151,7 @@ const useEffects=[
   i=>({kind:'resource',resource:'gold',amount:60+i%640}),
   i=>({kind:'morale',amount:4+i%17})
 ];
-export const ITEMS = Object.freeze([
+export const ITEMS = Object.freeze(adaptSourceFacts('items', [
   ...gearNames.map(([name,type,glyph], i) => ({
     id:`item-${String(i+1).padStart(2,'0')}`,name,type,glyph,tier:1+i%5,
     bonus:type==='vật phẩm'?0:3+(i*7)%15,
@@ -158,7 +167,7 @@ export const ITEMS = Object.freeze([
     return {id:`item-${String(i+19).padStart(4,'0')}`,name,type,glyph:['玉','符','劍','甲','丹','珠'][i%6],tier,bonus:type==='vật phẩm'?0:5+(i*13)%41,effect,
       useEffect:type==='vật phẩm'?useEffects[(i/4|0)%useEffects.length](i):null,evidence:'SIMULATED'};
   })
-]);
+]));
 
 const techNames = [
   ['Nông Chính','food'], ['Lâm Nghiệp','timber'], ['Khai Sơn','stone'], ['Luyện Kim','iron'],
@@ -167,11 +176,11 @@ const techNames = [
   ['Cung Nỏ','archer'], ['Y Đạo','healing'], ['Trận Đồ','formation'], ['Dịch Trạm','march'],
   ['Luyện Khí','hero'], ['Tinh Tượng','scout'], ['Ngoại Giao','diplomacy']
 ];
-export const TECHNOLOGIES = Object.freeze(techNames.map(([name,effect], i) => ({
+export const TECHNOLOGIES = Object.freeze(adaptSourceFacts('technologies', techNames.map(([name,effect], i) => ({
   id: `tech-${String(i + 1).padStart(2,'0')}`, name, effect, maxLevel: 30,
   baseCost: { food: 45 + i * 6, gold: 35 + i * 5, jade: effect === 'hero' ? 1 : 0 }, seconds: 18 + i % 4 * 4,
   evidence: 'SIMULATED'
-})));
+}))));
 
 const questTitles = [
   ['Nâng Tử Vi Thành','upgrade','citadel',3], ['Tích lương luyện binh','train','troop',8], ['Tìm hiền sĩ trợ trận','recruit','hero',1],
@@ -198,11 +207,11 @@ const longTailQuests=Array.from({length:1109},(_,i)=>{
 });
 const campaignEndingQuest={id:'quest-049',chapter:8,title:'Phong Thần định cục',type:'boss',target:'node-120',goal:1,
   mainStory:true,reward:{food:12000,timber:10000,stone:8000,iron:6000,gold:12000,jade:24,xp:10000},evidence:'SIMULATED'};
-export const QUESTS = Object.freeze([...campaignQuests,...longTailQuests,campaignEndingQuest].sort((a,b)=>{
+export const QUESTS = Object.freeze(adaptSourceFacts('quests', [...campaignQuests,...longTailQuests,campaignEndingQuest].sort((a,b)=>{
   if(a.type==='boss')return 1;if(b.type==='boss')return -1;
   if(Boolean(a.mainStory)!==Boolean(b.mainStory))return a.mainStory?-1:1;
   return a.chapter-b.chapter||Number(a.id.slice(6))-Number(b.id.slice(6));
-}));
+})));
 
 const regionPrefixes = ['Thanh Khâu','Vân Mộng','Cửu Lê','Lạc Thủy','Bắc Minh','Tây Kỳ','Phong Lăng','Quy Khư','Hoàng Hà','Thái Hư','Tử Tiêu','Huyền Cơ','Bạch Lộc','Thương Sơn','Côn Ngô'];
 const regionSuffixes = ['Quan','Trấn','Đài','Cốc','Sơn','Bến','Lĩnh','Thành'];
@@ -241,7 +250,7 @@ function generatedNpcForce(index,chapter,kind,power){
   const element=kind==='Boss chiến dịch'?'fire':npcElements[(index+chapter)%npcElements.length];
   return {commander,element,tactic:{id:tacticId,name:npcTactics[tacticId]},formation};
 }
-export const WORLD_NODES = Object.freeze(Array.from({ length: 120 }, (_, i) => {
+export const WORLD_NODES = Object.freeze(adaptSourceFacts('worldNodes', Array.from({ length: 120 }, (_, i) => {
   const chapterIndex=Math.floor(i/15);
   const localIndex=i%15;
   const citiesInChapter=chapterIndex<3?10:9;
@@ -258,17 +267,17 @@ export const WORLD_NODES = Object.freeze(Array.from({ length: 120 }, (_, i) => {
     level: Math.max(1, Math.floor(i / 4) + 1), x: 9 + (i * 37) % 82, y: 11 + (i * 53) % 76,
     power, enemy:generatedNpcForce(i,chapter,kind,power), loot: { food: isBoss ? 3200 : 80 + i * 12, timber: isBoss ? 2400 : 65 + i * 9, stone: isBoss ? 2000 : 50 + i * 8, gold: isBoss ? 3600 : 45 + i * 8, jade: isBoss ? 8 : i % 7 === 0 ? 1 : 0 },
     evidence: 'SIMULATED' };
-}));
+})));
 
 const mountainPrefixes=['Thanh Vân','Tử Tiêu','Huyền Đô','Thái Hư','Bồng Lai','Phương Trượng','Doanh Châu','Côn Lôn','Ngọc Hư','Linh Đài','Vạn Thọ','Tụ Tiên','Thục Sơn','Nga Mi','Thái Hành','Kinh Hoa','Lạc Già','Bắc Minh','Nam Hoa','Bạch Vân','Thanh Thành','La Phù','Chung Nam','Tiểu Hàn'];
 const mountainSuffixes=['Phong','Vân','Hạc','Ngọc','Hỏa','Thủy','Lôi','Tùng','Trúc','Đào','Liên','Hà','Tinh','Nguyệt','Long','Phượng','Tử','Kim','Huyền','Bích','Thạch','Đan','Linh','Thiên','Địa','Thái'];
-export const IMMORTAL_MOUNTAINS=Object.freeze(Array.from({length:624},(_,i)=>({
+export const IMMORTAL_MOUNTAINS=Object.freeze(adaptSourceFacts('immortalMountains', Array.from({length:624},(_,i)=>({
   id:`mountain-${String(i+1).padStart(3,'0')}`,
   name:`${mountainPrefixes[Math.floor(i/26)]} ${mountainSuffixes[i%26]}`,
   chapter:Math.floor(i/78)+1,rank:1+i%78,power:140+i*17,
   loot:{gold:80+i%640,jade:i%9===0?1:0,food:120+i%900},
   evidence:'SIMULATED'
-})));
+}))));
 
 // A local gameplay cap, chosen for this simulation. It is unrelated to the
 // 8,992 legacy elfland-floor rows below; no source floor count is verified.

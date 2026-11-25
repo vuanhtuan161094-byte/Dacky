@@ -2,6 +2,10 @@
 
 > Nội dung dưới đây mô tả runtime của dự án này. Không phải trích xuất chính thức từ game Mobile hoặc legacy.
 
+## Nguồn dữ liệu và phiên bản
+
+Runtime vẫn dùng dữ liệu tự thiết kế (`SIMULATED`). Nghiên cứu riêng tư đã giải mã và chuẩn hóa 67/70 bảng legacy ghim tại commit `13d969fc88c141553535c70943aaa98cf9f86616`; mỗi trường giữ SHA của bảng, schema và index. Ba bảng còn `HOLD` được liệt kê trong `BLOCKERS.md`. Danh mục Mobile công khai `5d78c226cb` có 2.656 hàng. So sánh hiện chỉ xác nhận delta số lượng: thần tiên 482/540, pháp bảo 151/156, vật phẩm 1.885/2.155, binh chủng 25/39, công trình 21/21, khoa kỹ 19/19, danh thành 73/75 nhóm tọa độ legacy. Các số này không chứng minh trùng record, phiên bản cùng luật chơi hay quyền tái sử dụng. Runtime adapter từ chối nguồn khi chưa có giấy phép và provenance theo trường; vì thế các giá trị chưa được quyền xác minh tiếp tục là `SIMULATED`/`UNKNOWN`.
+
 ## Thành trì
 
 Chỉ dẫn nhập môn lần lượt mở xây Phong Mộc Trường, nghiên cứu Nông Chính, dựng Phong Thần Đàn, chiêu mộ thần tiên, trang bị, huấn luyện và trận thắng đầu tiên. Các nút dùng hành động runtime; chỉ dẫn lưu theo save và nhận biết khi queue/trận hoàn tất.

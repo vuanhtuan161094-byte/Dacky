@@ -7,7 +7,7 @@
     "verifiedLegacyRecordsImported": 0,
     "simulatedRuntimeRecords": 4685,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
-    "note": "Source access and record decoding are tracked separately from runtime import. Existing gameplay catalogs remain SIMULATED until selected normalized fields are wired into runtime."
+    "note": "Private extraction and structural normalization are separate from permission and runtime import. Gameplay remains SIMULATED until field-scoped reuse is documented."
   },
   "references": {
     "publicMobile": [
@@ -339,15 +339,15 @@
   "notImported": [
     {
       "domain": "legacyGameplayTables",
-      "reason": "Static tables are decoded and hash-verified as private research. Runtime integration has not been performed."
+      "reason": "Rows are hash-verified and structurally normalized in gitignored input-private/. No SPDX license or field-level semantic clearance is available; the runtime adapter blocks import without written reuse evidence."
     },
     {
       "domain": "mobilePublicCatalogFields",
-      "reason": "Seven public catalogs are captured and summarized. Runtime import remains field-scoped and must preserve source provenance."
+      "reason": "Seven public catalogs are captured privately. Public access does not grant redistribution; field-scoped permission is unresolved and the runtime adapter fails closed."
     },
     {
       "domain": "mobileVersionDelta",
-      "reason": "Catalog counts and displayed records have been compared at category level. Full gameplay-version delta remains open."
+      "reason": "Category record-count differences are reported below. Full field/value differences and exact version alignment remain unverified."
     },
     {
       "domain": "fengshenTowerFloorCount",
@@ -355,7 +355,7 @@
     }
   ],
   "normalizedJsonExport": "data/dacky-game-data.simulated.v1.json",
-  "normalizationStatus": "PRIVATE_SOURCE_CAPTURE_AND_LEGACY_DECODE_COMPLETE; RUNTIME_IMPORT_PENDING",
+  "normalizationStatus": "PRIVATE_STRUCTURAL_NORMALIZATION_COMPLETE; RUNTIME_IMPORT_BLOCKED_PENDING_PERMISSION_AND_FIELD_VALIDATION",
   "sourceInventory": {
     "legacy": {
       "status": "LEGACY_RESEARCH_DECODED_NOT_IMPORTED",
@@ -366,10 +366,10 @@
       "sourceFilesInPinnedAllowlist": 208,
       "sourceFilesMissingFromCache": [],
       "tableCount": 70,
-      "decodedTableCount": 64,
-      "heldTableCount": 6,
-      "decodedRecordCount": 161234,
-      "decodedSchemaFieldCount": 579,
+      "decodedTableCount": 67,
+      "heldTableCount": 3,
+      "decodedRecordCount": 161331,
+      "decodedSchemaFieldCount": 613,
       "runtimeImportedRecordCount": 0,
       "tables": {
         "147-advfieldgeneralinfo": {
@@ -453,14 +453,14 @@
           "holdReason": null
         },
         "advfieldinfo": {
-          "status": "HOLD",
-          "recordsDecoded": 0,
-          "fieldCount": null,
-          "recordLayout": null,
-          "dataBlobSha1": null,
-          "schemaBlobSha1": null,
-          "indexBlobSha1": null,
-          "holdReason": "unsupported DATETIME storage encoding for LastRefreshTime"
+          "status": "DECODED",
+          "recordsDecoded": 5,
+          "fieldCount": 11,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "cecd10bab228794be14ccb4a13760d32c18d326a",
+          "schemaBlobSha1": "747ac018236acaffe7b6693f7814548617fc53ce",
+          "indexBlobSha1": "3775e3f2a8876cf0c9f3f9dc4803c64b56fe3dce",
+          "holdReason": null
         },
         "buildinfo": {
           "status": "DECODED",
@@ -710,17 +710,17 @@
           "dataBlobSha1": null,
           "schemaBlobSha1": null,
           "indexBlobSha1": null,
-          "holdReason": "[Errno 2] No such file or directory: '/workspace/Dacky/DackyMobile/input-private/legacy_table_cache/fieldrandeventcfginfo.MYI'"
+          "holdReason": "pinned source tree contains only the .frm; required MYI/MYD data files are absent"
         },
         "fightgetgoodstimecfg": {
-          "status": "HOLD",
-          "recordsDecoded": 0,
-          "fieldCount": null,
-          "recordLayout": null,
-          "dataBlobSha1": null,
-          "schemaBlobSha1": null,
-          "indexBlobSha1": null,
-          "holdReason": "unsupported DATETIME storage encoding for StartTime"
+          "status": "DECODED",
+          "recordsDecoded": 65,
+          "fieldCount": 3,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "a1527c74d84dc101fec1a98e175d206ae5dda0d9",
+          "schemaBlobSha1": "ea95d559e72d37892eb007550d63f2aab9b49914",
+          "indexBlobSha1": "ad4dcbaa8a819a9f789eb33cad73a35b72fa2ce6",
+          "holdReason": null
         },
         "generalchestlistinfo": {
           "status": "DECODED",
@@ -1013,14 +1013,14 @@
           "holdReason": null
         },
         "strongpointinfo": {
-          "status": "HOLD",
-          "recordsDecoded": 0,
-          "fieldCount": null,
-          "recordLayout": null,
-          "dataBlobSha1": null,
-          "schemaBlobSha1": null,
-          "indexBlobSha1": null,
-          "holdReason": "unsupported DATETIME storage encoding for TakeTime"
+          "status": "DECODED",
+          "recordsDecoded": 27,
+          "fieldCount": 20,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "e6e8226a330e4e3a827e5598b6ad0b2ec798812d",
+          "schemaBlobSha1": "bbfdc71fe2b916e02c958e8311045e32fa6cbbb2",
+          "indexBlobSha1": "c7d98f4b4c21f9da0450b167e02e00e70e45501d",
+          "holdReason": null
         },
         "technologyinfo": {
           "status": "DECODED",
@@ -1073,6 +1073,16 @@
           "holdReason": "unsupported/deleted/chained block type 253 at 0"
         }
       }
+    },
+    "privateNormalizedLegacy": {
+      "status": "PRIVATE_RESEARCH_ONLY",
+      "normalizationVersion": "dacky-legacy-structural-v1",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "licenseStatus": "UNVERIFIED_NO_SPDX_LICENSE",
+      "runtimeImportStatus": "DISABLED_PENDING_FIELD_SCOPE_AND_REUSE_PERMISSION",
+      "normalizedTableCount": 67,
+      "heldTableCount": 3,
+      "normalizedRecordCount": 161331
     },
     "mobilePublicCatalog": {
       "status": "PUBLIC_CATALOG_CAPTURED_NOT_IMPORTED",
@@ -1266,6 +1276,72 @@
       },
       "reuseNote": "Private research snapshot. Do not publish copied descriptions or art. Runtime publication limited to reviewed normalized facts and provenance."
     },
+    "mobileLegacyCountComparison": {
+      "status": "CATEGORY_COUNT_DELTA_ONLY",
+      "mobileCatalogVersion": "5d78c226cb",
+      "legacySourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "comparisons": [
+        {
+          "mobileCategory": "than-tien",
+          "mobileRecords": 482,
+          "legacyTable": "famousgeneraliteminfo",
+          "legacyRecords": 540,
+          "mobileMinusLegacy": -58,
+          "basis": "hero record counts; not identity parity"
+        },
+        {
+          "mobileCategory": "phap-bao",
+          "mobileRecords": 151,
+          "legacyTable": "goodstrumpinfo",
+          "legacyRecords": 156,
+          "mobileMinusLegacy": -5,
+          "basis": "artifact record counts; not effect parity"
+        },
+        {
+          "mobileCategory": "vat-pham",
+          "mobileRecords": 1885,
+          "legacyTable": "147-goodsinfo",
+          "legacyRecords": 2155,
+          "mobileMinusLegacy": -270,
+          "basis": "item catalog scopes may differ"
+        },
+        {
+          "mobileCategory": "binh-chung",
+          "mobileRecords": 25,
+          "legacyTable": "147-soldierinfo",
+          "legacyRecords": 39,
+          "mobileMinusLegacy": -14,
+          "basis": "troop record counts; version namespaces differ"
+        },
+        {
+          "mobileCategory": "cong-trinh",
+          "mobileRecords": 21,
+          "legacyTable": "buildinfo",
+          "legacyRecords": 21,
+          "mobileMinusLegacy": 0,
+          "basis": "building record counts only"
+        },
+        {
+          "mobileCategory": "khoa-ky",
+          "mobileRecords": 19,
+          "legacyTable": "technologyinfo",
+          "legacyRecords": 19,
+          "mobileMinusLegacy": 0,
+          "basis": "technology record counts only"
+        },
+        {
+          "mobileCategory": "danh-thanh",
+          "mobileRecords": 73,
+          "legacyTable": "famouscitygeneralinfo",
+          "legacyRecords": 75,
+          "legacySourceRows": 375,
+          "mobileMinusLegacy": -2,
+          "basis": "Mobile city entries vs distinct legacy defender coordinate groups; row semantics may differ"
+        }
+      ],
+      "contentFieldDiff": "NOT_ESTABLISHED; versions, field meanings, and reuse permissions are unresolved",
+      "parityClaim": false
+    },
     "httpGetChecks": {
       "retrievedDate": "2026-11-25",
       "tests": [
@@ -1367,5 +1443,71 @@
         }
       ]
     }
+  },
+  "versionComparison": {
+    "status": "CATEGORY_COUNT_DELTA_ONLY",
+    "mobileCatalogVersion": "5d78c226cb",
+    "legacySourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+    "comparisons": [
+      {
+        "mobileCategory": "than-tien",
+        "mobileRecords": 482,
+        "legacyTable": "famousgeneraliteminfo",
+        "legacyRecords": 540,
+        "mobileMinusLegacy": -58,
+        "basis": "hero record counts; not identity parity"
+      },
+      {
+        "mobileCategory": "phap-bao",
+        "mobileRecords": 151,
+        "legacyTable": "goodstrumpinfo",
+        "legacyRecords": 156,
+        "mobileMinusLegacy": -5,
+        "basis": "artifact record counts; not effect parity"
+      },
+      {
+        "mobileCategory": "vat-pham",
+        "mobileRecords": 1885,
+        "legacyTable": "147-goodsinfo",
+        "legacyRecords": 2155,
+        "mobileMinusLegacy": -270,
+        "basis": "item catalog scopes may differ"
+      },
+      {
+        "mobileCategory": "binh-chung",
+        "mobileRecords": 25,
+        "legacyTable": "147-soldierinfo",
+        "legacyRecords": 39,
+        "mobileMinusLegacy": -14,
+        "basis": "troop record counts; version namespaces differ"
+      },
+      {
+        "mobileCategory": "cong-trinh",
+        "mobileRecords": 21,
+        "legacyTable": "buildinfo",
+        "legacyRecords": 21,
+        "mobileMinusLegacy": 0,
+        "basis": "building record counts only"
+      },
+      {
+        "mobileCategory": "khoa-ky",
+        "mobileRecords": 19,
+        "legacyTable": "technologyinfo",
+        "legacyRecords": 19,
+        "mobileMinusLegacy": 0,
+        "basis": "technology record counts only"
+      },
+      {
+        "mobileCategory": "danh-thanh",
+        "mobileRecords": 73,
+        "legacyTable": "famouscitygeneralinfo",
+        "legacyRecords": 75,
+        "legacySourceRows": 375,
+        "mobileMinusLegacy": -2,
+        "basis": "Mobile city entries vs distinct legacy defender coordinate groups; row semantics may differ"
+      }
+    ],
+    "contentFieldDiff": "NOT_ESTABLISHED; versions, field meanings, and reuse permissions are unresolved",
+    "parityClaim": false
   }
 }

@@ -30,12 +30,33 @@ def validate_descriptors(ds):
     if any(t not in (0,3,8) or l<=0 for t,l,_,_ in ds[1:]):
         raise ValueError(f'unsupported descriptor layout {ds}')
 
+def decode_mysql50_datetime(raw):
+    """Decode MySQL 5.0 DATETIME storage: 8-byte LE YYYYMMDDHHMMSS, no timezone."""
+    if len(raw)!=8: raise ValueError(f'unsupported MySQL 5.0 DATETIME width {len(raw)}')
+    packed=int.from_bytes(raw,'little',signed=False)
+    year=packed//10_000_000_000
+    month=packed//100_000_000%100
+    day=packed//1_000_000%100
+    hour=packed//10_000%100
+    minute=packed//100%100
+    second=packed%100
+    if year>9999 or month>12 or day>31 or hour>23 or minute>59 or second>59:
+        raise ValueError(f'invalid MySQL 5.0 DATETIME components in packed value {packed}')
+    return {
+        'raw':packed,
+        'value':f'{year:04d}-{month:02d}-{day:02d} {hour:02d}:{minute:02d}:{second:02d}',
+        'encoding':'MYSQL50_DATETIME_U64_LE_YYYYMMDDHHMMSS',
+    }
+
 def layout(frm,idx):
     if idx[:4]!=b'\xfe\xfe\x07\x01': raise ValueError('unsupported index signature')
     seq=max(re.findall(rb'\xff(?:[A-Za-z_][A-Za-z0-9_]*\xff)+',frm),key=lambda s:s.count(b'\xff'))
     names=[s.decode('ascii') for s in seq.split(b'\xff') if s]
     pos=frm.index(seq)-17*len(names)
     cols=[{'name':name,'type':frm[pos+17*i+13],'flags':n(frm,pos+17*i+8,2)} for i,name in enumerate(names)]
+    for c in cols:
+        if c['type']==12:
+            c['storage_encoding']='MYSQL50_DATETIME_U64_LE_YYYYMMDDHHMMSS'
     phys=[c for c in cols if c['type']!=16]
     end=n(idx,6,2,'big'); start=end-7*(len(phys)+1)
     ds=[(n(idx,p,2,'big'),n(idx,p+2,2,'big'),idx[p+4],n(idx,p+5,2,'big')) for p in range(start,end,7)]
@@ -82,8 +103,8 @@ def decode_table(table,frm,idx,data):
                 typ=c['type'];raw=b[p:p+l]
                 if len(raw)!=l: raise ValueError('truncated numeric')
                 if typ == 12:
-                    raise ValueError(f'unsupported DATETIME storage encoding for {c["name"]}')
-                if typ in (4,5):
+                    val=decode_mysql50_datetime(raw)
+                elif typ in (4,5):
                     val=struct.unpack('<f' if typ==4 else '<d',raw)[0]
                     if not math.isfinite(val): raise ValueError('nonfinite float')
                 else: val=n(b,p,l,signed=bool(c['flags']&1) and typ in (1,2,3,8,9))
@@ -120,6 +141,13 @@ def run(source,out,fetch,tables):
             payload={'table':t,'source_commit':COMMIT,'source_git_blob_sha1':digest(data),'schema':cols,'records':rows,'status':'LEGACY_NOT_MOBILE_VERIFIED'}
             tmp=dest.with_suffix('.tmp');tmp.write_text(json.dumps(payload,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8');tmp.replace(dest)
             return t,{'status':'DECODED','rows':len(rows),'fields':len(cols),'mode':mode,'data_sha1':digest(data),'frm_sha1':digest(frm),'index_sha1':digest(idx)}
+        except FileNotFoundError as e:
+            missing=Path(e.filename).name if e.filename else 'required MyISAM file'
+            if t=='fieldrandeventcfginfo':
+                reason='pinned source tree contains only the .frm; required MYI/MYD data files are absent'
+            else:
+                reason=f'required source file missing: {missing}'
+            return t,{'status':'HOLD','error':reason}
         except Exception as e:
             return t,{'status':'HOLD','error':str(e)}
     with ThreadPoolExecutor(max_workers=3) as ex:

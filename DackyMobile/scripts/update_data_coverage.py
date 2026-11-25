@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PRIVATE = ROOT / "input-private"
 COVERAGE_PATH = ROOT / "DATA_COVERAGE.json"
 LEGACY_MANIFEST = PRIVATE / "extracted" / "manifest.json"
+NORMALIZED_MANIFEST = PRIVATE / "normalized_legacy" / "manifest.json"
 MOBILE_MANIFEST = PRIVATE / "mobile_reference" / "manifest.json"
 NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 
@@ -99,6 +100,78 @@ def mobile_inventory():
     }
 
 
+def normalized_inventory():
+    manifest = load_json(NORMALIZED_MANIFEST)
+    if manifest is None:
+        return None
+    return {
+        "status": manifest.get("status"),
+        "normalizationVersion": manifest.get("normalizationVersion"),
+        "sourceCommit": manifest.get("sourceCommit"),
+        "licenseStatus": manifest.get("licenseStatus"),
+        "runtimeImportStatus": manifest.get("runtimeImportStatus"),
+        "normalizedTableCount": manifest.get("normalizedTableCount", 0),
+        "heldTableCount": manifest.get("heldTableCount", 0),
+        "normalizedRecordCount": manifest.get("normalizedRecordCount", 0),
+    }
+
+
+def count_comparison(legacy_manifest, mobile_manifest):
+    if not legacy_manifest or not mobile_manifest:
+        return None
+    mobile_counts = {row["id"]: row["count"] for row in mobile_manifest.get("categories", [])}
+    legacy_tables = legacy_manifest.get("tables", {})
+    mapping = [
+        ("than-tien", "famousgeneraliteminfo", "hero record counts; not identity parity"),
+        ("phap-bao", "goodstrumpinfo", "artifact record counts; not effect parity"),
+        ("vat-pham", "147-goodsinfo", "item catalog scopes may differ"),
+        ("binh-chung", "147-soldierinfo", "troop record counts; version namespaces differ"),
+        ("cong-trinh", "buildinfo", "building record counts only"),
+        ("khoa-ky", "technologyinfo", "technology record counts only"),
+    ]
+    comparisons = []
+    for category, table_name, scope in mapping:
+        mobile_count = mobile_counts.get(category)
+        legacy_count = legacy_tables.get(table_name, {}).get("rows")
+        if isinstance(mobile_count, int) and isinstance(legacy_count, int):
+            comparisons.append({
+                "mobileCategory": category,
+                "mobileRecords": mobile_count,
+                "legacyTable": table_name,
+                "legacyRecords": legacy_count,
+                "mobileMinusLegacy": mobile_count - legacy_count,
+                "basis": scope,
+            })
+
+    city_rows_path = PRIVATE / "extracted" / "famouscitygeneralinfo.json"
+    mobile_city_count = mobile_counts.get("danh-thanh")
+    if isinstance(mobile_city_count, int) and city_rows_path.exists():
+        city_payload = load_json(city_rows_path)
+        city_groups = {
+            (row.get("PosX"), row.get("PosY"))
+            for row in city_payload.get("records", [])
+        }
+        legacy_city_count = len(city_groups)
+        comparisons.append({
+            "mobileCategory": "danh-thanh",
+            "mobileRecords": mobile_city_count,
+            "legacyTable": "famouscitygeneralinfo",
+            "legacyRecords": legacy_city_count,
+            "legacySourceRows": len(city_payload.get("records", [])),
+            "mobileMinusLegacy": mobile_city_count - legacy_city_count,
+            "basis": "Mobile city entries vs distinct legacy defender coordinate groups; row semantics may differ",
+        })
+
+    return {
+        "status": "CATEGORY_COUNT_DELTA_ONLY",
+        "mobileCatalogVersion": mobile_manifest.get("catalogVersion"),
+        "legacySourceCommit": legacy_manifest.get("source_commit"),
+        "comparisons": comparisons,
+        "contentFieldDiff": "NOT_ESTABLISHED; versions, field meanings, and reuse permissions are unresolved",
+        "parityClaim": False,
+    }
+
+
 def main():
     coverage = load_json(COVERAGE_PATH)
     if coverage is None:
@@ -106,6 +179,8 @@ def main():
 
     legacy = legacy_inventory()
     mobile = mobile_inventory()
+    normalized = normalized_inventory()
+    comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
     network = load_json(NETWORK_CHECK)
     coverage["updated"] = date.today().isoformat()
     coverage["evidenceStatus"].update({
@@ -117,11 +192,13 @@ def main():
             if isinstance(item.get("records"), int)
         ),
         "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25" if network else "NOT_CHECKED",
-        "note": "Source access and record decoding are tracked separately from runtime import. Existing gameplay catalogs remain SIMULATED until selected normalized fields are wired into runtime.",
+        "note": "Private extraction and structural normalization are separate from permission and runtime import. Gameplay remains SIMULATED until field-scoped reuse is documented.",
     })
     coverage["sourceInventory"] = {
         "legacy": legacy,
+        "privateNormalizedLegacy": normalized,
         "mobilePublicCatalog": mobile,
+        "mobileLegacyCountComparison": comparison,
         "httpGetChecks": network,
     }
     coverage["references"] = {
@@ -150,15 +227,15 @@ def main():
     coverage["notImported"] = [
         {
             "domain": "legacyGameplayTables",
-            "reason": "Static tables are decoded and hash-verified as private research. Runtime integration has not been performed.",
+            "reason": "Rows are hash-verified and structurally normalized in gitignored input-private/. No SPDX license or field-level semantic clearance is available; the runtime adapter blocks import without written reuse evidence.",
         },
         {
             "domain": "mobilePublicCatalogFields",
-            "reason": "Seven public catalogs are captured and summarized. Runtime import remains field-scoped and must preserve source provenance.",
+            "reason": "Seven public catalogs are captured privately. Public access does not grant redistribution; field-scoped permission is unresolved and the runtime adapter fails closed.",
         },
         {
             "domain": "mobileVersionDelta",
-            "reason": "Catalog counts and displayed records have been compared at category level. Full gameplay-version delta remains open.",
+            "reason": "Category record-count differences are reported below. Full field/value differences and exact version alignment remain unverified.",
         },
         {
             "domain": "fengshenTowerFloorCount",
@@ -173,7 +250,11 @@ def main():
                 "Local design cap; unrelated to legacy elfland floors; source tower count unknown"
             )
             catalog.pop("legacyReferenceFloorCount", None)
-    coverage["normalizationStatus"] = "PRIVATE_SOURCE_CAPTURE_AND_LEGACY_DECODE_COMPLETE; RUNTIME_IMPORT_PENDING"
+    coverage["versionComparison"] = comparison
+    coverage["normalizationStatus"] = (
+        "PRIVATE_STRUCTURAL_NORMALIZATION_COMPLETE; RUNTIME_IMPORT_BLOCKED_PENDING_PERMISSION_AND_FIELD_VALIDATION"
+        if normalized else "PRIVATE_SOURCE_CAPTURE_AND_LEGACY_DECODE_COMPLETE; RUNTIME_IMPORT_PENDING"
+    )
     temp_path = COVERAGE_PATH.with_suffix(".tmp")
     temp_path.write_text(
         json.dumps(coverage, ensure_ascii=False, indent=2) + "\n",
