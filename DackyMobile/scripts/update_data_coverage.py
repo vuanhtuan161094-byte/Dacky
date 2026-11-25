@@ -87,13 +87,19 @@ def mobile_inventory():
     categories = {}
     facts = runtime_mobile_facts()
     mapped_domains = {
-        "than-tien": "heroes", "phap-bao": "items", "vat-pham": None, "binh-chung": "troops",
+        "than-tien": "heroes", "phap-bao": "items", "vat-pham": "items", "binh-chung": "troops",
         "cong-trinh": "buildings", "khoa-ky": "technologies", "danh-thanh": "worldNodes",
     }
-    gameplay_mapped = {
-        category: len(facts.get(domain, {})) if domain else 0
-        for category, domain in mapped_domains.items()
-    }
+    gameplay_mapped = {}
+    for category, domain in mapped_domains.items():
+        mapped = facts.get(domain, {}) if domain else {}
+        if domain == "items":
+            gameplay_mapped[category] = sum(
+                any(field.get("provenance", {}).get("sourceTable") == category for field in row.values())
+                for row in mapped.values()
+            )
+        else:
+            gameplay_mapped[category] = len(mapped)
     field_value_count = sum(len(fields) for table in facts.values() for fields in table.values())
     for category in manifest.get("categories", []):
         categories[category["id"]] = {
@@ -206,6 +212,21 @@ def main():
     normalized = normalized_inventory()
     comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
     network = load_json(NETWORK_CHECK)
+    if mobile:
+        items_catalog = next((item for item in coverage.get("runtimeCatalogs", []) if item.get("domain") == "items"), None)
+        if items_catalog:
+            artifact_count = mobile["categories"].get("phap-bao", {}).get("gameplayMappedRecords", 0)
+            goods_count = mobile["categories"].get("vat-pham", {}).get("gameplayMappedRecords", 0)
+            base_records = items_catalog.setdefault("baseCatalogRecords", items_catalog.get("records", 2155))
+            items_catalog.update({
+                "records": base_records + goods_count,
+                "status": "MIXED" if artifact_count + goods_count else "SIMULATED",
+                "simulatedRecords": max(0, base_records - artifact_count),
+                "mobileArtifactRecords": artifact_count,
+                "mobileGoodsRecords": goods_count,
+                "sourceLibraryRecords": artifact_count + goods_count,
+                "sourceFields": "151 verified Mobile artifact profiles and 1,885 item profiles; exact chest outcomes and gear attributes are retained, supported runtime conversions are field-scoped and other use effects remain UNKNOWN",
+            })
     coverage["updated"] = date.today().isoformat()
     coverage["evidenceStatus"].update({
         "verifiedMobileRecords": mobile["runtimeImportedRecordCount"] if mobile else 0,

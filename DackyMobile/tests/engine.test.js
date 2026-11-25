@@ -334,6 +334,7 @@ test('equipped Mobile artifact source effects change army combat and retain repo
   assert.equal(equipped.matchup.sourceArtifacts[0].status,'SOURCE_VALUES_SIMULATED_STACKING');
   const unsupported=ITEMS.find(row=>row.mobileSourceId==='5051');
   let unknownState=createNewGame('Triều Ca',now);
+  unknownState.heroes[0].level=unsupported.mobileRequiredLevel;
   unknownState.army={'troop-01':100};
   unknownState.items=[unsupported.id];
   unknownState=doAction(unknownState,{type:'equip',heroId:'hero-01',itemId:unsupported.id},now+1);
@@ -343,6 +344,48 @@ test('equipped Mobile artifact source effects change army combat and retain repo
   assert.equal(unknown.matchup.sourceArtifacts[0].evidence,'VERIFIED_MOBILE');
   assert.equal(unknown.skillBonuses.artifactArmyAttack,0);
   assert.equal(unknown.skillBonuses.artifactEnemyTroopLoss,0);
+});
+
+test('Mobile chests open linked source rewards and source equipment stats affect combat', () => {
+  const now=1_800_000_000_000;
+  const randomBox=ITEMS.find(row=>row.mobileSourceId==='4608');
+  let state=createNewGame('Triều Ca',now);
+  state.items=[randomBox.id];
+  state=doAction(state,{type:'useItem',itemId:randomBox.id},now+1);
+  assert.equal(state.items.includes(randomBox.id),false);
+  assert.equal(state.items.length,1);
+  const randomReward=ITEMS.find(row=>row.id===state.items[0]);
+  assert.ok(['phap-bao','vat-pham'].includes(randomReward.fieldProvenance.mobileSourceId.sourceTable));
+
+  const lockedBox=ITEMS.find(row=>row.mobileSourceId==='6175');
+  const key=ITEMS.find(row=>row.name===lockedBox.mobileOpening.requiredKey&&row.fieldProvenance.mobileSourceId.sourceTable==='vat-pham');
+  let locked=createNewGame('Triều Ca',now);
+  locked.items=[lockedBox.id];
+  assert.throws(()=>doAction(locked,{type:'useItem',itemId:lockedBox.id},now+1),/Cần .* để mở rương/);
+  locked.items=[lockedBox.id,key.id];
+  locked=doAction(locked,{type:'useItem',itemId:lockedBox.id},now+1);
+  assert.equal(locked.items.includes(lockedBox.id),false);
+  assert.equal(locked.items.includes(key.id),false);
+  assert.equal(locked.items.length,2);
+
+  const sourceGear=ITEMS.find(row=>row.mobileSourceId==='7232');
+  let equipped=createNewGame('Triều Ca',now);
+  equipped.heroes[0].assigned=true;
+  equipped.army={'troop-01':100};
+  equipped.items=[sourceGear.id];
+  assert.throws(()=>doAction(equipped,{type:'equip',heroId:'hero-01',itemId:sourceGear.id},now+1),/yêu cầu thần tiên cấp/);
+  equipped.heroes[0].level=sourceGear.mobileRequiredLevel;
+  const basePower=heroPower(equipped.heroes[0],equipped);
+  equipped=doAction(equipped,{type:'equip',heroId:'hero-01',itemId:sourceGear.id},now+1);
+  assert.ok(heroPower(equipped.heroes[0],equipped)>basePower);
+  equipped=doAction(equipped,{type:'march',nodeId:'node-002',troopId:'troop-01',count:100},now+2);
+  const report=advance(equipped,equipped.queues.march.finishAt+1).state.reports[0];
+  assert.ok(report.skillBonuses.equipmentDefense>0.03);
+  const restricted=ITEMS.find(row=>row.mobileSourceId==='7140');
+  let wrongOccupation=createNewGame('Triều Ca',now);
+  wrongOccupation.heroes[0].level=60;
+  wrongOccupation.items=[restricted.id];
+  assert.throws(()=>doAction(wrongOccupation,{type:'equip',heroId:'hero-01',itemId:restricted.id},now+1),/dành cho nghề Giáp sĩ/);
 });
 
 test('construction and training are queued and settle once', () => {
@@ -571,7 +614,7 @@ test('final boss is gated and a first victory records the campaign ending', () =
 
 
 test('mixed source and simulated catalogs expose the requested runtime coverage', () => {
-  for(const [rows,count] of [[HEROES,540],[ITEMS,2155],[QUESTS,1158],[IMMORTAL_MOUNTAINS,624]]){
+  for(const [rows,count] of [[HEROES,540],[ITEMS,4040],[QUESTS,1158],[IMMORTAL_MOUNTAINS,624]]){
     assert.equal(rows.length,count);
     assert.equal(new Set(rows.map(row=>row.id)).size,count);
   }
@@ -579,7 +622,7 @@ test('mixed source and simulated catalogs expose the requested runtime coverage'
   assert.equal(sourcedHeroes.length,482);
   assert.equal(HEROES.filter(row=>row.evidence==='SIMULATED').length,58);
   assert.ok(sourcedHeroes.every(row=>row.evidence==='MIXED'&&row.fieldEvidence.mobileImage==='VERIFIED_MOBILE'));
-  assert.equal(ITEMS.filter(row=>row.mobileSourceId).length,151);
+  assert.equal(ITEMS.filter(row=>row.mobileSourceId).length,2036);
   assert.ok(ITEMS.filter(row=>!row.mobileSourceId).every(row=>row.evidence==='SIMULATED'));
   assert.ok(QUESTS.every(row=>row.evidence==='SIMULATED'));
   assert.ok(IMMORTAL_MOUNTAINS.every(row=>row.evidence==='SIMULATED'));

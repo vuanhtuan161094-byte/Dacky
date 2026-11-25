@@ -6,9 +6,9 @@
     "verifiedMobileRecords": 2656,
     "verifiedLegacyRecordsImported": 0,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
-    "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 8,238 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
-    "fieldScopedMobileFieldsInGameplay": 8238,
-    "runtimeCatalogRecords": 7341
+    "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 35,902 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
+    "fieldScopedMobileFieldsInGameplay": 35902,
+    "runtimeCatalogRecords": 9226
   },
   "references": {
     "publicMobile": [
@@ -109,10 +109,15 @@
     },
     {
       "domain": "items",
-      "records": 2155,
-      "status": "SIMULATED",
+      "records": 4040,
+      "status": "MIXED",
       "runtime": "src/catalog.js + src/engine.js",
-      "sourceLibraryRecords": 2036
+      "sourceLibraryRecords": 2036,
+      "baseCatalogRecords": 2155,
+      "simulatedRecords": 2004,
+      "mobileArtifactRecords": 151,
+      "mobileGoodsRecords": 1885,
+      "sourceFields": "151 verified Mobile artifact profiles and 1,885 item profiles; exact chest outcomes and gear attributes are retained, supported runtime conversions are field-scoped and other use effects remain UNKNOWN"
     },
     {
       "domain": "quests",
@@ -1140,8 +1145,8 @@
       "categoryCount": 7,
       "recordCount": 2656,
       "runtimeImportedRecordCount": 2656,
-      "gameplayMappedRecordCount": 756,
-      "fieldScopedGameplayValueCount": 8238,
+      "gameplayMappedRecordCount": 2641,
+      "fieldScopedGameplayValueCount": 35902,
       "categories": {
         "than-tien": {
           "title": "Thần tiên",
@@ -1224,7 +1229,7 @@
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/vat-pham/",
           "runtimeImportedRecords": 1885,
-          "gameplayMappedRecords": 0
+          "gameplayMappedRecords": 1885
         },
         "binh-chung": {
           "title": "Binh chủng",

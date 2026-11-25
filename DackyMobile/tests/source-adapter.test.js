@@ -52,7 +52,7 @@ test('the full Mobile hero roster is playable with per-field provenance and sour
 });
 
 test('Mobile artifact records preserve source identity, effects, artwork, and field provenance', () => {
-  const artifacts=ITEMS.filter(item=>item.mobileSourceId);
+  const artifacts=ITEMS.filter(item=>item.fieldProvenance?.mobileSourceId?.sourceTable==='phap-bao');
   assert.equal(artifacts.length,151);
   assert.equal(new Set(artifacts.map(item=>item.mobileSourceId)).size,151);
   assert.ok(artifacts.every(item=>item.type==='pháp bảo'&&item.mobileImage.startsWith('./assets/mobile-source/')));
@@ -62,6 +62,31 @@ test('Mobile artifact records preserve source identity, effects, artwork, and fi
   assert.equal(blades.name,'Trảm Kình Song Kiếm');
   assert.equal(blades.mobileAbilityText,'Tăng 30% công kích phe ta, giảm 7% số lính địch');
   assert.equal(blades.bonus,0);
+});
+
+test('Mobile goods map chest openings, acquisition, source stats and merchant availability', () => {
+  const goods=ITEMS.filter(item=>item.fieldProvenance?.mobileSourceId?.sourceTable==='vat-pham');
+  assert.equal(goods.length,1885);
+  assert.equal(ITEMS.filter(item=>item.mobileSourceId).length,2036);
+  assert.ok(goods.every(item=>item.fieldEvidence.name==='VERIFIED_MOBILE'&&item.fieldEvidence.mobileStats==='VERIFIED_MOBILE'));
+  assert.ok(goods.every(item=>item.fieldProvenance.mobileOpening.sourceTable==='vat-pham'));
+  const chest=goods.find(item=>item.mobileSourceId==='4608');
+  assert.equal(chest.name,'Hộp Ngự Thiên Đình');
+  assert.equal(chest.useEffect.kind,'mobileChest');
+  assert.equal(chest.mobileOpening.mode,'random');
+  assert.equal(chest.mobileOpening.rewards.length,32);
+  const gear=goods.find(item=>item.mobileSourceId==='7232');
+  assert.equal(gear.type,'giáp');
+  assert.equal(gear.mobileEquipmentSlot,'Mũ');
+  assert.deepEqual(gear.mobileStats.slice(0,2),[['Công kích','+70'],['Phòng thủ','+35']]);
+  assert.equal(gear.mobileAvailableAtMerchant,false);
+  const storeChest=goods.find(item=>item.mobileSourceId==='6392');
+  assert.equal(storeChest.mobileAvailableAtMerchant,true);
+  assert.equal(storeChest.fieldEvidence.mobileAvailableAtMerchant,'VERIFIED_MOBILE');
+  assert.equal(storeChest.fieldProvenance.mobileAvailableAtMerchant.sourceRecordId,'7232');
+  assert.equal(storeChest.useEffect.kind,'mobileChest');
+  const foodPack=goods.find(item=>item.mobileSourceId==='6315');
+  assert.deepEqual(foodPack.useEffect,{kind:'resource',resource:'food',amount:10000000});
 });
 
 test('Mobile source artwork is local, checksummed, and bundled for offline use', () => {

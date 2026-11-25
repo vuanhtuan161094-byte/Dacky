@@ -420,7 +420,99 @@ for (const [rowIndex, row] of artifactRows.entries()) {
   };
 }
 
+const goodsCategory = categoryMeta.get('vat-pham');
+const goodsRows = categoryRows['vat-pham'];
+const qualityTiers = { 'Phàm': 1, 'Lục': 2, 'Lam': 3, 'Tím': 4, 'Cam': 5, 'Đỏ': 6, 'Kim': 7, 'Thần': 8 };
+const resourceNames = new Map([
+  ['luong thuc', 'food'], ['go', 'timber'], ['da', 'stone'], ['sat', 'iron'], ['vang', 'gold'], ['ngan luong', 'gold'], ['linh ngoc', 'jade']
+]);
+const normalizeVietnamese = value => String(value || '').replace(/[đĐ]/g, 'd').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('vi').trim();
+const merchantBoxReferences = new Map();
+for (const [recordIndex, record] of goodsRows.entries()) {
+  const acquisition = record.details.find(block => block.k === 'kn' && block.t === 'Cách nhận')?.ds || [];
+  for (const [linkIndex, entry] of acquisition.entries()) {
+    const targetId = String(entry.lk || '').match(/^vat-pham\/(.+)$/)?.[1];
+    if (targetId && normalizeVietnamese(entry.v).includes('ban o thuong thanh') && !merchantBoxReferences.has(targetId)) {
+      merchantBoxReferences.set(targetId, {
+        sourceField: `muc[${recordIndex}].d[k=kn,t=Cách nhận].ds[${linkIndex}].lk`,
+        sourceRecordId: record.id
+      });
+    }
+  }
+}
+const sourceGoods = {};
+for (const [rowIndex, row] of goodsRows.entries()) {
+  const infoBlock = row.details.find(block => block.k === 'cs' && block.t === 'Thông tin');
+  const info = Object.fromEntries(infoBlock?.ds || []);
+  const group = String(info['Nhóm'] || row.section || 'UNKNOWN');
+  const equipmentSlot = String(info['Bộ vị'] || '');
+  const quality = String(info['Phẩm chất'] || row.filters.pham || '');
+  const statsBlock = row.details.find(block => block.k === 'cs' && block.t === 'Chỉ số');
+  const stats = (statsBlock?.ds || []).map(([label, value]) => [String(label), String(value)]);
+  const acquisition = row.details.find(block => block.k === 'kn' && block.t === 'Cách nhận')?.ds || [];
+  const openingBlock = row.details.find(block => block.k === 'icon' && String(block.t || '').startsWith('Mở ra'));
+  const openingTitle = String(openingBlock?.t || '');
+  const opening = openingBlock ? {
+    title: openingTitle,
+    mode: openingTitle.startsWith('Mở ra nhận được tất cả') ? 'all' : 'random',
+    requiredKey: openingTitle.match(/cần chìa «(.+?)»/iu)?.[1] || '',
+    rewards: (openingBlock.ds || []).map(entry => ({
+      name: String(entry.t || ''), link: String(entry.lk || ''),
+      quantityText: String(entry.v || ''), weightText: String(entry.p || '')
+    }))
+  } : null;
+  const runtimeType = group === 'Trang bị'
+    ? (/vũ khí|binh khí/i.test(equipmentSlot) ? 'vũ khí' : /pháp bảo/i.test(equipmentSlot) ? 'pháp bảo' : 'giáp')
+    : 'vật phẩm';
+  const source = (sourceField, value, sourceRecordId = row.id) => ({
+    value,
+    targetType: Array.isArray(value) ? 'array' : value === null ? 'null' : typeof value,
+    provenance: {
+      evidence: 'VERIFIED_MOBILE', sourceVersion: manifest.catalogVersion, sourceTable: 'vat-pham', sourceField,
+      dataHash: goodsCategory.fileSha256, schemaHash: indexHash, sourceRecordId,
+      license: 'PROJECT_OWNER_AUTHORIZATION_ASSERTED_NO_SPDX',
+      permissionEvidence: 'Owner authorization in Codex conversation dated 2026-11-25: rights to use found game data/assets for our projects; scope includes public Mobile and legacy data.'
+    }
+  });
+  const targetId = `mobile-good-${row.id}`;
+  const facts = {
+    name: source(`muc[${rowIndex}].t`, row.name),
+    type: source(`muc[${rowIndex}].d[k=cs,t=Thông tin].ds[Nhóm,Bộ vị]`, runtimeType),
+    effect: source(`muc[${rowIndex}].d[k=mo].v`, row.description || ''),
+    mobileSourceId: source(`muc[${rowIndex}].i`, row.id),
+    mobileImage: source(`muc[${rowIndex}].a`, row.localImage || ''),
+    mobileGroup: source(`muc[${rowIndex}].d[k=cs,t=Thông tin].ds[Nhóm]`, group),
+    mobileQuality: source(`muc[${rowIndex}].d[k=cs,t=Thông tin].ds[Phẩm chất]`, quality),
+    mobileEquipmentSlot: source(`muc[${rowIndex}].d[k=cs,t=Thông tin].ds[Bộ vị]`, equipmentSlot),
+    mobileOccupation: source(`muc[${rowIndex}].d[k=cs,t=Thông tin].ds[Nghề dùng]`, String(info['Nghề dùng'] || '')),
+    mobileRequiredLevel: source(`muc[${rowIndex}].d[k=cs,t=Thông tin].ds[Cấp cần]`, Number(info['Cấp cần']) || 0),
+    mobileStats: source(`muc[${rowIndex}].d[k=cs,t=Chỉ số].ds`, stats),
+    mobileDescription: source(`muc[${rowIndex}].d[k=mo].v`, row.description || ''),
+    mobileAcquisition: source(`muc[${rowIndex}].d[k=kn,t=Cách nhận].ds`, acquisition),
+    mobileOpening: source(`muc[${rowIndex}].d[k=icon,t=${openingTitle || 'Mở ra'}].ds`, opening)
+  };
+  const merchantReference = merchantBoxReferences.get(row.id);
+  if (merchantReference) facts.mobileAvailableAtMerchant = source(merchantReference.sourceField, true, merchantReference.sourceRecordId);
+  if (info['Bán được']) {
+    const saleGold = Number(String(info['Bán được']).replace(/[^\d]/g, '')) || 0;
+    facts.mobileSaleGold = source(`muc[${rowIndex}].d[k=cs,t=Thông tin].ds[Bán được]`, saleGold);
+  }
+  if (opening?.rewards.length) {
+    facts.useEffect = source(`muc[${rowIndex}].d[k=icon,t=${openingTitle}].ds`, { kind: 'mobileChest' });
+  } else if (group === 'Sản xuất') {
+    const normalizedDescription = normalizeVietnamese(row.description);
+    const directReward = normalizedDescription.match(/(?:mo ra )?nhan duoc\s+([\d.,]+)\s+([a-z ]+)/);
+    if (directReward) {
+      const resource = resourceNames.get(directReward[2].trim());
+      const amount = Number(directReward[1].replace(/\./g, '').replace(',', '.')) || 0;
+      if (resource && amount > 0) facts.useEffect = source(`muc[${rowIndex}].d[k=mo].v`, { kind: 'resource', resource, amount });
+    }
+  }
+  sourceGoods[targetId] = facts;
+}
+
 const permissionText = 'Owner authorization in Codex conversation dated 2026-11-25: rights to use found game data/assets for our projects; scope includes public Mobile and legacy data.';
+Object.assign(itemFacts, sourceGoods);
 const approvedWithItems = `// Generated by scripts/import_mobile_runtime.mjs from checksum-verified Mobile catalogs.\nexport const SOURCE_REUSE_DECISION = Object.freeze({\n  status: 'AUTHORIZED_FOR_RUNTIME',\n  license: 'PROJECT_OWNER_AUTHORIZATION_ASSERTED_NO_SPDX',\n  permissionEvidence: ${JSON.stringify(permissionText)}\n});\n\nexport const APPROVED_SOURCE_FACTS = Object.freeze(${JSON.stringify({ buildings: facts, technologies: techFacts, troops: troopFacts, worldNodes: cityFacts, heroes: heroFacts, items: itemFacts })});\n`;
 await writeFile(resolve(appDir, 'src/approved-source-data.js'), approvedWithItems);
-console.log(`Imported ${Object.values(categoryRows).reduce((sum, rows) => sum + rows.length, 0)} Mobile records; attached ${Object.keys(facts).length} building tables, ${Object.keys(techFacts).length} technology tables, ${Object.keys(troopFacts).length} troop profiles, ${Object.keys(cityFacts).length} city identities, ${Object.keys(heroFacts).length} Mobile hero profiles, and ${Object.keys(itemFacts).length} Mobile artifacts to runtime.`);
+console.log(`Imported ${Object.values(categoryRows).reduce((sum, rows) => sum + rows.length, 0)} Mobile records; attached ${Object.keys(facts).length} building tables, ${Object.keys(techFacts).length} technology tables, ${Object.keys(troopFacts).length} troop profiles, ${Object.keys(cityFacts).length} city identities, ${Object.keys(heroFacts).length} Mobile hero profiles, ${artifactRows.length} artifacts, and ${goodsRows.length} goods to runtime.`);

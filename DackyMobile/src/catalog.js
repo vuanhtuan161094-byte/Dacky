@@ -153,6 +153,20 @@ const useEffects=[
   i=>({kind:'resource',resource:'gold',amount:60+i%640}),
   i=>({kind:'morale',amount:4+i%17})
 ];
+const mobileQualityTiers=Object.freeze({'Phàm':1,'Lục':2,'Lam':3,'Tím':4,'Cam':5,'Đỏ':6,'Kim':7,'Thần':8});
+const mobileGoods=MOBILE_SOURCE_DATABASE.categories['vat-pham'].map(row=>{
+  const info=Object.fromEntries(row.details.find(block=>block.k==='cs'&&block.t==='Thông tin')?.ds||[]);
+  const sourceStats=(row.details.find(block=>block.k==='cs'&&block.t==='Chỉ số')?.ds||[]).map(([label,value])=>[String(label),String(value)]);
+  const group=String(info['Nhóm']||row.section||'UNKNOWN');
+  const equipmentSlot=String(info['Bộ vị']||'');
+  const type=group==='Trang bị'?(/vũ khí|binh khí/i.test(equipmentSlot)?'vũ khí':/pháp bảo/i.test(equipmentSlot)?'pháp bảo':'giáp'):'vật phẩm';
+  const quality=String(info['Phẩm chất']||row.filters?.pham||'');
+  return {id:`mobile-good-${row.id}`,name:row.name,type,glyph:'物',tier:mobileQualityTiers[quality]||1,bonus:0,
+    effect:row.description||group,useEffect:null,evidence:'SIMULATED',bonusEvidence:'SIMULATED',
+    mobileSourceId:null,mobileImage:'',mobileGroup:'',mobileQuality:'',mobileEquipmentSlot:'',mobileOccupation:'',
+    mobileRequiredLevel:null,mobileStats:[],mobileDescription:'',mobileAcquisition:[],mobileOpening:null,
+    mobileAvailableAtMerchant:false,mobileSaleGold:null};
+});
 const adaptedItemRows = adaptSourceFacts('items', [
   ...gearNames.map(([name,type,glyph], i) => ({
     id:`item-${String(i+1).padStart(2,'0')}`,name,type,glyph,tier:1+i%5,
@@ -170,7 +184,8 @@ const adaptedItemRows = adaptSourceFacts('items', [
       useEffect:type==='vật phẩm'?useEffects[(i/4|0)%useEffects.length](i):null,evidence:'SIMULATED',bonusEvidence:'SIMULATED',
       mobileSourceId:null,mobileImage:'',mobileQuality:'',mobileOccupation:'',mobileRequiredLevel:null,mobileManaCost:null,
       mobileAbilityText:'',mobileDescription:'',mobileOwner:'',mobileAcquisition:[]};
-  })
+  }),
+  ...mobileGoods
 ]);
 export const ITEMS = Object.freeze(adaptedItemRows.map(item => item.mobileSourceId
   ? { ...item, bonus: 0, bonusEvidence: 'SIMULATED' }

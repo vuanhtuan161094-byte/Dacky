@@ -206,10 +206,29 @@ export function heroBaseRating(def) {
   return def.attack + def.defense + def.wisdom * 0.72;
 }
 
+function mobileItemStat(item,label) {
+  const normalize=value=>String(value||'').replace(/[đĐ]/g,'d').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('vi').trim();
+  const row=(item.mobileStats||[]).find(entry=>normalize(entry[0])===normalize(label));
+  if(!row)return 0;
+  let raw=String(row[1]||'').replace(/[^\d.,-]/g,'');
+  if(/^-?\d{1,3}(?:\.\d{3})+(?:,\d+)?$/.test(raw))raw=raw.replace(/\./g,'').replace(',','.');
+  else raw=raw.replace(',','.');
+  const value=Number(raw);
+  return Number.isFinite(value)?value:0;
+}
+
+function mobileEquipmentRating(item) {
+  return (mobileItemStat(item,'Công kích')+mobileItemStat(item,'Phòng thủ'))*0.15
+    +mobileItemStat(item,'Vũ lực')*0.3+mobileItemStat(item,'Đạo pháp')*0.3+mobileItemStat(item,'Mưu lược')*0.15;
+}
+
 export function heroPower(hero, state) {
   const def = HEROES.find(h => h.id === hero.id);
   if (!def) return 0;
-  const gear = Object.values(hero.equipment || {}).filter(Boolean).reduce((sum, id) => sum + (ITEMS.find(item => item.id === id)?.bonus || 0), 0);
+  const gear = Object.values(hero.equipment || {}).filter(Boolean).reduce((sum, id) => {
+    const item=ITEMS.find(row=>row.id===id);
+    return sum+(item?.mobileStats?.length?mobileEquipmentRating(item):item?.bonus||0);
+  }, 0);
   const research=1+(state.technologies?.['tech-17']||0)*0.012;
   const affinity=1+clamp(Number(hero.affinity)||0,0,100)*0.0015;
   const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1;
@@ -241,8 +260,12 @@ function awardHeroAffinity(hero, amount) {
 function heroCombatProfile(heroList,state,enemyElement) {
   const rows=heroList.map(save=>({save,data:HEROES.find(def=>def.id===save.id)})).filter(row=>row.data);
   const equippedBonus=(row,slot)=>ITEMS.find(item=>item.id===row.save.equipment?.[slot])?.bonus||0;
+  const equipmentStat=(row,slot,label)=>{
+    const item=ITEMS.find(entry=>entry.id===row.save.equipment?.[slot]);
+    return item?.mobileStats?.length?mobileItemStat(item,label)*0.001:equippedBonus(row,slot)*0.001;
+  };
   const sourceArtifacts=rows.map(row=>({row,item:ITEMS.find(item=>item.id===row.save.equipment?.artifact)}))
-    .filter(entry=>entry.item?.mobileSourceId)
+    .filter(entry=>entry.item?.mobileSourceId&&entry.item.fieldEvidence?.mobileAbilityText)
     .map(({row,item})=>({heroId:row.save.id,item,...parseMobileArtifactEffect(item)}));
   const artifactSum=key=>sourceArtifacts.reduce((sum,entry)=>sum+(entry.modifiers[key]||0),0);
   const artifactAttack=clamp(artifactSum('ownAttack'),-0.5,0.6);
@@ -252,8 +275,8 @@ function heroCombatProfile(heroList,state,enemyElement) {
   const artifactOwnTroopBonus=clamp(artifactSum('ownTroopBonus'),-0.4,0.4);
   const artifactEnemyTroopLoss=clamp(artifactSum('enemyTroopLoss'),0,0.45);
   const artifactOwnTroopRecovery=clamp(artifactSum('ownTroopRecovery'),0,0.45);
-  const equipmentAttack=rows.reduce((sum,row)=>sum+equippedBonus(row,'weapon')*0.001,0);
-  const equipmentDefense=rows.reduce((sum,row)=>sum+equippedBonus(row,'armor')*0.001,0);
+  const equipmentAttack=rows.reduce((sum,row)=>sum+equipmentStat(row,'weapon','Công kích'),0);
+  const equipmentDefense=rows.reduce((sum,row)=>sum+equipmentStat(row,'armor','Phòng thủ'),0);
   const artifactSkillBonus=rows.reduce((sum,row)=>sum+equippedBonus(row,'artifact')*0.001,0);
   const has=skill=>rows.filter(row=>row.data.skill===skill).reduce((n,row)=>n+Math.max(1,row.save.skillLevel||1)*(1+clamp(Number(row.save.affinity)||0,0,100)*0.002),0);
   const attack=has('Hỏa Phù Liệt Trận')*0.012+equipmentAttack;
@@ -375,10 +398,10 @@ function canAfford(state, cost) { return Object.entries(cost).every(([key, amoun
 
 export function quoteItemPurchase(state, itemId) {
   const item=ITEMS.find(row=>row.id===itemId&&row.type==='vật phẩm');
-  if(!item)return null;
+  if(!item||item.mobileSourceId&&!item.mobileAvailableAtMerchant)return null;
   const cost={gold:90*item.tier,food:45*item.tier};
   if(item.tier>=8)cost.jade=1;
-  return {cost,available:state.items.length<500&&canAfford(state,cost)};
+  return {cost,available:state.items.length<500&&canAfford(state,cost),costEvidence:item.mobileSourceId?'SIMULATED_SOURCE_PRICE':'SIMULATED'};
 }
 
 function debit(state, cost) {
@@ -443,6 +466,54 @@ function completeQueue(state, key, now) {
 function seededRandom(seed) {
   let x = seed >>> 0;
   return () => { x = (x * 1664525 + 1013904223) >>> 0; return x / 0x100000000; };
+}
+
+function openMobileChest(state,item,now) {
+  const opening=item.mobileOpening;
+  if(!opening?.rewards?.length)throw new Error('Rương nguồn chưa có danh sách vật phẩm mở ra.');
+  const boxIndex=state.items.indexOf(item.id);
+  if(boxIndex<0)throw new Error('Không tìm thấy rương trong túi đồ.');
+  state.items.splice(boxIndex,1);
+  if(opening.requiredKey){
+    const key=ITEMS.find(row=>row.name===opening.requiredKey&&row.fieldProvenance?.mobileSourceId?.sourceTable==='vat-pham');
+    const keyIndex=key?state.items.indexOf(key.id):-1;
+    if(keyIndex<0)throw new Error(`Cần ${opening.requiredKey} để mở rương này.`);
+    state.items.splice(keyIndex,1);
+  }
+  let rewards=opening.rewards;
+  if(opening.mode!=='all'){
+    const groupCounts=new Map();
+    for(const reward of rewards){
+      const group=String(reward.weightText||'').match(/^Nhóm\s+(\d+(?:[.,]\d+)?)\s*%/iu);
+      if(group){const key=group[0];groupCounts.set(key,(groupCounts.get(key)||0)+1);}
+    }
+    const weights=rewards.map(reward=>{
+      const text=String(reward.weightText||'');
+      const group=text.match(/^Nhóm\s+(\d+(?:[.,]\d+)?)\s*%/iu);
+      if(group)return (Number(group[1].replace(',','.'))||0)/Math.max(1,groupCounts.get(group[0])||1);
+      const percent=text.match(/^(\d+(?:[.,]\d+)?)\s*%/);
+      return percent?Number(percent[1].replace(',','.'))||0:null;
+    });
+    const exactWeights=weights.every(value=>value!==null)&&weights.some(value=>value>0);
+    const normalizedWeights=exactWeights?weights:rewards.map(()=>1);
+    const total=normalizedWeights.reduce((sum,value)=>sum+value,0);
+    const sourceSeed=(Number(now)^Number(item.mobileSourceId||0)^state.stats.itemPurchases^state.reports.length)>>>0;
+    let roll=seededRandom(sourceSeed)()*total;
+    const selected=rewards.find((reward,index)=>{roll-=normalizedWeights[index];return roll<0;})||rewards.at(-1);
+    rewards=[selected];
+  }
+  const resolved=rewards.map(reward=>{
+    const [,category,sourceId]=String(reward.link||'').match(/^(vat-pham|phap-bao)\/(.+)$/)||[];
+    const target=category?ITEMS.find(row=>row.mobileSourceId===sourceId&&row.fieldProvenance?.mobileSourceId?.sourceTable===category):null;
+    if(!target)throw new Error(`Chưa có adapter runtime cho kết quả ${reward.link||reward.name}.`);
+    const quantityText=String(reward.quantityText||'');
+    const quantityMatch=quantityText.match(/[x×]\s*(\d+)/iu)||quantityText.match(/^(\d+)$/);
+    return {target,count:Math.max(1,Math.min(500,Number(quantityMatch?.[1])||1))};
+  });
+  const requiredSlots=resolved.reduce((sum,row)=>sum+row.count,0);
+  if(state.items.length+requiredSlots>500)throw new Error('Túi đồ chưa đủ chỗ để nhận hết vật phẩm trong rương.');
+  for(const {target,count} of resolved)for(let i=0;i<count;i++)state.items.push(target.id);
+  note(state,`Đã mở ${item.name}: ${resolved.map(row=>`${row.count>1?`${row.count}× `:''}${row.target.name}`).join(' · ')}.`);
 }
 
 const combatLabel = value => String(value||'').replace(/[đĐ]/g,'d').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('vi').trim();
@@ -820,6 +891,11 @@ export function doAction(state, action, now = Date.now()) {
       const item = ITEMS.find(i => i.id === action.itemId);
       if (!hero || itemIndex < 0 || !item) throw new Error('Thần tiên hoặc vật phẩm không hợp lệ.');
       if (item.type === 'vật phẩm') throw new Error('Vật phẩm tiêu hao không thể trang bị.');
+      if(item.mobileRequiredLevel>0&&hero.level<item.mobileRequiredLevel)throw new Error(`Pháp bảo yêu cầu thần tiên cấp ${item.mobileRequiredLevel}.`);
+      if(item.mobileOccupation&&item.mobileOccupation!=='Mọi nghề'){
+        const occupation=HEROES.find(def=>def.id===hero.id)?.mobileOccupation;
+        if(!occupation||occupation!==item.mobileOccupation)throw new Error(`Trang bị này dành cho nghề ${item.mobileOccupation}; nghề thần tiên hiện tại ${occupation||'UNKNOWN'}.`);
+      }
       const slot = item.type === 'vũ khí' ? 'weapon' : item.type === 'giáp' ? 'armor' : 'artifact';
       if (hero.equipment[slot]) s.items.push(hero.equipment[slot]);
       hero.equipment[slot] = item.id;
@@ -843,7 +919,7 @@ export function doAction(state, action, now = Date.now()) {
     case 'forge': {
       const item = ITEMS.find(i => i.id === action.itemId);
       const owned = s.items.includes(action.itemId) || s.heroes.some(h=>Object.values(h.equipment||{}).includes(action.itemId));
-      if (!item || item.type === 'vật phẩm' || owned) throw new Error('Công thức không hợp lệ hoặc trang bị đã có.');
+      if (!item || item.type === 'vật phẩm' || item.mobileSourceId || owned) throw new Error('Công thức không hợp lệ hoặc trang bị đã có.');
       if ((s.levels.foundry || 0) < 1) throw new Error('Cần Huyền Thiết Lò cấp 1 để rèn.');
       const cost = { iron: 24 * item.tier, gold: 55 * item.tier, stone: 9 * item.tier };
       if (item.tier >= 4) cost.jade = 1;
@@ -854,7 +930,7 @@ export function doAction(state, action, now = Date.now()) {
     }
     case 'buyItem': {
       const item=ITEMS.find(i=>i.id===action.itemId&&i.type==='vật phẩm');
-      if(!item)throw new Error('Thương nhân không bán vật phẩm này.');
+      if(!item||item.mobileSourceId&&!item.mobileAvailableAtMerchant)throw new Error('Thương nhân không bán vật phẩm này.');
       if(s.items.length>=500)throw new Error('Túi đồ đã đầy. Hãy sử dụng hoặc sắp xếp vật phẩm trước.');
       const cost={gold:90*item.tier,food:45*item.tier};
       if(item.tier>=8)cost.jade=1;
@@ -869,17 +945,20 @@ export function doAction(state, action, now = Date.now()) {
       const item = ITEMS.find(i => i.id === action.itemId);
       if (itemIndex < 0 || !item || item.type !== 'vật phẩm') throw new Error('Không thể sử dụng vật phẩm này.');
       const effect=item.useEffect;
+      if(!effect)throw new Error('Hiệu ứng của vật phẩm nguồn chưa được mô hình hóa; xem hồ sơ Mobile để biết dữ kiện đã xác minh.');
+      if(effect.kind==='mobileChest')openMobileChest(s,item,now);
       if(effect?.kind==='resource')credit(s,{[effect.resource]:effect.amount});
       else if(effect?.kind==='heroXp'){
         const gained=s.heroes.reduce((n,h)=>n+awardHeroXp(h,effect.amount),0);
         if(gained)note(s,`Linh dược giúp thần tiên tăng ${gained} cấp.`);
       }
       else if(effect?.kind==='morale')s.morale=clamp(s.morale+effect.amount,0,100);
+      else if(effect?.kind==='mobileChest'){}
       else if(item.id==='item-13')credit(s,{food:420});
       else if(item.id==='item-14')s.heroes.forEach(h=>{h.xp+=120;});
       else if(item.id==='item-15')credit(s,{gold:140});
-      else credit(s,{jade:1});
-      s.items.splice(itemIndex, 1);
+      else if(!effect)throw new Error('Hiệu ứng vật phẩm chưa được xác định.');
+      if(effect.kind!=='mobileChest')s.items.splice(itemIndex, 1);
       note(s, `Đã sử dụng ${item.name}.`);
       break;
     }
