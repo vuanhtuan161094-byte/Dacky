@@ -4,10 +4,11 @@ Cập nhật: 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · Nhánh ta
 
 ## Checkpoint hiện tại
 
-- `feature/dacky-v1-production` đã giữ checkpoint push `829ac32a911091c20f86d6bd1580d947a8791aa0` và hiện bao gồm lô tích hợp database/mỹ thuật của lượt này. Không merge hoặc force-push.
+- `feature/dacky-v1-production` tiếp tục từ checkpoint đã push `829ac32a911091c20f86d6bd1580d947a8791aa0` và `a26a6157f74e79e198705575e3dbfe27d8d8aa89`; checkpoint hiện tại bổ sung combat thần tiên theo hiệp. Không merge hoặc force-push.
 - Dùng trực tiếp cloud environment đã thiết lập; không cài lại toolchain. Capacitor 8.6.2, JDK 21, Android SDK 36 và Gradle 8.14.3 vẫn là cấu hình đã xác minh.
 - Web game hiện có kinh tế, 21 công trình, 19 nhánh khoa kỹ, 39 binh chủng, 540 hồ sơ thần tiên, 2.155 vật phẩm, 1.158 nhiệm vụ, 120 điểm PvE, chiến đấu NPC, lưu/tải, PWA và asset SVG nguyên bản. Các nội dung này vẫn được đánh dấu `SIMULATED`; chưa có nguồn nào đủ quyền để thay dữ liệu runtime.
 - Đã tích hợp nền thành trì nguyên bản do image tool tạo, 1536×512 JPEG, 206 KiB, provenance/hash ở `docs/ASSET_PROVENANCE.md`; hero/building/troop sprite, animation và VFX vẫn còn việc sản xuất.
+- Đấu pháp thần tiên tại Phong Thần Tháp, Tiên Sơn và Bất Chu Sơn đã chuyển từ so lực chiến một bước sang tối đa sáu hiệp deterministic: initiative, thường công, kỹ năng, sát thương, khiên/hồi phục, máu và sĩ khí còn lại được giữ trong chiến báo. Tiên Sơn đã thắng được khóa thưởng để tránh farm lặp.
 - Đã ghim Capacitor 8.6.2, thêm lockfile và tạo Android native project. Gradle Wrapper 8.14.3 kiểm tra SHA-256; Android SDK Platform 36, Build Tools 35.0.0 và JDK 21.0.13.1+2 đã build APK debug thành công.
 - Giới hạn Phong Thần Tháp hiện là 9.999 do bản mô phỏng chọn. Số 8.992 thuộc bảng tầng Tiên Sơn legacy `elflandfloorinfo`; không có nguồn xác minh số tầng Tháp.
 
@@ -22,11 +23,11 @@ Cập nhật: 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · Nhánh ta
 ## Kiểm chứng lần này
 
 - `npm ci --no-audit --no-fund --cache /workspace/.npm-cache`: PASS.
-- `npm test`: PASS 31/31, gồm kiểm tra adapter nguồn fail-closed và giữ provenance theo trường.
+- `npm test`: PASS 32/32, gồm combat thần tiên xác định theo seed, kỹ năng theo hiệp và chặn thưởng Tiên Sơn lặp, cùng adapter nguồn fail-closed/provenance theo trường.
 - Python source tests: PASS 10/10 (8 parser + 2 normalizer). `verify_legacy_cache.py`: PASS 208/208 SHA. Parser: 67 decoded, 3 held, 161.331 hàng. Chuẩn hóa: 67 bảng, 3 held, 161.331 hàng; dữ liệu đầu ra ở `input-private/normalized_legacy/`.
-- `npm run build`: PASS; xuất 4.680 hàng SIMULATED trên 9 bảng, PWA và `dist/offline.html`.
+- `npm run build` sau thay đổi combat: PASS; xuất 4.680 hàng SIMULATED trên 9 bảng, PWA và `dist/offline.html`.
 - Local HTTP smoke sau thay đổi: PASS 200 cho index, PWA shell v3, source adapter modules, JPEG và single-file HTML; bản offline HTML đã inline ảnh. Chromium headless screenshot không chạy được ngay cả với `about:blank` vì crashpad/NSS trong image; không nhận screenshot QA mới.
-- `Capacitor sync + ./gradlew assembleDebug bundleDebug`: BUILD SUCCESSFUL. APK `vn.dackymobile.offline`, min SDK 24, target/compile SDK 36, 5.133.415 bytes, SHA-256 `82e6b01439730ffecef8cb1faa2f9e90553589111e55d875fe007570ac7e2887`; `aapt`, `apksigner verify`, zip integrity PASS. Debug AAB 4.461.580 bytes, SHA-256 `b64b0071a49811f0b836d989ccc08157643042fa44ec45444ef1580e7bac53df`, zip integrity PASS. Ảnh thành trì có mặt trong APK/AAB với đúng SHA-256. Chưa cài APK lên thiết bị.
+- `npm run android:sync + Gradle assembleDebug bundleDebug`: BUILD SUCCESSFUL với JDK 21/SDK 36/Gradle 8.14.3. APK `vn.dackymobile.offline`, 5.135.031 bytes, SHA-256 `3d0dda1a640a3abc187f60ad7539851f457c768834d36bdb1c9a854dc28b2948`; debug AAB 4.464.451 bytes, SHA-256 `f7cec955f08ef2b7ae288120e25af2d7fd99e5f5640d64218b8411ca30f903c1`. ZIP integrity PASS cho cả hai. Chưa cài APK lên thiết bị.
 
 ## Việc còn mở
 

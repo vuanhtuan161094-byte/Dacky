@@ -558,6 +558,34 @@ test('generated consumables apply their recorded effect and Tiên Sơn challenge
   assert.equal(state.world.mountainWins.includes('mountain-001'),true);
   assert.match(state.reports[0].target,/Tiên Sơn 1/);
   assert.deepEqual(state.reports[0].heroSkills,['Hỏa Phù Liệt Trận']);
+  assert.ok(state.reports[0].rounds.length>=1&&state.reports[0].rounds.length<=6);
+  const goldAfterFirstClear=state.resources.gold;
+  assert.throws(()=>doAction(state,{type:'duel',mode:'mountain',mountainId:'mountain-001'},now+3),/đã được chinh phục/);
+  assert.equal(state.stats.duels,1);
+  assert.equal(state.resources.gold,goldAfterFirstClear);
+});
+
+test('immortal duels use deterministic rounds and cast battle skills into the report', () => {
+  const now=1_800_000_000_000;
+  const makeState=()=>{
+    const state=createNewGame('Triều Ca',now);
+    state.heroes=[
+      {id:'hero-02',level:3,xp:0,assigned:true,equipment:{weapon:null,armor:null,artifact:null},skillLevel:1,affinity:0},
+      {id:'hero-03',level:3,xp:0,assigned:true,equipment:{weapon:null,armor:null,artifact:null},skillLevel:1,affinity:0}
+    ];
+    return state;
+  };
+  const first=doAction(makeState(),{type:'duel',mode:'tower'},now+1);
+  const second=doAction(makeState(),{type:'duel',mode:'tower'},now+1);
+  const report=first.reports[0];
+  assert.deepEqual(report.rounds,second.reports[0].rounds);
+  assert.ok(report.rounds.length>=1&&report.rounds.length<=6);
+  assert.ok(report.duelEnemy.name);
+  assert.ok(['fire','water','wood','metal','earth'].includes(report.duelEnemy.element));
+  assert.ok(report.rounds[0].activeSkills.includes('Huyền Thủy Kết Giới'));
+  assert.ok(report.rounds[0].activeSkills.includes('Phong Lôi Tiên Kích'));
+  assert.ok(report.rounds.every(round=>round.ownMorale>=0&&round.ownMorale<=100&&round.enemyMorale>=0&&round.enemyMorale<=100));
+  assert.equal(migrateSave(first,now+2).reports[0].duelEnemy.name,report.duelEnemy.name);
 });
 
 test('hero experience items trigger level and skill advancement', () => {

@@ -480,6 +480,72 @@ function resolveArmyCombat(state, node, troops, seed) {
     heroNames: heroList.map(h => HEROES.find(def => def.id === h.id)?.name || h.id), heroSkills:heroProfile.names, skillBonuses:heroProfile.bonuses };
 }
 
+function resolveImmortalDuel(state, heroes, enemy, ownPower, enemyPower, seed, profile) {
+  const rng=seededRandom(seed);
+  const ownInitiative=heroes.reduce((sum,hero)=>{
+    const data=HEROES.find(row=>row.id===hero.id);
+    return sum+(data?data.wisdom+data.attack*.2:0);
+  },0)/Math.max(1,heroes.length)+(state.technologies['tech-17']||0)*.45;
+  const enemyInitiative=42+Math.min(24,enemy.rank*.025)+(enemy.tactic.initiative||0);
+  const ownHealthBase=Math.max(1,ownPower*(1+state.morale/500+profile.bonuses.formation+profile.bonuses.defense*.25));
+  const enemyHealthBase=Math.max(1,enemyPower*(enemy.tactic.health||1));
+  let ownHealth=ownHealthBase,enemyHealth=enemyHealthBase;
+  const rounds=[];
+
+  for(let round=1;round<=6&&ownHealth>0&&enemyHealth>0;round++){
+    const activeSkills=profile.skills.filter(skill=>skill.triggerRound===round);
+    let skillDamage=0,shieldRatio=0,healing=0;
+    for(const skill of activeSkills){
+      if(skill.active==='damage')skillDamage+=ownPower*skill.coefficient;
+      else if(skill.active==='shield')shieldRatio+=skill.coefficient;
+      else if(skill.active==='heal')healing+=ownHealthBase*skill.coefficient;
+    }
+    const ownDamage=ownPower*(.19+rng()*.11)*Math.max(.65,1+profile.bonuses.attack+(round===1?profile.bonuses.opening:0)+profile.bonuses.elementMatchup-(enemy.tactic.defense||0));
+    const rawEnemyDamage=enemyPower*(.17+rng()*.12)*(1+(enemy.tactic.attack||0))*Math.max(.55,1-profile.bonuses.defense-Math.min(.12,(state.technologies['tech-11']||0)*.004));
+    const ownsFirst=ownInitiative+rng()*7>=enemyInitiative+rng()*7;
+    let actualOwnDamage=0,actualSkillDamage=0,actualEnemyDamage=0,shieldedDamage=0,skillHealing=0;
+    const ownStrike=()=>{
+      if(ownHealth<=0||enemyHealth<=0)return;
+      const before=enemyHealth;
+      enemyHealth=Math.max(0,enemyHealth-ownDamage-skillDamage);
+      actualOwnDamage=Math.min(before,ownDamage);
+      actualSkillDamage=Math.min(Math.max(0,before-actualOwnDamage),skillDamage);
+    };
+    const enemyStrike=()=>{
+      if(enemyHealth<=0||ownHealth<=0)return;
+      const mitigation=Math.min(.45,shieldRatio);
+      shieldedDamage=rawEnemyDamage*mitigation;
+      const damage=Math.max(0,rawEnemyDamage-shieldedDamage);
+      actualEnemyDamage=Math.min(ownHealth,damage);
+      ownHealth=Math.max(0,ownHealth-damage);
+    };
+    const recover=()=>{
+      if(ownHealth<=0||healing<=0)return;
+      const before=ownHealth;
+      ownHealth=Math.min(ownHealthBase,ownHealth+Math.min(ownHealthBase*.35,healing));
+      skillHealing=ownHealth-before;
+    };
+    if(ownsFirst){ownStrike();enemyStrike();recover();}
+    else{enemyStrike();recover();ownStrike();}
+    rounds.push({
+      round,ownDamage:Math.round(actualOwnDamage),skillDamage:Math.round(actualSkillDamage),
+      enemyDamage:Math.round(actualEnemyDamage),shieldedDamage:Math.round(shieldedDamage),skillHealing:Math.round(skillHealing),
+      ownMorale:Math.max(0,Math.round(ownHealth/ownHealthBase*100)),
+      enemyMorale:Math.max(0,Math.round(enemyHealth/enemyHealthBase*100)),
+      turnOrder:ownsFirst?'Thần tiên ra chiêu trước':`${enemy.name} ra chiêu trước`,
+      activeSkills:activeSkills.map(skill=>skill.activeName)
+    });
+  }
+  const ownRemaining=ownHealth/ownHealthBase,enemyRemaining=enemyHealth/enemyHealthBase;
+  return {
+    victory:enemyHealth<=0||(ownHealth>0&&ownRemaining>=enemyRemaining),
+    ownPower:Math.round(ownPower),enemyPower:Math.round(enemyPower),rounds,
+    heroSkills:profile.names,skillBonuses:profile.bonuses,
+    duelEnemy:{name:enemy.name,element:enemy.element,tactic:enemy.tactic.name},
+    remainingHealth:{own:Math.round(ownRemaining*100),enemy:Math.round(enemyRemaining*100)}
+  };
+}
+
 function settleMarch(state, q, now) {
   const node = WORLD_NODES.find(n => n.id === q.nodeId);
   if (!node) { credit(state, q.troops); return; }
@@ -748,21 +814,36 @@ export function doAction(state, action, now = Date.now()) {
       const floor=mode==='tower'?s.world.towerFloor+1:mode==='buzhou'?s.world.buzhouFloor+1:mountain.rank;
       const cap=mode==='tower'?TOWER_FLOORS:BUZHOU_FLOORS;
       if(mode!=='mountain'&&floor>cap)throw new Error('Đã chinh phục toàn bộ thử thách hiện được mô phỏng.');
+      if(mode==='mountain'&&s.world.mountainWins.includes(mountain.id))throw new Error('Tiên Sơn này đã được chinh phục.');
       if(!s.heroes.some(h=>h.assigned))throw new Error('Cần ít nhất một thần tiên được phân công.');
       const assignedHeroes=s.heroes.filter(h=>h.assigned).slice(0,3);
-      const heroProfile=heroCombatProfile(assignedHeroes,s);
+      const elements=['fire','water','wood','metal','earth'];
+      const enemyElement=elements[(floor+(mode==='buzhou'?2:mode==='mountain'?1:0))%elements.length];
+      const tactics=[
+        {name:'Trấn thủ',attack:.025,defense:.09,health:1.12,initiative:-2},
+        {name:'Lôi kích',attack:.12,defense:0,health:.96,initiative:6},
+        {name:'Huyễn trận',attack:.06,defense:.04,health:1.05,initiative:2}
+      ];
+      const tactic=tactics[(floor+(mode==='buzhou'?1:mode==='mountain'?2:0))%tactics.length];
+      const enemy={name:mountain?`Thủ Sơn · ${mountain.name}`:`${mode==='tower'?'Trấn Tháp':'Thủ Bất Chu'} · ${floor}`,
+        element:enemyElement,rank:floor,tactic};
+      const heroProfile=heroCombatProfile(assignedHeroes,s,enemyElement);
       const power=(assignedHeroes.reduce((n,h)=>n+heroPower(h,s),0)+(mode==='tower'?0:armyPower(s)*0.08))*heroProfile.powerMultiplier;
       const difficulty=mode==='mountain'?mountain.power:42+floor*(mode==='tower'?6.3:21);
-      const victory=power*(0.84+((now>>>4)%31)/100)>=difficulty;
+      const heroSeed=assignedHeroes.reduce((sum,hero)=>sum+(Number(hero.id.slice(-2))||0)*131+hero.level*17+hero.skillLevel*31,0);
+      const duel=resolveImmortalDuel(s,assignedHeroes,enemy,power,difficulty,
+        (Number(now)^Math.imul(floor,0x45d9f3b)^heroSeed)>>>0,heroProfile);
+      const victory=duel.victory;
       s.stats.duels++;
       assignedHeroes.forEach(hero=>awardHeroAffinity(hero,victory?2:1));
       const mountainLabel=mountain?`${mountain.name} · Tiên Sơn ${mountain.rank}`:null;
       const target=mode==='tower'?`Phong Thần Tháp · tầng ${floor}`:mode==='buzhou'?`Bất Chu Sơn · tầng ${floor}`:mountainLabel;
+      let reward={};
       if(victory){
         if(mode==='tower')s.world.towerFloor=floor;
         else if(mode==='buzhou')s.world.buzhouFloor=floor;
         else if(!s.world.mountainWins.includes(mountain.id))s.world.mountainWins.push(mountain.id);
-        const reward=mode==='mountain'?mountain.loot:{gold:65+floor*9,jade:floor%3===0?1:0,food:40+floor*4};
+        reward=mode==='mountain'?mountain.loot:{gold:65+floor*9,jade:floor%3===0?1:0,food:40+floor*4};
         credit(s,reward);
         s.heroes.forEach(h=>{if(h.assigned)awardHeroXp(h,45+floor*8);});
         if((mode==='tower'&&floor%3===0)||(mode==='buzhou'&&floor===BUZHOU_FLOORS)||(mode==='mountain'&&floor%7===0)){
@@ -771,12 +852,13 @@ export function doAction(state, action, now = Date.now()) {
           if(artifact&&!s.items.includes(artifact.id))s.items.push(artifact.id);
         }
         s.fame+=5+floor;
-        report(s,{type:'duel',target,victory,ownPower:power,enemyPower:difficulty,rounds:[],dead:{},wounded:{},loot:reward,heroSkills:heroProfile.names,skillBonuses:heroProfile.bonuses,evidence:'SIMULATED'});
         note(s,`Thắng thử thách ${target}.`);
       }else{
-        report(s,{type:'duel',target,victory,ownPower:power,enemyPower:difficulty,rounds:[],dead:{},wounded:{},loot:{},heroSkills:heroProfile.names,skillBonuses:heroProfile.bonuses,evidence:'SIMULATED'});
         note(s,'Đối thủ quá mạnh; hãy tu luyện, nâng khoa kỹ hoặc trang bị pháp bảo rồi thử lại.');
       }
+      report(s,{type:'duel',mode,target,victory,ownPower:duel.ownPower,enemyPower:duel.enemyPower,rounds:duel.rounds,
+        dead:{},wounded:{},loot:reward,heroSkills:duel.heroSkills,skillBonuses:duel.skillBonuses,
+        duelEnemy:duel.duelEnemy,remainingHealth:duel.remainingHealth,evidence:'SIMULATED'});
       break;
     }
     case 'heal': {
