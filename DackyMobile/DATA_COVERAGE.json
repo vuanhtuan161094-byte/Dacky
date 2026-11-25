@@ -4,12 +4,12 @@
   "gameplayVersion": "dacky-mobile-sim-v1",
   "evidenceStatus": {
     "verifiedMobileRecords": 2656,
-    "verifiedLegacyRecordsImported": 1198,
+    "verifiedLegacyRecordsImported": 6943,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
     "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 35,947 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     "fieldScopedMobileFieldsInGameplay": 35947,
     "runtimeCatalogRecords": 10384,
-    "fieldScopedLegacyFieldsImported": 7004
+    "fieldScopedLegacyFieldsImported": 87434
   },
   "references": {
     "publicMobile": [
@@ -196,7 +196,7 @@
         "target",
         "type"
       ],
-      "mechanicsStatus": "UNKNOWN",
+      "mechanicsStatus": "UNKNOWN_TYPE_AND_DATA_SEMANTICS",
       "versionComparison": {
         "comparedTable": "quest_20_11",
         "comparedRecords": 1156,
@@ -211,7 +211,13 @@
           "title": 3
         },
         "parityClaim": false
-      }
+      },
+      "conditionRecords": 5745,
+      "conditionFieldValueCount": 80430,
+      "conditionLinkedQuestCount": 1158,
+      "conditionSourceTable": "questcondition",
+      "activeConditionRules": 0,
+      "rewardStatus": "UNKNOWN_NO_REWARD_FIELDS_IN_IMPORTED_TABLES"
     }
   ],
   "runtimeMechanics": {
@@ -510,7 +516,7 @@
   "notImported": [
     {
       "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndPartiallyMappedTroopTraining",
-      "reason": "Quest descriptions remain a versioned reference, and troop requirements are mapped only where legacy IDs and runtime buildings/technologies align. Most other legacy fields plus quest conditions/rewards still need gameplay-semantic mapping before they can affect progression."
+      "reason": "Quest descriptions and 5,745 condition rows are bundled as versioned references, but condition-code semantics and reward fields are unavailable/UNKNOWN. Troop requirements are mapped only where legacy IDs and runtime buildings/technologies align; other legacy fields still need gameplay-semantic mapping before they can affect progression."
     },
     {
       "domain": "mobilePublicCatalogFields",
@@ -543,9 +549,15 @@
       "decodedSchemaFieldCount": 613,
       "runtimeImportedRecordCount": 1158,
       "runtimeImportedTables": [
-        "quest"
+        "quest",
+        "questcondition"
       ],
       "runtimeImportedFieldValueCount": 6948,
+      "runtimeImportedConditionRecordCount": 5745,
+      "runtimeImportedConditionFieldValueCount": 80430,
+      "runtimeImportedConditionTables": [
+        "questcondition"
+      ],
       "tables": {
         "147-advfieldgeneralinfo": {
           "status": "DECODED",
@@ -1295,7 +1307,34 @@
         "target",
         "type"
       ],
-      "mechanicsStatus": "UNKNOWN",
+      "conditionRecordCount": 5745,
+      "conditionQuestCount": 1158,
+      "conditionSourceTable": "questcondition",
+      "conditionFields": [
+        "id",
+        "questId",
+        "title",
+        "type",
+        "data0",
+        "data1",
+        "data2",
+        "data3",
+        "data4",
+        "data5",
+        "data6",
+        "data7",
+        "data8",
+        "data9"
+      ],
+      "conditionFieldValueCount": 80430,
+      "conditionTypeCounts": {
+        "0": 2069,
+        "1": 1880,
+        "2": 1796
+      },
+      "mechanicsStatus": "UNKNOWN_TYPE_AND_DATA_SEMANTICS",
+      "activeConditionRules": 0,
+      "rewardStatus": "UNKNOWN_NO_REWARD_FIELDS_IN_IMPORTED_TABLES",
       "versionComparison": {
         "comparedTable": "quest_20_11",
         "comparedRecords": 1156,
@@ -1895,14 +1934,14 @@
             "sharedIds": 36,
             "changedRecords": 33,
             "fieldsWithDifferences": {
+              "Name": 25,
               "Describe": 33,
               "Camp": 13,
-              "Name": 25,
-              "Att": 1,
               "TrainSpendMinute": 1,
+              "Life": 1,
+              "Att": 1,
               "TrainSpendSecond": 1,
-              "Def": 1,
-              "Life": 1
+              "Def": 1
             },
             "fieldsOnlyIn147": [],
             "fieldsOnlyInSoldierinfo": [
@@ -2322,14 +2361,14 @@
           "sharedIds": 36,
           "changedRecords": 33,
           "fieldsWithDifferences": {
+            "Name": 25,
             "Describe": 33,
             "Camp": 13,
-            "Name": 25,
-            "Att": 1,
             "TrainSpendMinute": 1,
+            "Life": 1,
+            "Att": 1,
             "TrainSpendSecond": 1,
-            "Def": 1,
-            "Life": 1
+            "Def": 1
           },
           "fieldsOnlyIn147": [],
           "fieldsOnlyInSoldierinfo": [

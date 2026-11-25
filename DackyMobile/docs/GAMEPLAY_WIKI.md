@@ -4,7 +4,7 @@
 
 ## Nguồn dữ liệu và phiên bản
 
-Runtime là bản chơi đơn kết hợp dữ kiện đã xác minh và cơ chế còn SIMULATED/UNKNOWN. Chủ dự án xác nhận quyền sử dụng dữ liệu và tài nguyên đã tìm được vào 2026-11-25; không yêu cầu SPDX. Snapshot Mobile `5d78c226cb` có 2.656 hàng; 35.947 giá trị theo trường đã nối vào gameplay. Legacy giải mã 67/70 bảng, ba bảng `HOLD` còn ghi trong `BLOCKERS.md`. Có 1.158 mô tả nhiệm vụ legacy làm tài liệu tham khảo; điều kiện và phần thưởng nhiệm vụ chưa được ánh xạ vào tiến trình. Thời gian huấn luyện gốc của 24/25 quân Mobile dùng trường `147-soldierinfo`. Chi phí và điều kiện huấn luyện legacy đã được map cho 16/25 ID; chín ID không có hàng nguồn vẫn SIMULATED và Workshop ID 22 chưa có hệ tương ứng nên UNKNOWN. Delta giữa các phiên bản không chứng minh parity.
+Runtime là bản chơi đơn kết hợp dữ kiện đã xác minh và cơ chế còn SIMULATED/UNKNOWN. Chủ dự án xác nhận quyền sử dụng dữ liệu và tài nguyên đã tìm được vào 2026-11-25; không yêu cầu SPDX. Snapshot Mobile `5d78c226cb` có 2.656 hàng; 35.947 giá trị theo trường đã nối vào gameplay. Legacy giải mã 67/70 bảng, ba bảng `HOLD` còn ghi trong `BLOCKERS.md`. Thư viện tham khảo có 1.158 nhiệm vụ và 5.745 hàng `questcondition` liên kết đủ 1.158 ID; từng cột giữ provenance. Các mã `type/data` chưa xác minh ngữ nghĩa và các bảng nhập không có trường phần thưởng, vì vậy chưa kích hoạt điều kiện/phần thưởng trong tiến trình. Thời gian huấn luyện gốc của 24/25 quân Mobile dùng trường `147-soldierinfo`. Chi phí và điều kiện huấn luyện legacy đã được map cho 16/25 ID; chín ID không có hàng nguồn vẫn SIMULATED và Workshop ID 22 chưa có hệ tương ứng nên UNKNOWN. Delta giữa các phiên bản không chứng minh parity.
 
 So sánh danh mục hiện xác nhận: 482 hồ sơ thần tiên Mobile trên 540 định nghĩa runtime (482 được mời chiêu mộ; 58 mô phỏng không mở chiêu mộ), pháp bảo 151/156, vật phẩm 1.885/2.155, binh chủng 25/39 (25 Mobile được huấn luyện), công trình 21/21, khoa kỹ 19/19, danh thành 73/75 nhóm tọa độ legacy. So sánh `quest`/`quest_20_11` ghi 1.156 ID chung, hai ID riêng trong `quest` (110098, 110099) và ba thay đổi trường `title`; các delta này không chứng minh luật Mobile.
 
@@ -52,7 +52,7 @@ Xạ thủ/trinh sát đánh tuyến sau; công thành đứng tuyến phá thà
 - Phong Thần Tháp: leo tối đa 9.999 tầng procedural theo cap do dự án chọn cho bản mô phỏng; nguồn hiện chưa xác minh số tầng. Con số 8.992 là số hàng tầng Tiên Sơn trong bảng legacy `elflandfloorinfo`, không phải Phong Thần Tháp.
 - Bất Chu Sơn: năm cửa NPC, tăng mạnh độ khó; phần thưởng cuối có pháp bảo. Tiên Sơn: 624 thử thách đấu pháp có thể tái đấu, thưởng tài nguyên và pháp bảo theo mốc.
 - Vật phẩm: catalog gồm 4.040 hồ sơ, trong đó 2.036 trường hợp có dữ kiện Mobile. Hiệu ứng trang bị và mở rương chỉ áp dụng các phép chuyển đổi đã nối; giá mua và cơ chế chưa xác minh vẫn SIMULATED/UNKNOWN. Thị trường đổi sáu loại tài nguyên với phí NPC, không phải multiplayer.
-- Nhiệm vụ: tiến trình đang chơi có 1.158 mục tiêu mô phỏng qua tám chương, có nhiệm vụ cuối đánh bại Trụ Vương. Thư tịch tách riêng 1.158 mô tả nhiệm vụ legacy đã xác minh theo trường; điều kiện và phần thưởng của bảng `questcondition` vẫn UNKNOWN và không tự nhận là gameplay Mobile.
+- Nhiệm vụ: tiến trình đang chơi có 1.158 mục tiêu mô phỏng qua tám chương, có nhiệm vụ cuối đánh bại Trụ Vương. Thư tịch tách riêng 1.158 mô tả và 5.745 dòng `questcondition` legacy đã xác minh theo trường; mã điều kiện chưa giải nghĩa, dữ liệu nhập không có cột phần thưởng, và các dòng này không tự nhận là gameplay Mobile.
 
 ## Save/offline
 

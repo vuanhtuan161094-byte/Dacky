@@ -7,16 +7,18 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const inputDir = path.join(root, 'input-private', 'normalized_legacy');
 const outputPath = path.join(root, 'src', 'legacy-quest-catalog.js');
 const fields = ['id', 'title', 'content', 'brief', 'target', 'type'];
+const conditionFields = ['id', 'questId', 'title', 'type', ...Array.from({ length: 10 }, (_, i) => `data${i}`)];
+const conditionDataFields = Array.from({ length: 10 }, (_, i) => `data${i}`);
 const HASH = /^[a-f0-9]{40}$/i;
 
-async function loadTable(name) {
+async function loadTable(name, requiredFields = fields) {
   const table = JSON.parse(await readFile(path.join(inputDir, `${name}.json`), 'utf8'));
   if (table.status !== 'PRIVATE_LEGACY_RESEARCH_NOT_RUNTIME_APPROVED'
       || !Array.isArray(table.records) || !Array.isArray(table.schema)) {
     throw new Error(`Legacy table ${name} is not a normalized research table.`);
   }
   const columns = Object.fromEntries(table.schema.map(column => [column.name, column.provenance]));
-  for (const field of fields) {
+  for (const field of requiredFields) {
     const provenance = columns[field];
     if (!provenance || !HASH.test(provenance.dataBlobSha1 || '')
         || !HASH.test(provenance.schemaBlobSha1 || '') || !HASH.test(provenance.indexBlobSha1 || '')) {
@@ -50,27 +52,62 @@ function comparison(selected, alternate) {
   };
 }
 
-export async function importLegacyQuests() {
-  if (SOURCE_REUSE_DECISION.status !== 'AUTHORIZED_FOR_RUNTIME') {
-    throw new Error('Legacy runtime import requires the recorded owner authorization.');
-  }
-  const selected = await loadTable('quest');
-  const alternate = await loadTable('quest_20_11');
-  const sourceCommit = selected.sourceCommit;
-  if (!/^[a-f0-9]{40}$/i.test(sourceCommit || '')) throw new Error('Legacy source commit is invalid.');
-  const sourceProvenance = Object.fromEntries(fields.map(field => {
-    const descriptor = selected.columns[field];
+function tableFieldSources(table, requiredFields) {
+  return Object.fromEntries(requiredFields.map(field => {
+    const descriptor = table.columns[field];
     return [field, {
       evidence: 'VERIFIED_LEGACY',
-      sourceVersion: `Dacky legacy MySQL snapshot ${sourceCommit.slice(0, 10)}`,
-      sourceCommit,
-      sourceTable: selected.sourceTable,
+      sourceVersion: `Dacky legacy MySQL snapshot ${table.sourceCommit.slice(0, 10)}`,
+      sourceCommit: table.sourceCommit,
+      sourceTable: table.sourceTable,
       sourceField: field,
       dataHash: descriptor.dataBlobSha1,
       schemaHash: descriptor.schemaBlobSha1,
       indexHash: descriptor.indexBlobSha1
     }];
   }));
+}
+
+export async function importLegacyQuests() {
+  if (SOURCE_REUSE_DECISION.status !== 'AUTHORIZED_FOR_RUNTIME') {
+    throw new Error('Legacy runtime import requires the recorded owner authorization.');
+  }
+  const selected = await loadTable('quest');
+  const alternate = await loadTable('quest_20_11');
+  const conditionTable = await loadTable('questcondition', conditionFields);
+  const sourceCommit = selected.sourceCommit;
+  if (!/^[a-f0-9]{40}$/i.test(sourceCommit || '')) throw new Error('Legacy source commit is invalid.');
+  if (conditionTable.sourceCommit !== sourceCommit) throw new Error('Quest descriptions and conditions must use the same pinned legacy snapshot.');
+  const selectedQuestIds = new Set(selected.records.map(row => row.id));
+  const conditionRowsByQuest = new Map();
+  const conditionIds = new Set();
+  const conditionTypeCounts = {};
+  for (const row of conditionTable.records) {
+    if (!selectedQuestIds.has(row.questId)) {
+      throw new Error(`Quest condition ${row.id} points to missing quest ID ${row.questId}.`);
+    }
+    if (conditionIds.has(row.id)) throw new Error(`Duplicate legacy quest condition ID ${row.id}.`);
+    conditionIds.add(row.id);
+    conditionTypeCounts[row.type] = (conditionTypeCounts[row.type] || 0) + 1;
+    const rows = conditionRowsByQuest.get(row.questId) || [];
+    rows.push({
+      sourceId: row.id,
+      questSourceId: row.questId,
+      title: row.title,
+      typeCode: row.type,
+      data: conditionDataFields.map(field => row[field]),
+      evidence: 'VERIFIED_LEGACY',
+      mechanicsStatus: 'UNKNOWN',
+      fieldProvenance: Object.fromEntries(conditionFields.map(sourceField => [sourceField, {
+        sourceRecordId: String(row.id),
+        sourceField
+      }]))
+    });
+    conditionRowsByQuest.set(row.questId, rows);
+  }
+  if (conditionRowsByQuest.size !== selectedQuestIds.size || conditionTable.records.length !== 5745) {
+    throw new Error(`Unexpected quest condition coverage: ${conditionTable.records.length} rows across ${conditionRowsByQuest.size}/${selectedQuestIds.size} quest IDs.`);
+  }
   const records = selected.records.map(row => ({
     id: `legacy-quest-${row.id}`,
     sourceId: row.id,
@@ -81,6 +118,8 @@ export async function importLegacyQuests() {
     typeCode: row.type,
     mechanicsStatus: 'UNKNOWN',
     evidence: 'VERIFIED_LEGACY',
+    conditions: conditionRowsByQuest.get(row.id) || [],
+    rewardsStatus: 'UNKNOWN_NO_REWARD_FIELDS_IN_IMPORTED_TABLES',
     fieldProvenance: Object.fromEntries(fields.map(field => [field, {
       sourceField: field,
       sourceRecordId: String(row.id)
@@ -97,12 +136,21 @@ export async function importLegacyQuests() {
     evidence: 'VERIFIED_LEGACY',
     mechanicsStatus: 'UNKNOWN',
     importedFields: fields,
-    fieldSources: sourceProvenance,
+    fieldSources: tableFieldSources(selected, fields),
+    conditionCount: conditionTable.records.length,
+    conditionQuestCount: conditionRowsByQuest.size,
+    conditionSourceTable: conditionTable.sourceTable,
+    conditionImportedFields: conditionFields,
+    conditionDataFields,
+    conditionTypeCounts,
+    conditionFieldSources: tableFieldSources(conditionTable, conditionFields),
+    conditionMechanicsStatus: 'UNKNOWN_TYPE_AND_DATA_SEMANTICS',
+    rewardStatus: 'UNKNOWN_NO_REWARD_FIELDS_IN_IMPORTED_TABLES',
     permission: SOURCE_REUSE_DECISION,
     versionComparison: comparison(selected, alternate)
   };
   const generated = [
-    '// Generated by scripts/import_legacy_quests.mjs from selected, hash-verified quest fields.',
+    '// Generated by scripts/import_legacy_quests.mjs from pinned, hash-verified quest and questcondition fields.',
     "import { SOURCE_REUSE_DECISION } from './approved-source-data.js';",
     `export const LEGACY_QUEST_SOURCE = Object.freeze(${JSON.stringify(metadata)});`,
     `export const LEGACY_QUESTS = Object.freeze(${JSON.stringify(records)});`,

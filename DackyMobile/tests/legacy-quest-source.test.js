@@ -11,7 +11,15 @@ test('legacy quest descriptions are bundled with per-field pinned provenance', (
   assert.equal(LEGACY_QUEST_SOURCE.mechanicsStatus, 'UNKNOWN');
   assert.equal(LEGACY_QUEST_SOURCE.permission.status, 'AUTHORIZED_FOR_RUNTIME');
   assert.equal(LEGACY_QUEST_SOURCE.permission.license, 'PROJECT_OWNER_AUTHORIZATION_ASSERTED_NO_SPDX');
+  assert.equal(LEGACY_QUEST_SOURCE.conditionSourceTable, 'questcondition');
+  assert.equal(LEGACY_QUEST_SOURCE.conditionCount, 5745);
+  assert.equal(LEGACY_QUEST_SOURCE.conditionQuestCount, 1158);
+  assert.equal(LEGACY_QUEST_SOURCE.conditionImportedFields.length, 14);
+  assert.equal(LEGACY_QUEST_SOURCE.conditionDataFields.length, 10);
+  assert.equal(LEGACY_QUEST_SOURCE.conditionMechanicsStatus, 'UNKNOWN_TYPE_AND_DATA_SEMANTICS');
+  assert.equal(LEGACY_QUEST_SOURCE.rewardStatus, 'UNKNOWN_NO_REWARD_FIELDS_IN_IMPORTED_TABLES');
 
+  let conditionCount=0;
   for (const row of LEGACY_QUESTS) {
     assert.equal(row.evidence, 'VERIFIED_LEGACY');
     assert.equal(row.mechanicsStatus, 'UNKNOWN');
@@ -24,11 +32,26 @@ test('legacy quest descriptions are bundled with per-field pinned provenance', (
       assert.match(LEGACY_QUEST_SOURCE.fieldSources[field].dataHash, /^[a-f0-9]{40}$/);
       assert.match(LEGACY_QUEST_SOURCE.fieldSources[field].schemaHash, /^[a-f0-9]{40}$/);
     }
+    assert.ok(Array.isArray(row.conditions));
+    assert.equal(row.rewardsStatus, 'UNKNOWN_NO_REWARD_FIELDS_IN_IMPORTED_TABLES');
+    for (const condition of row.conditions) {
+      conditionCount++;
+      assert.equal(condition.questSourceId, row.sourceId);
+      assert.equal(condition.evidence, 'VERIFIED_LEGACY');
+      assert.equal(condition.mechanicsStatus, 'UNKNOWN');
+      assert.deepEqual(Object.keys(condition.fieldProvenance), LEGACY_QUEST_SOURCE.conditionImportedFields);
+      for (const field of LEGACY_QUEST_SOURCE.conditionImportedFields) {
+        assert.equal(condition.fieldProvenance[field].sourceRecordId, String(condition.sourceId));
+        assert.equal(condition.fieldProvenance[field].sourceField, field);
+      }
+      assert.equal(condition.data.length, 10);
+    }
   }
+  assert.equal(conditionCount, LEGACY_QUEST_SOURCE.conditionCount);
   assert.equal(LEGACY_QUESTS[0].sourceId, 10000);
   assert.equal(LEGACY_QUESTS[0].title, 'Khí thế ngất trời');
   assert.equal('reward' in LEGACY_QUESTS[0], false);
-  assert.equal('conditions' in LEGACY_QUESTS[0], false);
+  assert.ok(LEGACY_QUESTS[0].conditions.length>0);
 });
 
 test('legacy quest version comparison records known deltas without asserting parity', () => {

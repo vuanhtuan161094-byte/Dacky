@@ -104,7 +104,18 @@ def runtime_legacy_quests():
     records = json.loads(source[rows_start:rows_end])
     if len(records) != metadata.get("recordCount"):
         raise ValueError("Legacy quest adapter count does not match its metadata")
-    return {"metadata": metadata, "records": records}
+    condition_count = sum(len(record.get("conditions", [])) for record in records)
+    condition_field_count = metadata.get("conditionCount", 0) * len(metadata.get("conditionImportedFields", []))
+    if condition_count != metadata.get("conditionCount") or metadata.get("conditionQuestCount") != len(records):
+        raise ValueError("Legacy quest condition linkage does not match its metadata")
+    if len(metadata.get("conditionFieldSources", {})) != len(metadata.get("conditionImportedFields", [])):
+        raise ValueError("Legacy quest condition fields lost their provenance descriptors")
+    return {
+        "metadata": metadata,
+        "records": records,
+        "conditionCount": condition_count,
+        "conditionFieldValueCount": condition_field_count,
+    }
 
 
 def runtime_legacy_troop_times():
@@ -244,11 +255,14 @@ def legacy_inventory():
         "decodedRecordCount": manifest.get("decoded_rows", 0),
         "decodedSchemaFieldCount": fields_decoded,
         "runtimeImportedRecordCount": len(runtime_quests["records"]) if runtime_quests else 0,
-        "runtimeImportedTables": ["quest"] if runtime_quests else [],
+        "runtimeImportedTables": ["quest", "questcondition"] if runtime_quests else [],
         "runtimeImportedFieldValueCount": (
             len(runtime_quests["records"]) * len(runtime_quests["metadata"].get("importedFields", []))
             if runtime_quests else 0
         ),
+        "runtimeImportedConditionRecordCount": runtime_quests["conditionCount"] if runtime_quests else 0,
+        "runtimeImportedConditionFieldValueCount": runtime_quests["conditionFieldValueCount"] if runtime_quests else 0,
+        "runtimeImportedConditionTables": ["questcondition"] if runtime_quests else [],
         "tables": tables,
     }
 
@@ -730,10 +744,16 @@ def main():
             "status": "VERIFIED_LEGACY_REFERENCE",
             "activeGameplayRecords": 0,
             "fieldValueCount": legacy["runtimeImportedFieldValueCount"],
+            "conditionRecords": legacy_quests["conditionCount"],
+            "conditionFieldValueCount": legacy_quests["conditionFieldValueCount"],
+            "conditionLinkedQuestCount": legacy_quests["metadata"]["conditionQuestCount"],
+            "conditionSourceTable": legacy_quests["metadata"]["conditionSourceTable"],
+            "activeConditionRules": 0,
             "sourceTable": legacy_quests["metadata"]["sourceTable"],
             "sourceCommit": legacy_quests["metadata"]["sourceCommit"],
             "fields": legacy_quests["metadata"]["importedFields"],
-            "mechanicsStatus": "UNKNOWN",
+            "mechanicsStatus": legacy_quests["metadata"]["conditionMechanicsStatus"],
+            "rewardStatus": legacy_quests["metadata"]["rewardStatus"],
             "versionComparison": legacy_quests["metadata"]["versionComparison"],
         })
     if legacy and (legacy_troop_times or legacy_troop_requirements):
@@ -755,7 +775,7 @@ def main():
     coverage["updated"] = date.today().isoformat()
     coverage["evidenceStatus"].update({
         "verifiedMobileRecords": mobile["runtimeImportedRecordCount"] if mobile else 0,
-        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0) + (len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0),
+        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (legacy["runtimeImportedConditionRecordCount"] if legacy else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0) + (len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0),
         "runtimeCatalogRecords": sum(
             item.get("records", 0)
             for item in coverage.get("runtimeCatalogs", [])
@@ -763,7 +783,7 @@ def main():
         ),
         "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25" if network else "NOT_CHECKED",
         "fieldScopedMobileFieldsInGameplay": mobile["fieldScopedGameplayValueCount"] if mobile else 0,
-        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + legacy_troop_time_field_count + legacy_troop_requirement_field_count,
+        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + (legacy["runtimeImportedConditionFieldValueCount"] if legacy else 0) + legacy_troop_time_field_count + legacy_troop_requirement_field_count,
         "note": f"Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and {mobile['fieldScopedGameplayValueCount'] if mobile else 0:,} field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     })
     coverage["sourceInventory"] = {
@@ -775,7 +795,15 @@ def main():
             "sourceCommit": legacy_quests["metadata"]["sourceCommit"],
             "recordCount": len(legacy_quests["records"]),
             "importedFields": legacy_quests["metadata"]["importedFields"],
-            "mechanicsStatus": "UNKNOWN",
+            "conditionRecordCount": legacy_quests["conditionCount"],
+            "conditionQuestCount": legacy_quests["metadata"]["conditionQuestCount"],
+            "conditionSourceTable": legacy_quests["metadata"]["conditionSourceTable"],
+            "conditionFields": legacy_quests["metadata"]["conditionImportedFields"],
+            "conditionFieldValueCount": legacy_quests["conditionFieldValueCount"],
+            "conditionTypeCounts": legacy_quests["metadata"]["conditionTypeCounts"],
+            "mechanicsStatus": legacy_quests["metadata"]["conditionMechanicsStatus"],
+            "activeConditionRules": 0,
+            "rewardStatus": legacy_quests["metadata"]["rewardStatus"],
             "versionComparison": legacy_quests["metadata"]["versionComparison"],
         } if legacy_quests else None),
         "legacyTroopTrainingTime": ({
@@ -827,7 +855,7 @@ def main():
     coverage["notImported"] = [
         {
             "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndPartiallyMappedTroopTraining",
-            "reason": "Quest descriptions remain a versioned reference, and troop requirements are mapped only where legacy IDs and runtime buildings/technologies align. Most other legacy fields plus quest conditions/rewards still need gameplay-semantic mapping before they can affect progression.",
+            "reason": "Quest descriptions and 5,745 condition rows are bundled as versioned references, but condition-code semantics and reward fields are unavailable/UNKNOWN. Troop requirements are mapped only where legacy IDs and runtime buildings/technologies align; other legacy fields still need gameplay-semantic mapping before they can affect progression.",
         },
         {
             "domain": "mobilePublicCatalogFields",

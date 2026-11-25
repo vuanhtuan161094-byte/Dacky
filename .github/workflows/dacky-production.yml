@@ -39,6 +39,11 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          # Android SDK Tools no longer publishes the legacy `tools` package.
+          # Install only the command-line tools here; the required platform
+          # and build-tools versions are installed by the next step.
+          packages: ''
 
       - name: Install required Android packages
         run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'

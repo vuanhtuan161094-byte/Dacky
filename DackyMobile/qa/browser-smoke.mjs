@@ -80,6 +80,9 @@ try {
       const item=pending.get(message.id);pending.delete(message.id);clearTimeout(item.timer);
       if(message.error)item.reject(new Error(message.error.message));else item.resolve(message.result||{});
     }
+    if(message.method==='Network.responseReceived'&&message.params.response?.status>=400) {
+      errors.push(`HTTP ${message.params.response.status} ${message.params.response.url}`);
+    }
     if(message.method==='Runtime.exceptionThrown')errors.push(message.params.exceptionDetails?.text||'Runtime exception');
     if(message.method==='Log.entryAdded'&&message.params.entry?.level==='error')errors.push(message.params.entry.text);
     if(message.method==='Runtime.consoleAPICalled'&&message.params.type==='error')errors.push(message.params.args?.map(x=>x.value||x.description).join(' '));
@@ -87,6 +90,7 @@ try {
   await cdp('Page.enable');
   await cdp('Runtime.enable');
   await cdp('Log.enable');
+  await cdp('Network.enable');
   await cdp('Page.setLifecycleEventsEnabled',{enabled:true});
   await waitFor('document.readyState==="complete"&&!!document.querySelector("#scene")');
   await waitFor('document.querySelector("#scene").innerText.includes("Khai mở cơ đồ")');

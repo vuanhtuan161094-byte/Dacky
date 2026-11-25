@@ -2,11 +2,19 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
+## Latest increment: Legacy quest condition reference and production CI fix
+
+- Added 5,745 pinned `questcondition` records to the separate reference catalog, linked across all 1,158 legacy quests. Every imported condition column retains source row/field provenance. Type/data semantics remain `UNKNOWN`; imported tables contain no reward fields, so none of these rows alter progression or rewards.
+- The source library exposes condition rows as collapsed reference data. Coverage, Vietnamese wiki, blockers, exported runtime JSON and the production catalog now report those counts and boundaries. Quest version comparison remains separate from Mobile gameplay.
+- Fixed the Android CI setup failure from run `45640781013`: `setup-android` was requesting the retired SDK `tools` package. It now installs only command-line tools, then the workflow installs pinned Android 36 and build-tools 36.0.0. The next push will validate the correction and publish a 14-day Web/offline/APK/AAB artifact.
+- Verification: Node tests PASS 48/48; Python parser tests PASS 10/10; Chromium gameplay/save/layout smoke PASS with zero runtime or HTTP errors; PWA v17 reopens with network disabled; single-file HTML starts over HTTP and makes zero external asset requests.
+- Android debug build PASS using the existing JDK 21/SDK 36/Gradle 8.14.3 toolchain. APK 48,047,603 bytes (SHA-256 `166debb31cf70dc3985883175cfbe7ad12bcfc057725a7014c9183ec9ce91b94`); debug AAB 34,899,210 bytes (SHA-256 `e94fe1fb60f8c9c094a07e55673f3470dbbbc1eb912c680f542a030f316c1123`). APK v2 signature and ZIP integrity verified. Single-file offline HTML 53,719,633 bytes (SHA-256 `e1c88d5fa6da1fe7300c82d9bf93149a4268616aa781ae14f60dc815f554b9bd`). These are debug builds; device QA is unavailable. GitHub CI rerun is pending push.
+
 ## Latest increment: Legacy troop training costs and prerequisites
 
 - Generated a reproducible adapter from the pinned `147-soldierrequireinfo` table. It maps resource costs and known Barrack/technology levels for 16 of 25 Mobile IDs; all 126 applicable requirement rows match the alternate `soldierrequireinfo` table with zero value conflicts. Cost and requirement provenance stays attached to each runtime troop field.
 - Training now charges source costs for those 16 profiles and enforces the mapped Barrack and Luyện Binh Thuật/Lĩnh Binh Thuật gates. Fourteen Workshop 22 requirements remain `UNKNOWN` and permissive; nine Mobile profiles without source requirement rows retain `SIMULATED` cost and unlocks. Existing 24/25 base times still use the legacy duration adapter.
-- Added coverage reporting and updated the troop selector/wiki. Added production CI for tests, web/offline build, Android debug APK/AAB packaging, and 14-day GitHub Actions artifact downloads. CI run is pending the production branch push.
+- Added coverage reporting and updated the troop selector/wiki. Added production CI for tests, web/offline build, Android debug APK/AAB packaging, and 14-day GitHub Actions artifact downloads. Initial CI run failed during SDK setup because the runner requested the retired `tools` package; the latest increment records the correction.
 - Verification: Node tests PASS 48/48; Python source tests PASS 10/10. Chromium passed all 12 primary screens, source cost/training/march/combat/save reload and both mobile orientations, with zero runtime errors. PWA shell v17 reopened offline; single-file HTML launched over HTTP with no external asset requests.
 - Android build: APK 47,547,822 bytes (SHA-256 `2a0e6f78bf2955687a45ac5449a331c3e2d1f854cc34b32d8eadfd44c400cdb2`); debug AAB 33,739,214 bytes (SHA-256 `43ead2106c7a7d238dd741800b71fd3a0da6fa3a9ccadcf5ea378760adc130b9`). APK signature and both ZIP packages verified. `dist/offline.html` is 47,930,242 bytes (SHA-256 `d85ebd3bd9c3545cb6b0610f4d75f690cc8832cc2a6d0ce7bfe4f8e9e7bc5c38`). APK/AAB are debug builds; device QA remains unavailable.
 
