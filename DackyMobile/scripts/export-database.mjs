@@ -62,7 +62,7 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
     },
     unavailableSourceTables: [
       { name: 'mobileVersionDelta', reason: 'Public static catalog was captured, but it does not establish the original client version or a complete gameplay-version delta.' },
-      { name: 'legacyHeroes', targetRecords: LEGACY_REFERENCE_COUNTS.famousGenerals, reason: 'Legacy source rows are retained privately; gameplay field and mechanic mapping remains unverified.' },
+      { name: 'legacyHeroes', targetRecords: LEGACY_REFERENCE_COUNTS.famousGenerals, reason: 'Only normalized display-name overlap counts are published; source stat fields, identity IDs and mechanic mapping remain unverified.' },
       { name: 'legacyItems', targetRecords: LEGACY_REFERENCE_COUNTS.legacy147Items, reason: 'Legacy source rows are retained privately; gameplay field and mechanic mapping remains unverified.' },
       { name: 'legacyQuestMechanics', targetRecords: LEGACY_REFERENCE_COUNTS.quests, importedReferenceRecords: LEGACY_QUESTS.length, reason: 'Quest text and type codes are imported with field provenance; requirements and rewards remain UNKNOWN.' },
       { name: 'legacyBuzhouCombatAndRewards', importedReferenceRecords: legacyBuzhouRows.length, reason: 'Five floor configs, fixed NPC formations, goods IDs and raw equipment rules are included with field provenance. Source damage/rewards remain inactive until the combat and reward adapters are integrated.' },

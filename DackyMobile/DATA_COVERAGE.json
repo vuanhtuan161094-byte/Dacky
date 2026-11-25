@@ -2180,12 +2180,12 @@
             "changedRecords": 33,
             "fieldsWithDifferences": {
               "Describe": 33,
-              "Camp": 13,
               "Name": 25,
-              "Def": 1,
-              "Life": 1,
+              "Camp": 13,
               "Att": 1,
               "TrainSpendMinute": 1,
+              "Def": 1,
+              "Life": 1,
               "TrainSpendSecond": 1
             },
             "fieldsOnlyIn147": [],
@@ -2209,6 +2209,43 @@
         }
       },
       "contentFieldDiff": "NOT_ESTABLISHED; versions and field semantics remain incompletely mapped",
+      "parityClaim": false
+    },
+    "legacyHeroNameComparison": {
+      "status": "EXACT_NORMALIZED_NAME_LABEL_COUNT_ONLY",
+      "legacySourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "legacySourceTable": "famousgeneraliteminfo",
+      "mobileCategory": "than-tien",
+      "legacyRows": 540,
+      "mobileRows": 482,
+      "legacyUniqueNames": 540,
+      "mobileUniqueNames": 481,
+      "sharedUniqueNames": 411,
+      "legacyOnlyUniqueNames": 129,
+      "mobileOnlyUniqueNames": 70,
+      "ambiguousSharedNameKeys": 1,
+      "ambiguousSharedNames": [
+        "trần canh"
+      ],
+      "matchingMethod": "NFC + casefold + whitespace collapse; exact Vietnamese display-name text",
+      "sourceProvenance": {
+        "legacyNameField": {
+          "sourceTable": "famousgeneraliteminfo",
+          "sourceField": "Name",
+          "dataHash": "7eea0f0a91e4a6ca79f6b6da1c55c6b5c4203401",
+          "schemaHash": "41b68c71a1fa6a6f97b0b06ed5614a39d7ab76e8",
+          "indexHash": "c7731db767352105db6255ba877c1775db197076"
+        },
+        "mobileNameField": {
+          "sourceVersion": "5d78c226cb",
+          "sourceTable": "than-tien",
+          "sourceField": "muc[i].t",
+          "dataHash": "ffea83fe4a8419de4693575805d902fcd1af4b6d423779bc6544d5b9125405a7",
+          "schemaHash": "c0cc7aebdfc52348507da5bdc434ecc92d327bfd1c0542b3feb164385681ed6e"
+        }
+      },
+      "identityParity": "NOT_ASSERTED_NAME_LABELS_ONLY",
+      "statOrFormulaComparison": "NOT_COMPARED",
       "parityClaim": false
     },
     "httpGetChecks": {
@@ -2607,12 +2644,12 @@
           "changedRecords": 33,
           "fieldsWithDifferences": {
             "Describe": 33,
-            "Camp": 13,
             "Name": 25,
-            "Def": 1,
-            "Life": 1,
+            "Camp": 13,
             "Att": 1,
             "TrainSpendMinute": 1,
+            "Def": 1,
+            "Life": 1,
             "TrainSpendSecond": 1
           },
           "fieldsOnlyIn147": [],
@@ -2658,6 +2695,43 @@
       "exactGeneralNameRosterMatches": 0,
       "exactTroopNameRosterMatches": 0,
       "method": "PER_CITY_MULTISETS; NO SLOT OR COUNT MATCH ASSUMED",
+      "parityClaim": false
+    },
+    "legacyHeroNames": {
+      "status": "EXACT_NORMALIZED_NAME_LABEL_COUNT_ONLY",
+      "legacySourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "legacySourceTable": "famousgeneraliteminfo",
+      "mobileCategory": "than-tien",
+      "legacyRows": 540,
+      "mobileRows": 482,
+      "legacyUniqueNames": 540,
+      "mobileUniqueNames": 481,
+      "sharedUniqueNames": 411,
+      "legacyOnlyUniqueNames": 129,
+      "mobileOnlyUniqueNames": 70,
+      "ambiguousSharedNameKeys": 1,
+      "ambiguousSharedNames": [
+        "trần canh"
+      ],
+      "matchingMethod": "NFC + casefold + whitespace collapse; exact Vietnamese display-name text",
+      "sourceProvenance": {
+        "legacyNameField": {
+          "sourceTable": "famousgeneraliteminfo",
+          "sourceField": "Name",
+          "dataHash": "7eea0f0a91e4a6ca79f6b6da1c55c6b5c4203401",
+          "schemaHash": "41b68c71a1fa6a6f97b0b06ed5614a39d7ab76e8",
+          "indexHash": "c7731db767352105db6255ba877c1775db197076"
+        },
+        "mobileNameField": {
+          "sourceVersion": "5d78c226cb",
+          "sourceTable": "than-tien",
+          "sourceField": "muc[i].t",
+          "dataHash": "ffea83fe4a8419de4693575805d902fcd1af4b6d423779bc6544d5b9125405a7",
+          "schemaHash": "c0cc7aebdfc52348507da5bdc434ecc92d327bfd1c0542b3feb164385681ed6e"
+        }
+      },
+      "identityParity": "NOT_ASSERTED_NAME_LABELS_ONLY",
+      "statOrFormulaComparison": "NOT_COMPARED",
       "parityClaim": false
     }
   },
@@ -2708,13 +2782,41 @@
       "legacyOnly": 742
     },
     "heroes": {
-      "mobileRecords": 482,
-      "legacyRecords": 540,
-      "mobileUniqueAccentNormalizedNames": 480,
-      "legacyUniqueAccentNormalizedNames": 515,
-      "sharedNames": 431,
-      "mobileOnlyNames": 49,
-      "legacyOnlyNames": 84
+      "status": "EXACT_NORMALIZED_NAME_LABEL_COUNT_ONLY",
+      "legacySourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "legacySourceTable": "famousgeneraliteminfo",
+      "mobileCategory": "than-tien",
+      "legacyRows": 540,
+      "mobileRows": 482,
+      "legacyUniqueNames": 540,
+      "mobileUniqueNames": 481,
+      "sharedUniqueNames": 411,
+      "legacyOnlyUniqueNames": 129,
+      "mobileOnlyUniqueNames": 70,
+      "ambiguousSharedNameKeys": 1,
+      "ambiguousSharedNames": [
+        "trần canh"
+      ],
+      "matchingMethod": "NFC + casefold + whitespace collapse; exact Vietnamese display-name text",
+      "sourceProvenance": {
+        "legacyNameField": {
+          "sourceTable": "famousgeneraliteminfo",
+          "sourceField": "Name",
+          "dataHash": "7eea0f0a91e4a6ca79f6b6da1c55c6b5c4203401",
+          "schemaHash": "41b68c71a1fa6a6f97b0b06ed5614a39d7ab76e8",
+          "indexHash": "c7731db767352105db6255ba877c1775db197076"
+        },
+        "mobileNameField": {
+          "sourceVersion": "5d78c226cb",
+          "sourceTable": "than-tien",
+          "sourceField": "muc[i].t",
+          "dataHash": "ffea83fe4a8419de4693575805d902fcd1af4b6d423779bc6544d5b9125405a7",
+          "schemaHash": "c0cc7aebdfc52348507da5bdc434ecc92d327bfd1c0542b3feb164385681ed6e"
+        }
+      },
+      "identityParity": "NOT_ASSERTED_NAME_LABELS_ONLY",
+      "statOrFormulaComparison": "NOT_COMPARED",
+      "parityClaim": false
     },
     "cities": {
       "mobileUniqueCoordinates": 73,

@@ -4,6 +4,7 @@
 import hashlib
 import json
 import re
+import unicodedata
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -23,6 +24,8 @@ LEGACY_TECH_DATA = PRIVATE / "normalized_legacy" / "technologyinfo.json"
 LEGACY_BUILD_DATA = PRIVATE / "normalized_legacy" / "buildinfo.json"
 MOBILE_BUILD_DATA = PRIVATE / "mobile_reference" / "cong-trinh.json"
 LEGACY_MOBILE_TROOPS = PRIVATE / "normalized_legacy" / "147-soldierinfo.json"
+LEGACY_HEROES = PRIVATE / "normalized_legacy" / "famousgeneraliteminfo.json"
+MOBILE_HEROES = PRIVATE / "mobile_reference" / "than-tien.json"
 LEGACY_TROOPS = PRIVATE / "normalized_legacy" / "soldierinfo.json"
 NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
@@ -705,6 +708,59 @@ def count_comparison(legacy_manifest, mobile_manifest):
     }
 
 
+def hero_name_version_comparison():
+    legacy = load_json(LEGACY_HEROES)
+    mobile = load_json(MOBILE_HEROES)
+    mobile_manifest = load_json(MOBILE_MANIFEST)
+    if not legacy or not mobile or not mobile_manifest:
+        return None
+
+    def key(value):
+        return " ".join(unicodedata.normalize("NFC", str(value or "")).casefold().split())
+
+    legacy_names = Counter(key(row.get("Name")) for row in legacy.get("records", []) if row.get("Name"))
+    mobile_names = Counter(key(row.get("t")) for row in mobile.get("muc", []) if row.get("t"))
+    shared = legacy_names.keys() & mobile_names.keys()
+    ambiguous = sorted(name for name in shared if legacy_names[name] != 1 or mobile_names[name] != 1)
+    legacy_name_column = next((column for column in legacy.get("schema", []) if column.get("name") == "Name"), {})
+    mobile_category = next((category for category in mobile_manifest.get("categories", []) if category.get("id") == "than-tien"), {})
+    return {
+        "status": "EXACT_NORMALIZED_NAME_LABEL_COUNT_ONLY",
+        "legacySourceCommit": legacy.get("sourceCommit"),
+        "legacySourceTable": legacy.get("sourceTable"),
+        "mobileCategory": "than-tien",
+        "legacyRows": len(legacy.get("records", [])),
+        "mobileRows": len(mobile.get("muc", [])),
+        "legacyUniqueNames": len(legacy_names),
+        "mobileUniqueNames": len(mobile_names),
+        "sharedUniqueNames": len(shared),
+        "legacyOnlyUniqueNames": len(legacy_names.keys() - mobile_names.keys()),
+        "mobileOnlyUniqueNames": len(mobile_names.keys() - legacy_names.keys()),
+        "ambiguousSharedNameKeys": len(ambiguous),
+        "ambiguousSharedNames": ambiguous,
+        "matchingMethod": "NFC + casefold + whitespace collapse; exact Vietnamese display-name text",
+        "sourceProvenance": {
+            "legacyNameField": {
+                "sourceTable": legacy.get("sourceTable"),
+                "sourceField": "Name",
+                "dataHash": legacy_name_column.get("provenance", {}).get("dataBlobSha1"),
+                "schemaHash": legacy_name_column.get("provenance", {}).get("schemaBlobSha1"),
+                "indexHash": legacy_name_column.get("provenance", {}).get("indexBlobSha1"),
+            },
+            "mobileNameField": {
+                "sourceVersion": mobile_manifest.get("catalogVersion"),
+                "sourceTable": "than-tien",
+                "sourceField": "muc[i].t",
+                "dataHash": mobile_category.get("fileSha256"),
+                "schemaHash": mobile_manifest.get("indexSha256"),
+            },
+        },
+        "identityParity": "NOT_ASSERTED_NAME_LABELS_ONLY",
+        "statOrFormulaComparison": "NOT_COMPARED",
+        "parityClaim": False,
+    }
+
+
 def main():
     coverage = load_json(COVERAGE_PATH)
     if coverage is None:
@@ -736,10 +792,13 @@ def main():
     mobile = mobile_inventory()
     normalized = normalized_inventory()
     comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
+    hero_comparison = hero_name_version_comparison()
     technology_comparison = technology_version_comparison()
     network = load_json(NETWORK_CHECK)
     if technology_comparison:
         coverage.setdefault("mobileLegacyComparison", {})["technologies"] = technology_comparison
+    if hero_comparison:
+        coverage.setdefault("mobileLegacyComparison", {})["heroes"] = hero_comparison
     if mobile:
         coverage.setdefault("runtimeMechanics", {})["buildingProgression"] = mobile["buildingAdapter"]
         coverage["runtimeMechanics"]["cityNpcGarrisons"] = {
@@ -1094,6 +1153,7 @@ def main():
         "mobileHeroArt": mobile["heroArt"] if mobile else None,
         "mobilePublicCatalog": mobile,
         "mobileLegacyCountComparison": comparison,
+        "legacyHeroNameComparison": hero_comparison,
         "httpGetChecks": network,
     }
     coverage["references"] = {
@@ -1149,6 +1209,7 @@ def main():
         **(comparison or {}),
         "legacyQuestFields": legacy_quests["metadata"]["versionComparison"] if legacy_quests else None,
         "legacyCityGarrisons": legacy_city_garrisons["metadata"]["versionComparison"] if legacy_city_garrisons else None,
+        "legacyHeroNames": hero_comparison,
     }
     coverage["normalizationStatus"] = (
         "OWNER_AUTHORIZED_PRIVATE_STRUCTURAL_NORMALIZATION_COMPLETE; RUNTIME_MAPPING_PENDING_FIELD_SEMANTICS"

@@ -2,6 +2,12 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
+## Latest increment: Legacy/Mobile hero name delta audit
+
+- Added a reproducible comparison of the 540 legacy `famousgeneraliteminfo.Name` labels against 482 Mobile hero names. It finds 411 exact normalized unique-name overlaps, 129 legacy-only names, 70 Mobile-only names, and one duplicated Mobile label (`Trần Canh`).
+- The legacy table has no stable hero ID in the normalized schema; only display labels are compared. Legacy stats, Mobile stat meanings, identities and formulas remain unverified. No legacy hero values enter gameplay or combat. Updated `DATA_COVERAGE.json`, the Vietnamese wiki and blocker notes.
+- Verification: Node tests PASS 52/52, including the name-delta boundaries; Python source tests PASS 10/10; data coverage regenerated from the pinned snapshots. The production CI for this increment is pending push.
+
 ## Latest increment: Legacy city NPC garrison comparison
 
 - Added a reproducible adapter for pinned `famouscitygeneralinfo` and `147-soldierinfo`: 375 legacy NPC stacks grouped into 75 coordinates, five rows per city. Exact coordinate joins match all 73 Mobile cities; two legacy-only city groups remain separate.

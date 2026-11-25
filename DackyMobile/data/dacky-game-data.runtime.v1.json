@@ -11262,7 +11262,7 @@
     {
       "name": "legacyHeroes",
       "targetRecords": 540,
-      "reason": "Legacy source rows are retained privately; gameplay field and mechanic mapping remains unverified."
+      "reason": "Only normalized display-name overlap counts are published; source stat fields, identity IDs and mechanic mapping remain unverified."
     },
     {
       "name": "legacyItems",
