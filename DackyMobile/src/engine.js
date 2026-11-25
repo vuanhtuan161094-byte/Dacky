@@ -29,6 +29,7 @@ const combat=()=>combatService??=createProductCombat({storageCapacity});
 
 export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   const levels = Object.fromEntries(BUILDINGS.map(b => [b.id, 0]));
+  if(globalThis.__DACKY_COMBAT_PREVIEW__===true)Object.assign(levels,{government:1,housing:2,hostel:1});
   Object.assign(levels, { citadel: 2, barracks: 1, granary: 1, farm: 1, manor: 1, storehouse: 1, academy: 1 });
   const hero = HEROES[0];
   const troop = STARTER_TROOP;
@@ -181,7 +182,7 @@ export function migrateSave(input, now = Date.now()) {
   normalizeGameplay(s);
   s.combatReceipts=Array.isArray(s.combatReceipts)?[...new Set(s.combatReceipts.filter(x=>typeof x==='string'&&x.length<=200))]:[];
   s.combatSequence=Math.max(0,Math.floor(Number(s.combatSequence)||0));
-  for(const h of s.heroes){for(const k of ['combatMana','combatVitality','combatUpdatedAt','combatLoyalty'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
+  for(const h of s.heroes){h.rebirths=clamp(Math.floor(Number(h.rebirths)||0),0,5);h.rootBonus=clamp(Math.floor(Number(h.rootBonus)||0),0,5);h.potential=Object.fromEntries(['attack','magic','defense'].map(k=>[k,clamp(Math.floor(Number(h.potential?.[k])||0),0,170)]));h.matrices=[...new Set((Array.isArray(h.matrices)?h.matrices:[]).filter(id=>ITEMS.some(i=>i.id===id)))];for(const k of ['combatMana','combatVitality','combatUpdatedAt','combatLoyalty'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
   s.tutorialStep=clamp(Number(s.tutorialStep)||0,0,TUTORIAL_STEPS.length);
@@ -420,7 +421,7 @@ function evaluateBuildingRequirements(state, text) {
     const [,name,rawLevel]=levelRequirement;
     const source=sourceRows.find(row=>String(row.name||'').trim()===name.trim());
     const building=source&&BUILDINGS.find(row=>String(row.mobileSourceId||'')===String(source.id));
-    if(!building){unknown.push(term);continue;}
+    if(!building||(!state.settings?.combatV13&&['government','housing','hostel','workshop','skirmisher','stable'].includes(building.id))){unknown.push(term);continue;}
     if((state.levels[building.id]||0)<Number(rawLevel))unmet.push(term);
   }
   return {status:unmet.length?'LOCKED':unknown.length?'PARTIAL_UNKNOWN':'SATISFIED',unmet,unknown};
@@ -470,7 +471,7 @@ function evaluateResearchRequirements(state, requirementText='') {
     if(!match){unknown.push(requirement);continue;}
     const [,name,rawLevel]=match,requiredLevel=Number(rawLevel);
     const building=BUILDINGS.find(row=>row.name===name);
-    if(building){if((state.levels[building.id]||0)<requiredLevel)unmet.push(requirement);continue;}
+    if(building&&(!['government','housing','hostel','workshop','skirmisher','stable'].includes(building.id)||state.settings?.combatV13)){if((state.levels[building.id]||0)<requiredLevel)unmet.push(requirement);continue;}
     const technology=TECHNOLOGIES.find(row=>row.name===name);
     if(technology){if((state.technologies[technology.id]||0)<requiredLevel)unmet.push(requirement);continue;}
     unknown.push(requirement);
@@ -905,7 +906,7 @@ export function advance(state, now = Date.now()) {
       next.resources[key] = clamp(next.resources[key] + (perHour[key] - upkeepPerHour) * elapsed / 3600, 0, key === 'jade' ? 99_999 : cap);
     }
     const hours=elapsed/3600;
-    next.population = Math.min(next.settings.combatV13?populationCapacity(next):250_000, next.population + hours * (0.1 + next.morale/450 + next.levels.citadel * 0.11));
+    next.population = Math.min(next.settings.combatV13?Math.max(next.population,populationCapacity(next)):250_000, next.population + hours * (0.1 + next.morale/450 + next.levels.citadel * 0.11)*(1+(cityEffects(next,now).populationGrowth??0)));
     next.morale=clamp(next.morale+hours*TAX_POLICIES[next.taxPolicy].moralePerHour,0,100);
     next.world.marketDay += elapsed / 86_400;
   }
@@ -922,6 +923,10 @@ export function advance(state, now = Date.now()) {
 export function doAction(state, action, now = Date.now()) {
   let s = advance(state, now).state;
   switch (action.type) {
+    case 'rebirthHero': {if(!s.settings.combatV13||s.queues.march)throw Error('Chưa sẵn sàng chuyển sinh');const h=s.heroes.find(x=>x.id===action.heroId);if(!h||h.assigned||h.level<60||(h.rebirths??0)>=5)throw Error('Cần cấp 60, nghỉ đội hình, tối đa 5 lần chuyển sinh');const cost=1670000;debit(s,{gold:cost});const def=HEROES.find(x=>x.id===h.id),profile=combat().runtime.index.heroes[String(def.mobileSourceId)];h.rebirths=(h.rebirths??0)+1;h.rootBonus=(h.rootBonus??0)+1;h.level=Math.min(60,profile?.baseLevel??1);h.xp=0;h.skillLevel=1;delete h.combatMana;delete h.combatVitality;note(s,'Chuyển sinh thành công (mô phỏng).');break;}
+    case 'allocatePotential': {const h=s.heroes.find(x=>x.id===action.heroId),stat=action.stat;if(!h||s.queues.march||!['attack','magic','defense'].includes(stat))throw Error('Không thể phân bổ');h.potential={...(h.potential??{})};const used=Object.values(h.potential).reduce((n,v)=>n+v,0);if(used>=h.level*2+(h.rebirths??0)*10)throw Error('Hết điểm tiềm năng');h.potential[stat]=(h.potential[stat]??0)+1;break;}
+    case 'repairGear': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h||s.queues.march)throw Error('Thần tiên đang bận');const ids=Object.values(h.equipment??{}).filter(Boolean),loss=ids.reduce((n,id)=>n+100-(h.combatDurability?.[id]??100),0);if(!loss)throw Error('Trang bị không cần sửa');debit(s,{gold:Math.ceil(loss*5),iron:Math.ceil(loss/2)});h.combatDurability=Object.fromEntries(ids.map(id=>[id,100]));break;}
+    case 'switchMatrix': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h?.matrices?.includes(action.itemId)||s.queues.march)throw Error('Ma trận chưa mở');h.activeMatrix=action.itemId;break;}
     case 'claimSourceQuest': {credit(s,claimSourceQuest(s,action.questId,productionPerHour));note(s,'Đã nhận thưởng nhiệm vụ legacy (mô phỏng).');break;}
     case 'setTaxRate': {s.gameplay.taxRate=clamp(Math.floor(Number(action.rate)||0),0,50);s.taxPolicy=s.gameplay.taxRate<=10?'relief':s.gameplay.taxRate>=35?'heavy':'balanced';break;}
     case 'setLaborRate': {s.gameplay.laborRate=clamp(Math.floor(Number(action.rate)||0),0,100);break;}
@@ -931,7 +936,7 @@ export function doAction(state, action, now = Date.now()) {
     case 'changeFlag': {s.gameplay.flag=String(action.flag||'周').slice(0,4);break;}
     case 'officialPromote': {const n=s.gameplay.official+1;if(n>19||s.fame<n*n*100)throw Error('Thiếu danh vọng');debit(s,{gold:n*100});s.gameplay.official=n;break;}
     case 'guildDonate': {if(!s.world.guildLevel)throw Error('Chưa có minh hội');const n=clamp(Math.floor(Number(action.amount)||0),1,100000);debit(s,{gold:n});s.gameplay.guildDonation+=n;break;}
-    case 'strategicCast': {if(!s.settings.combatV13)throw Error('Cần engine mới');const node=WORLD_NODES.find(n=>n.id===action.nodeId);if(node&&!s.gameplay.strategic.npc[node.id])s.gameplay.strategic.npc[node.id]={morale:80,loyalty:100,troops:Object.fromEntries(node.enemy.formation.map(r=>[r.unitId,r.count])),effects:[]};castWorldSpell(s,{...action,now,combat:combat()});note(s,'Thi triển pháp thuật chiến lược');break;}
+    case 'strategicCast': {if(!s.settings.combatV13)throw Error('Cần engine mới');const node=WORLD_NODES.find(n=>n.id===action.nodeId);if(action.nodeId&&!node)throw Error('Không tìm thấy mục tiêu');if(node&&!s.gameplay.strategic.npc[node.id])s.gameplay.strategic.npc[node.id]={morale:80,loyalty:100,troops:node.enemy.formation.reduce((o,r)=>(o[r.unitId]=(o[r.unitId]??0)+r.count,o),{}),effects:[]};castWorldSpell(s,{...action,now,combat:combat()});note(s,'Thi triển pháp thuật chiến lược');break;}
     case 'rename':
       s.profile.name = String(action.name || '').trim().slice(0, 22) || 'Triều Ca';
       if(s.cities[0]?.isCapital)s.cities[0].name=s.profile.name;
@@ -1001,7 +1006,7 @@ export function doAction(state, action, now = Date.now()) {
       if (!def || !def.mobileSourceId || s.heroes.some(h => h.id === def.id)) throw new Error('Chỉ hồ sơ thần tiên Mobile có nguồn mới được chiêu mộ.');
       const discount=s.settings.combatV13?Math.min(.25,(s.levels.hostel||0)*.01):0;
       debit(s, { gold: Math.ceil((220 + def.wisdom * 2)*(1-discount)), jade: def.quality === 'Thiên' ? 2 : 1 });
-      s.heroes.push({ id: def.id, level: 1, xp: 0, assigned: s.heroes.filter(h => h.assigned).length < 3, equipment: { weapon: null, armor: null, artifact: null }, skillLevel: 1, affinity: 0 });
+      s.heroes.push({ id: def.id, level: s.settings.combatV13?Math.min(60,Math.max(1,combat().runtime.index.heroes[String(def.mobileSourceId)]?.baseLevel??1)):1, xp: 0, assigned: s.heroes.filter(h => h.assigned).length < 3, equipment: { weapon: null, armor: null, artifact: null }, skillLevel: 1, affinity: 0 });
       s.stats.heroesRecruited++;
       note(s, `${def.name} đã nhận lời tương trợ.`);
       break;
@@ -1294,6 +1299,7 @@ export function doAction(state, action, now = Date.now()) {
       break;
     }
     case 'setting':
+      if(action.key==='combatV13'&&action.value&&!s.settings.combatV13){s.levels.government=Math.max(1,s.levels.government||0);s.levels.housing=Math.max(2,s.levels.housing||0);s.levels.hostel=Math.max(1,s.levels.hostel||0);}
       if(action.key==='combatV13'&&s.queues.march)throw new Error('Không đổi engine khi đang hành quân.');
       if (!(action.key in s.settings)) throw new Error('Tùy chỉnh không hợp lệ.');
       s.settings[action.key] = Boolean(action.value);

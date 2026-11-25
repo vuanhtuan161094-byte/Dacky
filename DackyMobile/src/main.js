@@ -130,7 +130,7 @@ document.body.addEventListener('click', async event => {
   switch(action) {
     case 'catalogPage': {
       const key=button.dataset.pageKey;
-      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
+      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage','legacyGameplayPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
       return;
     }
     case 'selectNode':
@@ -164,6 +164,14 @@ document.body.addEventListener('click', async event => {
     case 'guild': return perform('guild',{});
     case 'diplomacy': return perform('diplomacy',{nodeId:button.dataset.node||uiState.nodeId});
     case 'duel': return perform('duel',{mode:button.dataset.mode,mountainId:button.dataset.mountain});
+    case 'claimSourceQuest':return perform(action,{questId:button.dataset.quest});
+    case 'allocatePotential':return perform(action,{heroId:button.dataset.hero,stat:button.dataset.stat});
+    case 'repairGear':case 'rebirthHero':return perform(action,{heroId:button.dataset.hero});
+    case 'setTaxRate':return perform(action,{rate:document.querySelector('#tax-rate')?.value});
+    case 'setLaborRate':return perform(action,{rate:document.querySelector('#labor-rate')?.value});
+    case 'guildDonate':return perform(action,{amount:document.querySelector('#guild-donate')?.value});
+    case 'bless':case 'sacrifice':case 'settlePopulation':case 'officialPromote':return perform(action,{});
+    case 'strategicCast':return perform(action,{heroId:document.querySelector('#spell-hero')?.value,spellId:Number(document.querySelector('#spell-id')?.value),nodeId:document.querySelector('#spell-target')?.value});
     case 'claimQuest': {
       await perform('claimQuest',{questId:button.dataset.quest});
       const current=activeQuest(game);

@@ -2,6 +2,7 @@
 import { MOBILE_SOURCE_DATABASE,TROOPS,HEROES,ITEMS,TECHNOLOGIES,WORLD_NODES,IMMORTAL_MOUNTAINS,TOWER_FLOORS,BUZHOU_FLOORS } from '../catalog.js';
 import { createCombatRuntime } from './runtime-v7.js';
 import { createSourceDuelHero } from './hero-progression.js';
+import { buzhouPlan,cityEffects,npcEffects } from '../gameplay-p15.js';
 import { canEquip } from './army-artifacts.js';
 export const PRODUCT_POLICY=Object.freeze({maxRounds:12,damageScale:.24,heroCommandScale:.0005,enableTacticsV8:true,enableTacticsV10:true,enableBalanceV12:true,unknownManaCost:null,enableSimulatedConversion:false});
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -18,8 +19,8 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   if(!p){const id='dev:'+def.id; p=rt.index.heroes[id]??{id,name:def.name,occupation:'Giáp sĩ',baseLevel:1,root:0,physical:def.attack*3,arcane:def.wisdom*3,strategy:def.wisdom*2,vitality:Math.max(1,def.defense*15),spirit:Math.max(1,def.wisdom*10),exclusiveArtifactIds:[],evidence:'SIMULATED'};rt.index.heroes[id]=p;}
   return p;
  }
- function gearBonus(save,slot){const id=save.equipment?.[slot],item=byItem.get(id);if(!item||(save.combatDurability?.[id]??100)<=0)return 0;return clamp(Number(item.bonus)||0,0,300);}
- function duelStats(p,save){const stats=createSourceDuelHero(p,{level:save.level}).stats,weapon=gearBonus(save,'weapon'),armor=gearBonus(save,'armor'),mastery=1+clamp(Number(save.skillLevel)||1,1,10)*.025+clamp(Number(save.affinity)||0,0,100)*.001;return {...stats,attack:Math.round((stats.attack+weapon)*mastery),magic:Math.round((stats.magic+weapon*.4)*mastery),defense:stats.defense+armor,resistance:stats.resistance+Math.round(armor*.6)};}
+ function gearBonus(save,slot){const id=save.equipment?.[slot],item=byItem.get(id);if(!item||(save.combatDurability?.[id]??100)<=0)return 0;const key=slot==='weapon'?['công','dũng']:['phòng','thể'];const sourced=(item.mobileStats??[]).filter(r=>key.some(k=>String(r[0]).toLowerCase().includes(k))).reduce((n,r)=>n+(Number(String(r[1]).replace(/[^0-9.]/g,''))||0),0);return clamp(Math.max(Number(item.bonus)||0,sourced),0,300);}
+ function duelStats(p,save){const stats=createSourceDuelHero({...p,root:p.root+(save.rootBonus??0)},{level:save.level}).stats,weapon=gearBonus(save,'weapon'),armor=gearBonus(save,'armor'),mastery=1+clamp(Number(save.skillLevel)||1,1,10)*.025+clamp(Number(save.affinity)||0,0,100)*.001;const matrix=1+Math.min(.35,(save.matrices?.length??0)*.015);return {...stats,attack:Math.round((stats.attack+weapon+(save.potential?.attack??0))*mastery*matrix),magic:Math.round((stats.magic+weapon*.4+(save.potential?.magic??0))*mastery*matrix),defense:Math.round((stats.defense+armor+(save.potential?.defense??0))*matrix),resistance:stats.resistance+Math.round(armor*.6)};}
  function commander(save,state){
   const p=profileFor(save),level=integer(save.level,'hero level',1),stats=duelStats(p,save);
   const gear=byItem.get(save.equipment?.artifact),aid=gear?.mobileSourceId==null?null:String(gear.mobileSourceId),artifact=rt.index.artifacts[aid];
@@ -37,7 +38,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const node=WORLD_NODES.find(n=>n.id===q.nodeId);if(!node)throw Error('UNKNOWN_NODE');
   const stacks=Object.entries(q.troops??{}).map(([id,count])=>{if(!rt.troops[id])throw Error('UNKNOWN_TROOP');return {id,count:integer(count,'troop count',1)}});
   if(!stacks.length)throw Error('EMPTY_MARCH');
-  const e=new Map();for(const r of node.enemy?.formation??[]){if(!rt.troops[r.unitId])throw Error('UNKNOWN_NPC_TROOP');const count=integer(r.count,'NPC troops',1);e.set(r.unitId,(e.get(r.unitId)??0)+count)}
+  const e=new Map();const override=state.gameplay?.strategic?.npc?.[node.id]?.troops;const formation=override?Object.entries(override).filter(([,count])=>count>0).map(([unitId,count])=>({unitId,count})):node.enemy?.formation??[];for(const r of formation){if(!rt.troops[r.unitId])throw Error('UNKNOWN_NPC_TROOP');const count=integer(r.count,'NPC troops',1);e.set(r.unitId,(e.get(r.unitId)??0)+count)}
   if(!e.size)throw Error('EMPTY_NPC');
   const party=q.commanderIds?q.commanderIds.map(id=>{const h=state.heroes.find(x=>x.id===id);if(!h)throw Error('COMMANDER_MISSING');return h}):assigned(state);
   const [a,...reserves]=party.map(h=>commander(h,state));
@@ -45,8 +46,9 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const n=Number(node.id.split('-').at(-1))||1,enemy=enemyCommander(n);
   const rate=(id,fallback)=>{const row=TECHNOLOGIES.find(x=>x.id===id)?.mobileLevelCosts?.find(x=>Number(x.level)===1),m=String(row?.effect??'').match(/([+-]?\\d+(?:[.,]\\d+)?)\\s*%/);return m?Number(m[1].replace(',','.'))/100:fallback;};
   const research=(id,fallback)=>clamp((state.technologies?.[id]??0)*rate(id,fallback),0,1);
+  const ownMagic=cityEffects(state,state.lastTickAt??0),enemyMagic=npcEffects(state,node.id,state.lastTickAt??0);
   const siege=node.kind==='Danh thành'?{hp:Math.max(1,Math.round((node.mobileWallLevel??node.level??1)*20+node.power*.15)),armor:12}:null;
-  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks,armyAttack:research('tech-10',.012),armyDefense:research('tech-11',.004),armyLife:research('tech-12',.02),armyMorale:clamp((state.morale??80)/500,0,.2)},{...enemy,stance:'auto',armyAttack:state.world.treaties.includes(node.id)?-.12:0,stacks:[...e].map(([id,count])=>({id,count}))}],siege,policy:{...PRODUCT_POLICY}}};
+  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks,armyAttack:research('tech-10',.012),armyDefense:research('tech-11',.004)+(ownMagic.defense??0)+(ownMagic.wallDefense??0),armyLife:research('tech-12',.02),armyMorale:clamp((state.morale??80)/500,0,.2)},{...enemy,stance:'auto',armyAttack:state.world.treaties.includes(node.id)?-.12:0,armyDefense:enemyMagic.defense??0,stacks:[...e].map(([id,count])=>({id,count}))}],siege,policy:{...PRODUCT_POLICY}}};
  }
  function credit(s,reward){const cap=storageCapacity(s);if(!Number.isFinite(cap)||cap<0)throw Error('INVALID_CAPACITY');const granted={};for(const [k,v] of Object.entries(reward)){if(!Object.hasOwn(s.resources,k)||!Number.isFinite(v)||v<0)continue;const before=s.resources[k];s.resources[k]=Math.min(k==='jade'?99999:cap,before+v);granted[k]=s.resources[k]-before}return granted;}
  function report(s,entry,now){s.reports.unshift({id:s.nextReportId++,at:now,...entry});s.reports=s.reports.slice(0,100);}
@@ -65,8 +67,8 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   let loot={};s.stats.battles++;
   if(battle.victory){s.stats.victories++;s.fame+=10+node.chapter*3;const chapter=s.world.chapterProgress[String(node.chapter)]??={wins:0,fieldWins:0,citiesCaptured:0};chapter.wins++;
    const reward={...node.loot};
-   if(node.kind==='Danh thành'){if(!s.world.captures.includes(node.id)){s.world.captures.push(node.id);s.stats.citiesCaptured++;chapter.citiesCaptured++;s.world.treaties=s.world.treaties.filter(id=>id!==node.id);if(!s.cities.some(c=>c.nodeId===node.id)){const city={id:node.id,nodeId:node.id,name:node.name,level:1,population:70+node.chapter*8,isCapital:false};s.cities.push(city);s.population=Math.min(250000,s.population+city.population);}}}
-   else {chapter.fieldWins++;s.world.storyStage=Math.max(s.world.storyStage,node.chapter*3);}
+   if(node.kind==='Danh thành'){if(!s.world.captures.includes(node.id)){s.world.captures.push(node.id);if(s.gameplay)s.gameplay.actions.capture=(s.gameplay.actions.capture??0)+1;s.stats.citiesCaptured++;chapter.citiesCaptured++;s.world.treaties=s.world.treaties.filter(id=>id!==node.id);if(!s.cities.some(c=>c.nodeId===node.id)){const city={id:node.id,nodeId:node.id,name:node.name,level:1,population:70+node.chapter*8,isCapital:false};s.cities.push(city);s.population=Math.min(250000,s.population+city.population);}}}
+   else {if(s.gameplay&&node.kind==='Dã địa')s.gameplay.fieldRank=Math.max(s.gameplay.fieldRank??0,node.level??1);chapter.fieldWins++;s.world.storyStage=Math.max(s.world.storyStage,node.chapter*3);}
    if(node.isBoss&&!s.world.campaignComplete){s.world.campaignComplete=true;s.stats.bossesDefeated++;s.world.storyStage=24;s.fame+=1000;for(const [k,v] of Object.entries({food:12000,timber:10000,stone:8000,iron:6000,gold:12000,jade:24}))reward[k]=(reward[k]??0)+v;}
    loot=credit(s,reward);
   }
@@ -79,8 +81,9 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   if(mode==='mountain'&&(!mountain||state.world.mountainWins.includes(mountain.id)))throw Error('MOUNTAIN_UNAVAILABLE');
   const floor=mountain?mountain.rank:integer((mode==='tower'?state.world.towerFloor:state.world.buzhouFloor)+1,'floor',1);
   if(!mountain&&floor>(mode==='tower'?TOWER_FLOORS:BUZHOU_FLOORS))throw Error('FLOOR_CAP');
-  const difficulty=mountain?mountain.power:42+floor*(mode==='tower'?6.3:21);
-  return {mode,mountainId:mountain?.id??null,floor,difficulty,target:mountain?.name??(mode==='tower'?'Phong Thần Tháp':'Bất Chu Sơn')+' · '+floor,reward:mountain?mountain.loot:{gold:65+floor*9,jade:floor%3===0?1:0,food:40+floor*4},evidence:'SIMULATED'};
+  const sourcePlan=mode==='buzhou'?buzhouPlan(floor):null;
+  const difficulty=mountain?mountain.power:sourcePlan?Math.round(sourcePlan.minLevel*2+sourcePlan.lead/2000+sourcePlan.formation.reduce((n,r)=>n+r.count,0)/10000):42+floor*6.3;
+  return {mode,mountainId:mountain?.id??null,floor,difficulty,sourcePlan,target:mountain?.name??(mode==='tower'?'Phong Thần Tháp':'Bất Chu Sơn')+' · '+floor,reward:mountain?mountain.loot:{gold:65+floor*9,jade:floor%3===0?1:0,food:40+floor*4},evidence:'SIMULATED'};
  }
  function runDuel(state,{battleId,mode,mountainId,seed=1,now}){
   ensureNew(state,battleId);if(!Number.isFinite(now))throw Error('INVALID_TIME');const q=quoteDuel(state,mode,mountainId),s=copy(state),party=assigned(s);
@@ -93,7 +96,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
    rounds.push(...r.rounds.map(x=>({...x,commanderId:h.id})));events.push(...r.events.map((x,j)=>({...x,commanderId:h.id,seq:events.length+j+1})));h.affinity=clamp((h.affinity??0)+1,0,100);
    if(enemy.hp<=0||r.winner===0){victory=true;break;}
   }
-  s.stats.duels++;let loot={};if(victory){if(mode==='tower')s.world.towerFloor=q.floor;else if(mode==='buzhou')s.world.buzhouFloor=q.floor;else s.world.mountainWins.push(q.mountainId);loot=credit(s,q.reward);for(const h of party)xp(h,45+q.floor*8);if((mode==='tower'&&q.floor%3===0)||(mode==='buzhou'&&q.floor===BUZHOU_FLOORS)||(mode==='mountain'&&q.floor%7===0)){const pool=ITEMS.filter(i=>i.type==='pháp bảo'&&i.tier<=10),item=pool[(q.floor+Math.floor(now))%pool.length];if(item&&!s.items.includes(item.id)&&s.items.length<500)s.items.push(item.id);}s.fame+=5+q.floor;}
+  s.stats.duels++;let loot={};if(victory){if(mode==='tower')s.world.towerFloor=q.floor;else if(mode==='buzhou')s.world.buzhouFloor=q.floor;else {s.world.mountainWins.push(q.mountainId);if(s.gameplay)s.gameplay.mountainRank=Math.max(s.gameplay.mountainRank??0,q.floor);}loot=credit(s,q.reward);for(const h of party)xp(h,45+q.floor*8);if((mode==='tower'&&q.floor%3===0)||(mode==='buzhou'&&q.floor===BUZHOU_FLOORS)||(mode==='mountain'&&q.floor%7===0)){const pool=ITEMS.filter(i=>i.type==='pháp bảo'&&i.tier<=10),item=pool[(q.floor+Math.floor(now))%pool.length];if(item&&!s.items.includes(item.id)&&s.items.length<500)s.items.push(item.id);}s.fame+=5+q.floor;}
   receipt(s,battleId);report(s,{type:'duel',mode,target:q.target,victory,rounds:rounds.map((r,i)=>({...r,round:i+1,ownDamage:r.events.filter(e=>e.type==='damage'&&e.side===0).reduce((n,e)=>n+e.amount,0),enemyDamage:r.events.filter(e=>e.type==='damage'&&e.side===1).reduce((n,e)=>n+e.amount,0),ownMorale:s.morale,activeSkills:r.events.filter(e=>e.type==='cast').map(e=>e.name)})),dead:{},wounded:{},loot,combatBattleId:battleId,evidence:'SIMULATED'},now);note(s,q.target+(victory?' · Chiến thắng':' · Thất bại'));return {state:s,battle:{victory,rounds,events},loot,quote:q};
  }
  return {runtime:rt,commander,recover,marchInput,finishMarch,quoteDuel,runDuel};
