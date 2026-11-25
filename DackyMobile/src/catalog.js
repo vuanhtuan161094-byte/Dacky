@@ -153,7 +153,7 @@ const useEffects=[
   i=>({kind:'resource',resource:'gold',amount:60+i%640}),
   i=>({kind:'morale',amount:4+i%17})
 ];
-export const ITEMS = Object.freeze(adaptSourceFacts('items', [
+const adaptedItemRows = adaptSourceFacts('items', [
   ...gearNames.map(([name,type,glyph], i) => ({
     id:`item-${String(i+1).padStart(2,'0')}`,name,type,glyph,tier:1+i%5,
     bonus:type==='vật phẩm'?0:3+(i*7)%15,
@@ -167,9 +167,14 @@ export const ITEMS = Object.freeze(adaptSourceFacts('items', [
     const name=`${itemRefinements[Math.floor(i/360)%itemRefinements.length]} ${itemMaterials[Math.floor(i/30)%itemMaterials.length]} ${itemForms[type][i%10]} · ${itemRoots[i%itemRoots.length]}`;
     const effect=type==='vật phẩm'?['Bổ sung lương thực','Bồi dưỡng kinh nghiệm','Tăng ngân lượng','Ổn định dân tâm'][i%4]:`+${5+(i*13)%41} ${i%2?'phòng thủ':'công kích'}`;
     return {id:`item-${String(i+19).padStart(4,'0')}`,name,type,glyph:['玉','符','劍','甲','丹','珠'][i%6],tier,bonus:type==='vật phẩm'?0:5+(i*13)%41,effect,
-      useEffect:type==='vật phẩm'?useEffects[(i/4|0)%useEffects.length](i):null,evidence:'SIMULATED'};
+      useEffect:type==='vật phẩm'?useEffects[(i/4|0)%useEffects.length](i):null,evidence:'SIMULATED',bonusEvidence:'SIMULATED',
+      mobileSourceId:null,mobileImage:'',mobileQuality:'',mobileOccupation:'',mobileRequiredLevel:null,mobileManaCost:null,
+      mobileAbilityText:'',mobileDescription:'',mobileOwner:'',mobileAcquisition:[]};
   })
-]));
+]);
+export const ITEMS = Object.freeze(adaptedItemRows.map(item => item.mobileSourceId
+  ? { ...item, bonus: 0, bonusEvidence: 'SIMULATED' }
+  : item));
 
 const techNames = [
   ['Nông Chính','food'], ['Lâm Nghiệp','timber'], ['Khai Sơn','stone'], ['Luyện Kim','iron'],

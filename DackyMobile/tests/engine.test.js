@@ -309,6 +309,42 @@ test('weapon, armor and artifact bonuses change their matching combat effects', 
   assert.ok(equippedFire.skillDamage>unarmedFire.skillDamage);
 });
 
+test('equipped Mobile artifact source effects change army combat and retain report evidence', () => {
+  const now=1_800_000_000_000;
+  const item=ITEMS.find(row=>row.mobileSourceId==='95902');
+  assert.ok(item);
+  const battle=withArtifact=>{
+    let state=createNewGame('Triều Ca',now);
+    state.heroes[0].assigned=true;
+    state.army={'troop-01':100};
+    if(withArtifact){
+      state.items=[item.id];
+      state=doAction(state,{type:'equip',heroId:'hero-01',itemId:item.id},now+1);
+    }
+    state=doAction(state,{type:'march',nodeId:'node-002',troopId:'troop-01',count:100},now+2);
+    return advance(state,state.queues.march.finishAt+1).state.reports[0];
+  };
+  const plain=battle(false),equipped=battle(true);
+  assert.ok(equipped.skillBonuses.artifactArmyAttack>0.29);
+  assert.ok(equipped.skillBonuses.artifactEnemyTroopLoss>0.06);
+  assert.ok(equipped.enemyPower<plain.enemyPower);
+  assert.ok(equipped.rounds[0].ownDamage>plain.rounds[0].ownDamage);
+  assert.equal(equipped.matchup.sourceArtifacts[0].sourceId,'95902');
+  assert.equal(equipped.matchup.sourceArtifacts[0].evidence,'VERIFIED_MOBILE');
+  assert.equal(equipped.matchup.sourceArtifacts[0].status,'SOURCE_VALUES_SIMULATED_STACKING');
+  const unsupported=ITEMS.find(row=>row.mobileSourceId==='5051');
+  let unknownState=createNewGame('Triều Ca',now);
+  unknownState.army={'troop-01':100};
+  unknownState.items=[unsupported.id];
+  unknownState=doAction(unknownState,{type:'equip',heroId:'hero-01',itemId:unsupported.id},now+1);
+  unknownState=doAction(unknownState,{type:'march',nodeId:'node-002',troopId:'troop-01',count:100},now+2);
+  const unknown=advance(unknownState,unknownState.queues.march.finishAt+1).state.reports[0];
+  assert.equal(unknown.matchup.sourceArtifacts[0].status,'UNKNOWN');
+  assert.equal(unknown.matchup.sourceArtifacts[0].evidence,'VERIFIED_MOBILE');
+  assert.equal(unknown.skillBonuses.artifactArmyAttack,0);
+  assert.equal(unknown.skillBonuses.artifactEnemyTroopLoss,0);
+});
+
 test('construction and training are queued and settle once', () => {
   const base=1_800_000_000_000;
   let state=createNewGame('Triều Ca',base);
@@ -543,7 +579,8 @@ test('mixed source and simulated catalogs expose the requested runtime coverage'
   assert.equal(sourcedHeroes.length,482);
   assert.equal(HEROES.filter(row=>row.evidence==='SIMULATED').length,58);
   assert.ok(sourcedHeroes.every(row=>row.evidence==='MIXED'&&row.fieldEvidence.mobileImage==='VERIFIED_MOBILE'));
-  assert.ok(ITEMS.every(row=>row.evidence==='SIMULATED'));
+  assert.equal(ITEMS.filter(row=>row.mobileSourceId).length,151);
+  assert.ok(ITEMS.filter(row=>!row.mobileSourceId).every(row=>row.evidence==='SIMULATED'));
   assert.ok(QUESTS.every(row=>row.evidence==='SIMULATED'));
   assert.ok(IMMORTAL_MOUNTAINS.every(row=>row.evidence==='SIMULATED'));
 });

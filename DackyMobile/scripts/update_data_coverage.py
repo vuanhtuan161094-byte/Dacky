@@ -87,7 +87,7 @@ def mobile_inventory():
     categories = {}
     facts = runtime_mobile_facts()
     mapped_domains = {
-        "than-tien": "heroes", "phap-bao": None, "vat-pham": None, "binh-chung": "troops",
+        "than-tien": "heroes", "phap-bao": "items", "vat-pham": None, "binh-chung": "troops",
         "cong-trinh": "buildings", "khoa-ky": "technologies", "danh-thanh": "worldNodes",
     }
     gameplay_mapped = {

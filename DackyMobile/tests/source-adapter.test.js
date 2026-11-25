@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { applyApprovedSourceFields } from '../src/source-adapter.js';
 import { APPROVED_SOURCE_FACTS, SOURCE_REUSE_DECISION } from '../src/approved-source-data.js';
-import { BUILDINGS, HEROES, MOBILE_SOURCE_DATABASE, TECHNOLOGIES, TROOPS } from '../src/catalog.js';
+import { BUILDINGS, HEROES, ITEMS, MOBILE_SOURCE_DATABASE, TECHNOLOGIES, TROOPS } from '../src/catalog.js';
 
 const rows = [{ id: 'building-1', name: 'Authored name', evidence: 'SIMULATED' }];
 const decision = {
@@ -49,6 +49,19 @@ test('the full Mobile hero roster is playable with per-field provenance and sour
   assert.ok(mobileHeroes.every(hero=>hero.fieldEvidence.name==='VERIFIED_MOBILE'&&hero.fieldEvidence.mobileBaseStats==='VERIFIED_MOBILE'));
   assert.ok(mobileHeroes.every(hero=>hero.fieldProvenance.mobileBaseStats.sourceTable==='than-tien'));
   assert.equal(HEROES.filter(hero=>hero.evidence==='SIMULATED').length,58);
+});
+
+test('Mobile artifact records preserve source identity, effects, artwork, and field provenance', () => {
+  const artifacts=ITEMS.filter(item=>item.mobileSourceId);
+  assert.equal(artifacts.length,151);
+  assert.equal(new Set(artifacts.map(item=>item.mobileSourceId)).size,151);
+  assert.ok(artifacts.every(item=>item.type==='pháp bảo'&&item.mobileImage.startsWith('./assets/mobile-source/')));
+  assert.ok(artifacts.every(item=>item.mobileAbilityText===item.effect&&item.fieldEvidence.mobileAbilityText==='VERIFIED_MOBILE'));
+  assert.ok(artifacts.every(item=>item.fieldProvenance.mobileAbilityText.sourceTable==='phap-bao'));
+  const blades=artifacts.find(item=>item.mobileSourceId==='95902');
+  assert.equal(blades.name,'Trảm Kình Song Kiếm');
+  assert.equal(blades.mobileAbilityText,'Tăng 30% công kích phe ta, giảm 7% số lính địch');
+  assert.equal(blades.bonus,0);
 });
 
 test('Mobile source artwork is local, checksummed, and bundled for offline use', () => {

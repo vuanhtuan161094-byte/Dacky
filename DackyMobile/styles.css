@@ -181,6 +181,7 @@ body.reduce-motion *, body.reduce-motion *:before, body.reduce-motion *:after { 
 .data-table td { padding:8px; color:#d4cebf; border-bottom:1px solid #d3b56b1c; }
 .data-table tr:hover td { background:#fff1cf07; }
 .unit-glyph { width:24px; height:24px; display:inline-grid; place-items:center; border:1px solid #d4b87369; color:#e6cd8c; font:13px Georgia,serif; vertical-align:middle; }
+.item-source-art { width:48px; height:48px; display:block; object-fit:contain; margin-bottom:5px; border:1px solid #d4b87369; border-radius:7px; background:#171923; }
 .world-layout { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(275px,.8fr); gap:12px; align-items:start; }
 .world-map { position:relative; min-height:420px; overflow:hidden; border:1px solid #d9b76e5c; background:radial-gradient(ellipse at 49% 44%,#d4ad6caa 0%,#ae90628c 23%,transparent 56%),linear-gradient(145deg,#202b39,#344744 49%,#242b36); }
 .world-map:before { content:""; position:absolute; inset:0; opacity:.4; background-image:linear-gradient(#cfb77620 1px,transparent 1px),linear-gradient(90deg,#cfb77620 1px,transparent 1px); background-size:34px 34px; mask-image:radial-gradient(ellipse at center,#000,transparent 88%); }

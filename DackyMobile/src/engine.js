@@ -241,6 +241,17 @@ function awardHeroAffinity(hero, amount) {
 function heroCombatProfile(heroList,state,enemyElement) {
   const rows=heroList.map(save=>({save,data:HEROES.find(def=>def.id===save.id)})).filter(row=>row.data);
   const equippedBonus=(row,slot)=>ITEMS.find(item=>item.id===row.save.equipment?.[slot])?.bonus||0;
+  const sourceArtifacts=rows.map(row=>({row,item:ITEMS.find(item=>item.id===row.save.equipment?.artifact)}))
+    .filter(entry=>entry.item?.mobileSourceId)
+    .map(({row,item})=>({heroId:row.save.id,item,...parseMobileArtifactEffect(item)}));
+  const artifactSum=key=>sourceArtifacts.reduce((sum,entry)=>sum+(entry.modifiers[key]||0),0);
+  const artifactAttack=clamp(artifactSum('ownAttack'),-0.5,0.6);
+  const artifactDefense=clamp(artifactSum('ownDefense'),-0.5,0.6);
+  const artifactEnemyAttackReduction=clamp(artifactSum('enemyAttackReduction'),-0.45,0.45);
+  const artifactEnemyDefenseReduction=clamp(artifactSum('enemyDefenseReduction'),-0.45,0.45);
+  const artifactOwnTroopBonus=clamp(artifactSum('ownTroopBonus'),-0.4,0.4);
+  const artifactEnemyTroopLoss=clamp(artifactSum('enemyTroopLoss'),0,0.45);
+  const artifactOwnTroopRecovery=clamp(artifactSum('ownTroopRecovery'),0,0.45);
   const equipmentAttack=rows.reduce((sum,row)=>sum+equippedBonus(row,'weapon')*0.001,0);
   const equipmentDefense=rows.reduce((sum,row)=>sum+equippedBonus(row,'armor')*0.001,0);
   const artifactSkillBonus=rows.reduce((sum,row)=>sum+equippedBonus(row,'artifact')*0.001,0);
@@ -265,7 +276,7 @@ function heroCombatProfile(heroList,state,enemyElement) {
       coefficient:definition.baseCoefficient+definition.perMastery*mastery+artifactBonus*0.001,mastery,artifactBonus};
   }).filter(Boolean);
   const activePowerBonus=skills.reduce((n,skill)=>n+skill.mastery*0.002+skill.artifactBonus*0.001,0);
-  return { names:rows.map(row=>row.data.skill),skills,bonuses:{attack,defense,opening,formation,affinity:affinityBonus,elementResonance,elementMatchup,equipmentAttack,equipmentDefense,artifactSkillBonus,activePowerBonus},
+  return { names:rows.map(row=>row.data.skill),skills,sourceArtifacts,bonuses:{attack,defense,opening,formation,affinity:affinityBonus,elementResonance,elementMatchup,equipmentAttack,equipmentDefense,artifactSkillBonus,artifactArmyAttack:artifactAttack,artifactArmyDefense:artifactDefense,artifactEnemyAttackReduction,artifactEnemyDefenseReduction,artifactOwnTroopBonus,artifactEnemyTroopLoss,artifactOwnTroopRecovery,activePowerBonus},
     powerMultiplier:1+(attack+defense+opening+formation)*0.35+elementResonance+activePowerBonus };
 }
 
@@ -434,7 +445,41 @@ function seededRandom(seed) {
   return () => { x = (x * 1664525 + 1013904223) >>> 0; return x / 0x100000000; };
 }
 
-const combatLabel = value => String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('vi').trim();
+const combatLabel = value => String(value||'').replace(/[đĐ]/g,'d').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('vi').trim();
+
+function parseMobileArtifactEffect(item) {
+  const text=String(item.mobileAbilityText||item.effect||'');
+  const normalized=combatLabel(text);
+  const modifiers={ownAttack:0,ownDefense:0,enemyAttackReduction:0,enemyDefenseReduction:0,ownTroopBonus:0,ownTroopRecovery:0,enemyTroopLoss:0};
+  let parsedCount=0;
+  const effectPattern=/(tang|giam|hoi)\s+(\d+(?:[.,]\d+)?)\s*%\s*([^,.;]+)/g;
+  for(const match of normalized.matchAll(effectPattern)){
+    const [,action,rawAmount,clause]=match;
+    const amount=(Number(rawAmount.replace(',','.'))||0)/100;
+    const enemy=/\b(dich|doi phuong)\b/.test(clause);
+    const sign=action==='giam'?-1:1;
+    let key=null,value=0;
+    if(/cong kich|tan cong/.test(clause)){
+      key=enemy?'enemyAttackReduction':'ownAttack';
+      value=enemy?-sign*amount:sign*amount;
+    }else if(/phong thu/.test(clause)){
+      key=enemy?'enemyDefenseReduction':'ownDefense';
+      value=enemy?-sign*amount:sign*amount;
+    }else if(/so linh|binh luc|binh si|binh linh/.test(clause)){
+      if(action==='hoi'&&!enemy)key='ownTroopRecovery';
+      else if(enemy){key='enemyTroopLoss';value=-sign*amount;}
+      else {key='ownTroopBonus';value=sign*amount;}
+    }
+    if(key){modifiers[key]+=value;parsedCount++;}
+  }
+  const unsupported=/vo hieu|khoa|cam than tien|nuot hieu qua|xua tan|tra lai|chan moi don|dua the luc|dot tinh luc|dot the luc|trung thanh|do ben|hiep nay|chi hieu luc|khong cho thay|\bneu\b|\bkhi\b/.test(normalized);
+  return {
+    modifiers,
+    supported:parsedCount>0,
+    status:parsedCount===0?'UNKNOWN':unsupported?'PARTIAL_UNKNOWN':'SOURCE_VALUES_SIMULATED_STACKING',
+    evidence:item.fieldEvidence?.mobileAbilityText||'UNKNOWN'
+  };
+}
 
 function sourcedCounterBonus(attackRows, defendRows, fallbackRatio) {
   const attackTotal=attackRows.reduce((sum,row)=>sum+row.count,0);
@@ -490,9 +535,9 @@ function resolveArmyCombat(state, node, troops, seed) {
   const formationTech=state.technologies['tech-15']||0;
   const formationBonus=1+Math.min(0.42,formationTech*0.003+ownSynergyRatio*0.14+(ownCounterEvidence.sourceCoverage?0:ownCounterRatio*0.14)+(ownBalanced?0.05:0));
   const heroBonus = heroList.reduce((n, h) => n + heroPower(h, state), 0) * 0.55;
-  const ownPower = Math.max(1, armyPower(state, troops) * formationBonus + heroBonus);
+  const ownPower = Math.max(1, armyPower(state, troops) * (1+heroProfile.bonuses.artifactOwnTroopBonus) * formationBonus + heroBonus);
   const treatyBonus=state.world.treaties.includes(node.id)?0.88:1;
-  const enemyPower = Math.max(80, node.power * (1 + Math.max(0, node.chapter - 1) * 0.035) * treatyBonus * (1+(enemyCounterEvidence.sourceCoverage?0:enemyCounterRatio*0.14)+enemySynergyRatio*0.06+(enemyBalanced?0.04:0)));
+  const enemyPower = Math.max(80, node.power * (1 + Math.max(0, node.chapter - 1) * 0.035) * treatyBonus * (1+(enemyCounterEvidence.sourceCoverage?0:enemyCounterRatio*0.14)+enemySynergyRatio*0.06+(enemyBalanced?0.04:0)) * (1-heroProfile.bonuses.artifactEnemyTroopLoss));
   const initiative = troopRows.reduce((n, row) => n + (row.unit.speed+row.unit.range*0.3) * row.count, 0) / Math.max(1, total);
   const enemyInitiative=enemyRows.reduce((n,row)=>n+(row.unit.speed+row.unit.range*0.3)*row.count,0)/Math.max(1,enemyTotal);
   const tactics={
@@ -502,7 +547,7 @@ function resolveArmyCombat(state, node, troops, seed) {
   const tactic=tactics[node.enemy?.tactic?.id]||{};
   const enemyHealthBase=enemyPower*(tactic.health||1)*(enemyBalanced?1.04:1);
   const rounds = [];
-  const ownHealthBase=ownPower * (1 + state.morale / 500 + heroProfile.bonuses.formation);
+  const ownHealthBase=ownPower * (1 + state.morale / 500 + heroProfile.bonuses.formation + heroProfile.bonuses.artifactOwnTroopRecovery);
   let ownHealth = ownHealthBase;
   let enemyHealth = enemyHealthBase;
   let round = 0;
@@ -511,11 +556,11 @@ function resolveArmyCombat(state, node, troops, seed) {
     const enemyDefense=Math.min(0.26,enemyCounterRatio*0.08+(tactic.defense||0));
     const ownCounterDamage=ownCounterEvidence.sourceCoverage?ownCounterEvidence.bonus:ownCounterRatio*0.2;
     const enemyCounterDamage=enemyCounterEvidence.sourceCoverage?enemyCounterEvidence.bonus:enemyCounterRatio*0.2;
-    const baseOwnDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+ownCounterDamage+(ownBalanced?0.06:0)+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (1-enemyDefense) * (round === 1 && initiative > 10 ? 1.13 : 1));
+    const baseOwnDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+ownCounterDamage+(ownBalanced?0.06:0)+heroProfile.bonuses.attack+heroProfile.bonuses.artifactArmyAttack+(round===1?heroProfile.bonuses.opening:0)) * (1-enemyDefense) * (1+heroProfile.bonuses.artifactEnemyDefenseReduction) * (round === 1 && initiative > 10 ? 1.13 : 1));
     const ownDamage = Math.max(1,baseOwnDamage*(1+heroProfile.bonuses.elementMatchup));
     const researchDefense=Math.min(0.24,(state.technologies['tech-11']||0)*technologyRate('tech-11',0.004));
     const npcOpening=round===1&&enemyInitiative>initiative?(tactic.opening||0.1):0;
-    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+enemyCounterDamage+enemySynergyRatio*0.04+(tactic.attack||0)+npcOpening) * (enemyBalanced?1.04:1) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * Math.max(0.8,1-heroProfile.bonuses.elementMatchup*0.6) * (round === 1 && initiative < 6 ? 1.12 : 1));
+    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+enemyCounterDamage+enemySynergyRatio*0.04+(tactic.attack||0)+npcOpening) * (enemyBalanced?1.04:1) * Math.max(0.55,1-heroProfile.bonuses.defense-heroProfile.bonuses.artifactArmyDefense-researchDefense-heroProfile.bonuses.artifactEnemyAttackReduction) * Math.max(0.8,1-heroProfile.bonuses.elementMatchup*0.6) * (round === 1 && initiative < 6 ? 1.12 : 1));
     const activeSkills=heroProfile.skills.filter(skill=>skill.triggerRound===round);
     let skillDamage=0,shieldRatio=0,healing=0;
     for(const skill of activeSkills){
@@ -548,7 +593,7 @@ function resolveArmyCombat(state, node, troops, seed) {
     enemyCommander:node.enemy?.commander||'Đội quân NPC',enemyTactic:node.enemy?.tactic?.name||'Đội hình dã chiến',
     enemyFormation:enemyRows.map(row=>({unitId:row.unit.id,count:row.count})),enemyCasualties,
     enemyElement:node.enemy?.element||null,
-    matchup:{ownCounterAdvantage:Math.round((ownCounterEvidence.sourceCoverage?ownCounterEvidence.bonus:ownCounterRatio)*100),enemyCounterAdvantage:Math.round((enemyCounterEvidence.sourceCoverage?enemyCounterEvidence.bonus:enemyCounterRatio)*100),counterEvidence:ownCounterEvidence.sourceCoverage>0?'MIXED':'SIMULATED',heroElementAdvantage:Math.round(heroProfile.bonuses.elementMatchup*10000)/100,ownBalanced,enemyBalanced},
+    matchup:{ownCounterAdvantage:Math.round((ownCounterEvidence.sourceCoverage?ownCounterEvidence.bonus:ownCounterRatio)*100),enemyCounterAdvantage:Math.round((enemyCounterEvidence.sourceCoverage?enemyCounterEvidence.bonus:enemyCounterRatio)*100),counterEvidence:ownCounterEvidence.sourceCoverage>0?'MIXED':'SIMULATED',heroElementAdvantage:Math.round(heroProfile.bonuses.elementMatchup*10000)/100,ownBalanced,enemyBalanced,sourceArtifacts:heroProfile.sourceArtifacts.map(({heroId,item,modifiers,supported,status,evidence})=>({heroId,itemId:item.id,sourceId:item.mobileSourceId,name:item.name,ability:item.mobileAbilityText,modifiers,supported,status,evidence}))},
     heroNames: heroList.map(h => HEROES.find(def => def.id === h.id)?.name || h.id), heroSkills:heroProfile.names, skillBonuses:heroProfile.bonuses };
 }
 
