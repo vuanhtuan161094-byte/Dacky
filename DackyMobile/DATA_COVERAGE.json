@@ -1288,6 +1288,18 @@
       ],
       "unit": "seconds"
     },
+    "mobileHeroArt": {
+      "status": "VERIFIED_LOCAL_MOBILE_HERO_ART",
+      "sourceVersion": "5d78c226cb",
+      "runtimeHeroProfiles": 482,
+      "profilesWithSourceImageField": 482,
+      "uniqueImageFilesReferenced": 187,
+      "verifiedLocalImageFiles": 187,
+      "imageManifestAssetCount": 2209,
+      "referencedImageBytes": 3149250,
+      "invalidOrMissingImageFiles": 0,
+      "hashAlgorithm": "SHA-256"
+    },
     "mobilePublicCatalog": {
       "status": "PUBLIC_CATALOG_BUNDLED_PARTIAL_GAMEPLAY_ADAPTER",
       "capturedDate": "2026-11-25",
@@ -1299,6 +1311,18 @@
       "runtimeImportedRecordCount": 2656,
       "gameplayMappedRecordCount": 2650,
       "fieldScopedGameplayValueCount": 35947,
+      "heroArt": {
+        "status": "VERIFIED_LOCAL_MOBILE_HERO_ART",
+        "sourceVersion": "5d78c226cb",
+        "runtimeHeroProfiles": 482,
+        "profilesWithSourceImageField": 482,
+        "uniqueImageFilesReferenced": 187,
+        "verifiedLocalImageFiles": 187,
+        "imageManifestAssetCount": 2209,
+        "referencedImageBytes": 3149250,
+        "invalidOrMissingImageFiles": 0,
+        "hashAlgorithm": "SHA-256"
+      },
       "buildingAdapter": {
         "mobileSourceRecords": 21,
         "runtimeMappedRecords": 15,
@@ -1821,12 +1845,12 @@
             "changedRecords": 33,
             "fieldsWithDifferences": {
               "Name": 25,
-              "Camp": 13,
               "Describe": 33,
-              "Life": 1,
-              "Def": 1,
-              "Att": 1,
+              "Camp": 13,
               "TrainSpendMinute": 1,
+              "Att": 1,
+              "Def": 1,
+              "Life": 1,
               "TrainSpendSecond": 1
             },
             "fieldsOnlyIn147": [],
@@ -2248,12 +2272,12 @@
           "changedRecords": 33,
           "fieldsWithDifferences": {
             "Name": 25,
-            "Camp": 13,
             "Describe": 33,
-            "Life": 1,
-            "Def": 1,
-            "Att": 1,
+            "Camp": 13,
             "TrainSpendMinute": 1,
+            "Att": 1,
+            "Def": 1,
+            "Life": 1,
             "TrainSpendSecond": 1
           },
           "fieldsOnlyIn147": [],

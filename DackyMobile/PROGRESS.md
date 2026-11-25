@@ -2,7 +2,13 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
-## Latest increment: Legacy troop training times and mixed-source status
+## Latest increment: Verified Mobile hero portrait coverage
+
+- Audited the 482 Mobile hero runtime profiles against `assets/mobile-source-manifest.json`: all 482 have a local source image field, using 187 unique hero portrait files. All 187 files exist and their byte counts and SHA-256 hashes match the manifest; no missing or mismatched files.
+- `DATA_COVERAGE.json` now records this reproducible art coverage. The Node source-art test verifies byte count and SHA-256 for all 2,209 bundled Mobile images and checks all 482 hero image paths; the suite passes 45/45. Python source tests pass 10/10.
+- Updated the older art note that said only 12 hero portraits were mapped. The 58 non-Mobile hero entries, PvE encounters, animations and skill VFX still need production art; the asset audit does not claim those areas are complete.
+
+## Previous increment: Legacy troop training times and mixed-source status
 
 - Added a reproducible runtime adapter for the four pinned `147-soldierinfo` training-time fields. It maps the 24 shared Mobile/legacy troop IDs and converts day/hour/minute/second into seconds, retaining field provenance and the owner authorization. No legacy value is inferred for the one Mobile-only troop profile.
 - Mobile identity and combat stats remain active. Shared troop base training durations now come from the legacy snapshot; costs and unlock levels remain `SIMULATED`, and runtime building/technology speed modifiers continue to apply after the sourced base time.
@@ -26,7 +32,7 @@ Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature
 
 - Reused the existing cloud Android toolchain: Capacitor 8.6.2, JDK 21, Android SDK 36, Gradle 8.14.3. Gradle and Android user caches are directed to writable workspace paths; nothing was reinstalled.
 - Re-imported all 2,656 checksum-verified Mobile catalog rows into a named JS module supported by the project bundler. Runtime adapters apply 35,947 provenance-bearing Mobile field values across 2,650 gameplay records: 15 building tables, all 19 technology tables, 25 troop profiles, all 482 Mobile heroes, 151 artifacts, 1,885 goods, and 73 city profiles.
-- Downloaded 2,209 unique public Mobile images (13,173,749 bytes). `assets/mobile-source-manifest.json` records URL, path, references, byte count and SHA-256. Local art now appears in the source library, mapped buildings and technologies, 25 troop profiles, 12 matched hero portraits, and 73 mapped city records. Owner authorization dated 2026-11-25 is recorded; no SPDX identifier is claimed.
+- Downloaded 2,209 unique public Mobile images (13,173,749 bytes). `assets/mobile-source-manifest.json` records URL, path, references, byte count and SHA-256. Local art now appears in the source library, mapped buildings and technologies, 25 troop profiles, all 482 Mobile hero profiles (187 unique portrait files verified in the latest audit), and 73 mapped city records. Owner authorization dated 2026-11-25 is recorded; no SPDX identifier is claimed.
 - Runtime building/research costs use source level rows where mapped; mapped research rates and troop matchup rows use source effects. All 482 Mobile hero identities, portraits, base stats, occupations, factions, profiles and source abilities are now recruitable with field provenance. Mobile base attributes feed a local hero rating formula; its coefficients, active skills, training progression and unsupported mechanics remain explicitly `SIMULATED`.
 - Mapped all 19 Mobile technologies and all 570 exact level rows, including cost, effect, prerequisite and field provenance. Runtime now connects sourced production/tax rates, warehouse capacity, construction and troop-training speed, army attack/defense/health, transport/march speed, scouting chance and lead capacity. The technology UI follows Mobile order, which matches legacy `ShowOrder`; both versions share 19/19 IDs and the numeric first-level effect rates match 19/19 (legacy `ShowOrder` has a gap at 14). This comparison does not assert full gameplay parity. Requirements matching a runtime building or research name are enforced; source requirements with no corresponding runtime system are shown as `UNKNOWN` and left permissive. Transport, defense, scouting and lead-capacity formulas retain an explicit simulated baseline; spell-cost research remains `UNKNOWN` until a spell-cost system exists.
 - Save schema v2 preserves pre-adapter research levels whose meanings changed in a legacy research archive and clears those levels from active effects; unchanged research remains active. The archive is visible in the technology screen and migration is covered by a regression test.
@@ -51,7 +57,7 @@ Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature
 
 - Legacy parser: 67/70 pinned tables decoded; three remain `HOLD` (`generalrefreshlevellimitinfo`, `upgradeexp`, `fieldrandeventcfginfo`). Keep unsupported binary fields `UNKNOWN` rather than infer a layout.
 - Gameplay data coverage is partial. Artifact, chest, technology-level, and city identity mappings use Mobile source records. A separate library contains 1,158 verified legacy quest descriptions, while quest requirements/rewards, unsupported item-use abilities, set bonuses, NPC armies, tower floors and much PvE remain `SIMULATED` or `UNKNOWN`. The source library does not imply that those quest mechanics are playable or version-equivalent.
-- Art coverage is improved but incomplete: many generated hero entries, PvE encounters, animations and skill VFX still use project-authored or shared art; do not claim complete source parity or finished production art.
+- Art coverage is improved but incomplete: 187 locally hash-verified source portraits cover all 482 Mobile hero profiles; the 58 non-Mobile hero entries, PvE encounters, animations and skill VFX still use project-authored or shared art. Do not claim complete source parity or finished production art.
 - Continue mapping other Mobile/legacy gameplay fields and adapters where semantics map directly; preserve source versions and incompatible-version differences. Continue gameplay, production art, wiki and release QA.
 
 Raw legacy database dumps and captured source inputs remain in gitignored `input-private/`. APK/AAB outputs are local build artifacts, not committed. Do not merge or force-push this branch.

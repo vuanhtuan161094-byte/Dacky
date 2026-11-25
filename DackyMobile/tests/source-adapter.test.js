@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { applyApprovedSourceFields } from '../src/source-adapter.js';
 import { APPROVED_SOURCE_FACTS, SOURCE_REUSE_DECISION } from '../src/approved-source-data.js';
@@ -112,13 +113,23 @@ test('Mobile goods map chest openings, acquisition, source stats and merchant av
   assert.deepEqual(foodPack.useEffect,{kind:'resource',resource:'food',amount:10000000});
 });
 
-test('Mobile source artwork is local, checksummed, and bundled for offline use', () => {
+test('Mobile source artwork is local, hash-verified, and bundled for offline use', () => {
   const manifest=JSON.parse(readFileSync(new URL('../assets/mobile-source-manifest.json',import.meta.url),'utf8'));
   assert.equal(manifest.count,2209);
   assert.equal(manifest.totalBytes,13173749);
-  assert.ok(manifest.assets.every(asset=>/^[a-f0-9]{64}$/i.test(asset.sha256)&&existsSync(new URL(`../${asset.path}`,import.meta.url))));
+  for(const asset of manifest.assets){
+    const payload=readFileSync(new URL(`../${asset.path}`,import.meta.url));
+    assert.equal(payload.length,asset.bytes,`byte count for ${asset.path}`);
+    assert.equal(createHash('sha256').update(payload).digest('hex'),asset.sha256,`SHA-256 for ${asset.path}`);
+  }
   const rows=Object.values(MOBILE_SOURCE_DATABASE.categories).flat();
   assert.ok(rows.filter(row=>row.image).every(row=>row.localImage?.startsWith('./assets/mobile-source/')));
+  const heroProfiles=Object.values(APPROVED_SOURCE_FACTS.heroes);
+  const heroImages=heroProfiles.map(row=>row.mobileImage?.value).filter(Boolean);
+  assert.equal(heroProfiles.length,482);
+  assert.equal(heroImages.length,482);
+  assert.equal(new Set(heroImages).size,187);
+  assert.ok(heroImages.every(image=>existsSync(new URL(`../${image.replace(/^\.\//,'')}`,import.meta.url))));
 });
 
 test('source facts cannot enter runtime without documented reuse permission', () => {

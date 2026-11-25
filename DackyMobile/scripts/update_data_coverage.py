@@ -17,6 +17,7 @@ COVERAGE_PATH = ROOT / "DATA_COVERAGE.json"
 LEGACY_MANIFEST = PRIVATE / "extracted" / "manifest.json"
 NORMALIZED_MANIFEST = PRIVATE / "normalized_legacy" / "manifest.json"
 MOBILE_MANIFEST = PRIVATE / "mobile_reference" / "manifest.json"
+MOBILE_ASSET_MANIFEST = ROOT / "assets" / "mobile-source-manifest.json"
 MOBILE_TECH_DATA = PRIVATE / "mobile_reference" / "khoa-ky.json"
 LEGACY_TECH_DATA = PRIVATE / "normalized_legacy" / "technologyinfo.json"
 LEGACY_BUILD_DATA = PRIVATE / "normalized_legacy" / "buildinfo.json"
@@ -41,6 +42,45 @@ def runtime_mobile_facts():
     if start < 0 or end <= start:
         raise ValueError("Could not parse generated Mobile source adapter facts")
     return json.loads(source[start + len(prefix):end])
+
+
+def mobile_hero_art_inventory(facts):
+    manifest = load_json(MOBILE_ASSET_MANIFEST)
+    if manifest is None:
+        return None
+    heroes = facts.get("heroes", {})
+    image_fields = [
+        row.get("mobileImage", {}).get("value")
+        for row in heroes.values()
+        if row.get("mobileImage", {}).get("value")
+    ]
+    unique_paths = sorted({Path(value).as_posix().removeprefix("./") for value in image_fields})
+    assets = {row.get("path"): row for row in manifest.get("assets", [])}
+    verified = 0
+    invalid = []
+    for relative_path in unique_paths:
+        asset = assets.get(relative_path)
+        local_path = ROOT / relative_path
+        if asset is None or not local_path.is_file():
+            invalid.append(relative_path)
+            continue
+        payload = local_path.read_bytes()
+        if len(payload) != asset.get("bytes") or hashlib.sha256(payload).hexdigest() != asset.get("sha256"):
+            invalid.append(relative_path)
+            continue
+        verified += 1
+    return {
+        "status": "VERIFIED_LOCAL_MOBILE_HERO_ART" if len(image_fields) == len(heroes) and not invalid else "ART_COVERAGE_GAP",
+        "sourceVersion": manifest.get("catalogVersion"),
+        "runtimeHeroProfiles": len(heroes),
+        "profilesWithSourceImageField": len(image_fields),
+        "uniqueImageFilesReferenced": len(unique_paths),
+        "verifiedLocalImageFiles": verified,
+        "imageManifestAssetCount": len(manifest.get("assets", [])),
+        "referencedImageBytes": sum(assets.get(path, {}).get("bytes", 0) for path in unique_paths),
+        "invalidOrMissingImageFiles": len(invalid),
+        "hashAlgorithm": "SHA-256",
+    }
 
 
 def runtime_legacy_quests():
@@ -248,6 +288,7 @@ def mobile_inventory():
         "requirementRuntime": "Resolved Mobile building names and Dân số requirements are enforced; unmet known conditions block construction. Unsupported condition names remain visible as UNKNOWN and permissive.",
     }
     field_value_count = sum(len(fields) for table in facts.values() for fields in table.values())
+    hero_art = mobile_hero_art_inventory(facts)
     for category in manifest.get("categories", []):
         categories[category["id"]] = {
             "title": category["name"],
@@ -272,6 +313,7 @@ def mobile_inventory():
         "runtimeImportedRecordCount": sum(row["recordsServed"] for row in categories.values()),
         "gameplayMappedRecordCount": sum(row["gameplayMappedRecords"] for row in categories.values()),
         "fieldScopedGameplayValueCount": field_value_count,
+        "heroArt": hero_art,
         "buildingAdapter": building_adapter,
         "categories": categories,
         "reuseNote": "Owner authorization dated 2026-11-25 covers found Mobile data/assets. The full catalog is bundled in runtime; direct gameplay mapping is per-field and remaining mechanics stay SIMULATED or UNKNOWN.",
@@ -646,6 +688,7 @@ def main():
             "sourceFields": legacy_troop_times["metadata"]["sourceFields"],
             "unit": "seconds",
         } if legacy_troop_times else None),
+        "mobileHeroArt": mobile["heroArt"] if mobile else None,
         "mobilePublicCatalog": mobile,
         "mobileLegacyCountComparison": comparison,
         "httpGetChecks": network,
