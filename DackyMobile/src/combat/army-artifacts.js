@@ -6,7 +6,7 @@ export function createArmyArtifactEngine(){
  const nonneg=(v,label)=>{if(!Number.isSafeInteger(v)||v<0)throw Error('Invalid '+label);return v};
  function canEquip(artifact,hero,{level,ownedArtifactIds}={}){
   if(!artifact||!hero)return {ok:false,reason:'UNKNOWN_ID'};
-  if(artifact.requiredLevel===null||artifact.manaCost===null||!artifact.occupation)return {ok:false,reason:'UNKNOWN_REQUIREMENTS'};
+  if(artifact.requiredLevel===null||!artifact.occupation)return {ok:false,reason:'UNKNOWN_REQUIREMENTS'};
   const lv=level??hero.baseLevel;
   if(!Number.isInteger(lv)||lv<artifact.requiredLevel)return {ok:false,reason:'LEVEL'};
   if(norm(artifact.occupation)!=='moi nghe'&&norm(artifact.occupation)!==norm(hero.occupation))return {ok:false,reason:'OCCUPATION'};
@@ -16,8 +16,9 @@ export function createArmyArtifactEngine(){
  }
  function resolveArtifactRound({index,sides,round=1,policy={}}){
   if(!index?.artifacts||!index?.heroes||!Array.isArray(sides)||sides.length!==2||!Number.isInteger(round)||round<1)throw Error('Invalid artifact round');
-  const opts={conversionFraction:.25,conversionRatio:1,enableSimulatedConversion:false,modifierMin:-.95,modifierMax:3,...policy};
+  const opts={conversionFraction:.25,conversionRatio:1,enableSimulatedConversion:false,unknownManaCost:null,modifierMin:-.95,modifierMax:3,...policy};
   if(!Number.isFinite(opts.conversionFraction)||opts.conversionFraction<0||opts.conversionFraction>1||!Number.isFinite(opts.conversionRatio)||opts.conversionRatio<0||opts.conversionRatio>10||!Number.isFinite(opts.modifierMin)||!Number.isFinite(opts.modifierMax)||opts.modifierMin<-.99||opts.modifierMin>0||opts.modifierMax<0||opts.modifierMax>10)throw Error('Invalid policy');
+  if(opts.unknownManaCost!==null&&(!Number.isSafeInteger(opts.unknownManaCost)||opts.unknownManaCost<0))throw Error('Invalid simulated mana policy');
   const events=[];const event=(type,side,data={})=>events.push({seq:events.length+1,round,type,side,...data});
   const units=sides.map((s,i)=>{
    const hero=index.heroes[s.heroId];if(!hero)throw Error('Unknown source hero '+s.heroId);
@@ -32,10 +33,11 @@ export function createArmyArtifactEngine(){
    if(!u.artifactId||!u.troops||!u.vitality)return null;
    const item=index.artifacts[u.artifactId];
    const eligible=canEquip(item,index.heroes[u.heroId],{level:u.level,ownedArtifactIds:u.ownedArtifactIds});
-   let reason=!eligible.ok?eligible.reason:!u.equippedArtifactIds.includes(u.artifactId)?'NOT_EQUIPPED':item.status!=='MAPPED'?'UNMAPPED':u.mana<item.manaCost?'MANA':null;
+   const cost=item?.manaCost??opts.unknownManaCost;
+   let reason=!eligible.ok?eligible.reason:!u.equippedArtifactIds.includes(u.artifactId)?'NOT_EQUIPPED':item.status!=='MAPPED'?'UNMAPPED':cost===null?'UNKNOWN_MANA_COST':u.mana<cost?'MANA':null;
    if(reason){event('artifactRejected',i,{artifactId:u.artifactId,reason});return null}
    if(item.ops.some(o=>o.kind==='convert')&&!opts.enableSimulatedConversion){event('artifactRejected',i,{artifactId:item.id,reason:'CONVERSION_POLICY_REQUIRED'});return null}
-   u.mana-=item.manaCost;event('artifactCast',i,{artifactId:item.id,name:item.name,manaCost:item.manaCost,evidence:item.evidence});return item;
+   u.mana-=cost;event('artifactCast',i,{artifactId:item.id,name:item.name,manaCost:cost,manaEvidence:item.manaCost===null?'SIMULATED':'VERIFIED_MOBILE',evidence:item.evidence});return item;
   });
   // Simultaneous cancellation phase: both spells spend mana; mutually cancelling artifacts both lose their effects.
   const canceled=plans.map((p,i)=>Boolean(p&&plans[1-i]?.ops.some(o=>o.kind==='cancelArtifact')));
