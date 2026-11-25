@@ -36,7 +36,7 @@ async function loadModule(file) {
 
 const entry = path.join(root, 'src/main.js');
 await loadModule(entry);
-const bundle = `(()=>{const __factories={${[...modules].map(([id,body])=>`${JSON.stringify(id)}:${body}`).join(',')}};const __cache={};function __require(id){if(__cache[id])return __cache[id];const out=__cache[id]={};if(!__factories[id])throw Error('Module missing: '+id);return __factories[id](__require,out)}__require(${JSON.stringify(cleanId(entry))})})();`;
+let bundle = `(()=>{const __factories={${[...modules].map(([id,body])=>`${JSON.stringify(id)}:${body}`).join(',')}};const __cache={};function __require(id){if(__cache[id])return __cache[id];const out=__cache[id]={};if(!__factories[id])throw Error('Module missing: '+id);return __factories[id](__require,out)}__require(${JSON.stringify(cleanId(entry))})})();`;
 let html = await readFile(path.join(root,'index.html'),'utf8');
 let css = await readFile(path.join(root,'styles.css'),'utf8');
 const dataUrl = async name => {
@@ -44,9 +44,10 @@ const dataUrl = async name => {
   const mime = ext === '.jpg' ? 'image/jpeg' : ext === '.webp' ? 'image/webp' : 'image/svg+xml';
   return `data:${mime};base64,${(await readFile(path.join(root,'assets',name))).toString('base64')}`;
 };
-const inlineImages = await Promise.all(['crest.svg','city-panorama.jpg','heroes-atlas.svg','portraits/jiang-zia.webp'].map(async name=>[name,await dataUrl(name)]));
+const inlineImages = await Promise.all(['crest.svg','city-panorama.jpg','heroes-atlas.svg','portraits/jiang-zia.webp','buildings/tuvithanh.webp'].map(async name=>[name,await dataUrl(name)]));
 const imageUrls = Object.fromEntries(inlineImages);
 css = css.replace(/url\(['"]?\.\/assets\/([^)'"\s]+)['"]?\)/g, (_,name) => `url('${imageUrls[name] || ''}')`);
+for (const [name,url] of inlineImages) bundle = bundle.replaceAll(`./assets/${name}`,url);
 for (const [name,url] of inlineImages) html = html.replaceAll(`./assets/${name}`,url);
 html = html.replace('<link rel="manifest" href="./manifest.webmanifest">','');
 html = html.replace('<link rel="stylesheet" href="./styles.css">',`<style>\n${css}\n</style>`);
