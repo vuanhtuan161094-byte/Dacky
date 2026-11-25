@@ -559,6 +559,20 @@ def main():
         coverage.setdefault("mobileLegacyComparison", {})["technologies"] = technology_comparison
     if mobile:
         coverage.setdefault("runtimeMechanics", {})["buildingProgression"] = mobile["buildingAdapter"]
+        hero_catalog = next((
+            item for item in coverage.get("runtimeCatalogs", [])
+            if item.get("domain") == "heroes"
+        ), None)
+        if hero_catalog:
+            mobile_hero_count = mobile["categories"].get("than-tien", {}).get("gameplayMappedRecords", 0)
+            hero_catalog.update({
+                "sourceLibraryRecords": mobile["categories"].get("than-tien", {}).get("recordsServed", 0),
+                "mobileRuntimeRecords": mobile_hero_count,
+                "recruitableRecords": mobile_hero_count,
+                "simulatedRecords": max(0, hero_catalog.get("records", 0) - mobile_hero_count),
+                "simulatedRecordsRecruitable": 0,
+                "sourceFields": f"{mobile_hero_count} Mobile hero profiles retain source identity, local portrait, base stats, faction, occupation, abilities and field provenance; recruitment exposes only these source-backed profiles. Combat formulas remain SIMULATED.",
+            })
         if legacy_troop_times:
             time_values = [
                 fields["trainSeconds"]["value"]

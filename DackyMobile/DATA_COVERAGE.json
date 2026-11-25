@@ -93,8 +93,11 @@
       "legacyReferenceCount": 540,
       "runtime": "src/catalog.js + src/engine.js + src/ui.js",
       "sourceLibraryRecords": 482,
-      "mobileRuntimeRecords": 12,
-      "sourceFields": "12 directly matched canonical entries use Mobile names, portrait, faction, occupation, initial stats, signature and listed abilities; gameplay combat formulas remain SIMULATED"
+      "mobileRuntimeRecords": 482,
+      "sourceFields": "482 Mobile hero profiles retain source identity, local portrait, base stats, faction, occupation, abilities and field provenance; recruitment exposes only these source-backed profiles. Combat formulas remain SIMULATED.",
+      "recruitableRecords": 482,
+      "simulatedRecords": 58,
+      "simulatedRecordsRecruitable": 0
     },
     {
       "domain": "heroSkills",
@@ -1844,14 +1847,14 @@
             "sharedIds": 36,
             "changedRecords": 33,
             "fieldsWithDifferences": {
-              "Name": 25,
               "Describe": 33,
+              "Name": 25,
               "Camp": 13,
-              "TrainSpendMinute": 1,
-              "Att": 1,
-              "Def": 1,
               "Life": 1,
-              "TrainSpendSecond": 1
+              "TrainSpendSecond": 1,
+              "Att": 1,
+              "TrainSpendMinute": 1,
+              "Def": 1
             },
             "fieldsOnlyIn147": [],
             "fieldsOnlyInSoldierinfo": [
@@ -2271,14 +2274,14 @@
           "sharedIds": 36,
           "changedRecords": 33,
           "fieldsWithDifferences": {
-            "Name": 25,
             "Describe": 33,
+            "Name": 25,
             "Camp": 13,
-            "TrainSpendMinute": 1,
-            "Att": 1,
-            "Def": 1,
             "Life": 1,
-            "TrainSpendSecond": 1
+            "TrainSpendSecond": 1,
+            "Att": 1,
+            "TrainSpendMinute": 1,
+            "Def": 1
           },
           "fieldsOnlyIn147": [],
           "fieldsOnlyInSoldierinfo": [

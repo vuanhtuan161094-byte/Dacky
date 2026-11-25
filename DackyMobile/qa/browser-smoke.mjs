@@ -194,6 +194,9 @@ try {
 
   await click('#primary-nav [data-view="heroes"]');
   await waitFor('Array.from(document.querySelectorAll(".portrait img")).some(x=>x.complete&&x.naturalWidth>0)');
+  const recruitHeading=await evaluate('Array.from(document.querySelectorAll(".panel-title")).find(x=>x.innerText.includes("Lời mời nhập phủ"))?.innerText||""');
+  check(recruitHeading.includes('482 hồ sơ Mobile')&&!recruitHeading.includes('mô phỏng'));
+  check(await evaluate('document.querySelector("#scene").innerText.includes("Chỉ hồ sơ Mobile có provenance được mở chiêu mộ mới")'));
   await click('[data-action="recruit"][data-hero="hero-02"]');
   await waitFor('document.querySelector("#scene").innerText.includes("Na Tra")');
   await click('#primary-nav [data-view="inventory"]');

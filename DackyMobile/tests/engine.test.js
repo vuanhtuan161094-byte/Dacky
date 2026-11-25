@@ -64,6 +64,27 @@ test('legacy base troop training times fill only shared Mobile IDs with provenan
   assert.equal(mobileOnly.trainTimeEvidence,'SIMULATED','no legacy time is inferred when the source ID is absent');
 });
 
+test('new hero recruitment is limited to the verified Mobile roster and keeps legacy definitions available to saves', () => {
+  const now=1_800_000_000_000;
+  const mobileHeroes=HEROES.filter(hero=>hero.mobileSourceId);
+  const simulatedHero=HEROES.find(hero=>!hero.mobileSourceId);
+  assert.equal(mobileHeroes.length,482);
+  assert.ok(simulatedHero);
+  const state=createNewGame('Triều Ca',now);
+  state.levels.altar=1;
+  state.levels.manor=1;
+  state.resources.gold=1_000_000;
+  state.resources.jade=1_000;
+  const initialHeroCount=state.heroes.length;
+  assert.throws(()=>doAction(state,{type:'recruit',heroId:simulatedHero.id},now+1),/Mobile/);
+  assert.equal(state.heroes.length,initialHeroCount,'a rejected recruit leaves the current save unchanged');
+  assert.ok(!state.heroes.some(hero=>hero.id===simulatedHero.id));
+  assert.ok(HEROES.some(hero=>hero.id===simulatedHero.id),'the old definition remains available for migrated saves');
+  const recruited=doAction(state,{type:'recruit',heroId:mobileHeroes.at(-1).id},now+2);
+  assert.equal(recruited.heroes.length,initialHeroCount+1);
+  assert.ok(recruited.heroes.some(hero=>hero.id===mobileHeroes.at(-1).id));
+});
+
 test('tax policy balances gold income, morale and population growth', () => {
   const now=1_800_000_000_000;
   const state=createNewGame('Triều Ca',now);

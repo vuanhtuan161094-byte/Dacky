@@ -960,7 +960,7 @@ export function doAction(state, action, now = Date.now()) {
       if ((s.levels.altar || 0) < 1 || (s.levels.manor || 0) < 1) throw new Error('Cần Phong Thần Đàn và Tiên Gia Phủ cấp 1.');
       if (s.heroes.length >= Math.min(60, 3 + s.levels.manor * 2)) throw new Error('Tiên Gia Phủ chưa đủ chỗ an trí thêm thần tiên.');
       const def = HEROES.find(h => h.id === action.heroId);
-      if (!def || s.heroes.some(h => h.id === def.id)) throw new Error('Thần tiên này đã có trong danh sách hoặc không khả dụng.');
+      if (!def || !def.mobileSourceId || s.heroes.some(h => h.id === def.id)) throw new Error('Chỉ hồ sơ thần tiên Mobile có nguồn mới được chiêu mộ.');
       debit(s, { gold: 220 + def.wisdom * 2, jade: def.quality === 'Thiên' ? 2 : 1 });
       s.heroes.push({ id: def.id, level: 1, xp: 0, assigned: s.heroes.filter(h => h.assigned).length < 3, equipment: { weapon: null, armor: null, artifact: null }, skillLevel: 1, affinity: 0 });
       s.stats.heroesRecruited++;

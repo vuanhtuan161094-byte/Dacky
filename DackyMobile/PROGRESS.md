@@ -2,7 +2,16 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
-## Latest increment: Verified Mobile hero portrait coverage
+## Latest increment: Source-backed hero recruitment
+
+- The new recruitment list now exposes only the 482 verified Mobile heroes. The 58 simulated definitions remain in the catalog so existing saves can retain them, but are hidden from new recruitment; the engine also rejects direct recruitment actions for them.
+- `DATA_COVERAGE.json` now reports 482 Mobile runtime/recruitable profiles, 58 retained simulated definitions, and zero simulated profiles available to recruit. PWA shell cache is v15.
+- Verification: Node tests PASS 46/46, including rejection of simulated recruits while allowing sourced recruits and preserving the old definitions. Python source tests PASS 10/10. Chromium passed the updated 482-profile recruitment screen, all 12 primary screens, combat/training, save reload, portrait/landscape, zero runtime errors. PWA v15 reopened offline; single-file HTML worked over HTTP with zero external asset requests.
+- Rebuilt Android APK/AAB with the installed toolchain. APK is 47,542,052 bytes (SHA-256 `a889efdd26f2fbd6e9ed09660f552a18e6d0f3ca87e410048f5f610680ee5731`); debug AAB is 33,725,997 bytes (SHA-256 `037833b880bd2418fbc848ed20bee601c78d156200d6406e7d09c5cb9230ccca`). APK signature and both ZIP packages verified; these are debug builds. `dist/offline.html` is 47,828,709 bytes (SHA-256 `8bf7ddbbb51b352b727a48d0912b76063b0eca461a98d562118f674787d22f9e`). Device QA remains unavailable.
+
+## Previous increment: Verified Mobile hero portrait coverage
+
+## Mobile hero portrait coverage audit
 
 - Audited the 482 Mobile hero runtime profiles against `assets/mobile-source-manifest.json`: all 482 have a local source image field, using 187 unique hero portrait files. All 187 files exist and their byte counts and SHA-256 hashes match the manifest; no missing or mismatched files.
 - `DATA_COVERAGE.json` now records this reproducible art coverage. The Node source-art test verifies byte count and SHA-256 for all 2,209 bundled Mobile images and checks all 482 hero image paths; the suite passes 45/45. Python source tests pass 10/10.
