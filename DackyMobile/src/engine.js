@@ -1,5 +1,6 @@
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
+import { populationCapacity,trainingSourceQuote,questQuote,claimSourceQuest,itemUseRule,normalizeGameplay,trackAction,castWorldSpell,cityEffects } from './gameplay-p15.js';
 import { createProductCombat } from './combat/product-v13.js';
 
 export const SAVE_VERSION = 2;
@@ -177,6 +178,7 @@ export function migrateSave(input, now = Date.now()) {
     }
     if(archivedLevels)s.notifications=[`Đã lưu trữ ${archivedLevels} cấp khoa kỹ cũ chưa có ánh xạ Mobile an toàn; các cấp này không cộng chỉ số runtime.`,...s.notifications].slice(0,12);
   }
+  normalizeGameplay(s);
   s.combatReceipts=Array.isArray(s.combatReceipts)?[...new Set(s.combatReceipts.filter(x=>typeof x==='string'&&x.length<=200))]:[];
   s.combatSequence=Math.max(0,Math.floor(Number(s.combatSequence)||0));
   for(const h of s.heroes){for(const k of ['combatMana','combatVitality','combatUpdatedAt','combatLoyalty'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
@@ -192,9 +194,10 @@ export function migrateSave(input, now = Date.now()) {
 export function productionPerHour(state) {
   const lv = state.levels;
   const tech = state.technologies;
+  const multiplier=state.settings?.combatV13?(1+(cityEffects(state,state.lastTickAt??0).production??0))*((state.gameplay?.laborRate??100)/100):1;
   const satelliteLevels=(state.cities||[]).filter(city=>!city.isCapital).reduce((sum,city)=>sum+city.level,0);
   const bonus = effect => 1 + TECHNOLOGIES.filter(t => t.effect === effect).reduce((n, t) => n + (tech[t.id] || 0) * technologyRate(t.id), 0);
-  return {
+  const out={
     food: (18 + lv.farm * 52 + lv.granary * 7 + satelliteLevels*25) * bonus('food'),
     timber: (10 + lv.grove * 38 + lv.lumber * 12 + satelliteLevels*18) * bonus('timber'),
     stone: (8 + lv.mine * 34 + lv.quarry * 10 + satelliteLevels*14) * bonus('stone'),
@@ -202,6 +205,7 @@ export function productionPerHour(state) {
     gold: (10 + lv.market * 25 + satelliteLevels*8 + Math.floor(state.population * (0.035 + lv.citadel * 0.002)) * bonus('gold')) * TAX_POLICIES[state.taxPolicy||'balanced'].income,
     jade: 0.12 + lv.altar * 0.12 + lv.manor * 0.025
   };
+  return Object.fromEntries(Object.entries(out).map(([k,v])=>[k,v*multiplier]));
 }
 
 export function storageCapacity(state) {
@@ -451,6 +455,8 @@ export function quoteTraining(state, troopId, count = 1) {
   const t = TROOPS.find(x => x.id === troopId);
   if (!t) return null;
   count = clamp(Math.floor(Number(count) || 1), 1, 500);
+  const source=state.settings?.combatV13?trainingSourceQuote(state,t,count):null;
+  if(source)return {count,cost:source.cost,seconds:Math.max(4,t.trainSeconds*count),timeEvidence:t.trainTimeEvidence||'SIMULATED',costEvidence:source.evidence,locked:source.unmet.length>0,unmet:source.unmet};
   return { count, cost: Object.fromEntries(Object.entries(t.cost).map(([key, value]) => [key, value * count])),
     seconds: Math.max(4, t.trainSeconds * count), timeEvidence:t.trainTimeEvidence||'SIMULATED',
     costEvidence:'SIMULATED',locked: (state.levels.citadel || 0) < t.unlockCity };
@@ -899,7 +905,7 @@ export function advance(state, now = Date.now()) {
       next.resources[key] = clamp(next.resources[key] + (perHour[key] - upkeepPerHour) * elapsed / 3600, 0, key === 'jade' ? 99_999 : cap);
     }
     const hours=elapsed/3600;
-    next.population = Math.min(250_000, next.population + hours * (0.1 + next.morale/450 + next.levels.citadel * 0.11));
+    next.population = Math.min(next.settings.combatV13?populationCapacity(next):250_000, next.population + hours * (0.1 + next.morale/450 + next.levels.citadel * 0.11));
     next.morale=clamp(next.morale+hours*TAX_POLICIES[next.taxPolicy].moralePerHour,0,100);
     next.world.marketDay += elapsed / 86_400;
   }
@@ -916,6 +922,16 @@ export function advance(state, now = Date.now()) {
 export function doAction(state, action, now = Date.now()) {
   let s = advance(state, now).state;
   switch (action.type) {
+    case 'claimSourceQuest': {credit(s,claimSourceQuest(s,action.questId,productionPerHour));note(s,'Đã nhận thưởng nhiệm vụ legacy (mô phỏng).');break;}
+    case 'setTaxRate': {s.gameplay.taxRate=clamp(Math.floor(Number(action.rate)||0),0,50);s.taxPolicy=s.gameplay.taxRate<=10?'relief':s.gameplay.taxRate>=35?'heavy':'balanced';break;}
+    case 'setLaborRate': {s.gameplay.laborRate=clamp(Math.floor(Number(action.rate)||0),0,100);break;}
+    case 'bless': {debit(s,{gold:30});s.morale=clamp(s.morale+5,0,100);break;}
+    case 'sacrifice': {debit(s,{food:50});s.fame+=3;break;}
+    case 'settlePopulation': {debit(s,{food:100,gold:50});s.population=Math.min(populationCapacity(s),s.population+10);break;}
+    case 'changeFlag': {s.gameplay.flag=String(action.flag||'周').slice(0,4);break;}
+    case 'officialPromote': {const n=s.gameplay.official+1;if(n>19||s.fame<n*n*100)throw Error('Thiếu danh vọng');debit(s,{gold:n*100});s.gameplay.official=n;break;}
+    case 'guildDonate': {if(!s.world.guildLevel)throw Error('Chưa có minh hội');const n=clamp(Math.floor(Number(action.amount)||0),1,100000);debit(s,{gold:n});s.gameplay.guildDonation+=n;break;}
+    case 'strategicCast': {if(!s.settings.combatV13)throw Error('Cần engine mới');const node=WORLD_NODES.find(n=>n.id===action.nodeId);if(node&&!s.gameplay.strategic.npc[node.id])s.gameplay.strategic.npc[node.id]={morale:80,loyalty:100,troops:Object.fromEntries(node.enemy.formation.map(r=>[r.unitId,r.count])),effects:[]};castWorldSpell(s,{...action,now,combat:combat()});note(s,'Thi triển pháp thuật chiến lược');break;}
     case 'rename':
       s.profile.name = String(action.name || '').trim().slice(0, 22) || 'Triều Ca';
       if(s.cities[0]?.isCapital)s.cities[0].name=s.profile.name;
@@ -963,9 +979,15 @@ export function doAction(state, action, now = Date.now()) {
       const count = clamp(Math.floor(Number(action.count) || 1), 1, 500);
       if (!t) throw new Error('Không tìm thấy binh chủng.');
       if (!t.mobileSourceId) throw new Error('Chỉ hồ sơ binh chủng Mobile có nguồn mới được huấn luyện mới.');
+      const source=s.settings.combatV13?trainingSourceQuote(s,t,count):null;
+      if(source?.unmet.length)throw Error('Thiếu điều kiện: '+source.unmet.join(', '));
+      if(s.settings.combatV13&&cityEffects(s,now).blockTraining)throw Error('Đang bị cấm luyện quân');
+      if(s.settings.combatV13&&!source&&t.lane==='siege'&&!s.levels.workshop)throw Error('Cần Xưởng chế tạo');
+      if(s.settings.combatV13&&!source&&t.role==='kỵ binh'&&!s.levels.stable)throw Error('Cần Chuồng ngựa');
+      if(s.settings.combatV13&&!source&&t.role==='trinh sát'&&!s.levels.skirmisher)throw Error('Cần Trại khinh binh');
       const needLevel = Math.min(30, t.unlockCity);
-      if ((s.levels.citadel || 0) < needLevel) throw new Error(`Cần Tử Vi Thành cấp ${needLevel} để huấn luyện.`);
-      const cost = Object.fromEntries(Object.entries(t.cost).map(([key, value]) => [key, value * count]));
+      if (!source&&(s.levels.citadel || 0) < needLevel) throw new Error(`Cần Tử Vi Thành cấp ${needLevel} để huấn luyện.`);
+      const cost = source?.cost??Object.fromEntries(Object.entries(t.cost).map(([key, value]) => [key, value * count]));
       debit(s, cost);
       const speed = 1 + (s.technologies['tech-09'] || 0) * technologyRate('tech-09',0.02) + (s.levels.training || 0) * 0.025 + (s.levels.barracks || 0) * 0.008;
       s.queues.training = { troopId: t.id, count, cost, startAt: now, finishAt: now + Math.max(4000, t.trainSeconds * count * 1000 / speed) };
@@ -977,7 +999,8 @@ export function doAction(state, action, now = Date.now()) {
       if (s.heroes.length >= Math.min(60, 3 + s.levels.manor * 2)) throw new Error('Tiên Gia Phủ chưa đủ chỗ an trí thêm thần tiên.');
       const def = HEROES.find(h => h.id === action.heroId);
       if (!def || !def.mobileSourceId || s.heroes.some(h => h.id === def.id)) throw new Error('Chỉ hồ sơ thần tiên Mobile có nguồn mới được chiêu mộ.');
-      debit(s, { gold: 220 + def.wisdom * 2, jade: def.quality === 'Thiên' ? 2 : 1 });
+      const discount=s.settings.combatV13?Math.min(.25,(s.levels.hostel||0)*.01):0;
+      debit(s, { gold: Math.ceil((220 + def.wisdom * 2)*(1-discount)), jade: def.quality === 'Thiên' ? 2 : 1 });
       s.heroes.push({ id: def.id, level: 1, xp: 0, assigned: s.heroes.filter(h => h.assigned).length < 3, equipment: { weapon: null, armor: null, artifact: null }, skillLevel: 1, affinity: 0 });
       s.stats.heroesRecruited++;
       note(s, `${def.name} đã nhận lời tương trợ.`);
@@ -1044,7 +1067,8 @@ export function doAction(state, action, now = Date.now()) {
       const itemIndex = s.items.indexOf(action.itemId);
       const item = ITEMS.find(i => i.id === action.itemId);
       if (itemIndex < 0 || !item || item.type !== 'vật phẩm') throw new Error('Không thể sử dụng vật phẩm này.');
-      const effect=item.useEffect;
+      const effect=item.useEffect??(s.settings.combatV13?itemUseRule(item):null);
+      if(effect?.kind==='matrix'){const h=s.heroes.find(x=>x.id===action.heroId)||s.heroes.find(x=>x.assigned);if(!h||s.queues.march)throw Error('Chọn thần tiên đang nghỉ');h.matrices=[...new Set(h.matrices??[])];if(h.matrices.includes(item.id))throw Error('Ma trận đã mở');h.matrices.push(item.id);h.activeMatrix=item.id;s.items.splice(itemIndex,1);note(s,'Đã mở Ma trận '+item.name);break;}
       if(!effect)throw new Error('Hiệu ứng của vật phẩm nguồn chưa được mô hình hóa; xem hồ sơ Mobile để biết dữ kiện đã xác minh.');
       if(effect.kind==='mobileChest')openMobileChest(s,item,now);
       if(effect?.kind==='resource')credit(s,{[effect.resource]:effect.amount});
@@ -1102,7 +1126,7 @@ export function doAction(state, action, now = Date.now()) {
       if(s.settings.combatV13){if(s.world.captures.includes(node.id))throw new Error('Danh thành đã thuộc quyền quản lý.');combat().marchInput(s,{nodeId:node.id,troops,startAt:now,seed:1});}
       for(const [id,n] of Object.entries(troops)){s.army[id]-=n;if(!s.army[id])delete s.army[id];}
       const averageSpeed=Object.entries(troops).reduce((sum,[id,n])=>sum+(TROOPS.find(t=>t.id===id)?.speed||0)*n,0)/count;
-      const marchSpeed = 1 + averageSpeed*.012
+      const marchSpeed = 1 + (s.settings.combatV13?(cityEffects(s,now).marchSpeed??0):0) + averageSpeed*.012
         + (s.technologies['tech-07'] || 0) * technologyRate('tech-07',0.02)
         + (s.technologies['tech-16'] || 0) * technologyRate('tech-16',0.02)
         + (s.levels.watch || 0) * 0.015;
@@ -1236,6 +1260,7 @@ export function doAction(state, action, now = Date.now()) {
       const success=roll<quote.chance;
       if(success){
         if(!s.world.scouted.includes(node.id))s.world.scouted.push(node.id);
+        s.gameplay.scoutRank=Math.max(s.gameplay.scoutRank,node.level??1);
         s.world.scoutedKinds=s.world.scoutedKinds&&typeof s.world.scoutedKinds==='object'?s.world.scoutedKinds:{};
         s.world.scoutedKinds[node.id]=quote.type;
         const result=quote.type==='resources'?`ước tính tài nguyên ${Object.entries(node.loot).map(([key,value])=>`${RESOURCE_INFO[key]?.name||key} ${value}`).join(', ')}`:
@@ -1275,6 +1300,7 @@ export function doAction(state, action, now = Date.now()) {
       break;
     default: throw new Error('Thao tác không được hỗ trợ.');
   }
+  trackAction(s,action);
   updateTutorial(s);
   return migrateSave(s, now);
 }
