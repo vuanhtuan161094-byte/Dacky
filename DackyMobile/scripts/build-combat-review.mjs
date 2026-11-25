@@ -45,4 +45,11 @@ for(const imp of [...entry.matchAll(/import\s+\{([\s\S]*?)\}\s+from\s+['"]([^'"]
 }
 const bundle='(()=>{const __factories={'+[...modules].map(([id,body])=>JSON.stringify(id)+':'+body).join(',')+'};const __cache={};function __require(id){if(__cache[id])return __cache[id];const out=__cache[id]={};if(!__factories[id])throw Error("Module missing: "+id);return __factories[id](__require,out)}\n'+entry+'\n})();';
 html=html.replace(tag,()=>'<script>'+bundle.replace(/<\/script/gi,'<\\/script')+'</script>');
+const manifest=JSON.parse(await readFile(path.join(root,'assets/mobile-source-manifest.json'),'utf8'));
+const assetMap={};for(const a of manifest.assets){if(!/\.(webp|png|jpe?g|gif)$/i.test(a.path))continue;
+ const ext=path.extname(a.path).slice(1).toLowerCase(),mime=ext==='jpg'||ext==='jpeg'?'image/jpeg':'image/'+ext;
+ const data='data:'+mime+';base64,'+(await readFile(path.join(root,a.path))).toString('base64');
+ assetMap[a.path]=data; // normalized local manifest path; avoid duplicating binary payload
+}
+html=html.replace('<script>',()=>'<script>globalThis.__DACKY_REVIEW_ASSETS__='+JSON.stringify(assetMap).replace(/<\/script/gi,'<\\/script')+';</script><script>');
 const out=path.join(root,'combat-review-dist');await mkdir(out,{recursive:true});await writeFile(path.join(out,'offline.html'),html);console.log('Review modules: '+modules.size);

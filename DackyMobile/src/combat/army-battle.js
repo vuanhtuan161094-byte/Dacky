@@ -62,7 +62,7 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={},siege=nul
   const roundEvents=[],log=(type,side,data={})=>roundEvents.push({round,type,side,...data});
   if(advanced)for(let i=0;i<2;i++){
    const s=army[i],c=commanderChoice({side:s,roster:rosters[i],active:active[i],round,index,enemy:army[1-i],plan:sides[i].switchPlan,mode:sides[i].commanderMode??'ordered'});
-   if(c.next!==active[i]){const old=rosters[i][active[i]];active[i]=c.next;const next=rosters[i][active[i]];army[i]={...s,legacyPassiveName:null,...next};log('commanderSwitch',i,{from:old.heroId,to:next.heroId,instanceId:next.instanceId,reason:c.reason});}
+   if(c.next!==active[i]){const old=rosters[i][active[i]];active[i]=c.next;const next=rosters[i][active[i]];army[i]={...s,legacyPassiveName:null,ownedArtifactIds:undefined,...next};log('commanderSwitch',i,{from:old.heroId,to:next.heroId,instanceId:next.instanceId,reason:c.reason});}
    else if(sides[i].switchPlan?.[round]!==undefined&&c.reason!=='MANUAL')log('switchRejected',i,{reason:c.reason});
   }
   const before=army.map(s=>sum(s.stacks));
@@ -83,7 +83,7 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={},siege=nul
    const {damage,...snapshot}=f;rosters[i][active[i]]=snapshot;army[i].vitality=snapshot.vitality;if(damage)log('commanderFatigue',i,{amount:damage,vitality:snapshot.vitality});
   }
   const prior=roundEvents.filter(e=>['commanderSwitch','switchRejected'].includes(e.type)),after=roundEvents.filter(e=>!prior.includes(e));
-  const ev=[...prior,...settled.events,...after].map((e,j)=>({...e,seq:events.length+j+1}));events.push(...ev);
+  const ev=[...prior,...settled.events.filter(e=>e.type!=='strikeLoss'),...after.filter(e=>e.type!=='commanderFatigue'),...settled.events.filter(e=>e.type==='strikeLoss'),...after.filter(e=>e.type==='commanderFatigue')].map((e,j)=>({...e,seq:events.length+j+1}));events.push(...ev);
   rounds.push({round,incoming,tactical,passives,stances,wall:wall?{...wall}:null,events:ev,sides:army.map(s=>({heroId:s.heroId,instanceId:advanced?rosters[army.indexOf(s)][active[army.indexOf(s)]].instanceId:s.instanceId,troops:sum(s.stacks),mana:s.mana,vitality:s.vitality,stacks:s.stacks.map(t=>({id:t.id,count:t.count})),switchLocked:s.switchLocked}))});
  }
  const ratios=army.map((s,i)=>sum(s.stacks)/Math.max(1,initial[i]));const winner=wall?.hp>0?1:ratios[0]===ratios[1]?null:ratios[0]>ratios[1]?0:1;

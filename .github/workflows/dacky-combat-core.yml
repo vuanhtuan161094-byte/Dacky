@@ -26,7 +26,7 @@ jobs:
       - name: Package browser review
         run: |
           mkdir -p combat-review-dist
-          cp -r src combat-review.html combat-review-dist/
+          cp -r src assets combat-review.html combat-review-dist/
           mv combat-review-dist/combat-review.html combat-review-dist/index.html
           node scripts/build-combat-review.mjs
       - name: Chrome offline review smoke
