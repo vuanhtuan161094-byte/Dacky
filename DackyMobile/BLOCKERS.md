@@ -11,3 +11,6 @@
 | Standalone offline HTML | Single-file HTML is generated with JS/CSS/JPEG inlined, but direct `file://` launch is not validated on this revision. | Earlier `file://` smoke returned `chrome-error://chromewebdata/`; current headless Chromium fails before page capture. | PWA and local HTTP resources pass; standalone mode remains unverified. |
 
 The 2026-11-24 public-source HTTP 403 is resolved for the tested public GET routes on 2026-11-25; see `DATA_COVERAGE.json`. No credentials, authenticated flow, private endpoint, server or legacy executable was used.
+
+## Owner production directive — 2026-11-25
+See `docs/PRODUCTION_POLICY.md`. Existing zero-import counts and source-rights findings above are historical observations, not an instruction to stop integrating independent factual mechanics. Refactor the adapter to permit documented independent factual parameters without invented license evidence; keep protected material fail-closed. Update actual coverage only after integration and tests. No source permission or runtime import is newly verified by this documentation change.
