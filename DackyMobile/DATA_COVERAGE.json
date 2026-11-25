@@ -1631,6 +1631,174 @@
           ],
           "fullMechanicsParity": false,
           "note": "ID/name fields only; different versions and the 18/200 ID delta do not establish mechanics parity."
+        },
+        "troops": {
+          "status": "FIELD_LEVEL_ID_AND_STAT_COMPARISON",
+          "mobileSourceVersion": "Mobile catalog v5d78c226cb",
+          "mobileSourceTable": "binh-chung",
+          "legacySourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+          "legacySourceTable": "147-soldierinfo",
+          "mobileRecordsCompared": 25,
+          "legacyRecordsCompared": 39,
+          "sharedIds": 24,
+          "idsOnlyInMobile": [
+            "1051"
+          ],
+          "idsOnlyInLegacy": [
+            "1060",
+            "1061",
+            "1062",
+            "1070",
+            "1071",
+            "1072",
+            "1073",
+            "1080",
+            "1081",
+            "1082",
+            "1083",
+            "1090",
+            "1091",
+            "1092",
+            "1093"
+          ],
+          "fieldComparisons": [
+            {
+              "mobileField": "name",
+              "mobileSourceField": "muc[1].t",
+              "legacyField": "Name",
+              "comparedRecords": 24,
+              "sameValueRecords": 4,
+              "differentValueRecords": 20,
+              "differentIds": [
+                "1000",
+                "1001",
+                "1003",
+                "1010",
+                "1011",
+                "1013",
+                "1020",
+                "1021",
+                "1023",
+                "1030",
+                "1031",
+                "1033",
+                "1040",
+                "1041",
+                "1042",
+                "1043",
+                "1050",
+                "1052",
+                "1053",
+                "1063"
+              ]
+            },
+            {
+              "mobileField": "attack",
+              "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+              "legacyField": "Att",
+              "comparedRecords": 24,
+              "sameValueRecords": 22,
+              "differentValueRecords": 2,
+              "differentIds": [
+                "1052",
+                "1063"
+              ]
+            },
+            {
+              "mobileField": "defense",
+              "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+              "legacyField": "Def",
+              "comparedRecords": 24,
+              "sameValueRecords": 23,
+              "differentValueRecords": 1,
+              "differentIds": [
+                "1063"
+              ]
+            },
+            {
+              "mobileField": "speed",
+              "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+              "legacyField": "Speed",
+              "comparedRecords": 24,
+              "sameValueRecords": 24,
+              "differentValueRecords": 0,
+              "differentIds": []
+            },
+            {
+              "mobileField": "mobileLife",
+              "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+              "legacyField": "Life",
+              "comparedRecords": 24,
+              "sameValueRecords": 23,
+              "differentValueRecords": 1,
+              "differentIds": [
+                "1063"
+              ]
+            },
+            {
+              "mobileField": "mobileCarry",
+              "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+              "legacyField": "Heft",
+              "comparedRecords": 24,
+              "sameValueRecords": 24,
+              "differentValueRecords": 0,
+              "differentIds": []
+            },
+            {
+              "mobileField": "mobileUpkeep",
+              "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+              "legacyField": "Pay",
+              "comparedRecords": 24,
+              "sameValueRecords": 24,
+              "differentValueRecords": 0,
+              "differentIds": []
+            },
+            {
+              "mobileField": "mobilePopulation",
+              "mobileSourceField": "muc[1].d[k=cs,t=Thông tin]",
+              "legacyField": "Population",
+              "comparedRecords": 24,
+              "sameValueRecords": 24,
+              "differentValueRecords": 0,
+              "differentIds": []
+            }
+          ],
+          "alternateLegacyTable": {
+            "status": "SAME_COMMIT_ALTERNATE_TABLE_DELTA",
+            "tableA": "147-soldierinfo",
+            "tableB": "soldierinfo",
+            "recordsA": 39,
+            "recordsB": 40,
+            "sharedIds": 36,
+            "changedRecords": 33,
+            "fieldsWithDifferences": {
+              "Describe": 33,
+              "Camp": 13,
+              "Name": 25,
+              "Def": 1,
+              "Att": 1,
+              "TrainSpendMinute": 1,
+              "TrainSpendSecond": 1,
+              "Life": 1
+            },
+            "fieldsOnlyIn147": [],
+            "fieldsOnlyInSoldierinfo": [
+              "notNPC"
+            ],
+            "idsOnlyIn147": [
+              "1060",
+              "1061",
+              "1062"
+            ],
+            "idsOnlyInSoldierinfo": [
+              "1100",
+              "1101",
+              "1102",
+              "1103"
+            ]
+          },
+          "preferredRuntimeVersion": "Mobile facts remain active for mapped records; legacy values stay in their version namespace where field values conflict.",
+          "parityClaim": false
         }
       },
       "contentFieldDiff": "NOT_ESTABLISHED; versions and field semantics remain incompletely mapped",
@@ -1890,6 +2058,174 @@
         ],
         "fullMechanicsParity": false,
         "note": "ID/name fields only; different versions and the 18/200 ID delta do not establish mechanics parity."
+      },
+      "troops": {
+        "status": "FIELD_LEVEL_ID_AND_STAT_COMPARISON",
+        "mobileSourceVersion": "Mobile catalog v5d78c226cb",
+        "mobileSourceTable": "binh-chung",
+        "legacySourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+        "legacySourceTable": "147-soldierinfo",
+        "mobileRecordsCompared": 25,
+        "legacyRecordsCompared": 39,
+        "sharedIds": 24,
+        "idsOnlyInMobile": [
+          "1051"
+        ],
+        "idsOnlyInLegacy": [
+          "1060",
+          "1061",
+          "1062",
+          "1070",
+          "1071",
+          "1072",
+          "1073",
+          "1080",
+          "1081",
+          "1082",
+          "1083",
+          "1090",
+          "1091",
+          "1092",
+          "1093"
+        ],
+        "fieldComparisons": [
+          {
+            "mobileField": "name",
+            "mobileSourceField": "muc[1].t",
+            "legacyField": "Name",
+            "comparedRecords": 24,
+            "sameValueRecords": 4,
+            "differentValueRecords": 20,
+            "differentIds": [
+              "1000",
+              "1001",
+              "1003",
+              "1010",
+              "1011",
+              "1013",
+              "1020",
+              "1021",
+              "1023",
+              "1030",
+              "1031",
+              "1033",
+              "1040",
+              "1041",
+              "1042",
+              "1043",
+              "1050",
+              "1052",
+              "1053",
+              "1063"
+            ]
+          },
+          {
+            "mobileField": "attack",
+            "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+            "legacyField": "Att",
+            "comparedRecords": 24,
+            "sameValueRecords": 22,
+            "differentValueRecords": 2,
+            "differentIds": [
+              "1052",
+              "1063"
+            ]
+          },
+          {
+            "mobileField": "defense",
+            "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+            "legacyField": "Def",
+            "comparedRecords": 24,
+            "sameValueRecords": 23,
+            "differentValueRecords": 1,
+            "differentIds": [
+              "1063"
+            ]
+          },
+          {
+            "mobileField": "speed",
+            "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+            "legacyField": "Speed",
+            "comparedRecords": 24,
+            "sameValueRecords": 24,
+            "differentValueRecords": 0,
+            "differentIds": []
+          },
+          {
+            "mobileField": "mobileLife",
+            "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+            "legacyField": "Life",
+            "comparedRecords": 24,
+            "sameValueRecords": 23,
+            "differentValueRecords": 1,
+            "differentIds": [
+              "1063"
+            ]
+          },
+          {
+            "mobileField": "mobileCarry",
+            "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+            "legacyField": "Heft",
+            "comparedRecords": 24,
+            "sameValueRecords": 24,
+            "differentValueRecords": 0,
+            "differentIds": []
+          },
+          {
+            "mobileField": "mobileUpkeep",
+            "mobileSourceField": "muc[1].d[k=cs,t=Chỉ số]",
+            "legacyField": "Pay",
+            "comparedRecords": 24,
+            "sameValueRecords": 24,
+            "differentValueRecords": 0,
+            "differentIds": []
+          },
+          {
+            "mobileField": "mobilePopulation",
+            "mobileSourceField": "muc[1].d[k=cs,t=Thông tin]",
+            "legacyField": "Population",
+            "comparedRecords": 24,
+            "sameValueRecords": 24,
+            "differentValueRecords": 0,
+            "differentIds": []
+          }
+        ],
+        "alternateLegacyTable": {
+          "status": "SAME_COMMIT_ALTERNATE_TABLE_DELTA",
+          "tableA": "147-soldierinfo",
+          "tableB": "soldierinfo",
+          "recordsA": 39,
+          "recordsB": 40,
+          "sharedIds": 36,
+          "changedRecords": 33,
+          "fieldsWithDifferences": {
+            "Describe": 33,
+            "Camp": 13,
+            "Name": 25,
+            "Def": 1,
+            "Att": 1,
+            "TrainSpendMinute": 1,
+            "TrainSpendSecond": 1,
+            "Life": 1
+          },
+          "fieldsOnlyIn147": [],
+          "fieldsOnlyInSoldierinfo": [
+            "notNPC"
+          ],
+          "idsOnlyIn147": [
+            "1060",
+            "1061",
+            "1062"
+          ],
+          "idsOnlyInSoldierinfo": [
+            "1100",
+            "1101",
+            "1102",
+            "1103"
+          ]
+        },
+        "preferredRuntimeVersion": "Mobile facts remain active for mapped records; legacy values stay in their version namespace where field values conflict.",
+        "parityClaim": false
       }
     },
     "contentFieldDiff": "NOT_ESTABLISHED; versions and field semantics remain incompletely mapped",

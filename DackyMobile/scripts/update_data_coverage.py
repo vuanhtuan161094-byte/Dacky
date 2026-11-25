@@ -21,6 +21,8 @@ MOBILE_TECH_DATA = PRIVATE / "mobile_reference" / "khoa-ky.json"
 LEGACY_TECH_DATA = PRIVATE / "normalized_legacy" / "technologyinfo.json"
 LEGACY_BUILD_DATA = PRIVATE / "normalized_legacy" / "buildinfo.json"
 MOBILE_BUILD_DATA = PRIVATE / "mobile_reference" / "cong-trinh.json"
+LEGACY_MOBILE_TROOPS = PRIVATE / "normalized_legacy" / "147-soldierinfo.json"
+LEGACY_TROOPS = PRIVATE / "normalized_legacy" / "soldierinfo.json"
 NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
 LEGACY_QUEST_SOURCE_DATA = ROOT / "src" / "legacy-quest-catalog.js"
@@ -313,6 +315,104 @@ def building_version_comparison():
     }
 
 
+def troop_version_comparison():
+    legacy_payload = load_json(LEGACY_MOBILE_TROOPS)
+    legacy_alternate = load_json(LEGACY_TROOPS)
+    if not legacy_payload:
+        return None
+    mobile_facts = runtime_mobile_facts().get("troops", {})
+    legacy_rows = {
+        str(row.get("SoldierID")): row
+        for row in legacy_payload.get("records", [])
+        if row.get("SoldierID") is not None
+    }
+    mobile_by_id = {
+        str(fields.get("mobileSourceId", {}).get("value")): fields
+        for fields in mobile_facts.values()
+        if fields.get("mobileSourceId", {}).get("value") is not None
+    }
+    shared = sorted(legacy_rows.keys() & mobile_by_id.keys(), key=lambda value: int(value))
+    field_pairs = {
+        "name": "Name", "attack": "Att", "defense": "Def", "speed": "Speed",
+        "mobileLife": "Life", "mobileCarry": "Heft", "mobileUpkeep": "Pay",
+        "mobilePopulation": "Population",
+    }
+    field_comparisons = []
+    for mobile_field, legacy_field in field_pairs.items():
+        different_ids = [
+            source_id for source_id in shared
+            if mobile_by_id[source_id].get(mobile_field, {}).get("value") != legacy_rows[source_id].get(legacy_field)
+        ]
+        provenance = next((
+            mobile_by_id[source_id][mobile_field].get("provenance", {})
+            for source_id in shared
+            if mobile_field in mobile_by_id[source_id]
+        ), {})
+        field_comparisons.append({
+            "mobileField": mobile_field,
+            "mobileSourceField": provenance.get("sourceField"),
+            "legacyField": legacy_field,
+            "comparedRecords": len(shared),
+            "sameValueRecords": len(shared) - len(different_ids),
+            "differentValueRecords": len(different_ids),
+            "differentIds": different_ids,
+        })
+
+    alternate_delta = None
+    if legacy_alternate:
+        legacy_schema_fields = {
+            field.get("name") for field in legacy_payload.get("schema", []) if field.get("name")
+        }
+        alternate_schema_fields = {
+            field.get("name") for field in legacy_alternate.get("schema", []) if field.get("name")
+        }
+        alternate_rows = {
+            str(row.get("SoldierID")): row
+            for row in legacy_alternate.get("records", [])
+            if row.get("SoldierID") is not None
+        }
+        alternate_shared = legacy_rows.keys() & alternate_rows.keys()
+        field_delta_counts = {}
+        changed_records = set()
+        for source_id in alternate_shared:
+            for field in legacy_rows[source_id].keys() & alternate_rows[source_id].keys():
+                if field in {"provenance", "raw"}:
+                    continue
+                if legacy_rows[source_id].get(field) != alternate_rows[source_id].get(field):
+                    field_delta_counts[field] = field_delta_counts.get(field, 0) + 1
+                    changed_records.add(source_id)
+        alternate_delta = {
+            "status": "SAME_COMMIT_ALTERNATE_TABLE_DELTA",
+            "tableA": "147-soldierinfo",
+            "tableB": "soldierinfo",
+            "recordsA": len(legacy_rows),
+            "recordsB": len(alternate_rows),
+            "sharedIds": len(alternate_shared),
+            "changedRecords": len(changed_records),
+            "fieldsWithDifferences": field_delta_counts,
+            "fieldsOnlyIn147": sorted(legacy_schema_fields - alternate_schema_fields),
+            "fieldsOnlyInSoldierinfo": sorted(alternate_schema_fields - legacy_schema_fields),
+            "idsOnlyIn147": sorted(legacy_rows.keys() - alternate_rows.keys(), key=lambda value: int(value)),
+            "idsOnlyInSoldierinfo": sorted(alternate_rows.keys() - legacy_rows.keys(), key=lambda value: int(value)),
+        }
+    return {
+        "status": "FIELD_LEVEL_ID_AND_STAT_COMPARISON",
+        "mobileSourceVersion": "Mobile catalog v5d78c226cb",
+        "mobileSourceTable": "binh-chung",
+        "legacySourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+        "legacySourceTable": "147-soldierinfo",
+        "mobileRecordsCompared": len(mobile_by_id),
+        "legacyRecordsCompared": len(legacy_rows),
+        "sharedIds": len(shared),
+        "idsOnlyInMobile": sorted(mobile_by_id.keys() - legacy_rows.keys(), key=lambda value: int(value)),
+        "idsOnlyInLegacy": sorted(legacy_rows.keys() - mobile_by_id.keys(), key=lambda value: int(value)),
+        "fieldComparisons": field_comparisons,
+        "alternateLegacyTable": alternate_delta,
+        "preferredRuntimeVersion": "Mobile facts remain active for mapped records; legacy values stay in their version namespace where field values conflict.",
+        "parityClaim": False,
+    }
+
+
 def count_comparison(legacy_manifest, mobile_manifest):
     if not legacy_manifest or not mobile_manifest:
         return None
@@ -366,6 +466,7 @@ def count_comparison(legacy_manifest, mobile_manifest):
         "comparisons": comparisons,
         "fieldComparisons": {
             "buildings": building_version_comparison(),
+            "troops": troop_version_comparison(),
         },
         "contentFieldDiff": "NOT_ESTABLISHED; versions and field semantics remain incompletely mapped",
         "parityClaim": False,
