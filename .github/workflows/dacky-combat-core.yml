@@ -5,6 +5,9 @@ on:
     paths:
       - 'DackyMobile/src/combat/**'
       - 'DackyMobile/src/engine.js'
+      - 'DackyMobile/src/gameplay-p15.js'
+      - 'DackyMobile/src/catalog.js'
+      - 'DackyMobile/scripts/gameplay-coverage-p20.mjs'
       - 'DackyMobile/src/ui.js'
       - 'DackyMobile/src/main.js'
       - 'DackyMobile/src/store.js'
@@ -39,6 +42,8 @@ jobs:
           node scripts/build-combat-review.mjs
       - name: Full catalog balance sweep
         run: node scripts/combat-balance-v12.mjs
+      - name: Source-to-gameplay coverage P20
+        run: node scripts/gameplay-coverage-p20.mjs
       - name: Chrome offline review smoke
         run: |
           google-chrome --headless --no-sandbox --disable-dev-shm-usage --dump-dom "file://$PWD/combat-review-dist/offline.html?smoke=1" > /tmp/dacky-review-dom.html

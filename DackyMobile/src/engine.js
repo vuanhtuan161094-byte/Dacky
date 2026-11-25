@@ -1,6 +1,6 @@
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
-import { populationCapacity,trainingSourceQuote,questQuote,claimSourceQuest,itemUseRule,normalizeGameplay,trackAction,castWorldSpell,cityEffects } from './gameplay-p15.js';
+import { populationCapacity,trainingSourceQuote,questQuote,claimSourceQuest,itemUseRule,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,equipmentSlot } from './gameplay-p15.js';
 import { createProductCombat } from './combat/product-v13.js';
 
 export const SAVE_VERSION = 2;
@@ -98,6 +98,7 @@ export function migrateSave(input, now = Date.now()) {
       armor: ITEMS.some(i=>i.id===gear.armor&&i.type==='giáp')?gear.armor:null,
       artifact: ITEMS.some(i=>i.id===gear.artifact&&i.type==='pháp bảo')?gear.artifact:null
     };
+    for(const slot of ['helmet','belt','boots','gloves','relic','relic2','mount'])if(gear[slot]&&ITEMS.some(i=>i.id===gear[slot]&&equipmentSlot(i)===slot))h.equipment[slot]=gear[slot];
     return h;
   });
   s.items = Array.isArray(s.items) ? s.items.filter(id => ITEMS.some(item => item.id === id)).slice(0, 500) : [];
@@ -206,7 +207,7 @@ export function productionPerHour(state) {
     gold: (10 + lv.market * 25 + satelliteLevels*8 + Math.floor(state.population * (0.035 + lv.citadel * 0.002)) * bonus('gold')) * TAX_POLICIES[state.taxPolicy||'balanced'].income,
     jade: 0.12 + lv.altar * 0.12 + lv.manor * 0.025
   };
-  return Object.fromEntries(Object.entries(out).map(([k,v])=>[k,v*multiplier]));
+  return Object.fromEntries(Object.entries(out).map(([k,v])=>[k,v*multiplier*(1+(state.settings?.combatV13?itemBuff(state,k,state.lastTickAt??0):0))]));
 }
 
 export function storageCapacity(state) {
@@ -957,7 +958,8 @@ export function doAction(state, action, now = Date.now()) {
       if (quote.maxed) throw new Error('Công trình đã đạt cấp tối đa.');
       if(quote.requirementStatus==='LOCKED')throw new Error(`Chưa đạt điều kiện Mobile: ${quote.unmetRequirements.join(', ')}.`);
       if (quote.cityLocked) throw new Error(`Cần Tử Vi Thành cấp ${Math.max(1,Math.ceil(nextLevel/2))}.`);
-      const cost = quote.cost;
+      let cost = quote.cost;
+      if(s.settings.combatV13){const buffs=(s.gameplay.itemBuffs??[]).filter(b=>b.key==='buildCost'&&b.expiresAt>now&&nextLevel<=b.levelCap);const rate=Math.max(0,...buffs.map(b=>b.ratio));cost=Object.fromEntries(Object.entries(cost).map(([k,v])=>[k,Math.ceil(v*(1-rate))]));}
       debit(s, cost);
       const techSpeed = 1 + (s.technologies['tech-08'] || 0) * technologyRate('tech-08',0.025);
       s.queues.construction = { buildingId: b.id, level: nextLevel, cost, startAt: now, finishAt: now + b.seconds * Math.pow(nextLevel, 1.2) * 1000 / techSpeed };
@@ -1023,7 +1025,7 @@ export function doAction(state, action, now = Date.now()) {
         const occupation=HEROES.find(def=>def.id===hero.id)?.mobileOccupation;
         if(!occupation||occupation!==item.mobileOccupation)throw new Error(`Trang bị này dành cho nghề ${item.mobileOccupation}; nghề thần tiên hiện tại ${occupation||'UNKNOWN'}.`);
       }
-      const slot = item.type === 'vũ khí' ? 'weapon' : item.type === 'giáp' ? 'armor' : 'artifact';
+      const slot = s.settings.combatV13?equipmentSlot(item):item.type === 'vũ khí' ? 'weapon' : item.type === 'giáp' ? 'armor' : 'artifact';
       if (hero.equipment[slot]) s.items.push(hero.equipment[slot]);
       hero.equipment[slot] = item.id;
       s.items.splice(itemIndex, 1);
@@ -1039,7 +1041,7 @@ export function doAction(state, action, now = Date.now()) {
       if (hero.level >= 60&&hero.affinity>=100) throw new Error('Thần tiên đã đạt cấp và linh căn tối đa mô phỏng.');
       const cost = { food: 65 * hero.level, gold: 85 * hero.level };
       debit(s, cost);
-      const levels=hero.level<60?awardHeroXp(hero,80+hero.level*16):0;
+      const levels=hero.level<60?awardHeroXp(hero,Math.floor((80+hero.level*16)*(1+itemBuff(s,'heroXp',now)))):0;
       awardHeroAffinity(hero,3);
       note(s, `${HEROES.find(def => def.id === hero.id)?.name} đã tu luyện${levels?` và tăng ${levels} cấp`:''} · cấp ${hero.level} · linh căn ${hero.affinity}/100${levels&&hero.level%4===0?` · kỹ năng ${hero.skillLevel}`:''}.`);
       break;
@@ -1073,6 +1075,9 @@ export function doAction(state, action, now = Date.now()) {
       const item = ITEMS.find(i => i.id === action.itemId);
       if (itemIndex < 0 || !item || item.type !== 'vật phẩm') throw new Error('Không thể sử dụng vật phẩm này.');
       const effect=item.useEffect??(s.settings.combatV13?itemUseRule(item):null);
+      if(effect?.kind==='queueSpeedup'){const q=s.queues[effect.queue];if(!q||effect.building&&q.buildingId!==effect.building||effect.once&&q.sourceSpeedupUsed)throw Error('Không có hàng đợi phù hợp hoặc đã dùng tăng tốc');q.finishAt=Math.max(now,effect.once?now+(q.finishAt-now)*(1-effect.amount):q.finishAt-effect.amount*1000);if(effect.once)q.sourceSpeedupUsed=true;s.items.splice(itemIndex,1);completeQueue(s,effect.queue,now);break;}
+      if(effect?.kind==='timedBuff'){const list=s.gameplay.itemBuffs,previous=list.find(x=>x.key===effect.key&&x.levelCap===effect.levelCap);if(previous)previous.expiresAt=Math.max(previous.expiresAt,now)+effect.seconds*1000;else list.push({key:effect.key,ratio:effect.ratio,levelCap:effect.levelCap,expiresAt:now+effect.seconds*1000});s.items.splice(itemIndex,1);break;}
+      if(effect?.kind==='resourcePack'){credit(s,Object.fromEntries(['food','timber','stone','iron'].map(k=>[k,effect.amount])));s.items.splice(itemIndex,1);break;}
       if(effect?.kind==='matrix'){const h=s.heroes.find(x=>x.id===action.heroId)||s.heroes.find(x=>x.assigned);if(!h||s.queues.march)throw Error('Chọn thần tiên đang nghỉ');h.matrices=[...new Set(h.matrices??[])];if(h.matrices.includes(item.id))throw Error('Ma trận đã mở');h.matrices.push(item.id);h.activeMatrix=item.id;s.items.splice(itemIndex,1);note(s,'Đã mở Ma trận '+item.name);break;}
       if(!effect)throw new Error('Hiệu ứng của vật phẩm nguồn chưa được mô hình hóa; xem hồ sơ Mobile để biết dữ kiện đã xác minh.');
       if(effect.kind==='mobileChest')openMobileChest(s,item,now);
