@@ -29,11 +29,11 @@ export function chooseArmyArtifact(index,side,enemy,policy=ARMY_POLICY){
  const choices=(side.equippedArtifactIds||[]).map(String).map(id=>index.artifacts[id]).filter(a=>a?.status==='MAPPED'&&canEquip(a,hero,{level:side.level,ownedArtifactIds:side.ownedArtifactIds}).ok&&(a.manaCost??policy.unknownManaCost??Infinity)<=side.mana);
  const score=a=>a.ops.reduce((n,o)=>{
   if(o.condition==='enemyAtLeastTwiceOwn'&&enemy.troops<2*side.troops)return n;
-  if(o.condition==='equippedCompanion'&&!side.equippedArtifactIds.includes(o.artifactId))return n;
+  if(o.condition==='equippedCompanion'&&(side.heroId!==o.heroId||!side.equippedArtifactIds.includes(o.artifactId)||!canEquip(index.artifacts[o.artifactId],hero,{level:side.level,ownedArtifactIds:side.ownedArtifactIds}).ok))return n;
   if(o.kind==='troopRecover')return n+Math.min(side.initialTroops-side.troops,side.troops*o.ratio)/Math.max(1,side.initialTroops)*5;
   if(o.kind==='troopLoss')return n+o.ratio*3;
-  if(o.kind==='modifier')return n+Math.abs(o.ratio)*1.5;
-  if(o.kind==='cancelArtifact')return n+((enemy.equippedArtifactIds||[]).length?.8:.05);
+  if(o.kind==='modifier')return n+Math.abs(o.ratio)*1.5*(policy.enableTacticsV10&&o.stat==='defense'&&side.troops<enemy.troops?1.3:1);
+  if(o.kind==='cancelArtifact'){const threat=(enemy.equippedArtifactIds||[]).some(id=>{const x=index.artifacts[id];return x?.status==='MAPPED'&&canEquip(x,index.heroes[enemy.heroId],{level:enemy.level,ownedArtifactIds:enemy.ownedArtifactIds}).ok&&(x.manaCost??policy.unknownManaCost??Infinity)<=enemy.mana;});return n+(threat?.8:.05);}
   if(o.kind==='blockAttack'||o.kind==='floorOne')return n+(side.troops<enemy.troops*.5?1:.08);
   if(o.kind==='reflectLethal')return n+(side.troops<enemy.troops*.3?.9:-1);
   if(o.kind==='convert')return n-.4;if(o.kind==='skipAttack')return n-.3;
