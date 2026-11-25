@@ -4,12 +4,12 @@
   "gameplayVersion": "dacky-mobile-sim-v1",
   "evidenceStatus": {
     "verifiedMobileRecords": 2656,
-    "verifiedLegacyRecordsImported": 6943,
+    "verifiedLegacyRecordsImported": 7080,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
     "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 35,947 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     "fieldScopedMobileFieldsInGameplay": 35947,
-    "runtimeCatalogRecords": 10384,
-    "fieldScopedLegacyFieldsImported": 87434
+    "runtimeCatalogRecords": 10521,
+    "fieldScopedLegacyFieldsImported": 88384
   },
   "references": {
     "publicMobile": [
@@ -218,6 +218,32 @@
       "conditionSourceTable": "questcondition",
       "activeConditionRules": 0,
       "rewardStatus": "UNKNOWN_NO_REWARD_FIELDS_IN_IMPORTED_TABLES"
+    },
+    {
+      "domain": "legacyBuzhouReference",
+      "records": 137,
+      "status": "VERIFIED_LEGACY_REFERENCE",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "sourceTables": [
+        "buzhoumountainconfig",
+        "buzhoumountainfloorconfig",
+        "buzhoumountaingeneralconfig",
+        "buzhoumountainfightgetgoodscfginfo",
+        "buzhoumountainfightgetzhuangbeicfginfo"
+      ],
+      "floorCount": 5,
+      "formationCount": 90,
+      "formationFloorIds": [
+        4,
+        5
+      ],
+      "rewardReferenceCount": 10,
+      "equipmentRuleCount": 27,
+      "fieldValueCount": 950,
+      "combatStatus": "REFERENCE_ONLY_CURRENT_FALLBACK_UNCHANGED",
+      "activeSourceDamageOrRewards": false,
+      "rewardStatus": "UNKNOWN_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED",
+      "equipmentRuleStatus": "UNKNOWN_RAW_RANDOM_RULES_REFERENCE_ONLY"
     }
   ],
   "runtimeMechanics": {
@@ -511,12 +537,27 @@
       "unsupportedWorkshopNamedId": "22",
       "unsupportedWorkshopStatus": "UNKNOWN",
       "versionScoped": true
+    },
+    "buzhouEndgame": {
+      "status": "MIXED",
+      "sourceFloors": 5,
+      "sourceNamedFormationStacks": 90,
+      "formationFloorIds": [
+        4,
+        5
+      ],
+      "sourceRewardReferences": 10,
+      "sourceEquipmentRuleRows": 27,
+      "activeSourceDamageOrRewards": false,
+      "combatStatus": "CURRENT_DUEL_FALLBACK_UNCHANGED",
+      "rewardStatus": "UNKNOWN_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED",
+      "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88"
     }
   },
   "notImported": [
     {
-      "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndPartiallyMappedTroopTraining",
-      "reason": "Quest descriptions and 5,745 condition rows are bundled as versioned references, but condition-code semantics and reward fields are unavailable/UNKNOWN. Troop requirements are mapped only where legacy IDs and runtime buildings/technologies align; other legacy fields still need gameplay-semantic mapping before they can affect progression."
+      "domain": "legacyGameplayFieldsExceptQuestAndBuzhouReferencesAndPartiallyMappedTroopTraining",
+      "reason": "Quest and Buzhou source records are bundled as versioned references. Quest condition-code semantics/rewards, Buzhou random loot syntax and unlinked legacy fields remain UNKNOWN. Troop requirements are mapped only where legacy IDs and runtime buildings/technologies align; other fields need gameplay-semantic mapping before affecting progression."
     },
     {
       "domain": "mobilePublicCatalogFields",
@@ -549,6 +590,11 @@
       "decodedSchemaFieldCount": 613,
       "runtimeImportedRecordCount": 1158,
       "runtimeImportedTables": [
+        "buzhoumountainconfig",
+        "buzhoumountainfightgetgoodscfginfo",
+        "buzhoumountainfightgetzhuangbeicfginfo",
+        "buzhoumountainfloorconfig",
+        "buzhoumountaingeneralconfig",
         "quest",
         "questcondition"
       ],
@@ -1260,6 +1306,15 @@
           "holdReason": "unsupported/deleted/chained block type 253 at 0"
         }
       },
+      "runtimeImportedBuzhouTables": [
+        "buzhoumountainconfig",
+        "buzhoumountainfloorconfig",
+        "buzhoumountaingeneralconfig",
+        "buzhoumountainfightgetgoodscfginfo",
+        "buzhoumountainfightgetzhuangbeicfginfo"
+      ],
+      "runtimeImportedBuzhouRecordCount": 137,
+      "runtimeImportedBuzhouFieldValueCount": 950,
       "supplementalRuntimeImports": {
         "147-soldierinfo.trainingTime": {
           "records": 24,
@@ -1350,6 +1405,91 @@
         },
         "parityClaim": false
       }
+    },
+    "legacyBuzhouRuntime": {
+      "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "floorCount": 5,
+      "formationCount": 90,
+      "formationFloorIds": [
+        4,
+        5
+      ],
+      "rewardReferenceCount": 10,
+      "equipmentRuleCount": 27,
+      "recordCount": 137,
+      "fieldValueCount": 950,
+      "tables": {
+        "mountain": {
+          "sourceTable": "buzhoumountainconfig",
+          "recordCount": 5,
+          "fields": [
+            "MountainID",
+            "FloorCnt",
+            "Describe"
+          ]
+        },
+        "floors": {
+          "sourceTable": "buzhoumountainfloorconfig",
+          "recordCount": 5,
+          "fields": [
+            "MountainID",
+            "FloorID",
+            "FloorName",
+            "FloorDescribe",
+            "IsFight",
+            "GeneralMinLevel",
+            "GeneralMaxLevel",
+            "GeneralLeadPopulation",
+            "GeneralMinNum",
+            "GeneralMaxNum"
+          ]
+        },
+        "formations": {
+          "sourceTable": "buzhoumountaingeneralconfig",
+          "recordCount": 90,
+          "fields": [
+            "MountainID",
+            "FloorID",
+            "GeneralName",
+            "LeadSoldierID",
+            "LeadSoldierNum"
+          ]
+        },
+        "rewards": {
+          "sourceTable": "buzhoumountainfightgetgoodscfginfo",
+          "recordCount": 10,
+          "fields": [
+            "CfgClass",
+            "buzhouMountainFloor",
+            "goodsId"
+          ]
+        },
+        "equipment": {
+          "sourceTable": "buzhoumountainfightgetzhuangbeicfginfo",
+          "recordCount": 27,
+          "fields": [
+            "CfgClass",
+            "buzhouMountainFloor",
+            "RandBaseNum",
+            "OpenMinNum",
+            "OpenMaxNum",
+            "RdmInfo1",
+            "RdmInfo2",
+            "RdmInfo3",
+            "RdmInfo4",
+            "RdmInfo5",
+            "RdmInfo6",
+            "RdmInfo7",
+            "RdmInfo8",
+            "RdmInfo9",
+            "RdmInfo10"
+          ]
+        }
+      },
+      "combatStatus": "REFERENCE_ONLY_CURRENT_FALLBACK_UNCHANGED",
+      "activeSourceDamageOrRewards": false,
+      "rewardStatus": "UNKNOWN_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED"
     },
     "legacyTroopTrainingTime": {
       "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88",
@@ -1935,12 +2075,12 @@
             "changedRecords": 33,
             "fieldsWithDifferences": {
               "Name": 25,
-              "Describe": 33,
               "Camp": 13,
-              "TrainSpendMinute": 1,
-              "Life": 1,
+              "Describe": 33,
               "Att": 1,
+              "TrainSpendMinute": 1,
               "TrainSpendSecond": 1,
+              "Life": 1,
               "Def": 1
             },
             "fieldsOnlyIn147": [],
@@ -2362,12 +2502,12 @@
           "changedRecords": 33,
           "fieldsWithDifferences": {
             "Name": 25,
-            "Describe": 33,
             "Camp": 13,
-            "TrainSpendMinute": 1,
-            "Life": 1,
+            "Describe": 33,
             "Att": 1,
+            "TrainSpendMinute": 1,
             "TrainSpendSecond": 1,
+            "Life": 1,
             "Def": 1
           },
           "fieldsOnlyIn147": [],

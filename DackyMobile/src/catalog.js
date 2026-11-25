@@ -3,10 +3,11 @@ import { APPROVED_SOURCE_FACTS, SOURCE_REUSE_DECISION } from './approved-source-
 import { applyApprovedSourceFields } from './source-adapter.js';
 import { MOBILE_SOURCE_DATABASE } from './mobile-source-catalog.js';
 import { LEGACY_QUEST_SOURCE, LEGACY_QUESTS } from './legacy-quest-catalog.js';
+import { LEGACY_BUZHOU_SOURCE, LEGACY_BUZHOU_MOUNTAIN_CONFIG, LEGACY_BUZHOU_FLOOR_CONFIG, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_EQUIPMENT_RULES } from './legacy-buzhou-catalog.js';
 import { LEGACY_TROOP_TIME_FACTS } from './legacy-troop-time-catalog.js';
 import { LEGACY_TROOP_REQUIREMENT_FACTS, LEGACY_TROOP_REQUIREMENT_SOURCE } from './legacy-troop-requirement-catalog.js';
 
-export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, LEGACY_TROOP_REQUIREMENT_SOURCE, MOBILE_SOURCE_DATABASE };
+export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, LEGACY_BUZHOU_SOURCE, LEGACY_BUZHOU_MOUNTAIN_CONFIG, LEGACY_BUZHOU_FLOOR_CONFIG, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_EQUIPMENT_RULES, LEGACY_TROOP_REQUIREMENT_SOURCE, MOBILE_SOURCE_DATABASE };
 
 const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
   rows,
@@ -334,10 +335,10 @@ export const IMMORTAL_MOUNTAINS=Object.freeze(adaptSourceFacts('immortalMountain
   evidence:'SIMULATED'
 }))));
 
-// A local gameplay cap, chosen for this simulation. It is unrelated to the
-// 8,992 legacy elfland-floor rows below; no source floor count is verified.
+// Legacy config verifies these five Buzhou floors. Combat and reward simulation
+// remains local; this source roster is exposed only as an integration reference.
 export const TOWER_FLOORS = 9999;
-export const BUZHOU_FLOORS = 5;
+export const BUZHOU_FLOORS = LEGACY_BUZHOU_FLOORS.length;
 export const LEGACY_REFERENCE_COUNTS = Object.freeze({
   legacy147Soldiers: 39,
   legacy147Items: 2155,

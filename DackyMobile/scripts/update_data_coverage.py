@@ -27,6 +27,7 @@ LEGACY_TROOPS = PRIVATE / "normalized_legacy" / "soldierinfo.json"
 NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
 LEGACY_QUEST_SOURCE_DATA = ROOT / "src" / "legacy-quest-catalog.js"
+LEGACY_BUZHOU_SOURCE_DATA = ROOT / "src" / "legacy-buzhou-catalog.js"
 LEGACY_TROOP_TIME_SOURCE_DATA = ROOT / "src" / "legacy-troop-time-catalog.js"
 LEGACY_TROOP_REQUIREMENT_SOURCE_DATA = ROOT / "src" / "legacy-troop-requirement-catalog.js"
 
@@ -115,6 +116,72 @@ def runtime_legacy_quests():
         "records": records,
         "conditionCount": condition_count,
         "conditionFieldValueCount": condition_field_count,
+    }
+
+
+def runtime_legacy_buzhou():
+    if not LEGACY_BUZHOU_SOURCE_DATA.exists():
+        return None
+    source = LEGACY_BUZHOU_SOURCE_DATA.read_text(encoding="utf-8")
+    exports = {
+        "metadata": "export const LEGACY_BUZHOU_SOURCE = Object.freeze(",
+        "mountain": "export const LEGACY_BUZHOU_MOUNTAIN_CONFIG = Object.freeze(",
+        "floorConfig": "export const LEGACY_BUZHOU_FLOOR_CONFIG = Object.freeze(",
+        "floors": "export const LEGACY_BUZHOU_FLOORS = Object.freeze(",
+        "formations": "export const LEGACY_BUZHOU_FORMATIONS = Object.freeze(",
+        "rewards": "export const LEGACY_BUZHOU_REWARDS = Object.freeze(",
+        "equipmentRules": "export const LEGACY_BUZHOU_EQUIPMENT_RULES = Object.freeze(",
+    }
+    positions = [(key, marker, source.find(marker)) for key, marker in exports.items()]
+    if any(position < 0 for _, _, position in positions):
+        missing = next(key for key, _, position in positions if position < 0)
+        raise ValueError(f"Could not parse generated legacy Buzhou export: {missing}")
+    parsed = {}
+    for index, (key, marker, marker_start) in enumerate(positions):
+        start = marker_start + len(marker)
+        boundary = positions[index + 1][2] if index + 1 < len(positions) else len(source)
+        end = source.rfind(");", start, boundary)
+        if end <= start:
+            raise ValueError(f"Generated legacy Buzhou export is incomplete: {key}")
+        parsed[key] = json.loads(source[start:end])
+    metadata = parsed["metadata"]
+    raw_counts = {
+        "mountain": len(parsed["mountain"]),
+        "floors": len(parsed["floorConfig"]),
+        "formations": len(parsed["formations"]),
+        "rewards": len(parsed["rewards"]),
+        "equipment": len(parsed["equipmentRules"]),
+    }
+    imported_records = sum(raw_counts.values())
+    imported_fields = sum(
+        raw_counts[key] * len(metadata.get("sourceTables", {}).get(key, {}).get("importedFields", []))
+        for key in raw_counts
+    )
+    if imported_records != metadata.get("importedRecordCount"):
+        raise ValueError("Legacy Buzhou table counts do not match adapter metadata")
+    if imported_fields != metadata.get("importedFieldValueCount"):
+        raise ValueError("Legacy Buzhou field count does not match adapter metadata")
+    if len(parsed["floors"]) != metadata.get("floorCount"):
+        raise ValueError("Legacy Buzhou floor count does not match adapter metadata")
+    if len(parsed["formations"]) != metadata.get("formationCount"):
+        raise ValueError("Legacy Buzhou formation count does not match adapter metadata")
+    if len(parsed["rewards"]) != metadata.get("rewardReferenceCount"):
+        raise ValueError("Legacy Buzhou reward-reference count does not match adapter metadata")
+    if len(parsed["equipmentRules"]) != metadata.get("equipmentRuleCount"):
+        raise ValueError("Legacy Buzhou equipment-rule count does not match adapter metadata")
+    for table_key in ("mountain", "floors", "formations", "rewards", "equipment"):
+        fields = metadata.get("sourceTables", {}).get(table_key, {}).get("importedFields", [])
+        if not fields or len(metadata.get("sourceTables", {}).get(table_key, {}).get("fieldSources", {})) != len(fields):
+            raise ValueError(f"Legacy Buzhou {table_key} provenance is incomplete")
+    return {
+        "metadata": metadata,
+        "mountain": parsed["mountain"],
+        "floors": parsed["floors"],
+        "formations": parsed["formations"],
+        "rewards": parsed["rewards"],
+        "equipmentRules": parsed["equipmentRules"],
+        "recordCount": imported_records,
+        "fieldValueCount": imported_fields,
     }
 
 
@@ -586,6 +653,7 @@ def main():
 
     legacy = legacy_inventory()
     legacy_quests = runtime_legacy_quests()
+    legacy_buzhou = runtime_legacy_buzhou()
     legacy_troop_times = runtime_legacy_troop_times()
     legacy_troop_requirements = runtime_legacy_troop_requirements()
     legacy_troop_time_field_count = sum(
@@ -594,6 +662,12 @@ def main():
     legacy_troop_requirement_field_count = sum(
         len(fields) for fields in legacy_troop_requirements["facts"].values()
     ) if legacy_troop_requirements else 0
+    if legacy and legacy_buzhou:
+        buzhou_tables = [table["sourceTable"] for table in legacy_buzhou["metadata"]["sourceTables"].values()]
+        legacy["runtimeImportedBuzhouTables"] = buzhou_tables
+        legacy["runtimeImportedBuzhouRecordCount"] = legacy_buzhou["recordCount"]
+        legacy["runtimeImportedBuzhouFieldValueCount"] = legacy_buzhou["fieldValueCount"]
+        legacy["runtimeImportedTables"] = sorted(set(legacy.get("runtimeImportedTables", []) + buzhou_tables))
     mobile = mobile_inventory()
     normalized = normalized_inventory()
     comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
@@ -756,6 +830,42 @@ def main():
             "rewardStatus": legacy_quests["metadata"]["rewardStatus"],
             "versionComparison": legacy_quests["metadata"]["versionComparison"],
         })
+    if legacy_buzhou:
+        buzhou_catalog = next((
+            item for item in coverage.get("runtimeCatalogs", [])
+            if item.get("domain") == "legacyBuzhouReference"
+        ), None)
+        if buzhou_catalog is None:
+            buzhou_catalog = {"domain": "legacyBuzhouReference"}
+            coverage.setdefault("runtimeCatalogs", []).append(buzhou_catalog)
+        buzhou_catalog.update({
+            "records": legacy_buzhou["recordCount"],
+            "status": "VERIFIED_LEGACY_REFERENCE",
+            "sourceCommit": legacy_buzhou["metadata"]["sourceCommit"],
+            "sourceTables": [table["sourceTable"] for table in legacy_buzhou["metadata"]["sourceTables"].values()],
+            "floorCount": legacy_buzhou["metadata"]["floorCount"],
+            "formationCount": legacy_buzhou["metadata"]["formationCount"],
+            "formationFloorIds": legacy_buzhou["metadata"]["formationFloorIds"],
+            "rewardReferenceCount": legacy_buzhou["metadata"]["rewardReferenceCount"],
+            "equipmentRuleCount": legacy_buzhou["metadata"]["equipmentRuleCount"],
+            "fieldValueCount": legacy_buzhou["fieldValueCount"],
+            "combatStatus": legacy_buzhou["metadata"]["combatStatus"],
+            "activeSourceDamageOrRewards": legacy_buzhou["metadata"]["activeSourceDamageOrRewards"],
+            "rewardStatus": legacy_buzhou["metadata"]["rewardStatus"],
+            "equipmentRuleStatus": legacy_buzhou["metadata"]["equipmentRuleStatus"],
+        })
+        coverage.setdefault("runtimeMechanics", {})["buzhouEndgame"] = {
+            "status": "MIXED",
+            "sourceFloors": legacy_buzhou["metadata"]["floorCount"],
+            "sourceNamedFormationStacks": legacy_buzhou["metadata"]["formationCount"],
+            "formationFloorIds": legacy_buzhou["metadata"]["formationFloorIds"],
+            "sourceRewardReferences": legacy_buzhou["metadata"]["rewardReferenceCount"],
+            "sourceEquipmentRuleRows": legacy_buzhou["metadata"]["equipmentRuleCount"],
+            "activeSourceDamageOrRewards": False,
+            "combatStatus": "CURRENT_DUEL_FALLBACK_UNCHANGED",
+            "rewardStatus": legacy_buzhou["metadata"]["rewardStatus"],
+            "sourceVersion": legacy_buzhou["metadata"]["sourceVersion"],
+        }
     if legacy and (legacy_troop_times or legacy_troop_requirements):
         legacy["supplementalRuntimeImports"] = {}
         if legacy_troop_times:
@@ -775,7 +885,7 @@ def main():
     coverage["updated"] = date.today().isoformat()
     coverage["evidenceStatus"].update({
         "verifiedMobileRecords": mobile["runtimeImportedRecordCount"] if mobile else 0,
-        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (legacy["runtimeImportedConditionRecordCount"] if legacy else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0) + (len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0),
+        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (legacy["runtimeImportedConditionRecordCount"] if legacy else 0) + (legacy_buzhou["recordCount"] if legacy_buzhou else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0) + (len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0),
         "runtimeCatalogRecords": sum(
             item.get("records", 0)
             for item in coverage.get("runtimeCatalogs", [])
@@ -783,7 +893,7 @@ def main():
         ),
         "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25" if network else "NOT_CHECKED",
         "fieldScopedMobileFieldsInGameplay": mobile["fieldScopedGameplayValueCount"] if mobile else 0,
-        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + (legacy["runtimeImportedConditionFieldValueCount"] if legacy else 0) + legacy_troop_time_field_count + legacy_troop_requirement_field_count,
+        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + (legacy["runtimeImportedConditionFieldValueCount"] if legacy else 0) + (legacy_buzhou["fieldValueCount"] if legacy_buzhou else 0) + legacy_troop_time_field_count + legacy_troop_requirement_field_count,
         "note": f"Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and {mobile['fieldScopedGameplayValueCount'] if mobile else 0:,} field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     })
     coverage["sourceInventory"] = {
@@ -806,6 +916,28 @@ def main():
             "rewardStatus": legacy_quests["metadata"]["rewardStatus"],
             "versionComparison": legacy_quests["metadata"]["versionComparison"],
         } if legacy_quests else None),
+        "legacyBuzhouRuntime": ({
+            "sourceVersion": legacy_buzhou["metadata"]["sourceVersion"],
+            "sourceCommit": legacy_buzhou["metadata"]["sourceCommit"],
+            "floorCount": legacy_buzhou["metadata"]["floorCount"],
+            "formationCount": legacy_buzhou["metadata"]["formationCount"],
+            "formationFloorIds": legacy_buzhou["metadata"]["formationFloorIds"],
+            "rewardReferenceCount": legacy_buzhou["metadata"]["rewardReferenceCount"],
+            "equipmentRuleCount": legacy_buzhou["metadata"]["equipmentRuleCount"],
+            "recordCount": legacy_buzhou["recordCount"],
+            "fieldValueCount": legacy_buzhou["fieldValueCount"],
+            "tables": {
+                key: {
+                    "sourceTable": value["sourceTable"],
+                    "recordCount": value["recordCount"],
+                    "fields": value["importedFields"],
+                }
+                for key, value in legacy_buzhou["metadata"]["sourceTables"].items()
+            },
+            "combatStatus": legacy_buzhou["metadata"]["combatStatus"],
+            "activeSourceDamageOrRewards": legacy_buzhou["metadata"]["activeSourceDamageOrRewards"],
+            "rewardStatus": legacy_buzhou["metadata"]["rewardStatus"],
+        } if legacy_buzhou else None),
         "legacyTroopTrainingTime": ({
             "sourceVersion": legacy_troop_times["metadata"]["sourceVersion"],
             "sourceTable": legacy_troop_times["metadata"]["sourceTable"],
@@ -854,8 +986,8 @@ def main():
     }
     coverage["notImported"] = [
         {
-            "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndPartiallyMappedTroopTraining",
-            "reason": "Quest descriptions and 5,745 condition rows are bundled as versioned references, but condition-code semantics and reward fields are unavailable/UNKNOWN. Troop requirements are mapped only where legacy IDs and runtime buildings/technologies align; other legacy fields still need gameplay-semantic mapping before they can affect progression.",
+            "domain": "legacyGameplayFieldsExceptQuestAndBuzhouReferencesAndPartiallyMappedTroopTraining",
+            "reason": "Quest and Buzhou source records are bundled as versioned references. Quest condition-code semantics/rewards, Buzhou random loot syntax and unlinked legacy fields remain UNKNOWN. Troop requirements are mapped only where legacy IDs and runtime buildings/technologies align; other fields need gameplay-semantic mapping before affecting progression.",
         },
         {
             "domain": "mobilePublicCatalogFields",

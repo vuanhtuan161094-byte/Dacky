@@ -184,11 +184,13 @@ try {
   await click('[data-page-key="questPage"][data-page="0"]');
 
   await click('#primary-nav [data-view="pve"]');
+  const buzhouReference=await evaluate('({floorCount:document.querySelectorAll(".buzhou-source-floor").length,formationName:Array.from(document.querySelectorAll(".buzhou-source-floor")).map(x=>x.textContent).join(" ").includes("Mục Kiền Liên"),inactive:document.body.innerText.includes("chưa cộng sát thương hoặc phần thưởng")})');
+  check(buzhouReference.floorCount===5&&buzhouReference.formationName&&buzhouReference.inactive);
   await click('[data-page-key="mountainPage"][data-page="1"]');
   await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
   check((await evaluate('document.querySelectorAll("[data-mode=mountain]").length'))===24);
   await click('[data-page-key="mountainPage"][data-page="0"]');
-  console.log('PASS paginated hero, consumable shop, forge, quest and Tiên Sơn catalogs; NPC purchase settles.');
+  console.log('PASS paginated hero/shop/quest/Tiên Sơn catalogs; Buzhou source roster remains reference-only; NPC purchase settles.');
 
   await click('#primary-nav [data-view="city"]');
   await click('[data-action="upgrade"][data-building="altar"]');

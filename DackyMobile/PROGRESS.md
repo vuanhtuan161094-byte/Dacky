@@ -2,15 +2,23 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
-## Latest increment: Legacy quest condition reference and production CI fix
+## Latest increment: Buzhou endgame source adapter
+
+- Added a reproducible importer for five pinned legacy Buzhou tables. It packages five floor records, 90 fixed NPC stacks on floors 4–5, source level/count bands on floors 1–3, ten Goods ID references and 27 raw equipment-roll rows. Provenance is retained per field and source row.
+- The Buzhou screen shows this information as a source reference. The current duel fallback, damage and rewards remain unchanged; random reward syntax is `UNKNOWN` and no source rewards are applied. The runtime JSON exports all 137 source rows in `legacyBuzhouReference`; `DATA_COVERAGE.json` records 950 field values.
+- Updated the Vietnamese wiki, coverage and source-library reporting. PWA cache v18 includes the new module. No `src/combat/**` files or combat workflow were changed.
+- Verification: Node tests PASS 49/49; Python parser tests PASS 10/10; Chromium gameplay/save/layout smoke PASS with zero runtime or HTTP errors, including the five-floor/roster reference; PWA v18 reopens offline and single-file HTML makes no external asset requests.
+- Android debug APK/AAB built using the existing toolchain. APK 48,062,081 bytes (SHA-256 `fb54e2b115815de67776b4ecd935bc6c63580e22e848cb1bed87cba470ed633b`); debug AAB 34,931,136 bytes (SHA-256 `0eaad65cdb880155d6315911a3173da30e8d7f47887bdb2f89338d9ba3ad85fe`). APK v2 signature and both ZIP packages verified. Offline HTML 53,885,567 bytes (SHA-256 `81c2efdd92fc260d0e50c6988cb06dbe40191395b4b7a81fc8d5e2eb061ae695`). Device QA remains unavailable. The prior production CI run passed; this increment's CI is pending its push.
+
+## Previous increment: Legacy quest condition reference and production CI fix
 
 - Added 5,745 pinned `questcondition` records to the separate reference catalog, linked across all 1,158 legacy quests. Every imported condition column retains source row/field provenance. Type/data semantics remain `UNKNOWN`; imported tables contain no reward fields, so none of these rows alter progression or rewards.
 - The source library exposes condition rows as collapsed reference data. Coverage, Vietnamese wiki, blockers, exported runtime JSON and the production catalog now report those counts and boundaries. Quest version comparison remains separate from Mobile gameplay.
 - Fixed the Android CI setup failure from run `45640781013`: `setup-android` was requesting the retired SDK `tools` package. It now installs only command-line tools, then the workflow installs pinned Android 36 and build-tools 36.0.0. Production CI PASS on commit `6b78f45` in run [`45643667191`](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45643667191); all test, web, Android and artifact-upload steps succeeded. Web, offline HTML, debug APK and AAB are available in the [14-day Actions artifact](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45643667191/artifacts/15036542279).
 - Verification: Node tests PASS 48/48; Python parser tests PASS 10/10; Chromium gameplay/save/layout smoke PASS with zero runtime or HTTP errors; PWA v17 reopens with network disabled; single-file HTML starts over HTTP and makes zero external asset requests.
-- Android debug build PASS using the existing JDK 21/SDK 36/Gradle 8.14.3 toolchain. APK 48,047,603 bytes (SHA-256 `166debb31cf70dc3985883175cfbe7ad12bcfc057725a7014c9183ec9ce91b94`); debug AAB 34,899,210 bytes (SHA-256 `e94fe1fb60f8c9c094a07e55673f3470dbbbc1eb912c680f542a030f316c1123`). APK v2 signature and ZIP integrity verified. Single-file offline HTML 53,719,633 bytes (SHA-256 `e1c88d5fa6da1fe7300c82d9bf93149a4268616aa781ae14f60dc815f554b9bd`). These are debug builds; device QA is unavailable. GitHub CI rerun is pending push.
+- Android debug build PASS using the existing JDK 21/SDK 36/Gradle 8.14.3 toolchain. APK 48,047,603 bytes (SHA-256 `166debb31cf70dc3985883175cfbe7ad12bcfc057725a7014c9183ec9ce91b94`); debug AAB 34,899,210 bytes (SHA-256 `e94fe1fb60f8c9c094a07e55673f3470dbbbc1eb912c680f542a030f316c1123`). APK v2 signature and ZIP integrity verified. Single-file offline HTML 53,719,633 bytes (SHA-256 `e1c88d5fa6da1fe7300c82d9bf93149a4268616aa781ae14f60dc815f554b9bd`). These are debug builds; device QA is unavailable.
 
-## Latest increment: Legacy troop training costs and prerequisites
+## Previous increment: Legacy troop training costs and prerequisites
 
 - Generated a reproducible adapter from the pinned `147-soldierrequireinfo` table. It maps resource costs and known Barrack/technology levels for 16 of 25 Mobile IDs; all 126 applicable requirement rows match the alternate `soldierrequireinfo` table with zero value conflicts. Cost and requirement provenance stays attached to each runtime troop field.
 - Training now charges source costs for those 16 profiles and enforces the mapped Barrack and Luyện Binh Thuật/Lĩnh Binh Thuật gates. Fourteen Workshop 22 requirements remain `UNKNOWN` and permissive; nine Mobile profiles without source requirement rows retain `SIMULATED` cost and unlocks. Existing 24/25 base times still use the legacy duration adapter.
@@ -18,7 +26,7 @@ Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature
 - Verification: Node tests PASS 48/48; Python source tests PASS 10/10. Chromium passed all 12 primary screens, source cost/training/march/combat/save reload and both mobile orientations, with zero runtime errors. PWA shell v17 reopened offline; single-file HTML launched over HTTP with no external asset requests.
 - Android build: APK 47,547,822 bytes (SHA-256 `2a0e6f78bf2955687a45ac5449a331c3e2d1f854cc34b32d8eadfd44c400cdb2`); debug AAB 33,739,214 bytes (SHA-256 `43ead2106c7a7d238dd741800b71fd3a0da6fa3a9ccadcf5ea378760adc130b9`). APK signature and both ZIP packages verified. `dist/offline.html` is 47,930,242 bytes (SHA-256 `d85ebd3bd9c3545cb6b0610f4d75f690cc8832cc2a6d0ce7bfe4f8e9e7bc5c38`). APK/AAB are debug builds; device QA remains unavailable.
 
-## Latest increment: Mobile-only troop training
+## Previous increment: Mobile-only troop training
 
 - New saves start with Mobile troop ID 1000. The 25 Mobile profiles are the only new trainable units; direct runtime actions reject the 14 simulated definitions, which remain available to existing saves and generated NPC encounters.
 - Tutorial recruitment/training uses Mobile profiles. The army selector shows 24 `VERIFIED_LEGACY` base times and one `SIMULATED` Mobile-only time; troop prices and unlock levels remain SIMULATED.

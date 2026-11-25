@@ -50,7 +50,7 @@ Xạ thủ/trinh sát đánh tuyến sau; công thành đứng tuyến phá thà
 ## Thử thách
 
 - Phong Thần Tháp: leo tối đa 9.999 tầng procedural theo cap do dự án chọn cho bản mô phỏng; nguồn hiện chưa xác minh số tầng. Con số 8.992 là số hàng tầng Tiên Sơn trong bảng legacy `elflandfloorinfo`, không phải Phong Thần Tháp.
-- Bất Chu Sơn: năm cửa NPC, tăng mạnh độ khó; phần thưởng cuối có pháp bảo. Tiên Sơn: 624 thử thách đấu pháp có thể tái đấu, thưởng tài nguyên và pháp bảo theo mốc.
+- Bất Chu Sơn: cấu hình legacy xác minh 5 tầng. Tầng 1–3 có dải cấp/số tướng; tầng 4–5 có 90 đội hình cố định, giữ tên danh tướng, ID binh chủng và quân số theo trường nguồn. Mười Goods ID và 27 dòng bảng rơi trang bị đã nhập để chuẩn bị adapter, nhưng cú pháp rơi chưa giải nghĩa. Màn hình hiển thị chúng như hồ sơ tham khảo; trận đấu và thưởng vẫn dùng fallback, chưa cộng dữ liệu nguồn lần hai. Phong Thần Tháp vẫn có cap mô phỏng 9.999 tầng. Tiên Sơn có 624 thử thách đấu pháp mô phỏng.
 - Vật phẩm: catalog gồm 4.040 hồ sơ, trong đó 2.036 trường hợp có dữ kiện Mobile. Hiệu ứng trang bị và mở rương chỉ áp dụng các phép chuyển đổi đã nối; giá mua và cơ chế chưa xác minh vẫn SIMULATED/UNKNOWN. Thị trường đổi sáu loại tài nguyên với phí NPC, không phải multiplayer.
 - Nhiệm vụ: tiến trình đang chơi có 1.158 mục tiêu mô phỏng qua tám chương, có nhiệm vụ cuối đánh bại Trụ Vương. Thư tịch tách riêng 1.158 mô tả và 5.745 dòng `questcondition` legacy đã xác minh theo trường; mã điều kiện chưa giải nghĩa, dữ liệu nhập không có cột phần thưởng, và các dòng này không tự nhận là gameplay Mobile.
 
