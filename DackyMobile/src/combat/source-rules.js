@@ -10,6 +10,7 @@ export function createSourceRules(){
   const op=(kind,params={})=>ops.push({kind,...params});
   // Complex clauses must be matched as a whole before the generic comma parser.
   if(t==='dot tinh luc de tang the luc tuong hien tai'){op('convert',{from:'mana',to:'vitality'});assumptions.push('conversion ratio and caps require explicit policy');}
+  else if(t==='khoa tuong hien tai cua doi phuong khong cho thay ra, den khi binh luc ve 0'){op('lockSwitch');}
   else if(t==='dot the luc de tang tinh luc tuong hien tai'){op('convert',{from:'vitality',to:'mana'});assumptions.push('conversion ratio and caps require explicit policy');}
   else if(t==='hiep nay khong danh; khi trung don tra lai luong ton that tuong duong. chi hieu luc khi bi dich diet gon'){op('skipAttack');op('reflectLethal');}
   else if(t==='hiep nay chan moi don cua dich nhung ban than cung khong danh'){op('skipAttack');op('blockAttack');}
