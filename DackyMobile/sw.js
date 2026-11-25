@@ -1,8 +1,8 @@
-const CACHE = 'dacky-mobile-shell-v5';
+const CACHE = 'dacky-mobile-shell-v6';
 const SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest', './src/catalog.js', './src/engine.js',
   './src/store.js', './src/ui.js', './src/main.js', './src/source-adapter.js', './src/approved-source-data.js',
-  './assets/crest.svg', './assets/city-panorama.jpg', './assets/heroes-atlas.svg', './assets/portraits/jiang-zia.webp', './assets/buildings/tuvithanh.webp'
+  './assets/crest.svg', './assets/city-panorama.jpg', './assets/heroes-atlas.svg', './assets/portraits/jiang-zia.webp', './assets/portraits/na-tra.webp', './assets/buildings/tuvithanh.webp'
 ];
 
 self.addEventListener('install', event => {

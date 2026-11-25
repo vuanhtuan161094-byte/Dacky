@@ -44,7 +44,7 @@ const dataUrl = async name => {
   const mime = ext === '.jpg' ? 'image/jpeg' : ext === '.webp' ? 'image/webp' : 'image/svg+xml';
   return `data:${mime};base64,${(await readFile(path.join(root,'assets',name))).toString('base64')}`;
 };
-const inlineImages = await Promise.all(['crest.svg','city-panorama.jpg','heroes-atlas.svg','portraits/jiang-zia.webp','buildings/tuvithanh.webp'].map(async name=>[name,await dataUrl(name)]));
+const inlineImages = await Promise.all(['crest.svg','city-panorama.jpg','heroes-atlas.svg','portraits/jiang-zia.webp','portraits/na-tra.webp','buildings/tuvithanh.webp'].map(async name=>[name,await dataUrl(name)]));
 const imageUrls = Object.fromEntries(inlineImages);
 css = css.replace(/url\(['"]?\.\/assets\/([^)'"\s]+)['"]?\)/g, (_,name) => `url('${imageUrls[name] || ''}')`);
 for (const [name,url] of inlineImages) bundle = bundle.replaceAll(`./assets/${name}`,url);
