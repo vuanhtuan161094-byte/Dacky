@@ -84,7 +84,9 @@
       "runtime": "src/catalog.js + src/engine.js",
       "mobileRecords": 25,
       "simulatedRecords": 14,
-      "sourceFields": "name, class, faction, local source art, attack, defense, speed, health, carry, upkeep, population and attack counters"
+      "sourceFields": "25 Mobile troop profiles retain source stats, roles, counters, local art and field provenance; only these profiles are trainable. Twenty-four shared IDs use legacy training base times; remaining unsupported cost/unlock fields stay SIMULATED.",
+      "recruitableRecords": 25,
+      "simulatedRecordsTrainable": 0
     },
     {
       "domain": "heroes",
@@ -1848,13 +1850,13 @@
             "changedRecords": 33,
             "fieldsWithDifferences": {
               "Describe": 33,
-              "Name": 25,
               "Camp": 13,
-              "Life": 1,
+              "Name": 25,
               "TrainSpendSecond": 1,
               "Att": 1,
-              "TrainSpendMinute": 1,
-              "Def": 1
+              "Def": 1,
+              "Life": 1,
+              "TrainSpendMinute": 1
             },
             "fieldsOnlyIn147": [],
             "fieldsOnlyInSoldierinfo": [
@@ -2275,13 +2277,13 @@
           "changedRecords": 33,
           "fieldsWithDifferences": {
             "Describe": 33,
-            "Name": 25,
             "Camp": 13,
-            "Life": 1,
+            "Name": 25,
             "TrainSpendSecond": 1,
             "Att": 1,
-            "TrainSpendMinute": 1,
-            "Def": 1
+            "Def": 1,
+            "Life": 1,
+            "TrainSpendMinute": 1
           },
           "fieldsOnlyIn147": [],
           "fieldsOnlyInSoldierinfo": [

@@ -2,14 +2,20 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
-## Latest increment: Source-backed hero recruitment
+## Latest increment: Mobile-only troop training
+
+- New saves start with Mobile troop ID 1000. The 25 Mobile profiles are the only new trainable units; direct runtime actions reject the 14 simulated definitions, which remain available to existing saves and generated NPC encounters.
+- Tutorial recruitment/training uses Mobile profiles. The army selector shows 24 `VERIFIED_LEGACY` base times and one `SIMULATED` Mobile-only time; troop prices and unlock levels remain SIMULATED.
+- `DATA_COVERAGE.json` records 25 trainable source profiles and zero simulated trainable profiles. Updated the Vietnamese gameplay wiki with source and simulation boundaries. PWA shell cache is v16.
+- Verification: Node tests PASS 47/47; Python tests PASS 10/10. Chromium passed all 12 primary screens, source-only hero and troop recruitment, training/battle/save reload, portrait and landscape layouts, with zero runtime errors. PWA v16 reopened offline; single-file HTML worked over HTTP without external asset requests.
+- Android build: APK 47,542,215 bytes (SHA-256 `4189740d8c35259a7291ed01bcf407b92071a43e87a800fc62142a0b0aefb355`); debug AAB 33,726,696 bytes (SHA-256 `3fc030d1ace717be85b1c26f367996fafa8fa590e3e06d8a5688870ade1a81d1`). APK signature and both ZIP packages verified. `dist/offline.html` is 47,829,314 bytes (SHA-256 `1e142a071a2457e9cc33fe44af6d3a6c52a66fac324c91620bbacde12a0d5ac3`). Device QA remains unavailable.
+
+## Previous increment: Source-backed hero recruitment
 
 - The new recruitment list now exposes only the 482 verified Mobile heroes. The 58 simulated definitions remain in the catalog so existing saves can retain them, but are hidden from new recruitment; the engine also rejects direct recruitment actions for them.
 - `DATA_COVERAGE.json` now reports 482 Mobile runtime/recruitable profiles, 58 retained simulated definitions, and zero simulated profiles available to recruit. PWA shell cache is v15.
 - Verification: Node tests PASS 46/46, including rejection of simulated recruits while allowing sourced recruits and preserving the old definitions. Python source tests PASS 10/10. Chromium passed the updated 482-profile recruitment screen, all 12 primary screens, combat/training, save reload, portrait/landscape, zero runtime errors. PWA v15 reopened offline; single-file HTML worked over HTTP with zero external asset requests.
 - Rebuilt Android APK/AAB with the installed toolchain. APK is 47,542,052 bytes (SHA-256 `a889efdd26f2fbd6e9ed09660f552a18e6d0f3ca87e410048f5f610680ee5731`); debug AAB is 33,725,997 bytes (SHA-256 `037833b880bd2418fbc848ed20bee601c78d156200d6406e7d09c5cb9230ccca`). APK signature and both ZIP packages verified; these are debug builds. `dist/offline.html` is 47,828,709 bytes (SHA-256 `8bf7ddbbb51b352b727a48d0912b76063b0eca461a98d562118f674787d22f9e`). Device QA remains unavailable.
-
-## Previous increment: Verified Mobile hero portrait coverage
 
 ## Mobile hero portrait coverage audit
 

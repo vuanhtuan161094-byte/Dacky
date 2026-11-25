@@ -1,4 +1,4 @@
-const CACHE = 'dacky-mobile-shell-v15';
+const CACHE = 'dacky-mobile-shell-v16';
 const SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest', './src/catalog.js', './src/mobile-source-catalog.js', './src/legacy-quest-catalog.js', './src/legacy-troop-time-catalog.js', './src/engine.js',
   './src/store.js', './src/ui.js', './src/main.js', './src/source-adapter.js', './src/approved-source-data.js',

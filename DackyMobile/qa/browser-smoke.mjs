@@ -206,10 +206,15 @@ try {
   console.log('PASS recruitment and equipment linked to hero state.');
 
   await click('#primary-nav [data-view="army"]');
+  const troopRecruitment=await evaluate('({options:document.querySelectorAll("#train-unit option").length,legacyTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("VERIFIED_LEGACY")).length,simulatedTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("SIMULATED")).length})');
+  check(troopRecruitment.options===25&&troopRecruitment.legacyTimes===24&&troopRecruitment.simulatedTimes===1);
+  const trainingTroopName=await evaluate('document.querySelector("#train-unit")?.selectedOptions[0]?.textContent.split(" · ")[0]||""');
+  check(trainingTroopName.length>0);
   await evaluate('(function(){document.querySelector("#train-count").value="1";return true})()');
   await click('[data-action="train"]');
-  await waitFor('Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Dân binh"))',5000);
-  await waitFor('!Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Dân binh"))',14000);
+  const trainingQueue=`Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes(${JSON.stringify(trainingTroopName)}))`;
+  await waitFor(trainingQueue,5000);
+  await waitFor(`!${trainingQueue}`,14000);
   await click('#primary-nav [data-view="world"]');
   await evaluate('(function(){document.querySelector("#march-count").value="3";return true})()');
   await click('[data-action="march"]');

@@ -85,6 +85,23 @@ test('new hero recruitment is limited to the verified Mobile roster and keeps le
   assert.ok(recruited.heroes.some(hero=>hero.id===mobileHeroes.at(-1).id));
 });
 
+test('new training uses Mobile troops while retaining simulated definitions for existing saves and NPCs', () => {
+  const now=1_800_000_000_000;
+  const starter=TROOPS.find(troop=>troop.mobileSourceId==='1000');
+  const simulated=TROOPS.find(troop=>!troop.mobileSourceId);
+  const state=createNewGame('Triều Ca',now);
+  assert.ok(starter&&simulated);
+  assert.equal(state.army[starter.id],18);
+  assert.equal(state.army[simulated.id],undefined);
+  assert.ok(TROOPS.some(troop=>troop.id===simulated.id),'retained definitions continue to support older saves and simulated NPCs');
+  const initialResources=structuredClone(state.resources);
+  assert.throws(()=>doAction(state,{type:'train',troopId:simulated.id,count:1},now+1),/Mobile/);
+  assert.equal(state.queues.training,null);
+  assert.deepEqual(state.resources,initialResources);
+  const training=doAction(state,{type:'train',troopId:starter.id,count:1},now+2);
+  assert.equal(training.queues.training.troopId,starter.id);
+});
+
 test('tax policy balances gold income, morale and population growth', () => {
   const now=1_800_000_000_000;
   const state=createNewGame('Triều Ca',now);
@@ -149,11 +166,11 @@ test('new-player tutorial unlocks only after its seven gameplay milestones', () 
   assert.equal(state.tutorialStep,4);
   state=doAction(state,{type:'equip',heroId:'hero-01',itemId:'item-01'},state.lastTickAt+1);
   assert.equal(state.tutorialStep,5);
-  state=doAction(state,{type:'train',troopId:'troop-01',count:1},state.lastTickAt+1);
+  state=doAction(state,{type:'train',troopId:'troop-03',count:1},state.lastTickAt+1);
   state=advance(state,state.queues.training.finishAt+1).state;
   assert.equal(state.tutorialStep,6);
-  const count=state.army['troop-01'];
-  state=doAction(state,{type:'march',nodeId:'node-001',troopId:'troop-01',count},state.lastTickAt+1);
+  const count=state.army['troop-03'];
+  state=doAction(state,{type:'march',nodeId:'node-001',troopId:'troop-03',count},state.lastTickAt+1);
   state=advance(state,state.queues.march.finishAt+1).state;
   assert.equal(state.stats.victories,1);
   assert.equal(state.tutorialStep,7);
@@ -225,7 +242,7 @@ test('all mapped research follows Mobile meanings and preserves unknown runtime 
   const trained=(level)=>{
     const state=structuredClone(base);
     state.technologies['tech-09']=level;
-    return doAction(state,{type:'train',troopId:'troop-01',count:1},now+1).queues.training.finishAt;
+    return doAction(state,{type:'train',troopId:'troop-03',count:1},now+1).queues.training.finishAt;
   };
   assert.ok(trained(10)<trained(0));
 
@@ -483,12 +500,12 @@ test('construction and training are queued and settle once', () => {
   state=advance(state,buildDone+2).state;
   assert.equal(state.levels.lumber,1);
   assert.equal(state.queues.construction,null);
-  state=doAction(state,{type:'train',troopId:'troop-01',count:5},buildDone+3);
+  state=doAction(state,{type:'train',troopId:'troop-03',count:5},buildDone+3);
   const trainDone=state.queues.training.finishAt;
   state=advance(state,trainDone+1).state;
-  assert.equal(state.army['troop-01'],23);
+  assert.equal(state.army['troop-03'],23);
   state=advance(state,trainDone+10).state;
-  assert.equal(state.army['troop-01'],23);
+  assert.equal(state.army['troop-03'],23);
 });
 
 test('recruitment, gear, campaign battle and save migration stay connected', () => {
@@ -499,7 +516,7 @@ test('recruitment, gear, campaign battle and save migration stay connected', () 
   assert.equal(state.heroes.length,2);
   state=doAction(state,{type:'equip',heroId:'hero-01',itemId:'item-01'},base+2);
   assert.equal(state.heroes[0].equipment.weapon,'item-01');
-  state=doAction(state,{type:'march',nodeId:'node-001',troopId:'troop-01',count:8},base+3);
+  state=doAction(state,{type:'march',nodeId:'node-001',troopId:'troop-03',count:8},base+3);
   const arrival=state.queues.march.finishAt;
   state=advance(state,arrival+1).state;
   assert.equal(state.stats.battles,1);
@@ -520,7 +537,7 @@ test('unaffordable actions do not create negative resources', () => {
   const now=1_800_000_000_000;
   let state=createNewGame('Triều Ca',now);
   state.resources.food=0;
-  assert.throws(()=>doAction(state,{type:'train',troopId:'troop-01',count:10},now+1),/Tài nguyên chưa đủ/);
+  assert.throws(()=>doAction(state,{type:'train',troopId:'troop-03',count:10},now+1),/Tài nguyên chưa đủ/);
   assert.equal(state.resources.food,0);
 });
 

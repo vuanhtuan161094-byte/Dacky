@@ -3,6 +3,7 @@ import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUN
 export const SAVE_VERSION = 2;
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const RESOURCE_KEYS = Object.keys(RESOURCE_INFO);
+const STARTER_TROOP = TROOPS.find(unit => unit.mobileSourceId === '1000') || TROOPS.find(unit => unit.mobileSourceId) || TROOPS[0];
 const DEFAULT_SETTINGS = Object.freeze({ sound: false, effects: true, reducedMotion: false, autosave: true });
 export const TAX_POLICIES=Object.freeze({
   relief:Object.freeze({label:'Khoan giảm',income:0.75,moralePerHour:0.12}),
@@ -15,8 +16,8 @@ export const TUTORIAL_STEPS=Object.freeze([
   Object.freeze({title:'Dựng Phong Thần Đàn',description:'Mở nơi chiêu mộ thần tiên trong cơ đồ.',action:'upgrade',data:{buildingId:'altar'},complete:s=>(s.levels.altar||0)>0}),
   Object.freeze({title:'Chiêu mộ đồng hành',description:'Mời một thần tiên nhập phủ.',action:'recruit',data:{heroId:'hero-02'},complete:s=>s.stats.heroesRecruited>0}),
   Object.freeze({title:'Trang bị thần tiên',description:'Trang bị Bạch Ngọc Kiếm cho đội hình.',action:'equip',data:{itemId:'item-01',heroId:'hero-01'},complete:s=>s.stats.itemsEquipped>0}),
-  Object.freeze({title:'Bổ sung quân đội',description:'Huấn luyện thêm một Dân binh.',action:'train',data:{troopId:'troop-01',count:1},complete:s=>s.stats.troopsTrained>0}),
-  Object.freeze({title:'Mở đường chiến dịch',description:'Hành quân tới Thanh Khâu Quan và thắng trận đầu.',action:'march',data:{nodeId:'node-001',troopId:'troop-01'},complete:s=>s.stats.victories>0})
+  Object.freeze({title:'Bổ sung quân đội',description:`Huấn luyện thêm ${STARTER_TROOP.name}.`,action:'train',data:{troopId:STARTER_TROOP.id,count:1},complete:s=>s.stats.troopsTrained>0}),
+  Object.freeze({title:'Mở đường chiến dịch',description:'Hành quân tới Thanh Khâu Quan và thắng trận đầu.',action:'march',data:{nodeId:'node-001',troopId:STARTER_TROOP.id},complete:s=>s.stats.victories>0})
 ]);
 const clone = value => structuredClone(value);
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
@@ -25,7 +26,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   const levels = Object.fromEntries(BUILDINGS.map(b => [b.id, 0]));
   Object.assign(levels, { citadel: 2, barracks: 1, granary: 1, farm: 1, manor: 1, storehouse: 1, academy: 1 });
   const hero = HEROES[0];
-  const troop = TROOPS[0];
+  const troop = STARTER_TROOP;
   return {
     version: SAVE_VERSION,
     profile: { name: String(name || 'Triều Ca').slice(0, 22), createdAt: now },
@@ -947,6 +948,7 @@ export function doAction(state, action, now = Date.now()) {
       const t = TROOPS.find(x => x.id === action.troopId);
       const count = clamp(Math.floor(Number(action.count) || 1), 1, 500);
       if (!t) throw new Error('Không tìm thấy binh chủng.');
+      if (!t.mobileSourceId) throw new Error('Chỉ hồ sơ binh chủng Mobile có nguồn mới được huấn luyện mới.');
       const needLevel = Math.min(30, t.unlockCity);
       if ((s.levels.citadel || 0) < needLevel) throw new Error(`Cần Tử Vi Thành cấp ${needLevel} để huấn luyện.`);
       const cost = Object.fromEntries(Object.entries(t.cost).map(([key, value]) => [key, value * count]));

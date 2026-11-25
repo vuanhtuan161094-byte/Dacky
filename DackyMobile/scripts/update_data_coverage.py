@@ -573,6 +573,19 @@ def main():
                 "simulatedRecordsRecruitable": 0,
                 "sourceFields": f"{mobile_hero_count} Mobile hero profiles retain source identity, local portrait, base stats, faction, occupation, abilities and field provenance; recruitment exposes only these source-backed profiles. Combat formulas remain SIMULATED.",
             })
+        troop_catalog = next((
+            item for item in coverage.get("runtimeCatalogs", [])
+            if item.get("domain") == "troops"
+        ), None)
+        if troop_catalog:
+            mobile_troop_count = mobile["categories"].get("binh-chung", {}).get("gameplayMappedRecords", 0)
+            troop_catalog.update({
+                "mobileRecords": mobile_troop_count,
+                "recruitableRecords": mobile_troop_count,
+                "simulatedRecords": max(0, troop_catalog.get("records", 0) - mobile_troop_count),
+                "simulatedRecordsTrainable": 0,
+                "sourceFields": f"{mobile_troop_count} Mobile troop profiles retain source stats, roles, counters, local art and field provenance; only these profiles are trainable. Twenty-four shared IDs use legacy training base times; remaining unsupported cost/unlock fields stay SIMULATED.",
+            })
         if legacy_troop_times:
             time_values = [
                 fields["trainSeconds"]["value"]
