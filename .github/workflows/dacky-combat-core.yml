@@ -5,6 +5,7 @@ on:
     paths:
       - 'DackyMobile/src/combat/**'
       - 'DackyMobile/tests/combat-*.test.js'
+      - 'DackyMobile/combat-review.html'
       - '.github/workflows/dacky-combat-core.yml'
   workflow_dispatch:
 permissions:
@@ -21,3 +22,12 @@ jobs:
         with:
           node-version: 24
       - run: node --test tests/combat-*.test.js
+      - name: Package browser review
+        run: |
+          mkdir -p combat-review-dist
+          cp -r src combat-review.html combat-review-dist/
+          mv combat-review-dist/combat-review.html combat-review-dist/index.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dacky-combat-review
+          path: DackyMobile/combat-review-dist

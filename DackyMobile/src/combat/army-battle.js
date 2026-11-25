@@ -1,4 +1,5 @@
 import { canEquip, resolveArtifactRound, resolveArtifactStrikes } from './army-artifacts.js';
+import { tacticalProfile, specialPassiveModifiers } from './tactics-v6.js';
 const int=(n,label)=>{if(!Number.isSafeInteger(n)||n<0)throw Error('Invalid '+label);return n};
 const sum=s=>s.reduce((n,x)=>n+x.count,0),clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const rngFor=seed=>{let x=Number(seed)>>>0;return()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296}};
@@ -44,24 +45,27 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={}}){
  const cfg={...ARMY_POLICY,...policy};
  if(!Array.isArray(sides)||sides.length!==2||!Number.isInteger(cfg.maxRounds)||cfg.maxRounds<1||cfg.maxRounds>100||!Number.isFinite(cfg.damageScale)||cfg.damageScale<=0||cfg.damageScale>10||!Number.isFinite(cfg.heroCommandScale)||cfg.heroCommandScale<0||cfg.heroCommandScale>1)throw Error('Invalid army policy');
  let army=sides.map(s=>({...s,equippedArtifactIds:[...(s.equippedArtifactIds||[])],stacks:normalizeArmyStacks(s.stacks,troops)}));
+ const passiveNames=sides.map(s=>s.legacyPassiveName??null);
  const initial=army.map(s=>sum(s.stacks)),random=rngFor(seed),rounds=[],events=[];
  const summary=s=>({...s,troops:sum(s.stacks),initialTroops:s.stacks.reduce((n,t)=>n+t.initialCount,0)});
- const power=(side,other,mods)=>{
+ const power=(side,other,mods,tactical,passive,enemyPassive)=>{
   const own=side.stacks,enemy=other.stacks,total=sum(own),enemyTotal=sum(enemy);
   const avgDef=enemy.reduce((n,t)=>n+t.defense*t.count,0)/Math.max(1,enemyTotal),avgLife=enemy.reduce((n,t)=>n+t.life*t.count,0)/Math.max(1,enemyTotal);
   const hero=index.heroes[side.heroId],command=1+clamp((hero?.physical??0)*cfg.heroCommandScale,0,1);
-  const defense=Math.max(0,avgDef*(1+mods[1].defense)),attack=own.reduce((n,t)=>n+t.attack*t.count,0)*(1+mods[0].attack)*command;
+  const defense=Math.max(0,avgDef*(1+mods[1].defense+enemyPassive.defense)),attack=own.reduce((n,t)=>n+t.attack*t.count,0)*Math.max(.05,1+mods[0].attack+passive.attack)*command*Math.max(.05,1+tactical.counter+tactical.formation);
   return total&&enemyTotal?Math.max(0,Math.floor(attack/(Math.max(1,avgLife)+defense)*cfg.damageScale*(.9+random()*.2))):0;
  };
  for(let round=1;round<=cfg.maxRounds&&army.every(s=>sum(s.stacks)>0);round++){
   const inputs=army.map(summary);for(let i=0;i<2;i++)inputs[i].artifactId=chooseArmyArtifact(index,inputs[i],inputs[1-i],cfg);
   const prep=resolveArtifactRound({index,sides:inputs,round,policy:cfg});
   army=army.map((s,i)=>({...s,...prep.sides[i],stacks:allocateTroopDelta(s.stacks,prep.sides[i].troops-sum(s.stacks))}));
-  const incoming=[power(army[1],army[0],[prep.sides[1].modifiers,prep.sides[0].modifiers]),power(army[0],army[1],[prep.sides[0].modifiers,prep.sides[1].modifiers])];
+  const tactical=army.map((s,i)=>tacticalProfile(s.stacks,army[1-i].stacks,troops));
+  const passives=army.map((s,i)=>specialPassiveModifiers({name:passiveNames[i],stacks:s.stacks,dict:troops,enabled:cfg.enableSimulatedLegacyPassives===true}));
+  const incoming=[power(army[1],army[0],[prep.sides[1].modifiers,prep.sides[0].modifiers],tactical[1],passives[1],passives[0]),power(army[0],army[1],[prep.sides[0].modifiers,prep.sides[1].modifiers],tactical[0],passives[0],passives[1])];
   const settled=resolveArtifactStrikes(prep,incoming);
   army=army.map((s,i)=>({...s,...settled.sides[i],stacks:allocateTroopDelta(s.stacks,settled.sides[i].troops-sum(s.stacks))}));
   const ev=settled.events.map(e=>({...e,seq:events.length+e.seq}));events.push(...ev);
-  rounds.push({round,incoming,events:ev,sides:army.map(s=>({heroId:s.heroId,troops:sum(s.stacks),mana:s.mana,vitality:s.vitality,stacks:s.stacks.map(t=>({id:t.id,count:t.count})),switchLocked:s.switchLocked}))});
+  rounds.push({round,incoming,tactical,passives,events:ev,sides:army.map(s=>({heroId:s.heroId,troops:sum(s.stacks),mana:s.mana,vitality:s.vitality,stacks:s.stacks.map(t=>({id:t.id,count:t.count})),switchLocked:s.switchLocked}))});
  }
  const ratios=army.map((s,i)=>sum(s.stacks)/Math.max(1,initial[i]));const winner=ratios[0]===ratios[1]?null:ratios[0]>ratios[1]?0:1;
  return {winner,victory:winner===0,rounds,events,sides:army.map(summary),losses:army.map((s,i)=>initial[i]-sum(s.stacks)),evidence:'MIXED',formulaEvidence:'SIMULATED',settlementIntents:events.filter(e=>e.type==='settlementIntent')};
