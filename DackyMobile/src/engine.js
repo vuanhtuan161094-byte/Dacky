@@ -1,10 +1,12 @@
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
+import { createProductCombat } from './combat/product-v13.js';
+
 export const SAVE_VERSION = 2;
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const RESOURCE_KEYS = Object.keys(RESOURCE_INFO);
 const STARTER_TROOP = TROOPS.find(unit => unit.mobileSourceId === '1000') || TROOPS.find(unit => unit.mobileSourceId) || TROOPS[0];
-const DEFAULT_SETTINGS = Object.freeze({ sound: false, effects: true, reducedMotion: false, autosave: true });
+const DEFAULT_SETTINGS = Object.freeze({ sound: false, effects: true, reducedMotion: false, autosave: true, combatV13:false });
 export const TAX_POLICIES=Object.freeze({
   relief:Object.freeze({label:'Khoan giảm',income:0.75,moralePerHour:0.12}),
   balanced:Object.freeze({label:'Trung dung',income:1,moralePerHour:0}),
@@ -21,6 +23,8 @@ export const TUTORIAL_STEPS=Object.freeze([
 ]);
 const clone = value => structuredClone(value);
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+let combatService;
+const combat=()=>combatService??=createProductCombat({storageCapacity});
 
 export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   const levels = Object.fromEntries(BUILDINGS.map(b => [b.id, 0]));
@@ -50,7 +54,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     claims: [],
     reports: [],
     notifications: ['西岐烽火已起。先稳固城防，广积粮草，再择贤者同行。'],
-    settings: { sound: false, effects: true, reducedMotion: false, autosave: true },
+    settings: { ...DEFAULT_SETTINGS, combatV13:globalThis.__DACKY_COMBAT_PREVIEW__===true },
     tutorialStep: 0,
     nextReportId: 1
   };
@@ -173,6 +177,9 @@ export function migrateSave(input, now = Date.now()) {
     }
     if(archivedLevels)s.notifications=[`Đã lưu trữ ${archivedLevels} cấp khoa kỹ cũ chưa có ánh xạ Mobile an toàn; các cấp này không cộng chỉ số runtime.`,...s.notifications].slice(0,12);
   }
+  s.combatReceipts=Array.isArray(s.combatReceipts)?[...new Set(s.combatReceipts.filter(x=>typeof x==='string'&&x.length<=200))]:[];
+  s.combatSequence=Math.max(0,Math.floor(Number(s.combatSequence)||0));
+  for(const h of s.heroes){for(const k of ['combatMana','combatVitality','combatUpdatedAt'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
   s.tutorialStep=clamp(Number(s.tutorialStep)||0,0,TUTORIAL_STEPS.length);
@@ -523,6 +530,12 @@ function report(state, entry) {
 function completeQueue(state, key, now) {
   const q = state.queues[key];
   if (!q || q.finishAt > now) return;
+  if(key==='march'&&q.combatV13===true){
+    // Resolve from pending queue; only replace state on successful atomic settlement.
+    const result=combat().finishMarch(state,{now});
+    Object.assign(state,result.state);
+    return;
+  }
   state.queues[key] = null;
   if (key === 'construction') {
     if(q.cityId){
@@ -895,6 +908,7 @@ export function advance(state, now = Date.now()) {
   completeQueue(next, 'training', now);
   completeQueue(next, 'research', now);
   completeQueue(next, 'march', now);
+  if(next.settings.combatV13&&!next.queues.march)Object.assign(next,combat().recover(next,now));
   updateTutorial(next);
   return { state: next, elapsedSeconds: elapsed, offlineCapped: rawElapsed > OFFLINE_CAP_SECONDS };
 }
@@ -970,6 +984,7 @@ export function doAction(state, action, now = Date.now()) {
       break;
     }
     case 'equip': {
+      if(s.queues.march?.combatV13)throw new Error('Không đổi trang bị khi đang hành quân.');
       const hero = s.heroes.find(h => h.id === action.heroId);
       const itemIndex = s.items.indexOf(action.itemId);
       const item = ITEMS.find(i => i.id === action.itemId);
@@ -1083,6 +1098,7 @@ export function doAction(state, action, now = Date.now()) {
       if(!count)throw new Error('Chưa có binh sĩ sẵn sàng hành quân.');
       const leadLimit=marchTroopCapacity(s);
       if(count>leadLimit)throw new Error(`Đội quân vượt giới hạn lĩnh binh ${leadLimit.toLocaleString('vi-VN')}; nâng Lĩnh binh thuật hoặc phân công thêm thần tiên.`);
+      if(s.settings.combatV13){if(s.world.captures.includes(node.id))throw new Error('Danh thành đã thuộc quyền quản lý.');combat().marchInput(s,{nodeId:node.id,troops,startAt:now,seed:1});}
       for(const [id,n] of Object.entries(troops)){s.army[id]-=n;if(!s.army[id])delete s.army[id];}
       const averageSpeed=Object.entries(troops).reduce((sum,[id,n])=>sum+(TROOPS.find(t=>t.id===id)?.speed||0)*n,0)/count;
       const marchSpeed = 1 + averageSpeed*.012
@@ -1091,11 +1107,13 @@ export function doAction(state, action, now = Date.now()) {
         + (s.levels.watch || 0) * 0.015;
       const seed=Object.entries(troops).reduce((value,[id,n])=>value^n^Number(id.slice(-2)),(now^node.power)>>>0);
       s.queues.march = { nodeId: node.id, troops, startAt: now, finishAt: now + Math.max(2000, (7 + node.chapter * 1.7) * 1000 / marchSpeed), seed:seed>>>0 };
+      if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=s.heroes.filter(h=>h.assigned).slice(0,3).map(h=>h.id);}
       note(s, `Đội quân rời thành hướng ${node.name}.`);
       break;
     }
     case 'duel': {
       const mode=action.mode==='buzhou'?'buzhou':action.mode==='mountain'?'mountain':'tower';
+      if(s.settings.combatV13){if(s.queues.march)throw new Error('Thần tiên đang hành quân.');const battleId='duel:'+s.profile.createdAt+':'+(++s.combatSequence);const r=combat().runDuel(s,{battleId,mode,mountainId:action.mountainId,seed:(Number(now)^s.combatSequence)>>>0,now});s=r.state;break;}
       const mountain=mode==='mountain'?IMMORTAL_MOUNTAINS.find(x=>x.id===action.mountainId):null;
       if(mode==='mountain'&&!mountain)throw new Error('Không tìm thấy Tiên Sơn này.');
       const floor=mode==='tower'?s.world.towerFloor+1:mode==='buzhou'?s.world.buzhouFloor+1:mountain.rank;
@@ -1240,6 +1258,7 @@ export function doAction(state, action, now = Date.now()) {
       break;
     }
     case 'assignHero': {
+      if(s.queues.march?.combatV13)throw new Error('Đội hình đang hành quân.');
       const h = s.heroes.find(x => x.id === action.heroId);
       if (!h) throw new Error('Không tìm thấy thần tiên.');
       const assigned = s.heroes.filter(x => x.assigned).length;
@@ -1249,6 +1268,7 @@ export function doAction(state, action, now = Date.now()) {
       break;
     }
     case 'setting':
+      if(action.key==='combatV13'&&s.queues.march)throw new Error('Không đổi engine khi đang hành quân.');
       if (!(action.key in s.settings)) throw new Error('Tùy chỉnh không hợp lệ.');
       s.settings[action.key] = Boolean(action.value);
       break;

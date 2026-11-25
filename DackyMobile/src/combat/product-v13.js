@@ -21,7 +21,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
  function commander(save,state){
   const p=profileFor(save),level=integer(save.level,'hero level',1),stats=createSourceDuelHero(p,{level}).stats;
   const gear=byItem.get(save.equipment?.artifact),aid=gear?.mobileSourceId==null?null:String(gear.mobileSourceId),artifact=rt.index.artifacts[aid];
-  const ids=artifact&&state.items.includes(gear.id)&&canEquip(artifact,p,{level}).ok?[aid]:[];
+  const ids=artifact&&state.items.includes(gear.id)&&(save.combatDurability?.[gear.id]??100)>0&&canEquip(artifact,p,{level}).ok?[aid]:[];
   return {heroId:p.id,instanceId:save.id,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,evidence:p.evidence};
  }
  function recover(state,now){if(!Number.isFinite(now))throw Error('INVALID_TIME');const s=copy(state);for(const h of s.heroes){const last=h.combatUpdatedAt;if(!Number.isFinite(last)||now<=last)continue;const c=commander(h,s),ticks=Math.floor((now-last)/60000);if(ticks<=0)continue;h.combatMana=Math.min(c.maxMana,c.mana+Math.ceil(c.maxMana*.05)*ticks);h.combatVitality=Math.min(c.maxVitality,c.vitality+Math.ceil(c.maxVitality*.05)*ticks);h.combatUpdatedAt=last+ticks*60000;}return s;}
@@ -37,10 +37,11 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   if(!stacks.length)throw Error('EMPTY_MARCH');
   const e=new Map();for(const r of node.enemy?.formation??[]){if(!rt.troops[r.unitId])throw Error('UNKNOWN_NPC_TROOP');const count=integer(r.count,'NPC troops',1);e.set(r.unitId,(e.get(r.unitId)??0)+count)}
   if(!e.size)throw Error('EMPTY_NPC');
-  const [a,...reserves]=assigned(state).map(h=>commander(h,state));
+  const party=q.commanderIds?q.commanderIds.map(id=>{const h=state.heroes.find(x=>x.id===id);if(!h)throw Error('COMMANDER_MISSING');return h}):assigned(state);
+  const [a,...reserves]=party.map(h=>commander(h,state));
   if(a.vitality===0&&!reserves.some(x=>x.vitality>0))throw Error('EXHAUSTED');
   const n=Number(node.id.split('-').at(-1))||1,enemy=enemyCommander(n);
-  const siege=node.kind==='Danh thành'?{hp:Math.max(1,(node.mobileWallLevel??node.level??1)*100),armor:12}:null;
+  const siege=node.kind==='Danh thành'?{hp:Math.max(1,Math.round((node.mobileWallLevel??node.level??1)*20+node.power*.15)),armor:12}:null;
   return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks},{...enemy,stance:'auto',stacks:[...e].map(([id,count])=>({id,count}))}],siege,policy:{...PRODUCT_POLICY}}};
  }
  function credit(s,reward){const cap=storageCapacity(s);if(!Number.isFinite(cap)||cap<0)throw Error('INVALID_CAPACITY');const granted={};for(const [k,v] of Object.entries(reward)){if(!Object.hasOwn(s.resources,k)||!Number.isFinite(v)||v<0)continue;const before=s.resources[k];s.resources[k]=Math.min(k==='jade'?99999:cap,before+v);granted[k]=s.resources[k]-before}return granted;}
@@ -56,7 +57,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   for(const [id,n] of Object.entries(q.troops)){const left=settlement.remaining[id],w=settlement.wounded[id],d=settlement.dead[id];if(left+w+d!==n)throw Error('CASUALTY_MISMATCH');s.army[id]=(s.army[id]??0)+left;s.wounded[id]=(s.wounded[id]??0)+w;}
   for(const c of battle.commanders?.[0]??[]){const h=s.heroes.find(x=>x.id===c.instanceId);if(!h)throw Error('COMMANDER_MISSING');h.combatMana=c.mana;h.combatVitality=c.vitality;h.combatUpdatedAt=now;h.affinity=clamp((h.affinity??0)+(battle.victory?2:1),0,100);}
   // Unmapped durability/loyalty must be acknowledged by caller; cannot silently discard.
-  const unresolved=battle.settlementIntents.filter(e=>e.targetSide===0);if(unresolved.length)throw Error('PLAYER_GEAR_SETTLEMENT_REQUIRES_ADAPTER');
+  const unresolved=battle.settlementIntents.filter(e=>e.targetSide===0);for(const intent of unresolved){const h=s.heroes.find(x=>x.id===battle.commanders?.[0]?.find(c=>c.heroId===intent.heroId)?.instanceId);if(!h)throw Error('INTENT_HERO_MISSING');if(intent.kind==='loyalty')h.combatLoyalty=clamp((h.combatLoyalty??100)+intent.amount,0,100);else if(intent.kind==='durability'){h.combatDurability={...(h.combatDurability??{})};for(const [slot,id] of Object.entries(h.equipment??{}))if(id)h.combatDurability[id]=clamp((h.combatDurability[id]??100)+intent.amount,0,100);}else throw Error('UNMAPPED_SETTLEMENT_INTENT');}
   let loot={};s.stats.battles++;
   if(battle.victory){s.stats.victories++;s.fame+=10+node.chapter*3;const chapter=s.world.chapterProgress[String(node.chapter)]??={wins:0,fieldWins:0,citiesCaptured:0};chapter.wins++;
    const reward={...node.loot};
@@ -66,7 +67,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
    loot=credit(s,reward);
   }
   let itemDrop=null;const rng=seeded(q.seed^0x9e3779b9);if(battle.victory&&rng()<.3){const pool=ITEMS.filter(i=>i.type!=='vật phẩm'&&i.tier<=Math.min(5,1+Math.floor(node.chapter/2)));const item=pool[Math.floor(rng()*pool.length)];if(item&&s.items.length<500){s.items.push(item.id);itemDrop=item.id;}}
-  s.morale=clamp(s.morale+(battle.victory?2:-5),0,100);receipt(s,input.battleId);report(s,{type:'army',target:node.name,targetKind:node.kind,victory:battle.victory,rounds:battle.rounds,dead:settlement.dead,wounded:settlement.wounded,loot,itemDrop,troopsSent:{...q.troops},combatBattleId:input.battleId,evidence:'SIMULATED'},now);note(s,node.name+(battle.victory?' · Thắng trận':' · Rút lui'));return {state:s,battle,loot};
+  s.morale=clamp(s.morale+(battle.victory?2:-5),0,100);receipt(s,input.battleId);report(s,{type:'army',target:node.name,targetKind:node.kind,victory:battle.victory,rounds:battle.rounds.map(r=>({...r,ownDamage:r.incoming[1],enemyDamage:r.incoming[0],ownMorale:s.morale,activeSkills:r.events.filter(e=>e.type==='artifactCast').map(e=>e.name)})),ownPower:Object.values(q.troops).reduce((n,v)=>n+v,0),enemyPower:input.sides[1].stacks.reduce((n,t)=>n+t.count,0),enemyCommander:rt.index.heroes[input.sides[1].heroId].name,enemyFormation:input.sides[1].stacks.map(t=>({unitId:t.id,count:t.count})),dead:settlement.dead,wounded:settlement.wounded,loot,itemDrop,troopsSent:{...q.troops},combatBattleId:input.battleId,evidence:'SIMULATED'},now);note(s,node.name+(battle.victory?' · Thắng trận':' · Rút lui'));return {state:s,battle,loot};
  }
  function quoteDuel(state,mode,mountainId){
   if(!['mountain','tower','buzhou'].includes(mode))throw Error('UNKNOWN_MODE');
@@ -89,7 +90,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
    if(enemy.hp<=0||r.winner===0){victory=true;break;}
   }
   s.stats.duels++;let loot={};if(victory){if(mode==='tower')s.world.towerFloor=q.floor;else if(mode==='buzhou')s.world.buzhouFloor=q.floor;else s.world.mountainWins.push(q.mountainId);loot=credit(s,q.reward);for(const h of party)xp(h,45+q.floor*8);if((mode==='tower'&&q.floor%3===0)||(mode==='buzhou'&&q.floor===BUZHOU_FLOORS)||(mode==='mountain'&&q.floor%7===0)){const pool=ITEMS.filter(i=>i.type==='pháp bảo'&&i.tier<=10),item=pool[(q.floor+Math.floor(now))%pool.length];if(item&&!s.items.includes(item.id)&&s.items.length<500)s.items.push(item.id);}s.fame+=5+q.floor;}
-  receipt(s,battleId);report(s,{type:'duel',mode,target:q.target,victory,rounds,dead:{},wounded:{},loot,combatBattleId:battleId,evidence:'SIMULATED'},now);note(s,q.target+(victory?' · Chiến thắng':' · Thất bại'));return {state:s,battle:{victory,rounds,events},loot,quote:q};
+  receipt(s,battleId);report(s,{type:'duel',mode,target:q.target,victory,rounds:rounds.map((r,i)=>({...r,round:i+1,ownDamage:r.events.filter(e=>e.type==='damage'&&e.side===0).reduce((n,e)=>n+e.amount,0),enemyDamage:r.events.filter(e=>e.type==='damage'&&e.side===1).reduce((n,e)=>n+e.amount,0),ownMorale:s.morale,activeSkills:r.events.filter(e=>e.type==='cast').map(e=>e.name)})),dead:{},wounded:{},loot,combatBattleId:battleId,evidence:'SIMULATED'},now);note(s,q.target+(victory?' · Chiến thắng':' · Thất bại'));return {state:s,battle:{victory,rounds,events},loot,quote:q};
  }
  return {runtime:rt,commander,recover,marchInput,finishMarch,quoteDuel,runDuel};
 }
