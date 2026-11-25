@@ -128,6 +128,8 @@ try {
       check(await evaluate('document.querySelector("#march-count")?.max!==undefined&&document.querySelector(".target-card")?.innerText.includes("Giới hạn lĩnh binh")'));
       await waitFor('document.querySelectorAll(".city-garrison-list .city-guard-card").length===5');
       check(await evaluate('document.querySelector(".city-garrison-list")?.innerText.includes("Đặng Cửu Công")&&document.querySelector(".city-garrison-list")?.innerText.includes("Tiên Tộc Đao Thuẫn Binh")&&document.querySelector(".recon-intel")?.innerText.toLowerCase().includes("quân số trấn thủ tuỳ máy chủ")'));
+      await waitFor('document.querySelectorAll(".city-legacy-garrison-list article").length===5');
+      check(await evaluate('document.querySelector(".target-card")?.innerText.includes("Đối chiếu NPC legacy")&&document.querySelector(".city-legacy-garrison-list article small")?.innerText.includes("quân")&&document.querySelector(".target-card")?.innerText.includes("snapshot legacy")'));
       await waitFor('Array.from(document.querySelectorAll(".city-garrison-list img")).filter(x=>x.complete&&x.naturalWidth>0).length===5');
       await click('.map-node[data-node="node-011"]');
       check(await evaluate('document.querySelector(".target-card")?.innerText.includes("Trinh sát tài nguyên")'));
@@ -153,6 +155,14 @@ try {
   await click('.source-provenance summary');
   check(await evaluate('document.querySelector(".source-provenance")?.innerText.includes("13d969fc88c141553535c70943aaa98cf9f86616")'));
   console.log('PASS legacy quest reference shows source text, UNKNOWN mechanics, and pinned provenance.');
+
+  await evaluate('(function(){var s=document.querySelector("[data-source-category]");s.value="legacy-city-garrison";s.dispatchEvent(new Event("change",{bubbles:true}));return true})()');
+  await waitFor('document.querySelector(".source-entry .tag")?.innerText==="VERIFIED_LEGACY"');
+  check(await evaluate('document.querySelector(".source-entry-list")?.innerText.includes("VERIFIED_LEGACY")&&document.querySelector(".hint")?.innerText.includes("375 kết quả")&&document.querySelector(".hint")?.innerText.includes("2 thành legacy-only")'));
+  await evaluate('(function(){var i=document.querySelector("#source-query");i.value="Legacy-only";document.querySelector("form[data-form=source-search]").requestSubmit();return true})()');
+  await waitFor('document.querySelectorAll(".source-entry").length===10');
+  check(await evaluate('Array.from(document.querySelectorAll(".source-entry")).every(x=>x.innerText.includes("Legacy-only"))'));
+  console.log('PASS legacy city NPC library exposes all 375 rows and searchable legacy-only references.');
 
   await click('#primary-nav [data-view="market"]');
   await click('[data-action="setTaxPolicy"][data-policy="heavy"]');

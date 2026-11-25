@@ -28,6 +28,7 @@ NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
 LEGACY_QUEST_SOURCE_DATA = ROOT / "src" / "legacy-quest-catalog.js"
 LEGACY_BUZHOU_SOURCE_DATA = ROOT / "src" / "legacy-buzhou-catalog.js"
+LEGACY_CITY_GARRISON_SOURCE_DATA = ROOT / "src" / "legacy-city-garrison-catalog.js"
 LEGACY_TROOP_TIME_SOURCE_DATA = ROOT / "src" / "legacy-troop-time-catalog.js"
 LEGACY_TROOP_REQUIREMENT_SOURCE_DATA = ROOT / "src" / "legacy-troop-requirement-catalog.js"
 
@@ -182,6 +183,48 @@ def runtime_legacy_buzhou():
         "equipmentRules": parsed["equipmentRules"],
         "recordCount": imported_records,
         "fieldValueCount": imported_fields,
+    }
+
+
+def runtime_legacy_city_garrisons():
+    if not LEGACY_CITY_GARRISON_SOURCE_DATA.exists():
+        return None
+    source = LEGACY_CITY_GARRISON_SOURCE_DATA.read_text(encoding="utf-8")
+    metadata_marker = "export const LEGACY_CITY_GARRISON_SOURCE = Object.freeze("
+    records_marker = "export const LEGACY_CITY_GARRISONS = Object.freeze("
+    metadata_start = source.find(metadata_marker)
+    records_start = source.find(records_marker)
+    if metadata_start < 0 or records_start < 0:
+        raise ValueError("Could not parse generated legacy city garrison adapter")
+    metadata_start += len(metadata_marker)
+    records_start += len(records_marker)
+    metadata_end = source.rfind(");", metadata_start, records_start)
+    records_end = source.rfind(");")
+    if metadata_end <= metadata_start or records_end <= records_start:
+        raise ValueError("Generated legacy city garrison adapter is incomplete")
+    metadata = json.loads(source[metadata_start:metadata_end])
+    records = json.loads(source[records_start:records_end])
+    row_count = sum(len(city.get("guards", [])) for city in records)
+    field_count = sum(
+        len(guard.get("fieldProvenance", {}))
+        for city in records
+        for guard in city.get("guards", [])
+    )
+    if len(records) != metadata.get("legacyCityCount") or row_count != metadata.get("legacyGuardRecordCount"):
+        raise ValueError("Legacy city garrison counts do not match adapter metadata")
+    if len([city for city in records if city.get("mobileCityId")]) != metadata.get("coordinateMatchedMobileCities"):
+        raise ValueError("Legacy city coordinate joins do not match adapter metadata")
+    if sum(len(city.get("guards", [])) for city in records if city.get("mobileCityId")) != metadata.get("matchedLegacyGuardRecordCount"):
+        raise ValueError("Legacy city matched guard count does not match adapter metadata")
+    if any(len(city.get("guards", [])) != 5 for city in records):
+        raise ValueError("Legacy city garrison has a group other than five rows")
+    if any(len(guard.get("fieldProvenance", {})) != 6 for city in records for guard in city.get("guards", [])):
+        raise ValueError("Legacy city garrison field provenance is incomplete")
+    return {
+        "metadata": metadata,
+        "records": records,
+        "recordCount": row_count,
+        "fieldValueCount": field_count,
     }
 
 
@@ -670,6 +713,7 @@ def main():
     legacy = legacy_inventory()
     legacy_quests = runtime_legacy_quests()
     legacy_buzhou = runtime_legacy_buzhou()
+    legacy_city_garrisons = runtime_legacy_city_garrisons()
     legacy_troop_times = runtime_legacy_troop_times()
     legacy_troop_requirements = runtime_legacy_troop_requirements()
     legacy_troop_time_field_count = sum(
@@ -684,6 +728,11 @@ def main():
         legacy["runtimeImportedBuzhouRecordCount"] = legacy_buzhou["recordCount"]
         legacy["runtimeImportedBuzhouFieldValueCount"] = legacy_buzhou["fieldValueCount"]
         legacy["runtimeImportedTables"] = sorted(set(legacy.get("runtimeImportedTables", []) + buzhou_tables))
+    if legacy and legacy_city_garrisons:
+        city_tables = [table["sourceTable"] for table in legacy_city_garrisons["metadata"]["sourceTables"].values()]
+        legacy["runtimeImportedCityGarrisonRows"] = legacy_city_garrisons["recordCount"]
+        legacy["runtimeImportedCityGarrisonFieldValueCount"] = legacy_city_garrisons["fieldValueCount"]
+        legacy["runtimeImportedTables"] = sorted(set(legacy.get("runtimeImportedTables", []) + city_tables))
     mobile = mobile_inventory()
     normalized = normalized_inventory()
     comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
@@ -695,9 +744,16 @@ def main():
         coverage.setdefault("runtimeMechanics", {})["buildingProgression"] = mobile["buildingAdapter"]
         coverage["runtimeMechanics"]["cityNpcGarrisons"] = {
             **mobile["cityGarrison"],
+            "sourceStatus": "MOBILE_AND_LEGACY_VERSIONED_REFERENCE",
+            "legacyCityCount": legacy_city_garrisons["metadata"]["legacyCityCount"] if legacy_city_garrisons else 0,
+            "legacyGuardRecords": legacy_city_garrisons["recordCount"] if legacy_city_garrisons else 0,
+            "coordinateMatchedCities": legacy_city_garrisons["metadata"]["coordinateMatchedMobileCities"] if legacy_city_garrisons else 0,
+            "legacyOnlyCities": legacy_city_garrisons["metadata"]["legacyOnlyCityCount"] if legacy_city_garrisons else 0,
+            "versionComparison": legacy_city_garrisons["metadata"]["versionComparison"] if legacy_city_garrisons else None,
             "status": "VERIFIED_MOBILE_IDENTITIES_TROOP_ROLES_AND_ART",
             "troopCountStatus": "UNKNOWN_SERVER_DEPENDENT",
             "combatEffectActive": False,
+            "legacyReferenceOnly": True,
         }
         hero_catalog = next((
             item for item in coverage.get("runtimeCatalogs", [])
@@ -888,6 +944,46 @@ def main():
             "rewardStatus": legacy_buzhou["metadata"]["rewardStatus"],
             "sourceVersion": legacy_buzhou["metadata"]["sourceVersion"],
         }
+    if legacy_city_garrisons:
+        city_catalog = next((
+            item for item in coverage.get("runtimeCatalogs", [])
+            if item.get("domain") == "legacyCityGarrisonReference"
+        ), None)
+        if city_catalog is None:
+            city_catalog = {"domain": "legacyCityGarrisonReference"}
+            coverage.setdefault("runtimeCatalogs", []).append(city_catalog)
+        city_catalog.update({
+            "records": legacy_city_garrisons["recordCount"],
+            "status": "VERIFIED_LEGACY_REFERENCE",
+            "sourceCommit": legacy_city_garrisons["metadata"]["sourceCommit"],
+            "sourceTables": [table["sourceTable"] for table in legacy_city_garrisons["metadata"]["sourceTables"].values()],
+            "legacyCityCount": legacy_city_garrisons["metadata"]["legacyCityCount"],
+            "coordinateMatchedMobileCities": legacy_city_garrisons["metadata"]["coordinateMatchedMobileCities"],
+            "legacyOnlyCityCount": legacy_city_garrisons["metadata"]["legacyOnlyCityCount"],
+            "fieldValueCount": legacy_city_garrisons["fieldValueCount"],
+            "activeGameplayRecords": 0,
+            "combatEffectActive": False,
+            "rewardEffectActive": False,
+            "versionComparison": legacy_city_garrisons["metadata"]["versionComparison"],
+        })
+        coverage.setdefault("mobileLegacyComparison", {})["cityGarrisons"] = {
+            "status": "EXACT_COORDINATE_JOIN_TEXT_MULTISET_COMPARISON",
+            "legacySourceCommit": legacy_city_garrisons["metadata"]["sourceCommit"],
+            "mobileCities": legacy_city_garrisons["metadata"]["mobileCityCount"],
+            "matchedCities": legacy_city_garrisons["metadata"]["coordinateMatchedMobileCities"],
+            "legacyOnlyCities": legacy_city_garrisons["metadata"]["legacyOnlyCityCount"],
+            "matchedLegacyGuardRecords": legacy_city_garrisons["metadata"]["matchedLegacyGuardRecordCount"],
+            **legacy_city_garrisons["metadata"]["versionComparison"],
+            "countParity": "NOT_COMPARABLE_MOBILE_COUNTS_SERVER_DEPENDENT",
+            "rosterParity": "NOT_ASSERTED",
+        }
+        coverage.setdefault("runtimeMechanics", {}).setdefault("cityNpcGarrisons", {}).update({
+            "legacyReferenceRecords": legacy_city_garrisons["recordCount"],
+            "legacyCoordinateMatchedCities": legacy_city_garrisons["metadata"]["coordinateMatchedMobileCities"],
+            "legacyOnlyCities": legacy_city_garrisons["metadata"]["legacyOnlyCityCount"],
+            "legacyCombatActive": False,
+            "legacyRewardsActive": False,
+        })
     if legacy and (legacy_troop_times or legacy_troop_requirements):
         legacy["supplementalRuntimeImports"] = {}
         if legacy_troop_times:
@@ -907,7 +1003,7 @@ def main():
     coverage["updated"] = date.today().isoformat()
     coverage["evidenceStatus"].update({
         "verifiedMobileRecords": mobile["runtimeImportedRecordCount"] if mobile else 0,
-        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (legacy["runtimeImportedConditionRecordCount"] if legacy else 0) + (legacy_buzhou["recordCount"] if legacy_buzhou else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0) + (len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0),
+        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (legacy["runtimeImportedConditionRecordCount"] if legacy else 0) + (legacy_buzhou["recordCount"] if legacy_buzhou else 0) + (legacy_city_garrisons["recordCount"] if legacy_city_garrisons else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0) + (len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0),
         "runtimeCatalogRecords": sum(
             item.get("records", 0)
             for item in coverage.get("runtimeCatalogs", [])
@@ -915,7 +1011,7 @@ def main():
         ),
         "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25" if network else "NOT_CHECKED",
         "fieldScopedMobileFieldsInGameplay": mobile["fieldScopedGameplayValueCount"] if mobile else 0,
-        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + (legacy["runtimeImportedConditionFieldValueCount"] if legacy else 0) + (legacy_buzhou["fieldValueCount"] if legacy_buzhou else 0) + legacy_troop_time_field_count + legacy_troop_requirement_field_count,
+        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + (legacy["runtimeImportedConditionFieldValueCount"] if legacy else 0) + (legacy_buzhou["fieldValueCount"] if legacy_buzhou else 0) + (legacy_city_garrisons["fieldValueCount"] if legacy_city_garrisons else 0) + legacy_troop_time_field_count + legacy_troop_requirement_field_count,
         "note": f"Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and {mobile['fieldScopedGameplayValueCount'] if mobile else 0:,} field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     })
     coverage["sourceInventory"] = {
@@ -960,6 +1056,23 @@ def main():
             "activeSourceDamageOrRewards": legacy_buzhou["metadata"]["activeSourceDamageOrRewards"],
             "rewardStatus": legacy_buzhou["metadata"]["rewardStatus"],
         } if legacy_buzhou else None),
+        "legacyCityGarrisonsRuntime": ({
+            "sourceVersion": legacy_city_garrisons["metadata"]["sourceVersion"],
+            "sourceCommit": legacy_city_garrisons["metadata"]["sourceCommit"],
+            "recordCount": legacy_city_garrisons["recordCount"],
+            "fieldValueCount": legacy_city_garrisons["fieldValueCount"],
+            "legacyCityCount": legacy_city_garrisons["metadata"]["legacyCityCount"],
+            "mobileCityCount": legacy_city_garrisons["metadata"]["mobileCityCount"],
+            "coordinateMatchedMobileCities": legacy_city_garrisons["metadata"]["coordinateMatchedMobileCities"],
+            "legacyOnlyCityCount": legacy_city_garrisons["metadata"]["legacyOnlyCityCount"],
+            "sourceTables": {
+                key: {"sourceTable": value["sourceTable"], "recordCount": value["recordCount"], "fields": value["importedFields"]}
+                for key, value in legacy_city_garrisons["metadata"]["sourceTables"].items()
+            },
+            "versionComparison": legacy_city_garrisons["metadata"]["versionComparison"],
+            "combatEffectActive": False,
+            "rewardEffectActive": False,
+        } if legacy_city_garrisons else None),
         "legacyTroopTrainingTime": ({
             "sourceVersion": legacy_troop_times["metadata"]["sourceVersion"],
             "sourceTable": legacy_troop_times["metadata"]["sourceTable"],
@@ -1035,6 +1148,7 @@ def main():
     coverage["versionComparison"] = {
         **(comparison or {}),
         "legacyQuestFields": legacy_quests["metadata"]["versionComparison"] if legacy_quests else None,
+        "legacyCityGarrisons": legacy_city_garrisons["metadata"]["versionComparison"] if legacy_city_garrisons else None,
     }
     coverage["normalizationStatus"] = (
         "OWNER_AUTHORIZED_PRIVATE_STRUCTURAL_NORMALIZATION_COMPLETE; RUNTIME_MAPPING_PENDING_FIELD_SEMANTICS"

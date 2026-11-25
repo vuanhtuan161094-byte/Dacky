@@ -2,7 +2,16 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
-## Latest increment: Mobile city guard profiles
+## Latest increment: Legacy city NPC garrison comparison
+
+- Added a reproducible adapter for pinned `famouscitygeneralinfo` and `147-soldierinfo`: 375 legacy NPC stacks grouped into 75 coordinates, five rows per city. Exact coordinate joins match all 73 Mobile cities; two legacy-only city groups remain separate.
+- Each row retains legacy source version, officer name, troop ID/name, fixed count and per-field hashes/provenance. The map now displays the matched legacy snapshot alongside the Mobile roster. Mobile counts remain server-dependent `UNKNOWN`; legacy counts stay in their own version namespace and do not affect combat or rewards.
+- Added a searchable legacy NPC category to the source library, including all ten rows from the two legacy-only city groups.
+- The reproducible per-city multiset comparison finds 140 general-name row overlaps and 94 troop-name row overlaps across matched cities, with zero exact five-name roster matches for either field. It makes no slot-order or count-parity assumption. Runtime JSON now exports 375 `legacyCityGarrisonReference` records; `DATA_COVERAGE.json` records 2,250 field values, 73 coordinate matches and two legacy-only cities.
+- Verification: Node tests PASS 51/51; Python source tests PASS 10/10; Chromium gameplay/save/reload/orientation smoke PASS across 12 screens with zero runtime/HTTP errors; PWA shell v20 reopens offline; single-file HTML launches without external asset requests.
+- Web build and Capacitor sync PASS. Android debug `assembleDebug bundleDebug` PASS using the existing toolchain. APK 48,122,723 bytes (SHA-256 `699f24cd2a7f14c564d26c669d2d961f70e1adef8bd4b9300e453b30cdc1c066`); debug AAB 35,069,720 bytes (SHA-256 `3cf4bb26b0e2ebc1f5a5ed724614ddb88903c130a1a6f89a4ad7b9db701f8ee8`). APK v2 signature and both ZIP packages verified. `dist/offline.html` is 55,224,948 bytes (SHA-256 `a3aa5a61e39f9935398d1b15cd5e065d7face0d1f0e4357e38b1a072c5271ee2`). These are debug outputs; device QA is unavailable. CI for this increment is pending push.
+
+## Previous increment: Mobile city guard profiles
 
 - Imported five guard profiles for each of the 73 Mobile cities: 365 source NPC identities with troop-role text, rank, portrait, per-field provenance and local image SHA-256. Runtime export now preserves the city note that garrison counts vary by server; numeric troop counts remain `UNKNOWN_SERVER_DEPENDENT` and do not affect the existing combat fallback.
 - The world map now shows the five source profiles and portraits for the selected city. Added coverage and regression checks for all 73 cities/365 profiles, every field path, image path/hash and the inactive combat boundary. `DATA_COVERAGE.json` reports 37,845 field-scoped Mobile values.

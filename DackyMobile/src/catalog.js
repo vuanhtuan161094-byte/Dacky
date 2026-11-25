@@ -6,8 +6,9 @@ import { LEGACY_QUEST_SOURCE, LEGACY_QUESTS } from './legacy-quest-catalog.js';
 import { LEGACY_BUZHOU_SOURCE, LEGACY_BUZHOU_MOUNTAIN_CONFIG, LEGACY_BUZHOU_FLOOR_CONFIG, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_EQUIPMENT_RULES } from './legacy-buzhou-catalog.js';
 import { LEGACY_TROOP_TIME_FACTS } from './legacy-troop-time-catalog.js';
 import { LEGACY_TROOP_REQUIREMENT_FACTS, LEGACY_TROOP_REQUIREMENT_SOURCE } from './legacy-troop-requirement-catalog.js';
+import { LEGACY_CITY_GARRISON_SOURCE, LEGACY_CITY_GARRISONS } from './legacy-city-garrison-catalog.js';
 
-export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, LEGACY_BUZHOU_SOURCE, LEGACY_BUZHOU_MOUNTAIN_CONFIG, LEGACY_BUZHOU_FLOOR_CONFIG, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_EQUIPMENT_RULES, LEGACY_TROOP_REQUIREMENT_SOURCE, MOBILE_SOURCE_DATABASE };
+export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, LEGACY_BUZHOU_SOURCE, LEGACY_BUZHOU_MOUNTAIN_CONFIG, LEGACY_BUZHOU_FLOOR_CONFIG, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_EQUIPMENT_RULES, LEGACY_TROOP_REQUIREMENT_SOURCE, LEGACY_CITY_GARRISON_SOURCE, LEGACY_CITY_GARRISONS, MOBILE_SOURCE_DATABASE };
 
 const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
   rows,
@@ -275,6 +276,7 @@ const npcRoles=Object.freeze({
   'Boss chiến dịch':['bộ binh','kỵ binh','xạ thủ','đạo binh','công thành']
 });
 const npcElements=['fire','water','wood','metal','earth'];
+const legacyCityGarrisonByMobileId=new Map(LEGACY_CITY_GARRISONS.filter(city=>city.mobileCityId).map(city=>[city.mobileCityId,city]));
 function generatedNpcForce(index,chapter,kind,power){
   const targetTier=Math.min(7,Math.ceil(chapter*7/8));
   const roles=npcRoles[kind];
@@ -323,7 +325,10 @@ export const WORLD_NODES = Object.freeze(adaptSourceFacts('worldNodes', Array.fr
     power, enemy:generatedNpcForce(i,chapter,kind,power), loot: { food: isBoss ? 3200 : 80 + i * 12, timber: isBoss ? 2400 : 65 + i * 9, stone: isBoss ? 2000 : 50 + i * 8, gold: isBoss ? 3600 : 45 + i * 8, jade: isBoss ? 8 : i % 7 === 0 ? 1 : 0 },
     evidence: 'SIMULATED', mobileCityId: null, mobileCityType: null, mobileFaction: null,
     mobileImage: '', mobileWallLevel: null, mobileOfficialLevel: null, mobileCoordinates: null, mobileGarrison: [], mobileGarrisonNote: null, sourceFieldStatus: 'UNKNOWN' };
-})));
+})).map(node=>{
+  const reference=legacyCityGarrisonByMobileId.get(node.mobileCityId);
+  return {...node,legacyGarrison:reference?.guards||[],legacyGarrisonCoordinateKey:reference?.coordinateKey||null};
+}));
 
 const mountainPrefixes=['Thanh Vân','Tử Tiêu','Huyền Đô','Thái Hư','Bồng Lai','Phương Trượng','Doanh Châu','Côn Lôn','Ngọc Hư','Linh Đài','Vạn Thọ','Tụ Tiên','Thục Sơn','Nga Mi','Thái Hành','Kinh Hoa','Lạc Già','Bắc Minh','Nam Hoa','Bạch Vân','Thanh Thành','La Phù','Chung Nam','Tiểu Hàn'];
 const mountainSuffixes=['Phong','Vân','Hạc','Ngọc','Hỏa','Thủy','Lôi','Tùng','Trúc','Đào','Liên','Hà','Tinh','Nguyệt','Long','Phượng','Tử','Kim','Huyền','Bích','Thạch','Đan','Linh','Thiên','Địa','Thái'];
@@ -352,7 +357,9 @@ export const LEGACY_REFERENCE_COUNTS = Object.freeze({
   famousCities: 75,
   elflands: 624,
   elflandFloors: 8992,
-  buzhouFixedNpcs: 90
+  buzhouFixedNpcs: 90,
+  legacyFamousCities: LEGACY_CITY_GARRISON_SOURCE.legacyCityCount,
+  legacyFamousCityGarrisons: LEGACY_CITY_GARRISON_SOURCE.legacyGuardRecordCount
 });
 
 export const colorForElement = Object.freeze({ fire: '#d85d32', water: '#4385a1', earth: '#c29a55', metal: '#d9bf84', wood: '#5c9472', wind: '#81a98e' });

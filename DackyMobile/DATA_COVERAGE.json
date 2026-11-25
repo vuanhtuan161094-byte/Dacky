@@ -4,12 +4,12 @@
   "gameplayVersion": "dacky-mobile-sim-v1",
   "evidenceStatus": {
     "verifiedMobileRecords": 2656,
-    "verifiedLegacyRecordsImported": 7080,
+    "verifiedLegacyRecordsImported": 7455,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
     "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 37,845 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     "fieldScopedMobileFieldsInGameplay": 37845,
-    "runtimeCatalogRecords": 10521,
-    "fieldScopedLegacyFieldsImported": 88384
+    "runtimeCatalogRecords": 10896,
+    "fieldScopedLegacyFieldsImported": 90634
   },
   "references": {
     "publicMobile": [
@@ -244,6 +244,31 @@
       "activeSourceDamageOrRewards": false,
       "rewardStatus": "UNKNOWN_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED",
       "equipmentRuleStatus": "UNKNOWN_RAW_RANDOM_RULES_REFERENCE_ONLY"
+    },
+    {
+      "domain": "legacyCityGarrisonReference",
+      "records": 375,
+      "status": "VERIFIED_LEGACY_REFERENCE",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "sourceTables": [
+        "famouscitygeneralinfo",
+        "147-soldierinfo"
+      ],
+      "legacyCityCount": 75,
+      "coordinateMatchedMobileCities": 73,
+      "legacyOnlyCityCount": 2,
+      "fieldValueCount": 2250,
+      "activeGameplayRecords": 0,
+      "combatEffectActive": false,
+      "rewardEffectActive": false,
+      "versionComparison": {
+        "generalNameOverlapRecords": 140,
+        "troopNameOverlapRecords": 94,
+        "exactGeneralNameRosterMatches": 0,
+        "exactTroopNameRosterMatches": 0,
+        "method": "PER_CITY_MULTISETS; NO SLOT OR COUNT MATCH ASSUMED",
+        "parityClaim": false
+      }
     }
   ],
   "runtimeMechanics": {
@@ -560,7 +585,25 @@
       "guardPortraitAssets": 365,
       "troopCountStatus": "UNKNOWN_SERVER_DEPENDENT",
       "combatEffectActive": false,
-      "status": "VERIFIED_MOBILE_IDENTITIES_TROOP_ROLES_AND_ART"
+      "sourceStatus": "MOBILE_AND_LEGACY_VERSIONED_REFERENCE",
+      "legacyCityCount": 75,
+      "legacyGuardRecords": 375,
+      "coordinateMatchedCities": 73,
+      "legacyOnlyCities": 2,
+      "versionComparison": {
+        "generalNameOverlapRecords": 140,
+        "troopNameOverlapRecords": 94,
+        "exactGeneralNameRosterMatches": 0,
+        "exactTroopNameRosterMatches": 0,
+        "method": "PER_CITY_MULTISETS; NO SLOT OR COUNT MATCH ASSUMED",
+        "parityClaim": false
+      },
+      "status": "VERIFIED_MOBILE_IDENTITIES_TROOP_ROLES_AND_ART",
+      "legacyReferenceOnly": true,
+      "legacyReferenceRecords": 375,
+      "legacyCoordinateMatchedCities": 73,
+      "legacyCombatActive": false,
+      "legacyRewardsActive": false
     }
   },
   "notImported": [
@@ -599,11 +642,13 @@
       "decodedSchemaFieldCount": 613,
       "runtimeImportedRecordCount": 1158,
       "runtimeImportedTables": [
+        "147-soldierinfo",
         "buzhoumountainconfig",
         "buzhoumountainfightgetgoodscfginfo",
         "buzhoumountainfightgetzhuangbeicfginfo",
         "buzhoumountainfloorconfig",
         "buzhoumountaingeneralconfig",
+        "famouscitygeneralinfo",
         "quest",
         "questcondition"
       ],
@@ -1324,6 +1369,8 @@
       ],
       "runtimeImportedBuzhouRecordCount": 137,
       "runtimeImportedBuzhouFieldValueCount": 950,
+      "runtimeImportedCityGarrisonRows": 375,
+      "runtimeImportedCityGarrisonFieldValueCount": 2250,
       "supplementalRuntimeImports": {
         "147-soldierinfo.trainingTime": {
           "records": 24,
@@ -1499,6 +1546,47 @@
       "combatStatus": "REFERENCE_ONLY_CURRENT_FALLBACK_UNCHANGED",
       "activeSourceDamageOrRewards": false,
       "rewardStatus": "UNKNOWN_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED"
+    },
+    "legacyCityGarrisonsRuntime": {
+      "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "recordCount": 375,
+      "fieldValueCount": 2250,
+      "legacyCityCount": 75,
+      "mobileCityCount": 73,
+      "coordinateMatchedMobileCities": 73,
+      "legacyOnlyCityCount": 2,
+      "sourceTables": {
+        "cities": {
+          "sourceTable": "famouscitygeneralinfo",
+          "recordCount": 375,
+          "fields": [
+            "PosX",
+            "PosY",
+            "GeneralName",
+            "LeadSoldierID",
+            "LeadSoldierNum"
+          ]
+        },
+        "soldiers": {
+          "sourceTable": "147-soldierinfo",
+          "recordCount": 39,
+          "fields": [
+            "SoldierID",
+            "Name"
+          ]
+        }
+      },
+      "versionComparison": {
+        "generalNameOverlapRecords": 140,
+        "troopNameOverlapRecords": 94,
+        "exactGeneralNameRosterMatches": 0,
+        "exactTroopNameRosterMatches": 0,
+        "method": "PER_CITY_MULTISETS; NO SLOT OR COUNT MATCH ASSUMED",
+        "parityClaim": false
+      },
+      "combatEffectActive": false,
+      "rewardEffectActive": false
     },
     "legacyTroopTrainingTime": {
       "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88",
@@ -2092,13 +2180,13 @@
             "changedRecords": 33,
             "fieldsWithDifferences": {
               "Describe": 33,
-              "Name": 25,
               "Camp": 13,
-              "Att": 1,
-              "TrainSpendSecond": 1,
-              "Life": 1,
+              "Name": 25,
               "Def": 1,
-              "TrainSpendMinute": 1
+              "Life": 1,
+              "Att": 1,
+              "TrainSpendMinute": 1,
+              "TrainSpendSecond": 1
             },
             "fieldsOnlyIn147": [],
             "fieldsOnlyInSoldierinfo": [
@@ -2519,13 +2607,13 @@
           "changedRecords": 33,
           "fieldsWithDifferences": {
             "Describe": 33,
-            "Name": 25,
             "Camp": 13,
-            "Att": 1,
-            "TrainSpendSecond": 1,
-            "Life": 1,
+            "Name": 25,
             "Def": 1,
-            "TrainSpendMinute": 1
+            "Life": 1,
+            "Att": 1,
+            "TrainSpendMinute": 1,
+            "TrainSpendSecond": 1
           },
           "fieldsOnlyIn147": [],
           "fieldsOnlyInSoldierinfo": [
@@ -2562,6 +2650,14 @@
       "changedFieldRecordCounts": {
         "title": 3
       },
+      "parityClaim": false
+    },
+    "legacyCityGarrisons": {
+      "generalNameOverlapRecords": 140,
+      "troopNameOverlapRecords": 94,
+      "exactGeneralNameRosterMatches": 0,
+      "exactTroopNameRosterMatches": 0,
+      "method": "PER_CITY_MULTISETS; NO SLOT OR COUNT MATCH ASSUMED",
       "parityClaim": false
     }
   },
@@ -2625,6 +2721,22 @@
       "legacyFamousCityDefenderRows": 375,
       "legacyCoordinateGroups": 75,
       "comparison": "Coordinates and garrison identities are version-specific; defender headcount varies by server."
+    },
+    "cityGarrisons": {
+      "status": "EXACT_COORDINATE_JOIN_TEXT_MULTISET_COMPARISON",
+      "legacySourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "mobileCities": 73,
+      "matchedCities": 73,
+      "legacyOnlyCities": 2,
+      "matchedLegacyGuardRecords": 365,
+      "generalNameOverlapRecords": 140,
+      "troopNameOverlapRecords": 94,
+      "exactGeneralNameRosterMatches": 0,
+      "exactTroopNameRosterMatches": 0,
+      "method": "PER_CITY_MULTISETS; NO SLOT OR COUNT MATCH ASSUMED",
+      "parityClaim": false,
+      "countParity": "NOT_COMPARABLE_MOBILE_COUNTS_SERVER_DEPENDENT",
+      "rosterParity": "NOT_ASSERTED"
     }
   }
 }

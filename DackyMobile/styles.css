@@ -400,7 +400,11 @@ body.reduce-motion *, body.reduce-motion *:before, body.reduce-motion *:after { 
 .city-guard-card img{width:34px;height:38px;flex:0 0 auto;object-fit:cover;border-radius:4px}
 .city-guard-card div{display:grid;min-width:0;gap:3px}
 .city-guard-card b,.city-guard-card small{overflow-wrap:anywhere;font-size:9px;line-height:1.3}
+.city-legacy-garrison-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;margin:6px 0}
+.city-legacy-garrison-list article{display:grid;gap:3px;min-width:0;padding:5px;border:1px solid rgba(199,160,103,.18);border-radius:6px;background:rgba(38,30,26,.55)}
+.city-legacy-garrison-list b,.city-legacy-garrison-list small{overflow-wrap:anywhere;font-size:9px;line-height:1.3}
 @media(max-width:680px){.city-garrison-list{grid-template-columns:1fr}}
+@media(max-width:680px){.city-legacy-garrison-list{grid-template-columns:1fr}}
 
 .source-library-toolbar{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(280px,1.3fr);gap:12px;align-items:end;margin:10px 0}
 .source-library-toolbar .field{margin:0}
