@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { MOBILE_SOURCE_DATABASE,TROOPS } from '../src/catalog.js';
+import { createCombatRuntime } from '../src/combat/runtime-v7.js';
+import { commanderChoice,chooseStance,hitWall,createWall } from '../src/combat/command-v8.js';
+const rt=createCombatRuntime({database:MOBILE_SOURCE_DATABASE,troopRows:TROOPS,allowSimulatedLife:true});
+const ids=Object.keys(rt.troops);
+const hero=(heroId,instanceId,mana=1000)=>({heroId,instanceId,level:150,vitality:1000,maxVitality:1000,mana,maxMana:1000,equippedArtifactIds:[]});
+const sides=()=>[{...hero('na-tra','a'),stacks:[{id:ids[0],count:300}],reserves:[hero('ba-trung','r')],switchPlan:{2:'r'},stance:'auto'},{...hero('ba-trung','b'),stacks:[{id:ids[1],count:300}],stance:'guard'}];
+test('commander switch retains resource and unique ordered events',()=>{const a=sides(),input={battleId:'v8',sides:a,seed:17,policy:{maxRounds:6,damageScale:.02}};const r=rt.army(input);assert.deepEqual(r,rt.army(input));assert.ok(r.events.some(e=>e.type==='commanderSwitch'&&e.to==='ba-trung'));assert.equal(r.rounds[1].sides[0].instanceId,'r');assert.equal(r.commanders[0].length,2);assert.deepEqual(r.events.map(e=>e.seq),r.events.map((_,i)=>i+1));assert.equal(a[0].mana,1000);});
+test('locked commander cannot switch; unknown roster target rejected',()=>{const r=[hero('na-tra','a'),hero('ba-trung','b')],a={side:{switchLocked:true},roster:r,active:0,round:2,index:rt.index,plan:{2:'b'}};assert.equal(commanderChoice(a).reason,'SWITCH_LOCKED');assert.equal(commanderChoice({...a,side:{},plan:{2:'z'}}).reason,'UNKNOWN_COMMANDER')});
+test('siege requires wall breach and wall is separate from troop losses',()=>{const a=sides();const r=rt.army({battleId:'wall',sides:a,siege:{hp:100000000,armor:10},policy:{maxRounds:2}});assert.equal(r.winner,1);assert.ok(r.wall.hp<r.wall.maxHp);assert.ok(r.wall.hp>0);assert.ok(r.rounds.every(x=>x.incoming[1]===0));const b=rt.army({battleId:'breach',sides:a,siege:{hp:1,armor:0},policy:{maxRounds:2}});assert.equal(b.wall.hp,0);assert.ok(b.events.some(e=>e.type==='wallBreached'));});
+test('siege weapons are stronger against wall and AI picks appropriate stance',()=>{const s=[{id:'x',count:10,attack:20}];assert.ok(hitWall(createWall({hp:1000}),s,{x:{lane:'siege'}},'siege')>hitWall(createWall({hp:1000}),s,{x:{lane:'front'}},'siege'));assert.equal(chooseStance({requested:'auto',own:100,enemy:200,tactical:{counter:0},side:1}),'guard')});

@@ -48,3 +48,10 @@ Base P5 7b503ebc; CI run 45638626633 success. This workstream remains isolated.
 - Review: see combat-review.html. Uses real ES modules and source catalog, not a canned battle log. Browser verification required. No merge or production release.
 
 P7 browser review packaging: node scripts/build-combat-review.mjs produces combat-review-dist/offline.html (single file, no CDN); CI also packages modular index.html and performs Chrome headless real army replay + strategic cast smoke with ?smoke=1. Download Actions artifact dacky-combat-review. This is a development test harness, not the production client or a visual fidelity approval.
+
+## P8/P9 V0.5 — commander roster, siege and replay
+P7 4c0c5ed3 CI 45639882477 PASS, artifact 15034543529.
+- command-v8.js: optional reserves (max 4 + active), unique instanceId per roster, no duplicate equipped artifact IDs per side, resource snapshots and switchPlan keyed by round. Ordered mode replaces low-mana commander when first available reserve has more mana; adaptive uses resource and usable artifact score with hysteresis. Existing switchLock is enforced; no automatic legacy name matching. Stances assault/balanced/guard/siege/auto influence actual attack/defense. Commander fatigue consumes vitality in proportion to losses; reserve vitality/mana persists.
+- resolveArmyBattle accepts siege:{hp,armor}; attacker ordinary strikes hit wall until breach (artifact direct troop operations remain independent). Wall integrity and siege troop bonus are SIMULATED, no victory before breach. No automatic city capture. runtime-v7 forwards siege and returns commanders, activeCommanderIndices, wall and casualty settlement.
+- P8 is opt-in via reserves, stance, switchPlan, siege or policy.enableTacticsV8; preserve P7 fallback. Persist every commander instance snapshot and wall state once at settlement; Luna owns save glue. Round events and replay are visual-only, no extra damage calculation.
+- Reference target: https://dackytruvuong.com/ (train troops, formation, contest cities), not the unrelated 2016 3D title. Original formulas, exact formations, art motion and siege timings remain unverified.

@@ -4,11 +4,11 @@ import { buildSourceIndex } from './source-rules.js';
 import { resolveLegacyDuel } from './legacy-duel.js';
 export function createCombatRuntime({database,troopRows,allowSimulatedLife=false}){
  const index=buildSourceIndex(database),troops=troopDictionary(troopRows,{allowSimulatedLife});
- function army({battleId,sides,seed=1,policy={},woundedRatio=.35}){
+ function army({battleId,sides,seed=1,policy={},woundedRatio=.35,siege=null}){
   if(typeof battleId!=='string'||!battleId)throw Error('Missing battle ID');
   // Snapshot count is the only recoverable cap. Previous wounded are not combat reinforcements.
   const clean=sides.map(s=>({...s,stacks:s.stacks.map(t=>({...t,initialCount:t.count}))}));
-  const result=resolveArmyBattle({index,troops,sides:clean,seed,policy});
+  const result=resolveArmyBattle({index,troops,sides:clean,seed,policy,siege});
   const settlement=clean.map((s,i)=>classifyCasualties(s.stacks,result.sides[i].stacks,woundedRatio));
   return {...result,battleId,settlement,dead:settlement[0].dead,wounded:settlement[0].wounded,requiresAtomicSettlement:true};
  }
