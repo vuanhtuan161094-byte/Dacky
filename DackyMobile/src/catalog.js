@@ -7,8 +7,9 @@ import { LEGACY_BUZHOU_SOURCE, LEGACY_BUZHOU_MOUNTAIN_CONFIG, LEGACY_BUZHOU_FLOO
 import { LEGACY_TROOP_TIME_FACTS } from './legacy-troop-time-catalog.js';
 import { LEGACY_TROOP_REQUIREMENT_FACTS, LEGACY_TROOP_REQUIREMENT_SOURCE } from './legacy-troop-requirement-catalog.js';
 import { LEGACY_CITY_GARRISON_SOURCE, LEGACY_CITY_GARRISONS } from './legacy-city-garrison-catalog.js';
+import { LEGACY_ELFLAND_SOURCE, LEGACY_ELFLAND_LOCATIONS, LEGACY_ELFLAND_FLOORS, LEGACY_ELFLAND_FORMATIONS, LEGACY_ELFLAND_REWARD_RULES } from './legacy-elfland-catalog.js';
 
-export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, LEGACY_BUZHOU_SOURCE, LEGACY_BUZHOU_MOUNTAIN_CONFIG, LEGACY_BUZHOU_FLOOR_CONFIG, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_EQUIPMENT_RULES, LEGACY_TROOP_REQUIREMENT_SOURCE, LEGACY_CITY_GARRISON_SOURCE, LEGACY_CITY_GARRISONS, MOBILE_SOURCE_DATABASE };
+export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, LEGACY_BUZHOU_SOURCE, LEGACY_BUZHOU_MOUNTAIN_CONFIG, LEGACY_BUZHOU_FLOOR_CONFIG, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_EQUIPMENT_RULES, LEGACY_TROOP_REQUIREMENT_SOURCE, LEGACY_CITY_GARRISON_SOURCE, LEGACY_CITY_GARRISONS, LEGACY_ELFLAND_SOURCE, LEGACY_ELFLAND_LOCATIONS, LEGACY_ELFLAND_FLOORS, LEGACY_ELFLAND_FORMATIONS, LEGACY_ELFLAND_REWARD_RULES, MOBILE_SOURCE_DATABASE };
 
 const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
   rows,
@@ -18,8 +19,8 @@ const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
 
 export const CONTENT_EVIDENCE = Object.freeze({
   status: 'MIXED',
-  source: 'Mobile catalog v5d78c226cb plus verified legacy quest descriptions and shared troop training times are bundled with field provenance; unmapped mechanics remain SIMULATED or UNKNOWN',
-  version: 'dacky-mobile-source-mixed-v1',
+  source: 'Mobile catalog v5d78c226cb plus verified legacy quest, city, Buzhou, Tiên Sơn, troop-time and training-requirement facts are bundled with field provenance; unmapped mechanics remain SIMULATED or UNKNOWN',
+  version: 'dacky-mobile-source-mixed-v2',
   updated: '2026-11-25'
 });
 
@@ -332,13 +333,54 @@ export const WORLD_NODES = Object.freeze(adaptSourceFacts('worldNodes', Array.fr
 
 const mountainPrefixes=['Thanh Vân','Tử Tiêu','Huyền Đô','Thái Hư','Bồng Lai','Phương Trượng','Doanh Châu','Côn Lôn','Ngọc Hư','Linh Đài','Vạn Thọ','Tụ Tiên','Thục Sơn','Nga Mi','Thái Hành','Kinh Hoa','Lạc Già','Bắc Minh','Nam Hoa','Bạch Vân','Thanh Thành','La Phù','Chung Nam','Tiểu Hàn'];
 const mountainSuffixes=['Phong','Vân','Hạc','Ngọc','Hỏa','Thủy','Lôi','Tùng','Trúc','Đào','Liên','Hà','Tinh','Nguyệt','Long','Phượng','Tử','Kim','Huyền','Bích','Thạch','Đan','Linh','Thiên','Địa','Thái'];
-export const IMMORTAL_MOUNTAINS=Object.freeze(adaptSourceFacts('immortalMountains', Array.from({length:624},(_,i)=>({
+const simulatedImmortalMountains=adaptSourceFacts('immortalMountains', Array.from({length:624},(_,i)=>({
   id:`mountain-${String(i+1).padStart(3,'0')}`,
   name:`${mountainPrefixes[Math.floor(i/26)]} ${mountainSuffixes[i%26]}`,
   chapter:Math.floor(i/78)+1,rank:1+i%78,power:140+i*17,
   loot:{gold:80+i%640,jade:i%9===0?1:0,food:120+i%900},
   evidence:'SIMULATED'
-}))));
+})));
+const elflandLocationsByID=[...LEGACY_ELFLAND_LOCATIONS].sort((a,b)=>Number(a.ElflandID)-Number(b.ElflandID));
+const elflandFieldProvenance = (tableKey, field, sourceRowIndex) => ({
+  ...LEGACY_ELFLAND_SOURCE.sourceTables[tableKey].fieldSources[field],
+  sourceRowIndex
+});
+export const IMMORTAL_MOUNTAINS=Object.freeze(simulatedImmortalMountains.map((row,index)=>{
+  const source=elflandLocationsByID[index];
+  if(!source)throw new Error(`Missing legacy Tiên Sơn source row for runtime mountain ${row.id}.`);
+  const sourceId=Number(source.ElflandID);
+  return {
+    ...row,
+    name:source.ElflandName,
+    legacySourceId:sourceId,
+    legacyLevel:Number(source.ElflandLevel),
+    legacyFloorCount:Number(source.FloorNum),
+    legacyDescription:source.ElflandDescribe||'',
+    legacyFloorRowIndexes:source.floorRowIndexes,
+    legacyFieldProvenance:Object.freeze({
+      sourceId:elflandFieldProvenance('locations','ElflandID',source.sourceRowIndex),
+      name:elflandFieldProvenance('locations','ElflandName',source.sourceRowIndex),
+      level:elflandFieldProvenance('locations','ElflandLevel',source.sourceRowIndex),
+      floorCount:elflandFieldProvenance('locations','FloorNum',source.sourceRowIndex),
+      description:elflandFieldProvenance('locations','ElflandDescribe',source.sourceRowIndex)
+    }),
+    legacyEvidence:'VERIFIED_LEGACY',
+    legacyFloorRowIndexes:source.floorRowIndexes,
+    fieldProvenance:Object.freeze({
+      ...(row.fieldProvenance||{}),
+      name:elflandFieldProvenance('locations','ElflandName',source.sourceRowIndex),
+      legacySourceId:elflandFieldProvenance('locations','ElflandID',source.sourceRowIndex),
+      legacyLevel:elflandFieldProvenance('locations','ElflandLevel',source.sourceRowIndex),
+      legacyFloorCount:elflandFieldProvenance('locations','FloorNum',source.sourceRowIndex),
+      legacyDescription:elflandFieldProvenance('locations','ElflandDescribe',source.sourceRowIndex)
+    }),
+    fieldEvidence:Object.freeze({
+      id:'SIMULATED',name:'VERIFIED_LEGACY',chapter:'SIMULATED',rank:'SIMULATED',power:'SIMULATED',loot:'SIMULATED',
+      legacySourceId:'VERIFIED_LEGACY',legacyLevel:'VERIFIED_LEGACY',legacyFloorCount:'VERIFIED_LEGACY',legacyDescription:'VERIFIED_LEGACY'
+    }),
+    evidence:'MIXED'
+  };
+}));
 
 // Legacy config verifies these five Buzhou floors. Combat and reward simulation
 // remains local; this source roster is exposed only as an integration reference.
@@ -357,6 +399,8 @@ export const LEGACY_REFERENCE_COUNTS = Object.freeze({
   famousCities: 75,
   elflands: 624,
   elflandFloors: 8992,
+  elflandNpcFormations: LEGACY_ELFLAND_SOURCE.formationCount,
+  elflandRewardRules: LEGACY_ELFLAND_SOURCE.rewardRuleCount,
   buzhouFixedNpcs: 90,
   legacyFamousCities: LEGACY_CITY_GARRISON_SOURCE.legacyCityCount,
   legacyFamousCityGarrisons: LEGACY_CITY_GARRISON_SOURCE.legacyGuardRecordCount

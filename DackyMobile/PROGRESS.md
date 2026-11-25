@@ -2,11 +2,20 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
-## Latest increment: Legacy/Mobile hero name delta audit
+## Latest increment: Tiên Sơn source integration and complete Web artifact
+
+- Added a reproducible importer for four pinned legacy tables: 624 locations, 8,992 floor configs, 39,670 NPC formations and 1,093 raw loot rules (50,379 records / 310,750 field values). Each row resolves per-field hashes through its table and source row index; cross-links are checked by `ElflandID + FloorID`.
+- Compared `elfland*` with `*_45`: location names/descriptions/coordinates match across 624 IDs, while 94 levels and 93 floor counts differ; floor configs have 744 primary-only keys and 665 changed names; formation full-row multisets contain 32,545 shared, 7,125 primary-only and 2,475 comparison-only rows. Versions remain separate.
+- Tiên Sơn's 624 displayed names, descriptions, levels and floor counts now use legacy fields; the PVE page lets players inspect each location's source floor rows and fixed NPC stacks. Power, chapter/rank, challenge settlement and loot stay `SIMULATED`; the present combat fallback remains active. Raw `RdmInfo` remains `UNKNOWN`; no source damage or reward is applied.
+- Added `legacyElflandReference` to the runtime export and coverage inventory. The single-file build embeds the data for offline play. The full PWA build omits the duplicate JSON export from `dist`; CI now uploads the complete `dist/` tree so the web artifact is playable.
+- Verification: Node tests PASS 53/53; source parser tests PASS 10/10; Chromium passed 12 screens, all 624 location options, floor/NPC inspection, save/reload and mobile portrait/landscape with zero runtime errors. PWA shell v21 reopens with network disabled. The offline HTML passed the same journey over local HTTP with zero cross-origin requests; the managed browser blocked direct `file://` launch, so that specific launch path remains unverified.
+- Web and offline build PASS. Reused the existing JDK 21/Android 36/Gradle 8.14.3 toolchain; debug APK 37,210,633 bytes (SHA-256 `bf25fe9de1df129e5b8af28ad69222b493c5403277da27a1d798f7e493414978`), debug AAB 35,011,822 bytes (SHA-256 `fd75588c9df6c16a93e323139a8bb300d080eedb888df1e8ebd4afcb60aa03d0`), and offline HTML 66,922,088 bytes (SHA-256 `ff40fc538719a1d78f06df9215886d12a9808cd94ba03739231b9070abd35700`). APK v2 signature and AAB ZIP integrity PASS. This increment's CI run is pending push. Device QA remains unavailable. Combat Core files were untouched.
+
+## Previous increment: Legacy/Mobile hero name delta audit
 
 - Added a reproducible comparison of the 540 legacy `famousgeneraliteminfo.Name` labels against 482 Mobile hero names. It finds 411 exact normalized unique-name overlaps, 129 legacy-only names, 70 Mobile-only names, and one duplicated Mobile label (`Trần Canh`).
 - The legacy table has no stable hero ID in the normalized schema; only display labels are compared. Legacy stats, Mobile stat meanings, identities and formulas remain unverified. No legacy hero values enter gameplay or combat. Updated `DATA_COVERAGE.json`, the Vietnamese wiki and blocker notes.
-- Verification: Node tests PASS 52/52, including the name-delta boundaries; Python source tests PASS 10/10; data coverage regenerated from the pinned snapshots. The production CI for this increment is pending push.
+- Verification: Node tests PASS 52/52, including the name-delta boundaries; Python source tests PASS 10/10; data coverage regenerated from the pinned snapshots. Production CI PASS on commit `fddbe6d` in [run 45655054202](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45655054202); the [14-day Web/offline/APK/AAB artifact](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45655054202/artifacts/15042980521) is available through 2026-12-09.
 
 ## Latest increment: Legacy city NPC garrison comparison
 

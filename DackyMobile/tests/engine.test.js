@@ -809,7 +809,10 @@ test('mixed source and simulated catalogs expose the requested runtime coverage'
   assert.equal(ITEMS.filter(row=>row.mobileSourceId).length,2036);
   assert.ok(ITEMS.filter(row=>!row.mobileSourceId).every(row=>row.evidence==='SIMULATED'));
   assert.ok(QUESTS.every(row=>row.evidence==='SIMULATED'));
-  assert.ok(IMMORTAL_MOUNTAINS.every(row=>row.evidence==='SIMULATED'));
+  assert.ok(IMMORTAL_MOUNTAINS.every(row=>row.evidence==='MIXED'
+    && row.fieldEvidence.name==='VERIFIED_LEGACY'
+    && row.fieldEvidence.power==='SIMULATED'
+    && row.fieldEvidence.loot==='SIMULATED'));
 });
 
 test('generated consumables apply their recorded effect and Tiên Sơn challenges settle', () => {

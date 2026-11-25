@@ -8,7 +8,7 @@ await exportDatabase();
 const dist = path.join(root, 'dist');
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
-for (const name of ['index.html','styles.css','manifest.webmanifest','sw.js','src','assets','docs','data']) {
+for (const name of ['index.html','styles.css','manifest.webmanifest','sw.js','src','assets','docs']) {
   await cp(path.join(root, name), path.join(dist, name), { recursive: true });
 }
 

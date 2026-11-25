@@ -77,7 +77,6 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           path: |
-            DackyMobile/dist/index.html
-            DackyMobile/dist/offline.html
+            DackyMobile/dist/
             DackyMobile/android/app/build/outputs/apk/debug/app-debug.apk
             DackyMobile/android/app/build/outputs/bundle/debug/app-debug.aab

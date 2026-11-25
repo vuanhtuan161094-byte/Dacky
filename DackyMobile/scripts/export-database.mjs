@@ -4,6 +4,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   BUZHOU_FLOORS, BUILDINGS, CONTENT_EVIDENCE, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS,
   LEGACY_CITY_GARRISON_SOURCE, LEGACY_CITY_GARRISONS,
+  LEGACY_ELFLAND_FLOORS, LEGACY_ELFLAND_FORMATIONS, LEGACY_ELFLAND_LOCATIONS, LEGACY_ELFLAND_REWARD_RULES, LEGACY_ELFLAND_SOURCE,
   LEGACY_BUZHOU_EQUIPMENT_RULES, LEGACY_BUZHOU_FLOOR_CONFIG, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_MOUNTAIN_CONFIG, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_SOURCE,
   LEGACY_QUESTS, LEGACY_REFERENCE_COUNTS,
   QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES
@@ -21,7 +22,13 @@ const legacyCityGarrisonRows=LEGACY_CITY_GARRISONS.flatMap(city=>city.guards.map
   ...guard,coordinate:city.coordinate,coordinateKey:city.coordinateKey,mobileCityId:city.mobileCityId,
   mobileCityName:city.mobileCityName,joinEvidence:city.joinEvidence,recordType:'legacy-city-npc-stack-reference'
 })));
-const tables = { buildings: BUILDINGS, technologies: TECHNOLOGIES, troops: TROOPS, heroes: HEROES, heroSkills: HERO_SKILLS, items: ITEMS, quests: QUESTS, legacyQuestReference: LEGACY_QUESTS, legacyBuzhouReference: legacyBuzhouRows, legacyCityGarrisonReference: legacyCityGarrisonRows, worldNodes: WORLD_NODES, immortalMountains: IMMORTAL_MOUNTAINS };
+const legacyElflandRows = [
+  ...LEGACY_ELFLAND_LOCATIONS.map(row => ({ ...row, id: `elfland-location-${row.sourceRowIndex}`, recordType: 'location' })),
+  ...LEGACY_ELFLAND_FLOORS.map(row => ({ ...row, id: `elfland-floor-${row.sourceRowIndex}`, recordType: 'floor-config' })),
+  ...LEGACY_ELFLAND_FORMATIONS.map(row => ({ ...row, id: `elfland-formation-${row.sourceRowIndex}`, recordType: 'fixed-npc-formation' })),
+  ...LEGACY_ELFLAND_REWARD_RULES.map(row => ({ ...row, id: `elfland-reward-rule-${row.sourceRowIndex}`, recordType: 'reward-rule-reference' }))
+];
+const tables = { buildings: BUILDINGS, technologies: TECHNOLOGIES, troops: TROOPS, heroes: HEROES, heroSkills: HERO_SKILLS, items: ITEMS, quests: QUESTS, legacyQuestReference: LEGACY_QUESTS, legacyBuzhouReference: legacyBuzhouRows, legacyCityGarrisonReference: legacyCityGarrisonRows, legacyElflandReference: legacyElflandRows, worldNodes: WORLD_NODES, immortalMountains: IMMORTAL_MOUNTAINS };
 
 export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky-game-data.runtime.v1.json')) {
   const tableStats = {};
@@ -43,7 +50,7 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
     evidenceStatus: Object.values(tableStats).every(table => table.evidence === 'SIMULATED') ? 'SIMULATED' : 'MIXED',
     evidenceNote: 'Trường sourced giữ provenance riêng theo field; trường SIMULATED/UNKNOWN là cơ chế hoặc giá trị chưa có ánh xạ nguồn được xác minh.',
     sourceAccess: 'PUBLIC_GET_SUCCEEDED_2026-11-25',
-    sourceMetadata: { legacyBuzhou: LEGACY_BUZHOU_SOURCE, legacyCityGarrisons: LEGACY_CITY_GARRISON_SOURCE },
+    sourceMetadata: { legacyBuzhou: LEGACY_BUZHOU_SOURCE, legacyCityGarrisons: LEGACY_CITY_GARRISON_SOURCE, legacyElfland: LEGACY_ELFLAND_SOURCE },
     referenceCounts: LEGACY_REFERENCE_COUNTS,
     tableStats: { totalRecords, tables: tableStats },
     tables,
@@ -51,7 +58,7 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
       fengshenTower: { evidence: 'SIMULATED', floorCount: TOWER_FLOORS, floorCountBasis: 'Local design cap; legacy elfland floor counts are unrelated and Fengshen Tower source count is unknown', generatedAtRuntime: true, runtime: 'src/engine.js' },
       buzhouMountain: { evidence: 'MIXED', challengeCount: BUZHOU_FLOORS, sourceFloorCount: LEGACY_BUZHOU_SOURCE.floorCount, sourceFormationCount: LEGACY_BUZHOU_SOURCE.formationCount, generatedAtRuntime: true, runtime: 'src/engine.js', legacyReferenceNpcCount: LEGACY_REFERENCE_COUNTS.buzhouFixedNpcs, combatStatus: LEGACY_BUZHOU_SOURCE.combatStatus, rewardStatus: LEGACY_BUZHOU_SOURCE.rewardStatus },
       cityNpcGarrisons: { evidence: 'MIXED', mobileCityCount: LEGACY_CITY_GARRISON_SOURCE.mobileCityCount, legacyCityCount: LEGACY_CITY_GARRISON_SOURCE.legacyCityCount, legacyGuardRecords: LEGACY_CITY_GARRISON_SOURCE.legacyGuardRecordCount, coordinateMatchedMobileCities: LEGACY_CITY_GARRISON_SOURCE.coordinateMatchedMobileCities, legacyOnlyCityCount: LEGACY_CITY_GARRISON_SOURCE.legacyOnlyCityCount, mobileCountSemantics: LEGACY_CITY_GARRISON_SOURCE.mobileGarrisonCountSemantics, rosterParity: LEGACY_CITY_GARRISON_SOURCE.rosterParity, combatEffectActive: false, rewardEffectActive: false },
-      immortalMountainChallenges: { evidence: 'SIMULATED', challengeCount: IMMORTAL_MOUNTAINS.length, repeatable: true, runtime: 'src/engine.js + src/ui.js' },
+      immortalMountainChallenges: { evidence: 'MIXED', challengeCount: IMMORTAL_MOUNTAINS.length, sourceLocations: LEGACY_ELFLAND_SOURCE.locationCount, sourceFloors: LEGACY_ELFLAND_SOURCE.floorCount, sourceFormations: LEGACY_ELFLAND_SOURCE.formationCount, sourceNamesAndDescriptions: 'VERIFIED_LEGACY', challengePowerAndLoot: 'SIMULATED', combatStatus: LEGACY_ELFLAND_SOURCE.combatStatus, rewardStatus: LEGACY_ELFLAND_SOURCE.rewardStatus, repeatable: true, runtime: 'src/engine.js + src/ui.js' },
       economy: { evidence: 'SIMULATED', runtime: 'src/engine.js', note: 'Sản xuất theo giờ, thuế/dân cư, kho, hàng đợi và giới hạn tiến trình offline.' },
       combat: { evidence: 'SIMULATED', runtime: 'src/engine.js', note: 'Tuyến trước/sau/công thành, tầm và chủ động khai chiến, tương khắc theo đội địch, đội hình hỗ trợ, linh căn thần tiên, lực chiến, thương vong, hồi phục và chiến lợi phẩm.' },
       heroAffinity: { evidence: 'SIMULATED', runtime: 'src/engine.js + src/ui.js', range: [0,100], gainSources: ['training','campaign-combat','immortal-duel'], effects: ['hero-power','skill-mastery','same-element-resonance'] },
@@ -67,7 +74,7 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
       { name: 'legacyQuestMechanics', targetRecords: LEGACY_REFERENCE_COUNTS.quests, importedReferenceRecords: LEGACY_QUESTS.length, reason: 'Quest text and type codes are imported with field provenance; requirements and rewards remain UNKNOWN.' },
       { name: 'legacyBuzhouCombatAndRewards', importedReferenceRecords: legacyBuzhouRows.length, reason: 'Five floor configs, fixed NPC formations, goods IDs and raw equipment rules are included with field provenance. Source damage/rewards remain inactive until the combat and reward adapters are integrated.' },
       { name: 'legacyCityGarrisonCombat', importedReferenceRecords: legacyCityGarrisonRows.length, reason: '375 legacy NPC stacks are coordinate-linked to 73 Mobile city profiles for comparison only. Legacy counts remain separate from server-dependent Mobile rosters and do not change combat settlement.' },
-      { name: 'immortalMountains', targetRecords: LEGACY_REFERENCE_COUNTS.elflands, reason: 'Source rows remain in private research; runtime challenges are an independent simulation.' }
+      { name: 'legacyElflandCombatAndLoot', importedReferenceRecords: legacyElflandRows.length, reason: 'Names, descriptions, floor configurations, NPC stacks and raw random-reward rows are source-backed references. Combat and reward rules remain inactive; RdmInfo syntax is UNKNOWN.' }
     ]
   };
   const formatJson=(value,depth=0)=>{

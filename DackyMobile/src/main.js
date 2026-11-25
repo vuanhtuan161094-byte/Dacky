@@ -211,6 +211,9 @@ document.body.addEventListener('change', async event => {
     uiState.chapter=Number(target.value)||1;
     uiState.nodeId=null;
     renderCurrent();
+  } else if (target.matches('[data-change="elflandSource"]')) {
+    uiState.elflandSourceID=Number(target.value)||0;
+    renderCurrent();
   } else if (target.matches('[data-setting]')) {
     await perform('setting',{key:target.dataset.setting,value:target.checked});
     document.body.classList.toggle('effects-off',!game.settings.effects);

@@ -31,6 +31,7 @@ NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
 LEGACY_QUEST_SOURCE_DATA = ROOT / "src" / "legacy-quest-catalog.js"
 LEGACY_BUZHOU_SOURCE_DATA = ROOT / "src" / "legacy-buzhou-catalog.js"
+LEGACY_ELFLAND_SOURCE_DATA = ROOT / "src" / "legacy-elfland-catalog.js"
 LEGACY_CITY_GARRISON_SOURCE_DATA = ROOT / "src" / "legacy-city-garrison-catalog.js"
 LEGACY_TROOP_TIME_SOURCE_DATA = ROOT / "src" / "legacy-troop-time-catalog.js"
 LEGACY_TROOP_REQUIREMENT_SOURCE_DATA = ROOT / "src" / "legacy-troop-requirement-catalog.js"
@@ -187,6 +188,44 @@ def runtime_legacy_buzhou():
         "recordCount": imported_records,
         "fieldValueCount": imported_fields,
     }
+
+
+def runtime_legacy_elfland():
+    if not LEGACY_ELFLAND_SOURCE_DATA.exists():
+        return None
+    source = LEGACY_ELFLAND_SOURCE_DATA.read_text(encoding="utf-8")
+    marker = "export const LEGACY_ELFLAND_SOURCE = Object.freeze("
+    rows_marker = "export const LEGACY_ELFLAND_LOCATIONS = Object.freeze("
+    start = source.find(marker)
+    boundary = source.find(rows_marker)
+    if start < 0 or boundary < 0:
+        raise ValueError("Could not parse generated legacy Tiên Sơn adapter metadata")
+    start += len(marker)
+    end = source.rfind(");", start, boundary)
+    if end <= start:
+        raise ValueError("Generated legacy Tiên Sơn adapter metadata is incomplete")
+    metadata = json.loads(source[start:end])
+    counts = {
+        "locations": metadata.get("locationCount"),
+        "floors": metadata.get("floorCount"),
+        "formations": metadata.get("formationCount"),
+        "rewards": metadata.get("rewardRuleCount"),
+    }
+    if any(not isinstance(value, int) or value < 0 for value in counts.values()):
+        raise ValueError("Legacy Tiên Sơn adapter has invalid table counts")
+    expected_records = sum(counts.values())
+    expected_fields = sum(
+        counts[key] * len(metadata.get("sourceTables", {}).get(key, {}).get("importedFields", []))
+        for key in counts
+    )
+    if expected_records != metadata.get("importedRecordCount") or expected_fields != metadata.get("importedFieldValueCount"):
+        raise ValueError("Legacy Tiên Sơn metadata does not reconcile records and fields")
+    for key in counts:
+        table = metadata.get("sourceTables", {}).get(key, {})
+        fields = table.get("importedFields", [])
+        if table.get("recordCount") != counts[key] or not fields or len(table.get("fieldSources", {})) != len(fields):
+            raise ValueError(f"Legacy Tiên Sơn {key} provenance metadata is incomplete")
+    return {"metadata": metadata, "recordCount": expected_records, "fieldValueCount": expected_fields}
 
 
 def runtime_legacy_city_garrisons():
@@ -769,6 +808,7 @@ def main():
     legacy = legacy_inventory()
     legacy_quests = runtime_legacy_quests()
     legacy_buzhou = runtime_legacy_buzhou()
+    legacy_elfland = runtime_legacy_elfland()
     legacy_city_garrisons = runtime_legacy_city_garrisons()
     legacy_troop_times = runtime_legacy_troop_times()
     legacy_troop_requirements = runtime_legacy_troop_requirements()
@@ -1003,6 +1043,58 @@ def main():
             "rewardStatus": legacy_buzhou["metadata"]["rewardStatus"],
             "sourceVersion": legacy_buzhou["metadata"]["sourceVersion"],
         }
+    if legacy_elfland:
+        mountain_catalog = next((
+            item for item in coverage.get("runtimeCatalogs", [])
+            if item.get("domain") == "immortalMountainChallenges"
+        ), None)
+        if mountain_catalog is not None:
+            mountain_catalog.update({
+                "status": "MIXED",
+                "sourceBackedRecords": legacy_elfland["metadata"]["locationCount"],
+                "sourceFields": ["name", "legacySourceId", "legacyLevel", "legacyFloorCount", "legacyDescription"],
+                "simulatedFields": ["chapter", "rank", "power", "loot", "combat"],
+                "combatStatus": legacy_elfland["metadata"]["combatStatus"],
+                "rewardStatus": legacy_elfland["metadata"]["rewardStatus"],
+            })
+            mountain_catalog.pop("legacyReferenceCount", None)
+        elfland_catalog = next((
+            item for item in coverage.get("runtimeCatalogs", [])
+            if item.get("domain") == "legacyElflandReference"
+        ), None)
+        if elfland_catalog is None:
+            elfland_catalog = {"domain": "legacyElflandReference"}
+            coverage.setdefault("runtimeCatalogs", []).append(elfland_catalog)
+        elfland_metadata = legacy_elfland["metadata"]
+        elfland_catalog.update({
+            "records": legacy_elfland["recordCount"],
+            "status": "VERIFIED_LEGACY_REFERENCE",
+            "sourceCommit": elfland_metadata["sourceCommit"],
+            "sourceTables": [table["sourceTable"] for table in elfland_metadata["sourceTables"].values()],
+            "locationCount": elfland_metadata["locationCount"],
+            "floorCount": elfland_metadata["floorCount"],
+            "formationCount": elfland_metadata["formationCount"],
+            "rewardRuleCount": elfland_metadata["rewardRuleCount"],
+            "fieldValueCount": legacy_elfland["fieldValueCount"],
+            "activeGameplayRecords": 0,
+            "combatStatus": elfland_metadata["combatStatus"],
+            "activeSourceDamageOrRewards": elfland_metadata["activeSourceDamageOrRewards"],
+            "rewardStatus": elfland_metadata["rewardStatus"],
+            "versionComparison": elfland_metadata["versionComparison"],
+        })
+        coverage.setdefault("runtimeMechanics", {})["immortalMountainChallenges"] = {
+            "status": "MIXED",
+            "sourceLocations": elfland_metadata["locationCount"],
+            "sourceFloors": elfland_metadata["floorCount"],
+            "sourceNpcFormations": elfland_metadata["formationCount"],
+            "sourceRewardRules": elfland_metadata["rewardRuleCount"],
+            "sourceBackedFields": ["name", "legacySourceId", "legacyLevel", "legacyFloorCount", "legacyDescription"],
+            "simulatedFields": ["chapter", "rank", "power", "loot", "combat"],
+            "combatStatus": elfland_metadata["combatStatus"],
+            "activeSourceDamageOrRewards": False,
+            "rewardStatus": elfland_metadata["rewardStatus"],
+            "sourceVersion": elfland_metadata["sourceVersion"],
+        }
     if legacy_city_garrisons:
         city_catalog = next((
             item for item in coverage.get("runtimeCatalogs", [])
@@ -1060,9 +1152,27 @@ def main():
                 "comparison": legacy_troop_requirements["metadata"]["comparison"],
             }
     coverage["updated"] = date.today().isoformat()
+    imported_legacy_records = (
+        (legacy["runtimeImportedRecordCount"] if legacy else 0)
+        + (legacy["runtimeImportedConditionRecordCount"] if legacy else 0)
+        + (legacy_buzhou["recordCount"] if legacy_buzhou else 0)
+        + (legacy_elfland["recordCount"] if legacy_elfland else 0)
+        + (legacy_city_garrisons["recordCount"] if legacy_city_garrisons else 0)
+        + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0)
+        + (len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0)
+    )
+    imported_legacy_field_values = (
+        (legacy["runtimeImportedFieldValueCount"] if legacy else 0)
+        + (legacy["runtimeImportedConditionFieldValueCount"] if legacy else 0)
+        + (legacy_buzhou["fieldValueCount"] if legacy_buzhou else 0)
+        + (legacy_elfland["fieldValueCount"] if legacy_elfland else 0)
+        + (legacy_city_garrisons["fieldValueCount"] if legacy_city_garrisons else 0)
+        + legacy_troop_time_field_count
+        + legacy_troop_requirement_field_count
+    )
     coverage["evidenceStatus"].update({
         "verifiedMobileRecords": mobile["runtimeImportedRecordCount"] if mobile else 0,
-        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (legacy["runtimeImportedConditionRecordCount"] if legacy else 0) + (legacy_buzhou["recordCount"] if legacy_buzhou else 0) + (legacy_city_garrisons["recordCount"] if legacy_city_garrisons else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0) + (len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0),
+        "verifiedLegacyRecordsImported": imported_legacy_records,
         "runtimeCatalogRecords": sum(
             item.get("records", 0)
             for item in coverage.get("runtimeCatalogs", [])
@@ -1070,7 +1180,7 @@ def main():
         ),
         "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25" if network else "NOT_CHECKED",
         "fieldScopedMobileFieldsInGameplay": mobile["fieldScopedGameplayValueCount"] if mobile else 0,
-        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + (legacy["runtimeImportedConditionFieldValueCount"] if legacy else 0) + (legacy_buzhou["fieldValueCount"] if legacy_buzhou else 0) + (legacy_city_garrisons["fieldValueCount"] if legacy_city_garrisons else 0) + legacy_troop_time_field_count + legacy_troop_requirement_field_count,
+        "fieldScopedLegacyFieldsImported": imported_legacy_field_values,
         "note": f"Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and {mobile['fieldScopedGameplayValueCount'] if mobile else 0:,} field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     })
     coverage["sourceInventory"] = {
@@ -1115,6 +1225,24 @@ def main():
             "activeSourceDamageOrRewards": legacy_buzhou["metadata"]["activeSourceDamageOrRewards"],
             "rewardStatus": legacy_buzhou["metadata"]["rewardStatus"],
         } if legacy_buzhou else None),
+        "legacyElflandRuntime": ({
+            "sourceVersion": legacy_elfland["metadata"]["sourceVersion"],
+            "sourceCommit": legacy_elfland["metadata"]["sourceCommit"],
+            "recordCount": legacy_elfland["recordCount"],
+            "fieldValueCount": legacy_elfland["fieldValueCount"],
+            "locationCount": legacy_elfland["metadata"]["locationCount"],
+            "floorCount": legacy_elfland["metadata"]["floorCount"],
+            "formationCount": legacy_elfland["metadata"]["formationCount"],
+            "rewardRuleCount": legacy_elfland["metadata"]["rewardRuleCount"],
+            "tables": {
+                key: {"sourceTable": value["sourceTable"], "recordCount": value["recordCount"], "fields": value["importedFields"]}
+                for key, value in legacy_elfland["metadata"]["sourceTables"].items()
+            },
+            "versionComparison": legacy_elfland["metadata"]["versionComparison"],
+            "combatStatus": legacy_elfland["metadata"]["combatStatus"],
+            "activeSourceDamageOrRewards": legacy_elfland["metadata"]["activeSourceDamageOrRewards"],
+            "rewardStatus": legacy_elfland["metadata"]["rewardStatus"],
+        } if legacy_elfland else None),
         "legacyCityGarrisonsRuntime": ({
             "sourceVersion": legacy_city_garrisons["metadata"]["sourceVersion"],
             "sourceCommit": legacy_city_garrisons["metadata"]["sourceCommit"],
@@ -1209,6 +1337,7 @@ def main():
         **(comparison or {}),
         "legacyQuestFields": legacy_quests["metadata"]["versionComparison"] if legacy_quests else None,
         "legacyCityGarrisons": legacy_city_garrisons["metadata"]["versionComparison"] if legacy_city_garrisons else None,
+        "legacyElfland": legacy_elfland["metadata"]["versionComparison"] if legacy_elfland else None,
         "legacyHeroNames": hero_comparison,
     }
     coverage["normalizationStatus"] = (

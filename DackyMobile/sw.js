@@ -1,7 +1,7 @@
-const CACHE = 'dacky-mobile-shell-v20';
+const CACHE = 'dacky-mobile-shell-v21';
 const SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest', './src/catalog.js', './src/mobile-source-catalog.js', './src/legacy-quest-catalog.js', './src/legacy-buzhou-catalog.js', './src/legacy-troop-time-catalog.js', './src/legacy-troop-requirement-catalog.js', './src/engine.js',
-  './src/store.js', './src/ui.js', './src/main.js', './src/source-adapter.js', './src/approved-source-data.js', './src/legacy-city-garrison-catalog.js',
+  './src/store.js', './src/ui.js', './src/main.js', './src/source-adapter.js', './src/approved-source-data.js', './src/legacy-city-garrison-catalog.js', './src/legacy-elfland-catalog.js',
   './assets/crest.svg', './assets/city-panorama.jpg', './assets/heroes-atlas.svg', './assets/portraits/jiang-zia.webp', './assets/portraits/na-tra.webp', './assets/buildings/tuvithanh.webp'
 ];
 

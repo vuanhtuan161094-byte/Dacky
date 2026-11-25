@@ -4,12 +4,12 @@
   "gameplayVersion": "dacky-mobile-sim-v1",
   "evidenceStatus": {
     "verifiedMobileRecords": 2656,
-    "verifiedLegacyRecordsImported": 7455,
+    "verifiedLegacyRecordsImported": 57834,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
     "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 37,845 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     "fieldScopedMobileFieldsInGameplay": 37845,
-    "runtimeCatalogRecords": 10896,
-    "fieldScopedLegacyFieldsImported": 90634
+    "runtimeCatalogRecords": 61275,
+    "fieldScopedLegacyFieldsImported": 401384
   },
   "references": {
     "publicMobile": [
@@ -176,9 +176,25 @@
     {
       "domain": "immortalMountainChallenges",
       "records": 624,
-      "status": "SIMULATED",
+      "status": "MIXED",
       "runtime": "src/catalog.js + src/engine.js + src/ui.js",
-      "legacyReferenceCount": 624
+      "sourceBackedRecords": 624,
+      "sourceFields": [
+        "name",
+        "legacySourceId",
+        "legacyLevel",
+        "legacyFloorCount",
+        "legacyDescription"
+      ],
+      "simulatedFields": [
+        "chapter",
+        "rank",
+        "power",
+        "loot",
+        "combat"
+      ],
+      "combatStatus": "REFERENCE_ONLY_CURRENT_FALLBACK_UNCHANGED",
+      "rewardStatus": "UNKNOWN_RAW_RANDOM_RULES_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED"
     },
     {
       "domain": "legacyQuestReference",
@@ -268,6 +284,75 @@
         "exactTroopNameRosterMatches": 0,
         "method": "PER_CITY_MULTISETS; NO SLOT OR COUNT MATCH ASSUMED",
         "parityClaim": false
+      }
+    },
+    {
+      "domain": "legacyElflandReference",
+      "records": 50379,
+      "status": "VERIFIED_LEGACY_REFERENCE",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "sourceTables": [
+        "elflandinfo",
+        "elflandfloorinfo",
+        "elflandfloorgeneralinfo",
+        "elflandfightgetgoodscfginfo"
+      ],
+      "locationCount": 624,
+      "floorCount": 8992,
+      "formationCount": 39670,
+      "rewardRuleCount": 1093,
+      "fieldValueCount": 310750,
+      "activeGameplayRecords": 0,
+      "combatStatus": "REFERENCE_ONLY_CURRENT_FALLBACK_UNCHANGED",
+      "activeSourceDamageOrRewards": false,
+      "rewardStatus": "UNKNOWN_RAW_RANDOM_RULES_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED",
+      "versionComparison": {
+        "locations": {
+          "primaryRows": 624,
+          "comparisonRows": 624,
+          "sharedKeys": 624,
+          "primaryOnlyKeys": 0,
+          "comparisonOnlyKeys": 0,
+          "changedValuesByField": {
+            "PosX": 0,
+            "PosY": 0,
+            "ElflandType": 0,
+            "ElflandName": 0,
+            "ElflandLevel": 94,
+            "FloorNum": 93,
+            "ElflandDescribe": 0
+          }
+        },
+        "floors": {
+          "primaryRows": 8992,
+          "comparisonRows": 8248,
+          "sharedKeys": 8248,
+          "primaryOnlyKeys": 744,
+          "comparisonOnlyKeys": 0,
+          "changedValuesByField": {
+            "FloorName": 665,
+            "FloorDescribe": 188,
+            "IsFight": 0,
+            "GeneralMinLevel": 186,
+            "GeneralMaxLevel": 186,
+            "GeneralLeadPopulation": 186,
+            "GeneralMinNum": 186,
+            "GeneralMaxNum": 186
+          }
+        },
+        "formations": {
+          "primaryRows": 39670,
+          "comparisonRows": 35020,
+          "exactSharedRows": 32545,
+          "primaryOnlyRows": 7125,
+          "comparisonOnlyRows": 2475,
+          "comparisonBasis": "Exact full-row multiset; no entity identity or behavior parity inferred."
+        },
+        "comparisonVersions": {
+          "primary": "elfland* source snapshot",
+          "comparison": "*_45 source snapshot",
+          "noCrossVersionRuntimeMixing": true
+        }
       }
     }
   ],
@@ -604,6 +689,31 @@
       "legacyCoordinateMatchedCities": 73,
       "legacyCombatActive": false,
       "legacyRewardsActive": false
+    },
+    "immortalMountainChallenges": {
+      "status": "MIXED",
+      "sourceLocations": 624,
+      "sourceFloors": 8992,
+      "sourceNpcFormations": 39670,
+      "sourceRewardRules": 1093,
+      "sourceBackedFields": [
+        "name",
+        "legacySourceId",
+        "legacyLevel",
+        "legacyFloorCount",
+        "legacyDescription"
+      ],
+      "simulatedFields": [
+        "chapter",
+        "rank",
+        "power",
+        "loot",
+        "combat"
+      ],
+      "combatStatus": "REFERENCE_ONLY_CURRENT_FALLBACK_UNCHANGED",
+      "activeSourceDamageOrRewards": false,
+      "rewardStatus": "UNKNOWN_RAW_RANDOM_RULES_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED",
+      "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88"
     }
   },
   "notImported": [
@@ -1547,6 +1657,132 @@
       "activeSourceDamageOrRewards": false,
       "rewardStatus": "UNKNOWN_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED"
     },
+    "legacyElflandRuntime": {
+      "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "recordCount": 50379,
+      "fieldValueCount": 310750,
+      "locationCount": 624,
+      "floorCount": 8992,
+      "formationCount": 39670,
+      "rewardRuleCount": 1093,
+      "tables": {
+        "locations": {
+          "sourceTable": "elflandinfo",
+          "recordCount": 624,
+          "fields": [
+            "ElflandID",
+            "PosX",
+            "PosY",
+            "ElflandType",
+            "ElflandName",
+            "ElflandLevel",
+            "FloorNum",
+            "ElflandDescribe"
+          ]
+        },
+        "floors": {
+          "sourceTable": "elflandfloorinfo",
+          "recordCount": 8992,
+          "fields": [
+            "ElflandID",
+            "FloorID",
+            "FloorName",
+            "FloorDescribe",
+            "IsFight",
+            "GeneralMinLevel",
+            "GeneralMaxLevel",
+            "GeneralLeadPopulation",
+            "GeneralMinNum",
+            "GeneralMaxNum"
+          ]
+        },
+        "formations": {
+          "sourceTable": "elflandfloorgeneralinfo",
+          "recordCount": 39670,
+          "fields": [
+            "ElflandID",
+            "FloorID",
+            "GeneralName",
+            "LeadSoldierID",
+            "LeadSoldierNum"
+          ]
+        },
+        "rewards": {
+          "sourceTable": "elflandfightgetgoodscfginfo",
+          "recordCount": 1093,
+          "fields": [
+            "CfgClass",
+            "ElflandLevel",
+            "ElflandFloor",
+            "RandBaseNum",
+            "OpenMinNum",
+            "OpenMaxNum",
+            "RdmInfo1",
+            "RdmInfo2",
+            "RdmInfo3",
+            "RdmInfo4",
+            "RdmInfo5",
+            "RdmInfo6",
+            "RdmInfo7",
+            "RdmInfo8",
+            "RdmInfo9",
+            "RdmInfo10"
+          ]
+        }
+      },
+      "versionComparison": {
+        "locations": {
+          "primaryRows": 624,
+          "comparisonRows": 624,
+          "sharedKeys": 624,
+          "primaryOnlyKeys": 0,
+          "comparisonOnlyKeys": 0,
+          "changedValuesByField": {
+            "PosX": 0,
+            "PosY": 0,
+            "ElflandType": 0,
+            "ElflandName": 0,
+            "ElflandLevel": 94,
+            "FloorNum": 93,
+            "ElflandDescribe": 0
+          }
+        },
+        "floors": {
+          "primaryRows": 8992,
+          "comparisonRows": 8248,
+          "sharedKeys": 8248,
+          "primaryOnlyKeys": 744,
+          "comparisonOnlyKeys": 0,
+          "changedValuesByField": {
+            "FloorName": 665,
+            "FloorDescribe": 188,
+            "IsFight": 0,
+            "GeneralMinLevel": 186,
+            "GeneralMaxLevel": 186,
+            "GeneralLeadPopulation": 186,
+            "GeneralMinNum": 186,
+            "GeneralMaxNum": 186
+          }
+        },
+        "formations": {
+          "primaryRows": 39670,
+          "comparisonRows": 35020,
+          "exactSharedRows": 32545,
+          "primaryOnlyRows": 7125,
+          "comparisonOnlyRows": 2475,
+          "comparisonBasis": "Exact full-row multiset; no entity identity or behavior parity inferred."
+        },
+        "comparisonVersions": {
+          "primary": "elfland* source snapshot",
+          "comparison": "*_45 source snapshot",
+          "noCrossVersionRuntimeMixing": true
+        }
+      },
+      "combatStatus": "REFERENCE_ONLY_CURRENT_FALLBACK_UNCHANGED",
+      "activeSourceDamageOrRewards": false,
+      "rewardStatus": "UNKNOWN_RAW_RANDOM_RULES_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED"
+    },
     "legacyCityGarrisonsRuntime": {
       "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88",
       "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
@@ -2182,10 +2418,10 @@
               "Describe": 33,
               "Name": 25,
               "Camp": 13,
-              "Att": 1,
-              "TrainSpendMinute": 1,
               "Def": 1,
+              "TrainSpendMinute": 1,
               "Life": 1,
+              "Att": 1,
               "TrainSpendSecond": 1
             },
             "fieldsOnlyIn147": [],
@@ -2646,10 +2882,10 @@
             "Describe": 33,
             "Name": 25,
             "Camp": 13,
-            "Att": 1,
-            "TrainSpendMinute": 1,
             "Def": 1,
+            "TrainSpendMinute": 1,
             "Life": 1,
+            "Att": 1,
             "TrainSpendSecond": 1
           },
           "fieldsOnlyIn147": [],
@@ -2696,6 +2932,54 @@
       "exactTroopNameRosterMatches": 0,
       "method": "PER_CITY_MULTISETS; NO SLOT OR COUNT MATCH ASSUMED",
       "parityClaim": false
+    },
+    "legacyElfland": {
+      "locations": {
+        "primaryRows": 624,
+        "comparisonRows": 624,
+        "sharedKeys": 624,
+        "primaryOnlyKeys": 0,
+        "comparisonOnlyKeys": 0,
+        "changedValuesByField": {
+          "PosX": 0,
+          "PosY": 0,
+          "ElflandType": 0,
+          "ElflandName": 0,
+          "ElflandLevel": 94,
+          "FloorNum": 93,
+          "ElflandDescribe": 0
+        }
+      },
+      "floors": {
+        "primaryRows": 8992,
+        "comparisonRows": 8248,
+        "sharedKeys": 8248,
+        "primaryOnlyKeys": 744,
+        "comparisonOnlyKeys": 0,
+        "changedValuesByField": {
+          "FloorName": 665,
+          "FloorDescribe": 188,
+          "IsFight": 0,
+          "GeneralMinLevel": 186,
+          "GeneralMaxLevel": 186,
+          "GeneralLeadPopulation": 186,
+          "GeneralMinNum": 186,
+          "GeneralMaxNum": 186
+        }
+      },
+      "formations": {
+        "primaryRows": 39670,
+        "comparisonRows": 35020,
+        "exactSharedRows": 32545,
+        "primaryOnlyRows": 7125,
+        "comparisonOnlyRows": 2475,
+        "comparisonBasis": "Exact full-row multiset; no entity identity or behavior parity inferred."
+      },
+      "comparisonVersions": {
+        "primary": "elfland* source snapshot",
+        "comparison": "*_45 source snapshot",
+        "noCrossVersionRuntimeMixing": true
+      }
     },
     "legacyHeroNames": {
       "status": "EXACT_NORMALIZED_NAME_LABEL_COUNT_ONLY",

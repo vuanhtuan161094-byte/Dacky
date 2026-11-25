@@ -4,6 +4,7 @@ import path from 'node:path';
 import os from 'node:os';
 
 const baseUrl = process.env.DACKY_REVIEW_URL || 'http://127.0.0.1:4173/';
+const baseOrigin = new URL(baseUrl).origin;
 const landscapeOnly = process.env.DACKY_LANDSCAPE_ONLY === '1';
 const outDir = path.resolve('qa/screenshots');
 await mkdir(outDir,{recursive:true});
@@ -16,6 +17,7 @@ const browser = spawn('/usr/bin/chromium',[
 let socket;
 const pending=new Map();
 const errors=[];
+const externalRequests=new Set();
 let nextId=0;
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const check=condition=>{if(!condition)throw new Error('QA assertion failed');};
@@ -82,6 +84,10 @@ try {
     }
     if(message.method==='Network.responseReceived'&&message.params.response?.status>=400) {
       errors.push(`HTTP ${message.params.response.status} ${message.params.response.url}`);
+    }
+    if(message.method==='Network.requestWillBeSent') {
+      const requested=message.params.request?.url||'';
+      if(/^https?:/i.test(requested)&&new URL(requested).origin!==baseOrigin)externalRequests.add(requested);
     }
     if(message.method==='Runtime.exceptionThrown')errors.push(message.params.exceptionDetails?.text||'Runtime exception');
     if(message.method==='Log.entryAdded'&&message.params.entry?.level==='error')errors.push(message.params.entry.text);
@@ -199,6 +205,12 @@ try {
   await click('#primary-nav [data-view="pve"]');
   const buzhouReference=await evaluate('({floorCount:document.querySelectorAll(".buzhou-source-floor").length,formationName:Array.from(document.querySelectorAll(".buzhou-source-floor")).map(x=>x.textContent).join(" ").includes("Mục Kiền Liên"),inactive:document.body.innerText.includes("chưa cộng sát thương hoặc phần thưởng")})');
   check(buzhouReference.floorCount===5&&buzhouReference.formationName&&buzhouReference.inactive);
+  const elflandReference=await evaluate('({locations:document.querySelectorAll("#elfland-source-select option").length,selected:document.querySelector("#elfland-source-select")?.value,floors:document.querySelectorAll(".elfland-source-floor").length,sourceRoster:document.querySelector(".elfland-source-floor ul")?.textContent||"",hasElflandPanel:Array.from(document.querySelectorAll(".panel-title")).some(x=>x.innerText.includes("Tiên Sơn · dữ liệu NPC legacy"))})');
+  check(elflandReference.locations===624&&elflandReference.selected==="4"&&elflandReference.floors===30);
+  check(elflandReference.sourceRoster.includes("ID binh chủng legacy")&&elflandReference.hasElflandPanel);
+  await evaluate('(function(){var s=document.querySelector("#elfland-source-select");s.value="5";s.dispatchEvent(new Event("change",{bubbles:true}));return true})()');
+  await waitFor('document.querySelector("#elfland-source-select")?.value==="5"&&document.querySelectorAll(".elfland-source-floor").length===15');
+  check(await evaluate('document.querySelector("#elfland-source-select")?.closest(".panel")?.querySelector(".panel-body p b")?.innerText==="Linh Thạch Tịnh Đài"'));
   await click('[data-page-key="mountainPage"][data-page="1"]');
   await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
   check((await evaluate('document.querySelectorAll("[data-mode=mountain]").length'))===24);
@@ -278,6 +290,8 @@ try {
   }
 
   if(errors.length)throw new Error('Browser console/runtime errors: '+errors.join(' | '));
+  if(new URL(baseUrl).pathname.endsWith('/offline.html'))check(externalRequests.size===0);
+  if(new URL(baseUrl).pathname.endsWith('/offline.html'))console.log('PASS single-file page made no cross-origin HTTP requests.');
   console.log('PASS zero browser runtime/console errors.');
 } finally {
   try { socket?.close(); } catch {}
