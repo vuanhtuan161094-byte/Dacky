@@ -41,7 +41,7 @@ Runtime có 39 loại binh chủng theo vai trò bộ binh, xạ thủ, kỵ bin
 
 ## Thử thách
 
-- Phong Thần Tháp: leo tối đa 8992 tầng procedural, độ khó tăng theo tầng; thắng thưởng tài nguyên, kinh nghiệm và một số pháp bảo theo mốc.
+- Phong Thần Tháp: leo tối đa 9.999 tầng procedural theo cap do dự án chọn cho bản mô phỏng; nguồn hiện chưa xác minh số tầng. Con số 8.992 là số hàng tầng Tiên Sơn trong bảng legacy `elflandfloorinfo`, không phải Phong Thần Tháp.
 - Bất Chu Sơn: năm cửa NPC, tăng mạnh độ khó; phần thưởng cuối có pháp bảo. Tiên Sơn: 624 thử thách đấu pháp có thể tái đấu, thưởng tài nguyên và pháp bảo theo mốc.
 - Vật phẩm: 2.155 hồ sơ mô phỏng gồm trang bị và vật phẩm tiêu hao; hiệu ứng tiêu hao nối vào runtime. Thị trường đổi sáu loại tài nguyên với phí NPC, không phải multiplayer.
 - Nhiệm vụ: 1.158 mục tiêu mô phỏng qua tám chương, có nhiệm vụ cuối đánh bại Trụ Vương. Tất cả liên kết với xây, quân, thần tiên, combat và PvE.

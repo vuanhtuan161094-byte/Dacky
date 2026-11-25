@@ -22,6 +22,14 @@ def n(b,p,l,order='little',signed=False):
 
 def digest(b): return hashlib.sha1(f'blob {len(b)}\0'.encode()+b).hexdigest()
 
+def validate_descriptors(ds):
+    if not ds or ds[0][0]!=0:
+        raise ValueError(f'unsupported descriptor layout {ds}')
+    # The first descriptor describes the null bitmap and may have length zero.
+    # Every physical field must occupy at least one byte.
+    if any(t not in (0,3,8) or l<=0 for t,l,_,_ in ds[1:]):
+        raise ValueError(f'unsupported descriptor layout {ds}')
+
 def layout(frm,idx):
     if idx[:4]!=b'\xfe\xfe\x07\x01': raise ValueError('unsupported index signature')
     seq=max(re.findall(rb'\xff(?:[A-Za-z_][A-Za-z0-9_]*\xff)+',frm),key=lambda s:s.count(b'\xff'))
@@ -31,10 +39,10 @@ def layout(frm,idx):
     phys=[c for c in cols if c['type']!=16]
     end=n(idx,6,2,'big'); start=end-7*(len(phys)+1)
     ds=[(n(idx,p,2,'big'),n(idx,p+2,2,'big'),idx[p+4],n(idx,p+5,2,'big')) for p in range(start,end,7)]
-    if ds[0][0]!=0 or any(t not in (0,3,8) or l<=0 for t,l,_,_ in ds): raise ValueError(f'unsupported descriptor layout {ds}')
+    validate_descriptors(ds)
     # MyISAM column type 3 = zero-suppressed fixed-width; type 8 = varchar.
     # The null bitmap is separate from the compression bitmap.
-    if any(c['type'] not in (1,2,3,4,5,8,9,13,15,16,253,254) for c in cols): raise ValueError('unsupported SQL field type')
+    if any(c['type'] not in (1,2,3,4,5,8,9,12,13,15,16,253,254) for c in cols): raise ValueError('unsupported SQL field type')
     return cols,phys,ds
 
 def blocks(b):
@@ -73,6 +81,8 @@ def decode_table(table,frm,idx,data):
             else:
                 typ=c['type'];raw=b[p:p+l]
                 if len(raw)!=l: raise ValueError('truncated numeric')
+                if typ == 12:
+                    raise ValueError(f'unsupported DATETIME storage encoding for {c["name"]}')
                 if typ in (4,5):
                     val=struct.unpack('<f' if typ==4 else '<d',raw)[0]
                     if not math.isfinite(val): raise ValueError('nonfinite float')

@@ -2,24 +2,32 @@
 
 ## Yêu cầu
 
-- Node.js 20+ (không có dependency npm trong bản offline source hiện tại).
-- Android Studio/Android SDK và JDK 17 khi build ứng dụng native Android.
+- Node.js 24 và npm 11 trong môi trường cloud hiện tại; `package-lock.json` ghim Capacitor 8.6.2.
+- Web build dùng script Node của dự án. Android cần JDK 21, Android SDK Platform 36, Build Tools 35.0.0, platform-tools và Gradle Wrapper 8.14.3.
+- Toolchain cloud nằm ngoài checkout tại `/workspace/.toolchains`. Script môi trường cài JDK/SDK theo checksum; wrapper kiểm tra SHA-256 của Gradle distribution. `GRADLE_USER_HOME` dùng `/workspace/.gradle-cache`.
 
 ## Web/PWA
 
-    cd DackyMobile
-    npm run data:export
-    npm run build
-    npm run serve
+Từ thư mục `DackyMobile/`:
 
-Mở http://127.0.0.1:4173/. Bản build gồm JSON chuẩn hóa tại `dist/data/dacky-game-data.simulated.v1.json`; runtime gameplay dùng cùng catalog nguồn trong `src/catalog.js`. Dữ liệu này được đánh dấu SIMULATED. PWA cần HTTPS hoặc localhost để đăng ký service worker. File dist/offline.html là bản HTML độc lập có CSS, JS và SVG nội tuyến để thử offline bằng trình duyệt hỗ trợ file://.
+```sh
+npm ci --no-audit --no-fund --cache /workspace/.npm-cache
+npm test
+npm run test:source
+npm run build
+npm run serve
+```
 
-## Android (chưa build trong checkpoint hiện tại)
+Mở `http://127.0.0.1:4173/`. Build xuất database mô phỏng, PWA và `dist/offline.html`. Service worker cần HTTPS hoặc localhost. Chromium trong môi trường này mở URL localhost được; URL `file://.../offline.html` hiện trả `chrome-error://chromewebdata/`.
 
-1. Cài Android Studio, Android SDK Platform 35+, platform-tools và JDK 17.
-2. Cài Capacitor CLI/Core/Android phiên bản tương thích trong thư mục này, sau đó chạy npm run build.
-3. Chạy npx cap add android, npx cap sync android, rồi build qua Android Studio/Gradle.
-4. APK debug thường nằm tại android/app/build/outputs/apk/debug/app-debug.apk; AAB release cần ký bằng khóa chủ sở hữu.
-5. Không commit local.properties, khóa ký hoặc secrets.
+## Android debug
 
-capacitor.config.json đã lưu cấu hình ứng dụng dự kiến; Capacitor và Android SDK chưa hiện diện trong môi trường kiểm tra, vì vậy chưa có APK/AAB và không được xem các lệnh trên là build đã PASS.
+Project Capacitor native đã tạo. APK debug gần nhất nằm tại `android/app/build/outputs/apk/debug/app-debug.apk`. Build và sync lại nội dung Web:
+
+```sh
+python3 /workspace/.toolchains/run-with-gradle-proxy.py npm run android:build:debug
+```
+
+Helper đặt JDK/SDK paths, giữ proxy HTTPS cho JVM và dùng truststore riêng có CA do môi trường cấp. Không tắt kiểm tra TLS. `android/gradle/wrapper/gradle-wrapper.properties` ghim Gradle 8.14.3 kèm SHA-256 chính thức. APK debug được xác minh bằng `aapt` và `apksigner`; phiên build này chưa được cài lên thiết bị vì không có Android emulator/ADB daemon khả dụng.
+
+Không commit `android/local.properties`, khóa ký hoặc secrets. AAB release cần khóa do chủ sở hữu cung cấp; chưa tạo AAB.

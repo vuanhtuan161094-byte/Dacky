@@ -123,7 +123,7 @@ export function migrateSave(input, now = Date.now()) {
     else s.wounded[id]=clamp(Number(count)||0,0,9_999_999);
   }
   s.world = s.world && typeof s.world === 'object' ? s.world : {};
-  s.world.storyStage=clamp(Number(s.world.storyStage)||0,0,8992);
+  s.world.storyStage=clamp(Number(s.world.storyStage)||0,0,24);
   s.world.towerFloor=clamp(Number(s.world.towerFloor)||0,0,TOWER_FLOORS);
   s.world.buzhouFloor=clamp(Number(s.world.buzhouFloor)||0,0,BUZHOU_FLOORS);
   s.world.campaignComplete=Boolean(s.world.campaignComplete);

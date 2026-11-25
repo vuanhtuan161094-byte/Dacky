@@ -1,14 +1,11 @@
-# Blockers
+# Blockers and open risks
 
-| Mức độ | Blocker | Bằng chứng | Tiếp tục được |
+| Area | Blocker / limitation | Evidence | Current handling |
 | --- | --- | --- | --- |
-| P0 | Trang tham chiếu Mobile công khai không tải được qua proxy | 2026-11-24 GET `https://dackytruvuong.com/` và `/phong-than-cac/` trả tunnel HTTP 403 | Runtime độc lập đã triển khai với nhãn SIMULATED; thử xác minh khi mạng cho phép |
-| P0 | Không có snapshot dữ liệu A1 trong checkout | Nhánh mục tiêu chỉ có `CODEX_MASTER_TASK.md` lúc đầu; không có input-private/ | Giữ catalog mô phỏng, không đưa dữ liệu độc quyền lên repo |
-| P0 | Chưa xác minh dữ liệu Mobile/legacy | 0 record nguồn xác minh trong `DATA_COVERAGE.json`; pin legacy chưa tải | Nhập và chuẩn hóa khi có nguồn được phép |
-| P6 | Thiếu Android SDK/Gradle và native project | `ANDROID_HOME`/`ANDROID_SDK_ROOT` rỗng; `gradle` không có trong PATH | Web/PWA/offline HTML đã build; APK/AAB chờ môi trường Android |
-| P6 | Công cụ Vite/PixiJS/Capacitor/TypeScript không có trong cache | `tsc`/`vite` không có trong PATH, npm cache trống | Dùng ES modules/DOM/CSS/SVG thuần và Node build script; lý do nằm trong `DECISIONS.md` |
-| P7 | Chromium không mở được bản một file qua `file://` tại môi trường này | `offline-smoke.mjs`: `chrome-error://chromewebdata/`; bundle inline qua syntax check | Bản PWA chạy qua HTTP và được mở lại khi network bị disable |
-| P7 | Chưa có APK/AAB QA | Chưa thể build APK/AAB do blocker Android SDK/Gradle | Không báo Android PASS trước khi cài/chạy trên thiết bị |
-| P7 | Không truy vấn được trạng thái run GitHub Actions từ môi trường | gh run list tới api.github.com trả HTTP 403; commit push thành công và trigger workflow theo nhánh | Mở link Actions ở repository để xem kết quả; local build/tests đã chạy |
+| Data provenance | The 7 public Mobile catalogs are captured, but the original client version, complete Mobile/legacy delta and redistribution terms are unknown. | PTC catalog version `5d78c226cb`; no explicit game client version/license manifest on the public catalog page. | Runtime import count stays 0; catalogs and raw rows remain in gitignored `input-private/`. |
+| Legacy parsing | 6 of 70 pinned tables remain `HOLD`. | `DATA_COVERAGE.json`: unknown packed block types 249/253, unsupported DATETIME layouts, and one source table absent at the pinned commit. | Keep unsupported tables isolated; do not infer binary layout. |
+| Source license | GitHub reported no SPDX license for the pinned legacy repository; Mobile catalog has no source license field. | GitHub repo metadata and captured public catalog manifest. | Do not publish raw rows, descriptions or assets; no parity/reuse claim. |
+| Android device QA | APK builds and its package/target SDK/signature are verified, but installation/runtime on a device is not. | No emulator installed; ADB cannot create `/home/agent/.android` in this read-only environment. | Report static APK verification only; do not mark Android device QA PASS. |
+| Standalone offline HTML | Chromium does not open `dist/offline.html` using `file://`. | Previous offline smoke returned `chrome-error://chromewebdata/`; localhost PWA smoke passes. | Use PWA over localhost/HTTPS; standalone file mode remains unverified here. |
 
-Không sử dụng token, dữ liệu người chơi, endpoint riêng, binary legacy hoặc máy chủ legacy.
+The 2026-11-24 public-source HTTP 403 is resolved for the tested public GET routes on 2026-11-25; see `DATA_COVERAGE.json`. No credentials, authenticated flow, private endpoint, server or legacy executable was used.

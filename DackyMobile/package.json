@@ -8,6 +8,18 @@
     "build": "node scripts/build.mjs",
     "serve": "node scripts/serve.mjs",
     "test": "node --test tests/*.test.js",
-    "data:export": "node scripts/export-database.mjs"
+    "test:source": "python3 -m unittest discover -s tests -p 'test_extract_a1.py'",
+    "data:export": "node scripts/export-database.mjs",
+    "data:coverage": "python3 scripts/update_data_coverage.py",
+    "android:add": "cap add android",
+    "android:sync": "npm run build && cap sync android",
+    "android:build:debug": "npm run android:sync && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.6.2",
+    "@capacitor/core": "8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.2"
   }
 }

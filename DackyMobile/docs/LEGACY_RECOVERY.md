@@ -1,6 +1,6 @@
 # Recover legacy research without depending on Codex network access
 
-The 403 in BLOCKERS.md was a proxy tunnel refusal, not proof that the legacy repository was removed. The public legacy repository directory at pinned commit 13d969fc88c141553535c70943aaa98cf9f86616 was independently listed (763 files; not 763 tables). Mobile site access remains unverified. Do not change network security controls, bypass a server's restrictions or retry repeatedly.
+The 2026-11-24 403 was transient. On 2026-11-25 normal HTTPS GETs to the public Mobile site, public catalog JSON, GitHub raw/API and npm succeeded. The public PTC catalog was captured at version `5d78c226cb` (7 catalogs, 2,656 rows); the original Mobile client version and full gameplay delta remain unknown. At pinned legacy commit `13d969fc88c141553535c70943aaa98cf9f86616`, 208 allowlisted files were SHA-verified; 64/70 tables decoded to 161,234 rows and six remain HOLD. Raw inputs stay gitignored. Do not change network security controls, bypass a server's restrictions or retry repeatedly.
 
 ## Preferred: local cache on an authorized machine
 
@@ -21,10 +21,10 @@ The offline restorer validates the pinned source, size (when supplied) and Git b
 
 ## Next Codex task
 
-1. Pull this branch and recover the local inputs. Check actual manifest counts; do not equate staged files with imported runtime rows.
+1. Use the existing `/workspace/Dacky` checkout and private inputs. Check actual manifest counts; do not equate staged files with imported runtime rows.
 2. Map independently verified gameplay facts from the historical source into runtime with version and field provenance, preserve original IDs where permitted, handle missing semantics explicitly and keep Mobile differences separate. Use a versioned save migration.
 3. Replace simulations incrementally only where evidence supports replacement; prioritize buildings/tech, soldier requirements/counters, hero roster, equipment and quests. For files still unavailable, continue with clearly labeled simulations.
-4. Run engine tests, build Web, update DATA_COVERAGE and PROGRESS; do not claim Mobile parity or 403 resolved without direct verification.
+4. Run engine tests, build Web/Android, update DATA_COVERAGE and PROGRESS; do not claim Mobile parity or license clearance without evidence.
 5. Keep research inputs private; publish only permitted code and independently normalized facts. Do not merge or alter other game directories.
 
 Network troubleshooting: test a normal approved terminal with curl -I against the public source URL. If the approved terminal works but Codex fails, check Codex environment network settings/allowlist or ask the administrator to permit required public domains. If both return 403, use offline inputs or obtain authorized access; do not evade the block.

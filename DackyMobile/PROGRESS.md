@@ -1,42 +1,38 @@
 # Tiến độ Dacky Mobile
 
-Cập nhật: 2026-11-24 · Nhánh: feature/dacky-mobile-complete-20261124
+Cập nhật: 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · Nhánh task `feature/dacky-v1-production`
 
-## Checkpoint
+## Checkpoint hiện tại
 
-- HEAD đầu lô trang bị theo slot: 0b247214be26af0248be818d9a3dbd6210002416; lô phẩm chất/ngũ hành bắt đầu tại aa87aa631049f924ea32cc57e202687d73cf2e3e; lô kỹ năng chủ động bắt đầu tại 19772fe014dadf4ca9bff21c78f9f1f8c792369d; lô linh căn trước đó bắt đầu tại 75ef315520422793909010735968d1f3826fd5ce (đã có trên origin/feature/dacky-mobile-complete-20261124). Lô chiến thuật quân chủng bắt đầu tại 4849e86a9928f723f852cc87f87f5c7aff811f00; chính tuyến tại 0eb9901b69ceee0c58509ff2f8fd42da0482127a; NPC/đội hình tại 0492d85675ca66c974cb367619afaa0ec86edbf0.
-- Codebase web độc lập, offline-first: thành trì, sáu tài nguyên, 21 công trình tới cấp 30, sản xuất theo giờ, queue xây/nghiên cứu/huấn luyện/hành quân, 39 binh chủng mô phỏng, đủ 540 thần tiên mô phỏng, túi đồ/rèn, khoa kỹ, 1.158 nhiệm vụ, 120 địa điểm chiến dịch có Boss Trụ Vương và 624 Tiên Sơn thử thách riêng, chiến báo, Phong Thần Tháp và 5 cửa Bất Chu.
-- Chiến dịch mô phỏng có 8 chương, 1.158 mục tiêu, mở Boss Trụ Vương sau 20 thắng/7 thành; thắng đầu lưu cờ kết cục, thưởng duy nhất và cho phép tiếp tục endgame.
-- Gameplay loop đã nối: nâng công trình → huấn luyện/chiêu mộ/trang bị → hành quân nhiều stack → combat/tổn thất/loot → nâng cấp/nhiệm vụ → save/reload. Capture thành phụ, sản lượng bổ sung, minh hội NPC và minh ước NPC có runtime. Mô hình gameplay là độc lập `SIMULATED`, chưa đối chiếu client Mobile.
-- Giao diện responsive tiếng Việt, bản đồ tương tác, vector art SVG tự tạo, IndexedDB + localStorage dự phòng, import/export save, PWA/service worker, build Web static, một file offline và database JSON chuẩn hóa có thể tái sinh từ cùng catalog (4.680 record mô phỏng / 9 bảng).
-- Cửa hàng NPC nối 540 vật phẩm tiêu hao với giới hạn túi 500; XP tự lên nhiều cấp và tăng kỹ năng; bốn pháp môn có nội tại ở PvE và kỹ năng chủ động theo hiệp trong hành quân; phẩm chất tăng lực chiến căn bản, từng slot trang bị có hiệu ứng combat riêng, ngũ hành NPC áp vòng khắc chế vào sát thương chiến dịch; ba chính sách thuế điều chỉnh đồng, dân tâm và tăng dân số.
-- Khoa kỹ 19 nhánh/570 cấp nay tác động vào kinh tế, xây dựng, huấn luyện, quân chuyên môn, combat, hồi phục, hành quân, thần tiên, trinh sát và giao thương/ngoại giao.
-- Chỉ dẫn tân thủ 7 mốc tự kiểm tra tiến trình xây/nghiên cứu/chiêu mộ/trang bị/huấn luyện/chiến đấu; các nút hướng dẫn thực thi gameplay thật và chỉ tiến bước khi đạt điều kiện.
-- Thành phụ đã có giao diện quản lý, nâng cấp qua hàng xây dựng, mở theo cấp Tử Vi và tăng năm loại sản lượng theo cấp.
-- 120 điểm thế giới được tái phân bổ theo tám chương, đủ 75 thành/30 dã địa/14 Tiên Sơn/1 Boss; thắng dã địa hoặc Tiên Sơn mới mở chương kế tiếp; march/scout/ngoại giao bị khóa theo tiến độ. Lô NPC thêm chủ soái, 3–5 stack quân, năm chiến thuật có hiệu lực, do thám mở thông tin và chiến báo ghi quân địch/tổn thất. Tám nhiệm vụ chính tuyến mở theo từng vùng; game lưu thắng trận/dã địa/thành theo chương, khóa mục tiêu và thưởng chương chưa mở. Combat phân tuyến trước/sau/công thành, dùng tầm đánh cho initiative, tương khắc theo đội địch và bonus đội hình cân bằng. Linh căn 0–100 tăng từ tu luyện/PvE, cộng lực chiến và kỹ năng; phẩm chất Nhân/Địa/Thiên lần lượt nhân căn cơ ×1,00/×1,12/×1,28; NPC có Hỏa/Thủy/Mộc/Kim/Thổ và đội thần tiên thuận/nghịch hệ tác động sát thương. Đã nối ngũ hành vào do thám và chiến báo, Phong giữ trung tính. Bốn kỹ năng có lượt kích hoạt riêng (Phong Lôi/Huyền Thủy hiệp 1, Hỏa Phù hiệp 2, Thất Tinh hiệp 3); sát thương kỹ năng, sát thương được chặn, hồi phục và tên kỹ năng được ghi từng hiệp trong chiến báo.
+- Nhánh `feature/dacky-v1-production` được tạo từ checkout `work` tại `c7903e2a5f6df4395af6066815ab7c43c06a3dd0`; tại thời điểm kiểm tra `origin/main` trỏ cùng SHA. Không merge hoặc force-push.
+- Draft onboarding đã lưu `install_script`, `start_skill` và checkout `Dacky` tại SHA này. Draft cần được review/save rồi publish trong Environment Settings để tạo cấu hình hoạt động.
+- Web game offline-first hiện có kinh tế, 21 công trình, khoa kỹ, 39 binh chủng, 540 thần tiên, 2.155 vật phẩm, 1.158 nhiệm vụ, 120 điểm chiến dịch, combat NPC, save/load, PWA và art SVG tự tạo. Tất cả thông số runtime vẫn mang nhãn `SIMULATED`.
+- Đã ghim Capacitor 8.6.2, thêm lockfile và tạo Android native project. Gradle Wrapper 8.14.3 kiểm tra SHA-256; Android SDK Platform 36, Build Tools 35.0.0 và JDK 21.0.13.1+2 đã build APK debug thành công.
+- Giới hạn Phong Thần Tháp hiện là 9.999 do bản mô phỏng chọn. Số 8.992 thuộc bảng tầng Tiên Sơn legacy `elflandfloorinfo`; không có nguồn xác minh số tầng Tháp.
 
-## Kiểm chứng thực tế
+## Nguồn và độ phủ dữ liệu
 
-- `node tests/engine.test.js`: PASS 26/26, thêm kiểm tra hiệu ứng riêng của vũ khí/giáp/pháp bảo cùng hệ số phẩm chất và ngũ hành thuận/nghịch cùng kiểm tra kích hoạt/chặn sát thương/gây sát thương/hồi phục của pháp môn; trước đó bao phủ kiểm tra tu luyện linh căn, tăng sau chiến dịch, lực chiến cá nhân và cộng hưởng nguyên tố; các test trước vẫn bao phủ đội hình NPC, 8 nhiệm vụ vùng, tương khắc và khóa chương.
-- `npm run build`: PASS; build Web, `dist/offline.html` và `dist/data/dacky-game-data.simulated.v1.json`; kiểm tra JSON xác nhận 4.680 record SIMULATED trên 9 bảng.
-- Chromium integration: PASS onboarding, 21 công trình, 11 màn hình, thuế, danh mục/purchase, xây dựng, chiêu mộ/trang bị, huấn luyện, hành quân nhiều stack, loot/chiến báo, thành phụ, save/reload, 390×844 và 844×390; 0 lỗi console/runtime. Smoke riêng xác nhận thông tin NPC bị ẩn trước trinh sát rồi hiện chủ soái/đấu pháp/đạo quân/ngũ hành; nhiệm vụ ghim chính tuyến/khóa thưởng chương; thẻ thần tiên và chiến báo hiển thị kỹ năng từng hiệp, hệ số phẩm chất, trinh sát ngũ hành và bonus chiến báo. Ảnh ở `qa/screenshots/`.
-- PWA: PASS mở lại entrypoint khi tắt mạng và shell đã được cache.
-- Hạn chế môi trường: Chromium trả `chrome-error://chromewebdata/` với URL `file://.../offline.html`; bundle inline đã qua syntax check. Thiếu Android SDK/Gradle nên APK/AAB chưa build. Không tuyên bố V1.0 hoàn thành.
+- GET công khai tới trang Mobile, trang danh mục, GitHub raw/API và npm trả HTTP 200 trong lần kiểm tra 2026-11-25. Đã chụp 7 danh mục PTC công khai, phiên bản `5d78c226cb`, tổng 2.656 hàng vào `input-private/` bị gitignore. Đây không phải xác nhận phiên bản client; runtime chưa nhập bản ghi Mobile nào.
+- 208/208 tệp legacy trong allowlist của commit `13d969fc88c141553535c70943aaa98cf9f86616` khớp Git blob SHA. Parser giải mã 64/70 bảng, 161.234 hàng; 6 bảng vẫn `HOLD`. Không có hàng legacy nào được nối vào runtime.
+- GitHub không khai báo SPDX license cho repo legacy; trang dữ liệu Mobile không cung cấp manifest giấy phép. Giữ raw/source rows trong thư mục private và không tuyên bố parity hoặc quyền tái phân phối.
+- `DATA_COVERAGE.json` được cập nhật từ manifest cục bộ; 0 record nguồn đã nhập runtime.
 
-## P0–P7 còn mở
+## Kiểm chứng lần này
 
-- P0: nguồn Mobile công khai và nguồn legacy không truy cập được vì HTTP proxy 403; không có snapshot A1. Chưa có record nguồn xác minh. Cần dữ liệu hợp pháp có phiên bản và kiểm tra khác biệt Mobile/legacy.
-- P1: thuế/dân tâm, tăng dân số, hàng đợi và thành phụ có runtime; còn thiếu chiều sâu đầy đủ cho công trình/tiến trình và hướng dẫn tân thủ.
-- P2: roster 540/540 hồ sơ mô phỏng; XP/kỹ năng/phẩm chất/trang bị theo slot/rèn/linh căn và vòng ngũ hành khắc chế đều có runtime. Nguồn roster và hệ số gốc chưa xác minh; ngũ hành tương sinh, thức tỉnh và các hệ phát triển khác còn thiếu.
-- P3: 39 binh chủng mô phỏng có tuyến trước/sau/công thành, tầm và counter theo vai trò; combat stack/counter/chiến thuật NPC/tổn thất/loot chạy thật. Hệ số và công thức nguồn Mobile vẫn chưa xác minh.
-- P4: 120 điểm NPC có chủ soái/đội hình/đấu pháp và trinh sát; 8 mục tiêu chính tuyến theo vùng, tháp procedural, 5 cửa Bất Chu, nhiệm vụ phụ, thương nhân, minh hội/ngoại giao NPC có runtime; 1.158 nhiệm vụ/624 Tiên Sơn runtime đã mô phỏng đủ số lượng; nội dung nguồn và tọa độ xác minh còn thiếu.
-- P5: có SVG gốc cho thành, chân dung và huy hiệu; thiếu animation combat, atlas binh chủng, âm thanh và nội dung hình ảnh đầy đủ.
-- P6: Web/PWA/offline HTML build được; `capacitor.config.json` có nhưng native project/APK/AAB chưa có do thiếu Android SDK/Gradle.
-- P7: QA Web tích hợp đã PASS; Android chưa kiểm tra. Chỉ các nội dung đã chạy mới được ghi PASS.
+- `npm ci --no-audit --no-fund --cache /workspace/.npm-cache`: PASS.
+- `npm test`: PASS 27/27, có regression test tách cap Tháp mô phỏng khỏi số tầng legacy.
+- `npm run test:source`: PASS 5/5 parser tests. `verify_legacy_cache.py`: PASS 208/208 SHA. Parser: 64 decoded, 6 held, 161.234 hàng.
+- `npm run build`: PASS; xuất 4.680 hàng SIMULATED trên 9 bảng, PWA và `dist/offline.html`.
+- Chromium smoke trên 390px mobile và 844×390 landscape: PASS các màn hình, save/reload, xây dựng, chiêu mộ/trang bị, huấn luyện, hành quân/loot; 0 lỗi runtime/console. GET localhost trả HTTP 200.
+- `npm run android:build:debug`: BUILD SUCCESSFUL. APK `vn.dackymobile.offline`, min SDK 24, target/compile SDK 36, 4.489.145 bytes; `aapt` và `apksigner verify` PASS. SHA-256 `bfb3599e2bce4652b1461f9d66d7b67fef58f2dc175ac2ba7ce687d2b1219a92`. Chưa cài trên thiết bị.
 
-## Bước tiếp theo
+## Việc còn mở
 
-1. Tiếp tục tiến trình thần tiên cấp cao: nhánh thức tỉnh/đột phá mô phỏng và liên kết trang bị, phẩm chất với thử thách cuối game.
-2. Khi có Android SDK/Gradle, tạo project Capacitor native, build/cài APK và kiểm tra luồng cốt lõi.
-3. Khi dữ liệu nguồn được cung cấp hoặc proxy cho phép, xác minh Mobile riêng, nhập dữ liệu hợp pháp và cập nhật `DATA_COVERAGE.json`.
-4. Giữ nhánh feature/dacky-mobile-complete-20261124 làm checkpoint hiện tại. Tiếp tục bằng các mục P0–P7 còn mở; không merge, không force-push, không đụng Heroes/Mưu Định Tam Quốc.
+- 6 bảng legacy chưa giải mã an toàn: `generalrefreshlevellimitinfo` (block type 249), `strongpointinfo`, `advfieldinfo`, `fightgetgoodstimecfg` (DATETIME chưa hỗ trợ), `upgradeexp` (block type 253), `fieldrandeventcfginfo` (không có trong pinned allowlist). Giữ `HOLD`, không đoán định dạng.
+- Chưa đối chiếu toàn bộ phiên bản Mobile với legacy hoặc tích hợp trường nguồn vào gameplay; cần provenance, semantics và quyền sử dụng rõ ràng.
+- APK debug chưa được cài/kiểm tra trên emulator hoặc thiết bị. ADB server không khởi động trong máy cloud do thư mục home mặc định chỉ đọc; chưa có emulator trong SDK.
+- PWA relaunch khi tắt mạng PASS với cached resources; Chromium mở `dist/offline.html` qua `file://` vẫn trả `chrome-error://chromewebdata/`.
+
+## Lịch sử checkpoint được nhập
+
+Các tài liệu cũ ghi feature branch `feature/dacky-mobile-complete-20261124` cùng nhiều SHA từ môi trường Heoofgaia. Những Git object đó không có trong checkout Dacky này; giữ làm provenance, không xem là nhánh hoặc HEAD hiện tại. Tiếp tục trên nhánh được người dùng chỉ định; không merge hoặc force-push.

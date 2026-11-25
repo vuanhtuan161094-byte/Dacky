@@ -1,14 +1,14 @@
 /*
- * Independently authored game content. The public mobile reference was
- * unreachable from this build environment, so every gameplay value in this
- * catalog is explicitly SIMULATED; names that are mythological references do
- * not imply that the original client uses these exact records or numbers.
+ * Independently authored game content. Public Mobile catalog pages and
+ * legacy tables are now captured for research, but none of their records has
+ * been imported into runtime. Every gameplay value remains SIMULATED; names
+ * that are mythological references do not imply source parity.
  */
 export const CONTENT_EVIDENCE = Object.freeze({
   status: 'SIMULATED',
-  source: 'Independent offline-first design; public reference access blocked (HTTP proxy 403)',
+  source: 'Independent offline-first design; public Mobile catalog captured 2026-11-25 (version 5d78c226cb), runtime import pending',
   version: 'dacky-mobile-sim-v1',
-  updated: '2026-11-24'
+  updated: '2026-11-25'
 });
 
 export const RESOURCE_INFO = Object.freeze({
@@ -179,7 +179,7 @@ const questTitles = [
   ['Thu phục danh thành','capture','city',1], ['Khảo nghiệm Bất Chu','buzhou','floor',1], ['Nâng cao quốc lực','power','power',500]
 ];
 const questTemplates=[...questTitles,['Khám phá Tiên Sơn','mountain','mountains',1]];
-const generatedQuestLimits={upgrade:30,train:5000,recruit:60,equip:500,win:5000,guild:5,tower:8992,capture:75,buzhou:5,power:500_000,mountain:624};
+const generatedQuestLimits={upgrade:30,train:5000,recruit:60,equip:500,win:5000,guild:5,tower:9999,capture:75,buzhou:5,power:500_000,mountain:624};
 const chapterMissionNames=['Tây Kỳ khởi nghĩa','Thanh Khâu huyết chiến','Vân Mộng trừ yêu','Cửu Lê bình loạn','Lạc Thủy hội quân','Bắc Minh hàn kiếp','Phong Lăng đoạt thành','Quy Khư quyết chiến'];
 const campaignQuests=Array.from({length:48},(_,i)=>{
   const chapter=Math.floor(i/6)+1;
@@ -270,7 +270,9 @@ export const IMMORTAL_MOUNTAINS=Object.freeze(Array.from({length:624},(_,i)=>({
   evidence:'SIMULATED'
 })));
 
-export const TOWER_FLOORS = 8992;
+// A local gameplay cap, chosen for this simulation. It is unrelated to the
+// 8,992 legacy elfland-floor rows below; no source floor count is verified.
+export const TOWER_FLOORS = 9999;
 export const BUZHOU_FLOORS = 5;
 export const LEGACY_REFERENCE_COUNTS = Object.freeze({
   legacy147Soldiers: 39,

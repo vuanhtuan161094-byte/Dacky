@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "dataVersion": "dacky-mobile-sim-v1",
-  "updated": "2026-11-24",
+  "updated": "2026-11-25",
   "evidenceStatus": "SIMULATED",
   "evidenceNote": "Toàn bộ giá trị trong gói này do dự án tự thiết kế; không phải bản trích xuất hoặc xác nhận tương đồng từ client Mobile/legacy.",
-  "sourceAccess": "BLOCKED_HTTP_PROXY_403",
+  "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
   "referenceCounts": {
     "legacy147Soldiers": 39,
     "legacy147Items": 2155,
@@ -5032,7 +5032,8 @@
   "proceduralSystems": {
     "fengshenTower": {
       "evidence": "SIMULATED",
-      "floorCount": 8992,
+      "floorCount": 9999,
+      "floorCountBasis": "Local design cap; legacy elfland floor counts are unrelated and Fengshen Tower source count is unknown",
       "generatedAtRuntime": true,
       "runtime": "src/engine.js"
     },
@@ -5122,27 +5123,27 @@
   "unavailableSourceTables": [
     {
       "name": "mobileVersionDelta",
-      "reason": "Client và snapshot Mobile chưa truy cập được."
+      "reason": "Public static catalog was captured, but it does not establish the original client version or a complete gameplay-version delta."
     },
     {
       "name": "legacyHeroes",
       "targetRecords": 540,
-      "reason": "Không có snapshot được phép sử dụng; chỉ catalog mô phỏng hiện có được xuất."
+      "reason": "Legacy rows are retained in private research only; runtime remains simulated pending provenance and license review."
     },
     {
       "name": "legacyItems",
       "targetRecords": 2155,
-      "reason": "Database legacy chưa tải hoặc giải mã."
+      "reason": "Legacy rows are retained in private research only; runtime remains simulated pending provenance and license review."
     },
     {
       "name": "legacyQuests",
       "targetRecords": 1158,
-      "reason": "Database legacy chưa tải hoặc giải mã."
+      "reason": "Legacy rows are retained in private research only; runtime remains simulated pending provenance and license review."
     },
     {
       "name": "immortalMountains",
       "targetRecords": 624,
-      "reason": "Bảng nguồn chưa truy cập được; bản đồ runtime là mô phỏng độc lập."
+      "reason": "Source rows remain in private research; runtime challenges are an independent simulation."
     }
   ]
 }

@@ -1,7 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { activeQuest, advance, armyPower, createNewGame, doAction, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity, unlockedChapter } from '../src/engine.js';
-import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, TECHNOLOGIES, TROOPS, WORLD_NODES } from '../src/catalog.js';
+import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS, QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES } from '../src/catalog.js';
+
+test('simulated Fengshen Tower cap is independent of legacy elfland floor count', () => {
+  assert.equal(TOWER_FLOORS,9999);
+  assert.equal(LEGACY_REFERENCE_COUNTS.elflandFloors,8992);
+  assert.notEqual(TOWER_FLOORS,LEGACY_REFERENCE_COUNTS.elflandFloors);
+  const state=createNewGame('Triều Ca',1_800_000_000_000);
+  state.world.towerFloor=20_000;
+  state.world.storyStage=8992;
+  const migrated=migrateSave(state,1_800_000_000_001);
+  assert.equal(migrated.world.towerFloor,TOWER_FLOORS);
+  assert.equal(migrated.world.storyStage,24);
+});
 
 test('new save has a bounded, offline-first settlement', () => {
   const now = 1_800_000_000_000;

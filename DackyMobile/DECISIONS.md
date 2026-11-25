@@ -44,3 +44,13 @@
 
 - Vũ khí trong ba vị trí đội hình cộng hệ số sát thương theo `ITEMS.bonus`; giáp cộng giảm sát thương nhận; pháp bảo cộng trực tiếp vào hệ số kỹ năng chủ động và độ tinh thông PvE. Cả ba loại vẫn cộng lực chiến nền như trước.
 - Thông số phần trăm được chiến báo tổng hợp theo đội hình; công thức và mức cộng đều SIMULATED. Rèn/trang bị vẫn dùng inventory và slot hiện có, không tạo nhánh nâng cấp vật phẩm riêng ở lô này.
+
+## 2026-11-25 · Nguồn công khai và toolchain cloud
+
+- HTTP 403 ngày 2026-11-24 được ghi nhận là trạng thái mạng tạm thời. Các GET công khai tới Mobile, GitHub raw/API và npm trả HTTP 200 ngày 2026-11-25. Chụp 7 catalog PTC, 2.656 hàng, phiên bản `5d78c226cb`; runtime chưa nhập dữ liệu từ nguồn.
+- Legacy pinned tree có 208 tệp allowlist được Git blob SHA xác minh; 64/70 bảng giải mã, 161.234 hàng. 6 bảng giữ `HOLD` vì định dạng DATETIME/block chưa hiểu hoặc file nguồn vắng mặt. Không thêm dữ liệu raw vào Git.
+- Capacitor 8.6.2 được ghim bằng lockfile. JDK Temurin 21.0.13.1+2, Android SDK Platform 36, Build Tools 35.0.0 và Gradle 8.14.3 tạo APK debug. Wrapper ghim SHA-256; Java dùng truststore riêng có CA từ cloud để qua HTTPS proxy, không tắt TLS.
+- Android toolchain giữ tại `/workspace/.toolchains`; npm và Gradle cache ở các thư mục riêng ngoài checkout. Native project nằm trong `DackyMobile/android/`; không lưu signing key hay local properties vào Git.
+- Draft cloud onboarding lưu đủ install/start instructions và repo declaration `Dacky` tại checkout SHA `c7903e2a5f6df4395af6066815ab7c43c06a3dd0`. Draft save không chạy script hoặc publish; cần review/save và publish trong Environment Settings.
+- APK debug build được nhưng chưa cài lên thiết bị. Không tạo AAB release khi chưa có khóa do chủ sở hữu cung cấp.
+- Phong Thần Tháp dùng cap mô phỏng 9.999 do dự án chọn; không mượn số 8.992 của bảng Tiên Sơn `elflandfloorinfo`. Số tầng Tháp theo nguồn vẫn chưa biết.

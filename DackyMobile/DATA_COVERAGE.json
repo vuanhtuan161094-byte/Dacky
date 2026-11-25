@@ -1,30 +1,36 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-11-24",
+  "updated": "2026-11-25",
   "gameplayVersion": "dacky-mobile-sim-v1",
   "evidenceStatus": {
     "verifiedMobileRecords": 0,
     "verifiedLegacyRecordsImported": 0,
-    "simulatedRuntimeRecords": 4680,
-    "sourceAccess": "BLOCKED_HTTP_PROXY_403",
-    "note": "Counts below describe runtime-generated content, not exports or parity claims for Mobile/legacy."
+    "simulatedRuntimeRecords": 4685,
+    "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
+    "note": "Source access and record decoding are tracked separately from runtime import. Existing gameplay catalogs remain SIMULATED until selected normalized fields are wired into runtime."
   },
   "references": {
     "publicMobile": [
       {
         "url": "https://dackytruvuong.com/",
-        "attempt": "2026-11-24",
-        "result": "HTTP proxy tunnel 403; no page content obtained"
+        "attempt": "2026-11-25",
+        "result": "HTTP 200; HTML body received; no redirect"
+      },
+      {
+        "url": "https://dackytruvuong.com/play",
+        "attempt": "2026-11-25",
+        "result": "HTTP 200; public HTML body received; no authenticated flow used"
       },
       {
         "url": "https://dackytruvuong.com/phong-than-cac/",
-        "attempt": "2026-11-24",
-        "result": "HTTP proxy tunnel 403; no page content obtained"
+        "attempt": "2026-11-25",
+        "result": "HTTP 200; public catalog HTML body received; seven category JSON catalogs captured"
       }
     ],
     "legacySourcePin": "13d969fc88c141553535c70943aaa98cf9f86616",
-    "legacySourceDownloaded": false,
-    "privateA1SnapshotPresent": false
+    "legacySourceDownloaded": true,
+    "privateA1SnapshotPresent": false,
+    "legacyLicense": "No SPDX license was reported by GitHub for the pinned public repository; raw table files remain in gitignored input-private/."
   },
   "runtimeCatalogs": [
     {
@@ -100,10 +106,11 @@
     },
     {
       "domain": "fengshenTower",
-      "records": "procedural floors 1-8992",
+      "records": "procedural floors 1-9999",
       "status": "SIMULATED",
-      "legacyReferenceFloorCount": 8992,
-      "runtime": "src/engine.js"
+      "runtime": "src/engine.js",
+      "simulationCap": 9999,
+      "floorCountBasis": "Local design cap; unrelated to legacy elfland floors; source tower count unknown"
     },
     {
       "domain": "buzhouMountain",
@@ -132,53 +139,128 @@
       "status": "SIMULATED"
     },
     "heroQuality": {
-      "tiers": {"Nhân": 1.0, "Địa": 1.12, "Thiên": 1.28},
+      "tiers": {
+        "Nhân": 1.0,
+        "Địa": 1.12,
+        "Thiên": 1.28
+      },
       "effect": "Multiplies base hero combat power",
       "status": "SIMULATED"
     },
     "equipmentCombat": {
-      "slots": {"weapon": "Outgoing damage", "armor": "Incoming damage reduction", "artifact": "Active skill coefficient"},
+      "slots": {
+        "weapon": "Outgoing damage",
+        "armor": "Incoming damage reduction",
+        "artifact": "Active skill coefficient"
+      },
       "effects": "Each equipped item also adds its catalog bonus to hero power",
       "status": "SIMULATED"
     },
     "fiveElementCounters": {
       "npcProfiles": 120,
-      "cycle": {"Hỏa": "Khắc Kim", "Kim": "Khắc Mộc", "Mộc": "Khắc Thổ", "Thổ": "Khắc Thủy", "Thủy": "Khắc Hỏa"},
+      "cycle": {
+        "Hỏa": "Khắc Kim",
+        "Kim": "Khắc Mộc",
+        "Mộc": "Khắc Thổ",
+        "Thổ": "Khắc Thủy",
+        "Thủy": "Khắc Hỏa"
+      },
       "wind": "Neutral",
-      "effects": ["Outgoing campaign damage", "Incoming campaign damage"],
+      "effects": [
+        "Outgoing campaign damage",
+        "Incoming campaign damage"
+      ],
       "status": "SIMULATED"
     },
     "combatSkills": {
-      "skills": ["Hỏa Phù Liệt Trận", "Huyền Thủy Hộ Thể", "Phong Lôi Kích", "Thất Tinh Trợ Chiến"],
-      "passiveEffects": ["Attack bonus", "Defense bonus", "Opening bonus", "Formation durability"],
-      "activeTriggers": {"Hỏa Phù Liệt Trận": "Round 2", "Huyền Thủy Hộ Thể": "Round 1", "Phong Lôi Kích": "Round 1", "Thất Tinh Trợ Chiến": "Round 3"},
-      "activeEffects": ["Damage", "Damage reduction", "Opening strike", "Healing"],
-      "battleReport": ["Per-round damage", "Shielded damage", "Applied healing", "Cast name"],
+      "skills": [
+        "Hỏa Phù Liệt Trận",
+        "Huyền Thủy Hộ Thể",
+        "Phong Lôi Kích",
+        "Thất Tinh Trợ Chiến"
+      ],
+      "passiveEffects": [
+        "Attack bonus",
+        "Defense bonus",
+        "Opening bonus",
+        "Formation durability"
+      ],
+      "activeTriggers": {
+        "Hỏa Phù Liệt Trận": "Round 2",
+        "Huyền Thủy Hộ Thể": "Round 1",
+        "Phong Lôi Kích": "Round 1",
+        "Thất Tinh Trợ Chiến": "Round 3"
+      },
+      "activeEffects": [
+        "Damage",
+        "Damage reduction",
+        "Opening strike",
+        "Healing"
+      ],
+      "battleReport": [
+        "Per-round damage",
+        "Shielded damage",
+        "Applied healing",
+        "Cast name"
+      ],
       "mastery": "Skill level and affinity scale coefficients and challenge power",
       "status": "SIMULATED"
     },
     "taxPolicies": {
       "records": 3,
-      "values": ["Khoan giảm", "Trung dung", "Thuế nặng"],
-      "effects": ["Gold production", "Morale drift", "Population growth"],
+      "values": [
+        "Khoan giảm",
+        "Trung dung",
+        "Thuế nặng"
+      ],
+      "effects": [
+        "Gold production",
+        "Morale drift",
+        "Population growth"
+      ],
       "status": "SIMULATED"
     },
     "technologyBranches": {
       "records": 19,
       "levels": 570,
-      "runtimeEffects": ["Resource production", "Population", "Construction speed", "Training speed", "Army attack and defense", "Cavalry and archer specialization", "Healing cost", "Formation", "March speed", "Hero power", "Scout cost", "Trade fee and diplomacy"],
+      "runtimeEffects": [
+        "Resource production",
+        "Population",
+        "Construction speed",
+        "Training speed",
+        "Army attack and defense",
+        "Cavalry and archer specialization",
+        "Healing cost",
+        "Formation",
+        "March speed",
+        "Hero power",
+        "Scout cost",
+        "Trade fee and diplomacy"
+      ],
       "status": "SIMULATED"
     },
     "newPlayerTutorial": {
       "records": 7,
-      "milestones": ["Construction", "Research", "Altar construction", "Immortal recruitment", "Equipment", "Training", "First campaign victory"],
+      "milestones": [
+        "Construction",
+        "Research",
+        "Altar construction",
+        "Immortal recruitment",
+        "Equipment",
+        "Training",
+        "First campaign victory"
+      ],
       "completion": "Derived from saved gameplay state; unlocks sequentially",
       "status": "SIMULATED"
     },
     "satelliteCityManagement": {
       "citySlots": 75,
       "maxLevelPerCapturedCity": 10,
-      "runtimeEffects": ["Construction queue", "Citadel level gates", "Food, timber, stone, iron and gold production"],
+      "runtimeEffects": [
+        "Construction queue",
+        "Citadel level gates",
+        "Food, timber, stone, iron and gold production"
+      ],
       "status": "SIMULATED"
     },
     "campaignProgression": {
@@ -190,9 +272,26 @@
     "npcOpposition": {
       "records": 120,
       "formationSlots": "3-5 troop stacks per target",
-      "tactics": ["Phục kích", "Thủ thành", "Kỵ trận xung phong", "Pháp trận", "Hôn ám triều cương"],
-      "effects": ["Initiative-based opening strike", "Formation counters change damage and durability", "Boss and city tactics alter health or damage", "Five-element NPC commander matchup"],
-      "elements": ["fire", "water", "wood", "metal", "earth"],
+      "tactics": [
+        "Phục kích",
+        "Thủ thành",
+        "Kỵ trận xung phong",
+        "Pháp trận",
+        "Hôn ám triều cương"
+      ],
+      "effects": [
+        "Initiative-based opening strike",
+        "Formation counters change damage and durability",
+        "Boss and city tactics alter health or damage",
+        "Five-element NPC commander matchup"
+      ],
+      "elements": [
+        "fire",
+        "water",
+        "wood",
+        "metal",
+        "earth"
+      ],
       "scouting": "Reveals commander, tactic and troop counts; saved per node",
       "battleReport": "Records enemy formation, commander, tactic and casualties",
       "status": "SIMULATED"
@@ -206,45 +305,1067 @@
     },
     "troopFormationCombat": {
       "records": 39,
-      "lanes": ["front", "rear", "siege"],
-      "combatTags": ["role counter", "range and initiative", "front/rear balance", "formation research", "five-element counter"],
+      "lanes": [
+        "front",
+        "rear",
+        "siege"
+      ],
+      "combatTags": [
+        "role counter",
+        "range and initiative",
+        "front/rear balance",
+        "formation research",
+        "five-element counter"
+      ],
       "battleReport": "Own and NPC matchup advantage percentages",
       "status": "SIMULATED"
     },
     "immortalAffinity": {
       "range": "0-100",
-      "gains": ["Training", "Campaign combat", "Immortal duels"],
-      "effects": ["Hero power", "Skill mastery", "Same-element squad resonance"],
+      "gains": [
+        "Training",
+        "Campaign combat",
+        "Immortal duels"
+      ],
+      "effects": [
+        "Hero power",
+        "Skill mastery",
+        "Same-element squad resonance"
+      ],
       "saveMigration": "Clamped into current save schema",
       "status": "SIMULATED"
     }
   },
   "notImported": [
     {
-      "domain": "heroSourceRoster",
-      "targetCount": 540,
-      "reason": "Nguồn gốc chưa truy cập được; runtime có đầy đủ số lượng hồ sơ độc lập SIMULATED, không tuyên bố parity với nguồn."
+      "domain": "legacyGameplayTables",
+      "reason": "Static tables are decoded and hash-verified as private research. Runtime integration has not been performed."
     },
     {
-      "domain": "legacyItems147",
-      "targetCount": 2155,
-      "reason": "Nguồn gốc chưa truy cập được; runtime có đầy đủ số lượng hồ sơ độc lập SIMULATED, không tuyên bố parity với nguồn."
-    },
-    {
-      "domain": "quests147",
-      "targetCount": 1158,
-      "reason": "Nguồn gốc chưa truy cập được; runtime có đầy đủ số lượng hồ sơ độc lập SIMULATED, không tuyên bố parity với nguồn."
-    },
-    {
-      "domain": "elflands",
-      "targetCount": 624,
-      "reason": "Nguồn gốc chưa truy cập được; runtime có đầy đủ số lượng hồ sơ độc lập SIMULATED, không tuyên bố parity với nguồn."
+      "domain": "mobilePublicCatalogFields",
+      "reason": "Seven public catalogs are captured and summarized. Runtime import remains field-scoped and must preserve source provenance."
     },
     {
       "domain": "mobileVersionDelta",
-      "reason": "Mobile data access blocked; no unsupported parity assumptions made."
+      "reason": "Catalog counts and displayed records have been compared at category level. Full gameplay-version delta remains open."
+    },
+    {
+      "domain": "fengshenTowerFloorCount",
+      "reason": "The 8,992 legacy elfland floor records are not evidence of the Fengshen Tower floor count."
     }
   ],
   "normalizedJsonExport": "data/dacky-game-data.simulated.v1.json",
-  "normalizationStatus": "SIMULATED_RUNTIME_CATALOGS_EXPORTED; source parity unverified"
+  "normalizationStatus": "PRIVATE_SOURCE_CAPTURE_AND_LEGACY_DECODE_COMPLETE; RUNTIME_IMPORT_PENDING",
+  "sourceInventory": {
+    "legacy": {
+      "status": "LEGACY_RESEARCH_DECODED_NOT_IMPORTED",
+      "sourceVersion": "DackyVanTien/MySQL 5.0 legacy snapshot",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "sourceTreeVerified": true,
+      "sourceFilesVerified": 208,
+      "sourceFilesInPinnedAllowlist": 208,
+      "sourceFilesMissingFromCache": [],
+      "tableCount": 70,
+      "decodedTableCount": 64,
+      "heldTableCount": 6,
+      "decodedRecordCount": 161234,
+      "decodedSchemaFieldCount": 579,
+      "runtimeImportedRecordCount": 0,
+      "tables": {
+        "147-advfieldgeneralinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 25,
+          "fieldCount": 20,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "e49420c8ef402928444893701ff7089cf88da213",
+          "schemaBlobSha1": "e43d3a97c559e42adf1a51aa832567552b647d08",
+          "indexBlobSha1": "af8e915c4af0538885ffca665eb6ffea9339d6a9",
+          "holdReason": null
+        },
+        "147-elflandfloorgeneralinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 34920,
+          "fieldCount": 5,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "90ac1109b468b184874738dcc03c8b0e88c60ce8",
+          "schemaBlobSha1": "b839f57a5ed93f1e3bd90039a055f1e514718343",
+          "indexBlobSha1": "68eb3b90754a3ef95aa1bcb3d8288e22476bae46",
+          "holdReason": null
+        },
+        "147-goodsinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 2155,
+          "fieldCount": 40,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "881392c70411debc073c5fab7839536d5fd3076a",
+          "schemaBlobSha1": "6ec6bd1becfec8045d3ae8b6517a5daea4e86c2d",
+          "indexBlobSha1": "b4862ba5e1ad81aaf8bd12d151a9ebf3876f419e",
+          "holdReason": null
+        },
+        "147-restraintinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 430,
+          "fieldCount": 3,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "1bd8360fb5016a55943adbcce8877e12cde9aa47",
+          "schemaBlobSha1": "2b323ca0d9daabd8dffa5d05df77d01c219b070b",
+          "indexBlobSha1": "67f32744cb6237c17d56bada098171cf9639025b",
+          "holdReason": null
+        },
+        "147-restraintinfo-1": {
+          "status": "DECODED",
+          "recordsDecoded": 1021,
+          "fieldCount": 3,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "a19b561afeace1db604db1364ae0a64c7de921b7",
+          "schemaBlobSha1": "2b323ca0d9daabd8dffa5d05df77d01c219b070b",
+          "indexBlobSha1": "27ce602253a3c795544caf83ee235053b65074a0",
+          "holdReason": null
+        },
+        "147-soldierinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 39,
+          "fieldCount": 24,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "f71c2a69cc391dc39a248e5c9bff4cd43347fb95",
+          "schemaBlobSha1": "a4a8d71187878baaeab6d17857d886d96523bb0d",
+          "indexBlobSha1": "afbb69d8572909f4562b73ab2edf8f4e8b8a0527",
+          "holdReason": null
+        },
+        "147-soldierrequireinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 126,
+          "fieldCount": 4,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "9043efefce5b3767f8ee566cc6c2efc2cafddbea",
+          "schemaBlobSha1": "b9201eccde5f6c0c582f27ef4223f6df38918014",
+          "indexBlobSha1": "cd31ec5a3b8cf59b9dbce740b8815ae88016b5b5",
+          "holdReason": null
+        },
+        "advfieldgeneralinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 25,
+          "fieldCount": 20,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "0ebb1624335600127fe0837e411c6db31cfbbb3c",
+          "schemaBlobSha1": "e43d3a97c559e42adf1a51aa832567552b647d08",
+          "indexBlobSha1": "e1695499d4ce9f36f54d3e6bc6ff5b4531df1b6e",
+          "holdReason": null
+        },
+        "advfieldinfo": {
+          "status": "HOLD",
+          "recordsDecoded": 0,
+          "fieldCount": null,
+          "recordLayout": null,
+          "dataBlobSha1": null,
+          "schemaBlobSha1": null,
+          "indexBlobSha1": null,
+          "holdReason": "unsupported DATETIME storage encoding for LastRefreshTime"
+        },
+        "buildinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 21,
+          "fieldCount": 3,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "d7995954498a3bf6144c5dfb0a879ef16550f65e",
+          "schemaBlobSha1": "9c378ce4130a9571c16448bdc8ac566c0645e131",
+          "indexBlobSha1": "b4958bde2231c9b0ff9e47c3954930942d8857c3",
+          "holdReason": null
+        },
+        "buildrequireinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 7565,
+          "fieldCount": 6,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "f63d2ecabe6440ba0d401165840cdf7c8d359dd0",
+          "schemaBlobSha1": "d5ab7788cbf9d4d5d4d1383c3cb35af69f374157",
+          "indexBlobSha1": "387354d4b3e0d2f549c7b33b0dd5b871cc0ef3f1",
+          "holdReason": null
+        },
+        "buzhoumountainconfig": {
+          "status": "DECODED",
+          "recordsDecoded": 5,
+          "fieldCount": 3,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "0481519303c0a0f5f3c5b791a8eb01cb12427ac7",
+          "schemaBlobSha1": "7ccf0dd18fe591eddb8c13188a5d0c141efa855c",
+          "indexBlobSha1": "bb5b79b4f69f11cc9d87b70d72c84a5ec4a79f3f",
+          "holdReason": null
+        },
+        "buzhoumountainfightgetgoodscfginfo": {
+          "status": "DECODED",
+          "recordsDecoded": 10,
+          "fieldCount": 3,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "3e55d57f0e855c954dd255a1649b2046b8679c1e",
+          "schemaBlobSha1": "73d6a89093b08000623482b51d8763dc175b9cf4",
+          "indexBlobSha1": "b616ea1e0904d96a83a2e045b0cec12d15fbf08c",
+          "holdReason": null
+        },
+        "buzhoumountainfightgetzhuangbeicfginfo": {
+          "status": "DECODED",
+          "recordsDecoded": 27,
+          "fieldCount": 15,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "8c9f5059bf5e15c28e577a8399fd33d9c0059909",
+          "schemaBlobSha1": "d578c4c3166db7e3b6b70e930096cd1e8975b3c2",
+          "indexBlobSha1": "6eb8b2a30fa61633c5f5d26cd013d05971498f30",
+          "holdReason": null
+        },
+        "buzhoumountainfloorconfig": {
+          "status": "DECODED",
+          "recordsDecoded": 5,
+          "fieldCount": 10,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "a06709861d222670d990f1ca0889d5d15269843a",
+          "schemaBlobSha1": "8b2fd7dc52317a4e4ddf110633895ea3f6a42d84",
+          "indexBlobSha1": "368f728c4fad2f2920832075b6f4c803c8149fde",
+          "holdReason": null
+        },
+        "buzhoumountaingeneralconfig": {
+          "status": "DECODED",
+          "recordsDecoded": 90,
+          "fieldCount": 5,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "51116c7a8a4ae6076e21513ee4e337d9258a3dd2",
+          "schemaBlobSha1": "e1f63210bcbdfe0f53b335eb155db767158a5712",
+          "indexBlobSha1": "01978b3243a535d3cc792e149db05e741521e3c8",
+          "holdReason": null
+        },
+        "defenceinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 0,
+          "fieldCount": 13,
+          "recordLayout": "empty",
+          "dataBlobSha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "schemaBlobSha1": "83daece2f9fc97e85b430a37d75dc89e91b8fa4f",
+          "indexBlobSha1": "84638d92f63843d486ed8c70bb009261e19b703d",
+          "holdReason": null
+        },
+        "defencerequireinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 0,
+          "fieldCount": 4,
+          "recordLayout": "empty",
+          "dataBlobSha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "schemaBlobSha1": "88435820fa423cbc260a6566cac8b20fa5aada38",
+          "indexBlobSha1": "27441db4ae6e2f9d88f5ca4531f797136452f58c",
+          "holdReason": null
+        },
+        "dukeposinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 21,
+          "fieldCount": 3,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "369fc9c5bf30159ad024713936c0dbd2b12e0152",
+          "schemaBlobSha1": "5650186c1797ba5bd12678f993edd573087f14ee",
+          "indexBlobSha1": "7a2f66135fa6ac0af2904a126edae42b8f1e667d",
+          "holdReason": null
+        },
+        "dukeposrequireinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 0,
+          "fieldCount": 4,
+          "recordLayout": "empty",
+          "dataBlobSha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "schemaBlobSha1": "84bb74e1d42c05aa3930091b4a29373efd24414a",
+          "indexBlobSha1": "50501b1494a8a06b8bc7e629ca2edf03dc06e796",
+          "holdReason": null
+        },
+        "dukepossalaryinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 0,
+          "fieldCount": 3,
+          "recordLayout": "empty",
+          "dataBlobSha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "schemaBlobSha1": "8d5c1dde40b71adfd7130657628ba984893f9b40",
+          "indexBlobSha1": "29e928628c4913142c68c1608025ca666bfb9e21",
+          "holdReason": null
+        },
+        "elflandfightgetgoodscfginfo": {
+          "status": "DECODED",
+          "recordsDecoded": 1093,
+          "fieldCount": 16,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "7cbd1998ec7a05a9a3e93dc7ca337507a264d831",
+          "schemaBlobSha1": "601f8cc888874275b2944c5bcf33737e8de69e5c",
+          "indexBlobSha1": "fa4ba97a42bf2a1acd56a982b867f736cfcbf57f",
+          "holdReason": null
+        },
+        "elflandfloorgeneralinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 39670,
+          "fieldCount": 5,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "79e3bb097d7ae748d5dd980bfad94d03c8725e9c",
+          "schemaBlobSha1": "b839f57a5ed93f1e3bd90039a055f1e514718343",
+          "indexBlobSha1": "d6154b9a28d878aa729d43fc53f8fae6faeeac3e",
+          "holdReason": null
+        },
+        "elflandfloorgeneralinfo_45": {
+          "status": "DECODED",
+          "recordsDecoded": 35020,
+          "fieldCount": 5,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "42eedc9b244e7d171e919df55f44396f0eb91d85",
+          "schemaBlobSha1": "b839f57a5ed93f1e3bd90039a055f1e514718343",
+          "indexBlobSha1": "3b4565c2a09fe14426f6149eb0d238a97a595121",
+          "holdReason": null
+        },
+        "elflandfloorinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 8992,
+          "fieldCount": 10,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "1f0b40e3e3f0cc3a8f6128fa224b00b3ea3eb31d",
+          "schemaBlobSha1": "e7114f9966d2cb23bcdf98b354979ef80521be89",
+          "indexBlobSha1": "136a5603872b1dcf2e88520faa96bddee3a3d990",
+          "holdReason": null
+        },
+        "elflandfloorinfo_45": {
+          "status": "DECODED",
+          "recordsDecoded": 8248,
+          "fieldCount": 10,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "2ee95ebd5a49195c57d1cb541932730354711b50",
+          "schemaBlobSha1": "e7114f9966d2cb23bcdf98b354979ef80521be89",
+          "indexBlobSha1": "dce1472c34f326e61958d1abf40a18f3540e437c",
+          "holdReason": null
+        },
+        "elflandinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 624,
+          "fieldCount": 8,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "bf6764299a9dff08a429ba5868935125c9bfcf06",
+          "schemaBlobSha1": "216a10858068077a95fa995dd737fe5ab68107c2",
+          "indexBlobSha1": "4948c830285e4520fcdb096681778523dea0b832",
+          "holdReason": null
+        },
+        "elflandinfo_45": {
+          "status": "DECODED",
+          "recordsDecoded": 624,
+          "fieldCount": 8,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "e24e1ff10d8a01454ae0f513784dd111b3a40497",
+          "schemaBlobSha1": "216a10858068077a95fa995dd737fe5ab68107c2",
+          "indexBlobSha1": "5a94fe5ccfefb0f2e91b724dc620719705abda52",
+          "holdReason": null
+        },
+        "famouscitygeneralinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 375,
+          "fieldCount": 6,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "e27bd46879b212a5c3ff942782bd255f7f5c46d5",
+          "schemaBlobSha1": "22df026013d30d99525b2fe028b426830004ffe6",
+          "indexBlobSha1": "6c69741ee6e26d8d7f4ada5720f17d3e13b46453",
+          "holdReason": null
+        },
+        "famousgeneraliteminfo": {
+          "status": "DECODED",
+          "recordsDecoded": 540,
+          "fieldCount": 20,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "7eea0f0a91e4a6ca79f6b6da1c55c6b5c4203401",
+          "schemaBlobSha1": "41b68c71a1fa6a6f97b0b06ed5614a39d7ab76e8",
+          "indexBlobSha1": "c7731db767352105db6255ba877c1775db197076",
+          "holdReason": null
+        },
+        "fieldarmygenlevelinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 11,
+          "fieldCount": 6,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "357e9ee815625a4821a0d9fd48847825e1cd93a0",
+          "schemaBlobSha1": "454136ee970eda9c79e8a79930fdf47759f5576d",
+          "indexBlobSha1": "469739b10ebee94e1def4f0a1ea5238afe03144d",
+          "holdReason": null
+        },
+        "fieldexploreandlookforgoodscfginfo": {
+          "status": "DECODED",
+          "recordsDecoded": 38,
+          "fieldCount": 18,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "67855a498f51b1d85e816b33415481b64954732a",
+          "schemaBlobSha1": "3c6ef3be369ce645aa8836c20df4747990bdf0e6",
+          "indexBlobSha1": "aac09e57ac29b6931daa22b9cb62cc48d68ebe65",
+          "holdReason": null
+        },
+        "fieldfightgetgoodscfginfo": {
+          "status": "DECODED",
+          "recordsDecoded": 367,
+          "fieldCount": 15,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "0f85da529294973cba76976ab297a39cedb7ad21",
+          "schemaBlobSha1": "3164e6c77d46620d0aa24899e4b1c7cf2784fd3a",
+          "indexBlobSha1": "3602cd054cbe28e78bb2830722d990f0da7b8708",
+          "holdReason": null
+        },
+        "fieldrandeventcfginfo": {
+          "status": "HOLD",
+          "recordsDecoded": 0,
+          "fieldCount": null,
+          "recordLayout": null,
+          "dataBlobSha1": null,
+          "schemaBlobSha1": null,
+          "indexBlobSha1": null,
+          "holdReason": "[Errno 2] No such file or directory: '/workspace/Dacky/DackyMobile/input-private/legacy_table_cache/fieldrandeventcfginfo.MYI'"
+        },
+        "fightgetgoodstimecfg": {
+          "status": "HOLD",
+          "recordsDecoded": 0,
+          "fieldCount": null,
+          "recordLayout": null,
+          "dataBlobSha1": null,
+          "schemaBlobSha1": null,
+          "indexBlobSha1": null,
+          "holdReason": "unsupported DATETIME storage encoding for StartTime"
+        },
+        "generalchestlistinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 253,
+          "fieldCount": 3,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "dc30fbd2d1b284f2468c83a7d19b146109c0a0db",
+          "schemaBlobSha1": "90bccfe0a1ec272a88ab70e8f5afb6652add3740",
+          "indexBlobSha1": "d78457a2e41ef4895d283fdae138c679c3285c67",
+          "holdReason": null
+        },
+        "generalgenguaddinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 0,
+          "fieldCount": 6,
+          "recordLayout": "empty",
+          "dataBlobSha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "schemaBlobSha1": "62b8ed3820ab4de48cb477bf5c233b0eb6d14fac",
+          "indexBlobSha1": "8d9de1b0acf34539636a238f268d2db1cdb93d9d",
+          "holdReason": null
+        },
+        "generallevelinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 100,
+          "fieldCount": 3,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "a8f9b6c4ebccc98d0e244c4e36a3a9491f7c5db1",
+          "schemaBlobSha1": "636f2af7a8547b436aebeab008af8a6752018f67",
+          "indexBlobSha1": "fe5e9958238c728b1b7b72b9959812cac3eee0c5",
+          "holdReason": null
+        },
+        "generalrefreshlevellimitinfo": {
+          "status": "HOLD",
+          "recordsDecoded": 0,
+          "fieldCount": null,
+          "recordLayout": null,
+          "dataBlobSha1": null,
+          "schemaBlobSha1": null,
+          "indexBlobSha1": null,
+          "holdReason": "unsupported/deleted/chained block type 249 at 0"
+        },
+        "goodschestlistinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 4452,
+          "fieldCount": 4,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "ee3bcba14912e96c90579cf0f504887f4f50ace3",
+          "schemaBlobSha1": "6522886c70bf8431594b82f1d59c8e9834fac629",
+          "indexBlobSha1": "ed1240f400924342a8126afa5e46a97993feb2f1",
+          "holdReason": null
+        },
+        "goodsinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 2157,
+          "fieldCount": 40,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "e7329c529188876f0a8f22a3851b02a0975f9ca2",
+          "schemaBlobSha1": "7ac90dd8104f094a4d8dc125f4918a4a3e389145",
+          "indexBlobSha1": "d222bbdd31cdd1a794c17c344948afced4f2817f",
+          "holdReason": null
+        },
+        "goodstrumpinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 156,
+          "fieldCount": 13,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "82de26285c3abb04c4b8c022ad4a3bcc92d08857",
+          "schemaBlobSha1": "eadfa1236e8215b46df95a691892aa5d10aa9761",
+          "indexBlobSha1": "a4dd1de59120f5bdf063d6dc72c51d07d7c2b0a7",
+          "holdReason": null
+        },
+        "guildskillconfig": {
+          "status": "DECODED",
+          "recordsDecoded": 30,
+          "fieldCount": 10,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "dec6f9bff80b3de94484a25b883821fd7a24e6ea",
+          "schemaBlobSha1": "04f90899e2aa19603403772927417a07a0ccb51d",
+          "indexBlobSha1": "10e7bf41b002d3f630eb3983ce1a372acfdebd6a",
+          "holdReason": null
+        },
+        "managebuildlevelinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 450,
+          "fieldCount": 10,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "098e281113c81725debf3c842edc08cb08f9d282",
+          "schemaBlobSha1": "74e759e2f15339fdc5c9182d512cea19805b2779",
+          "indexBlobSha1": "c2b33922904f48a56b20e008a3eb36b59b4cf98b",
+          "holdReason": null
+        },
+        "mapfieldlevelinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 65,
+          "fieldCount": 5,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "19744d8dd965fbba3e8db81aee34b6eaf33a72cb",
+          "schemaBlobSha1": "2e58d39bc5cd6926630f6d59fcacbafae4dcc19c",
+          "indexBlobSha1": "46839234b21567da461bcef8066d7b897d51b60c",
+          "holdReason": null
+        },
+        "metempsychosisconfiginfo": {
+          "status": "DECODED",
+          "recordsDecoded": 26,
+          "fieldCount": 5,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "ec3f0efb8771a3da4541297344ac074c07f8912f",
+          "schemaBlobSha1": "5e02914ba2deb5d6e8d63aad3ce6a5f99046a959",
+          "indexBlobSha1": "ab0fb6a9607ebc219c218a85bfc4c32de32fb324",
+          "holdReason": null
+        },
+        "namedinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 55,
+          "fieldCount": 4,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "45ab0f4e9ad3a07f7dabfe0432f4bb3b9712729c",
+          "schemaBlobSha1": "49cb854c69437b206fb1accfc2e7ec48f918025d",
+          "indexBlobSha1": "256f68d5cf415042b414c157227dfaa96df0ca90",
+          "holdReason": null
+        },
+        "officiallevelinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 30,
+          "fieldCount": 11,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "40f28b489650bead2a73f494a9e177ce03d2d135",
+          "schemaBlobSha1": "1013053099dbd3c686ea6c978540785438791077",
+          "indexBlobSha1": "7f66ae01d4861edcb527cdae18d9dd9146364f6e",
+          "holdReason": null
+        },
+        "officiallevelrequireinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 178,
+          "fieldCount": 4,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "42332631ebc03fe248b2c72bac819fc06dc223a1",
+          "schemaBlobSha1": "554807a299e6bedad8cba2f8474531e744508368",
+          "indexBlobSha1": "5dc6f2102383dde3b01c8f972c8b8af201ad15a8",
+          "holdReason": null
+        },
+        "officialposinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 23,
+          "fieldCount": 3,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "648a2797eef139c6fd0e40b1fdd34e9b88d790c0",
+          "schemaBlobSha1": "556974cd15f81e422b17902788b9629498683119",
+          "indexBlobSha1": "d21452f9948f3a740c8818b0342a97c9e563c63f",
+          "holdReason": null
+        },
+        "officialposrequireinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 0,
+          "fieldCount": 4,
+          "recordLayout": "empty",
+          "dataBlobSha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "schemaBlobSha1": "8b0a1701027ca70378ac7ac6870f64a1fbc71ab2",
+          "indexBlobSha1": "a059e0c78be3456169b02c9b4eb2e25a3e88f833",
+          "holdReason": null
+        },
+        "officialpossalaryinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 0,
+          "fieldCount": 3,
+          "recordLayout": "empty",
+          "dataBlobSha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "schemaBlobSha1": "4227b93467d71ef1c262e95ec6e63714bac840ac",
+          "indexBlobSha1": "97388c09da598fa293d480a7d33bed13b2b53ad2",
+          "holdReason": null
+        },
+        "quest": {
+          "status": "DECODED",
+          "recordsDecoded": 1158,
+          "fieldCount": 6,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "254a6032fdd3c369f33549f0d4f2d4e12e82cef6",
+          "schemaBlobSha1": "92dd34942011c9a9d40b077cca49313e291cfe61",
+          "indexBlobSha1": "22372e8352619666816ff473a1c27d62d095334e",
+          "holdReason": null
+        },
+        "quest_20_11": {
+          "status": "DECODED",
+          "recordsDecoded": 1156,
+          "fieldCount": 6,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "65d8d3edb79125cab6c0d21c58b9487c318cb90f",
+          "schemaBlobSha1": "92dd34942011c9a9d40b077cca49313e291cfe61",
+          "indexBlobSha1": "f07e78c05990ed1dbc5e6bf1e45c418e01163228",
+          "holdReason": null
+        },
+        "questcondition": {
+          "status": "DECODED",
+          "recordsDecoded": 5745,
+          "fieldCount": 14,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "4742609d28e418f9684559c126f7dab750bd9da9",
+          "schemaBlobSha1": "34698d9c391bc2953a2f322c77e1912eac0e350f",
+          "indexBlobSha1": "5dfd88e3b47d681b37e099618cd2d43965fe834f",
+          "holdReason": null
+        },
+        "rampartlevelinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 30,
+          "fieldCount": 12,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "6a1f3d30404807be35e2c513cec88509870dbc67",
+          "schemaBlobSha1": "b89c63818391a73ee52532f8e698de39ff0addc8",
+          "indexBlobSha1": "ce794b81a4619a20714365ce6c43f3eebcdb1127",
+          "holdReason": null
+        },
+        "rampartlevelrequireinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 150,
+          "fieldCount": 4,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "1b65584a78a31d4162934704e0f1976de45c9faf",
+          "schemaBlobSha1": "c5ce82ebea7742c93a16a82f69b6252ba1cb4d05",
+          "indexBlobSha1": "b2d3702d524056b6277ca364bef1343ffb0db69b",
+          "holdReason": null
+        },
+        "resourcebuildlevelinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 120,
+          "fieldCount": 10,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "df27c1dec392f15fa00410b20b22093b99db216c",
+          "schemaBlobSha1": "f4396e535c316f223bc4cade0fb8a88e6411c87b",
+          "indexBlobSha1": "784407876b8aa4989e1434c959471d9801561a7a",
+          "holdReason": null
+        },
+        "restraintinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 1286,
+          "fieldCount": 3,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "15400e510828b8011971617f154db43197a71cd1",
+          "schemaBlobSha1": "2b323ca0d9daabd8dffa5d05df77d01c219b070b",
+          "indexBlobSha1": "f5cb9cf88f736af99647b173da1027ead8839fe8",
+          "holdReason": null
+        },
+        "soldierinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 40,
+          "fieldCount": 25,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "2719e1502df308fb4a39a6a641f4aff2be0bad68",
+          "schemaBlobSha1": "0b1747feec696d44c2570a0538a83fe807a082d8",
+          "indexBlobSha1": "95ba9a8ab4b525c7be7d3ee794db416f625e9df8",
+          "holdReason": null
+        },
+        "soldierrequireinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 201,
+          "fieldCount": 4,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "a190788bfbccdc4f1edd23a80337ac57014cdea8",
+          "schemaBlobSha1": "b9201eccde5f6c0c582f27ef4223f6df38918014",
+          "indexBlobSha1": "c22007632d5c5feeb1fd43ccee0b7fcaca4807ed",
+          "holdReason": null
+        },
+        "specialgeneraliteminfo": {
+          "status": "DECODED",
+          "recordsDecoded": 4,
+          "fieldCount": 20,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "f481342aa1d02e69bcebeb73257c3ba20b299154",
+          "schemaBlobSha1": "41b68c71a1fa6a6f97b0b06ed5614a39d7ab76e8",
+          "indexBlobSha1": "89609ec248e27a1759725a022c73b1f8f4009d72",
+          "holdReason": null
+        },
+        "specialgengugeneralinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 15,
+          "fieldCount": 3,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "29b61302331c7f49f1d398480347d7d045cd283b",
+          "schemaBlobSha1": "ca57975b9f860c285c197e74f9e1d2994520f4c0",
+          "indexBlobSha1": "78b2c489333855cc78d3f4a92b367788fbe83357",
+          "holdReason": null
+        },
+        "strongpointgeneralinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 90,
+          "fieldCount": 4,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "fa5f2763d848efd10b18963bbce1d05f21c20767",
+          "schemaBlobSha1": "f66e94496aabf4b0b33968b1f068f6341eb38f33",
+          "indexBlobSha1": "f7aaacd403e95c842ceac5dafd0644371bed4493",
+          "holdReason": null
+        },
+        "strongpointinfo": {
+          "status": "HOLD",
+          "recordsDecoded": 0,
+          "fieldCount": null,
+          "recordLayout": null,
+          "dataBlobSha1": null,
+          "schemaBlobSha1": null,
+          "indexBlobSha1": null,
+          "holdReason": "unsupported DATETIME storage encoding for TakeTime"
+        },
+        "technologyinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 19,
+          "fieldCount": 4,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "3b4048bc5f74b3658c1e45628994799975afddca",
+          "schemaBlobSha1": "bd2cd221536fc8b6ec9e7ea8e3c2e766d1735fe0",
+          "indexBlobSha1": "39f6c86ea0951d15a816bc97783be6a7d9bcbf91",
+          "holdReason": null
+        },
+        "technologyleveladdinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 570,
+          "fieldCount": 4,
+          "recordLayout": "fixed",
+          "dataBlobSha1": "a89ba5aca4c3281a91a5ba21723fc08c48cd5c11",
+          "schemaBlobSha1": "0d75e88c1d10e3dd4ec486cf84337c199279c5da",
+          "indexBlobSha1": "9c3fbfaa7c3f7e418be5e5422d948c2c81f2e32c",
+          "holdReason": null
+        },
+        "technologylevelinfo": {
+          "status": "DECODED",
+          "recordsDecoded": 570,
+          "fieldCount": 7,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "49eb3c09b47f69a56b276932a63f7420ef94e961",
+          "schemaBlobSha1": "26583eff265856e71dc4d8af092adcaee3ef6f0e",
+          "indexBlobSha1": "67d6bd6ec16ca3a52eb5b78ba8eaf6254bb692ad",
+          "holdReason": null
+        },
+        "theurgy": {
+          "status": "DECODED",
+          "recordsDecoded": 18,
+          "fieldCount": 7,
+          "recordLayout": "dynamic",
+          "dataBlobSha1": "efbeee8a787935aa653c296d6c564a2623235d38",
+          "schemaBlobSha1": "a4ad4d6f2c1328373044d6baa6264ea7596e0914",
+          "indexBlobSha1": "9ec393292b969e5106b19378059deddf843d14a1",
+          "holdReason": null
+        },
+        "upgradeexp": {
+          "status": "HOLD",
+          "recordsDecoded": 0,
+          "fieldCount": null,
+          "recordLayout": null,
+          "dataBlobSha1": null,
+          "schemaBlobSha1": null,
+          "indexBlobSha1": null,
+          "holdReason": "unsupported/deleted/chained block type 253 at 0"
+        }
+      }
+    },
+    "mobilePublicCatalog": {
+      "status": "PUBLIC_CATALOG_CAPTURED_NOT_IMPORTED",
+      "capturedDate": "2026-11-25",
+      "catalogVersion": "5d78c226cb",
+      "landingPage": "https://dackytruvuong.com/phong-than-cac/",
+      "indexSha256": "c0cc7aebdfc52348507da5bdc434ecc92d327bfd1c0542b3feb164385681ed6e",
+      "categoryCount": 7,
+      "recordCount": 2656,
+      "runtimeImportedRecordCount": 0,
+      "categories": {
+        "than-tien": {
+          "title": "Thần tiên",
+          "recordsServed": 482,
+          "declaredRecords": 482,
+          "capturedFileBytes": 446456,
+          "capturedFileSha256": "ffea83fe4a8419de4693575805d902fcd1af4b6d423779bc6544d5b9125405a7",
+          "fieldOccurrences": {
+            "i": 482,
+            "t": 482,
+            "a": 482,
+            "m": 482,
+            "p": 482,
+            "n": 482,
+            "tab": 482,
+            "f": 482,
+            "s": 482,
+            "d": 482
+          },
+          "detailBlockCounts": {
+            "cs": 964,
+            "kn": 48,
+            "icon": 198,
+            "mo": 255
+          },
+          "referenceUrl": "https://dackytruvuong.com/phong-than-cac/than-tien/",
+          "runtimeImportedRecords": 0
+        },
+        "phap-bao": {
+          "title": "Pháp bảo",
+          "recordsServed": 151,
+          "declaredRecords": 151,
+          "capturedFileBytes": 104272,
+          "capturedFileSha256": "55ca5293f75df397be86359c873b20e74049310f8aa26f96407e0f575a82ac46",
+          "fieldOccurrences": {
+            "i": 151,
+            "t": 151,
+            "a": 151,
+            "m": 151,
+            "p": 151,
+            "n": 151,
+            "tab": 151,
+            "f": 151,
+            "s": 151,
+            "d": 151
+          },
+          "detailBlockCounts": {
+            "mo": 156,
+            "cs": 155,
+            "icon": 65,
+            "kn": 133
+          },
+          "referenceUrl": "https://dackytruvuong.com/phong-than-cac/phap-bao/",
+          "runtimeImportedRecords": 0
+        },
+        "vat-pham": {
+          "title": "Vật phẩm",
+          "recordsServed": 1885,
+          "declaredRecords": 1885,
+          "capturedFileBytes": 1550389,
+          "capturedFileSha256": "eeda883a7a595f1b809bb4fd123da3932f31f2fd4ec1e23c61de3aaeafb71cbb",
+          "fieldOccurrences": {
+            "i": 1885,
+            "t": 1885,
+            "a": 1885,
+            "m": 1885,
+            "p": 1885,
+            "n": 1885,
+            "tab": 1885,
+            "f": 1885,
+            "d": 1885
+          },
+          "detailBlockCounts": {
+            "mo": 1648,
+            "cs": 2365,
+            "icon": 1003,
+            "kn": 915
+          },
+          "referenceUrl": "https://dackytruvuong.com/phong-than-cac/vat-pham/",
+          "runtimeImportedRecords": 0
+        },
+        "binh-chung": {
+          "title": "Binh chủng",
+          "recordsServed": 25,
+          "declaredRecords": 25,
+          "capturedFileBytes": 27453,
+          "capturedFileSha256": "d972154547f797e06e0a80917d51fa4d934f1a26f5b76fedf17245f47e6e7ed1",
+          "fieldOccurrences": {
+            "i": 25,
+            "t": 25,
+            "a": 25,
+            "m": 25,
+            "p": 25,
+            "n": 25,
+            "tab": 25,
+            "f": 25,
+            "d": 25
+          },
+          "detailBlockCounts": {
+            "mo": 21,
+            "cs": 50,
+            "bang": 25
+          },
+          "referenceUrl": "https://dackytruvuong.com/phong-than-cac/binh-chung/",
+          "runtimeImportedRecords": 0
+        },
+        "cong-trinh": {
+          "title": "Công trình",
+          "recordsServed": 21,
+          "declaredRecords": 21,
+          "capturedFileBytes": 40838,
+          "capturedFileSha256": "0bcd54c11d148dc3e1bbe92908783ef1d500bba8c0e4e5ed995fefe2ab9e58b4",
+          "fieldOccurrences": {
+            "i": 21,
+            "t": 21,
+            "a": 21,
+            "m": 21,
+            "p": 21,
+            "n": 21,
+            "tab": 21,
+            "f": 21,
+            "d": 21
+          },
+          "detailBlockCounts": {
+            "mo": 20,
+            "cs": 21,
+            "bang": 20
+          },
+          "referenceUrl": "https://dackytruvuong.com/phong-than-cac/cong-trinh/",
+          "runtimeImportedRecords": 0
+        },
+        "khoa-ky": {
+          "title": "Khoa kỹ",
+          "recordsServed": 19,
+          "declaredRecords": 19,
+          "capturedFileBytes": 58094,
+          "capturedFileSha256": "b5ceac51c36e659bb1b498c85dd558466fe9421c8f5da9949ac497763267bc2d",
+          "fieldOccurrences": {
+            "i": 19,
+            "t": 19,
+            "a": 19,
+            "m": 19,
+            "p": 19,
+            "n": 19,
+            "tab": 19,
+            "f": 19,
+            "d": 19
+          },
+          "detailBlockCounts": {
+            "mo": 19,
+            "cs": 19,
+            "bang": 19
+          },
+          "referenceUrl": "https://dackytruvuong.com/phong-than-cac/khoa-ky/",
+          "runtimeImportedRecords": 0
+        },
+        "danh-thanh": {
+          "title": "Danh thành",
+          "recordsServed": 73,
+          "declaredRecords": 73,
+          "capturedFileBytes": 85129,
+          "capturedFileSha256": "2dce2d344578c95b7212f93cb7478b0d907adc15263cf0b5290e73e5a453604a",
+          "fieldOccurrences": {
+            "i": 73,
+            "t": 73,
+            "a": 73,
+            "m": 73,
+            "p": 73,
+            "n": 73,
+            "tab": 73,
+            "f": 73,
+            "d": 73
+          },
+          "detailBlockCounts": {
+            "cs": 73,
+            "icon": 73
+          },
+          "referenceUrl": "https://dackytruvuong.com/phong-than-cac/danh-thanh/",
+          "runtimeImportedRecords": 0
+        }
+      },
+      "reuseNote": "Private research snapshot. Do not publish copied descriptions or art. Runtime publication limited to reviewed normalized facts and provenance."
+    },
+    "httpGetChecks": {
+      "retrievedDate": "2026-11-25",
+      "tests": [
+        {
+          "name": "github.com",
+          "url": "https://github.com/",
+          "status": 200,
+          "finalUrl": "https://github.com/",
+          "redirects": [],
+          "contentType": "text/html; charset=utf-8",
+          "bytesRead": 537331,
+          "bodyReceived": true
+        },
+        {
+          "name": "api.github.com",
+          "url": "https://api.github.com/repos/vuanhtuan161094-byte/Dacky",
+          "status": 200,
+          "finalUrl": "https://api.github.com/repos/vuanhtuan161094-byte/Dacky",
+          "redirects": [],
+          "contentType": "application/json; charset=utf-8",
+          "bytesRead": 5924,
+          "bodyReceived": true
+        },
+        {
+          "name": "raw.githubusercontent.com",
+          "url": "https://raw.githubusercontent.com/chipdien/DackyVanTien/13d969fc88c141553535c70943aaa98cf9f86616/README.md",
+          "status": 200,
+          "finalUrl": "https://raw.githubusercontent.com/chipdien/DackyVanTien/13d969fc88c141553535c70943aaa98cf9f86616/README.md",
+          "redirects": [],
+          "contentType": "text/plain; charset=utf-8",
+          "bytesRead": 1439,
+          "bodyReceived": true
+        },
+        {
+          "name": "dackytruvuong-home",
+          "url": "https://dackytruvuong.com/",
+          "status": 200,
+          "finalUrl": "https://dackytruvuong.com/",
+          "redirects": [],
+          "contentType": "text/html; charset=utf-8",
+          "bytesRead": 7818,
+          "bodyReceived": true
+        },
+        {
+          "name": "dackytruvuong-play",
+          "url": "https://dackytruvuong.com/play",
+          "status": 200,
+          "finalUrl": "https://dackytruvuong.com/play",
+          "redirects": [],
+          "contentType": "text/html",
+          "bytesRead": 47809,
+          "bodyReceived": true
+        },
+        {
+          "name": "dackytruvuong-catalog",
+          "url": "https://dackytruvuong.com/phong-than-cac/",
+          "status": 200,
+          "finalUrl": "https://dackytruvuong.com/phong-than-cac/",
+          "redirects": [],
+          "contentType": "text/html; charset=utf-8",
+          "bytesRead": 6938,
+          "bodyReceived": true
+        },
+        {
+          "name": "registry.npmjs.org",
+          "url": "https://registry.npmjs.org/%40capacitor%2Fcore",
+          "status": 200,
+          "finalUrl": "https://registry.npmjs.org/%40capacitor%2Fcore",
+          "redirects": [],
+          "contentType": "application/json",
+          "bytesRead": 5051209,
+          "bodyReceived": true
+        },
+        {
+          "name": "dl.google.com",
+          "url": "https://dl.google.com/android/repository/repository2-3.xml",
+          "status": 200,
+          "finalUrl": "https://dl.google.com/android/repository/repository2-3.xml",
+          "redirects": [],
+          "contentType": "application/xml",
+          "bytesRead": 435058,
+          "bodyReceived": true
+        },
+        {
+          "name": "services.gradle.org",
+          "url": "https://services.gradle.org/distributions/gradle-8.13-bin.zip.sha256",
+          "status": 200,
+          "finalUrl": "https://downloads.gradle.org/distributions/gradle-8.13-bin.zip.sha256",
+          "redirects": [
+            {
+              "status": 301,
+              "from": "https://services.gradle.org/distributions/gradle-8.13-bin.zip.sha256",
+              "to": "https://downloads.gradle.org/distributions/gradle-8.13-bin.zip.sha256"
+            }
+          ],
+          "contentType": "application/octet-stream",
+          "bytesRead": 64,
+          "bodyReceived": true
+        }
+      ]
+    }
+  }
 }

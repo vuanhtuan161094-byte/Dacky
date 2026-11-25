@@ -27,12 +27,12 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
     updated: CONTENT_EVIDENCE.updated,
     evidenceStatus: 'SIMULATED',
     evidenceNote: 'Toàn bộ giá trị trong gói này do dự án tự thiết kế; không phải bản trích xuất hoặc xác nhận tương đồng từ client Mobile/legacy.',
-    sourceAccess: 'BLOCKED_HTTP_PROXY_403',
+    sourceAccess: 'PUBLIC_GET_SUCCEEDED_2026-11-25',
     referenceCounts: LEGACY_REFERENCE_COUNTS,
     tableStats: { totalRecords, tables: tableStats },
     tables,
     proceduralSystems: {
-      fengshenTower: { evidence: 'SIMULATED', floorCount: TOWER_FLOORS, generatedAtRuntime: true, runtime: 'src/engine.js' },
+      fengshenTower: { evidence: 'SIMULATED', floorCount: TOWER_FLOORS, floorCountBasis: 'Local design cap; legacy elfland floor counts are unrelated and Fengshen Tower source count is unknown', generatedAtRuntime: true, runtime: 'src/engine.js' },
       buzhouMountain: { evidence: 'SIMULATED', challengeCount: BUZHOU_FLOORS, generatedAtRuntime: true, runtime: 'src/engine.js', legacyReferenceNpcCount: LEGACY_REFERENCE_COUNTS.buzhouFixedNpcs },
       immortalMountainChallenges: { evidence: 'SIMULATED', challengeCount: IMMORTAL_MOUNTAINS.length, repeatable: true, runtime: 'src/engine.js + src/ui.js' },
       economy: { evidence: 'SIMULATED', runtime: 'src/engine.js', note: 'Sản xuất theo giờ, thuế/dân cư, kho, hàng đợi và giới hạn tiến trình offline.' },
@@ -44,11 +44,11 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
       heroSkills: { evidence: 'SIMULATED', runtime: 'src/engine.js + src/ui.js', count: HERO_SKILLS.length, activeCast: 'Automatic trigger by battle round', unlock: 'Skill mastery scales with hero level and affinity' }
     },
     unavailableSourceTables: [
-      { name: 'mobileVersionDelta', reason: 'Client và snapshot Mobile chưa truy cập được.' },
-      { name: 'legacyHeroes', targetRecords: LEGACY_REFERENCE_COUNTS.famousGenerals, reason: 'Không có snapshot được phép sử dụng; chỉ catalog mô phỏng hiện có được xuất.' },
-      { name: 'legacyItems', targetRecords: LEGACY_REFERENCE_COUNTS.legacy147Items, reason: 'Database legacy chưa tải hoặc giải mã.' },
-      { name: 'legacyQuests', targetRecords: LEGACY_REFERENCE_COUNTS.quests, reason: 'Database legacy chưa tải hoặc giải mã.' },
-      { name: 'immortalMountains', targetRecords: LEGACY_REFERENCE_COUNTS.elflands, reason: 'Bảng nguồn chưa truy cập được; bản đồ runtime là mô phỏng độc lập.' }
+      { name: 'mobileVersionDelta', reason: 'Public static catalog was captured, but it does not establish the original client version or a complete gameplay-version delta.' },
+      { name: 'legacyHeroes', targetRecords: LEGACY_REFERENCE_COUNTS.famousGenerals, reason: 'Legacy rows are retained in private research only; runtime remains simulated pending provenance and license review.' },
+      { name: 'legacyItems', targetRecords: LEGACY_REFERENCE_COUNTS.legacy147Items, reason: 'Legacy rows are retained in private research only; runtime remains simulated pending provenance and license review.' },
+      { name: 'legacyQuests', targetRecords: LEGACY_REFERENCE_COUNTS.quests, reason: 'Legacy rows are retained in private research only; runtime remains simulated pending provenance and license review.' },
+      { name: 'immortalMountains', targetRecords: LEGACY_REFERENCE_COUNTS.elflands, reason: 'Source rows remain in private research; runtime challenges are an independent simulation.' }
     ]
   };
   const formatJson=(value,depth=0)=>{

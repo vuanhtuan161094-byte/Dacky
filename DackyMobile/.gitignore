@@ -8,3 +8,5 @@ android/*.jks
 android/*.keystore
 input-private/
 *.log
+__pycache__/
+*.py[cod]

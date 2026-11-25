@@ -28,7 +28,7 @@ Game chiến thuật 2D chơi đơn, offline-first, tiếng Việt; dùng bối 
 - Mỗi điểm thế giới có chỉ huy, đội hình/tuyến quân, chiến thuật và ngũ hành; trinh sát mở thông tin trước khi hành quân. Các tọa độ, đội quân, ngũ hành và công thức hiện mô phỏng.
 - Hành quân sử dụng số quân thật trong save; combat có nhiều hiệp, tỷ lệ thương vong, thương binh và loot. Thần tiên tăng linh căn khi tu luyện/đấu trận; chỉ số này cùng cộng hưởng nguyên tố đội hình gia tăng lực chiến và pháp môn.
 - Chiến dịch có 8 chương, 1.158 mục tiêu và Boss Trụ Vương tại Triều Ca; yêu cầu 20 trận thắng và chiếm 7 danh thành. Lần thắng đầu ghi kết cục Phong Thần và thưởng một lần.
-- Sau kết cục vẫn có thể tái chiến NPC và tiếp tục endgame: Tháp procedural tới 8992 tầng, Bất Chu năm cửa, kinh tế thành phụ và nâng cấp thành trì.
+- Sau kết cục vẫn có thể tái chiến NPC và tiếp tục endgame: Tháp procedural có cap mô phỏng 9.999 tầng (số tầng theo nguồn chưa xác minh), Bất Chu năm cửa, kinh tế thành phụ và nâng cấp thành trì.
 - Không có PvP trực tuyến, bang hội người thật hoặc kết nối game gốc trong bản này. Hoạt động liên quan người chơi khác được mô hình hóa như NPC và phải tiếp tục được hoàn thiện.
 
 ## UX và mỹ thuật
