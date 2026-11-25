@@ -7,7 +7,7 @@ export const PRODUCT_POLICY=Object.freeze({maxRounds:12,damageScale:.24,heroComm
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const copy=x=>structuredClone(x);
 const integer=(n,k,min=0)=>{if(!Number.isSafeInteger(n)||n<min)throw Error('Invalid '+k);return n};
-const total=s=>s.reduce((n,x)=>n+x.count,0);
+const seeded=seed=>{let x=Number(seed)>>>0;return()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296}};
 export function createProductCombat({storageCapacity, runtime=null}={}){
  if(typeof storageCapacity!=='function')throw Error('Production storageCapacity callback required');
  const rt=runtime??createCombatRuntime({database:MOBILE_SOURCE_DATABASE,troopRows:TROOPS,allowSimulatedLife:true});
@@ -24,6 +24,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const ids=artifact&&state.items.includes(gear.id)&&canEquip(artifact,p,{level}).ok?[aid]:[];
   return {heroId:p.id,instanceId:save.id,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,evidence:p.evidence};
  }
+ function recover(state,now){if(!Number.isFinite(now))throw Error('INVALID_TIME');const s=copy(state);for(const h of s.heroes){const last=h.combatUpdatedAt;if(!Number.isFinite(last)||now<=last)continue;const c=commander(h,s),ticks=Math.floor((now-last)/60000);if(ticks<=0)continue;h.combatMana=Math.min(c.maxMana,c.mana+Math.ceil(c.maxMana*.05)*ticks);h.combatVitality=Math.min(c.maxVitality,c.vitality+Math.ceil(c.maxVitality*.05)*ticks);h.combatUpdatedAt=last+ticks*60000;}return s;}
  function enemyCommander(n){
   const p=heroes[(Math.max(0,n-1)*37)%heroes.length],level=p.baseLevel,stats=createSourceDuelHero(p,{level}).stats;
   return {heroId:p.id,instanceId:'npc:'+n,level,mana:stats.maxMana,maxMana:stats.maxMana,vitality:stats.maxHp,maxVitality:stats.maxHp,equippedArtifactIds:[],ownedArtifactIds:[]};
@@ -53,7 +54,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   let battle;if(commands){const session=rt.session(input);for(const cmd of commands)session.step(cmd);const snap=session.snapshot();if(!snap.finished)throw Error('BATTLE_NOT_FINISHED');battle=snap.result;}else battle=rt.army(input);
   const s=copy(state);s.queues.march=null;const settlement=battle.settlement[0];
   for(const [id,n] of Object.entries(q.troops)){const left=settlement.remaining[id],w=settlement.wounded[id],d=settlement.dead[id];if(left+w+d!==n)throw Error('CASUALTY_MISMATCH');s.army[id]=(s.army[id]??0)+left;s.wounded[id]=(s.wounded[id]??0)+w;}
-  for(const c of battle.commanders?.[0]??[]){const h=s.heroes.find(x=>x.id===c.instanceId);if(!h)throw Error('COMMANDER_MISSING');h.combatMana=c.mana;h.combatVitality=c.vitality;h.affinity=clamp((h.affinity??0)+(battle.victory?2:1),0,100);}
+  for(const c of battle.commanders?.[0]??[]){const h=s.heroes.find(x=>x.id===c.instanceId);if(!h)throw Error('COMMANDER_MISSING');h.combatMana=c.mana;h.combatVitality=c.vitality;h.combatUpdatedAt=now;h.affinity=clamp((h.affinity??0)+(battle.victory?2:1),0,100);}
   // Unmapped durability/loyalty must be acknowledged by caller; cannot silently discard.
   const unresolved=battle.settlementIntents.filter(e=>e.targetSide===0);if(unresolved.length)throw Error('PLAYER_GEAR_SETTLEMENT_REQUIRES_ADAPTER');
   let loot={};s.stats.battles++;
@@ -64,7 +65,8 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
    if(node.isBoss&&!s.world.campaignComplete){s.world.campaignComplete=true;s.stats.bossesDefeated++;s.world.storyStage=24;s.fame+=1000;for(const [k,v] of Object.entries({food:12000,timber:10000,stone:8000,iron:6000,gold:12000,jade:24}))reward[k]=(reward[k]??0)+v;}
    loot=credit(s,reward);
   }
-  s.morale=clamp(s.morale+(battle.victory?2:-5),0,100);receipt(s,input.battleId);report(s,{type:'army',target:node.name,targetKind:node.kind,victory:battle.victory,rounds:battle.rounds,dead:settlement.dead,wounded:settlement.wounded,loot,troopsSent:{...q.troops},combatBattleId:input.battleId,evidence:'SIMULATED'},now);note(s,node.name+(battle.victory?' · Thắng trận':' · Rút lui'));return {state:s,battle,loot};
+  let itemDrop=null;const rng=seeded(q.seed^0x9e3779b9);if(battle.victory&&rng()<.3){const pool=ITEMS.filter(i=>i.type!=='vật phẩm'&&i.tier<=Math.min(5,1+Math.floor(node.chapter/2)));const item=pool[Math.floor(rng()*pool.length)];if(item&&s.items.length<500){s.items.push(item.id);itemDrop=item.id;}}
+  s.morale=clamp(s.morale+(battle.victory?2:-5),0,100);receipt(s,input.battleId);report(s,{type:'army',target:node.name,targetKind:node.kind,victory:battle.victory,rounds:battle.rounds,dead:settlement.dead,wounded:settlement.wounded,loot,itemDrop,troopsSent:{...q.troops},combatBattleId:input.battleId,evidence:'SIMULATED'},now);note(s,node.name+(battle.victory?' · Thắng trận':' · Rút lui'));return {state:s,battle,loot};
  }
  function quoteDuel(state,mode,mountainId){
   if(!['mountain','tower','buzhou'].includes(mode))throw Error('UNKNOWN_MODE');
@@ -82,12 +84,12 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   let enemy={id:'npc',stats:enemyStats,hp:enemyStats.maxHp,mana:enemyStats.maxMana},rounds=[],events=[],victory=false;
   for(let i=0;i<party.length;i++){const h=party[i],c=commander(h,s);if(!c.vitality)continue;const p=rt.index.heroes[c.heroId],stats=createSourceDuelHero(p,{level:c.level}).stats;
    const r=rt.duel({fighters:[{id:h.id,stats,hp:c.vitality,mana:c.mana},enemy],seed:(Number(seed)+i*7919)>>>0,maxRounds:12,enableManaBurst:true});
-   h.combatVitality=Math.max(0,Math.ceil(r.fighters[0].hp));h.combatMana=Math.max(0,Math.floor(r.fighters[0].mana));enemy={...enemy,hp:r.fighters[1].hp,mana:r.fighters[1].mana};
-   rounds.push(...r.rounds.map(x=>({...x,commanderId:h.id})));events.push(...r.events.map(x=>({...x,commanderId:h.id,seq:events.length+1})));h.affinity=clamp((h.affinity??0)+1,0,100);
+   h.combatVitality=Math.max(0,Math.ceil(r.fighters[0].hp));h.combatMana=Math.max(0,Math.floor(r.fighters[0].mana));h.combatUpdatedAt=now;enemy={...enemy,hp:r.fighters[1].hp,mana:r.fighters[1].mana};
+   rounds.push(...r.rounds.map(x=>({...x,commanderId:h.id})));events.push(...r.events.map((x,j)=>({...x,commanderId:h.id,seq:events.length+j+1})));h.affinity=clamp((h.affinity??0)+1,0,100);
    if(enemy.hp<=0||r.winner===0){victory=true;break;}
   }
-  s.stats.duels++;let loot={};if(victory){if(mode==='tower')s.world.towerFloor=q.floor;else if(mode==='buzhou')s.world.buzhouFloor=q.floor;else s.world.mountainWins.push(q.mountainId);loot=credit(s,q.reward);for(const h of party)xp(h,45+q.floor*8);s.fame+=5+q.floor;}
+  s.stats.duels++;let loot={};if(victory){if(mode==='tower')s.world.towerFloor=q.floor;else if(mode==='buzhou')s.world.buzhouFloor=q.floor;else s.world.mountainWins.push(q.mountainId);loot=credit(s,q.reward);for(const h of party)xp(h,45+q.floor*8);if((mode==='tower'&&q.floor%3===0)||(mode==='buzhou'&&q.floor===BUZHOU_FLOORS)||(mode==='mountain'&&q.floor%7===0)){const pool=ITEMS.filter(i=>i.type==='pháp bảo'&&i.tier<=10),item=pool[(q.floor+Math.floor(now))%pool.length];if(item&&!s.items.includes(item.id)&&s.items.length<500)s.items.push(item.id);}s.fame+=5+q.floor;}
   receipt(s,battleId);report(s,{type:'duel',mode,target:q.target,victory,rounds,dead:{},wounded:{},loot,combatBattleId:battleId,evidence:'SIMULATED'},now);note(s,q.target+(victory?' · Chiến thắng':' · Thất bại'));return {state:s,battle:{victory,rounds,events},loot,quote:q};
  }
- return {runtime:rt,commander,marchInput,finishMarch,quoteDuel,runDuel};
+ return {runtime:rt,commander,recover,marchInput,finishMarch,quoteDuel,runDuel};
 }

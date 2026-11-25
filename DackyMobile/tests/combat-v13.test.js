@@ -22,3 +22,5 @@ test('all map formations resolve and every mountain and tower boundary quotes',(
 test('duel receipts persist, no duplicate reward, no troop deduction',()=>{
  for(const mode of ['tower','buzhou','mountain']){const s=createNewGame('test',1000),args={battleId:'d:'+mode,mode,mountainId:IMMORTAL_MOUNTAINS[0].id,seed:17,now:1000};const r=service.runDuel(s,args);assert.equal(r.state.stats.duels,1);assert.deepEqual(r.state.army,s.army);assert.throws(()=>service.runDuel(r.state,args),/ALREADY_SETTLED/);assert.deepEqual(s.combatReceipts,undefined);}
 });
+
+test('explicit recovery progresses only on elapsed minute ticks',()=>{const s=createNewGame('test',1000),h=s.heroes[0];h.combatMana=0;h.combatVitality=0;h.combatUpdatedAt=1000;const a=service.recover(s,61000);assert.ok(a.heroes[0].combatVitality>0);assert.equal(s.heroes[0].combatVitality,0);assert.deepEqual(service.recover(a,61000),a);});
