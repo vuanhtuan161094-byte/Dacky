@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteResearch, quoteScouting, storageCapacity, unlockedChapter } from '../src/engine.js';
+import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteResearch, quoteScouting, SAVE_VERSION, storageCapacity, unlockedChapter } from '../src/engine.js';
 import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS, QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES } from '../src/catalog.js';
 
 test('simulated Fengshen Tower cap is independent of legacy elfland floor count', () => {
@@ -454,7 +454,7 @@ test('recruitment, gear, campaign battle and save migration stay connected', () 
   state=advance(state,arrival+5_000).state;
   assert.equal(state.stats.battles,1);
   const imported=migrateSave(JSON.parse(JSON.stringify(state)),arrival+6_000);
-  assert.equal(imported.version,1);
+  assert.equal(imported.version,SAVE_VERSION);
   assert.equal(imported.reports.length,1);
 });
 
@@ -515,6 +515,30 @@ test('save import normalizes malformed inventory and retains named cities', () =
   assert.equal(imported.cities[0].isCapital,true);
   assert.equal(imported.settings.sound,false);
   assert.equal(imported.settings.autosave,true);
+});
+
+test('save v1 archives research levels whose meanings changed in the Mobile adapter', () => {
+  const now=1_800_000_000_000;
+  const old=createNewGame('Triều Ca',now);
+  old.version=1;
+  old.technologies['tech-01']=4;
+  old.technologies['tech-06']=7;
+  old.technologies['tech-14']=3;
+  old.technologies['tech-19']=2;
+  const migrated=migrateSave(old,now+1);
+  assert.equal(SAVE_VERSION,2);
+  assert.equal(migrated.version,2);
+  assert.equal(migrated.technologies['tech-01'],4,'unchanged farming research stays active');
+  assert.equal(migrated.technologies['tech-06'],0);
+  assert.equal(migrated.technologies['tech-14'],0);
+  assert.equal(migrated.technologies['tech-19'],0);
+  assert.deepEqual(migrated.legacyResearchArchive,{
+    'tech-06':{level:7,previousName:'Quản Dân',status:'ARCHIVED_UNMAPPED'},
+    'tech-14':{level:3,previousName:'Y Đạo',status:'ARCHIVED_UNMAPPED'},
+    'tech-19':{level:2,previousName:'Ngoại Giao',status:'ARCHIVED_UNMAPPED'}
+  });
+  assert.ok(migrated.notifications[0].includes('12 cấp khoa kỹ cũ'));
+  assert.equal(migrateSave(migrated,now+2).legacyResearchArchive['tech-06'].level,7,'reloading must not archive twice');
 });
 
 test('NPC alliance improves market fees and all world labels are unique', () => {

@@ -3,6 +3,7 @@
 
 import hashlib
 import json
+import re
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -16,6 +17,8 @@ COVERAGE_PATH = ROOT / "DATA_COVERAGE.json"
 LEGACY_MANIFEST = PRIVATE / "extracted" / "manifest.json"
 NORMALIZED_MANIFEST = PRIVATE / "normalized_legacy" / "manifest.json"
 MOBILE_MANIFEST = PRIVATE / "mobile_reference" / "manifest.json"
+MOBILE_TECH_DATA = PRIVATE / "mobile_reference" / "khoa-ky.json"
+LEGACY_TECH_DATA = PRIVATE / "normalized_legacy" / "technologyinfo.json"
 NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
 LEGACY_QUEST_SOURCE_DATA = ROOT / "src" / "legacy-quest-catalog.js"
@@ -56,6 +59,52 @@ def runtime_legacy_quests():
     if len(records) != metadata.get("recordCount"):
         raise ValueError("Legacy quest adapter count does not match its metadata")
     return {"metadata": metadata, "records": records}
+
+
+def technology_version_comparison():
+    mobile = load_json(MOBILE_TECH_DATA)
+    legacy = load_json(LEGACY_TECH_DATA)
+    if not mobile or not legacy:
+        return None
+    legacy_rows = {str(row.get("NamedID")): row for row in legacy.get("records", [])}
+    mobile_rows = mobile.get("muc", [])
+    mobile_ids = [str(row.get("i")) for row in mobile_rows]
+    shared_ids = set(legacy_rows) & set(mobile_ids)
+
+    def rate_magnitude(value):
+        match = re.search(r"(\d+(?:[.,]\d+)?)\s*%", str(value or ""))
+        return float(match.group(1).replace(",", ".")) if match else None
+
+    matching_rates = 0
+    rate_deltas = []
+    for source_id in sorted(shared_ids, key=lambda value: int(value)):
+        legacy_row = legacy_rows[source_id]
+        mobile_row = next(row for row in mobile_rows if str(row.get("i")) == source_id)
+        level_table = next((block.get("dong", []) for block in mobile_row.get("d", []) if block.get("k") == "bang"), [])
+        mobile_rate = rate_magnitude(level_table[0][1] if level_table else None)
+        legacy_rate = rate_magnitude(legacy_row.get("Describe"))
+        if legacy_rate is not None and legacy_rate == mobile_rate:
+            matching_rates += 1
+        else:
+            rate_deltas.append({"sourceId": int(source_id), "legacyRate": legacy_rate, "mobileLevel1Rate": mobile_rate})
+
+    legacy_order = [str(row.get("NamedID")) for row in sorted(legacy.get("records", []), key=lambda row: (int(row.get("ShowOrder") or 0), int(row.get("NamedID") or 0)))]
+    show_order_values = {int(row.get("ShowOrder")) for row in legacy.get("records", []) if row.get("ShowOrder") is not None}
+    show_order_gaps = [value for value in range(min(show_order_values), max(show_order_values) + 1) if value not in show_order_values] if show_order_values else []
+    return {
+        "status": "FIELD_LEVEL_RATE_AND_ORDER_COMPARISON",
+        "mobileRecords": len(mobile_rows),
+        "legacyRecords": len(legacy_rows),
+        "sharedIds": len(shared_ids),
+        "mobileOnlyIds": sorted(int(value) for value in set(mobile_ids) - shared_ids),
+        "legacyOnlyIds": sorted(int(value) for value in set(legacy_rows) - shared_ids),
+        "firstLevelEffectRateMagnitudeMatches": matching_rates,
+        "firstLevelEffectRateDeltas": rate_deltas,
+        "legacyShowOrderMatchesMobileRecordOrder": legacy_order == mobile_ids,
+        "legacyShowOrderGaps": show_order_gaps,
+        "parityClaim": False,
+        "note": "Shared technology IDs have matching numeric first-level effect-rate magnitudes and the Mobile record order matches legacy ShowOrder. Legacy display names are absent; this does not establish full effect, requirement, price, or gameplay parity.",
+    }
 
 
 def legacy_inventory():
@@ -242,7 +291,10 @@ def main():
     mobile = mobile_inventory()
     normalized = normalized_inventory()
     comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
+    technology_comparison = technology_version_comparison()
     network = load_json(NETWORK_CHECK)
+    if technology_comparison:
+        coverage.setdefault("mobileLegacyComparison", {})["technologies"] = technology_comparison
     if mobile:
         technology_catalog = next((
             item for item in coverage.get("runtimeCatalogs", [])

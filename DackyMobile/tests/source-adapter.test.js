@@ -46,6 +46,7 @@ test('all 19 Mobile technology rows map to sourced runtime names, levels, costs,
   const mapped=TECHNOLOGIES.filter(row=>row.fieldProvenance?.mobileSourceId?.sourceTable==='khoa-ky');
   assert.equal(mapped.length,19);
   assert.equal(new Set(mapped.map(row=>row.mobileSourceId)).size,19);
+  assert.deepEqual(TECHNOLOGIES.map(row=>row.mobileSourceId),MOBILE_SOURCE_DATABASE.categories['khoa-ky'].map(row=>row.id),'runtime research order must match the published Mobile order');
   for(const [sourceId,targetId] of Object.entries(expected)){
     const row=TECHNOLOGIES.find(tech=>tech.id===targetId);
     assert.equal(row.mobileSourceId,sourceId);

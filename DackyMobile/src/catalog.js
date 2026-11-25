@@ -204,12 +204,14 @@ const techNames = [
   ['Trinh sát quân đội','scoutArmy','PARTIAL_SIMULATED_BASE'], ['Thần phòng thuật','heroDefense','PARTIAL_SIMULATED_BASE'],
   ['Tiết pháp thuật','manaCost','UNKNOWN']
 ];
-export const TECHNOLOGIES = Object.freeze(adaptSourceFacts('technologies', techNames.map(([name,effect], i) => ({
+const mobileTechnologyOrder=new Map(MOBILE_SOURCE_DATABASE.categories['khoa-ky'].map((row,index)=>[row.id,index]));
+const adaptedTechnologyRows=adaptSourceFacts('technologies', techNames.map(([name,effect], i) => ({
   id: `tech-${String(i + 1).padStart(2,'0')}`, name, effect, maxLevel: 30,
   baseCost: { food: 45 + i * 6, gold: 35 + i * 5, jade: effect === 'hero' ? 1 : 0 }, seconds: 18 + i % 4 * 4,
   evidence: 'SIMULATED', runtimeEffectStatus: techNames[i][2], mobileSourceId: null, mobileDescription: null, mobileImage: '',
   mobileLevelCosts: [], sourceFieldStatus: 'UNKNOWN'
-}))));
+})));
+export const TECHNOLOGIES = Object.freeze(adaptedTechnologyRows.sort((a,b)=>(mobileTechnologyOrder.get(a.mobileSourceId)??Number.MAX_SAFE_INTEGER)-(mobileTechnologyOrder.get(b.mobileSourceId)??Number.MAX_SAFE_INTEGER)||a.id.localeCompare(b.id)));
 
 const questTitles = [
   ['Nâng Tử Vi Thành','upgrade','citadel',3], ['Tích lương luyện binh','train','troop',8], ['Tìm hiền sĩ trợ trận','recruit','hero',1],

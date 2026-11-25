@@ -1,6 +1,6 @@
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const RESOURCE_KEYS = Object.keys(RESOURCE_INFO);
 const DEFAULT_SETTINGS = Object.freeze({ sound: false, effects: true, reducedMotion: false, autosave: true });
@@ -37,6 +37,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     fame: 0,
     levels,
     technologies: Object.fromEntries(TECHNOLOGIES.map(t => [t.id, 0])),
+    legacyResearchArchive: {},
     heroes: [{ id: hero.id, level: 3, xp: 0, assigned: true, equipment: { weapon: null, armor: null, artifact: null }, skillLevel: 1, affinity: 0 }],
     cities: [{ id: 'capital', nodeId: null, name: String(name || 'Triều Ca').slice(0,22), level: 2, population: 180, isCapital: true }],
     items: ['item-01','item-02','item-04','item-07','item-13','item-14','item-15'],
@@ -57,6 +58,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
 export function migrateSave(input, now = Date.now()) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Cấu trúc tệp lưu không hợp lệ.');
   const s = clone(input);
+  const sourceVersion=Number(s.version)||0;
   if (!s.version || s.version > SAVE_VERSION) throw new Error('Save đến từ phiên bản mới hơn, không thể nhập an toàn.');
   if (s.version < 1) throw new Error('Không nhận diện được phiên bản save.');
   s.profile = s.profile && typeof s.profile === 'object' ? s.profile : {};
@@ -156,6 +158,20 @@ export function migrateSave(input, now = Date.now()) {
   s.claims = Array.isArray(s.claims) ? s.claims.filter(id=>QUESTS.some(q=>q.id===id)) : [];
   s.reports = Array.isArray(s.reports) ? s.reports.filter(r=>r&&typeof r==='object').slice(0,100) : [];
   s.notifications = Array.isArray(s.notifications) ? s.notifications.filter(x=>typeof x==='string').slice(0,12) : [];
+  const retiredMeanings={'tech-06':'Quản Dân','tech-07':'Trị Thủy','tech-12':'Kỵ Thuật','tech-13':'Cung Nỏ','tech-14':'Y Đạo','tech-15':'Trận Đồ','tech-17':'Luyện Khí','tech-18':'Tinh Tượng','tech-19':'Ngoại Giao'};
+  const rawResearchArchive=s.legacyResearchArchive&&typeof s.legacyResearchArchive==='object'&&!Array.isArray(s.legacyResearchArchive)?s.legacyResearchArchive:{};
+  s.legacyResearchArchive=Object.fromEntries(Object.entries(rawResearchArchive).filter(([id])=>Object.hasOwn(retiredMeanings,id)).map(([id,row])=>[id,{level:clamp(Number(row?.level)||0,0,30),previousName:retiredMeanings[id],status:'ARCHIVED_UNMAPPED'}]).filter(([,row])=>row.level>0));
+  if(sourceVersion<2){
+    let archivedLevels=0;
+    for(const [technologyId,previousName] of Object.entries(retiredMeanings)){
+      const level=s.technologies[technologyId]||0;
+      if(level<=0)continue;
+      s.legacyResearchArchive[technologyId]={level,previousName,status:'ARCHIVED_UNMAPPED'};
+      s.technologies[technologyId]=0;
+      archivedLevels+=level;
+    }
+    if(archivedLevels)s.notifications=[`Đã lưu trữ ${archivedLevels} cấp khoa kỹ cũ chưa có ánh xạ Mobile an toàn; các cấp này không cộng chỉ số runtime.`,...s.notifications].slice(0,12);
+  }
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
   s.tutorialStep=clamp(Number(s.tutorialStep)||0,0,TUTORIAL_STEPS.length);

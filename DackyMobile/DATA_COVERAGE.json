@@ -1669,9 +1669,20 @@
       "legacyOnly": 1
     },
     "technologies": {
-      "mobile": 19,
-      "legacy": 19,
-      "sharedIds": 19
+      "status": "FIELD_LEVEL_RATE_AND_ORDER_COMPARISON",
+      "mobileRecords": 19,
+      "legacyRecords": 19,
+      "sharedIds": 19,
+      "mobileOnlyIds": [],
+      "legacyOnlyIds": [],
+      "firstLevelEffectRateMagnitudeMatches": 19,
+      "firstLevelEffectRateDeltas": [],
+      "legacyShowOrderMatchesMobileRecordOrder": true,
+      "legacyShowOrderGaps": [
+        14
+      ],
+      "parityClaim": false,
+      "note": "Shared technology IDs have matching numeric first-level effect-rate magnitudes and the Mobile record order matches legacy ShowOrder. Legacy display names are absent; this does not establish full effect, requirement, price, or gameplay parity."
     },
     "troops": {
       "mobile": 25,
