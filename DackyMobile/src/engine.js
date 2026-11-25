@@ -179,7 +179,7 @@ export function migrateSave(input, now = Date.now()) {
   }
   s.combatReceipts=Array.isArray(s.combatReceipts)?[...new Set(s.combatReceipts.filter(x=>typeof x==='string'&&x.length<=200))]:[];
   s.combatSequence=Math.max(0,Math.floor(Number(s.combatSequence)||0));
-  for(const h of s.heroes){for(const k of ['combatMana','combatVitality','combatUpdatedAt'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
+  for(const h of s.heroes){for(const k of ['combatMana','combatVitality','combatUpdatedAt','combatLoyalty'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
   s.tutorialStep=clamp(Number(s.tutorialStep)||0,0,TUTORIAL_STEPS.length);
@@ -1004,6 +1004,7 @@ export function doAction(state, action, now = Date.now()) {
       break;
     }
     case 'trainHero': {
+      if(s.queues.march?.combatV13&&s.queues.march.commanderIds?.includes(action.heroId))throw new Error('Thần tiên đang hành quân.');
       const hero = s.heroes.find(h => h.id === action.heroId);
       if (!hero) throw new Error('Không tìm thấy thần tiên.');
       if ((s.levels.manor || 0) < 1) throw new Error('Cần Tiên Gia Phủ cấp 1.');

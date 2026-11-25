@@ -56,9 +56,9 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={},siege=nul
  const power=(side,other,mods,tactical,passive,enemyPassive,stances=['balanced','balanced'])=>{
   const own=side.stacks,enemy=other.stacks,total=sum(own),enemyTotal=sum(enemy);
   const avgDef=enemy.reduce((n,t)=>n+t.defense*t.count,0)/Math.max(1,enemyTotal),avgLife=enemy.reduce((n,t)=>n+t.life*t.count,0)/Math.max(1,enemyTotal);
-  const hero=index.heroes[side.heroId],command=1+clamp((hero?.physical??0)*cfg.heroCommandScale,0,1);
-  const defense=Math.max(0,avgDef*(1+mods[1].defense+enemyPassive.defense)*TACTICAL_STANCES[stances[1]].defense),attack=own.reduce((n,t)=>n+t.attack*t.count,0)*Math.max(.05,1+mods[0].attack+passive.attack)*command*Math.max(.05,1+tactical.counter+tactical.formation)*TACTICAL_STANCES[stances[0]].attack;
-  return total&&enemyTotal?Math.min(enemyTotal,Math.max(cfg.enableBalanceV12&&attack>0?1:0,Math.floor(attack/(Math.max(1,avgLife)+defense)*cfg.damageScale*(.9+random()*.2)))):0;
+  const hero=index.heroes[side.heroId],command=1+clamp(side.commandAttack??(hero?.physical??0)*cfg.heroCommandScale,0,1);
+  const defense=Math.max(0,avgDef*(1+mods[1].defense+enemyPassive.defense+clamp(other.commandDefense??0,0,.3)+clamp(other.armyDefense??0,0,1))*TACTICAL_STANCES[stances[1]].defense),attack=own.reduce((n,t)=>n+t.attack*t.count,0)*Math.max(.05,1+mods[0].attack+passive.attack)*command*Math.max(.05,1+clamp(side.armyAttack??0,-.5,1)+clamp(side.armyMorale??0,0,.2))*Math.max(.05,1+tactical.counter+tactical.formation)*TACTICAL_STANCES[stances[0]].attack;
+  return total&&enemyTotal?Math.min(enemyTotal,Math.max(cfg.enableBalanceV12&&attack>0?1:0,Math.floor(attack/(Math.max(1,avgLife*(1+clamp(other.armyLife??0,0,1)))+defense)*cfg.damageScale*(.9+random()*.2)))):0;
  };
  for(let round=1;round<=cfg.maxRounds&&army.every(s=>sum(s.stacks)>0);round++){
   const roundEvents=[],log=(type,side,data={})=>roundEvents.push({round,type,side,...data});

@@ -231,7 +231,7 @@ window.addEventListener('hashchange',()=>{
 });
 window.addEventListener('beforeunload',()=>{
   if (!game||!dirty||!game.settings.autosave) return;
-  try { localStorage.setItem('dacky-mobile-save-v1',JSON.stringify(game)); } catch { /* IndexedDB checkpoint continues asynchronously. */ }
+  try { localStorage.setItem(globalThis.__DACKY_COMBAT_PREVIEW__?'dacky-combat-integration-save-v1':'dacky-mobile-save-v1',JSON.stringify(game)); } catch { /* IndexedDB checkpoint continues asynchronously. */ }
   saveGame(game).catch(()=>{});
 });
 document.addEventListener('visibilitychange',()=>{
@@ -264,4 +264,17 @@ setInterval(()=>{
   if (game.settings.autosave && dirty && Date.now()-lastSave>25000) { lastSave=Date.now(); persist().catch(()=>{}); }
 },1000);
 
-initialize();
+if(globalThis.__DACKY_COMBAT_PREVIEW__&&new URLSearchParams(location.search).get('productSmoke')==='1'){
+  try{
+    const t=Date.now();game=createNewGame('Tân chủ DEV',t);
+    game=doAction(game,{type:'equip',heroId:game.heroes[0].id,itemId:'item-01'},t);
+    const id=Object.keys(game.army)[0];game=doAction(game,{type:'march',nodeId:'node-001',troopId:id,count:18},t);
+    game=advance(game,Math.ceil(game.queues.march.finishAt)).state;
+    if(game.stats.battles!==1||game.combatReceipts.length!==1)throw Error('March receipt absent');
+    game=doAction(game,{type:'duel',mode:'tower'},game.lastTickAt+1200000);
+    if(game.stats.duels!==1||game.combatReceipts.length!==2)throw Error('Tower receipt absent');
+    document.body.classList.remove('startup-mode');
+    activeView='reports';if(!validViews.has(activeView))activeView='city';renderCurrent();
+    document.body.dataset.productSmoke='PASS';
+  }catch(error){document.body.dataset.productSmoke='FAIL';document.body.dataset.productError=error.message;}
+}else initialize();

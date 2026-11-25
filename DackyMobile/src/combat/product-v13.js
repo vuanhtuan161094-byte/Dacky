@@ -1,5 +1,5 @@
 // Product-facing pure adapter. Caller owns persistence and dispatch, never runs legacy settlement in parallel.
-import { MOBILE_SOURCE_DATABASE,TROOPS,HEROES,ITEMS,WORLD_NODES,IMMORTAL_MOUNTAINS,TOWER_FLOORS,BUZHOU_FLOORS } from '../catalog.js';
+import { MOBILE_SOURCE_DATABASE,TROOPS,HEROES,ITEMS,TECHNOLOGIES,WORLD_NODES,IMMORTAL_MOUNTAINS,TOWER_FLOORS,BUZHOU_FLOORS } from '../catalog.js';
 import { createCombatRuntime } from './runtime-v7.js';
 import { createSourceDuelHero } from './hero-progression.js';
 import { canEquip } from './army-artifacts.js';
@@ -18,11 +18,13 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   if(!p){const id='dev:'+def.id; p=rt.index.heroes[id]??{id,name:def.name,occupation:'Giáp sĩ',baseLevel:1,root:0,physical:def.attack*3,arcane:def.wisdom*3,strategy:def.wisdom*2,vitality:Math.max(1,def.defense*15),spirit:Math.max(1,def.wisdom*10),exclusiveArtifactIds:[],evidence:'SIMULATED'};rt.index.heroes[id]=p;}
   return p;
  }
+ function gearBonus(save,slot){const id=save.equipment?.[slot],item=byItem.get(id);if(!item||(save.combatDurability?.[id]??100)<=0)return 0;return clamp(Number(item.bonus)||0,0,300);}
+ function duelStats(p,save){const stats=createSourceDuelHero(p,{level:save.level}).stats,weapon=gearBonus(save,'weapon'),armor=gearBonus(save,'armor'),mastery=1+clamp(Number(save.skillLevel)||1,1,10)*.025+clamp(Number(save.affinity)||0,0,100)*.001;return {...stats,attack:Math.round((stats.attack+weapon)*mastery),magic:Math.round((stats.magic+weapon*.4)*mastery),defense:stats.defense+armor,resistance:stats.resistance+Math.round(armor*.6)};}
  function commander(save,state){
-  const p=profileFor(save),level=integer(save.level,'hero level',1),stats=createSourceDuelHero(p,{level}).stats;
+  const p=profileFor(save),level=integer(save.level,'hero level',1),stats=duelStats(p,save);
   const gear=byItem.get(save.equipment?.artifact),aid=gear?.mobileSourceId==null?null:String(gear.mobileSourceId),artifact=rt.index.artifacts[aid];
-  const ids=artifact&&state.items.includes(gear.id)&&(save.combatDurability?.[gear.id]??100)>0&&canEquip(artifact,p,{level}).ok?[aid]:[];
-  return {heroId:p.id,instanceId:save.id,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,evidence:p.evidence};
+  const ids=artifact&&(save.combatDurability?.[gear.id]??100)>0&&canEquip(artifact,p,{level}).ok?[aid]:[];
+  return {heroId:p.id,instanceId:save.id,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,commandAttack:clamp((stats.attack+stats.magic*.3)*.0005,0,1),commandDefense:clamp(gearBonus(save,'armor')*.001,0,.3),evidence:p.evidence};
  }
  function recover(state,now){if(!Number.isFinite(now))throw Error('INVALID_TIME');const s=copy(state);for(const h of s.heroes){const last=h.combatUpdatedAt;if(!Number.isFinite(last)||now<=last)continue;const c=commander(h,s),ticks=Math.floor((now-last)/60000);if(ticks<=0)continue;h.combatMana=Math.min(c.maxMana,c.mana+Math.ceil(c.maxMana*.05)*ticks);h.combatVitality=Math.min(c.maxVitality,c.vitality+Math.ceil(c.maxVitality*.05)*ticks);h.combatUpdatedAt=last+ticks*60000;}return s;}
  function enemyCommander(n){
@@ -41,8 +43,10 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const [a,...reserves]=party.map(h=>commander(h,state));
   if(a.vitality===0&&!reserves.some(x=>x.vitality>0))throw Error('EXHAUSTED');
   const n=Number(node.id.split('-').at(-1))||1,enemy=enemyCommander(n);
+  const rate=(id,fallback)=>{const row=TECHNOLOGIES.find(x=>x.id===id)?.mobileLevelCosts?.find(x=>Number(x.level)===1),m=String(row?.effect??'').match(/([+-]?\\d+(?:[.,]\\d+)?)\\s*%/);return m?Number(m[1].replace(',','.'))/100:fallback;};
+  const research=(id,fallback)=>clamp((state.technologies?.[id]??0)*rate(id,fallback),0,1);
   const siege=node.kind==='Danh thành'?{hp:Math.max(1,Math.round((node.mobileWallLevel??node.level??1)*20+node.power*.15)),armor:12}:null;
-  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks},{...enemy,stance:'auto',stacks:[...e].map(([id,count])=>({id,count}))}],siege,policy:{...PRODUCT_POLICY}}};
+  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks,armyAttack:research('tech-10',.012),armyDefense:research('tech-11',.004),armyLife:research('tech-12',.02),armyMorale:clamp((state.morale??80)/500,0,.2)},{...enemy,stance:'auto',armyAttack:state.world.treaties.includes(node.id)?-.12:0,stacks:[...e].map(([id,count])=>({id,count}))}],siege,policy:{...PRODUCT_POLICY}}};
  }
  function credit(s,reward){const cap=storageCapacity(s);if(!Number.isFinite(cap)||cap<0)throw Error('INVALID_CAPACITY');const granted={};for(const [k,v] of Object.entries(reward)){if(!Object.hasOwn(s.resources,k)||!Number.isFinite(v)||v<0)continue;const before=s.resources[k];s.resources[k]=Math.min(k==='jade'?99999:cap,before+v);granted[k]=s.resources[k]-before}return granted;}
  function report(s,entry,now){s.reports.unshift({id:s.nextReportId++,at:now,...entry});s.reports=s.reports.slice(0,100);}
@@ -83,7 +87,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   // Existing source-based hero stats vs an explicitly simulated NPC difficulty curve.
   const d=q.difficulty,enemyStats={attack:Math.max(1,d*.65),magic:Math.max(1,d*.65),defense:d*.3,resistance:d*.3,speed:10+Math.sqrt(d),maxHp:Math.max(1,d*3),maxMana:Math.max(0,d*2)};
   let enemy={id:'npc',stats:enemyStats,hp:enemyStats.maxHp,mana:enemyStats.maxMana},rounds=[],events=[],victory=false;
-  for(let i=0;i<party.length;i++){const h=party[i],c=commander(h,s);if(!c.vitality)continue;const p=rt.index.heroes[c.heroId],stats=createSourceDuelHero(p,{level:c.level}).stats;
+  for(let i=0;i<party.length;i++){const h=party[i],c=commander(h,s);if(!c.vitality)continue;const p=rt.index.heroes[c.heroId],stats=duelStats(p,h);
    const r=rt.duel({fighters:[{id:h.id,stats,hp:c.vitality,mana:c.mana},enemy],seed:(Number(seed)+i*7919)>>>0,maxRounds:12,enableManaBurst:true});
    h.combatVitality=Math.max(0,Math.ceil(r.fighters[0].hp));h.combatMana=Math.max(0,Math.floor(r.fighters[0].mana));h.combatUpdatedAt=now;enemy={...enemy,hp:r.fighters[1].hp,mana:r.fighters[1].mana};
    rounds.push(...r.rounds.map(x=>({...x,commanderId:h.id})));events.push(...r.events.map((x,j)=>({...x,commanderId:h.id,seq:events.length+j+1})));h.affinity=clamp((h.affinity??0)+1,0,100);
