@@ -40,10 +40,11 @@ const bundle = `(()=>{const __factories={${[...modules].map(([id,body])=>`${JSON
 let html = await readFile(path.join(root,'index.html'),'utf8');
 let css = await readFile(path.join(root,'styles.css'),'utf8');
 const dataUrl = async name => {
-  const mime = path.extname(name).toLowerCase() === '.jpg' ? 'image/jpeg' : 'image/svg+xml';
+  const ext = path.extname(name).toLowerCase();
+  const mime = ext === '.jpg' ? 'image/jpeg' : ext === '.webp' ? 'image/webp' : 'image/svg+xml';
   return `data:${mime};base64,${(await readFile(path.join(root,'assets',name))).toString('base64')}`;
 };
-const inlineImages = await Promise.all(['crest.svg','city-panorama.jpg','heroes-atlas.svg'].map(async name=>[name,await dataUrl(name)]));
+const inlineImages = await Promise.all(['crest.svg','city-panorama.jpg','heroes-atlas.svg','portraits/jiang-zia.webp'].map(async name=>[name,await dataUrl(name)]));
 const imageUrls = Object.fromEntries(inlineImages);
 css = css.replace(/url\(['"]?\.\/assets\/([^)'"\s]+)['"]?\)/g, (_,name) => `url('${imageUrls[name] || ''}')`);
 for (const [name,url] of inlineImages) html = html.replaceAll(`./assets/${name}`,url);

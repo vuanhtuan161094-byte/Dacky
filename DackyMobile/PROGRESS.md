@@ -4,10 +4,10 @@ Cập nhật: 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · Nhánh ta
 
 ## Checkpoint hiện tại
 
-- `feature/dacky-v1-production` tiếp tục từ checkpoint đã push `829ac32a911091c20f86d6bd1580d947a8791aa0` và `a26a6157f74e79e198705575e3dbfe27d8d8aa89`; checkpoint hiện tại bổ sung combat thần tiên theo hiệp. Không merge hoặc force-push.
+- `feature/dacky-v1-production` tiếp tục từ các checkpoint đã push `829ac32a911091c20f86d6bd1580d947a8791aa0`, `a26a6157f74e79e198705575e3dbfe27d8d8aa89` và `4ec5879cabf29216223ec7a5ad2d9f592bb78770`; lô đang hoàn thiện thêm một portrait nguyên bản, PWA cache và APK/AAB. Không merge hoặc force-push.
 - Dùng trực tiếp cloud environment đã thiết lập; không cài lại toolchain. Capacitor 8.6.2, JDK 21, Android SDK 36 và Gradle 8.14.3 vẫn là cấu hình đã xác minh.
 - Web game hiện có kinh tế, 21 công trình, 19 nhánh khoa kỹ, 39 binh chủng, 540 hồ sơ thần tiên, 2.155 vật phẩm, 1.158 nhiệm vụ, 120 điểm PvE, chiến đấu NPC, lưu/tải, PWA và asset SVG nguyên bản. Các nội dung này vẫn được đánh dấu `SIMULATED`; chưa có nguồn nào đủ quyền để thay dữ liệu runtime.
-- Đã tích hợp nền thành trì nguyên bản do image tool tạo, 1536×512 JPEG, 206 KiB, provenance/hash ở `docs/ASSET_PROVENANCE.md`; hero/building/troop sprite, animation và VFX vẫn còn việc sản xuất.
+- Đã tích hợp nền thành trì nguyên bản 1536×512 JPEG và một portrait master Khương Tử Nha 768×1024 WebP; provenance, prompt và SHA ở `docs/ASSET_PROVENANCE.md`. Portrait chỉ gắn vào `hero-01`; các chân dung còn lại vẫn dùng atlas vector dùng chung. Sprite công trình/quân, portrait riêng cho các thần tiên khác, animation và VFX còn thiếu.
 - Đấu pháp thần tiên tại Phong Thần Tháp, Tiên Sơn và Bất Chu Sơn đã chuyển từ so lực chiến một bước sang tối đa sáu hiệp deterministic: initiative, thường công, kỹ năng, sát thương, khiên/hồi phục, máu và sĩ khí còn lại được giữ trong chiến báo. Tiên Sơn đã thắng được khóa thưởng để tránh farm lặp.
 - Đã ghim Capacitor 8.6.2, thêm lockfile và tạo Android native project. Gradle Wrapper 8.14.3 kiểm tra SHA-256; Android SDK Platform 36, Build Tools 35.0.0 và JDK 21.0.13.1+2 đã build APK debug thành công.
 - Giới hạn Phong Thần Tháp hiện là 9.999 do bản mô phỏng chọn. Số 8.992 thuộc bảng tầng Tiên Sơn legacy `elflandfloorinfo`; không có nguồn xác minh số tầng Tháp.
@@ -25,17 +25,18 @@ Cập nhật: 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · Nhánh ta
 - `npm ci --no-audit --no-fund --cache /workspace/.npm-cache`: PASS.
 - `npm test`: PASS 32/32, gồm combat thần tiên xác định theo seed, kỹ năng theo hiệp và chặn thưởng Tiên Sơn lặp, cùng adapter nguồn fail-closed/provenance theo trường.
 - Python source tests: PASS 10/10 (8 parser + 2 normalizer). `verify_legacy_cache.py`: PASS 208/208 SHA. Parser: 67 decoded, 3 held, 161.331 hàng. Chuẩn hóa: 67 bảng, 3 held, 161.331 hàng; dữ liệu đầu ra ở `input-private/normalized_legacy/`.
-- `npm run build` sau thay đổi combat: PASS; xuất 4.680 hàng SIMULATED trên 9 bảng, PWA và `dist/offline.html`.
-- Local HTTP smoke sau thay đổi: PASS 200 cho index, PWA shell v3, source adapter modules, JPEG và single-file HTML; bản offline HTML đã inline ảnh. Chromium headless screenshot không chạy được ngay cả với `about:blank` vì crashpad/NSS trong image; không nhận screenshot QA mới.
-- `npm run android:sync + Gradle assembleDebug bundleDebug`: BUILD SUCCESSFUL với JDK 21/SDK 36/Gradle 8.14.3. APK `vn.dackymobile.offline`, 5.135.031 bytes, SHA-256 `3d0dda1a640a3abc187f60ad7539851f457c768834d36bdb1c9a854dc28b2948`; debug AAB 4.464.451 bytes, SHA-256 `f7cec955f08ef2b7ae288120e25af2d7fd99e5f5640d64218b8411ca30f903c1`. ZIP integrity PASS cho cả hai. Chưa cài APK lên thiết bị.
+- `npm run build` sau combat và portrait: PASS; xuất 4.680 hàng SIMULATED trên 9 bảng, PWA shell v4 và `dist/offline.html`; xác nhận portrait WebP được inline trong HTML một file.
+- Chromium `qa/browser-smoke.mjs`: PASS, startup/new save, 21 công trình, 11 màn hình, kinh tế, phân trang NPC/shop/quest/Tiên Sơn, xây dựng, chiêu mộ/trang bị, huấn luyện/hành quân/chiến báo, thành phụ, IndexedDB reload, viewport 390×844 và 844×390; không có lỗi console. Screenshot cập nhật ở `qa/screenshots/`.
+- PWA offline relaunch sau cài shell v4: PASS; cache chứa portrait WebP và roster vẫn hiển thị chân dung sau reload khi ngắt mạng. Single-file HTML PASS khi mở qua HTTP rồi ngắt mạng: tạo save và chơi tiếp, chỉ có request lấy chính tệp HTML, không request CSS/JS/ảnh phụ. Browser environment chặn navigation `file://` bởi administrator policy nên cách mở trực tiếp bằng giao thức file chưa xác minh.
+- `npm run android:sync + Gradle assembleDebug bundleDebug`: BUILD SUCCESSFUL với JDK 21/SDK 36/Gradle 8.14.3. APK `vn.dackymobile.offline`, 5.510.237 bytes, SHA-256 `4540c6572270881c6c93dc47cfc4ab77bd67a8e16a048915e479b674c55dae79`; debug AAB 4.837.345 bytes, SHA-256 `445228189d7b45032ecea3a99a4fdbadd42e757e84211ccb90c18f1eb3dca2b4`. ZIP integrity, `apksigner verify`, package/SDK metadata PASS. APK/AAB chứa portrait với đúng SHA-256. Chưa cài APK lên thiết bị.
 
 ## Việc còn mở
 
 - 3 bảng legacy còn `HOLD`: `generalrefreshlevellimitinfo` (packed record type 249 chưa có decoder), `upgradeexp` (packed record type 253 chưa có decoder), `fieldrandeventcfginfo` (pinned tree chỉ có `.frm`, thiếu `.MYI` và `.MYD`, không có row count). Không đoán layout nén.
 - Chưa có content-level Mobile/legacy diff hoặc dữ liệu nguồn đã được quyền sử dụng; chỉ có category-count deltas. Không tuyên bố gameplay parity hay hoàn tất V1.0.
 - APK debug chưa được cài/kiểm tra trên emulator hoặc thiết bị. ADB server không khởi động trong máy cloud do thư mục home mặc định chỉ đọc; chưa có emulator trong SDK.
-- PWA offline relaunch đã PASS ở checkpoint trước; cache shell hiện tăng lên v3 để gồm adapter và ảnh thành trì, chưa chạy lại offline-browser sau update vì Chromium headless lỗi.
-- `dist/offline.html` được tạo, chứa ảnh nền in-line và trả HTTP 200 từ dev server; mở trực tiếp bằng `file://` chưa được xác minh trong Chromium hiện tại.
+- APK chưa được cài và kiểm tra trên thiết bị Android vật lý.
+- `dist/offline.html` được tạo, chứa ảnh nền cùng portrait in-line; mở trực tiếp bằng `file://` chưa được xác minh.
 
 ## Lịch sử checkpoint được nhập
 

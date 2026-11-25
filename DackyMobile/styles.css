@@ -147,6 +147,7 @@ body.reduce-motion *, body.reduce-motion *:before, body.reduce-motion *:after { 
 .portrait-3 { background-position:0 100%; }
 .portrait-4 { background-position:50% 100%; }
 .portrait-5 { background-position:100% 100%; }
+.portrait[data-hero-id="hero-01"] { background-image:url('./assets/portraits/jiang-zia.webp'); background-size:cover; background-position:center 35%; }
 .hero-card-info { min-width:0; }
 .hero-name { margin:0 0 4px; color:#f2dca9; font:15px Georgia,serif; }
 .hero-subtitle { color:#a9a596; font-size:9px; }
