@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteResearch, quoteScouting, SAVE_VERSION, storageCapacity, unlockedChapter } from '../src/engine.js';
+import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteBuilding, quoteResearch, quoteScouting, SAVE_VERSION, storageCapacity, unlockedChapter } from '../src/engine.js';
 import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS, QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES } from '../src/catalog.js';
 
 test('simulated Fengshen Tower cap is independent of legacy elfland floor count', () => {
@@ -25,6 +25,27 @@ test('new save has a bounded, offline-first settlement', () => {
   assert.ok(result.state.resources.food<=storageCapacity(result.state));
   assert.ok(productionPerHour(result.state).food>0);
   assert.equal(state.taxPolicy,'balanced');
+});
+
+test('Mobile building prerequisites enforce mapped rules and surface unresolved rules', () => {
+  const now=1_800_000_000_000;
+  const state=createNewGame('Triều Ca',now);
+  const barracks=quoteBuilding(state,'barracks');
+  assert.equal(barracks.requirementText,'Diễn võ trường 1');
+  assert.equal(barracks.requirementStatus,'LOCKED');
+  assert.deepEqual(barracks.unmetRequirements,['Diễn võ trường 1']);
+  assert.throws(()=>doAction(state,{type:'upgrade',buildingId:'barracks'},now+1),/Diễn võ trường 1/);
+
+  const trained=structuredClone(state);
+  trained.levels.training=1;
+  assert.equal(quoteBuilding(trained,'barracks').requirementStatus,'SATISFIED');
+  assert.equal(quoteBuilding(state,'market').requirementStatus,'SATISFIED','the sourced population requirement uses the settlement population');
+
+  const academy=quoteBuilding(state,'academy');
+  assert.equal(academy.requirementStatus,'PARTIAL_UNKNOWN');
+  assert.deepEqual(academy.unknownRequirements,['Phủ quan 2']);
+  assert.equal(academy.locked,false,'unmapped source buildings stay permissive and visible as UNKNOWN');
+  assert.equal(quoteBuilding(state,'clinic').maxLevelEvidence,'SIMULATED','Mobile has no verified level cap for building 200');
 });
 
 test('tax policy balances gold income, morale and population growth', () => {

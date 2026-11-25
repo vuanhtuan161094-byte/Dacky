@@ -2,6 +2,13 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
+## Latest increment: Mobile building prerequisites and version comparison
+
+- Compared legacy `buildinfo` to Mobile `cong-trinh` by source IDs and names: 21 records in each version, 20 shared IDs, 8 exact ID/name matches, 12 name differences, legacy-only ID 18, and Mobile-only ID 200. The comparison is limited to identity fields and makes no mechanics-parity claim.
+- Runtime maps 15/21 Mobile building records. Fourteen mapped buildings have all 30 Mobile level cost/requirement rows (420 rows total); Mobile hospital ID 200 has identity/art but no source cost rows or verified level cap. IDs 13, 15, 17, 22, 24 and 26 remain outside the gameplay adapter pending compatible runtime mechanics.
+- Building upgrades enforce resolvable Mobile building-level conditions and population thresholds. Unmapped requirements (including official rank and construction-plan items) remain visible as `UNKNOWN` and permissive. Cards show cost and cap evidence separately; the simulated hospital level cap is identified as `SIMULATED`.
+- `DATA_COVERAGE.json` now records the building ID/name delta and adapter coverage. The PWA shell cache was bumped to v12 so installed clients fetch the updated runtime.
+
 ## Checkpoint: Full Mobile technology mapping, legacy quest reference and offline art
 
 - Reused the existing cloud Android toolchain: Capacitor 8.6.2, JDK 21, Android SDK 36, Gradle 8.14.3. Gradle and Android user caches are directed to writable workspace paths; nothing was reinstalled.
@@ -14,17 +21,17 @@ Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature
 - Imported 1,885 Mobile goods with source identity, image, category, quality, acquisition, equipment position/requirements, stats and opening links. The runtime equips 534 sourced gear profiles, enforces published level/occupation requirements, opens 676 linked source reward lists (including source keys), and applies four directly described resource packs. 88 source boxes have verified merchant-link availability; conversion prices remain SIMULATED. Unmapped item-use mechanics stay UNKNOWN and are disabled.
 - Imported 1,158 legacy quest descriptions into a separately versioned runtime reference with field provenance for source ID, title, content, brief, target and type code (6,948 fields). Compared table `quest` to `quest_20_11`: 1,156 shared IDs, two IDs only in `quest` (110098, 110099), and title changes on three shared records. Requirements, rewards and active quest mechanics remain UNKNOWN; these descriptions do not overwrite simulated progression.
 - Added a Vietnamese source library with search, pagination, tables and provenance. Exported runtime JSON now preserves mixed per-record/field evidence instead of rejecting sourced rows.
-- Runtime JSON now exports 7,723 catalog records, including the separate legacy quest reference. The single-file build bundles named export lists and embeds all 2,209 images once; it contains 28,165,488 JavaScript characters. `dist/offline.html` is 47,805,966 bytes; Chromium served it locally over HTTP, rendered the game and made no external asset requests. Direct `file://` navigation remains blocked by this Chromium environment.
-- PWA shell v11 passed the offline relaunch check with the updated source module cached; the entrypoint reopened with network disabled.
+- Runtime JSON now exports 7,723 catalog records, including the separate legacy quest reference. The single-file build bundles named export lists and embeds all 2,209 images once; it contains 28,167,677 JavaScript characters. `dist/offline.html` is 47,808,202 bytes; Chromium served it locally over HTTP, rendered the game and made no external asset requests. Direct `file://` navigation remains blocked by this Chromium environment.
+- PWA shell v12 passed the offline relaunch check; the updated entrypoint reopened with network disabled.
 
 ## Verification and Android output
 
-- `npm test`: PASS 43/43, including all 19 technology source mappings/order, save v1→v2 research migration, research prerequisites, source-specific scouting, combat effects, Mobile artifact/chest behavior, legacy quest provenance and version deltas.
+- `npm test`: PASS 44/44, including all 19 technology source mappings/order, save v1→v2 research migration, research and building prerequisites, source-specific scouting, combat effects, Mobile artifact/chest behavior, legacy quest provenance and version deltas.
 - Python parser/normalizer source tests: PASS 10/10; data coverage regenerated from the pinned-source manifests. Legacy quest comparison records 1,156 shared IDs, two selected-snapshot-only IDs, and three title changes.
-- Chromium gameplay smoke: PASS across 12 screens, all 19 research cards and source prerequisites, resource/immortal scouting routing, legacy quest source/provenance display, source artwork, construction, recruitment/equipment, training, marching/combat reports, IndexedDB save/reload, and 390×844 / 844×390 layouts; zero console/runtime errors.
+- Previous Chromium gameplay smoke covered 12 screens, the 19 research cards, scouting, source library, construction, recruitment/equipment, training, combat and save/reload. This increment's Chromium smoke confirmed the sourced building condition is shown and enforced, no horizontal overflow at 390×844 or 844×390, zero page errors/external requests, single-file HTTP launch, and PWA v12 offline relaunch.
 - Web build and `cap sync`: PASS. PWA offline relaunch and single-file HTTP launch: PASS. Gradle `assembleDebug bundleDebug`: BUILD SUCCESSFUL with JDK 21, SDK 36, Gradle 8.14.3.
-- Debug APK: `android/app/build/outputs/apk/debug/app-debug.apk`, 47,539,654 bytes, SHA-256 `f0daba9749115013d8361c7f6f8d3e49dde8b57958dd88e5612a7679d247cadb`. `apksigner verify`, ZIP integrity and package metadata passed.
-- Debug AAB: `android/app/build/outputs/bundle/debug/app-debug.aab`, 33,720,735 bytes, SHA-256 `b36925dc4e38006acd7e30911ccce92418d270078fea4642cbcb4975d52ac01a`; ZIP integrity passed. No release signing key was used.
+- Debug APK: `android/app/build/outputs/apk/debug/app-debug.apk`, 47,540,323 bytes, SHA-256 `b9facf29c099f2b0e310ef157e2f1f6244bb04bf4ec95e21ed34ab2c57e6a7b4`. `apksigner verify`, ZIP integrity and package metadata passed.
+- Debug AAB: `android/app/build/outputs/bundle/debug/app-debug.aab`, 33,721,909 bytes, SHA-256 `325a1971375588996d449cd6f3082ab9d5b97884b9963d6693288a89eb49e3e5`; ZIP integrity passed. No release signing key was used.
 - No emulator or physical Android device was available; installation/device interaction is unverified.
 
 ## Remaining V1.0 work

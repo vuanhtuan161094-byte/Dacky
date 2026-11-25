@@ -19,6 +19,8 @@ NORMALIZED_MANIFEST = PRIVATE / "normalized_legacy" / "manifest.json"
 MOBILE_MANIFEST = PRIVATE / "mobile_reference" / "manifest.json"
 MOBILE_TECH_DATA = PRIVATE / "mobile_reference" / "khoa-ky.json"
 LEGACY_TECH_DATA = PRIVATE / "normalized_legacy" / "technologyinfo.json"
+LEGACY_BUILD_DATA = PRIVATE / "normalized_legacy" / "buildinfo.json"
+MOBILE_BUILD_DATA = PRIVATE / "mobile_reference" / "cong-trinh.json"
 NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
 LEGACY_QUEST_SOURCE_DATA = ROOT / "src" / "legacy-quest-catalog.js"
@@ -179,6 +181,46 @@ def mobile_inventory():
             )
         else:
             gameplay_mapped[category] = len(mapped)
+    building_facts = facts.get("buildings", {})
+    mobile_building_data = load_json(MOBILE_BUILD_DATA) or {}
+    mobile_building_rows = mobile_building_data.get("muc", [])
+    mapped_building_ids = {
+        str(fields.get("mobileSourceId", {}).get("value"))
+        for fields in building_facts.values()
+        if fields.get("mobileSourceId", {}).get("value") is not None
+    }
+    cost_mapped_buildings = {
+        source_id: fields["mobileLevelCosts"].get("value", [])
+        for source_id, fields in building_facts.items()
+        if fields.get("mobileLevelCosts", {}).get("value")
+    }
+    runtime_buildings = {
+        str(fields.get("mobileSourceId", {}).get("value")): fields
+        for fields in building_facts.values()
+        if fields.get("mobileSourceId", {}).get("value") is not None
+    }
+    building_adapter = {
+        "mobileSourceRecords": len(mobile_building_rows),
+        "runtimeMappedRecords": len(mapped_building_ids),
+        "runtimeMappedSourceIds": sorted(mapped_building_ids, key=int),
+        "unmappedMobileSourceIds": sorted(
+            {str(row.get("i")) for row in mobile_building_rows if row.get("i") is not None} - mapped_building_ids,
+            key=int,
+        ),
+        "exactLevelCostTables": len(cost_mapped_buildings),
+        "exactLevelCostRows": sum(len(rows) for rows in cost_mapped_buildings.values()),
+        "mobileMappedSourceIdsWithoutLevelCosts": sorted(
+            [source_id for source_id, fields in runtime_buildings.items()
+             if not fields.get("mobileLevelCosts", {}).get("value")],
+            key=int,
+        ),
+        "maxLevelSourceMissingIds": sorted(
+            [source_id for source_id, fields in runtime_buildings.items()
+             if "maxLevel" not in fields],
+            key=int,
+        ),
+        "requirementRuntime": "Resolved Mobile building names and Dân số requirements are enforced; unmet known conditions block construction. Unsupported condition names remain visible as UNKNOWN and permissive.",
+    }
     field_value_count = sum(len(fields) for table in facts.values() for fields in table.values())
     for category in manifest.get("categories", []):
         categories[category["id"]] = {
@@ -204,6 +246,7 @@ def mobile_inventory():
         "runtimeImportedRecordCount": sum(row["recordsServed"] for row in categories.values()),
         "gameplayMappedRecordCount": sum(row["gameplayMappedRecords"] for row in categories.values()),
         "fieldScopedGameplayValueCount": field_value_count,
+        "buildingAdapter": building_adapter,
         "categories": categories,
         "reuseNote": "Owner authorization dated 2026-11-25 covers found Mobile data/assets. The full catalog is bundled in runtime; direct gameplay mapping is per-field and remaining mechanics stay SIMULATED or UNKNOWN.",
     }
@@ -222,6 +265,51 @@ def normalized_inventory():
         "normalizedTableCount": manifest.get("normalizedTableCount", 0),
         "heldTableCount": manifest.get("heldTableCount", 0),
         "normalizedRecordCount": manifest.get("normalizedRecordCount", 0),
+    }
+
+
+def building_version_comparison():
+    legacy = load_json(LEGACY_BUILD_DATA)
+    mobile = load_json(MOBILE_BUILD_DATA)
+    if not legacy or not mobile:
+        return None
+    legacy_rows = {
+        str(row.get("NamedID")): row.get("Describe")
+        for row in legacy.get("records", [])
+        if row.get("NamedID") is not None
+    }
+    mobile_rows = {
+        str(row.get("i")): row.get("t")
+        for row in mobile.get("muc", [])
+        if row.get("i") is not None
+    }
+    shared = sorted(legacy_rows.keys() & mobile_rows.keys(), key=lambda value: int(value))
+    name_differences = [
+        {
+            "id": source_id,
+            "legacyName": legacy_rows[source_id],
+            "mobileName": mobile_rows[source_id],
+        }
+        for source_id in shared
+        if legacy_rows[source_id] != mobile_rows[source_id]
+    ]
+    return {
+        "status": "FIELD_LEVEL_ID_NAME_COMPARISON",
+        "legacySourceVersion": "DackyVanTien/MySQL 5.0 pinned snapshot",
+        "legacySourceTable": "buildinfo",
+        "legacyFields": ["NamedID", "Describe"],
+        "mobileSourceVersion": "Mobile catalog v5d78c226cb",
+        "mobileSourceTable": "cong-trinh",
+        "mobileFields": ["muc[*].i", "muc[*].t"],
+        "legacyRecordsCompared": len(legacy_rows),
+        "mobileRecordsCompared": len(mobile_rows),
+        "sharedIds": len(shared),
+        "sameIdAndName": len(shared) - len(name_differences),
+        "nameDifferences": name_differences,
+        "idsOnlyInMobile": sorted(mobile_rows.keys() - legacy_rows.keys(), key=lambda value: int(value)),
+        "idsOnlyInLegacy": sorted(legacy_rows.keys() - mobile_rows.keys(), key=lambda value: int(value)),
+        "fullMechanicsParity": False,
+        "note": "ID/name fields only; different versions and the 18/200 ID delta do not establish mechanics parity.",
     }
 
 
@@ -276,6 +364,9 @@ def count_comparison(legacy_manifest, mobile_manifest):
         "mobileCatalogVersion": mobile_manifest.get("catalogVersion"),
         "legacySourceCommit": legacy_manifest.get("source_commit"),
         "comparisons": comparisons,
+        "fieldComparisons": {
+            "buildings": building_version_comparison(),
+        },
         "contentFieldDiff": "NOT_ESTABLISHED; versions and field semantics remain incompletely mapped",
         "parityClaim": False,
     }
@@ -296,6 +387,7 @@ def main():
     if technology_comparison:
         coverage.setdefault("mobileLegacyComparison", {})["technologies"] = technology_comparison
     if mobile:
+        coverage.setdefault("runtimeMechanics", {})["buildingProgression"] = mobile["buildingAdapter"]
         technology_catalog = next((
             item for item in coverage.get("runtimeCatalogs", [])
             if item.get("domain") == "technologies"

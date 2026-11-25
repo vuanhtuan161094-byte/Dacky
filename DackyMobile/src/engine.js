@@ -1,4 +1,4 @@
-import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
+import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
 export const SAVE_VERSION = 2;
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
@@ -394,14 +394,40 @@ function technologyRate(technologyId, fallback = 0.012) {
   return match?Number(match[1].replace(',','.'))/100:fallback;
 }
 
+function evaluateBuildingRequirements(state, text) {
+  const raw=String(text??'').trim();
+  if(!raw)return {status:'UNKNOWN',unmet:[],unknown:[]};
+  if(raw==='—'||raw==='-')return {status:'NO_REQUIREMENTS',unmet:[],unknown:[]};
+  const sourceRows=MOBILE_SOURCE_DATABASE.categories?.['cong-trinh']||[];
+  const unmet=[],unknown=[];
+  for(const term of raw.split(/\s*[·,]\s*/).map(value=>value.trim()).filter(Boolean)){
+    const population=term.match(/^Dân số\s+(\d+)$/i);
+    if(population){if(Number(state.population||0)<Number(population[1]))unmet.push(term);continue;}
+    const levelRequirement=term.match(/^(.+?)\s+(\d+)$/);
+    if(!levelRequirement){unknown.push(term);continue;}
+    const [,name,rawLevel]=levelRequirement;
+    const source=sourceRows.find(row=>String(row.name||'').trim()===name.trim());
+    const building=source&&BUILDINGS.find(row=>String(row.mobileSourceId||'')===String(source.id));
+    if(!building){unknown.push(term);continue;}
+    if((state.levels[building.id]||0)<Number(rawLevel))unmet.push(term);
+  }
+  return {status:unmet.length?'LOCKED':unknown.length?'PARTIAL_UNKNOWN':'SATISFIED',unmet,unknown};
+}
+
 export function quoteBuilding(state, buildingId) {
   const b = BUILDINGS.find(x => x.id === buildingId);
   if (!b) return null;
   const level = (state.levels[b.id] || 0) + 1;
-  const cost = progressionCost(b.mobileLevelCosts, b.baseCost, level);
+  const sourceLevel=b.mobileLevelCosts?.find(item=>Number(item.level)===level);
+  const cost = sourceLevel?.cost ? {...sourceLevel.cost} : progressionCost(b.mobileLevelCosts, b.baseCost, level);
+  const requirements=evaluateBuildingRequirements(state,sourceLevel?.requirement);
+  const cityLocked=b.id!=='citadel'&&(state.levels.citadel||0)<Math.max(1,Math.ceil(level/2));
   return { level, cost, seconds: b.seconds * Math.pow(level, 1.2), maxed: level > b.maxLevel,
-    locked: b.id !== 'citadel' && (state.levels.citadel || 0) < Math.max(1, Math.ceil(level / 2)),
-    costEvidence: b.mobileLevelCosts?.some(item => Number(item.level) === level) ? 'VERIFIED_MOBILE' : 'SIMULATED' };
+    locked: cityLocked||requirements.status==='LOCKED',cityLocked,
+    costEvidence: sourceLevel?.cost ? 'VERIFIED_MOBILE' : 'SIMULATED',
+    maxLevelEvidence:b.fieldProvenance?.maxLevel?.evidence||'SIMULATED',
+    requirementText:sourceLevel?.requirement||'',requirementStatus:requirements.status,
+    unmetRequirements:requirements.unmet,unknownRequirements:requirements.unknown };
 }
 
 export function quoteCityUpgrade(state, cityId) {
@@ -889,11 +915,12 @@ export function doAction(state, action, now = Date.now()) {
       if (s.queues.construction) throw new Error('Hàng đợi xây dựng đang bận.');
       const b = BUILDINGS.find(x => x.id === action.buildingId);
       if (!b) throw new Error('Không tìm thấy công trình.');
-      const nextLevel = (s.levels[b.id] || 0) + 1;
-      if (nextLevel > b.maxLevel) throw new Error('Công trình đã đạt cấp tối đa.');
-      const requiredCitadel = Math.max(1, Math.ceil(nextLevel / 2));
-      if ((s.levels.citadel || 0) < requiredCitadel && b.id !== 'citadel') throw new Error(`Cần Tử Vi Thành cấp ${requiredCitadel}.`);
-      const cost = progressionCost(b.mobileLevelCosts, b.baseCost, nextLevel);
+      const quote=quoteBuilding(s,b.id);
+      const nextLevel=quote.level;
+      if (quote.maxed) throw new Error('Công trình đã đạt cấp tối đa.');
+      if(quote.requirementStatus==='LOCKED')throw new Error(`Chưa đạt điều kiện Mobile: ${quote.unmetRequirements.join(', ')}.`);
+      if (quote.cityLocked) throw new Error(`Cần Tử Vi Thành cấp ${Math.max(1,Math.ceil(nextLevel/2))}.`);
+      const cost = quote.cost;
       debit(s, cost);
       const techSpeed = 1 + (s.technologies['tech-08'] || 0) * technologyRate('tech-08',0.025);
       s.queues.construction = { buildingId: b.id, level: nextLevel, cost, startAt: now, finishAt: now + b.seconds * Math.pow(nextLevel, 1.2) * 1000 / techSpeed };
