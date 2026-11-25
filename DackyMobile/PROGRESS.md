@@ -2,7 +2,17 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
-## Latest increment: Mobile building prerequisites and version comparison
+## Latest increment: Legacy troop training times and mixed-source status
+
+- Added a reproducible runtime adapter for the four pinned `147-soldierinfo` training-time fields. It maps the 24 shared Mobile/legacy troop IDs and converts day/hour/minute/second into seconds, retaining field provenance and the owner authorization. No legacy value is inferred for the one Mobile-only troop profile.
+- Mobile identity and combat stats remain active. Shared troop base training durations now come from the legacy snapshot; costs and unlock levels remain `SIMULATED`, and runtime building/technology speed modifiers continue to apply after the sourced base time.
+- The army selector and full troop catalog display the duration evidence. Settings now reports gameplay data as mixed Mobile, legacy and simulated, with unsupported mechanics remaining `UNKNOWN` or `SIMULATED`.
+- Regenerated `DATA_COVERAGE.json` and runtime export. Current private parser manifest reports 67/70 legacy tables decoded and three `HOLD`; raw input tables remain gitignored.
+- Verification: Node tests PASS 45/45; Python parser/normalizer tests PASS 10/10. Chromium passed all 12 screens, training and battle flows, save/reload, portrait/landscape layouts, with zero console/runtime errors. PWA cache v14 reopened offline; `dist/offline.html` rendered over HTTP with no external asset requests. Direct `file://` remains blocked by the managed Chromium policy.
+- Android `assembleDebug bundleDebug`: BUILD SUCCESSFUL using the already installed Capacitor 8.6.2 / JDK 21 / SDK 36 / Gradle 8.14.3 toolchain. APK is 47,541,967 bytes (SHA-256 `5499e92564582a0047be05d70fe734e199bccc614dcecf691e3611f5ccd83cba`); debug AAB is 33,725,867 bytes (SHA-256 `09c905f82f02d1456535712874c875b8534bd96481befbebb0e47a2314fefa71`). APK signature and both ZIP packages verified; neither is a release-signed artifact.
+- `dist/offline.html` is 47,828,671 bytes (SHA-256 `d054a4e9fd610678839ac4da886d41f9d583c247ff62ebae6d78d94c26c0aca9`). No emulator or physical Android device was available, so on-device behavior remains unverified.
+
+## Previous increment: Mobile building prerequisites and version comparison
 
 - Compared legacy `buildinfo` to Mobile `cong-trinh` by source IDs and names: 21 records in each version, 20 shared IDs, 8 exact ID/name matches, 12 name differences, legacy-only ID 18, and Mobile-only ID 200. The comparison is limited to identity fields and makes no mechanics-parity claim.
 - Runtime maps 15/21 Mobile building records. Fourteen mapped buildings have all 30 Mobile level cost/requirement rows (420 rows total); Mobile hospital ID 200 has identity/art but no source cost rows or verified level cap. IDs 13, 15, 17, 22, 24 and 26 remain outside the gameplay adapter pending compatible runtime mechanics.

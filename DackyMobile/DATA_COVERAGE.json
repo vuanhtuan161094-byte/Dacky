@@ -4,12 +4,12 @@
   "gameplayVersion": "dacky-mobile-sim-v1",
   "evidenceStatus": {
     "verifiedMobileRecords": 2656,
-    "verifiedLegacyRecordsImported": 1158,
+    "verifiedLegacyRecordsImported": 1182,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
     "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 35,947 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     "fieldScopedMobileFieldsInGameplay": 35947,
     "runtimeCatalogRecords": 10384,
-    "fieldScopedLegacyFieldsImported": 6948
+    "fieldScopedLegacyFieldsImported": 6972
   },
   "references": {
     "publicMobile": [
@@ -456,12 +456,34 @@
         "200"
       ],
       "requirementRuntime": "Resolved Mobile building names and Dân số requirements are enforced; unmet known conditions block construction. Unsupported condition names remain visible as UNKNOWN and permissive."
+    },
+    "troopTrainingTime": {
+      "status": "VERIFIED_LEGACY_TRAINING_TIME_FIELD_ADAPTER",
+      "mobileProfiles": 25,
+      "legacyTimeProfiles": 24,
+      "mobileProfilesUsingSimulatedBaseTime": 1,
+      "importedFieldValueCount": 24,
+      "sourceTable": "147-soldierinfo",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "sourceFields": [
+        "TrainSpendDay",
+        "TrainSpendHour",
+        "TrainSpendMinute",
+        "TrainSpendSecond"
+      ],
+      "unit": "seconds per troop",
+      "conversion": "day*86400 + hour*3600 + minute*60 + second",
+      "baseSecondsRange": [
+        10,
+        120
+      ],
+      "queueSpeedModifiers": "SIMULATED runtime technology/building modifiers remain applied after the sourced base duration."
     }
   },
   "notImported": [
     {
-      "domain": "legacyGameplayTablesExceptQuestDescriptions",
-      "reason": "The legacy quest table's title, content, brief, target, ID and type code are bundled as a versioned source reference. Most other legacy fields and all quest requirements/rewards still need gameplay-semantic mapping before they can affect progression."
+      "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndTroopTime",
+      "reason": "The quest descriptions are a versioned source reference and the shared troop training duration uses four pinned time fields. Most other legacy fields and all quest requirements/rewards still need gameplay-semantic mapping before they can affect progression."
     },
     {
       "domain": "mobilePublicCatalogFields",
@@ -1198,6 +1220,19 @@
           "indexBlobSha1": null,
           "holdReason": "unsupported/deleted/chained block type 253 at 0"
         }
+      },
+      "supplementalRuntimeImports": {
+        "147-soldierinfo.trainingTime": {
+          "records": 24,
+          "fieldValueCount": 24,
+          "sourceFields": [
+            "TrainSpendDay",
+            "TrainSpendHour",
+            "TrainSpendMinute",
+            "TrainSpendSecond"
+          ],
+          "unit": "seconds"
+        }
       }
     },
     "privateNormalizedLegacy": {
@@ -1239,6 +1274,19 @@
         },
         "parityClaim": false
       }
+    },
+    "legacyTroopTrainingTime": {
+      "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88",
+      "sourceTable": "147-soldierinfo",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "recordCount": 24,
+      "sourceFields": [
+        "TrainSpendDay",
+        "TrainSpendHour",
+        "TrainSpendMinute",
+        "TrainSpendSecond"
+      ],
+      "unit": "seconds"
     },
     "mobilePublicCatalog": {
       "status": "PUBLIC_CATALOG_BUNDLED_PARTIAL_GAMEPLAY_ADAPTER",
@@ -1772,14 +1820,14 @@
             "sharedIds": 36,
             "changedRecords": 33,
             "fieldsWithDifferences": {
-              "Describe": 33,
-              "Camp": 13,
               "Name": 25,
+              "Camp": 13,
+              "Describe": 33,
+              "Life": 1,
               "Def": 1,
               "Att": 1,
               "TrainSpendMinute": 1,
-              "TrainSpendSecond": 1,
-              "Life": 1
+              "TrainSpendSecond": 1
             },
             "fieldsOnlyIn147": [],
             "fieldsOnlyInSoldierinfo": [
@@ -2199,14 +2247,14 @@
           "sharedIds": 36,
           "changedRecords": 33,
           "fieldsWithDifferences": {
-            "Describe": 33,
-            "Camp": 13,
             "Name": 25,
+            "Camp": 13,
+            "Describe": 33,
+            "Life": 1,
             "Def": 1,
             "Att": 1,
             "TrainSpendMinute": 1,
-            "TrainSpendSecond": 1,
-            "Life": 1
+            "TrainSpendSecond": 1
           },
           "fieldsOnlyIn147": [],
           "fieldsOnlyInSoldierinfo": [

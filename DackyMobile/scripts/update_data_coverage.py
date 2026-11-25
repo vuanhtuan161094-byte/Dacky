@@ -26,6 +26,7 @@ LEGACY_TROOPS = PRIVATE / "normalized_legacy" / "soldierinfo.json"
 NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
 LEGACY_QUEST_SOURCE_DATA = ROOT / "src" / "legacy-quest-catalog.js"
+LEGACY_TROOP_TIME_SOURCE_DATA = ROOT / "src" / "legacy-troop-time-catalog.js"
 
 
 def load_json(path):
@@ -63,6 +64,29 @@ def runtime_legacy_quests():
     if len(records) != metadata.get("recordCount"):
         raise ValueError("Legacy quest adapter count does not match its metadata")
     return {"metadata": metadata, "records": records}
+
+
+def runtime_legacy_troop_times():
+    if not LEGACY_TROOP_TIME_SOURCE_DATA.exists():
+        return None
+    source = LEGACY_TROOP_TIME_SOURCE_DATA.read_text(encoding="utf-8")
+    metadata_marker = "export const LEGACY_TROOP_TIME_SOURCE = Object.freeze("
+    facts_marker = "export const LEGACY_TROOP_TIME_FACTS = Object.freeze("
+    metadata_start = source.find(metadata_marker)
+    facts_start = source.find(facts_marker)
+    if metadata_start < 0 or facts_start < 0:
+        raise ValueError("Could not parse generated legacy troop time adapter.")
+    metadata_start += len(metadata_marker)
+    facts_start += len(facts_marker)
+    metadata_end = source.rfind(");", metadata_start, facts_start)
+    facts_end = source.rfind(");", facts_start)
+    if metadata_end <= metadata_start or facts_end <= facts_start:
+        raise ValueError("Generated legacy troop time adapter is incomplete.")
+    metadata = json.loads(source[metadata_start:metadata_end])
+    facts = json.loads(source[facts_start:facts_end])
+    if len(facts) != metadata.get("importedRecords"):
+        raise ValueError("Legacy troop time adapter count does not match its metadata.")
+    return {"metadata": metadata, "facts": facts}
 
 
 def technology_version_comparison():
@@ -480,6 +504,10 @@ def main():
 
     legacy = legacy_inventory()
     legacy_quests = runtime_legacy_quests()
+    legacy_troop_times = runtime_legacy_troop_times()
+    legacy_troop_time_field_count = sum(
+        len(fields) for fields in legacy_troop_times["facts"].values()
+    ) if legacy_troop_times else 0
     mobile = mobile_inventory()
     normalized = normalized_inventory()
     comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
@@ -489,6 +517,26 @@ def main():
         coverage.setdefault("mobileLegacyComparison", {})["technologies"] = technology_comparison
     if mobile:
         coverage.setdefault("runtimeMechanics", {})["buildingProgression"] = mobile["buildingAdapter"]
+        if legacy_troop_times:
+            time_values = [
+                fields["trainSeconds"]["value"]
+                for fields in legacy_troop_times["facts"].values()
+            ]
+            mobile_troop_count = mobile["categories"].get("binh-chung", {}).get("gameplayMappedRecords", 0)
+            coverage["runtimeMechanics"]["troopTrainingTime"] = {
+                "status": legacy_troop_times["metadata"]["status"],
+                "mobileProfiles": mobile_troop_count,
+                "legacyTimeProfiles": len(legacy_troop_times["facts"]),
+                "mobileProfilesUsingSimulatedBaseTime": max(0, mobile_troop_count - len(legacy_troop_times["facts"])),
+                "importedFieldValueCount": legacy_troop_time_field_count,
+                "sourceTable": legacy_troop_times["metadata"]["sourceTable"],
+                "sourceCommit": legacy_troop_times["metadata"]["sourceCommit"],
+                "sourceFields": legacy_troop_times["metadata"]["sourceFields"],
+                "unit": "seconds per troop",
+                "conversion": legacy_troop_times["metadata"]["conversion"],
+                "baseSecondsRange": [min(time_values), max(time_values)] if time_values else None,
+                "queueSpeedModifiers": "SIMULATED runtime technology/building modifiers remain applied after the sourced base duration.",
+            }
         technology_catalog = next((
             item for item in coverage.get("runtimeCatalogs", [])
             if item.get("domain") == "technologies"
@@ -555,10 +603,19 @@ def main():
             "mechanicsStatus": "UNKNOWN",
             "versionComparison": legacy_quests["metadata"]["versionComparison"],
         })
+    if legacy and legacy_troop_times:
+        legacy["supplementalRuntimeImports"] = {
+            "147-soldierinfo.trainingTime": {
+                "records": len(legacy_troop_times["facts"]),
+                "fieldValueCount": legacy_troop_time_field_count,
+                "sourceFields": legacy_troop_times["metadata"]["sourceFields"],
+                "unit": "seconds",
+            }
+        }
     coverage["updated"] = date.today().isoformat()
     coverage["evidenceStatus"].update({
         "verifiedMobileRecords": mobile["runtimeImportedRecordCount"] if mobile else 0,
-        "verifiedLegacyRecordsImported": legacy["runtimeImportedRecordCount"] if legacy else 0,
+        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0),
         "runtimeCatalogRecords": sum(
             item.get("records", 0)
             for item in coverage.get("runtimeCatalogs", [])
@@ -566,7 +623,7 @@ def main():
         ),
         "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25" if network else "NOT_CHECKED",
         "fieldScopedMobileFieldsInGameplay": mobile["fieldScopedGameplayValueCount"] if mobile else 0,
-        "fieldScopedLegacyFieldsImported": legacy["runtimeImportedFieldValueCount"] if legacy else 0,
+        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + legacy_troop_time_field_count,
         "note": f"Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and {mobile['fieldScopedGameplayValueCount'] if mobile else 0:,} field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     })
     coverage["sourceInventory"] = {
@@ -581,6 +638,14 @@ def main():
             "mechanicsStatus": "UNKNOWN",
             "versionComparison": legacy_quests["metadata"]["versionComparison"],
         } if legacy_quests else None),
+        "legacyTroopTrainingTime": ({
+            "sourceVersion": legacy_troop_times["metadata"]["sourceVersion"],
+            "sourceTable": legacy_troop_times["metadata"]["sourceTable"],
+            "sourceCommit": legacy_troop_times["metadata"]["sourceCommit"],
+            "recordCount": len(legacy_troop_times["facts"]),
+            "sourceFields": legacy_troop_times["metadata"]["sourceFields"],
+            "unit": "seconds",
+        } if legacy_troop_times else None),
         "mobilePublicCatalog": mobile,
         "mobileLegacyCountComparison": comparison,
         "httpGetChecks": network,
@@ -610,8 +675,8 @@ def main():
     }
     coverage["notImported"] = [
         {
-            "domain": "legacyGameplayTablesExceptQuestDescriptions",
-            "reason": "The legacy quest table's title, content, brief, target, ID and type code are bundled as a versioned source reference. Most other legacy fields and all quest requirements/rewards still need gameplay-semantic mapping before they can affect progression.",
+            "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndTroopTime",
+            "reason": "The quest descriptions are a versioned source reference and the shared troop training duration uses four pinned time fields. Most other legacy fields and all quest requirements/rewards still need gameplay-semantic mapping before they can affect progression.",
         },
         {
             "domain": "mobilePublicCatalogFields",

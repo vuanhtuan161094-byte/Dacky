@@ -3,6 +3,7 @@ import { APPROVED_SOURCE_FACTS, SOURCE_REUSE_DECISION } from './approved-source-
 import { applyApprovedSourceFields } from './source-adapter.js';
 import { MOBILE_SOURCE_DATABASE } from './mobile-source-catalog.js';
 import { LEGACY_QUEST_SOURCE, LEGACY_QUESTS } from './legacy-quest-catalog.js';
+import { LEGACY_TROOP_TIME_FACTS } from './legacy-troop-time-catalog.js';
 
 export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, MOBILE_SOURCE_DATABASE };
 
@@ -14,7 +15,7 @@ const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
 
 export const CONTENT_EVIDENCE = Object.freeze({
   status: 'MIXED',
-  source: 'Mobile catalog v5d78c226cb plus verified legacy quest descriptions are bundled with field provenance; unmapped mechanics remain SIMULATED or UNKNOWN',
+  source: 'Mobile catalog v5d78c226cb plus verified legacy quest descriptions and shared troop training times are bundled with field provenance; unmapped mechanics remain SIMULATED or UNKNOWN',
   version: 'dacky-mobile-source-mixed-v1',
   updated: '2026-11-25'
 });
@@ -79,7 +80,7 @@ const troopNames = [
 const counterByRole=Object.freeze({'bộ binh':'kỵ binh','kỵ binh':'xạ thủ','xạ thủ':'bộ binh','công thành':'bộ binh','trinh sát':'công thành','đạo binh':'trinh sát'});
 const laneByRole=Object.freeze({'bộ binh':'front','kỵ binh':'front','xạ thủ':'rear','công thành':'siege','trinh sát':'rear','đạo binh':'front'});
 const rangeByRole=Object.freeze({'bộ binh':1,'kỵ binh':2,'xạ thủ':5,'công thành':6,'trinh sát':4,'đạo binh':3});
-export const TROOPS = Object.freeze(adaptSourceFacts('troops', troopNames.map(([name,role,glyph], i) => {
+const mobileTroopRows = adaptSourceFacts('troops', troopNames.map(([name,role,glyph], i) => {
   const tier = Math.floor(i / 6) + 1;
   const scale = 1 + tier * 0.42;
   const counter=counterByRole[role];
@@ -93,7 +94,12 @@ export const TROOPS = Object.freeze(adaptSourceFacts('troops', troopNames.map(([
     mobileSourceId: null, mobileImage: '', mobileClass: null, mobileFaction: null, mobileLife: null,
     mobileCarry: null, mobileUpkeep: null, mobileCounterRows: [], sourceFieldStatus: 'UNKNOWN'
   };
-})));
+}));
+export const TROOPS = Object.freeze(applyApprovedSourceFields(
+  mobileTroopRows,
+  LEGACY_TROOP_TIME_FACTS,
+  SOURCE_REUSE_DECISION
+).map(row => ({ ...row, trainTimeEvidence: row.fieldEvidence?.trainSeconds || 'SIMULATED' })));
 
 const heroRows = [
   ['Khương Tử Nha','quân sư','water','太師'], ['Na Tra','tiên phong','fire','乾坤'], ['Dương Tiễn','hộ vệ','metal','天眼'],

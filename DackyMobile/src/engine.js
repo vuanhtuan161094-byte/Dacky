@@ -444,7 +444,8 @@ export function quoteTraining(state, troopId, count = 1) {
   if (!t) return null;
   count = clamp(Math.floor(Number(count) || 1), 1, 500);
   return { count, cost: Object.fromEntries(Object.entries(t.cost).map(([key, value]) => [key, value * count])),
-    seconds: Math.max(4, t.trainSeconds * count), locked: (state.levels.citadel || 0) < t.unlockCity };
+    seconds: Math.max(4, t.trainSeconds * count), timeEvidence:t.trainTimeEvidence||'SIMULATED',
+    costEvidence:'SIMULATED',locked: (state.levels.citadel || 0) < t.unlockCity };
 }
 
 function evaluateResearchRequirements(state, requirementText='') {

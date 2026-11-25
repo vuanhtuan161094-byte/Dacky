@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteBuilding, quoteResearch, quoteScouting, SAVE_VERSION, storageCapacity, unlockedChapter } from '../src/engine.js';
+import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteBuilding, quoteResearch, quoteScouting, quoteTraining, SAVE_VERSION, storageCapacity, unlockedChapter } from '../src/engine.js';
 import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS, QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES } from '../src/catalog.js';
 
 test('simulated Fengshen Tower cap is independent of legacy elfland floor count', () => {
@@ -46,6 +46,22 @@ test('Mobile building prerequisites enforce mapped rules and surface unresolved 
   assert.deepEqual(academy.unknownRequirements,['Phủ quan 2']);
   assert.equal(academy.locked,false,'unmapped source buildings stay permissive and visible as UNKNOWN');
   assert.equal(quoteBuilding(state,'clinic').maxLevelEvidence,'SIMULATED','Mobile has no verified level cap for building 200');
+});
+
+test('legacy base troop training times fill only shared Mobile IDs with provenance', () => {
+  const now=1_800_000_000_000;
+  const shared=TROOPS.filter(t=>t.trainTimeEvidence==='VERIFIED_LEGACY');
+  assert.equal(shared.length,24);
+  const spear=TROOPS.find(t=>t.mobileSourceId==='1000');
+  const chariot=TROOPS.find(t=>t.mobileSourceId==='1003');
+  assert.equal(spear.trainSeconds,10);
+  assert.equal(chariot.trainSeconds,75,'source minutes and seconds are converted to total seconds');
+  assert.equal(chariot.fieldProvenance.trainSeconds.evidence,'VERIFIED_LEGACY');
+  assert.equal(chariot.fieldProvenance.trainSeconds.sourceTable,'147-soldierinfo');
+  assert.equal(quoteTraining(createNewGame('Triều Ca',now),chariot.id,2).seconds,150);
+
+  const mobileOnly=TROOPS.find(t=>t.mobileSourceId==='1051');
+  assert.equal(mobileOnly.trainTimeEvidence,'SIMULATED','no legacy time is inferred when the source ID is absent');
 });
 
 test('tax policy balances gold income, morale and population growth', () => {
