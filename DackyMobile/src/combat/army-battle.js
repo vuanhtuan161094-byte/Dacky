@@ -64,7 +64,7 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={},siege=nul
   const roundEvents=[],log=(type,side,data={})=>roundEvents.push({round,type,side,...data});
   if(advanced)for(let i=0;i<2;i++){
    const s=army[i],c=commanderChoice({side:s,roster:rosters[i],active:active[i],round,index,enemy:army[1-i],plan:sides[i].switchPlan,mode:sides[i].commanderMode??'ordered'});
-   if(c.next!==active[i]){const old=rosters[i][active[i]];active[i]=c.next;const next=rosters[i][active[i]];army[i]={...s,legacyPassiveName:null,ownedArtifactIds:undefined,...next};log('commanderSwitch',i,{from:old.heroId,to:next.heroId,instanceId:next.instanceId,reason:c.reason});}
+   if(c.next!==active[i]){const old=rosters[i][active[i]];active[i]=c.next;const next=rosters[i][active[i]];army[i]={...s,legacyPassiveName:null,legacyDuelPassiveIds:[],ownedArtifactIds:undefined,...next};log('commanderSwitch',i,{from:old.heroId,to:next.heroId,instanceId:next.instanceId,reason:c.reason});}
    else if(sides[i].switchPlan?.[round]!==undefined&&c.reason!=='MANUAL')log('switchRejected',i,{reason:c.reason});
   }
   const before=army.map(s=>sum(s.stacks));
