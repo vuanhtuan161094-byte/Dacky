@@ -7,6 +7,7 @@ on:
       - 'DackyMobile/tests/combat-*.test.js'
       - 'DackyMobile/combat-review.html'
       - 'DackyMobile/scripts/build-combat-review.mjs'
+      - 'DackyMobile/scripts/combat-balance-v12.mjs'
       - '.github/workflows/dacky-combat-core.yml'
   workflow_dispatch:
 permissions:
@@ -29,6 +30,8 @@ jobs:
           cp -r src assets combat-review.html combat-review-dist/
           mv combat-review-dist/combat-review.html combat-review-dist/index.html
           node scripts/build-combat-review.mjs
+      - name: Full catalog balance sweep
+        run: node scripts/combat-balance-v12.mjs
       - name: Chrome offline review smoke
         run: |
           google-chrome --headless --no-sandbox --disable-dev-shm-usage --dump-dom "file://$PWD/combat-review-dist/offline.html?smoke=1" > /tmp/dacky-review-dom.html
