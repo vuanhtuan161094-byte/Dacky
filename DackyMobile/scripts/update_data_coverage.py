@@ -340,6 +340,13 @@ def mobile_inventory():
         return None
     categories = {}
     facts = runtime_mobile_facts()
+    city_facts = facts.get("worldNodes", {})
+    city_garrisons = [
+        guard
+        for fields in city_facts.values()
+        for guard in fields.get("mobileGarrison", {}).get("value", [])
+    ]
+    city_garrison_field_count = sum(len(guard.get("fieldProvenance", {})) for guard in city_garrisons)
     mapped_domains = {
         "than-tien": "heroes", "phap-bao": "items", "vat-pham": "items", "binh-chung": "troops",
         "cong-trinh": "buildings", "khoa-ky": "technologies", "danh-thanh": "worldNodes",
@@ -395,6 +402,7 @@ def mobile_inventory():
         "requirementRuntime": "Resolved Mobile building names and Dân số requirements are enforced; unmet known conditions block construction. Unsupported condition names remain visible as UNKNOWN and permissive.",
     }
     field_value_count = sum(len(fields) for table in facts.values() for fields in table.values())
+    field_value_count += city_garrison_field_count
     hero_art = mobile_hero_art_inventory(facts)
     for category in manifest.get("categories", []):
         categories[category["id"]] = {
@@ -420,6 +428,14 @@ def mobile_inventory():
         "runtimeImportedRecordCount": sum(row["recordsServed"] for row in categories.values()),
         "gameplayMappedRecordCount": sum(row["gameplayMappedRecords"] for row in categories.values()),
         "fieldScopedGameplayValueCount": field_value_count,
+        "cityGarrison": {
+            "sourceCities": sum(bool(fields.get("mobileGarrison", {}).get("value")) for fields in city_facts.values()),
+            "sourceGuardProfiles": len(city_garrisons),
+            "fieldScopedGuardValues": city_garrison_field_count,
+            "guardPortraitAssets": sum(bool(guard.get("fieldProvenance", {}).get("localImage", {}).get("assetSha256")) for guard in city_garrisons),
+            "troopCountStatus": "UNKNOWN_SERVER_DEPENDENT",
+            "combatEffectActive": False,
+        },
         "heroArt": hero_art,
         "buildingAdapter": building_adapter,
         "categories": categories,
@@ -677,6 +693,12 @@ def main():
         coverage.setdefault("mobileLegacyComparison", {})["technologies"] = technology_comparison
     if mobile:
         coverage.setdefault("runtimeMechanics", {})["buildingProgression"] = mobile["buildingAdapter"]
+        coverage["runtimeMechanics"]["cityNpcGarrisons"] = {
+            **mobile["cityGarrison"],
+            "status": "VERIFIED_MOBILE_IDENTITIES_TROOP_ROLES_AND_ART",
+            "troopCountStatus": "UNKNOWN_SERVER_DEPENDENT",
+            "combatEffectActive": False,
+        }
         hero_catalog = next((
             item for item in coverage.get("runtimeCatalogs", [])
             if item.get("domain") == "heroes"

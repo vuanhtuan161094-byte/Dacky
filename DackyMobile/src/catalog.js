@@ -322,7 +322,7 @@ export const WORLD_NODES = Object.freeze(adaptSourceFacts('worldNodes', Array.fr
     level: Math.max(1, Math.floor(i / 4) + 1), x: 9 + (i * 37) % 82, y: 11 + (i * 53) % 76,
     power, enemy:generatedNpcForce(i,chapter,kind,power), loot: { food: isBoss ? 3200 : 80 + i * 12, timber: isBoss ? 2400 : 65 + i * 9, stone: isBoss ? 2000 : 50 + i * 8, gold: isBoss ? 3600 : 45 + i * 8, jade: isBoss ? 8 : i % 7 === 0 ? 1 : 0 },
     evidence: 'SIMULATED', mobileCityId: null, mobileCityType: null, mobileFaction: null,
-    mobileImage: '', mobileWallLevel: null, mobileOfficialLevel: null, mobileCoordinates: null, mobileGarrison: [], sourceFieldStatus: 'UNKNOWN' };
+    mobileImage: '', mobileWallLevel: null, mobileOfficialLevel: null, mobileCoordinates: null, mobileGarrison: [], mobileGarrisonNote: null, sourceFieldStatus: 'UNKNOWN' };
 })));
 
 const mountainPrefixes=['Thanh Vân','Tử Tiêu','Huyền Đô','Thái Hư','Bồng Lai','Phương Trượng','Doanh Châu','Côn Lôn','Ngọc Hư','Linh Đài','Vạn Thọ','Tụ Tiên','Thục Sơn','Nga Mi','Thái Hành','Kinh Hoa','Lạc Già','Bắc Minh','Nam Hoa','Bạch Vân','Thanh Thành','La Phù','Chung Nam','Tiểu Hàn'];

@@ -6,8 +6,8 @@
     "verifiedMobileRecords": 2656,
     "verifiedLegacyRecordsImported": 7080,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
-    "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 35,947 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
-    "fieldScopedMobileFieldsInGameplay": 35947,
+    "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 37,845 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
+    "fieldScopedMobileFieldsInGameplay": 37845,
     "runtimeCatalogRecords": 10521,
     "fieldScopedLegacyFieldsImported": 88384
   },
@@ -552,6 +552,15 @@
       "combatStatus": "CURRENT_DUEL_FALLBACK_UNCHANGED",
       "rewardStatus": "UNKNOWN_REFERENCE_ONLY_NO_SOURCE_REWARD_APPLIED",
       "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88"
+    },
+    "cityNpcGarrisons": {
+      "sourceCities": 73,
+      "sourceGuardProfiles": 365,
+      "fieldScopedGuardValues": 1825,
+      "guardPortraitAssets": 365,
+      "troopCountStatus": "UNKNOWN_SERVER_DEPENDENT",
+      "combatEffectActive": false,
+      "status": "VERIFIED_MOBILE_IDENTITIES_TROOP_ROLES_AND_ART"
     }
   },
   "notImported": [
@@ -1540,7 +1549,15 @@
       "recordCount": 2656,
       "runtimeImportedRecordCount": 2656,
       "gameplayMappedRecordCount": 2650,
-      "fieldScopedGameplayValueCount": 35947,
+      "fieldScopedGameplayValueCount": 37845,
+      "cityGarrison": {
+        "sourceCities": 73,
+        "sourceGuardProfiles": 365,
+        "fieldScopedGuardValues": 1825,
+        "guardPortraitAssets": 365,
+        "troopCountStatus": "UNKNOWN_SERVER_DEPENDENT",
+        "combatEffectActive": false
+      },
       "heroArt": {
         "status": "VERIFIED_LOCAL_MOBILE_HERO_ART",
         "sourceVersion": "5d78c226cb",
@@ -2074,14 +2091,14 @@
             "sharedIds": 36,
             "changedRecords": 33,
             "fieldsWithDifferences": {
+              "Describe": 33,
               "Name": 25,
               "Camp": 13,
-              "Describe": 33,
               "Att": 1,
-              "TrainSpendMinute": 1,
               "TrainSpendSecond": 1,
               "Life": 1,
-              "Def": 1
+              "Def": 1,
+              "TrainSpendMinute": 1
             },
             "fieldsOnlyIn147": [],
             "fieldsOnlyInSoldierinfo": [
@@ -2501,14 +2518,14 @@
           "sharedIds": 36,
           "changedRecords": 33,
           "fieldsWithDifferences": {
+            "Describe": 33,
             "Name": 25,
             "Camp": 13,
-            "Describe": 33,
             "Att": 1,
-            "TrainSpendMinute": 1,
             "TrainSpendSecond": 1,
             "Life": 1,
-            "Def": 1
+            "Def": 1,
+            "TrainSpendMinute": 1
           },
           "fieldsOnlyIn147": [],
           "fieldsOnlyInSoldierinfo": [

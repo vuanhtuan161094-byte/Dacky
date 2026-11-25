@@ -45,7 +45,7 @@ Xạ thủ/trinh sát đánh tuyến sau; công thành đứng tuyến phá thà
 
 ## Bản đồ và chiến dịch
 
-120 NPC được chia thành tám chương, mỗi chương 15 địa điểm gồm danh thành, dã địa và Tiên Sơn. Chương đầu mở sẵn; thắng ở dã địa hoặc Tiên Sơn trong chương đang mở mới tiến sang chương kế tiếp. Mục tiêu chương chưa mở không nhận trinh sát, hành quân hoặc ngoại giao. Do thám từng mục tiêu mở tên chủ soái, đấu pháp và từng stack quân trong save. Mỗi chương có một mục tiêu chính tuyến riêng ghi nhận thắng ải tại vùng đó; chương kế tiếp chỉ hiện mục tiêu sau khi vùng được mở. Nhiệm vụ của chương chưa mở cũng không thể nhận thưởng. Trụ Vương cần mở tới chương tám, đạt 20 trận thắng và chiếm bảy danh thành; đây là điều kiện thiết kế SIMULATED.
+120 NPC được chia thành tám chương, mỗi chương 15 địa điểm gồm danh thành, dã địa và Tiên Sơn. Chương đầu mở sẵn; thắng ở dã địa hoặc Tiên Sơn trong chương đang mở mới tiến sang chương kế tiếp. Mục tiêu chương chưa mở không nhận trinh sát, hành quân hoặc ngoại giao. 73 danh thành Mobile hiển thị năm hồ sơ tướng trấn thủ, chân dung và binh chủng được phân công (365 hồ sơ có provenance từng trường và hash ảnh). Nguồn ghi quân số trấn thủ thay đổi theo máy chủ, nên số lượng quân và sức mạnh trận vẫn UNKNOWN/SIMULATED. Do thám từng mục tiêu mở tên chủ soái, đấu pháp và từng stack quân trong save. Mỗi chương có một mục tiêu chính tuyến riêng ghi nhận thắng ải tại vùng đó; chương kế tiếp chỉ hiện mục tiêu sau khi vùng được mở. Nhiệm vụ của chương chưa mở cũng không thể nhận thưởng. Trụ Vương cần mở tới chương tám, đạt 20 trận thắng và chiếm bảy danh thành; đây là điều kiện thiết kế SIMULATED.
 
 ## Thử thách
 

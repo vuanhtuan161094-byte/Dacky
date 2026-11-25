@@ -2,13 +2,20 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
+## Latest increment: Mobile city guard profiles
+
+- Imported five guard profiles for each of the 73 Mobile cities: 365 source NPC identities with troop-role text, rank, portrait, per-field provenance and local image SHA-256. Runtime export now preserves the city note that garrison counts vary by server; numeric troop counts remain `UNKNOWN_SERVER_DEPENDENT` and do not affect the existing combat fallback.
+- The world map now shows the five source profiles and portraits for the selected city. Added coverage and regression checks for all 73 cities/365 profiles, every field path, image path/hash and the inactive combat boundary. `DATA_COVERAGE.json` reports 37,845 field-scoped Mobile values.
+- Verification: Node tests PASS 50/50; Python source tests PASS 10/10; Chromium gameplay/save/reload/orientation smoke PASS across 12 screens with zero runtime/HTTP errors; PWA shell v19 reopens offline; single-file HTML launches over HTTP without external asset requests.
+- Web build and Capacitor sync PASS. Android debug `assembleDebug bundleDebug` PASS using the existing toolchain. APK 48,085,681 bytes (SHA-256 `205169659ceb63aeb87f86aaf80449ad0172cc28b3490a5fb5632bce4deb5d98`); debug AAB 34,977,839 bytes (SHA-256 `be61d0f7960856c96cfb4d4f7f6e3e96cf1f574a84eb419f8900e1a863347284`). APK v2 signature and both ZIP packages verified. `dist/offline.html` is 54,185,490 bytes (SHA-256 `7419a0e86728ddf0aac97da850259f512066d8b11f2bce8be875dfafdd957316`). These are debug outputs; device QA is unavailable. Production CI for this increment is pending push.
+
 ## Latest increment: Buzhou endgame source adapter
 
 - Added a reproducible importer for five pinned legacy Buzhou tables. It packages five floor records, 90 fixed NPC stacks on floors 4–5, source level/count bands on floors 1–3, ten Goods ID references and 27 raw equipment-roll rows. Provenance is retained per field and source row.
 - The Buzhou screen shows this information as a source reference. The current duel fallback, damage and rewards remain unchanged; random reward syntax is `UNKNOWN` and no source rewards are applied. The runtime JSON exports all 137 source rows in `legacyBuzhouReference`; `DATA_COVERAGE.json` records 950 field values.
 - Updated the Vietnamese wiki, coverage and source-library reporting. PWA cache v18 includes the new module. No `src/combat/**` files or combat workflow were changed.
 - Verification: Node tests PASS 49/49; Python parser tests PASS 10/10; Chromium gameplay/save/layout smoke PASS with zero runtime or HTTP errors, including the five-floor/roster reference; PWA v18 reopens offline and single-file HTML makes no external asset requests.
-- Android debug APK/AAB built using the existing toolchain. APK 48,062,081 bytes (SHA-256 `fb54e2b115815de67776b4ecd935bc6c63580e22e848cb1bed87cba470ed633b`); debug AAB 34,931,136 bytes (SHA-256 `0eaad65cdb880155d6315911a3173da30e8d7f47887bdb2f89338d9ba3ad85fe`). APK v2 signature and both ZIP packages verified. Offline HTML 53,885,567 bytes (SHA-256 `81c2efdd92fc260d0e50c6988cb06dbe40191395b4b7a81fc8d5e2eb061ae695`). Device QA remains unavailable. The prior production CI run passed; this increment's CI is pending its push.
+- Android debug APK/AAB built using the existing toolchain. APK 48,062,081 bytes (SHA-256 `fb54e2b115815de67776b4ecd935bc6c63580e22e848cb1bed87cba470ed633b`); debug AAB 34,931,136 bytes (SHA-256 `0eaad65cdb880155d6315911a3173da30e8d7f47887bdb2f89338d9ba3ad85fe`). APK v2 signature and both ZIP packages verified. Offline HTML 53,885,567 bytes (SHA-256 `81c2efdd92fc260d0e50c6988cb06dbe40191395b4b7a81fc8d5e2eb061ae695`). Device QA remains unavailable. Production CI PASS on this commit in [run 45648114562](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45648114562); the [14-day Web/offline/APK/AAB artifact](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45648114562/artifacts/15037344035) is available. The current city-roster increment's CI is pending its push.
 
 ## Previous increment: Legacy quest condition reference and production CI fix
 

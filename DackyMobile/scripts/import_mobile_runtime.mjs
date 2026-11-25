@@ -12,6 +12,8 @@ const indexBytes = await readFile(resolve(privateDir, 'index.json'));
 const index = JSON.parse(indexBytes);
 const indexHash = createHash('sha256').update(indexBytes).digest('hex');
 if (indexHash !== manifest.indexSha256) throw new Error('Mobile index checksum does not match the capture manifest.');
+const sourceAssetManifest = JSON.parse(await readFile(resolve(appDir, 'assets/mobile-source-manifest.json'), 'utf8'));
+const sourceAssets = new Map(sourceAssetManifest.assets.map(asset => [asset.path, asset]));
 
 const localAssetPath = (asset) => {
   if (!asset) return '';
@@ -191,13 +193,27 @@ for(const [rowIndex,row] of cityRows.entries()){
   const coordinates=coordinateMatch?[Number(coordinateMatch[1]),Number(coordinateMatch[2])]:null;
   const mapCoordinate=value=>coordinates?Math.max(2,Math.min(98,Number((value/10).toFixed(1)))):null;
   const guardBlock=row.details.find(block=>block.k==='icon'&&Array.isArray(block.ds));
-  const garrison=(guardBlock?.ds||[]).map(guard=>({
-    name:String(guard.t||''),
-    image:guard.a?new URL(guard.a,'https://dackytruvuong.com').href:'',
-    localImage:localAssetPath(guard.a),
-    rank:Number(guard.m)||0,
-    troopText:String(guard.p||'')
-  }));
+  const garrison=(guardBlock?.ds||[]).map((guard,guardIndex)=>{
+    const localImage=localAssetPath(guard.a);
+    const asset=localImage?sourceAssets.get(localImage.replace(/^\.\//,'')):null;
+    if(localImage&&!asset)throw new Error(`Missing captured Mobile garrison portrait ${localImage} for city ${row.id}.`);
+    const fieldPath=field=>`muc[${rowIndex}].d[k=icon,t=Quân trấn thủ].ds[${guardIndex}].${field}`;
+    const fieldProvenance={
+      name:{evidence:'VERIFIED_MOBILE',sourceField:fieldPath('t')},
+      image:{evidence:'VERIFIED_MOBILE',sourceField:fieldPath('a')},
+      localImage:{evidence:'VERIFIED_MOBILE_ASSET',sourceField:fieldPath('a'),assetPath:asset?.path||null,assetSha256:asset?.sha256||null},
+      rank:{evidence:'VERIFIED_MOBILE',sourceField:fieldPath('m')},
+      troopText:{evidence:'VERIFIED_MOBILE',sourceField:fieldPath('p')}
+    };
+    return {
+      name:String(guard.t||''),
+      image:guard.a?new URL(guard.a,'https://dackytruvuong.com').href:'',
+      localImage,
+      rank:Number(guard.m)||0,
+      troopText:String(guard.p||''),
+      fieldProvenance
+    };
+  });
   const source=(sourceField,value)=>({
     value,
     targetType:Array.isArray(value)?'array':typeof value,
@@ -218,6 +234,7 @@ for(const [rowIndex,row] of cityRows.entries()){
     mobileOfficialLevel:source(`muc[${rowIndex}].d[k=cs,t=Thông tin].ds[Cấp quan]`,Number(info['Cấp quan'])||0),
     mobileCoordinates:source(`muc[${rowIndex}].d[k=cs,t=Thông tin].ds[Toạ độ]`,coordinates),
     mobileGarrison:source(`muc[${rowIndex}].d[k=icon,t=Quân trấn thủ].ds`,garrison),
+    mobileGarrisonNote:source(`muc[${rowIndex}].d[k=icon,t=Quân trấn thủ].ghi`,String(guardBlock?.ghi||'')),
     sourceFieldStatus:source(`muc[${rowIndex}]`,'VERIFIED_MOBILE')
   };
 }

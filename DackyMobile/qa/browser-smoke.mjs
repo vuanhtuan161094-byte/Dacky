@@ -126,6 +126,9 @@ try {
     if(view==='world'){
       check(await evaluate('Array.from(document.querySelectorAll("#world-chapter option")).find(x=>x.value==="2")?.disabled===true'));
       check(await evaluate('document.querySelector("#march-count")?.max!==undefined&&document.querySelector(".target-card")?.innerText.includes("Giới hạn lĩnh binh")'));
+      await waitFor('document.querySelectorAll(".city-garrison-list .city-guard-card").length===5');
+      check(await evaluate('document.querySelector(".city-garrison-list")?.innerText.includes("Đặng Cửu Công")&&document.querySelector(".city-garrison-list")?.innerText.includes("Tiên Tộc Đao Thuẫn Binh")&&document.querySelector(".recon-intel")?.innerText.toLowerCase().includes("quân số trấn thủ tuỳ máy chủ")'));
+      await waitFor('Array.from(document.querySelectorAll(".city-garrison-list img")).filter(x=>x.complete&&x.naturalWidth>0).length===5');
       await click('.map-node[data-node="node-011"]');
       check(await evaluate('document.querySelector(".target-card")?.innerText.includes("Trinh sát tài nguyên")'));
       await click('.map-node[data-node="node-014"]');
