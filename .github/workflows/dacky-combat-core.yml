@@ -1,0 +1,23 @@
+name: dacky-combat-core
+on:
+  push:
+    branches: [feature/dacky-combat-core]
+    paths:
+      - 'DackyMobile/src/combat/**'
+      - 'DackyMobile/tests/combat-*.test.js'
+      - '.github/workflows/dacky-combat-core.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  combat:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: DackyMobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node --test tests/combat-core.test.js
