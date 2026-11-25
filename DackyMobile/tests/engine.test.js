@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { activeQuest, advance, armyPower, createNewGame, doAction, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity, unlockedChapter } from '../src/engine.js';
+import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity, unlockedChapter } from '../src/engine.js';
 import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS, QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES } from '../src/catalog.js';
 
 test('simulated Fengshen Tower cap is independent of legacy elfland floor count', () => {
@@ -262,7 +262,7 @@ test('hero quality and five-element counters affect power and campaign damage', 
   for(const [quality,multiplier] of Object.entries(HERO_QUALITY_MULTIPLIERS)){
     const def=HEROES.find(hero=>hero.quality===quality);
     const save={id:def.id,level:1,skillLevel:1,affinity:0,equipment:{}};
-    const base=def.attack+def.defense+def.wisdom*0.72;
+    const base=heroBaseRating(def);
     assert.equal(heroPower(save,state),Math.round(base*multiplier*1.14*1.035));
   }
   assert.ok(HERO_QUALITY_MULTIPLIERS['Thiên']>HERO_QUALITY_MULTIPLIERS['Địa']);
@@ -540,7 +540,8 @@ test('mixed source and simulated catalogs expose the requested runtime coverage'
     assert.equal(new Set(rows.map(row=>row.id)).size,count);
   }
   const sourcedHeroes=HEROES.filter(row=>row.mobileSourceId);
-  assert.equal(sourcedHeroes.length,12);
+  assert.equal(sourcedHeroes.length,482);
+  assert.equal(HEROES.filter(row=>row.evidence==='SIMULATED').length,58);
   assert.ok(sourcedHeroes.every(row=>row.evidence==='MIXED'&&row.fieldEvidence.mobileImage==='VERIFIED_MOBILE'));
   assert.ok(ITEMS.every(row=>row.evidence==='SIMULATED'));
   assert.ok(QUESTS.every(row=>row.evidence==='SIMULATED'));

@@ -115,7 +115,7 @@ export const HEROES = Object.freeze(adaptSourceFacts('heroes', heroRows.map(([na
     attack: 18 + (i * 7) % 16, defense: 16 + (i * 5) % 18, wisdom: 18 + (i * 11) % 20,
     skill: ['Hỏa Phù Liệt Trận','Huyền Thủy Hộ Thể','Phong Lôi Kích','Thất Tinh Trợ Chiến'][i % 4],
     skillText: ['gây sát thương diện rộng','giảm thương cho quân ta','đánh nhanh tuyến trước','tăng sĩ khí đội hình'][i % 4],
-    evidence: 'SIMULATED', mobileSourceId: null, mobileImage: '', mobileFaction: '', mobileOccupation: '',
+    evidence: 'SIMULATED', mobileSourceId: null, mobileQuality: null, mobileImage: '', mobileDescription: '', mobileFaction: '', mobileOccupation: '',
     mobileBaseStats: null, mobileAbilities: [], mobileSignature: '', sourceFieldStatus: 'UNKNOWN'
   };
 })));

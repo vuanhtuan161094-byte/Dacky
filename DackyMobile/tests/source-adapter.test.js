@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { applyApprovedSourceFields } from '../src/source-adapter.js';
 import { APPROVED_SOURCE_FACTS, SOURCE_REUSE_DECISION } from '../src/approved-source-data.js';
-import { BUILDINGS, MOBILE_SOURCE_DATABASE, TECHNOLOGIES, TROOPS } from '../src/catalog.js';
+import { BUILDINGS, HEROES, MOBILE_SOURCE_DATABASE, TECHNOLOGIES, TROOPS } from '../src/catalog.js';
 
 const rows = [{ id: 'building-1', name: 'Authored name', evidence: 'SIMULATED' }];
 const decision = {
@@ -39,6 +39,16 @@ test('owner authorization imports field-scoped Mobile tables into gameplay catal
   assert.equal(troop.mobileCounterRows.length,3);
   const tech=TECHNOLOGIES.find(row=>row.id==='tech-01');
   assert.equal(tech.mobileLevelCosts[0].effect,'+2%');
+});
+
+test('the full Mobile hero roster is playable with per-field provenance and source stats', () => {
+  const mobileHeroes=HEROES.filter(hero=>hero.mobileSourceId);
+  assert.equal(mobileHeroes.length,482);
+  assert.equal(new Set(mobileHeroes.map(hero=>hero.mobileSourceId)).size,482);
+  assert.ok(mobileHeroes.every(hero=>hero.mobileBaseStats.length>0&&hero.mobileImage.startsWith('./assets/mobile-source/')));
+  assert.ok(mobileHeroes.every(hero=>hero.fieldEvidence.name==='VERIFIED_MOBILE'&&hero.fieldEvidence.mobileBaseStats==='VERIFIED_MOBILE'));
+  assert.ok(mobileHeroes.every(hero=>hero.fieldProvenance.mobileBaseStats.sourceTable==='than-tien'));
+  assert.equal(HEROES.filter(hero=>hero.evidence==='SIMULATED').length,58);
 });
 
 test('Mobile source artwork is local, checksummed, and bundled for offline use', () => {

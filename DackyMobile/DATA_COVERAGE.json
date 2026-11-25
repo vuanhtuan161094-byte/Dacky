@@ -6,8 +6,8 @@
     "verifiedMobileRecords": 2656,
     "verifiedLegacyRecordsImported": 0,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
-    "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 1,551 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
-    "fieldScopedMobileFieldsInGameplay": 1551,
+    "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 6,275 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
+    "fieldScopedMobileFieldsInGameplay": 6275,
     "runtimeCatalogRecords": 7341
   },
   "references": {
@@ -1140,8 +1140,8 @@
       "categoryCount": 7,
       "recordCount": 2656,
       "runtimeImportedRecordCount": 2656,
-      "gameplayMappedRecordCount": 135,
-      "fieldScopedGameplayValueCount": 1551,
+      "gameplayMappedRecordCount": 605,
+      "fieldScopedGameplayValueCount": 6275,
       "categories": {
         "than-tien": {
           "title": "Thần tiên",
@@ -1169,7 +1169,7 @@
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/than-tien/",
           "runtimeImportedRecords": 482,
-          "gameplayMappedRecords": 12
+          "gameplayMappedRecords": 482
         },
         "phap-bao": {
           "title": "Pháp bảo",

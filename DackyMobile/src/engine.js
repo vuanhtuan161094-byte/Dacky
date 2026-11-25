@@ -184,6 +184,28 @@ export function storageCapacity(state) {
 
 export function armyCount(state) { return Object.values(state.army).reduce((a, n) => a + n, 0); }
 
+const numericSourceStat = (stats, label) => {
+  const value = stats.find(stat => stat.label === label)?.value;
+  const match = String(value ?? '').match(/-?\d+(?:[.,]\d+)?/);
+  return match ? Math.max(0, Number(match[0].replace(',', '.')) || 0) : 0;
+};
+
+// Mobile publishes the base attributes, not this game's duel formula. This
+// local rating uses those sourced values with explicit SIMULATED coefficients.
+export function heroBaseRating(def) {
+  const stats = Array.isArray(def.mobileBaseStats) ? def.mobileBaseStats : [];
+  const physical = numericSourceStat(stats, 'Dũng vũ');
+  const arcane = numericSourceStat(stats, 'Đạo pháp');
+  const strategy = numericSourceStat(stats, 'Mưu lược');
+  const vitality = numericSourceStat(stats, 'Thể lực');
+  const spirit = numericSourceStat(stats, 'Tinh lực');
+  if ([physical, arcane, strategy, vitality, spirit].some(value => value > 0)) {
+    return 14 + 3 * Math.log2(1 + physical + arcane + strategy * 0.72)
+      + 1.5 * Math.log2(1 + vitality) + Math.log2(1 + spirit);
+  }
+  return def.attack + def.defense + def.wisdom * 0.72;
+}
+
 export function heroPower(hero, state) {
   const def = HEROES.find(h => h.id === hero.id);
   if (!def) return 0;
@@ -191,7 +213,7 @@ export function heroPower(hero, state) {
   const research=1+(state.technologies?.['tech-17']||0)*0.012;
   const affinity=1+clamp(Number(hero.affinity)||0,0,100)*0.0015;
   const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1;
-  return Math.round((def.attack + def.defense + def.wisdom * 0.72 + gear) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * research * affinity);
+  return Math.round((heroBaseRating(def) + gear) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * research * affinity);
 }
 
 function awardHeroXp(hero, amount) {

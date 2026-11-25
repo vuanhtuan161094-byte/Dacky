@@ -17,10 +17,21 @@ LEGACY_MANIFEST = PRIVATE / "extracted" / "manifest.json"
 NORMALIZED_MANIFEST = PRIVATE / "normalized_legacy" / "manifest.json"
 MOBILE_MANIFEST = PRIVATE / "mobile_reference" / "manifest.json"
 NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
+APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
 
 
 def load_json(path):
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
+def runtime_mobile_facts():
+    source = APPROVED_SOURCE_DATA.read_text(encoding="utf-8")
+    prefix = "export const APPROVED_SOURCE_FACTS = Object.freeze("
+    start = source.find(prefix)
+    end = source.rfind(");")
+    if start < 0 or end <= start:
+        raise ValueError("Could not parse generated Mobile source adapter facts")
+    return json.loads(source[start + len(prefix):end])
 
 
 def legacy_inventory():
@@ -74,10 +85,16 @@ def mobile_inventory():
     if manifest is None:
         return None
     categories = {}
-    gameplay_mapped = {
-        "than-tien": 12, "phap-bao": 0, "vat-pham": 0, "binh-chung": 25,
-        "cong-trinh": 15, "khoa-ky": 10, "danh-thanh": 73,
+    facts = runtime_mobile_facts()
+    mapped_domains = {
+        "than-tien": "heroes", "phap-bao": None, "vat-pham": None, "binh-chung": "troops",
+        "cong-trinh": "buildings", "khoa-ky": "technologies", "danh-thanh": "worldNodes",
     }
+    gameplay_mapped = {
+        category: len(facts.get(domain, {})) if domain else 0
+        for category, domain in mapped_domains.items()
+    }
+    field_value_count = sum(len(fields) for table in facts.values() for fields in table.values())
     for category in manifest.get("categories", []):
         categories[category["id"]] = {
             "title": category["name"],
@@ -101,7 +118,7 @@ def mobile_inventory():
         "recordCount": sum(row["recordsServed"] for row in categories.values()),
         "runtimeImportedRecordCount": sum(row["recordsServed"] for row in categories.values()),
         "gameplayMappedRecordCount": sum(row["gameplayMappedRecords"] for row in categories.values()),
-        "fieldScopedGameplayValueCount": 1551,
+        "fieldScopedGameplayValueCount": field_value_count,
         "categories": categories,
         "reuseNote": "Owner authorization dated 2026-11-25 covers found Mobile data/assets. The full catalog is bundled in runtime; direct gameplay mapping is per-field and remaining mechanics stay SIMULATED or UNKNOWN.",
     }
@@ -199,8 +216,8 @@ def main():
             if isinstance(item.get("records"), int)
         ),
         "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25" if network else "NOT_CHECKED",
-        "fieldScopedMobileFieldsInGameplay": 1551,
-        "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 1,551 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
+        "fieldScopedMobileFieldsInGameplay": mobile["fieldScopedGameplayValueCount"] if mobile else 0,
+        "note": f"Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and {mobile['fieldScopedGameplayValueCount'] if mobile else 0:,} field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     })
     coverage["sourceInventory"] = {
         "legacy": legacy,
