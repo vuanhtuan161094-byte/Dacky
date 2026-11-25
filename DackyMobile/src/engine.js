@@ -440,13 +440,65 @@ export function quoteCityUpgrade(state, cityId) {
     locked:(state.levels.citadel||0)<Math.max(2,Math.ceil(level/2)+1)};
 }
 
+function evaluateTrainingRequirements(state, troop) {
+  const unmet = [];
+  const unknown = [];
+  const buildings = troop.trainingRequirements?.buildings || [];
+  const technologies = troop.trainingRequirements?.technologies || [];
+  if (!troop.trainingRequirements) {
+    const barracksLevel = Number(state.levels.barracks) || 0;
+    if (barracksLevel < 1) unmet.push('Thần Binh Doanh cấp 1');
+    const citadelLevel = Number(state.levels.citadel) || 0;
+    if (citadelLevel < troop.unlockCity) unmet.push(`Tử Vi Thành cấp ${troop.unlockCity} · SIMULATED`);
+    return { status: 'SIMULATED', unmet, unknown, locked: unmet.length > 0 };
+  }
+  for (const requirement of buildings) {
+    const building = BUILDINGS.find(row => row.id === requirement.runtimeBuildingId);
+    if (!building) {
+      unknown.push(`${requirement.sourceName} cấp ${requirement.level} · UNKNOWN`);
+      continue;
+    }
+    if ((Number(state.levels[building.id]) || 0) < requirement.level) {
+      unmet.push(`${building.name} cấp ${requirement.level}`);
+    }
+  }
+  for (const requirement of technologies) {
+    const technology = TECHNOLOGIES.find(row => row.id === requirement.runtimeTechnologyId);
+    if (!technology) {
+      unknown.push(`${requirement.sourceName} cấp ${requirement.level} · UNKNOWN`);
+      continue;
+    }
+    if ((Number(state.technologies[technology.id]) || 0) < requirement.level) {
+      unmet.push(`${technology.name} cấp ${requirement.level}`);
+    }
+  }
+  if (!buildings.some(row => row.runtimeBuildingId === 'barracks')
+      && (Number(state.levels.barracks) || 0) < 1) {
+    unmet.push('Thần Binh Doanh cấp 1 · SIMULATED');
+  }
+  for (const requirement of troop.trainingRequirements.unknown || []) {
+    unknown.push(`${requirement.sourceName} cấp ${requirement.level} · UNKNOWN`);
+  }
+  return {
+    status: unknown.length ? 'PARTIAL_UNKNOWN' : troop.trainingRequirementEvidence || 'VERIFIED_LEGACY',
+    unmet,
+    unknown,
+    locked: unmet.length > 0
+  };
+}
+
 export function quoteTraining(state, troopId, count = 1) {
   const t = TROOPS.find(x => x.id === troopId);
   if (!t) return null;
   count = clamp(Math.floor(Number(count) || 1), 1, 500);
+  const requirements = evaluateTrainingRequirements(state, t);
   return { count, cost: Object.fromEntries(Object.entries(t.cost).map(([key, value]) => [key, value * count])),
     seconds: Math.max(4, t.trainSeconds * count), timeEvidence:t.trainTimeEvidence||'SIMULATED',
-    costEvidence:'SIMULATED',locked: (state.levels.citadel || 0) < t.unlockCity };
+    costEvidence:t.trainingCostEvidence||'SIMULATED',
+    requirementEvidence:requirements.status,
+    unmetRequirements:requirements.unmet,
+    unknownRequirements:requirements.unknown,
+    locked:requirements.locked };
 }
 
 function evaluateResearchRequirements(state, requirementText='') {
@@ -944,17 +996,18 @@ export function doAction(state, action, now = Date.now()) {
     }
     case 'train': {
       if (s.queues.training) throw new Error('Doanh trại đang huấn luyện một đạo quân.');
-      if ((s.levels.barracks || 0) < 1) throw new Error('Cần Thần Binh Doanh cấp 1 để huấn luyện quân.');
       const t = TROOPS.find(x => x.id === action.troopId);
       const count = clamp(Math.floor(Number(action.count) || 1), 1, 500);
       if (!t) throw new Error('Không tìm thấy binh chủng.');
       if (!t.mobileSourceId) throw new Error('Chỉ hồ sơ binh chủng Mobile có nguồn mới được huấn luyện mới.');
-      const needLevel = Math.min(30, t.unlockCity);
-      if ((s.levels.citadel || 0) < needLevel) throw new Error(`Cần Tử Vi Thành cấp ${needLevel} để huấn luyện.`);
-      const cost = Object.fromEntries(Object.entries(t.cost).map(([key, value]) => [key, value * count]));
+      const quote = quoteTraining(s, t.id, count);
+      if (quote.locked) {
+        throw new Error(`Chưa đủ điều kiện huấn luyện: ${quote.unmetRequirements.join(', ')}.`);
+      }
+      const cost = quote.cost;
       debit(s, cost);
       const speed = 1 + (s.technologies['tech-09'] || 0) * technologyRate('tech-09',0.02) + (s.levels.training || 0) * 0.025 + (s.levels.barracks || 0) * 0.008;
-      s.queues.training = { troopId: t.id, count, cost, startAt: now, finishAt: now + Math.max(4000, t.trainSeconds * count * 1000 / speed) };
+      s.queues.training = { troopId: t.id, count, cost, startAt: now, finishAt: now + Math.max(4000, quote.seconds * 1000 / speed) };
       note(s, `Bắt đầu huấn luyện ${count} ${t.name}.`);
       break;
     }

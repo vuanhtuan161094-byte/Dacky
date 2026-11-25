@@ -4,12 +4,12 @@
   "gameplayVersion": "dacky-mobile-sim-v1",
   "evidenceStatus": {
     "verifiedMobileRecords": 2656,
-    "verifiedLegacyRecordsImported": 1182,
+    "verifiedLegacyRecordsImported": 1198,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
     "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 35,947 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     "fieldScopedMobileFieldsInGameplay": 35947,
     "runtimeCatalogRecords": 10384,
-    "fieldScopedLegacyFieldsImported": 6972
+    "fieldScopedLegacyFieldsImported": 7004
   },
   "references": {
     "publicMobile": [
@@ -84,9 +84,12 @@
       "runtime": "src/catalog.js + src/engine.js",
       "mobileRecords": 25,
       "simulatedRecords": 14,
-      "sourceFields": "25 Mobile troop profiles retain source stats, roles, counters, local art and field provenance; only these profiles are trainable. Twenty-four shared IDs use legacy training base times; remaining unsupported cost/unlock fields stay SIMULATED.",
+      "sourceFields": "25 Mobile troop profiles retain source stats, roles, counters, local art and field provenance; only these profiles are trainable. Twenty-four shared IDs use legacy training base times. Verified legacy resource costs and mapped barracks/technology prerequisites cover 16/25; unsupported work shop requirements remain UNKNOWN and other missing rows stay SIMULATED.",
       "recruitableRecords": 25,
-      "simulatedRecordsTrainable": 0
+      "simulatedRecordsTrainable": 0,
+      "legacyCostProfiles": 16,
+      "legacyConditionProfiles": 16,
+      "mobileProfilesWithSimulatedTrainingCosts": 9
     },
     {
       "domain": "heroes",
@@ -483,12 +486,31 @@
         120
       ],
       "queueSpeedModifiers": "SIMULATED runtime technology/building modifiers remain applied after the sourced base duration."
+    },
+    "troopTrainingRequirements": {
+      "status": "VERIFIED_LEGACY_TROOP_REQUIREMENT_ADAPTER",
+      "mobileProfiles": 25,
+      "profilesWithVerifiedLegacyCosts": 16,
+      "profilesWithVerifiedLegacyRequirements": 16,
+      "profilesWithoutLegacyRows": 9,
+      "sourceRequirementRows": 126,
+      "mappedBuildingRequirementRows": 16,
+      "mappedTechnologyRequirementRows": 16,
+      "unknownRequirementRows": 14,
+      "comparison": {
+        "table": "soldierrequireinfo",
+        "sharedMobileRequirementRows": 126,
+        "valueConflicts": 0
+      },
+      "unsupportedWorkshopNamedId": "22",
+      "unsupportedWorkshopStatus": "UNKNOWN",
+      "versionScoped": true
     }
   },
   "notImported": [
     {
-      "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndTroopTime",
-      "reason": "The quest descriptions are a versioned source reference and the shared troop training duration uses four pinned time fields. Most other legacy fields and all quest requirements/rewards still need gameplay-semantic mapping before they can affect progression."
+      "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndPartiallyMappedTroopTraining",
+      "reason": "Quest descriptions remain a versioned reference, and troop requirements are mapped only where legacy IDs and runtime buildings/technologies align. Most other legacy fields plus quest conditions/rewards still need gameplay-semantic mapping before they can affect progression."
     },
     {
       "domain": "mobilePublicCatalogFields",
@@ -1237,6 +1259,16 @@
             "TrainSpendSecond"
           ],
           "unit": "seconds"
+        },
+        "147-soldierrequireinfo.trainingCostAndRequirements": {
+          "records": 16,
+          "fieldValueCount": 32,
+          "sourceRequirementRows": 126,
+          "comparison": {
+            "table": "soldierrequireinfo",
+            "sharedMobileRequirementRows": 126,
+            "valueConflicts": 0
+          }
         }
       }
     },
@@ -1292,6 +1324,20 @@
         "TrainSpendSecond"
       ],
       "unit": "seconds"
+    },
+    "legacyTroopTrainingRequirements": {
+      "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88",
+      "sourceTable": "147-soldierrequireinfo",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "recordCount": 16,
+      "sourceRows": 126,
+      "fieldValueCount": 32,
+      "comparison": {
+        "table": "soldierrequireinfo",
+        "sharedMobileRequirementRows": 126,
+        "valueConflicts": 0
+      },
+      "permission": "OWNER_AUTHORIZATION_NO_SPDX_REQUIRED"
     },
     "mobileHeroArt": {
       "status": "VERIFIED_LOCAL_MOBILE_HERO_ART",
@@ -1852,11 +1898,11 @@
               "Describe": 33,
               "Camp": 13,
               "Name": 25,
-              "TrainSpendSecond": 1,
               "Att": 1,
+              "TrainSpendMinute": 1,
+              "TrainSpendSecond": 1,
               "Def": 1,
-              "Life": 1,
-              "TrainSpendMinute": 1
+              "Life": 1
             },
             "fieldsOnlyIn147": [],
             "fieldsOnlyInSoldierinfo": [
@@ -2279,11 +2325,11 @@
             "Describe": 33,
             "Camp": 13,
             "Name": 25,
-            "TrainSpendSecond": 1,
             "Att": 1,
+            "TrainSpendMinute": 1,
+            "TrainSpendSecond": 1,
             "Def": 1,
-            "Life": 1,
-            "TrainSpendMinute": 1
+            "Life": 1
           },
           "fieldsOnlyIn147": [],
           "fieldsOnlyInSoldierinfo": [

@@ -28,6 +28,7 @@ NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
 LEGACY_QUEST_SOURCE_DATA = ROOT / "src" / "legacy-quest-catalog.js"
 LEGACY_TROOP_TIME_SOURCE_DATA = ROOT / "src" / "legacy-troop-time-catalog.js"
+LEGACY_TROOP_REQUIREMENT_SOURCE_DATA = ROOT / "src" / "legacy-troop-requirement-catalog.js"
 
 
 def load_json(path):
@@ -126,6 +127,31 @@ def runtime_legacy_troop_times():
     facts = json.loads(source[facts_start:facts_end])
     if len(facts) != metadata.get("importedRecords"):
         raise ValueError("Legacy troop time adapter count does not match its metadata.")
+    return {"metadata": metadata, "facts": facts}
+
+
+def runtime_legacy_troop_requirements():
+    if not LEGACY_TROOP_REQUIREMENT_SOURCE_DATA.exists():
+        return None
+    source = LEGACY_TROOP_REQUIREMENT_SOURCE_DATA.read_text(encoding="utf-8")
+    metadata_marker = "export const LEGACY_TROOP_REQUIREMENT_SOURCE = Object.freeze("
+    facts_marker = "export const LEGACY_TROOP_REQUIREMENT_FACTS = Object.freeze("
+    metadata_start = source.find(metadata_marker)
+    facts_start = source.find(facts_marker)
+    if metadata_start < 0 or facts_start < 0:
+        raise ValueError("Could not parse generated legacy troop requirement adapter.")
+    metadata_start += len(metadata_marker)
+    facts_start += len(facts_marker)
+    metadata_end = source.rfind(");", metadata_start, facts_start)
+    facts_end = source.rfind(");", facts_start)
+    if metadata_end <= metadata_start or facts_end <= facts_start:
+        raise ValueError("Generated legacy troop requirement adapter is incomplete.")
+    metadata = json.loads(source[metadata_start:metadata_end])
+    facts = json.loads(source[facts_start:facts_end])
+    if len(facts) != metadata.get("mappedTroops"):
+        raise ValueError("Legacy troop requirement adapter count does not match its metadata.")
+    if sum(len(fields) for fields in facts.values()) != len(facts) * 2:
+        raise ValueError("Legacy troop requirement adapter must retain cost and requirement provenance per profile.")
     return {"metadata": metadata, "facts": facts}
 
 
@@ -547,9 +573,13 @@ def main():
     legacy = legacy_inventory()
     legacy_quests = runtime_legacy_quests()
     legacy_troop_times = runtime_legacy_troop_times()
+    legacy_troop_requirements = runtime_legacy_troop_requirements()
     legacy_troop_time_field_count = sum(
         len(fields) for fields in legacy_troop_times["facts"].values()
     ) if legacy_troop_times else 0
+    legacy_troop_requirement_field_count = sum(
+        len(fields) for fields in legacy_troop_requirements["facts"].values()
+    ) if legacy_troop_requirements else 0
     mobile = mobile_inventory()
     normalized = normalized_inventory()
     comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
@@ -579,12 +609,16 @@ def main():
         ), None)
         if troop_catalog:
             mobile_troop_count = mobile["categories"].get("binh-chung", {}).get("gameplayMappedRecords", 0)
+            cost_profiles = len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0
             troop_catalog.update({
                 "mobileRecords": mobile_troop_count,
                 "recruitableRecords": mobile_troop_count,
                 "simulatedRecords": max(0, troop_catalog.get("records", 0) - mobile_troop_count),
                 "simulatedRecordsTrainable": 0,
-                "sourceFields": f"{mobile_troop_count} Mobile troop profiles retain source stats, roles, counters, local art and field provenance; only these profiles are trainable. Twenty-four shared IDs use legacy training base times; remaining unsupported cost/unlock fields stay SIMULATED.",
+                "legacyCostProfiles": cost_profiles,
+                "legacyConditionProfiles": cost_profiles,
+                "mobileProfilesWithSimulatedTrainingCosts": max(0, mobile_troop_count - cost_profiles),
+                "sourceFields": f"{mobile_troop_count} Mobile troop profiles retain source stats, roles, counters, local art and field provenance; only these profiles are trainable. Twenty-four shared IDs use legacy training base times. Verified legacy resource costs and mapped barracks/technology prerequisites cover {cost_profiles}/{mobile_troop_count}; unsupported work shop requirements remain UNKNOWN and other missing rows stay SIMULATED.",
             })
         if legacy_troop_times:
             time_values = [
@@ -605,6 +639,36 @@ def main():
                 "conversion": legacy_troop_times["metadata"]["conversion"],
                 "baseSecondsRange": [min(time_values), max(time_values)] if time_values else None,
                 "queueSpeedModifiers": "SIMULATED runtime technology/building modifiers remain applied after the sourced base duration.",
+            }
+        if legacy_troop_requirements:
+            requirement_facts = legacy_troop_requirements["facts"]
+            mapped_building_requirements = sum(
+                len(fields["trainingRequirements"]["value"].get("buildings", []))
+                for fields in requirement_facts.values()
+            )
+            mapped_technology_requirements = sum(
+                len(fields["trainingRequirements"]["value"].get("technologies", []))
+                for fields in requirement_facts.values()
+            )
+            unknown_requirements = sum(
+                len(fields["trainingRequirements"]["value"].get("unknown", []))
+                for fields in requirement_facts.values()
+            )
+            mobile_troop_count = mobile["categories"].get("binh-chung", {}).get("gameplayMappedRecords", 0)
+            coverage["runtimeMechanics"]["troopTrainingRequirements"] = {
+                "status": legacy_troop_requirements["metadata"]["status"],
+                "mobileProfiles": mobile_troop_count,
+                "profilesWithVerifiedLegacyCosts": len(requirement_facts),
+                "profilesWithVerifiedLegacyRequirements": len(requirement_facts),
+                "profilesWithoutLegacyRows": max(0, mobile_troop_count - len(requirement_facts)),
+                "sourceRequirementRows": legacy_troop_requirements["metadata"]["importedRequirementRows"],
+                "mappedBuildingRequirementRows": mapped_building_requirements,
+                "mappedTechnologyRequirementRows": mapped_technology_requirements,
+                "unknownRequirementRows": unknown_requirements,
+                "comparison": legacy_troop_requirements["metadata"]["comparison"],
+                "unsupportedWorkshopNamedId": "22",
+                "unsupportedWorkshopStatus": "UNKNOWN",
+                "versionScoped": True,
             }
         technology_catalog = next((
             item for item in coverage.get("runtimeCatalogs", [])
@@ -672,19 +736,26 @@ def main():
             "mechanicsStatus": "UNKNOWN",
             "versionComparison": legacy_quests["metadata"]["versionComparison"],
         })
-    if legacy and legacy_troop_times:
-        legacy["supplementalRuntimeImports"] = {
-            "147-soldierinfo.trainingTime": {
+    if legacy and (legacy_troop_times or legacy_troop_requirements):
+        legacy["supplementalRuntimeImports"] = {}
+        if legacy_troop_times:
+            legacy["supplementalRuntimeImports"]["147-soldierinfo.trainingTime"] = {
                 "records": len(legacy_troop_times["facts"]),
                 "fieldValueCount": legacy_troop_time_field_count,
                 "sourceFields": legacy_troop_times["metadata"]["sourceFields"],
                 "unit": "seconds",
             }
-        }
+        if legacy_troop_requirements:
+            legacy["supplementalRuntimeImports"]["147-soldierrequireinfo.trainingCostAndRequirements"] = {
+                "records": len(legacy_troop_requirements["facts"]),
+                "fieldValueCount": legacy_troop_requirement_field_count,
+                "sourceRequirementRows": legacy_troop_requirements["metadata"]["importedRequirementRows"],
+                "comparison": legacy_troop_requirements["metadata"]["comparison"],
+            }
     coverage["updated"] = date.today().isoformat()
     coverage["evidenceStatus"].update({
         "verifiedMobileRecords": mobile["runtimeImportedRecordCount"] if mobile else 0,
-        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0),
+        "verifiedLegacyRecordsImported": (legacy["runtimeImportedRecordCount"] if legacy else 0) + (len(legacy_troop_times["facts"]) if legacy_troop_times else 0) + (len(legacy_troop_requirements["facts"]) if legacy_troop_requirements else 0),
         "runtimeCatalogRecords": sum(
             item.get("records", 0)
             for item in coverage.get("runtimeCatalogs", [])
@@ -692,7 +763,7 @@ def main():
         ),
         "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25" if network else "NOT_CHECKED",
         "fieldScopedMobileFieldsInGameplay": mobile["fieldScopedGameplayValueCount"] if mobile else 0,
-        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + legacy_troop_time_field_count,
+        "fieldScopedLegacyFieldsImported": (legacy["runtimeImportedFieldValueCount"] if legacy else 0) + legacy_troop_time_field_count + legacy_troop_requirement_field_count,
         "note": f"Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and {mobile['fieldScopedGameplayValueCount'] if mobile else 0:,} field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     })
     coverage["sourceInventory"] = {
@@ -715,6 +786,16 @@ def main():
             "sourceFields": legacy_troop_times["metadata"]["sourceFields"],
             "unit": "seconds",
         } if legacy_troop_times else None),
+        "legacyTroopTrainingRequirements": ({
+            "sourceVersion": legacy_troop_requirements["metadata"]["sourceVersion"],
+            "sourceTable": legacy_troop_requirements["metadata"]["sourceTable"],
+            "sourceCommit": legacy_troop_requirements["metadata"]["sourceCommit"],
+            "recordCount": len(legacy_troop_requirements["facts"]),
+            "sourceRows": legacy_troop_requirements["metadata"]["importedRequirementRows"],
+            "fieldValueCount": legacy_troop_requirement_field_count,
+            "comparison": legacy_troop_requirements["metadata"]["comparison"],
+            "permission": "OWNER_AUTHORIZATION_NO_SPDX_REQUIRED",
+        } if legacy_troop_requirements else None),
         "mobileHeroArt": mobile["heroArt"] if mobile else None,
         "mobilePublicCatalog": mobile,
         "mobileLegacyCountComparison": comparison,
@@ -745,8 +826,8 @@ def main():
     }
     coverage["notImported"] = [
         {
-            "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndTroopTime",
-            "reason": "The quest descriptions are a versioned source reference and the shared troop training duration uses four pinned time fields. Most other legacy fields and all quest requirements/rewards still need gameplay-semantic mapping before they can affect progression.",
+            "domain": "legacyGameplayFieldsExceptQuestDescriptionsAndPartiallyMappedTroopTraining",
+            "reason": "Quest descriptions remain a versioned reference, and troop requirements are mapped only where legacy IDs and runtime buildings/technologies align. Most other legacy fields plus quest conditions/rewards still need gameplay-semantic mapping before they can affect progression.",
         },
         {
             "domain": "mobilePublicCatalogFields",

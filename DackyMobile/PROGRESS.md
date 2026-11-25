@@ -2,6 +2,14 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
+## Latest increment: Legacy troop training costs and prerequisites
+
+- Generated a reproducible adapter from the pinned `147-soldierrequireinfo` table. It maps resource costs and known Barrack/technology levels for 16 of 25 Mobile IDs; all 126 applicable requirement rows match the alternate `soldierrequireinfo` table with zero value conflicts. Cost and requirement provenance stays attached to each runtime troop field.
+- Training now charges source costs for those 16 profiles and enforces the mapped Barrack and Luyện Binh Thuật/Lĩnh Binh Thuật gates. Fourteen Workshop 22 requirements remain `UNKNOWN` and permissive; nine Mobile profiles without source requirement rows retain `SIMULATED` cost and unlocks. Existing 24/25 base times still use the legacy duration adapter.
+- Added coverage reporting and updated the troop selector/wiki. Added production CI for tests, web/offline build, Android debug APK/AAB packaging, and 14-day GitHub Actions artifact downloads. CI run is pending the production branch push.
+- Verification: Node tests PASS 48/48; Python source tests PASS 10/10. Chromium passed all 12 primary screens, source cost/training/march/combat/save reload and both mobile orientations, with zero runtime errors. PWA shell v17 reopened offline; single-file HTML launched over HTTP with no external asset requests.
+- Android build: APK 47,547,822 bytes (SHA-256 `2a0e6f78bf2955687a45ac5449a331c3e2d1f854cc34b32d8eadfd44c400cdb2`); debug AAB 33,739,214 bytes (SHA-256 `43ead2106c7a7d238dd741800b71fd3a0da6fa3a9ccadcf5ea378760adc130b9`). APK signature and both ZIP packages verified. `dist/offline.html` is 47,930,242 bytes (SHA-256 `d85ebd3bd9c3545cb6b0610f4d75f690cc8832cc2a6d0ce7bfe4f8e9e7bc5c38`). APK/AAB are debug builds; device QA remains unavailable.
+
 ## Latest increment: Mobile-only troop training
 
 - New saves start with Mobile troop ID 1000. The 25 Mobile profiles are the only new trainable units; direct runtime actions reject the 14 simulated definitions, which remain available to existing saves and generated NPC encounters.

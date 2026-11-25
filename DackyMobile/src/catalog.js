@@ -4,8 +4,9 @@ import { applyApprovedSourceFields } from './source-adapter.js';
 import { MOBILE_SOURCE_DATABASE } from './mobile-source-catalog.js';
 import { LEGACY_QUEST_SOURCE, LEGACY_QUESTS } from './legacy-quest-catalog.js';
 import { LEGACY_TROOP_TIME_FACTS } from './legacy-troop-time-catalog.js';
+import { LEGACY_TROOP_REQUIREMENT_FACTS, LEGACY_TROOP_REQUIREMENT_SOURCE } from './legacy-troop-requirement-catalog.js';
 
-export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, MOBILE_SOURCE_DATABASE };
+export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, LEGACY_TROOP_REQUIREMENT_SOURCE, MOBILE_SOURCE_DATABASE };
 
 const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
   rows,
@@ -95,11 +96,21 @@ const mobileTroopRows = adaptSourceFacts('troops', troopNames.map(([name,role,gl
     mobileCarry: null, mobileUpkeep: null, mobileCounterRows: [], sourceFieldStatus: 'UNKNOWN'
   };
 }));
-export const TROOPS = Object.freeze(applyApprovedSourceFields(
+const troopsWithLegacyTimes = applyApprovedSourceFields(
   mobileTroopRows,
   LEGACY_TROOP_TIME_FACTS,
   SOURCE_REUSE_DECISION
-).map(row => ({ ...row, trainTimeEvidence: row.fieldEvidence?.trainSeconds || 'SIMULATED' })));
+).map(row => ({ ...row, trainTimeEvidence: row.fieldEvidence?.trainSeconds || 'SIMULATED' }));
+export const TROOPS = Object.freeze(applyApprovedSourceFields(
+  troopsWithLegacyTimes,
+  LEGACY_TROOP_REQUIREMENT_FACTS,
+  SOURCE_REUSE_DECISION
+).map(row => ({
+  ...row,
+  trainTimeEvidence: row.fieldEvidence?.trainSeconds || 'SIMULATED',
+  trainingCostEvidence: row.fieldEvidence?.cost || 'SIMULATED',
+  trainingRequirementEvidence: row.fieldEvidence?.trainingRequirements || 'SIMULATED'
+})));
 
 const heroRows = [
   ['Khương Tử Nha','quân sư','water','太師'], ['Na Tra','tiên phong','fire','乾坤'], ['Dương Tiễn','hộ vệ','metal','天眼'],

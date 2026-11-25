@@ -206,8 +206,9 @@ try {
   console.log('PASS recruitment and equipment linked to hero state.');
 
   await click('#primary-nav [data-view="army"]');
-  const troopRecruitment=await evaluate('({options:document.querySelectorAll("#train-unit option").length,legacyTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("VERIFIED_LEGACY")).length,simulatedTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("SIMULATED")).length})');
+  const troopRecruitment=await evaluate('({options:document.querySelectorAll("#train-unit option").length,legacyTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>/\\d+s VERIFIED_LEGACY · Giá/.test(x.textContent)).length,simulatedTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>/\\d+s SIMULATED · Giá/.test(x.textContent)).length,legacyCosts:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("Giá VERIFIED_LEGACY")).length,partialRequirements:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("PARTIAL_UNKNOWN")).length,unknownWorkshops:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("WorkShop")&&x.textContent.includes("UNKNOWN")).length})');
   check(troopRecruitment.options===25&&troopRecruitment.legacyTimes===24&&troopRecruitment.simulatedTimes===1);
+  check(troopRecruitment.legacyCosts===16&&troopRecruitment.partialRequirements===14&&troopRecruitment.unknownWorkshops===14);
   const trainingTroopName=await evaluate('document.querySelector("#train-unit")?.selectedOptions[0]?.textContent.split(" · ")[0]||""');
   check(trainingTroopName.length>0);
   await evaluate('(function(){document.querySelector("#train-count").value="1";return true})()');

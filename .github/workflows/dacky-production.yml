@@ -1,0 +1,78 @@
+name: Dacky production branch
+
+on:
+  push:
+    branches: [feature/dacky-v1-production]
+  pull_request:
+    branches: [feature/dacky-v1-production]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dacky-production-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-and-package:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: DackyMobile
+    steps:
+      - name: Checkout production source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: DackyMobile/package-lock.json
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install required Android packages
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Run runtime tests
+        run: npm test
+
+      - name: Run source parser tests
+        run: npm run test:source
+
+      - name: Build web and offline HTML
+        run: npm run build
+
+      - name: Sync Capacitor Android project
+        run: npx cap sync android
+
+      - name: Build debug APK and AAB
+        run: ./gradlew --no-daemon assembleDebug bundleDebug
+        working-directory: DackyMobile/android
+
+      - name: Publish web and Android build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dacky-production-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            DackyMobile/dist/index.html
+            DackyMobile/dist/offline.html
+            DackyMobile/android/app/build/outputs/apk/debug/app-debug.apk
+            DackyMobile/android/app/build/outputs/bundle/debug/app-debug.aab

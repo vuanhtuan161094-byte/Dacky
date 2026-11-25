@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteBuilding, quoteResearch, quoteScouting, quoteTraining, SAVE_VERSION, storageCapacity, unlockedChapter } from '../src/engine.js';
 import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS, QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES } from '../src/catalog.js';
+import { LEGACY_TROOP_REQUIREMENT_SOURCE } from '../src/legacy-troop-requirement-catalog.js';
 
 test('simulated Fengshen Tower cap is independent of legacy elfland floor count', () => {
   assert.equal(TOWER_FLOORS,9999);
@@ -62,6 +63,52 @@ test('legacy base troop training times fill only shared Mobile IDs with provenan
 
   const mobileOnly=TROOPS.find(t=>t.mobileSourceId==='1051');
   assert.equal(mobileOnly.trainTimeEvidence,'SIMULATED','no legacy time is inferred when the source ID is absent');
+});
+
+test('verified legacy troop costs and mapped prerequisites drive Mobile training', () => {
+  const now=1_800_000_000_000;
+  assert.equal(LEGACY_TROOP_REQUIREMENT_SOURCE.mappedTroops,16);
+  assert.equal(LEGACY_TROOP_REQUIREMENT_SOURCE.importedRequirementRows,126);
+  assert.equal(LEGACY_TROOP_REQUIREMENT_SOURCE.comparison.valueConflicts,0);
+  const starter=TROOPS.find(troop=>troop.mobileSourceId==='1000');
+  assert.equal(starter.trainingCostEvidence,'VERIFIED_LEGACY');
+  assert.deepEqual(starter.cost,{gold:10,food:75,timber:75,stone:0,iron:50});
+  assert.equal(starter.fieldProvenance.cost.sourceTable,'147-soldierrequireinfo');
+  assert.equal(starter.fieldProvenance.trainingRequirements.evidence,'VERIFIED_LEGACY');
+
+  const state=createNewGame('Triều Ca',now);
+  const quote=quoteTraining(state,starter.id,2);
+  assert.deepEqual(quote.cost,{gold:20,food:150,timber:150,stone:0,iron:100});
+  assert.equal(quote.costEvidence,'VERIFIED_LEGACY');
+  const trained=doAction(state,{type:'train',troopId:starter.id,count:2},now+1);
+  assert.deepEqual(trained.queues.training.cost,quote.cost);
+  assert.ok(Math.abs(trained.resources.gold-(950-20))<0.001);
+  assert.ok(Math.abs(trained.resources.food-(1600-150))<0.001);
+
+  const tierTwo=TROOPS.find(troop=>troop.mobileSourceId==='1001');
+  let locked=createNewGame('Triều Ca',now);
+  assert.equal(quoteTraining(locked,tierTwo.id,1).locked,true);
+  assert.ok(quoteTraining(locked,tierTwo.id,1).unmetRequirements.includes('Trại lính cấp 5'));
+  assert.ok(quoteTraining(locked,tierTwo.id,1).unmetRequirements.includes('Chinh binh thuật cấp 1'));
+  locked.levels.citadel=0;
+  locked.levels.barracks=5;
+  locked.technologies['tech-09']=1;
+  assert.equal(quoteTraining(locked,tierTwo.id,1).locked,false,'mapped barracks and research conditions replace the simulated citadel gate');
+
+  const workshopUnit=TROOPS.find(troop=>troop.mobileSourceId==='1002');
+  const partial=createNewGame('Triều Ca',now);
+  partial.levels.citadel=0;
+  partial.levels.barracks=10;
+  partial.technologies['tech-09']=5;
+  const partialQuote=quoteTraining(partial,workshopUnit.id,1);
+  assert.equal(partialQuote.locked,false,'an unmapped source building stays permissive rather than invented');
+  assert.ok(partialQuote.unknownRequirements.some(value=>value.startsWith('WorkShop cấp 1')));
+  assert.equal(workshopUnit.trainingCostEvidence,'VERIFIED_LEGACY');
+
+  const unavailable=TROOPS.find(troop=>troop.mobileSourceId==='1040');
+  assert.equal(unavailable.trainingCostEvidence,'SIMULATED','legacy rows do not cover this Mobile ID');
+  assert.equal(unavailable.trainingRequirements,undefined);
+  assert.equal(quoteTraining(partial,unavailable.id,1).locked,true,'the remaining training gate stays explicitly simulated');
 });
 
 test('new hero recruitment is limited to the verified Mobile roster and keeps legacy definitions available to saves', () => {
