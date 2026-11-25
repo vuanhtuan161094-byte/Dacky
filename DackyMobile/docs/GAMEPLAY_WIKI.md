@@ -4,7 +4,9 @@
 
 ## Nguồn dữ liệu và phiên bản
 
-Runtime vẫn dùng dữ liệu tự thiết kế (`SIMULATED`). Nghiên cứu riêng tư đã giải mã và chuẩn hóa 67/70 bảng legacy ghim tại commit `13d969fc88c141553535c70943aaa98cf9f86616`; mỗi trường giữ SHA của bảng, schema và index. Ba bảng còn `HOLD` được liệt kê trong `BLOCKERS.md`. Danh mục Mobile công khai `5d78c226cb` có 2.656 hàng. So sánh hiện chỉ xác nhận delta số lượng: thần tiên 482/540, pháp bảo 151/156, vật phẩm 1.885/2.155, binh chủng 25/39, công trình 21/21, khoa kỹ 19/19, danh thành 73/75 nhóm tọa độ legacy. Các số này không chứng minh trùng record, phiên bản cùng luật chơi hay quyền tái sử dụng. Runtime adapter từ chối nguồn khi chưa có giấy phép và provenance theo trường; vì thế các giá trị chưa được quyền xác minh tiếp tục là `SIMULATED`/`UNKNOWN`.
+Runtime là bản chơi đơn có cả dữ kiện nguồn và cơ chế còn mô phỏng. Chủ dự án xác nhận quyền sử dụng các dữ liệu, hình ảnh và tài nguyên game tìm được cho dự án vào 2026-11-25; không yêu cầu SPDX để tích hợp. Snapshot Mobile `5d78c226cb` có 2.656 hàng, trong đó 35.902 giá trị theo trường đã được nối vào gameplay. Legacy đã giải mã 67/70 bảng; ba bảng `HOLD` vẫn ở `BLOCKERS.md`. Thư tịch runtime chứa 1.158 bản ghi mô tả nhiệm vụ legacy với nguồn theo trường. Đó là văn bản tham khảo; điều kiện, phần thưởng và cơ chế nhiệm vụ chưa được ánh xạ vào tiến trình chơi. Delta đếm giữa phiên bản không chứng minh parity.
+
+So sánh danh mục hiện xác nhận: thần tiên 482/540, pháp bảo 151/156, vật phẩm 1.885/2.155, binh chủng 25/39, công trình 21/21, khoa kỹ 19/19, danh thành 73/75 nhóm tọa độ legacy. So sánh quest table `quest`/`quest_20_11` ghi 1.156 ID chung, hai ID riêng `quest` (110098, 110099) và ba thay đổi trường `title`; không suy rộng các delta này sang luật chơi Mobile.
 
 ## Thành trì
 
@@ -48,7 +50,7 @@ Runtime có 39 loại binh chủng theo vai trò bộ binh, xạ thủ, kỵ bin
 - Phong Thần Tháp: leo tối đa 9.999 tầng procedural theo cap do dự án chọn cho bản mô phỏng; nguồn hiện chưa xác minh số tầng. Con số 8.992 là số hàng tầng Tiên Sơn trong bảng legacy `elflandfloorinfo`, không phải Phong Thần Tháp.
 - Bất Chu Sơn: năm cửa NPC, tăng mạnh độ khó; phần thưởng cuối có pháp bảo. Tiên Sơn: 624 thử thách đấu pháp có thể tái đấu, thưởng tài nguyên và pháp bảo theo mốc.
 - Vật phẩm: 2.155 hồ sơ mô phỏng gồm trang bị và vật phẩm tiêu hao; hiệu ứng tiêu hao nối vào runtime. Thị trường đổi sáu loại tài nguyên với phí NPC, không phải multiplayer.
-- Nhiệm vụ: 1.158 mục tiêu mô phỏng qua tám chương, có nhiệm vụ cuối đánh bại Trụ Vương. Tất cả liên kết với xây, quân, thần tiên, combat và PvE.
+- Nhiệm vụ: tiến trình đang chơi có 1.158 mục tiêu mô phỏng qua tám chương, có nhiệm vụ cuối đánh bại Trụ Vương. Thư tịch tách riêng 1.158 mô tả nhiệm vụ legacy đã xác minh theo trường; điều kiện và phần thưởng của bảng `questcondition` vẫn UNKNOWN và không tự nhận là gameplay Mobile.
 
 ## Save/offline
 

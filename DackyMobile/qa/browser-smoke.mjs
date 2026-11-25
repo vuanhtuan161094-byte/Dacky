@@ -128,6 +128,15 @@ try {
   }
   console.log('PASS all 12 primary menu screens render with source artwork.');
 
+  await click('#primary-nav [data-view="library"]');
+  await evaluate('(function(){var s=document.querySelector("[data-source-category]");s.value="legacy-quest";s.dispatchEvent(new Event("change",{bubbles:true}));return true})()');
+  await waitFor('document.querySelector(".source-entry h3")?.innerText==="Khí thế ngất trời"');
+  const legacyQuestCard=await evaluate('document.querySelector(".source-entry")?.innerText||""');
+  check(legacyQuestCard.includes('Mở [lễ hộp]')&&legacyQuestCard.includes('UNKNOWN')&&legacyQuestCard.includes('VERIFIED_LEGACY'));
+  await click('.source-provenance summary');
+  check(await evaluate('document.querySelector(".source-provenance")?.innerText.includes("13d969fc88c141553535c70943aaa98cf9f86616")'));
+  console.log('PASS legacy quest reference shows source text, UNKNOWN mechanics, and pinned provenance.');
+
   await click('#primary-nav [data-view="market"]');
   await click('[data-action="setTaxPolicy"][data-policy="heavy"]');
   await waitFor('document.querySelector("[data-action=setTaxPolicy][data-policy=heavy]")?.disabled===true');

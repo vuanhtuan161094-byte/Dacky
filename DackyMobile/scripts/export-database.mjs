@@ -2,12 +2,12 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
-  BUZHOU_FLOORS, BUILDINGS, CONTENT_EVIDENCE, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS,
+  BUZHOU_FLOORS, BUILDINGS, CONTENT_EVIDENCE, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_QUESTS, LEGACY_REFERENCE_COUNTS,
   QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES
 } from '../src/catalog.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const tables = { buildings: BUILDINGS, technologies: TECHNOLOGIES, troops: TROOPS, heroes: HEROES, heroSkills: HERO_SKILLS, items: ITEMS, quests: QUESTS, worldNodes: WORLD_NODES, immortalMountains: IMMORTAL_MOUNTAINS };
+const tables = { buildings: BUILDINGS, technologies: TECHNOLOGIES, troops: TROOPS, heroes: HEROES, heroSkills: HERO_SKILLS, items: ITEMS, quests: QUESTS, legacyQuestReference: LEGACY_QUESTS, worldNodes: WORLD_NODES, immortalMountains: IMMORTAL_MOUNTAINS };
 
 export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky-game-data.runtime.v1.json')) {
   const tableStats = {};
@@ -48,7 +48,7 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
       { name: 'mobileVersionDelta', reason: 'Public static catalog was captured, but it does not establish the original client version or a complete gameplay-version delta.' },
       { name: 'legacyHeroes', targetRecords: LEGACY_REFERENCE_COUNTS.famousGenerals, reason: 'Legacy source rows are retained privately; gameplay field and mechanic mapping remains unverified.' },
       { name: 'legacyItems', targetRecords: LEGACY_REFERENCE_COUNTS.legacy147Items, reason: 'Legacy source rows are retained privately; gameplay field and mechanic mapping remains unverified.' },
-      { name: 'legacyQuests', targetRecords: LEGACY_REFERENCE_COUNTS.quests, reason: 'Legacy source rows are retained privately; gameplay field and mechanic mapping remains unverified.' },
+      { name: 'legacyQuestMechanics', targetRecords: LEGACY_REFERENCE_COUNTS.quests, importedReferenceRecords: LEGACY_QUESTS.length, reason: 'Quest text and type codes are imported with field provenance; requirements and rewards remain UNKNOWN.' },
       { name: 'immortalMountains', targetRecords: LEGACY_REFERENCE_COUNTS.elflands, reason: 'Source rows remain in private research; runtime challenges are an independent simulation.' }
     ]
   };

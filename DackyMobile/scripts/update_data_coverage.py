@@ -18,6 +18,7 @@ NORMALIZED_MANIFEST = PRIVATE / "normalized_legacy" / "manifest.json"
 MOBILE_MANIFEST = PRIVATE / "mobile_reference" / "manifest.json"
 NETWORK_CHECK = PRIVATE / "source_metadata" / "network-check.json"
 APPROVED_SOURCE_DATA = ROOT / "src" / "approved-source-data.js"
+LEGACY_QUEST_SOURCE_DATA = ROOT / "src" / "legacy-quest-catalog.js"
 
 
 def load_json(path):
@@ -32,6 +33,29 @@ def runtime_mobile_facts():
     if start < 0 or end <= start:
         raise ValueError("Could not parse generated Mobile source adapter facts")
     return json.loads(source[start + len(prefix):end])
+
+
+def runtime_legacy_quests():
+    if not LEGACY_QUEST_SOURCE_DATA.exists():
+        return None
+    source = LEGACY_QUEST_SOURCE_DATA.read_text(encoding="utf-8")
+    marker = "export const LEGACY_QUEST_SOURCE = Object.freeze("
+    rows_marker = "export const LEGACY_QUESTS = Object.freeze("
+    metadata_start = source.find(marker)
+    rows_start = source.find(rows_marker)
+    if metadata_start < 0 or rows_start < 0:
+        raise ValueError("Could not parse generated legacy quest adapter")
+    metadata_start += len(marker)
+    rows_start += len(rows_marker)
+    metadata_end = source.rfind(");", metadata_start, rows_start)
+    rows_end = source.rfind(");", rows_start)
+    if metadata_end <= metadata_start or rows_end <= rows_start:
+        raise ValueError("Generated legacy quest adapter is incomplete")
+    metadata = json.loads(source[metadata_start:metadata_end])
+    records = json.loads(source[rows_start:rows_end])
+    if len(records) != metadata.get("recordCount"):
+        raise ValueError("Legacy quest adapter count does not match its metadata")
+    return {"metadata": metadata, "records": records}
 
 
 def legacy_inventory():
@@ -62,8 +86,9 @@ def legacy_inventory():
             "holdReason": table.get("error"),
         }
 
+    runtime_quests = runtime_legacy_quests()
     return {
-        "status": "LEGACY_RESEARCH_DECODED_NOT_IMPORTED",
+        "status": "LEGACY_RESEARCH_PARTIALLY_IMPORTED" if runtime_quests else "LEGACY_RESEARCH_DECODED_NOT_IMPORTED",
         "sourceVersion": "DackyVanTien/MySQL 5.0 legacy snapshot",
         "sourceCommit": manifest.get("source_commit"),
         "sourceTreeVerified": verification["valid"],
@@ -75,7 +100,12 @@ def legacy_inventory():
         "heldTableCount": status_counts.get("HOLD", 0),
         "decodedRecordCount": manifest.get("decoded_rows", 0),
         "decodedSchemaFieldCount": fields_decoded,
-        "runtimeImportedRecordCount": 0,
+        "runtimeImportedRecordCount": len(runtime_quests["records"]) if runtime_quests else 0,
+        "runtimeImportedTables": ["quest"] if runtime_quests else [],
+        "runtimeImportedFieldValueCount": (
+            len(runtime_quests["records"]) * len(runtime_quests["metadata"].get("importedFields", []))
+            if runtime_quests else 0
+        ),
         "tables": tables,
     }
 
@@ -208,6 +238,7 @@ def main():
         raise FileNotFoundError(COVERAGE_PATH)
 
     legacy = legacy_inventory()
+    legacy_quests = runtime_legacy_quests()
     mobile = mobile_inventory()
     normalized = normalized_inventory()
     comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
@@ -227,6 +258,25 @@ def main():
                 "sourceLibraryRecords": artifact_count + goods_count,
                 "sourceFields": "151 verified Mobile artifact profiles and 1,885 item profiles; exact chest outcomes and gear attributes are retained, supported runtime conversions are field-scoped and other use effects remain UNKNOWN",
             })
+    if legacy_quests:
+        quest_catalog = next((
+            item for item in coverage.get("runtimeCatalogs", [])
+            if item.get("domain") == "legacyQuestReference"
+        ), None)
+        if quest_catalog is None:
+            quest_catalog = {"domain": "legacyQuestReference"}
+            coverage.setdefault("runtimeCatalogs", []).append(quest_catalog)
+        quest_catalog.update({
+            "records": len(legacy_quests["records"]),
+            "status": "VERIFIED_LEGACY_REFERENCE",
+            "activeGameplayRecords": 0,
+            "fieldValueCount": legacy["runtimeImportedFieldValueCount"],
+            "sourceTable": legacy_quests["metadata"]["sourceTable"],
+            "sourceCommit": legacy_quests["metadata"]["sourceCommit"],
+            "fields": legacy_quests["metadata"]["importedFields"],
+            "mechanicsStatus": "UNKNOWN",
+            "versionComparison": legacy_quests["metadata"]["versionComparison"],
+        })
     coverage["updated"] = date.today().isoformat()
     coverage["evidenceStatus"].update({
         "verifiedMobileRecords": mobile["runtimeImportedRecordCount"] if mobile else 0,
@@ -238,11 +288,21 @@ def main():
         ),
         "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25" if network else "NOT_CHECKED",
         "fieldScopedMobileFieldsInGameplay": mobile["fieldScopedGameplayValueCount"] if mobile else 0,
+        "fieldScopedLegacyFieldsImported": legacy["runtimeImportedFieldValueCount"] if legacy else 0,
         "note": f"Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and {mobile['fieldScopedGameplayValueCount'] if mobile else 0:,} field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     })
     coverage["sourceInventory"] = {
         "legacy": legacy,
         "privateNormalizedLegacy": normalized,
+        "legacyQuestRuntime": ({
+            "sourceVersion": legacy_quests["metadata"]["sourceVersion"],
+            "sourceTable": legacy_quests["metadata"]["sourceTable"],
+            "sourceCommit": legacy_quests["metadata"]["sourceCommit"],
+            "recordCount": len(legacy_quests["records"]),
+            "importedFields": legacy_quests["metadata"]["importedFields"],
+            "mechanicsStatus": "UNKNOWN",
+            "versionComparison": legacy_quests["metadata"]["versionComparison"],
+        } if legacy_quests else None),
         "mobilePublicCatalog": mobile,
         "mobileLegacyCountComparison": comparison,
         "httpGetChecks": network,
@@ -272,8 +332,8 @@ def main():
     }
     coverage["notImported"] = [
         {
-            "domain": "legacyGameplayTables",
-            "reason": "Rows are hash-verified and structurally normalized in gitignored input-private/. Owner authorization is recorded; most legacy fields still need a gameplay-semantic mapping before runtime use.",
+            "domain": "legacyGameplayTablesExceptQuestDescriptions",
+            "reason": "The legacy quest table's title, content, brief, target, ID and type code are bundled as a versioned source reference. Most other legacy fields and all quest requirements/rewards still need gameplay-semantic mapping before they can affect progression.",
         },
         {
             "domain": "mobilePublicCatalogFields",
@@ -296,7 +356,10 @@ def main():
                 "Local design cap; unrelated to legacy elfland floors; source tower count unknown"
             )
             catalog.pop("legacyReferenceFloorCount", None)
-    coverage["versionComparison"] = comparison
+    coverage["versionComparison"] = {
+        **(comparison or {}),
+        "legacyQuestFields": legacy_quests["metadata"]["versionComparison"] if legacy_quests else None,
+    }
     coverage["normalizationStatus"] = (
         "OWNER_AUTHORIZED_PRIVATE_STRUCTURAL_NORMALIZATION_COMPLETE; RUNTIME_MAPPING_PENDING_FIELD_SEMANTICS"
         if normalized else "OWNER_AUTHORIZED_SOURCE_CAPTURE_COMPLETE; RUNTIME_MAPPING_PENDING"

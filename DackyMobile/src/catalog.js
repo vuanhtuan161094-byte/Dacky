@@ -2,8 +2,9 @@
 import { APPROVED_SOURCE_FACTS, SOURCE_REUSE_DECISION } from './approved-source-data.js';
 import { applyApprovedSourceFields } from './source-adapter.js';
 import { MOBILE_SOURCE_DATABASE } from './mobile-source-catalog.js';
+import { LEGACY_QUEST_SOURCE, LEGACY_QUESTS } from './legacy-quest-catalog.js';
 
-export { MOBILE_SOURCE_DATABASE };
+export { LEGACY_QUEST_SOURCE, LEGACY_QUESTS, MOBILE_SOURCE_DATABASE };
 
 const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
   rows,
@@ -13,7 +14,7 @@ const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
 
 export const CONTENT_EVIDENCE = Object.freeze({
   status: 'MIXED',
-  source: 'Mobile catalog v5d78c226cb is bundled with field provenance; unsupported mechanics remain SIMULATED or UNKNOWN',
+  source: 'Mobile catalog v5d78c226cb plus verified legacy quest descriptions are bundled with field provenance; unmapped mechanics remain SIMULATED or UNKNOWN',
   version: 'dacky-mobile-source-mixed-v1',
   updated: '2026-11-25'
 });

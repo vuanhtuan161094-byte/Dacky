@@ -1,4 +1,4 @@
-import { BUILDINGS, CONTENT_EVIDENCE, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, BUZHOU_FLOORS, TOWER_FLOORS } from './catalog.js';
+import { BUILDINGS, CONTENT_EVIDENCE, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_QUESTS, LEGACY_QUEST_SOURCE, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, BUZHOU_FLOORS, TOWER_FLOORS } from './catalog.js';
 import { activeQuest, armyCount, armyPower, formatDuration, formatNumber, heroPower, productionPerHour, questProgress, quoteBuilding, quoteCityUpgrade, quoteItemPurchase, quoteResearch, quoteTraining, storageCapacity, TAX_POLICIES, TUTORIAL_STEPS, unlockedChapter } from './engine.js';
 
 export const NAV = [
@@ -9,7 +9,7 @@ export const NAV = [
   ['world','地','Thế giới','Dã địa, danh thành và hành quân'],
   ['pve','塔','Thử thách','Phong Thần Tháp và Bất Chu Sơn'],
   ['tech','學','Khoa kỹ','Nghiên cứu 19 ngành học'],
-  ['library','典','Thư tịch','Danh mục Mobile có provenance nguồn'],
+  ['library','典','Thư tịch','Danh mục Mobile và nhiệm vụ legacy có provenance'],
   ['quests','令','Nhiệm vụ','Chính tuyến và phần thưởng'],
   ['market','市','Thị trường','Đổi tài nguyên với thương nhân NPC'],
   ['reports','報','Chiến báo','Kết quả hành quân và thử thách'],
@@ -285,31 +285,48 @@ function questScreen(state, _now, uiState={}) {
 
 const SOURCE_CATEGORY_LABELS=Object.freeze({
   'than-tien':'Thần tiên','phap-bao':'Pháp bảo','vat-pham':'Vật phẩm','binh-chung':'Binh chủng',
-  'cong-trinh':'Công trình','khoa-ky':'Khoa kỹ','danh-thanh':'Danh thành'
+  'cong-trinh':'Công trình','khoa-ky':'Khoa kỹ','danh-thanh':'Danh thành','legacy-quest':'Nhiệm vụ legacy'
 });
 
 function sourceLibraryScreen(_state,_now,uiState={}) {
   const category=Object.hasOwn(SOURCE_CATEGORY_LABELS,uiState.sourceCategory)?uiState.sourceCategory:'than-tien';
   const query=String(uiState.sourceQuery||'').trim().toLocaleLowerCase('vi');
-  const records=MOBILE_SOURCE_DATABASE.categories[category]||[];
-  const searchable=record=>[record.id,record.name,record.description,record.tags,record.filters,record.details]
+  const legacyCategory=category==='legacy-quest';
+  const records=legacyCategory?LEGACY_QUESTS.map(record=>({
+    ...record,name:record.title,description:record.content,tags:[`Mã type ${record.typeCode}`],details:[]
+  })):(MOBILE_SOURCE_DATABASE.categories[category]||[]);
+  const searchable=record=>[record.id,record.sourceId,record.name,record.description,record.brief,record.target,record.typeCode,record.tags,record.filters,record.details]
     .map(value=>typeof value==='string'?value:JSON.stringify(value||''))
     .join(' ').toLocaleLowerCase('vi').includes(query);
   const matched=records.filter(searchable);
   const pageSize=24,pageCount=Math.max(1,Math.ceil(matched.length/pageSize));
   const page=Math.min(pageCount-1,Math.max(0,Number(uiState.sourcePage)||0));
-  const metadata=MOBILE_SOURCE_DATABASE.source.categorySources[category];
+  const metadata=legacyCategory?LEGACY_QUEST_SOURCE:MOBILE_SOURCE_DATABASE.source.categorySources[category];
   const cards=matched.slice(page*pageSize,(page+1)*pageSize).map(record=>{
     const stats=record.details.filter(block=>block.k==='cs'&&Array.isArray(block.ds)).slice(0,2).map(block=>
       `<div class="source-fact-group"><b>${esc(block.t||'Thông tin')}</b><div>${block.ds.slice(0,8).map(([key,value])=>`<span>${esc(key)} · ${esc(value)}</span>`).join('')}</div></div>`).join('');
     const table=record.details.find(block=>block.k==='bang'&&Array.isArray(block.dong));
     const tablePreview=table?`<details class="source-data-table"><summary>${esc(table.t||'Bảng nguồn')} · ${fmt(table.dong.length)} hàng</summary><div class="table-scroll"><table class="data-table"><thead><tr>${(table.cot||[]).map(cell=>`<th>${esc(cell)}</th>`).join('')}</tr></thead><tbody>${table.dong.slice(0,8).map(row=>`<tr>${row.map(value=>`<td>${esc(value)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`:'';
-    const fieldMap=Object.entries(record.fieldProvenance||{}).map(([field,path])=>`${field}: ${path}`).join(' · ');
+    const fieldMap=Object.entries(record.fieldProvenance||{}).map(([field,path])=>{
+      if(!legacyCategory)return `${field}: ${path}`;
+      const source=LEGACY_QUEST_SOURCE.fieldSources[field];
+      return `${field}: ${path.sourceRecordId}.${path.sourceField} · data ${source.dataHash} · schema ${source.schemaHash}`;
+    }).join(' · ');
     const image=record.localImage?`<img src="${esc(assetUrl(record.localImage))}" alt="" loading="lazy" decoding="async">`:'<span class="source-art-fallback">典</span>';
-    return `<article class="source-entry"><div class="source-entry-head"><div class="source-art">${image}</div><div><span class="eyebrow">${esc(SOURCE_CATEGORY_LABELS[category])} · ID ${esc(record.id)}</span><h3>${esc(record.name)}</h3><div class="source-tags">${(record.tags||[]).slice(0,4).map(tag=>`<span>${esc(tag)}</span>`).join('')}</div></div><span class="tag">VERIFIED_MOBILE</span></div>${record.description?`<p class="source-description">${esc(record.description)}</p>`:''}${stats}${tablePreview}<details class="source-provenance"><summary>Provenance theo trường</summary><p>${esc(fieldMap)}</p><small>Snapshot ${esc(MOBILE_SOURCE_DATABASE.source.version)} · ${esc(metadata.dataHash)} · quyền runtime: chủ dự án xác nhận ${esc(MOBILE_SOURCE_DATABASE.source.permission.evidenceDate)}</small></details></article>`;
+    const legacyText=legacyCategory?`<p class="source-description"><b>Hướng dẫn tóm tắt:</b> ${esc(record.brief||'—')}</p><div class="source-fact-group"><b>Mục tiêu trong nguồn</b><div><span>${esc(record.target||'—')}</span><span>Mã loại ${esc(record.typeCode)} · cơ chế và điều kiện UNKNOWN</span></div></div>`:'';
+    const sourceVersion=legacyCategory?LEGACY_QUEST_SOURCE.sourceVersion:MOBILE_SOURCE_DATABASE.source.version;
+    const dataHash=legacyCategory?LEGACY_QUEST_SOURCE.fieldSources.title.dataHash:metadata.dataHash;
+    return `<article class="source-entry"><div class="source-entry-head"><div class="source-art">${image}</div><div><span class="eyebrow">${esc(SOURCE_CATEGORY_LABELS[category])} · ID ${esc(record.sourceId??record.id)}</span><h3>${esc(record.name)}</h3><div class="source-tags">${(record.tags||[]).slice(0,4).map(tag=>`<span>${esc(tag)}</span>`).join('')}</div></div><span class="tag">${legacyCategory?'VERIFIED_LEGACY':'VERIFIED_MOBILE'}</span></div>${record.description?`<p class="source-description">${esc(record.description)}</p>`:''}${legacyText}${stats}${tablePreview}<details class="source-provenance"><summary>Provenance theo trường</summary><p>${esc(fieldMap)}</p><small>Snapshot ${esc(sourceVersion)} · SHA-1 dữ liệu ${esc(dataHash)} · commit ${esc(legacyCategory?LEGACY_QUEST_SOURCE.sourceCommit:'Mobile '+MOBILE_SOURCE_DATABASE.source.permission.evidenceDate)} · quyền runtime: chủ dự án xác nhận, không yêu cầu SPDX.</small></details></article>`;
   }).join('')||'<div class="empty-state"><strong>Không có kết quả</strong>Đổi từ khóa hoặc chọn danh mục khác.</div>';
-  const options=Object.entries(SOURCE_CATEGORY_LABELS).map(([id,label])=>`<option value="${id}" ${id===category?'selected':''}>${label} · ${fmt(MOBILE_SOURCE_DATABASE.source.categoryCounts[id])}</option>`).join('');
-  return `<section class="panel">${subheading('Thư tịch dữ liệu Mobile','7 danh mục · 2.656 hàng · đối chiếu theo snapshot, không trộn phiên bản')}<div class="panel-body"><div class="source-library-toolbar"><label class="field">Danh mục<select class="input" data-source-category>${options}</select></label><form data-form="source-search" class="field"><label for="source-query">Tìm theo tên, ID, thuộc tính</label><div class="field-row"><input id="source-query" class="input" type="search" name="query" value="${esc(uiState.sourceQuery||'')}" placeholder="Ví dụ: Na Tra, Cung Tiễn, Cấp tối đa"><button class="button small">Tìm</button></div></form></div><div class="hint">Nguồn Mobile ${esc(MOBILE_SOURCE_DATABASE.source.version)} · ${fmt(matched.length)} kết quả trong ${fmt(records.length)} bản ghi · mô tả/chỉ số hiển thị theo nguồn; cơ chế runtime chỉ dùng trường có adapter.</div>${pageNavigation(page,matched.length,pageSize,'sourcePage','bản ghi nguồn')}<div class="source-entry-list">${cards}</div>${pageNavigation(page,matched.length,pageSize,'sourcePage','bản ghi nguồn')}</div></section>`;
+  const options=Object.entries(SOURCE_CATEGORY_LABELS).map(([id,label])=>{
+    const count=id==='legacy-quest'?LEGACY_QUEST_SOURCE.recordCount:MOBILE_SOURCE_DATABASE.source.categoryCounts[id];
+    return `<option value="${id}" ${id===category?'selected':''}>${label} · ${fmt(count)}</option>`;
+  }).join('');
+  const heading=legacyCategory?'Nhiệm vụ nguồn legacy':`Thư tịch dữ liệu Mobile`;
+  const hint=legacyCategory
+    ?`Snapshot ${LEGACY_QUEST_SOURCE.sourceVersion} · ${fmt(matched.length)} kết quả trong ${fmt(records.length)} nhiệm vụ. Văn bản và mã loại đã xác minh; điều kiện, phần thưởng và cơ chế chưa ánh xạ nên vẫn UNKNOWN, không chi phối tiến trình hiện tại.`
+    :`Nguồn Mobile ${MOBILE_SOURCE_DATABASE.source.version} · ${fmt(matched.length)} kết quả trong ${fmt(records.length)} bản ghi · mô tả/chỉ số hiển thị theo nguồn; cơ chế runtime chỉ dùng trường có adapter.`;
+  return `<section class="panel">${subheading(heading,legacyCategory?'Nhiệm vụ legacy được tách phiên bản với tiến trình chơi hiện tại':'7 danh mục Mobile · 2.656 hàng · đối chiếu theo snapshot, không trộn phiên bản')}<div class="panel-body"><div class="source-library-toolbar"><label class="field">Danh mục<select class="input" data-source-category>${options}</select></label><form data-form="source-search" class="field"><label for="source-query">Tìm theo tên, ID, thuộc tính</label><div class="field-row"><input id="source-query" class="input" type="search" name="query" value="${esc(uiState.sourceQuery||'')}" placeholder="Ví dụ: Na Tra, Cung Tiễn, Cấp tối đa"><button class="button small">Tìm</button></div></form></div><div class="hint">${hint}</div>${pageNavigation(page,matched.length,pageSize,'sourcePage','bản ghi nguồn')}<div class="source-entry-list">${cards}</div>${pageNavigation(page,matched.length,pageSize,'sourcePage','bản ghi nguồn')}</div></section>`;
 }
 
 function marketScreen(state) {

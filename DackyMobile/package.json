@@ -10,6 +10,7 @@
     "test": "node --test tests/*.test.js",
     "test:source": "python3 -m unittest discover -s tests -p 'test_*.py'",
     "data:mobile:import": "node scripts/import_mobile_runtime.mjs",
+    "data:legacy:quests": "node scripts/import_legacy_quests.mjs",
     "data:mobile:assets": "NODE_USE_ENV_PROXY=1 node scripts/download_mobile_assets.mjs",
     "data:export": "node scripts/export-database.mjs",
     "data:coverage": "python3 scripts/update_data_coverage.py",

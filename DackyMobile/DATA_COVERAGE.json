@@ -4,11 +4,12 @@
   "gameplayVersion": "dacky-mobile-sim-v1",
   "evidenceStatus": {
     "verifiedMobileRecords": 2656,
-    "verifiedLegacyRecordsImported": 0,
+    "verifiedLegacyRecordsImported": 1158,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
     "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 35,902 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
     "fieldScopedMobileFieldsInGameplay": 35902,
-    "runtimeCatalogRecords": 9226
+    "runtimeCatalogRecords": 10384,
+    "fieldScopedLegacyFieldsImported": 6948
   },
   "references": {
     "publicMobile": [
@@ -170,6 +171,39 @@
       "status": "SIMULATED",
       "runtime": "src/catalog.js + src/engine.js + src/ui.js",
       "legacyReferenceCount": 624
+    },
+    {
+      "domain": "legacyQuestReference",
+      "records": 1158,
+      "status": "VERIFIED_LEGACY_REFERENCE",
+      "activeGameplayRecords": 0,
+      "fieldValueCount": 6948,
+      "sourceTable": "quest",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "fields": [
+        "id",
+        "title",
+        "content",
+        "brief",
+        "target",
+        "type"
+      ],
+      "mechanicsStatus": "UNKNOWN",
+      "versionComparison": {
+        "comparedTable": "quest_20_11",
+        "comparedRecords": 1156,
+        "selectedRecords": 1158,
+        "sharedRecordCount": 1156,
+        "selectedOnlyIds": [
+          110098,
+          110099
+        ],
+        "comparedOnlyIds": [],
+        "changedFieldRecordCounts": {
+          "title": 3
+        },
+        "parityClaim": false
+      }
     }
   ],
   "runtimeMechanics": {
@@ -390,8 +424,8 @@
   },
   "notImported": [
     {
-      "domain": "legacyGameplayTables",
-      "reason": "Rows are hash-verified and structurally normalized in gitignored input-private/. Owner authorization is recorded; most legacy fields still need a gameplay-semantic mapping before runtime use."
+      "domain": "legacyGameplayTablesExceptQuestDescriptions",
+      "reason": "The legacy quest table's title, content, brief, target, ID and type code are bundled as a versioned source reference. Most other legacy fields and all quest requirements/rewards still need gameplay-semantic mapping before they can affect progression."
     },
     {
       "domain": "mobilePublicCatalogFields",
@@ -410,7 +444,7 @@
   "normalizationStatus": "OWNER_AUTHORIZED_PRIVATE_STRUCTURAL_NORMALIZATION_COMPLETE; RUNTIME_MAPPING_PENDING_FIELD_SEMANTICS",
   "sourceInventory": {
     "legacy": {
-      "status": "LEGACY_RESEARCH_DECODED_NOT_IMPORTED",
+      "status": "LEGACY_RESEARCH_PARTIALLY_IMPORTED",
       "sourceVersion": "DackyVanTien/MySQL 5.0 legacy snapshot",
       "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
       "sourceTreeVerified": true,
@@ -422,7 +456,11 @@
       "heldTableCount": 3,
       "decodedRecordCount": 161331,
       "decodedSchemaFieldCount": 613,
-      "runtimeImportedRecordCount": 0,
+      "runtimeImportedRecordCount": 1158,
+      "runtimeImportedTables": [
+        "quest"
+      ],
+      "runtimeImportedFieldValueCount": 6948,
       "tables": {
         "147-advfieldgeneralinfo": {
           "status": "DECODED",
@@ -1136,6 +1174,36 @@
       "heldTableCount": 3,
       "normalizedRecordCount": 161331
     },
+    "legacyQuestRuntime": {
+      "sourceVersion": "Dacky legacy MySQL snapshot 13d969fc88",
+      "sourceTable": "quest",
+      "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
+      "recordCount": 1158,
+      "importedFields": [
+        "id",
+        "title",
+        "content",
+        "brief",
+        "target",
+        "type"
+      ],
+      "mechanicsStatus": "UNKNOWN",
+      "versionComparison": {
+        "comparedTable": "quest_20_11",
+        "comparedRecords": 1156,
+        "selectedRecords": 1158,
+        "sharedRecordCount": 1156,
+        "selectedOnlyIds": [
+          110098,
+          110099
+        ],
+        "comparedOnlyIds": [],
+        "changedFieldRecordCounts": {
+          "title": 3
+        },
+        "parityClaim": false
+      }
+    },
     "mobilePublicCatalog": {
       "status": "PUBLIC_CATALOG_BUNDLED_PARTIAL_GAMEPLAY_ADAPTER",
       "capturedDate": "2026-11-25",
@@ -1569,7 +1637,22 @@
       }
     ],
     "contentFieldDiff": "NOT_ESTABLISHED; versions and field semantics remain incompletely mapped",
-    "parityClaim": false
+    "parityClaim": false,
+    "legacyQuestFields": {
+      "comparedTable": "quest_20_11",
+      "comparedRecords": 1156,
+      "selectedRecords": 1158,
+      "sharedRecordCount": 1156,
+      "selectedOnlyIds": [
+        110098,
+        110099
+      ],
+      "comparedOnlyIds": [],
+      "changedFieldRecordCounts": {
+        "title": 3
+      },
+      "parityClaim": false
+    }
   },
   "ownerAuthorization": {
     "status": "AUTHORIZED_FOR_RUNTIME",
