@@ -6,6 +6,7 @@ on:
       - 'DackyMobile/src/combat/**'
       - 'DackyMobile/tests/combat-*.test.js'
       - 'DackyMobile/combat-review.html'
+      - 'DackyMobile/scripts/build-combat-review.mjs'
       - '.github/workflows/dacky-combat-core.yml'
   workflow_dispatch:
 permissions:
@@ -27,6 +28,11 @@ jobs:
           mkdir -p combat-review-dist
           cp -r src combat-review.html combat-review-dist/
           mv combat-review-dist/combat-review.html combat-review-dist/index.html
+          node scripts/build-combat-review.mjs
+      - name: Chrome offline review smoke
+        run: |
+          google-chrome --headless --no-sandbox --disable-dev-shm-usage --dump-dom "file://$PWD/combat-review-dist/offline.html?smoke=1" > /tmp/dacky-review-dom.html
+          grep -q 'data-smoke="PASS"' /tmp/dacky-review-dom.html
       - uses: actions/upload-artifact@v4
         with:
           name: dacky-combat-review

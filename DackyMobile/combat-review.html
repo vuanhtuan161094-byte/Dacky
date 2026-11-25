@@ -20,4 +20,12 @@ el('next').onclick=show;el('run').onclick=()=>{try{initial=Number(el('count').va
 const spells=strategicCatalog().filter(x=>x.rule);opts('spell',spells.map(x=>[x.row.ID,x.row.name]));let world={casters:{h:{cityId:'a',ownerId:'p',energy:3000,spellTier:2}},cities:{a:{ownerId:'p',morale:80,loyalty:80,troops:{a:300}},b:{ownerId:'q',morale:80,loyalty:80,troops:{b:300}}}},seq=0;
 el('cast').onclick=()=>{const spellId=Number(el('spell').value),s=spells.find(x=>x.row.ID===spellId),r=castStrategic({world,casterId:'h',targetId:s.rule[0]==='own'?'a':'b',spellId,castId:'review-'+(++seq),now:0});if(r.ok)world=r.world;el('world').textContent=JSON.stringify({ok:r.ok,reason:r.reason,energy:world.casters.h.energy,cities:world.cities,events:r.events},null,2);};
 el('status').textContent=heroes.length+' thần tiên · '+units.length+' quân chủng · chọn đội và bắt đầu.';
+if(new URLSearchParams(location.search).get('smoke')==='1'){
+ try{el('run').click();if(!battle||!battle.rounds.length)throw Error('Army failed: '+el('status').textContent);
+ while(!el('next').disabled)el('next').click();
+ if(!el('status').textContent.includes('Kết quả:'))throw Error('Replay incomplete');
+ el('cast').click();if(!JSON.parse(el('world').textContent).ok)throw Error('Strategic cast failed');
+ document.body.dataset.smoke='PASS';
+ }catch(e){document.body.dataset.smoke='FAIL';el('status').textContent=e.message;}
+}
 </script></html>
