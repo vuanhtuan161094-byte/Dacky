@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { MOBILE_SOURCE_DATABASE,TROOPS } from '../src/catalog.js';
+import { createCombatRuntime } from '../src/combat/runtime-v7.js';
+import { resolveLegacyDuel } from '../src/combat/legacy-duel.js';
+const rt=createCombatRuntime({database:MOBILE_SOURCE_DATABASE,troopRows:TROOPS,allowSimulatedLife:true}),ids=Object.keys(rt.troops);
+const hero=(heroId,instanceId)=>({heroId,instanceId,level:150,vitality:1000,maxVitality:1000,mana:1000,maxMana:1000,equippedArtifactIds:[]});
+const input=()=>({battleId:'session',seed:17,policy:{maxRounds:4,damageScale:.04},sides:[{...hero('na-tra','a'),reserves:[hero('ba-trung','r')],stacks:[{id:ids[0],count:500}]},{...hero('ba-trung','b'),stacks:[{id:ids[1],count:500}]}]});
+test('manual round commands change actual combat and keep prefix immutable',()=>{const a=rt.session(input()),b=rt.session(input());const x=a.step({stance:'assault'}),y=b.step({stance:'guard'});assert.notDeepEqual(x.result.rounds[0].incoming,y.result.rounds[0].incoming);const z=a.step({switchTo:'r',stance:'balanced'});assert.deepEqual(z.result.rounds[0],x.result.rounds[0]);assert.equal(z.result.rounds[1].sides[0].instanceId,'r');assert.equal(a.snapshot().round,2);});
+test('challenge executes duel and keeps resources bounded',()=>{const a=rt.session(input());const x=a.step({challenge:true});assert.ok(x.result.events.some(e=>e.type==='commanderDuel'));const e=x.result.events.find(e=>e.type==='commanderDuel');assert.ok(e.events.length);assert.ok(e.resources.every(r=>r.mana>=0&&r.mana<=1000&&r.vitality>=0&&r.vitality<=1000));const y=a.step({challenge:true});assert.equal(y.result.events.filter(e=>e.type==='commanderDuel').length,1);});
+test('manual artifact rejects unequipped item and session cannot settle twice',()=>{const a=rt.session(input());const x=a.step({artifactId:'5001'});assert.ok(x.result.events.some(e=>e.type==='artifactRejected'));while(!a.snapshot().finished)a.step({artifactId:null});assert.throws(()=>a.step(),/finished/);});
+test('duel initial resource caps and burst costs',()=>{const stats={attack:100,magic:120,defense:40,resistance:40,speed:20,maxHp:1000,maxMana:1000};const r=resolveLegacyDuel({fighters:[{id:'a',stats,hp:200,mana:800},{id:'b',stats}],seed:42,maxRounds:1,activeSkillIds:[],enableManaBurst:true});assert.ok(r.events.some(e=>e.type==='cast'&&e.skillId===1&&e.mana===480));assert.ok(r.fighters[0].mana<=320);});

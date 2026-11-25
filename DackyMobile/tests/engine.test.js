@@ -1,8 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteBuilding, quoteResearch, quoteScouting, quoteTraining, SAVE_VERSION, storageCapacity, unlockedChapter } from '../src/engine.js';
+import { activeQuest, advance, armyPower, createNewGame as createProductionGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteBuilding, quoteResearch, quoteScouting, quoteTraining, SAVE_VERSION, storageCapacity, unlockedChapter } from '../src/engine.js';
 import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS, QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES } from '../src/catalog.js';
 import { LEGACY_TROOP_REQUIREMENT_SOURCE } from '../src/legacy-troop-requirement-catalog.js';
+
+// These regressions cover the legacy engine, including existing queued marches.
+function createNewGame(...args) {
+  const state = createProductionGame(...args);
+  state.settings.combatV13 = false;
+  Object.assign(state.levels, {government:0, housing:0, hostel:0});
+  return state;
+}
 
 test('simulated Fengshen Tower cap is independent of legacy elfland floor count', () => {
   assert.equal(TOWER_FLOORS,9999);
@@ -648,8 +656,8 @@ test('save v1 archives research levels whose meanings changed in the Mobile adap
   old.technologies['tech-14']=3;
   old.technologies['tech-19']=2;
   const migrated=migrateSave(old,now+1);
-  assert.equal(SAVE_VERSION,2);
-  assert.equal(migrated.version,2);
+  assert.equal(SAVE_VERSION,3);
+  assert.equal(migrated.version,SAVE_VERSION);
   assert.equal(migrated.technologies['tech-01'],4,'unchanged farming research stays active');
   assert.equal(migrated.technologies['tech-06'],0);
   assert.equal(migrated.technologies['tech-14'],0);

@@ -1,0 +1,64 @@
+name: dacky-combat-core
+on:
+  push:
+    branches: [feature/dacky-combat-core]
+    paths:
+      - 'DackyMobile/src/combat/**'
+      - 'DackyMobile/src/engine.js'
+      - 'DackyMobile/src/gameplay-p15.js'
+      - 'DackyMobile/src/catalog.js'
+      - 'DackyMobile/scripts/gameplay-coverage-p20.mjs'
+      - 'DackyMobile/src/ui.js'
+      - 'DackyMobile/src/main.js'
+      - 'DackyMobile/src/store.js'
+      - 'DackyMobile/scripts/build.mjs'
+      - 'DackyMobile/tests/combat-*.test.js'
+      - 'DackyMobile/combat-review.html'
+      - 'DackyMobile/scripts/build-combat-review.mjs'
+      - 'DackyMobile/scripts/combat-balance-v12.mjs'
+      - '.github/workflows/dacky-combat-core.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  combat:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: DackyMobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node --test tests/combat-*.test.js
+      - name: Full product regression
+        run: npm test
+      - name: Package browser review
+        run: |
+          mkdir -p combat-review-dist
+          cp -r src assets combat-review.html combat-review-dist/
+          mv combat-review-dist/combat-review.html combat-review-dist/index.html
+          node scripts/build-combat-review.mjs
+      - name: Full catalog balance sweep
+        run: node scripts/combat-balance-v12.mjs
+      - name: Source-to-gameplay coverage P20
+        run: node scripts/gameplay-coverage-p20.mjs
+      - name: Chrome offline review smoke
+        run: |
+          google-chrome --headless --no-sandbox --disable-dev-shm-usage --dump-dom "file://$PWD/combat-review-dist/offline.html?smoke=1" > /tmp/dacky-review-dom.html
+          grep -q 'data-smoke="PASS"' /tmp/dacky-review-dom.html
+      - name: Capture browser review
+        run: |
+          google-chrome --headless --no-sandbox --disable-dev-shm-usage --window-size=1280,1000 --screenshot="$PWD/combat-review-dist/review.png" "file://$PWD/combat-review-dist/offline.html?smoke=1"
+      - name: Build full integrated product preview
+        run: |
+          DACKY_COMBAT_PREVIEW=1 npm run build
+          cp dist/combat-product.html combat-review-dist/combat-product.html
+          google-chrome --headless --no-sandbox --disable-dev-shm-usage --dump-dom "file://$PWD/combat-review-dist/combat-product.html?productSmoke=1" > /tmp/dacky-product-dom.html
+          grep -q 'data-product-smoke="PASS"' /tmp/dacky-product-dom.html || { grep -o 'data-product-error="[^"]*"' /tmp/dacky-product-dom.html | head -1; exit 1; }
+          google-chrome --headless --no-sandbox --disable-dev-shm-usage --window-size=1280,900 --screenshot="$PWD/combat-review-dist/product.png" "file://$PWD/combat-review-dist/combat-product.html?productSmoke=1"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dacky-combat-review
+          path: DackyMobile/combat-review-dist

@@ -1,7 +1,7 @@
 import { activeQuest, advance, createNewGame, doAction } from './engine.js';
 import { QUESTS } from './catalog.js';
 import { exportSave, importSaveFile, loadGame, saveGame } from './store.js';
-import { NAV, renderScreen, renderShell, renderStartup, showDialog, showToast, updateClock } from './ui.js';
+import { NAV, renderScreen, renderShell, renderStartup, showBattleReplay, showDialog, showToast, updateClock } from './ui.js';
 
 let game = null;
 let activeView = 'city';
@@ -130,7 +130,7 @@ document.body.addEventListener('click', async event => {
   switch(action) {
     case 'catalogPage': {
       const key=button.dataset.pageKey;
-      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
+      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage','legacyGameplayPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
       return;
     }
     case 'selectNode':
@@ -150,6 +150,13 @@ document.body.addEventListener('click', async event => {
     case 'forge': return perform('forge',{itemId:button.dataset.item});
     case 'research': return perform('research',{techId:button.dataset.tech});
     case 'scout': return perform('scout',{nodeId:button.dataset.node||uiState.nodeId});
+    case 'dailyReward': case 'fieldEvent': case 'refreshRecruitment': return perform(action, {});
+    case 'battleReplay': {
+      const report = game.reports.find(row => String(row.id) === button.dataset.report);
+      if (report) showBattleReplay(report, game.settings.effects && !game.settings.reducedMotion);
+      return;
+    }
+    case 'pveMarch': return perform('march', {nodeId:button.dataset.node, troopId:document.querySelector('#pve-unit')?.value, count:Number(document.querySelector('#pve-count')?.value)});
     case 'march': {
       const troopId=document.querySelector('#march-unit')?.value||button.dataset.troop;
       const troops={};
@@ -164,6 +171,14 @@ document.body.addEventListener('click', async event => {
     case 'guild': return perform('guild',{});
     case 'diplomacy': return perform('diplomacy',{nodeId:button.dataset.node||uiState.nodeId});
     case 'duel': return perform('duel',{mode:button.dataset.mode,mountainId:button.dataset.mountain});
+    case 'claimSourceQuest':return perform(action,{questId:button.dataset.quest});
+    case 'allocatePotential':return perform(action,{heroId:button.dataset.hero,stat:button.dataset.stat});
+    case 'repairGear':case 'rebirthHero':return perform(action,{heroId:button.dataset.hero});
+    case 'setTaxRate':return perform(action,{rate:document.querySelector('#tax-rate')?.value});
+    case 'setLaborRate':return perform(action,{rate:document.querySelector('#labor-rate')?.value});
+    case 'guildDonate':return perform(action,{amount:document.querySelector('#guild-donate')?.value});
+    case 'bless':case 'sacrifice':case 'settlePopulation':case 'officialPromote':return perform(action,{});
+    case 'strategicCast':return perform(action,{heroId:document.querySelector('#spell-hero')?.value,spellId:Number(document.querySelector('#spell-id')?.value),nodeId:document.querySelector('#spell-target')?.value});
     case 'claimQuest': {
       await perform('claimQuest',{questId:button.dataset.quest});
       const current=activeQuest(game);
@@ -234,7 +249,7 @@ window.addEventListener('hashchange',()=>{
 });
 window.addEventListener('beforeunload',()=>{
   if (!game||!dirty||!game.settings.autosave) return;
-  try { localStorage.setItem('dacky-mobile-save-v1',JSON.stringify(game)); } catch { /* IndexedDB checkpoint continues asynchronously. */ }
+  try { localStorage.setItem(globalThis.__DACKY_COMBAT_PREVIEW__?'dacky-combat-integration-save-v1':'dacky-mobile-save-v1',JSON.stringify(game)); } catch { /* IndexedDB checkpoint continues asynchronously. */ }
   saveGame(game).catch(()=>{});
 });
 document.addEventListener('visibilitychange',()=>{
@@ -267,4 +282,17 @@ setInterval(()=>{
   if (game.settings.autosave && dirty && Date.now()-lastSave>25000) { lastSave=Date.now(); persist().catch(()=>{}); }
 },1000);
 
-initialize();
+if(globalThis.__DACKY_COMBAT_PREVIEW__&&new URLSearchParams(location.search).get('productSmoke')==='1'){
+  try{
+    const t=Date.now();game=createNewGame('Tân chủ DEV',t);
+    game=doAction(game,{type:'equip',heroId:game.heroes[0].id,itemId:'item-01'},t);
+    const id=Object.keys(game.army)[0];game=doAction(game,{type:'march',nodeId:'node-001',troopId:id,count:18},t);
+    game=advance(game,Math.ceil(game.queues.march.finishAt)).state;
+    if(game.stats.battles!==1||game.combatReceipts.length!==1)throw Error('March receipt absent');
+    game=doAction(game,{type:'duel',mode:'tower'},game.lastTickAt+1200000);
+    if(game.stats.duels!==1||game.combatReceipts.length!==2)throw Error('Tower receipt absent');
+    document.body.classList.remove('startup-mode');
+    activeView='reports';if(!validViews.has(activeView))activeView='city';renderCurrent();
+    document.body.dataset.productSmoke='PASS';
+  }catch(error){document.body.dataset.productSmoke='FAIL';document.body.dataset.productError=error.message;}
+}else initialize();

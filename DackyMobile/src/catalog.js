@@ -57,14 +57,17 @@ const buildingRows = [
   ['caravan','Vạn Lý Trạm','ngoại thành','驛', 'trade', 0, 65, 50, 20]
 ];
 
-export const BUILDINGS = Object.freeze(adaptSourceFacts('buildings', buildingRows.map(([id,name,zone,glyph,effect,food,timber,stone,iron], index) => ({
+const oldBuildings = adaptSourceFacts('buildings', buildingRows.map(([id,name,zone,glyph,effect,food,timber,stone,iron], index) => ({
   id, name, zone, glyph, effect, index,
   baseCost: { food: food * 3, timber: timber * 3, stone: stone * 2, iron: iron * 2, gold: 40 + index * 7 },
   seconds: 12 + index % 4 * 3,
   maxLevel: 30,
   evidence: 'SIMULATED', mobileSourceId: null, mobileZone: null, mobileDescription: null,
     mobileImage: '', mobileLevelCosts: [], sourceFieldStatus: 'UNKNOWN'
-}))));
+})));
+const additionalBuildings={'13':['government','administration'],'15':['housing','population'],'17':['hostel','recruitment'],'22':['workshop','siege'],'24':['skirmisher','scout'],'26':['stable','cavalry']};
+const extraBuildings=MOBILE_SOURCE_DATABASE.categories['cong-trinh'].filter(r=>additionalBuildings[r.id]).map(r=>{const [id,effect]=additionalBuildings[r.id],block=r.details.find(x=>x.k==='bang'),info=r.details.find(x=>x.k==='cs'),levels=(block?.dong??[]).map(v=>({level:Number(v[0]),requirement:String(v[1]??''),cost:{food:Number(v[2])||0,timber:Number(v[3])||0,stone:Number(v[4])||0,iron:Number(v[5])||0,gold:Number(v[6])||0}}));return {id,name:r.name,zone:'nội thành',glyph:'城',effect,index:oldBuildings.length+Object.keys(additionalBuildings).indexOf(r.id),baseCost:levels[0]?.cost??{},seconds:20,maxLevel:Number(info?.ds?.find(x=>x[0]==='Cấp tối đa')?.[1])||30,evidence:'MIXED',mobileSourceId:r.id,mobileZone:'Nội thành',mobileDescription:r.description,mobileImage:r.image?'./assets/mobile-source/'+r.image.replace(/^https?:\/\/[^/]+\//,''):'',mobileLevelCosts:levels,sourceFieldStatus:'VERIFIED_MOBILE',fieldEvidence:{mobileLevelCosts:'VERIFIED_MOBILE'},fieldProvenance:r.fieldProvenance};});
+export const BUILDINGS=Object.freeze([...oldBuildings,...extraBuildings]);
 
 const troopNames = [
   ['Dân binh','bộ binh','平'], ['Đao thuẫn thủ','bộ binh','盾'], ['Trường thương quân','bộ binh','槍'],

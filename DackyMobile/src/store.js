@@ -1,9 +1,9 @@
 import { migrateSave } from './engine.js';
 
-const DB_NAME = 'dacky-mobile-local';
+const DB_NAME = globalThis.__DACKY_COMBAT_PREVIEW__?'dacky-combat-integration-dev':'dacky-mobile-local';
 const DB_VERSION = 1;
 const SAVE_KEY = 'campaign';
-const FALLBACK_KEY = 'dacky-mobile-save-v1';
+const FALLBACK_KEY = globalThis.__DACKY_COMBAT_PREVIEW__?'dacky-combat-integration-save-v1':'dacky-mobile-save-v1';
 
 function openDatabase() {
   return new Promise((resolve, reject) => {

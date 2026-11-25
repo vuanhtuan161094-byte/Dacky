@@ -1,5 +1,16 @@
 # Wiki gameplay (bản mô phỏng hiện tại)
 
+## Chơi trên ONE GAME
+
+Tại Thành trì, làm lần lượt các bước nhập môn để mở xây dựng, khoa kỹ, chiêu mộ và huấn luyện. Trận quân đội đầu tiên diễn ra ở Vân Mộng Đài. Thắng dã địa trong chương hiện tại để mở chương kế tiếp. Hồi phục thương binh tại Binh doanh. Để đánh thành, ưu tiên đưa thêm quân công thành. Chiến báo cho xem lại quân số, pháp lực, thương vong và tình trạng thành lũy theo hiệp.
+
+Trong Phong Thần, Phong Thần Tháp và Bất Chu Sơn dùng đội thần tiên. Mục Chinh phạt dùng quân đội. Chọn Tiên Sơn, binh chủng và quân số rồi gửi quân vào tầng đã mở. Các tầng sau cần chiến thắng trước đó. Thành trì NPC và khu Boss ở nhóm bên dưới. Đội hình cố định lấy từ snapshot legacy. Nơi có khoảng cấp và quân số nhưng thiếu đội cụ thể sẽ tạo quân đồn trú theo cấu hình đó. Các trận này có thưởng lần thắng đầu do game cân bằng.
+
+Nhận lương bổng ngày trong Phong Thần. Thắng một trận chính tuyến để mở tuần tra. Dịch quán và Phong Thần Đàn mở ưu đãi chiêu mộ luân phiên. Có thể làm mới ưu đãi một lần mỗi ngày với 50 đồng.
+
+Lương bổng, tuần tra, giảm giá chiêu mộ, curve EXP và công thức phần thưởng PvE là thiết kế cục bộ. Bảng thưởng Tiên Sơn và liên kết trang bị Boss legacy còn ở dạng tra cứu. Xem bộ dữ liệu kiểm kê gameplay đi kèm bản Web để biết độ phủ từng nhóm.
+
+
 > Nội dung dưới đây mô tả runtime của dự án này. Không phải trích xuất chính thức từ game Mobile hoặc legacy.
 
 ## Nguồn dữ liệu và phiên bản

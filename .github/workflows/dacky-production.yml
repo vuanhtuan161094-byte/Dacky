@@ -2,9 +2,9 @@ name: Dacky production branch
 
 on:
   push:
-    branches: [feature/dacky-v1-production]
+    branches: [feature/dacky-v1-production, integration/dacky-one-game-v1]
   pull_request:
-    branches: [feature/dacky-v1-production]
+    branches: [feature/dacky-v1-production, integration/dacky-one-game-v1]
   workflow_dispatch:
 
 permissions:
@@ -61,7 +61,11 @@ jobs:
         run: npm run test:source
 
       - name: Build web and offline HTML
-        run: npm run build
+        run: |
+          npm run build
+          if [ -f scripts/gameplay-coverage-p20.mjs ]; then
+            node scripts/gameplay-coverage-p20.mjs dist/docs
+          fi
 
       - name: Sync Capacitor Android project
         run: npx cap sync android
@@ -70,13 +74,35 @@ jobs:
         run: ./gradlew --no-daemon assembleDebug bundleDebug
         working-directory: DackyMobile/android
 
-      - name: Publish web and Android build artifacts
+      - name: Upload Web, PWA and offline HTML
         uses: actions/upload-artifact@v4
         with:
-          name: dacky-production-${{ github.sha }}
+          name: dacky-web-${{ github.sha }}
           if-no-files-found: error
           retention-days: 14
-          path: |
-            DackyMobile/dist/
-            DackyMobile/android/app/build/outputs/apk/debug/app-debug.apk
-            DackyMobile/android/app/build/outputs/bundle/debug/app-debug.aab
+          path: DackyMobile/dist/
+
+      - name: Upload Android debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: dacky-debug-apk-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 14
+          path: DackyMobile/android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload Android debug AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: dacky-debug-aab-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 14
+          path: DackyMobile/android/app/build/outputs/bundle/debug/app-debug.aab
+
+      - name: Upload ONE GAME browser evidence
+        if: github.ref == 'refs/heads/integration/dacky-one-game-v1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dacky-browser-evidence-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 14
+          path: DackyMobile/qa/one-game/

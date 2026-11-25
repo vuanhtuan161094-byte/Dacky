@@ -2,6 +2,31 @@
 
 Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
 
+## ONE GAME checkpoint
+
+Production checkpoint `5644bbb` added 147 validated static endgame rows and excluded dynamic ownership and timestamps. [Production CI](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45715311082) passed. ONE GAME applies the P1–P20 changes from combat head `1d5df57` over that checkpoint while preserving production catalogs, images and packaging.
+
+- New and migrated saves use P20 army and duel dispatch. An already queued legacy march keeps its original settlement path. Reports replay the rounds stored by the engine. Normal battles debit the army once and conserve survivors, wounded and dead across save reloads.
+- Army encounters are available for 624 Tiên Sơn locations with 8,992 fighting floors, 27 NPC strongpoints, and 25 bosses grouped into five sites. 7,934 floors use fixed source lineups. Unspecified lineups use local rules based on the legacy floor bands. Nine strongpoints use generated lineups. Rewards are local and paid on first win. The 1,093 source reward rows, boss equipment links and spells still need verified adapters.
+- The 73 Mobile cities use their own identity, map and wall data with simulated garrisons. The separate legacy rosters remain available for comparison. Bất Chu Sơn uses legacy troop counts and level bands as duel difficulty inputs. Its five floors are implemented, with raw reward rules still held.
+- The runtime maps all 21 Mobile buildings, 19 technologies with 570 source levels and 25 troop profiles. Training duration and costs retain their prior field coverage. P20 quest conditions, equipment sets, potential, rebirth, strategic spells, timed buffs and speedups are wired to the product. Local recruitment refresh, daily salary and patrol replace gameplay gaps from held tables.
+- Save version 3 preserves the old research archive and adds PvE wins, daily claims and combat settlement receipts.
+
+| Day | Chapter | Buildings upgraded | Research levels | Troops trained | Army wins | Cities | Tower | Bất Chu Sơn | Tiên Sơn | Source quests claimed |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 2 | 2 | 2 | 16 | 1 | 0 | 1 | 0 | 0 | 1 |
+| 7 | 2 | 17 | 8 | 71 | 3 | 2 | 4 | 1 | 0 | 7 |
+| 30 | 8 | 86 | 13 | 542 | 21 | 14 | 15 | 4 | 0 | 22 |
+| 90 | 8 | 230 | 13 | 4,834 | 55 | 44 | 39 | 4 | 3 | 33 |
+
+The 90-day run defeated the final campaign boss. It used a new save, three regular play sessions per simulated day, and serialized/reloaded at each milestone. This run did not defeat an advanced-site boss or strongpoint. One deterministic progression run does not cover late-game balance.
+
+### Open items
+
+- 67/70 decoded legacy tables. Refresh and upgrade EXP retain unsupported record block types 249 and 253. The pinned field-event table only includes a schema file. Local gameplay formulas are in `src/simulated-world.js`.
+- P20 source ledger still counts 653 quests whose objectives all map, 961 mapped objectives and 919 held objectives. 865 held objectives use unknown legacy item links. The audit also lists 5 held artifact policies, 620 partial runtime records and 594 item references or materials. The last group still needs per-item role verification and crafting or other item sinks where supported.
+- Original loot semantics, live round commands in production, full quest and equipment coverage, calibrated late stages, additional sprites and spell VFX/audio, and on-device Android QA remain open. **DEVICE QA HOLD.**
+
 ## Latest increment: Tiên Sơn source integration and complete Web artifact
 
 - Added a reproducible importer for four pinned legacy tables: 624 locations, 8,992 floor configs, 39,670 NPC formations and 1,093 raw loot rules (50,379 records / 310,750 field values). Each row resolves per-field hashes through its table and source row index; cross-links are checked by `ElflandID + FloorID`.

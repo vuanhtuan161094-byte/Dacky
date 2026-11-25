@@ -1,0 +1,18 @@
+import { writeFile,mkdir } from 'node:fs/promises';
+import { MOBILE_SOURCE_DATABASE,TROOPS,WORLD_NODES,IMMORTAL_MOUNTAINS,TOWER_FLOORS } from '../src/catalog.js';
+import { createCombatRuntime } from '../src/combat/runtime-v7.js';
+import { canEquip,resolveArtifactRound } from '../src/combat/army-artifacts.js';
+import { sourceGrowth } from '../src/combat/hero-progression.js';
+import { counterPair } from '../src/combat/tactics-v6.js';
+const rt=createCombatRuntime({database:MOBILE_SOURCE_DATABASE,troopRows:TROOPS,allowSimulatedLife:true}),heroes=Object.values(rt.index.heroes),artifacts=Object.values(rt.index.artifacts),troops=Object.values(rt.troops);
+const failures=[],heroRows=[],artifactRows=[],pairRows=[];
+for(const h of heroes){try{const base=sourceGrowth(h,h.baseLevel),top=sourceGrowth(h,Math.max(150,h.baseLevel));if(Object.values(top.values).some((x,i)=>!Number.isFinite(x)||x<Object.values(base.values)[i]))throw Error('growth');heroRows.push({id:h.id,base:base.values,top:top.values});}catch(e){failures.push({hero:h.id,error:e.message})}}
+for(const a of artifacts){const h=heroes.find(h=>canEquip(a,h,{level:150}).ok);const row={id:a.id,status:a.status,eligible:!!h,cast:false,reason:null};
+ if(h&&a.status==='MAPPED'&&a.manaCost!==null&&!a.ops.some(o=>o.kind==='convert')){try{const side=(hero,ids)=>({heroId:hero.id,level:150,troops:500,initialTroops:600,mana:10000,maxMana:10000,vitality:1000,maxVitality:1000,equippedArtifactIds:ids,ownedArtifactIds:ids,artifactId:ids[0]??null});const r=resolveArtifactRound({index:rt.index,sides:[side(h,[a.id]),side(heroes[0],[])]});row.cast=r.events.some(e=>e.type==='artifactCast');if(!row.cast)throw Error('no cast');}catch(e){failures.push({artifact:a.id,error:e.message})}}else row.reason=!h?'NO_ELIGIBLE_HERO':a.status!=='MAPPED'?'UNMAPPED':a.manaCost===null?'UNKNOWN_MANA':'CONVERSION_HOLD';
+ artifactRows.push(row);}
+for(const a of troops)for(const b of troops){const x=counterPair(a,b);if(!Number.isFinite(x.ratio))failures.push({pair:[a.id,b.id]});pairRows.push({a:a.id,b:b.id,ratio:x.ratio,evidence:x.evidence});}
+const commander=(h,t)=>({heroId:h.id,level:Math.max(h.baseLevel,60),stacks:[{id:t.id,count:300}],mana:1000,maxMana:1000,vitality:1000,maxVitality:1000,equippedArtifactIds:[]});
+let battles=0,draws=0,minLoss=Infinity,maxLoss=0;
+for(let i=0;i<heroes.length;i++){const a=heroes[i],b=heroes[(i+1)%heroes.length];try{const r=rt.army({battleId:'sweep-'+i,sides:[commander(a,troops[i%troops.length]),commander(b,troops[(i+1)%troops.length])],seed:i+1,policy:{enableBalanceV12:true,maxRounds:12,damageScale:.24}});battles++;draws+=r.winner===null;for(let j=0;j<2;j++){const s=r.settlement[j],n=Object.values(s.remaining)[0]+Object.values(s.dead)[0]+Object.values(s.wounded)[0];if(n!==300)throw Error('conservation');}minLoss=Math.min(minLoss,...r.losses);maxLoss=Math.max(maxLoss,...r.losses);}catch(e){failures.push({battle:i,error:e.message})}}
+const report={evidence:'SIMULATED',heroes:heroRows.length,artifacts:artifactRows.length,artifactCasts:artifactRows.filter(x=>x.cast).length,artifactHolds:artifactRows.filter(x=>!x.cast),troops:troops.length,counterPairs:pairRows.length,battles,draws,minLoss,maxLoss,worldNodes:WORLD_NODES.length,mountains:IMMORTAL_MOUNTAINS.length,towerCap:TOWER_FLOORS,failures,heroRows,artifactRows,pairRows};
+await mkdir('combat-review-dist',{recursive:true});await writeFile('combat-review-dist/balance-v12.json',JSON.stringify(report,null,2));console.log(JSON.stringify({...report,heroRows:undefined,artifactRows:undefined,pairRows:undefined},null,2));if(failures.length)process.exitCode=1;

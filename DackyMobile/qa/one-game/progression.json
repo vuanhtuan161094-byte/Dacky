@@ -1,0 +1,192 @@
+{
+  "history": [
+    {
+      "day": 1,
+      "chapter": 2,
+      "upgrades": 2,
+      "research": 2,
+      "trained": 16,
+      "readyArmy": 28,
+      "heroes": [
+        [
+          "hero-01",
+          3,
+          98
+        ]
+      ],
+      "equipped": 1,
+      "battles": 1,
+      "wins": 1,
+      "cities": 0,
+      "tower": 1,
+      "buzhou": 0,
+      "campaignComplete": false,
+      "pveWins": 0,
+      "sourceQuests": 1,
+      "settledReceipts": 2
+    },
+    {
+      "day": 7,
+      "chapter": 2,
+      "upgrades": 17,
+      "research": 8,
+      "trained": 71,
+      "readyArmy": 78,
+      "heroes": [
+        [
+          "hero-01",
+          4,
+          150
+        ],
+        [
+          "hero-02",
+          2,
+          31
+        ],
+        [
+          "hero-03",
+          1,
+          88
+        ]
+      ],
+      "equipped": 1,
+      "battles": 3,
+      "wins": 3,
+      "cities": 2,
+      "tower": 4,
+      "buzhou": 1,
+      "campaignComplete": false,
+      "pveWins": 0,
+      "sourceQuests": 7,
+      "settledReceipts": 10
+    },
+    {
+      "day": 30,
+      "chapter": 8,
+      "upgrades": 86,
+      "research": 13,
+      "trained": 542,
+      "readyArmy": 372,
+      "heroes": [
+        [
+          "hero-01",
+          7,
+          878
+        ],
+        [
+          "hero-02",
+          6,
+          577
+        ],
+        [
+          "hero-03",
+          6,
+          500
+        ]
+      ],
+      "equipped": 1,
+      "battles": 21,
+      "wins": 21,
+      "cities": 14,
+      "tower": 15,
+      "buzhou": 4,
+      "campaignComplete": false,
+      "pveWins": 0,
+      "sourceQuests": 22,
+      "settledReceipts": 51
+    },
+    {
+      "day": 90,
+      "chapter": 8,
+      "upgrades": 230,
+      "research": 13,
+      "trained": 4834,
+      "readyArmy": 2306,
+      "heroes": [
+        [
+          "hero-01",
+          11,
+          2411
+        ],
+        [
+          "hero-02",
+          10,
+          1582
+        ],
+        [
+          "hero-03",
+          10,
+          1505
+        ]
+      ],
+      "equipped": 1,
+      "battles": 55,
+      "wins": 55,
+      "cities": 44,
+      "tower": 39,
+      "buzhou": 4,
+      "campaignComplete": true,
+      "pveWins": 3,
+      "sourceQuests": 33,
+      "settledReceipts": 145
+    }
+  ],
+  "attempted": {
+    "node-011": 1,
+    "node-001": 1,
+    "node-002": 1,
+    "node-003": 1,
+    "node-026": 1,
+    "node-004": 1,
+    "node-005": 1,
+    "node-041": 1,
+    "node-006": 1,
+    "node-007": 1,
+    "node-055": 1,
+    "node-008": 1,
+    "node-070": 1,
+    "node-009": 1,
+    "node-085": 1,
+    "node-010": 1,
+    "node-100": 1,
+    "node-016": 1,
+    "node-017": 1,
+    "node-018": 1,
+    "node-019": 1,
+    "node-020": 1,
+    "node-021": 1,
+    "node-022": 1,
+    "node-023": 1,
+    "node-120": 1,
+    "node-024": 1,
+    "node-025": 1,
+    "node-031": 1,
+    "node-032": 1,
+    "node-033": 1,
+    "node-034": 1,
+    "node-035": 1,
+    "node-036": 1,
+    "node-037": 1,
+    "node-038": 1,
+    "node-039": 1,
+    "node-040": 1,
+    "node-046": 1,
+    "node-047": 1,
+    "node-048": 1,
+    "node-049": 1,
+    "node-050": 1,
+    "node-051": 1,
+    "node-052": 1,
+    "node-053": 1,
+    "node-054": 1,
+    "node-061": 1,
+    "elfland:4:1": 1,
+    "node-062": 1,
+    "node-063": 1,
+    "elfland:8:1": 1,
+    "node-064": 1,
+    "elfland:12:1": 1,
+    "node-065": 1
+  },
+  "failures": {}
+}

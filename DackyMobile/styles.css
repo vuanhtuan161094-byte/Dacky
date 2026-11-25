@@ -429,3 +429,16 @@ body.reduce-motion *, body.reduce-motion *:before, body.reduce-motion *:after { 
 @media(max-width:680px){.source-library-toolbar{grid-template-columns:1fr}.source-entry-head{grid-template-columns:48px 1fr}.source-art{width:48px;height:48px}.source-entry-head>.tag{grid-column:2}.source-entry{padding:9px}}
 
 .catalog-pages{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0;padding:8px 0;border-top:1px solid rgba(223,194,135,.12);border-bottom:1px solid rgba(223,194,135,.12)}.catalog-pages span{color:var(--muted);font-size:12px;text-align:center}.catalog-pages .button{white-space:nowrap}@media(max-width:420px){.catalog-pages{gap:4px}.catalog-pages .button{padding:7px 8px;font-size:11px}.catalog-pages span{font-size:10px}}
+
+.battle-replay { width: min(92vw, 580px); }
+.replay-armies { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.replay-side { display: grid; gap: 6px; padding: 12px; border: 1px solid #806245; border-radius: 8px; }
+.replay-side progress { width: 100%; accent-color: #c4a264; }
+.replay-side:last-child progress { accent-color: #ac5449; }
+.replay-side strong { color: #dc8b73; }
+.replay-hit { animation: replay-hit .45s ease-out both; }
+@keyframes replay-hit {
+  0% { transform: translateX(-3px); box-shadow: inset 0 0 20px #b84a3980; }
+  100% { transform: translateX(0); box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) { .replay-hit { animation: none; } }

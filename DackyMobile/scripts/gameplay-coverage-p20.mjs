@@ -1,0 +1,33 @@
+import { LEGACY_ELFLAND_LOCATIONS, LEGACY_ELFLAND_REWARD_RULES } from '../src/legacy-elfland-catalog.js';
+import { getEndgameBattles, getMountainBattles } from '../src/pve-campaign.js';
+import { WORLD_RULE_EVIDENCE } from '../src/simulated-world.js';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {MOBILE_SOURCE_DATABASE,BUILDINGS,TECHNOLOGIES,HEROES,ITEMS,TROOPS,WORLD_NODES} from '../src/catalog.js';
+import {gameplayQuestList,sourceQuestObjectives,sourceQuestReward,itemUseRule,buzhouPlan} from '../src/gameplay-p15.js';
+import {createCombatRuntime} from '../src/combat/runtime-v7.js';
+const meta=JSON.parse(await readFile('DATA_COVERAGE.json','utf8')),rt=createCombatRuntime({database:MOBILE_SOURCE_DATABASE,troopRows:TROOPS,allowSimulatedLife:true});
+const maps={'cong-trinh':BUILDINGS,'khoa-ky':TECHNOLOGIES,'than-tien':HEROES,'phap-bao':ITEMS,'vat-pham':ITEMS,'binh-chung':TROOPS,'danh-thanh':WORLD_NODES};
+const mobile=[];for(const [category,rows] of Object.entries(MOBILE_SOURCE_DATABASE.categories)){for(const r of rows){const matches=maps[category]?.filter(x=>String(category==='danh-thanh'?x.mobileCityId:x.mobileSourceId)===String(r.id))??[];const x=matches[0];let status=x?'PARTIAL_RUNTIME':'HOLD_NO_ID_MAPPING',detail='Source identity mapped; gameplay parity not asserted';if(category==='phap-bao'){const a=rt.index.artifacts[r.id];status=a?.status==='MAPPED'&&a.manaCost!==null&&!a.ops.some(o=>o.kind==='convert')?'EXECUTABLE_SIMULATED_FORMULA':'HOLD_POLICY';detail='Artifact execution policy';}if(category==='vat-pham'&&x){status=x.type!=='vật phẩm'?'EQUIP_RUNTIME':x.useEffect||itemUseRule(x)?'USE_RUNTIME':'REFERENCE_OR_MATERIAL';detail=x.type!=='vật phẩm'?x.mobileEquipmentSlot??'equipment':x.useEffect?.kind??itemUseRule(x)?.kind??x.mobileGroup??'UNKNOWN';}mobile.push({category,id:r.id,name:r.name,runtimeId:x?.id??null,status,detail});}}
+const quests=gameplayQuestList().map(q=>{const objectives=sourceQuestObjectives(q),reward=sourceQuestReward(q);return {id:q.id,title:q.title,conditionRows:q.conditions.length,types:q.conditions.reduce((o,c)=>(o[c.typeCode]=(o[c.typeCode]??0)+1,o),{}),objectives,playable:objectives.length>0&&objectives.every(x=>x.kind!=='hold'),rewardUnmapped:reward.unmapped.length};});
+const tableGroups=[[/quest/,'quest adapter / raw links'],[/soldier|restraint/,'troop/counter adapter'],[/build|rampart|defence|resourcebuild/,'city/requirements partial'],[/technology/,'research partial'],[/theurgy/,'strategic adapter partial'],[/metempsychosis|gengu|generallevel/,'hero progression partial'],[/buzhou/,'Buzhou source roster/difficulty; rewards HOLD'],[/goods|chest/,'item/loot partial'],[/elfland|strongpoint|field|famouscity/,'world/PvE procedural or partial'],[/official|dukepos|guild/,'administration partial']];
+const legacy=Object.entries(meta.sourceInventory.legacy.tables).map(([table,r])=>({table,decoded:r.status==='DECODED',records:r.recordsDecoded,domain:tableGroups.find(([re])=>re.test(table))?.[1]??'UNMAPPED',status:r.status==='DECODED'?'MANIFEST_AUDITED_RUNTIME_PARITY_UNVERIFIED':'HOLD_SOURCE'}));
+const counts=arr=>arr.reduce((o,x)=>(o[x.status]=(o[x.status]??0)+1,o),{});
+const summary={mobileRecords:mobile.length,mobileStatus:counts(mobile),sourceItems:counts(mobile.filter(x=>x.category==='vat-pham')),legacyTables:legacy.length,decodedTables:legacy.filter(x=>x.decoded).length,quests:quests.length,questConditions:quests.reduce((n,q)=>n+q.conditionRows,0),questPlayable:quests.filter(q=>q.playable).length,objectiveMapped:quests.flatMap(q=>q.objectives).filter(o=>o.kind!=='hold').length,objectiveHold:quests.flatMap(q=>q.objectives).filter(o=>o.kind==='hold').length,buzhouRows:[1,2,3,4,5].reduce((n,i)=>n+buzhouPlan(i).formation.length,0),limitations:'Legacy metadata inventory, not private raw 161331 rows; status is not exact original gameplay parity.'};
+const floors = LEGACY_ELFLAND_LOCATIONS.flatMap(row => getMountainBattles(row.ElflandID));
+const endgame = getEndgameBattles();
+summary.product = {
+  sourceBuildings: BUILDINGS.filter(row => row.mobileSourceId).length,
+  sourceTechnologies: TECHNOLOGIES.filter(row => row.mobileSourceId).length,
+  sourceTechnologyLevels: TECHNOLOGIES.reduce((sum, row) => sum + (row.mobileLevelCosts?.length || 0), 0),
+  mobileTroops: TROOPS.filter(row => row.mobileSourceId).length,
+  armyEngineActiveInNewSaves: true,
+  mountainLocations: LEGACY_ELFLAND_LOCATIONS.length,
+  mountainArmyStages: floors.length,
+  mountainStagesWithFixedFormation: floors.filter(row => row.formationEvidence === 'VERIFIED_LEGACY').length,
+  mountainRewardRulesHold: LEGACY_ELFLAND_REWARD_RULES.length,
+  sourceStrongpoints: endgame.filter(row => row.kind === 'Thành trì NPC').length,
+  sourceBossFights: endgame.filter(row => row.kind === 'Boss').length,
+  localRuleEvidence: WORLD_RULE_EVIDENCE
+};
+const outputDir = process.argv[2] || 'combat-review-dist';
+await mkdir(outputDir,{recursive:true});await writeFile(outputDir + '/gameplay-coverage-p20.json',JSON.stringify({summary,mobile,legacy,quests},null,2));console.log('P20_COVERAGE '+JSON.stringify(summary));if(summary.mobileRecords!==2656||summary.decodedTables!==67||summary.questConditions!==5745)process.exitCode=1;

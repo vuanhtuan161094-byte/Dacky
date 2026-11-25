@@ -71,6 +71,7 @@ html = html.replace('<link rel="manifest" href="./manifest.webmanifest">','');
 html = html.replace('<link rel="stylesheet" href="./styles.css">',`<style>\n${css}\n</style>`);
 html = html.replace('<script type="module" src="./src/main.js"></script>',`<script>globalThis.__DACKY_EMBEDDED_ASSETS__=${embeddedSourceAssetMap};</script>\n<script>\n${bundle}\n</script>`);
 await writeFile(path.join(dist,'offline.html'),html);
+if(process.env.DACKY_COMBAT_PREVIEW==='1')await writeFile(path.join(dist,'combat-product.html'),html.replace('<head>','<head><script>globalThis.__DACKY_COMBAT_PREVIEW__=true;</script>'));
 console.log(`Web assets copied to ${dist}`);
 console.log(`Single-file offline build: ${path.join(dist,'offline.html')}`);
 console.log(`Bundled ${modules.size} source modules; ${bundle.length.toLocaleString()} JavaScript characters.`);
