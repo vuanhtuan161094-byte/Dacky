@@ -2,6 +2,7 @@ import { resolveArmyBattle } from './army-battle.js';
 import { troopDictionary,classifyCasualties } from './tactics-v6.js';
 import { buildSourceIndex } from './source-rules.js';
 import { resolveLegacyDuel } from './legacy-duel.js';
+import { createBattleSession } from './battle-session-v10.js';
 export function createCombatRuntime({database,troopRows,allowSimulatedLife=false}){
  const index=buildSourceIndex(database),troops=troopDictionary(troopRows,{allowSimulatedLife});
  function army({battleId,sides,seed=1,policy={},woundedRatio=.35,siege=null}){
@@ -13,7 +14,7 @@ export function createCombatRuntime({database,troopRows,allowSimulatedLife=false
   return {...result,battleId,settlement,dead:settlement[0].dead,wounded:settlement[0].wounded,requiresAtomicSettlement:true};
  }
  function duel(input){return resolveLegacyDuel(input)}
- return {index,troops,army,duel};
+ return {index,troops,army,duel,session:input=>createBattleSession({army},input)};
 }
 // This helper is pure. Luna must persist receipt, hero resources, casualties and rewards in one transaction.
 export function claimBattleReceipt(save,battleId){

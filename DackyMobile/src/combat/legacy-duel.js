@@ -34,7 +34,7 @@ export function quoteStrategicSpell(id,energy){
  const row=LEGACY_PROGRESSION_FACTS.tables.theurgy.rows.find(r=>r.ID===id);
  return row?{ok:false,reason:energy<row.enegyNeed?'ENERGY':'WORLD_EFFECT_UNMAPPED',row,durationUnit:'UNKNOWN'}:{ok:false,reason:'UNKNOWN_ID'};
 }
-export function resolveLegacyDuel({fighters,seed=1,maxRounds=6,activeSkillIds=[2,3,4,5,6,7,8,9,10,93]}){
+export function resolveLegacyDuel({fighters,seed=1,maxRounds=6,activeSkillIds=[2,3,4,5,6,7,8,9,10,93],enableManaBurst=false}){
  if(!Array.isArray(fighters)||fighters.length!==2||fighters[0].id===fighters[1].id||!Number.isInteger(maxRounds)||maxRounds<1||maxRounds>100)throw Error('Invalid duel');
  let x=Number(seed)>>>0;const rng=()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296};
  const events=[],rounds=[];let round=0;
@@ -49,7 +49,7 @@ export function resolveLegacyDuel({fighters,seed=1,maxRounds=6,activeSkillIds=[2
    if(o.kind==='reactionChance')reactions[o.reaction]+=o.ratio;
    if(o.kind==='revive')revive=o;
   }
-  return {id:a.id,stats,hp:stats.maxHp,mana:stats.maxMana,passives:passiveIds,reactions,revive,revived:false,skip:0,guard:0};
+  return {id:a.id,stats,hp:clamp(Number.isFinite(a.hp)?a.hp:stats.maxHp,0,stats.maxHp),mana:clamp(Number.isFinite(a.mana)?a.mana:stats.maxMana,0,stats.maxMana),passives:passiveIds,reactions,revive,revived:false,skip:0,guard:0};
  });
  const hit=(i,j,n,magic=false,react=true)=>{
   const a=f[i],b=f[j];if(a.hp<=0||b.hp<=0)return 0;
@@ -57,7 +57,7 @@ export function resolveLegacyDuel({fighters,seed=1,maxRounds=6,activeSkillIds=[2
   if(b.guard>0){d*=1-b.guard;b.guard=0;log('guard',j)}
   let counter=0;
   // Probabilities use normalized weights; source intervals are retained but trigger model is simulated.
-  if(react){const entries=Object.entries(b.reactions);let roll=rng()*entries.reduce((n,[,v])=>n+v,0);let choice=entries.find(([,v])=>(roll-=v)<0)?.[0];
+  if(react){const entries=Object.entries(b.reactions).filter(([k])=>k!=='double').map(([k,v])=>[k,Math.max(0,v)]);let roll=rng()*entries.reduce((n,[,v])=>n+v,0);let choice=entries.find(([,v])=>(roll-=v)<0)?.[0];
    if(choice==='dodge'){d=0;log('dodge',j)}
    if(choice==='guard'){d*=.65;log('guard',j)}
    if(choice==='counter')counter=.5;
@@ -74,12 +74,13 @@ export function resolveLegacyDuel({fighters,seed=1,maxRounds=6,activeSkillIds=[2
   const order=[0,1].sort((a,b)=>f[b].stats.speed-f[a].stats.speed||a-b);
   for(const i of order){const a=f[i],j=1-i,b=f[j];if(a.hp<=0||b.hp<=0)continue;
    if(a.skip){a.skip--;log('skip',i);continue}
-   const available=[...new Set(activeSkillIds)].map(compileLegacyDuel).filter(s=>s?.kind===1&&s.status==='MAPPED'&&s.mana<=a.mana&&s.id!==1);
-   const score=s=>s.ops.reduce((n,o)=>n+(o.kind==='heal'?(1-a.hp/a.stats.maxHp)*3:o.kind==='manaDrain'?(1-a.mana/Math.max(1,a.stats.maxMana))*2:o.kind==='nextGuard'?(1-a.hp/a.stats.maxHp)*1.5:o.kind==='nextSkip'?.7:o.ratio||.5),0)-s.mana/Math.max(1,a.stats.maxMana)*.2;
+   const available=[...new Set(enableManaBurst?[...activeSkillIds,1]:activeSkillIds)].map(compileLegacyDuel).filter(s=>s?.kind===1&&s.status==='MAPPED'&&s.mana<=a.mana&&(s.id!==1||(enableManaBurst&&a.mana>=Math.max(1,a.stats.maxMana*.6))));
+   const score=s=>s.id===1?(a.hp/a.stats.maxHp<.35?1.2:.1):s.ops.reduce((n,o)=>n+(o.kind==='heal'?(1-a.hp/a.stats.maxHp)*3:o.kind==='manaDrain'?(1-a.mana/Math.max(1,a.stats.maxMana))*2:o.kind==='nextGuard'?(1-a.hp/a.stats.maxHp)*1.5:o.kind==='nextSkip'?.7:o.ratio||.5),0)-s.mana/Math.max(1,a.stats.maxMana)*.2;
    const s=available.sort((a,b)=>score(b)-score(a)||a.id-b.id)[0];
-   if(s&&score(s)>.25){a.mana-=s.mana;log('cast',i,{skillId:s.id,name:s.name,mana:s.mana,evidence:'MIXED'});
+   if(s&&score(s)>.25){const cost=s.id===1?Math.ceil(a.mana*.6):s.mana;a.mana-=cost;log('cast',i,{skillId:s.id,name:s.id===1?'Bộc phát pháp lực':s.name,mana:cost,evidence:'MIXED'});
     for(const o of s.ops){
-     if(o.kind==='heal')heal(i,a.stats.maxHp*o.ratio);
+     if(o.kind==='manaBurst')hit(i,j,cost*o.ratio,true);
+     else if(o.kind==='heal')heal(i,a.stats.maxHp*o.ratio);
      else if(o.kind==='manaDrain'){const n=Math.min(b.mana,a.stats.maxMana-a.mana,a.stats.magic*o.ratio);b.mana-=n;a.mana+=n;log('manaDrain',i,{target:j,amount:n})}
      else if(o.kind==='lifeDrain')heal(i,hit(i,j,a.stats.magic*o.ratio,true));
      else if(o.kind==='nextSkip')b.skip=1;
