@@ -138,7 +138,9 @@ for (const [sourceId, targetId] of Object.entries(buildingTargets)) {
 
 const techTargets = {
   '31': 'tech-01', '32': 'tech-02', '33': 'tech-03', '34': 'tech-04', '35': 'tech-05',
-  '37': 'tech-08', '39': 'tech-09', '40': 'tech-10', '44': 'tech-11', '49': 'tech-16'
+  '36': 'tech-07', '37': 'tech-08', '38': 'tech-06', '39': 'tech-09', '40': 'tech-10',
+  '41': 'tech-18', '42': 'tech-19', '44': 'tech-11', '45': 'tech-13', '46': 'tech-14',
+  '47': 'tech-15', '48': 'tech-17', '49': 'tech-16', '51': 'tech-12'
 };
 const techCategory = categoryMeta.get('khoa-ky');
 const techRows = categoryRows['khoa-ky'];

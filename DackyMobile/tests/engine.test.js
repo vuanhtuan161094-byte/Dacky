@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity, unlockedChapter } from '../src/engine.js';
+import { activeQuest, advance, armyPower, createNewGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteResearch, quoteScouting, storageCapacity, unlockedChapter } from '../src/engine.js';
 import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS, QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES } from '../src/catalog.js';
 
 test('simulated Fengshen Tower cap is independent of legacy elfland floor count', () => {
@@ -55,12 +55,22 @@ test('completed academy research changes the linked economy', () => {
   assert.ok(productionPerHour(state).gold>goldBefore);
   assert.equal(state.queues.research,null);
   assert.equal(TECHNOLOGIES.length,19);
-  for(const [techId,resource] of [['tech-01','food'],['tech-02','timber'],['tech-03','stone'],['tech-04','iron'],['tech-07','food']]){
+  const noTaxBase=createNewGame('Triều Ca',now);noTaxBase.population=0;noTaxBase.levels.market=8;
+  const marketIncome=productionPerHour(noTaxBase).gold;
+  noTaxBase.technologies['tech-05']=20;
+  assert.equal(productionPerHour(noTaxBase).gold,marketIncome,'tax research must not increase market income');
+  for(const [techId,resource] of [['tech-01','food'],['tech-02','timber'],['tech-03','stone'],['tech-04','iron']]){
     const isolated=createNewGame('Triều Ca',now);
     const before=productionPerHour(isolated)[resource];
     isolated.technologies[techId]=1;
     assert.ok(productionPerHour(isolated)[resource]>before,`${techId} must improve ${resource}`);
   }
+  const warehouse=createNewGame('Triều Ca',now),capacityBefore=storageCapacity(warehouse);
+  warehouse.technologies['tech-06']=1;
+  assert.ok(storageCapacity(warehouse)>capacityBefore);
+  const transport=createNewGame('Triều Ca',now),foodBefore=productionPerHour(transport).food;
+  transport.technologies['tech-07']=1;
+  assert.equal(productionPerHour(transport).food,foodBefore,'transport research must not change food output');
 });
 
 test('new-player tutorial unlocks only after its seven gameplay milestones', () => {
@@ -91,29 +101,28 @@ test('new-player tutorial unlocks only after its seven gameplay milestones', () 
   assert.equal(state.tutorialStep,7);
 });
 
-test('specialized research improves troops, heroes, healing, scouting and combat', () => {
+test('all mapped research follows Mobile meanings and preserves unknown runtime effects', () => {
   const now=1_800_000_000_000;
   const base=createNewGame('Triều Ca',now);
-  const cavalry=TROOPS.find(t=>t.role==='kỵ binh').id;
-  const archers=TROOPS.find(t=>t.role==='xạ thủ').id;
-  const cavalryState=structuredClone(base);
-  cavalryState.army={[cavalry]:100};
-  const cavalryPower=armyPower(cavalryState);
-  cavalryState.technologies['tech-12']=10;
-  assert.ok(armyPower(cavalryState)>cavalryPower);
-  const archerState=structuredClone(base);
-  archerState.army={[archers]:100};
-  const archerPower=armyPower(archerState);
-  archerState.technologies['tech-13']=10;
-  assert.ok(armyPower(archerState)>archerPower);
-  const generalArmy=structuredClone(cavalryState);
-  generalArmy.technologies['tech-12']=0;const noGeneral=armyPower(generalArmy);
+  const troopId=TROOPS.find(t=>t.role==='kỵ binh').id;
+  const troopState=structuredClone(base);
+  troopState.army={[troopId]:1000};
+  const troopPower=armyPower(troopState);
+  troopState.technologies['tech-12']=10;
+  assert.equal(armyPower(troopState),troopPower,'Sĩ khí changes troop health, not attack power');
+  const capacityBefore=marchTroopCapacity(base),capacityState=structuredClone(base);
+  capacityState.technologies['tech-13']=10;
+  assert.ok(marchTroopCapacity(capacityState)>capacityBefore);
+  const overCapacity=marchTroopCapacity(capacityState)+1;
+  capacityState.army={'troop-01':overCapacity};
+  assert.throws(()=>doAction(capacityState,{type:'march',nodeId:'node-001',troopId:'troop-01',count:overCapacity},now+1),/giới hạn lĩnh binh/);
+  const generalArmy=structuredClone(base);generalArmy.army={[troopId]:1000};const noGeneral=armyPower(generalArmy);
   generalArmy.technologies['tech-10']=10;
   assert.ok(armyPower(generalArmy)>noGeneral);
   const heroBaseline=heroPower(base.heroes[0],base);
   const heroResearch=structuredClone(base);
   heroResearch.technologies['tech-17']=10;
-  assert.ok(heroPower(base.heroes[0],heroResearch)>heroBaseline);
+  assert.equal(heroPower(base.heroes[0],heroResearch),heroBaseline,'army scouting must not increase immortal power');
 
   const makeBattle=(techId,level=0)=>{
     let state=structuredClone(base);
@@ -124,7 +133,17 @@ test('specialized research improves troops, heroes, healing, scouting and combat
   };
   const unresearched=makeBattle(null);
   assert.ok(makeBattle('tech-11',10).rounds[0].enemyDamage<unresearched.rounds[0].enemyDamage);
-  assert.ok(makeBattle('tech-15',10).ownPower>unresearched.ownPower);
+  const healthBattle=makeBattle('tech-12',10);
+  assert.equal(healthBattle.ownPower,unresearched.ownPower);
+  assert.ok(healthBattle.rounds[0].ownMorale>unresearched.rounds[0].ownMorale);
+  assert.equal(makeBattle('tech-15',10).ownPower,unresearched.ownPower,'resource scouting must not change army combat');
+  const immortalBattle=(techId,level)=>{
+    const state=structuredClone(base);state.technologies[techId]=level;
+    return doAction(state,{type:'duel',mode:'mountain',mountainId:IMMORTAL_MOUNTAINS[0].id},now+123).reports[0];
+  };
+  const immortalBaseline=immortalBattle('tech-18',0);
+  assert.ok(immortalBattle('tech-18',10).rounds[0].enemyDamage<immortalBaseline.rounds[0].enemyDamage);
+  assert.equal(immortalBattle('tech-11',10).rounds[0].enemyDamage,immortalBattle('tech-11',0).rounds[0].enemyDamage,'army defense research must not affect immortal duels');
 
   const heal=(level)=>{
     const state=structuredClone(base);
@@ -134,15 +153,16 @@ test('specialized research improves troops, heroes, healing, scouting and combat
     const result=doAction(state,{type:'heal'},now+1);
     return before-result.resources.food;
   };
-  assert.ok(heal(10)<heal(0));
-  const scout=(level)=>{
-    const state=structuredClone(base);
-    state.technologies['tech-18']=level;
-    const before=state.resources.gold;
-    const result=doAction(state,{type:'scout',nodeId:'node-001'},now+1);
-    return before-result.resources.gold;
-  };
-  assert.ok(scout(10)<scout(0));
+  assert.equal(heal(10),heal(0),'immortal scouting must not discount troop healing');
+  const sourceNodes={resources:WORLD_NODES.find(node=>node.kind==='Dã địa'),immortals:WORLD_NODES.find(node=>node.kind==='Tiên sơn'),army:WORLD_NODES.find(node=>node.kind==='Danh thành')};
+  for(const [kind,techId] of [['resources','tech-15'],['immortals','tech-14'],['army','tech-17']]){
+    const before=quoteScouting(base,sourceNodes[kind].id);
+    const researched=structuredClone(base);researched.technologies[techId]=10;
+    const after=quoteScouting(researched,sourceNodes[kind].id);
+    assert.equal(before.type,kind);
+    assert.equal(after.chance,before.chance+0.2);
+    assert.equal(after.technologyId,techId);
+  }
 
   const trained=(level)=>{
     const state=structuredClone(base);
@@ -151,11 +171,8 @@ test('specialized research improves troops, heroes, healing, scouting and combat
   };
   assert.ok(trained(10)<trained(0));
 
-  const population=(level)=>{
-    const state=structuredClone(base);state.technologies['tech-06']=level;
-    return advance(state,now+60*60*1000).state.population;
-  };
-  assert.ok(population(10)>population(0));
+  const storage=(level)=>{const state=structuredClone(base);state.technologies['tech-06']=level;return storageCapacity(state);};
+  assert.ok(storage(10)>storage(0));
   const construction=(level)=>{
     const state=structuredClone(base);state.technologies['tech-08']=level;
     return doAction(state,{type:'upgrade',buildingId:'lumber'},now+1).queues.construction.finishAt;
@@ -165,7 +182,12 @@ test('specialized research improves troops, heroes, healing, scouting and combat
     const state=structuredClone(base);state.levels.academy=1;state.technologies['tech-08']=level;
     return doAction(state,{type:'research',techId:'tech-05'},now+1).queues.research.finishAt;
   };
-  assert.ok(researchSpeed(10)<researchSpeed(0));
+  assert.equal(researchSpeed(10),researchSpeed(0),'architecture research must not grant an unsupported academy speed bonus');
+  const transportTime=(techId,level)=>{
+    const state=structuredClone(base);state.army={'troop-01':1000};state.technologies[techId]=level;
+    return doAction(state,{type:'march',nodeId:'node-001',troopId:'troop-01',count:500},now+1).queues.march.finishAt;
+  };
+  assert.ok(transportTime('tech-07',10)<transportTime('tech-07',0));
   const march=(level)=>{
     const state=structuredClone(base);state.army={'troop-01':1000};state.technologies['tech-16']=level;
     return doAction(state,{type:'march',nodeId:'node-001',troopId:'troop-01',count:500},now+1).queues.march.finishAt;
@@ -175,7 +197,13 @@ test('specialized research improves troops, heroes, healing, scouting and combat
     const state=structuredClone(base);state.technologies['tech-19']=level;
     return doAction(state,{type:'trade',from:'food',to:'gold',amount:1000},now+1).resources.gold;
   };
-  assert.ok(trade(10)>trade(0));
+  assert.equal(trade(10),trade(0),'spell-cost research has no trade effect until a spell-cost system exists');
+  const lockedResearch=structuredClone(base);
+  lockedResearch.technologies['tech-09']=0;
+  assert.equal(quoteResearch(lockedResearch,'tech-10').requirementStatus,'LOCKED');
+  assert.throws(()=>doAction(lockedResearch,{type:'research',techId:'tech-10'},now+1),/Chinh binh thuật 1/);
+  lockedResearch.technologies['tech-09']=1;
+  assert.notEqual(quoteResearch(lockedResearch,'tech-10').requirementStatus,'LOCKED');
 });
 
 test('troop lanes and matchup counters change the army battle profile', () => {
@@ -551,11 +579,21 @@ test('NPC world nodes expose distinct formations and scouting persists battle in
   }
   const now=1_800_000_000_000;
   let state=createNewGame('Triều Ca',now);
-  state=doAction(state,{type:'scout',nodeId:'node-011'},now+1);
-  assert.ok(state.world.scouted.includes('node-011'));
-  assert.ok(state.notifications[0].includes(WORLD_NODES[10].enemy.commander));
+  state.fame=100_000;
+  state.resources.gold=10_000;
+  let actionAt=now+1;
+  const scoutUntilSuccess=nodeId=>{
+    for(let attempt=0;attempt<40&&!state.world.scouted.includes(nodeId);attempt++)state=doAction(state,{type:'scout',nodeId},actionAt++);
+    assert.ok(state.world.scouted.includes(nodeId),`${nodeId} should succeed at the 90% scouting cap`);
+  };
+  scoutUntilSuccess('node-001');
+  assert.equal(state.world.scoutedKinds['node-001'],'army');
+  assert.ok(state.notifications[0].includes(WORLD_NODES[0].enemy.commander));
+  scoutUntilSuccess('node-011');
+  assert.equal(state.world.scoutedKinds['node-011'],'resources');
+  assert.ok(state.notifications[0].includes('ước tính tài nguyên'));
   state.army={'troop-01':100_000,'troop-10':100_000,'troop-23':100_000};
-  state=doAction(state,{type:'march',nodeId:'node-011',troops:{'troop-01':10_000,'troop-10':10_000,'troop-23':10_000}},now+2);
+  state=doAction(state,{type:'march',nodeId:'node-011',troops:{'troop-01':10_000,'troop-10':10_000,'troop-23':10_000}},actionAt+1);
   state=advance(state,state.queues.march.finishAt+1).state;
   const battle=state.reports[0];
   assert.equal(battle.enemyCommander,WORLD_NODES[10].enemy.commander);

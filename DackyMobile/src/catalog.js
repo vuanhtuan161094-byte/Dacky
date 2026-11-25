@@ -193,16 +193,21 @@ export const ITEMS = Object.freeze(adaptedItemRows.map(item => item.mobileSource
   : item));
 
 const techNames = [
-  ['Nông Chính','food'], ['Lâm Nghiệp','timber'], ['Khai Sơn','stone'], ['Luyện Kim','iron'],
-  ['Thị Thương','gold'], ['Quản Dân','population'], ['Trị Thủy','food'], ['Kiến Trúc','build'],
-  ['Cơ Quan','training'], ['Binh Pháp','attack'], ['Thủ Thành','defense'], ['Kỵ Thuật','cavalry'],
-  ['Cung Nỏ','archer'], ['Y Đạo','healing'], ['Trận Đồ','formation'], ['Dịch Trạm','march'],
-  ['Luyện Khí','hero'], ['Tinh Tượng','scout'], ['Ngoại Giao','diplomacy']
+  ['Canh tác thuật','food','SUPPORTED_SOURCE_MAPPING'], ['Đốn mộc thuật','timber','SUPPORTED_SOURCE_MAPPING'],
+  ['Khai thạch thuật','stone','SUPPORTED_SOURCE_MAPPING'], ['Luyện kim thuật','iron','SUPPORTED_SOURCE_MAPPING'],
+  ['Thuế khoá thuật','gold','SUPPORTED_SOURCE_MAPPING'], ['Thương khố thuật','storage','SUPPORTED_SOURCE_MAPPING'],
+  ['Vận chuyển thuật','transport','PARTIAL_SIMULATED_BASE'], ['Kiến trúc thuật','build','SUPPORTED_SOURCE_MAPPING'],
+  ['Chinh binh thuật','training','SUPPORTED_SOURCE_MAPPING'], ['Quân công thuật','attack','SUPPORTED_SOURCE_MAPPING'],
+  ['Quân phòng thuật','defense','PARTIAL_SIMULATED_BASE'], ['Sĩ khí thuật','troopHealth','SUPPORTED_SOURCE_MAPPING'],
+  ['Lĩnh binh thuật','leadCapacity','PARTIAL_SIMULATED_BASE'], ['Trinh sát tiên pháp','scoutImmortals','PARTIAL_SIMULATED_BASE'],
+  ['Trinh sát tài nguyên','scoutResources','PARTIAL_SIMULATED_BASE'], ['Hành quân thuật','march','SUPPORTED_SOURCE_MAPPING'],
+  ['Trinh sát quân đội','scoutArmy','PARTIAL_SIMULATED_BASE'], ['Thần phòng thuật','heroDefense','PARTIAL_SIMULATED_BASE'],
+  ['Tiết pháp thuật','manaCost','UNKNOWN']
 ];
 export const TECHNOLOGIES = Object.freeze(adaptSourceFacts('technologies', techNames.map(([name,effect], i) => ({
   id: `tech-${String(i + 1).padStart(2,'0')}`, name, effect, maxLevel: 30,
   baseCost: { food: 45 + i * 6, gold: 35 + i * 5, jade: effect === 'hero' ? 1 : 0 }, seconds: 18 + i % 4 * 4,
-  evidence: 'SIMULATED', mobileSourceId: null, mobileDescription: null, mobileImage: '',
+  evidence: 'SIMULATED', runtimeEffectStatus: techNames[i][2], mobileSourceId: null, mobileDescription: null, mobileImage: '',
   mobileLevelCosts: [], sourceFieldStatus: 'UNKNOWN'
 }))));
 

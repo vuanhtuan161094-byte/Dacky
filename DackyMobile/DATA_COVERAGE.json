@@ -6,8 +6,8 @@
     "verifiedMobileRecords": 2656,
     "verifiedLegacyRecordsImported": 1158,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
-    "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 35,902 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
-    "fieldScopedMobileFieldsInGameplay": 35902,
+    "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 35,947 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
+    "fieldScopedMobileFieldsInGameplay": 35947,
     "runtimeCatalogRecords": 10384,
     "fieldScopedLegacyFieldsImported": 6948
   },
@@ -73,9 +73,9 @@
       "levelsGenerated": 570,
       "status": "MIXED",
       "runtime": "src/catalog.js + src/engine.js",
-      "mobileLevelTables": 10,
-      "simulatedRecords": 9,
-      "sourceFields": "name, local source art, source effect and exact level cost rows for 10 direct Mobile matches"
+      "mobileLevelTables": 19,
+      "simulatedRecords": 0,
+      "sourceFields": "19 Mobile technology profiles retain exact names, all 30 level cost/effect/requirement rows, images and field provenance; UNKNOWN or partial runtime formulas remain explicitly scoped"
     },
     {
       "domain": "troops",
@@ -303,23 +303,21 @@
       "records": 19,
       "levels": 570,
       "runtimeEffects": [
-        "Resource production",
-        "Population",
-        "Construction speed",
-        "Training speed",
-        "Army attack and defense",
-        "Cavalry and archer specialization",
-        "Healing cost",
-        "Formation",
-        "March speed",
-        "Hero power",
-        "Scout cost",
-        "Trade fee and diplomacy"
+        "Food, timber, stone, and iron production",
+        "Tax component of gold income",
+        "Warehouse capacity",
+        "Construction and troop-training speed",
+        "Army attack, defense, and maximum health",
+        "Transport and march speed",
+        "Node-specific scouting success",
+        "Army lead capacity",
+        "Immortal defense"
       ],
       "status": "MIXED",
-      "mobileExactCostTables": 10,
-      "simulatedEffectMappings": 19,
-      "sourceRateParsing": "First-level Mobile effect percent drives mapped production/attack/defense/build/recruit/march rate where implemented."
+      "mobileExactCostTables": 19,
+      "sourceRateParsing": "The first Mobile level effect gives the per-level source rate. Partial formulas retain a simulated baseline; spell cost remains UNKNOWN.",
+      "partialRuntimeEffects": 7,
+      "unknownRuntimeEffects": 1
     },
     "newPlayerTutorial": {
       "records": 7,
@@ -1213,8 +1211,8 @@
       "categoryCount": 7,
       "recordCount": 2656,
       "runtimeImportedRecordCount": 2656,
-      "gameplayMappedRecordCount": 2641,
-      "fieldScopedGameplayValueCount": 35902,
+      "gameplayMappedRecordCount": 2650,
+      "fieldScopedGameplayValueCount": 35947,
       "categories": {
         "than-tien": {
           "title": "Thần tiên",
@@ -1375,7 +1373,7 @@
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/khoa-ky/",
           "runtimeImportedRecords": 19,
-          "gameplayMappedRecords": 10
+          "gameplayMappedRecords": 19
         },
         "danh-thanh": {
           "title": "Danh thành",

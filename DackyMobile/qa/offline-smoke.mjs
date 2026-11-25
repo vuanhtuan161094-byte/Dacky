@@ -86,8 +86,9 @@ try {
     console.log('PASS PWA shell reopens with network disabled.');
   }
 
+  const singleFileRequestStart=requests.length;
   if(!fileOnly)await call('Page.navigate',{url:singleFileUrl});
-  if(fileOnly&&singleFileUrl.startsWith('http:'))await pause(3000);
+  if(singleFileUrl.startsWith('http:'))await until('document.readyState==="complete"&&document.querySelector("#scene")?.innerText.includes("Khai mở cơ đồ")',30000);
   else await pause(1200);
   const filePage=await value('({url:location.href,title:document.title,ready:document.readyState,scene:!!document.querySelector("#scene"),sceneText:document.querySelector("#scene")?.innerText.slice(0,220),bodyText:document.body?.innerText.slice(0,500)})');
   console.log('Offline HTML diagnostic:',JSON.stringify(filePage));
@@ -98,14 +99,15 @@ try {
       await value('(function(){var i=document.querySelector("#new-city-name");i.value="Tây Kỳ";document.querySelector("form[data-form=new-game]").requestSubmit();return true})()');
       await until('document.querySelector("#page-heading h1")?.innerText==="Thành trì"');
       await until('Array.from(document.querySelectorAll(".building-card img")).some(x=>x.complete&&x.naturalWidth>0)');
-      const extraRequests=requests.filter(url=>url.startsWith('http:')&&url!==singleFileUrl&&!url.endsWith('/favicon.ico'));
+      const extraRequests=requests.slice(singleFileRequestStart).filter(url=>url.startsWith('http:')&&url!==singleFileUrl&&!url.endsWith('/favicon.ico'));
       if(extraRequests.length)throw new Error('Single-file page requested external assets: '+extraRequests.join(' | '));
       console.log('PASS single-file build starts and renders Mobile art with no external asset requests over HTTP.');
     }
     await screenshot('16-single-file-offline');
     if(singleFileUrl.startsWith('file:'))console.log('PASS single-file offline HTML renders from file://.');
   }
-  else console.log('BLOCKED Chromium in this environment returned chrome-error for the local file URL; the inline bundle itself passes syntax check.');
+  else if(singleFileUrl.startsWith('file:'))console.log('BLOCKED Chromium in this environment returned chrome-error for the local file URL; the inline bundle itself passes syntax check.');
+  else throw new Error('The single-file HTTP page did not render the game startup screen.');
   if(errors.length)throw new Error('Browser runtime errors: '+errors.join(' | '));
   if(fileWorks)console.log('PASS zero browser runtime errors.');
 } finally {

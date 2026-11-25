@@ -121,7 +121,17 @@ try {
     await waitFor('document.querySelector("#scene").innerText.length>40');
     if(view==='world'){
       check(await evaluate('Array.from(document.querySelectorAll("#world-chapter option")).find(x=>x.value==="2")?.disabled===true'));
+      check(await evaluate('document.querySelector("#march-count")?.max!==undefined&&document.querySelector(".target-card")?.innerText.includes("Giới hạn lĩnh binh")'));
+      await click('.map-node[data-node="node-011"]');
+      check(await evaluate('document.querySelector(".target-card")?.innerText.includes("Trinh sát tài nguyên")'));
+      await click('.map-node[data-node="node-014"]');
+      check(await evaluate('document.querySelector(".target-card")?.innerText.includes("Trinh sát tiên pháp")'));
+      await click('.map-node[data-node="node-001"]');
       await waitFor('Array.from(document.querySelectorAll(".map-node img")).some(x=>x.complete&&x.naturalWidth>0)');
+    }
+    if(view==='tech'){
+      check(await evaluate('document.querySelectorAll(".tech-card").length===19&&document.querySelector("#scene")?.innerText.includes("UNKNOWN")&&document.querySelector("#scene")?.innerText.includes("570 cấp tối đa")'));
+      check(await evaluate('Array.from(document.querySelectorAll(".tech-card")).every(card=>card.innerText.includes("Mobile VERIFIED"))'));
     }
     if(view==='library')await waitFor('Array.from(document.querySelectorAll(".source-entry img")).some(x=>x.complete&&x.naturalWidth>0)');
     await shot(String(index++).padStart(2,'0')+'-'+view+'-desktop');

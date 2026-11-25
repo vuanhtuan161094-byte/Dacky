@@ -244,6 +244,39 @@ def main():
     comparison = count_comparison(load_json(LEGACY_MANIFEST), load_json(MOBILE_MANIFEST))
     network = load_json(NETWORK_CHECK)
     if mobile:
+        technology_catalog = next((
+            item for item in coverage.get("runtimeCatalogs", [])
+            if item.get("domain") == "technologies"
+        ), None)
+        if technology_catalog:
+            technology_count = mobile["categories"].get("khoa-ky", {}).get("gameplayMappedRecords", 0)
+            technology_catalog.update({
+                "mobileLevelTables": technology_count,
+                "simulatedRecords": max(0, technology_catalog.get("records", 0) - technology_count),
+                "sourceFields": f"{technology_count} Mobile technology profiles retain exact names, all 30 level cost/effect/requirement rows, images and field provenance; UNKNOWN or partial runtime formulas remain explicitly scoped",
+            })
+            technology_mechanics = coverage.setdefault("runtimeMechanics", {}).setdefault("technologyBranches", {})
+            technology_mechanics.update({
+                "records": technology_count,
+                "levels": technology_count * 30,
+                "runtimeEffects": [
+                    "Food, timber, stone, and iron production",
+                    "Tax component of gold income",
+                    "Warehouse capacity",
+                    "Construction and troop-training speed",
+                    "Army attack, defense, and maximum health",
+                    "Transport and march speed",
+                    "Node-specific scouting success",
+                    "Army lead capacity",
+                    "Immortal defense",
+                ],
+                "status": "MIXED",
+                "mobileExactCostTables": technology_count,
+                "partialRuntimeEffects": 7,
+                "unknownRuntimeEffects": 1,
+                "sourceRateParsing": "The first Mobile level effect gives the per-level source rate. Partial formulas retain a simulated baseline; spell cost remains UNKNOWN.",
+            })
+            technology_mechanics.pop("simulatedEffectMappings", None)
         items_catalog = next((item for item in coverage.get("runtimeCatalogs", []) if item.get("domain") == "items"), None)
         if items_catalog:
             artifact_count = mobile["categories"].get("phap-bao", {}).get("gameplayMappedRecords", 0)

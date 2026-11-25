@@ -41,6 +41,28 @@ test('owner authorization imports field-scoped Mobile tables into gameplay catal
   assert.equal(tech.mobileLevelCosts[0].effect,'+2%');
 });
 
+test('all 19 Mobile technology rows map to sourced runtime names, levels, costs, and requirements', () => {
+  const expected={31:'tech-01',32:'tech-02',33:'tech-03',34:'tech-04',35:'tech-05',38:'tech-06',36:'tech-07',37:'tech-08',39:'tech-09',40:'tech-10',44:'tech-11',51:'tech-12',45:'tech-13',46:'tech-14',47:'tech-15',49:'tech-16',48:'tech-17',41:'tech-18',42:'tech-19'};
+  const mapped=TECHNOLOGIES.filter(row=>row.fieldProvenance?.mobileSourceId?.sourceTable==='khoa-ky');
+  assert.equal(mapped.length,19);
+  assert.equal(new Set(mapped.map(row=>row.mobileSourceId)).size,19);
+  for(const [sourceId,targetId] of Object.entries(expected)){
+    const row=TECHNOLOGIES.find(tech=>tech.id===targetId);
+    assert.equal(row.mobileSourceId,sourceId);
+    assert.equal(row.mobileLevelCosts.length,30,`${row.name} needs all 30 source levels`);
+    assert.equal(row.mobileLevelCosts[0].level,1);
+    assert.ok(row.mobileLevelCosts[0].requirement);
+    assert.equal(row.fieldEvidence.mobileLevelCosts,'VERIFIED_MOBILE');
+    assert.equal(row.fieldProvenance.mobileLevelCosts.sourceTable,'khoa-ky');
+  }
+  const storage=TECHNOLOGIES.find(row=>row.id==='tech-06');
+  assert.equal(storage.mobileLevelCosts[0].effect,'+4%');
+  assert.deepEqual(storage.mobileLevelCosts[0].cost,{food:40,timber:120,stone:100,iron:100,gold:506});
+  const spellCost=TECHNOLOGIES.find(row=>row.id==='tech-19');
+  assert.equal(spellCost.mobileDescription,'Mỗi cấp giảm 2% tiêu hao pháp thuật.');
+  assert.equal(spellCost.runtimeEffectStatus,'UNKNOWN');
+});
+
 test('the full Mobile hero roster is playable with per-field provenance and source stats', () => {
   const mobileHeroes=HEROES.filter(hero=>hero.mobileSourceId);
   assert.equal(mobileHeroes.length,482);
