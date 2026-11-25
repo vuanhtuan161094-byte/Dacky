@@ -30,7 +30,16 @@ async function loadModule(file) {
   source = source.replace(/\bexport\s+(?=(?:async\s+)?(?:function|const|let|class)\b)/g, '');
   const original = await readFile(file, 'utf8');
   for (const match of original.matchAll(/\bexport\s+(?:async\s+)?(?:function|const|let|class)\s+([A-Za-z_$][\w$]*)/g)) exported.push(match[1]);
-  if (exported.length) source += `\nObject.assign(__exports,{${[...new Set(exported)].map(name=>`${JSON.stringify(name)}:${name}`).join(',')}});\n`;
+  const exportListBindings = [];
+  for (const match of original.matchAll(/\bexport\s*\{([^}]+)\}\s*;?/g)) {
+    source = source.replace(match[0], '');
+    for (const item of match[1].split(',')) {
+      const [local, alias] = item.trim().split(/\s+as\s+/);
+      if (local) exportListBindings.push([alias || local, local]);
+    }
+  }
+  const exportBindings = [...new Set(exported)].map(name => [name,name]).concat(exportListBindings);
+  if (exportBindings.length) source += `\nObject.assign(__exports,{${exportBindings.map(([name,local])=>`${JSON.stringify(name)}:${local}`).join(',')}});\n`;
   modules.set(id, `function(__require,__exports){\n${source}\nreturn __exports;\n}`);
 }
 
@@ -49,9 +58,18 @@ const imageUrls = Object.fromEntries(inlineImages);
 css = css.replace(/url\(['"]?\.\/assets\/([^)'"\s]+)['"]?\)/g, (_,name) => `url('${imageUrls[name] || ''}')`);
 for (const [name,url] of inlineImages) bundle = bundle.replaceAll(`./assets/${name}`,url);
 for (const [name,url] of inlineImages) html = html.replaceAll(`./assets/${name}`,url);
+const sourceAssetManifest = JSON.parse(await readFile(path.join(root,'assets/mobile-source-manifest.json'),'utf8'));
+const sourceAssetUrls = new Map();
+for (const asset of sourceAssetManifest.assets) {
+  const ext = path.extname(asset.path).toLowerCase();
+  const mime = ({'.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.gif':'image/gif','.svg':'image/svg+xml','.avif':'image/avif'})[ext] || 'application/octet-stream';
+  const dataUrl = `data:${mime};base64,${(await readFile(path.join(root,asset.path))).toString('base64')}`;
+  sourceAssetUrls.set(`./${asset.path}`,dataUrl);
+}
+const embeddedSourceAssetMap = JSON.stringify(Object.fromEntries(sourceAssetUrls));
 html = html.replace('<link rel="manifest" href="./manifest.webmanifest">','');
 html = html.replace('<link rel="stylesheet" href="./styles.css">',`<style>\n${css}\n</style>`);
-html = html.replace('<script type="module" src="./src/main.js"></script>',`<script>\n${bundle}\n</script>`);
+html = html.replace('<script type="module" src="./src/main.js"></script>',`<script>globalThis.__DACKY_EMBEDDED_ASSETS__=${embeddedSourceAssetMap};</script>\n<script>\n${bundle}\n</script>`);
 await writeFile(path.join(dist,'offline.html'),html);
 console.log(`Web assets copied to ${dist}`);
 console.log(`Single-file offline build: ${path.join(dist,'offline.html')}`);

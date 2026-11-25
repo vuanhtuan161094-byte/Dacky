@@ -30,7 +30,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     version: SAVE_VERSION,
     profile: { name: String(name || 'Triều Ca').slice(0, 22), createdAt: now },
     lastTickAt: now,
-    resources: { food: 1600, timber: 1300, stone: 1150, iron: 700, gold: 950, jade: 6 },
+    resources: { food: 1600, timber: 1300, stone: 1150, iron: 1200, gold: 950, jade: 6 },
     population: 180,
     morale: 82,
     taxPolicy: 'balanced',
@@ -167,7 +167,7 @@ export function productionPerHour(state) {
   const lv = state.levels;
   const tech = state.technologies;
   const satelliteLevels=(state.cities||[]).filter(city=>!city.isCapital).reduce((sum,city)=>sum+city.level,0);
-  const bonus = effect => 1 + (TECHNOLOGIES.filter(t => t.effect === effect).reduce((n, t) => n + (tech[t.id] || 0), 0) * 0.012);
+  const bonus = effect => 1 + TECHNOLOGIES.filter(t => t.effect === effect).reduce((n, t) => n + (tech[t.id] || 0) * technologyRate(t.id), 0);
   return {
     food: (18 + lv.farm * 52 + lv.granary * 7 + satelliteLevels*25) * bonus('food'),
     timber: (10 + lv.grove * 38 + lv.lumber * 12 + satelliteLevels*18) * bonus('timber'),
@@ -253,7 +253,7 @@ export function armyPower(state, counts = state.army) {
     const t = TROOPS.find(x => x.id === id);
     if (t) {
       const specialization=t.role==='kỵ binh'?(state.technologies['tech-12']||0):t.role==='xạ thủ'?(state.technologies['tech-13']||0):0;
-      total += amount * (t.attack + t.defense * 0.85 + t.morale * 0.08) * (1 + (state.technologies['tech-10'] || 0) * 0.012) * (1+specialization*0.012);
+      total += amount * (t.attack + t.defense * 0.85 + t.morale * 0.08) * (1 + (state.technologies['tech-10'] || 0) * technologyRate('tech-10')) * (1+specialization*0.012);
     }
   }
   return Math.round(total + state.heroes.filter(h => h.assigned).reduce((sum, h) => sum + heroPower(h, state), 0) * 0.45);
@@ -292,13 +292,25 @@ function costFor(baseCost, nextLevel) {
   return Object.fromEntries(Object.entries(baseCost).map(([key, value]) => [key, Math.max(0, Math.ceil(value * Math.pow(nextLevel, 1.35) * 0.42))]));
 }
 
+function progressionCost(catalogLevels, baseCost, level) {
+  const row = catalogLevels?.find(item => Number(item.level) === Number(level));
+  return row?.cost ? { ...row.cost } : costFor(baseCost, level);
+}
+
+function technologyRate(technologyId, fallback = 0.012) {
+  const firstLevel=TECHNOLOGIES.find(row=>row.id===technologyId)?.mobileLevelCosts?.find(row=>Number(row.level)===1);
+  const match=String(firstLevel?.effect||'').match(/([+-]?\d+(?:[.,]\d+)?)\s*%/);
+  return match?Number(match[1].replace(',','.'))/100:fallback;
+}
+
 export function quoteBuilding(state, buildingId) {
   const b = BUILDINGS.find(x => x.id === buildingId);
   if (!b) return null;
   const level = (state.levels[b.id] || 0) + 1;
-  const cost = costFor(b.baseCost, level);
+  const cost = progressionCost(b.mobileLevelCosts, b.baseCost, level);
   return { level, cost, seconds: b.seconds * Math.pow(level, 1.2), maxed: level > b.maxLevel,
-    locked: b.id !== 'citadel' && (state.levels.citadel || 0) < Math.max(1, Math.ceil(level / 2)) };
+    locked: b.id !== 'citadel' && (state.levels.citadel || 0) < Math.max(1, Math.ceil(level / 2)),
+    costEvidence: b.mobileLevelCosts?.some(item => Number(item.level) === level) ? 'VERIFIED_MOBILE' : 'SIMULATED' };
 }
 
 export function quoteCityUpgrade(state, cityId) {
@@ -322,7 +334,8 @@ export function quoteResearch(state, techId) {
   const t = TECHNOLOGIES.find(x => x.id === techId);
   if (!t) return null;
   const level = (state.technologies[t.id] || 0) + 1;
-  return { level, cost: costFor(t.baseCost, level), seconds: t.seconds * Math.pow(level, 1.12), maxed: level > t.maxLevel };
+  return { level, cost: progressionCost(t.mobileLevelCosts, t.baseCost, level), seconds: t.seconds * Math.pow(level, 1.12), maxed: level > t.maxLevel,
+    costEvidence: t.mobileLevelCosts?.some(item => Number(item.level) === level) ? 'VERIFIED_MOBILE' : 'SIMULATED' };
 }
 
 function canAfford(state, cost) { return Object.entries(cost).every(([key, amount]) => (state.resources[key] || 0) >= amount); }
@@ -399,6 +412,39 @@ function seededRandom(seed) {
   return () => { x = (x * 1664525 + 1013904223) >>> 0; return x / 0x100000000; };
 }
 
+const combatLabel = value => String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('vi').trim();
+
+function sourcedCounterBonus(attackRows, defendRows, fallbackRatio) {
+  const attackTotal=attackRows.reduce((sum,row)=>sum+row.count,0);
+  const defendTotal=defendRows.reduce((sum,row)=>sum+row.count,0);
+  if(!attackTotal||!defendTotal)return {bonus:0,sourceCoverage:0};
+  let bonus=0,sourceCoverage=0;
+  for(const attacker of attackRows){
+    for(const defender of defendRows){
+      const weight=(attacker.count/attackTotal)*(defender.count/defendTotal);
+      const sourceRows=attacker.unit.mobileCounterRows;
+      if(Array.isArray(sourceRows)&&sourceRows.length&&defender.unit.mobileClass){
+        sourceCoverage+=weight;
+        const defenderClass=combatLabel(defender.unit.mobileClass);
+        const defenderName=combatLabel(defender.unit.name);
+        for(const counter of sourceRows){
+          const target=String(counter.target||'');
+          const targetClass=combatLabel(target.split('(')[0]);
+          const exception=target.match(/\(\s*trừ\s+(.+?)\s*\)/iu)?.[1];
+          if(exception&&defenderName.includes(combatLabel(exception)))continue;
+          if(targetClass&&(defenderClass===targetClass||defenderClass.includes(targetClass)||targetClass.includes(defenderClass))){
+            bonus+=weight*(Number(counter.modifier)||0);
+            break;
+          }
+        }
+      }else if(attacker.unit.counter===defender.unit.role){
+        bonus+=weight*fallbackRatio;
+      }
+    }
+  }
+  return {bonus,sourceCoverage};
+}
+
 function resolveArmyCombat(state, node, troops, seed) {
   const rng = seededRandom(seed);
   const heroList = state.heroes.filter(h => h.assigned).slice(0, 3);
@@ -413,16 +459,18 @@ function resolveArmyCombat(state, node, troops, seed) {
   const enemyCounterRatio=enemyRows.reduce((n,row)=>n+(roles.includes(row.unit.counter)?row.count:0),0)/Math.max(1,enemyTotal);
   const ownSynergyRatio=troopRows.reduce((n,row)=>n+(roles.includes(row.unit.counter)?row.count:0),0)/Math.max(1,total);
   const enemySynergyRatio=enemyRows.reduce((n,row)=>n+(enemyRoles.includes(row.unit.counter)?row.count:0),0)/Math.max(1,enemyTotal);
+  const ownCounterEvidence=sourcedCounterBonus(troopRows,enemyRows,0.2);
+  const enemyCounterEvidence=sourcedCounterBonus(enemyRows,troopRows,0.2);
   const laneCount=rows=>Object.fromEntries(['front','rear','siege'].map(lane=>[lane,rows.reduce((n,row)=>n+(row.unit.lane===lane?row.count:0),0)]));
   const ownLanes=laneCount(troopRows),enemyLanes=laneCount(enemyRows);
   const ownBalanced=ownLanes.front>0&&(ownLanes.rear+ownLanes.siege)>0;
   const enemyBalanced=enemyLanes.front>0&&(enemyLanes.rear+enemyLanes.siege)>0;
   const formationTech=state.technologies['tech-15']||0;
-  const formationBonus=1+Math.min(0.42,formationTech*0.003+ownSynergyRatio*0.14+ownCounterRatio*0.14+(ownBalanced?0.05:0));
+  const formationBonus=1+Math.min(0.42,formationTech*0.003+ownSynergyRatio*0.14+(ownCounterEvidence.sourceCoverage?0:ownCounterRatio*0.14)+(ownBalanced?0.05:0));
   const heroBonus = heroList.reduce((n, h) => n + heroPower(h, state), 0) * 0.55;
   const ownPower = Math.max(1, armyPower(state, troops) * formationBonus + heroBonus);
   const treatyBonus=state.world.treaties.includes(node.id)?0.88:1;
-  const enemyPower = Math.max(80, node.power * (1 + Math.max(0, node.chapter - 1) * 0.035) * treatyBonus * (1+enemyCounterRatio*0.14+enemySynergyRatio*0.06+(enemyBalanced?0.04:0)));
+  const enemyPower = Math.max(80, node.power * (1 + Math.max(0, node.chapter - 1) * 0.035) * treatyBonus * (1+(enemyCounterEvidence.sourceCoverage?0:enemyCounterRatio*0.14)+enemySynergyRatio*0.06+(enemyBalanced?0.04:0)));
   const initiative = troopRows.reduce((n, row) => n + (row.unit.speed+row.unit.range*0.3) * row.count, 0) / Math.max(1, total);
   const enemyInitiative=enemyRows.reduce((n,row)=>n+(row.unit.speed+row.unit.range*0.3)*row.count,0)/Math.max(1,enemyTotal);
   const tactics={
@@ -439,11 +487,13 @@ function resolveArmyCombat(state, node, troops, seed) {
   while (ownHealth > 0 && enemyHealth > 0 && round < 6) {
     round++;
     const enemyDefense=Math.min(0.26,enemyCounterRatio*0.08+(tactic.defense||0));
-    const baseOwnDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+ownCounterRatio*0.2+(ownBalanced?0.06:0)+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (1-enemyDefense) * (round === 1 && initiative > 10 ? 1.13 : 1));
+    const ownCounterDamage=ownCounterEvidence.sourceCoverage?ownCounterEvidence.bonus:ownCounterRatio*0.2;
+    const enemyCounterDamage=enemyCounterEvidence.sourceCoverage?enemyCounterEvidence.bonus:enemyCounterRatio*0.2;
+    const baseOwnDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+ownCounterDamage+(ownBalanced?0.06:0)+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (1-enemyDefense) * (round === 1 && initiative > 10 ? 1.13 : 1));
     const ownDamage = Math.max(1,baseOwnDamage*(1+heroProfile.bonuses.elementMatchup));
-    const researchDefense=Math.min(0.12,(state.technologies['tech-11']||0)*0.004);
+    const researchDefense=Math.min(0.24,(state.technologies['tech-11']||0)*technologyRate('tech-11',0.004));
     const npcOpening=round===1&&enemyInitiative>initiative?(tactic.opening||0.1):0;
-    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+enemyCounterRatio*0.2+enemySynergyRatio*0.04+(tactic.attack||0)+npcOpening) * (enemyBalanced?1.04:1) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * Math.max(0.8,1-heroProfile.bonuses.elementMatchup*0.6) * (round === 1 && initiative < 6 ? 1.12 : 1));
+    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+enemyCounterDamage+enemySynergyRatio*0.04+(tactic.attack||0)+npcOpening) * (enemyBalanced?1.04:1) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * Math.max(0.8,1-heroProfile.bonuses.elementMatchup*0.6) * (round === 1 && initiative < 6 ? 1.12 : 1));
     const activeSkills=heroProfile.skills.filter(skill=>skill.triggerRound===round);
     let skillDamage=0,shieldRatio=0,healing=0;
     for(const skill of activeSkills){
@@ -476,7 +526,7 @@ function resolveArmyCombat(state, node, troops, seed) {
     enemyCommander:node.enemy?.commander||'Đội quân NPC',enemyTactic:node.enemy?.tactic?.name||'Đội hình dã chiến',
     enemyFormation:enemyRows.map(row=>({unitId:row.unit.id,count:row.count})),enemyCasualties,
     enemyElement:node.enemy?.element||null,
-    matchup:{ownCounterAdvantage:Math.round(ownCounterRatio*100),enemyCounterAdvantage:Math.round(enemyCounterRatio*100),heroElementAdvantage:Math.round(heroProfile.bonuses.elementMatchup*10000)/100,ownBalanced,enemyBalanced},
+    matchup:{ownCounterAdvantage:Math.round((ownCounterEvidence.sourceCoverage?ownCounterEvidence.bonus:ownCounterRatio)*100),enemyCounterAdvantage:Math.round((enemyCounterEvidence.sourceCoverage?enemyCounterEvidence.bonus:enemyCounterRatio)*100),counterEvidence:ownCounterEvidence.sourceCoverage>0?'MIXED':'SIMULATED',heroElementAdvantage:Math.round(heroProfile.bonuses.elementMatchup*10000)/100,ownBalanced,enemyBalanced},
     heroNames: heroList.map(h => HEROES.find(def => def.id === h.id)?.name || h.id), heroSkills:heroProfile.names, skillBonuses:heroProfile.bonuses };
 }
 
@@ -651,9 +701,9 @@ export function doAction(state, action, now = Date.now()) {
       if (nextLevel > b.maxLevel) throw new Error('Công trình đã đạt cấp tối đa.');
       const requiredCitadel = Math.max(1, Math.ceil(nextLevel / 2));
       if ((s.levels.citadel || 0) < requiredCitadel && b.id !== 'citadel') throw new Error(`Cần Tử Vi Thành cấp ${requiredCitadel}.`);
-      const cost = costFor(b.baseCost, nextLevel);
+      const cost = progressionCost(b.mobileLevelCosts, b.baseCost, nextLevel);
       debit(s, cost);
-      const techSpeed = 1 + (s.technologies['tech-08'] || 0) * 0.025;
+      const techSpeed = 1 + (s.technologies['tech-08'] || 0) * technologyRate('tech-08',0.025);
       s.queues.construction = { buildingId: b.id, level: nextLevel, cost, startAt: now, finishAt: now + b.seconds * Math.pow(nextLevel, 1.2) * 1000 / techSpeed };
       note(s, `Thợ xây bắt đầu nâng ${b.name} lên cấp ${nextLevel}.`);
       break;
@@ -666,7 +716,7 @@ export function doAction(state, action, now = Date.now()) {
       if(quote.maxed)throw new Error('Thành phụ đã đạt cấp tối đa.');
       if(quote.locked)throw new Error(`Cần Tử Vi Thành cấp ${Math.max(2,Math.ceil(quote.level/2)+1)} để nâng thành phụ.`);
       debit(s,quote.cost);
-      const speed=1+(s.technologies['tech-08']||0)*0.025;
+      const speed=1+(s.technologies['tech-08']||0)*technologyRate('tech-08',0.025);
       s.queues.construction={cityId:city.id,level:quote.level,cost:quote.cost,startAt:now,finishAt:now+quote.seconds*1000/speed};
       note(s,`Bắt đầu nâng ${city.name} lên thành phụ cấp ${quote.level}.`);
       break;
@@ -772,7 +822,7 @@ export function doAction(state, action, now = Date.now()) {
       if (!t || s.technologies[t.id] >= t.maxLevel) throw new Error('Khoa kỹ đã tối đa hoặc không tồn tại.');
       if ((s.levels.academy || 0) < 1) throw new Error('Cần Thái Học Viện cấp 1.');
       const level = s.technologies[t.id] + 1;
-      const cost = costFor(t.baseCost, level);
+      const cost = progressionCost(t.mobileLevelCosts, t.baseCost, level);
       debit(s, cost);
       const speed = 1 + (s.levels.academy || 0) * 0.01 + (s.technologies['tech-08'] || 0) * 0.012;
       s.queues.research = { techId: t.id, level, cost, startAt: now, finishAt: now + t.seconds * Math.pow(level, 1.12) * 1000 / speed };
@@ -801,9 +851,9 @@ export function doAction(state, action, now = Date.now()) {
       if(!count)throw new Error('Chưa có binh sĩ sẵn sàng hành quân.');
       for(const [id,n] of Object.entries(troops)){s.army[id]-=n;if(!s.army[id])delete s.army[id];}
       const averageSpeed=Object.entries(troops).reduce((sum,[id,n])=>sum+(TROOPS.find(t=>t.id===id)?.speed||0)*n,0)/count;
-      const marchSpeed = 1 + averageSpeed*.012 + (s.technologies['tech-16'] || 0) * 0.04 + (s.levels.watch || 0) * 0.015;
+      const marchSpeed = 1 + averageSpeed*.012 + (s.technologies['tech-16'] || 0) * technologyRate('tech-16',0.04) + (s.levels.watch || 0) * 0.015;
       const seed=Object.entries(troops).reduce((value,[id,n])=>value^n^Number(id.slice(-2)),(now^node.power)>>>0);
-      s.queues.march = { nodeId: node.id, troops, startAt: now, finishAt: now + Math.max(7000, (7 + node.chapter * 1.7) * 1000 / marchSpeed), seed:seed>>>0 };
+      s.queues.march = { nodeId: node.id, troops, startAt: now, finishAt: now + Math.max(2000, (7 + node.chapter * 1.7) * 1000 / marchSpeed), seed:seed>>>0 };
       note(s, `Đội quân rời thành hướng ${node.name}.`);
       break;
     }

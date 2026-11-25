@@ -1,6 +1,6 @@
-const CACHE = 'dacky-mobile-shell-v6';
+const CACHE = 'dacky-mobile-shell-v8';
 const SHELL = [
-  './', './index.html', './styles.css', './manifest.webmanifest', './src/catalog.js', './src/engine.js',
+  './', './index.html', './styles.css', './manifest.webmanifest', './src/catalog.js', './src/mobile-source-catalog.js', './src/engine.js',
   './src/store.js', './src/ui.js', './src/main.js', './src/source-adapter.js', './src/approved-source-data.js',
   './assets/crest.svg', './assets/city-panorama.jpg', './assets/heroes-atlas.svg', './assets/portraits/jiang-zia.webp', './assets/portraits/na-tra.webp', './assets/buildings/tuvithanh.webp'
 ];
@@ -16,11 +16,19 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
-  event.respondWith(caches.match(request).then(cached => cached || fetch(request).then(response => {
-    if (response.ok) {
-      const copy = response.clone();
-      caches.open(CACHE).then(cache => cache.put(request, copy));
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE);
+    const cached = await cache.match(request, { ignoreVary: true });
+    if (cached) return cached;
+    try {
+      const response = await fetch(request);
+      if (response.ok) cache.put(request, response.clone());
+      return response;
+    } catch {
+      if (request.mode === 'navigate') {
+        return await cache.match(new URL('./index.html', self.location.href).href) || Response.error();
+      }
+      return Response.error();
     }
-    return response;
-  }).catch(() => caches.match('./index.html'))));
+  })());
 });

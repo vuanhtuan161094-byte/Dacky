@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
 import { applyApprovedSourceFields } from '../src/source-adapter.js';
 import { APPROVED_SOURCE_FACTS, SOURCE_REUSE_DECISION } from '../src/approved-source-data.js';
+import { BUILDINGS, MOBILE_SOURCE_DATABASE, TECHNOLOGIES, TROOPS } from '../src/catalog.js';
 
 const rows = [{ id: 'building-1', name: 'Authored name', evidence: 'SIMULATED' }];
 const decision = {
@@ -18,8 +20,34 @@ const provenance = {
 const fact = (value) => ({ value, targetType: typeof value, provenance });
 
 test('empty approval set leaves current simulated catalogs unchanged', () => {
-  assert.strictEqual(applyApprovedSourceFields(rows, APPROVED_SOURCE_FACTS.buildings || {}, SOURCE_REUSE_DECISION), rows);
+  assert.strictEqual(applyApprovedSourceFields(rows, {}, SOURCE_REUSE_DECISION), rows);
   assert.equal(rows[0].evidence, 'SIMULATED');
+});
+
+test('owner authorization imports field-scoped Mobile tables into gameplay catalogs', () => {
+  const total=Object.values(MOBILE_SOURCE_DATABASE.categories).reduce((sum,category)=>sum+category.length,0);
+  assert.equal(total,2656);
+  assert.equal(SOURCE_REUSE_DECISION.status,'AUTHORIZED_FOR_RUNTIME');
+  const farm=BUILDINGS.find(row=>row.id==='farm');
+  assert.equal(farm.name,'Ruộng lúa');
+  assert.equal(farm.mobileLevelCosts[0].cost.food,90);
+  assert.equal(farm.fieldProvenance.mobileLevelCosts.sourceTable,'cong-trinh');
+  assert.equal(farm.fieldEvidence.mobileLevelCosts,'VERIFIED_MOBILE');
+  const troop=TROOPS.find(row=>row.id==='troop-02');
+  assert.equal(troop.mobileSourceId,'1001');
+  assert.equal(troop.attack,12);
+  assert.equal(troop.mobileCounterRows.length,3);
+  const tech=TECHNOLOGIES.find(row=>row.id==='tech-01');
+  assert.equal(tech.mobileLevelCosts[0].effect,'+2%');
+});
+
+test('Mobile source artwork is local, checksummed, and bundled for offline use', () => {
+  const manifest=JSON.parse(readFileSync(new URL('../assets/mobile-source-manifest.json',import.meta.url),'utf8'));
+  assert.equal(manifest.count,2209);
+  assert.equal(manifest.totalBytes,13173749);
+  assert.ok(manifest.assets.every(asset=>/^[a-f0-9]{64}$/i.test(asset.sha256)&&existsSync(new URL(`../${asset.path}`,import.meta.url))));
+  const rows=Object.values(MOBILE_SOURCE_DATABASE.categories).flat();
+  assert.ok(rows.filter(row=>row.image).every(row=>row.localImage?.startsWith('./assets/mobile-source/')));
 });
 
 test('source facts cannot enter runtime without documented reuse permission', () => {

@@ -46,7 +46,8 @@ class LegacyNormalizationTests(unittest.TestCase):
             self.assertEqual(when["semanticStatus"], "UNKNOWN")
             self.assertEqual(when["provenance"]["sourceField"], "when")
             self.assertEqual(when["provenance"]["dataBlobSha1"], hashes["MYD"])
-            self.assertEqual(normalized["licenseStatus"], "UNVERIFIED_NO_SPDX_LICENSE")
+            self.assertEqual(normalized["licenseStatus"], "OWNER_AUTHORIZATION_NO_SPDX_REQUIRED")
+            self.assertEqual(normalized["redistributionStatus"], "RAW_DATABASE_DUMP_KEPT_PRIVATE")
 
     def test_rejects_source_blob_hash_mismatch(self):
         with tempfile.TemporaryDirectory() as temporary:

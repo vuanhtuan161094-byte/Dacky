@@ -9,15 +9,16 @@ import {
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const tables = { buildings: BUILDINGS, technologies: TECHNOLOGIES, troops: TROOPS, heroes: HEROES, heroSkills: HERO_SKILLS, items: ITEMS, quests: QUESTS, worldNodes: WORLD_NODES, immortalMountains: IMMORTAL_MOUNTAINS };
 
-export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky-game-data.simulated.v1.json')) {
+export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky-game-data.runtime.v1.json')) {
   const tableStats = {};
   let totalRecords = 0;
   for (const [name, rows] of Object.entries(tables)) {
     const ids = new Set(rows.map(row => row.id));
-    if (ids.size !== rows.length || rows.some(row => !row.id || row.evidence !== 'SIMULATED')) {
-      throw new Error(`Catalog ${name} has duplicate/missing IDs or unlabelled evidence.`);
+    if (ids.size !== rows.length || rows.some(row => !row.id || !['SIMULATED','MIXED','VERIFIED_MOBILE','VERIFIED_LEGACY'].includes(row.evidence))) {
+      throw new Error(`Catalog ${name} has duplicate/missing IDs or unsupported evidence.`);
     }
-    tableStats[name] = { recordCount: rows.length, evidence: 'SIMULATED' };
+    const evidenceCounts = Object.fromEntries(['VERIFIED_LEGACY','VERIFIED_MOBILE','MIXED','SIMULATED'].map(status => [status, rows.filter(row => row.evidence === status).length]).filter(([, count]) => count));
+    tableStats[name] = { recordCount: rows.length, evidence: Object.keys(evidenceCounts).length === 1 ? Object.keys(evidenceCounts)[0] : 'MIXED', evidenceCounts };
     totalRecords += rows.length;
   }
 
@@ -25,8 +26,8 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
     schemaVersion: 1,
     dataVersion: CONTENT_EVIDENCE.version,
     updated: CONTENT_EVIDENCE.updated,
-    evidenceStatus: 'SIMULATED',
-    evidenceNote: 'Toàn bộ giá trị trong gói này do dự án tự thiết kế; không phải bản trích xuất hoặc xác nhận tương đồng từ client Mobile/legacy.',
+    evidenceStatus: Object.values(tableStats).every(table => table.evidence === 'SIMULATED') ? 'SIMULATED' : 'MIXED',
+    evidenceNote: 'Trường sourced giữ provenance riêng theo field; trường SIMULATED/UNKNOWN là cơ chế hoặc giá trị chưa có ánh xạ nguồn được xác minh.',
     sourceAccess: 'PUBLIC_GET_SUCCEEDED_2026-11-25',
     referenceCounts: LEGACY_REFERENCE_COUNTS,
     tableStats: { totalRecords, tables: tableStats },
@@ -45,9 +46,9 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
     },
     unavailableSourceTables: [
       { name: 'mobileVersionDelta', reason: 'Public static catalog was captured, but it does not establish the original client version or a complete gameplay-version delta.' },
-      { name: 'legacyHeroes', targetRecords: LEGACY_REFERENCE_COUNTS.famousGenerals, reason: 'Legacy rows are retained in private research only; runtime remains simulated pending provenance and license review.' },
-      { name: 'legacyItems', targetRecords: LEGACY_REFERENCE_COUNTS.legacy147Items, reason: 'Legacy rows are retained in private research only; runtime remains simulated pending provenance and license review.' },
-      { name: 'legacyQuests', targetRecords: LEGACY_REFERENCE_COUNTS.quests, reason: 'Legacy rows are retained in private research only; runtime remains simulated pending provenance and license review.' },
+      { name: 'legacyHeroes', targetRecords: LEGACY_REFERENCE_COUNTS.famousGenerals, reason: 'Legacy source rows are retained privately; gameplay field and mechanic mapping remains unverified.' },
+      { name: 'legacyItems', targetRecords: LEGACY_REFERENCE_COUNTS.legacy147Items, reason: 'Legacy source rows are retained privately; gameplay field and mechanic mapping remains unverified.' },
+      { name: 'legacyQuests', targetRecords: LEGACY_REFERENCE_COUNTS.quests, reason: 'Legacy source rows are retained privately; gameplay field and mechanic mapping remains unverified.' },
       { name: 'immortalMountains', targetRecords: LEGACY_REFERENCE_COUNTS.elflands, reason: 'Source rows remain in private research; runtime challenges are an independent simulation.' }
     ]
   };
@@ -69,7 +70,7 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
   };
   await mkdir(path.dirname(outputPath), { recursive: true });
   await writeFile(outputPath, formatJson(database) + '\n');
-  console.log('JSON database exported: '+outputPath+' ('+totalRecords+' simulated records).');
+  console.log('JSON database exported: '+outputPath+' ('+totalRecords+' records; field evidence retained).');
   return database;
 }
 

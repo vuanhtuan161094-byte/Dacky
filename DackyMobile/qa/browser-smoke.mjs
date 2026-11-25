@@ -113,16 +113,20 @@ try {
   check(await evaluate('!!document.querySelector(".tutorial-panel [data-action=upgrade][data-building=lumber]")'));
   console.log('PASS new save and 21 live city buildings.');
 
-  const screens=['city','heroes','inventory','army','world','pve','tech','quests','market','reports','settings'];
+  const screens=['city','heroes','inventory','army','world','pve','tech','quests','market','reports','settings','library'];
   let index=2;
   for(const view of screens) {
     await click('#primary-nav [data-view='+JSON.stringify(view)+']');
     await waitFor('location.hash==="#'+view+'"');
     await waitFor('document.querySelector("#scene").innerText.length>40');
-    if(view==='world')check(await evaluate('Array.from(document.querySelectorAll("#world-chapter option")).find(x=>x.value==="2")?.disabled===true'));
+    if(view==='world'){
+      check(await evaluate('Array.from(document.querySelectorAll("#world-chapter option")).find(x=>x.value==="2")?.disabled===true'));
+      await waitFor('Array.from(document.querySelectorAll(".map-node img")).some(x=>x.complete&&x.naturalWidth>0)');
+    }
+    if(view==='library')await waitFor('Array.from(document.querySelectorAll(".source-entry img")).some(x=>x.complete&&x.naturalWidth>0)');
     await shot(String(index++).padStart(2,'0')+'-'+view+'-desktop');
   }
-  console.log('PASS all 11 primary menu screens render with content.');
+  console.log('PASS all 12 primary menu screens render with source artwork.');
 
   await click('#primary-nav [data-view="market"]');
   await click('[data-action="setTaxPolicy"][data-policy="heavy"]');
@@ -165,11 +169,12 @@ try {
 
   await click('#primary-nav [data-view="city"]');
   await click('[data-action="upgrade"][data-building="altar"]');
-  await waitFor('Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Phong Thần Đàn"))',5000);
-  await waitFor('!Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Phong Thần Đàn"))',20000);
-  console.log('PASS construction queue completes and altar opens recruitment.');
+  await waitFor('Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Nhà chiêu mộ"))',5000);
+  await waitFor('!Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Nhà chiêu mộ"))',20000);
+  console.log('PASS source-named recruitment building completes through its construction queue.');
 
   await click('#primary-nav [data-view="heroes"]');
+  await waitFor('Array.from(document.querySelectorAll(".portrait img")).some(x=>x.complete&&x.naturalWidth>0)');
   await click('[data-action="recruit"][data-hero="hero-02"]');
   await waitFor('document.querySelector("#scene").innerText.includes("Na Tra")');
   await click('#primary-nav [data-view="inventory"]');
@@ -186,8 +191,8 @@ try {
   await click('#primary-nav [data-view="world"]');
   await evaluate('(function(){document.querySelector("#march-count").value="3";return true})()');
   await click('[data-action="march"]');
-  await waitFor('Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Thanh Khâu Quan"))',5000);
-  await waitFor('!Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Thanh Khâu Quan"))',15000);
+  await waitFor('Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Tây Kì"))',5000);
+  await waitFor('!Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Tây Kì"))',15000);
   await click('#primary-nav [data-view="reports"]');
   await waitFor('document.querySelector(".report-card")!==null');
   check((await evaluate('document.querySelector(".report-card").innerText')).includes('Chiến lợi phẩm'));

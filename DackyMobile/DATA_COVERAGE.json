@@ -3,11 +3,12 @@
   "updated": "2026-11-25",
   "gameplayVersion": "dacky-mobile-sim-v1",
   "evidenceStatus": {
-    "verifiedMobileRecords": 0,
+    "verifiedMobileRecords": 2656,
     "verifiedLegacyRecordsImported": 0,
-    "simulatedRuntimeRecords": 4685,
     "sourceAccess": "PUBLIC_GET_SUCCEEDED_2026-11-25",
-    "note": "Private extraction and structural normalization are separate from permission and runtime import. Gameplay remains SIMULATED until field-scoped reuse is documented."
+    "note": "Owner authorization covers found data/assets without an SPDX prerequisite. The full Mobile catalog is bundled and 1,551 field values have gameplay adapters; unmatched semantics remain SIMULATED or UNKNOWN.",
+    "fieldScopedMobileFieldsInGameplay": 1551,
+    "runtimeCatalogRecords": 7341
   },
   "references": {
     "publicMobile": [
@@ -30,35 +31,69 @@
     "legacySourcePin": "13d969fc88c141553535c70943aaa98cf9f86616",
     "legacySourceDownloaded": true,
     "privateA1SnapshotPresent": false,
-    "legacyLicense": "No SPDX license was reported by GitHub for the pinned public repository; raw table files remain in gitignored input-private/."
+    "legacyLicense": "Owner authorization dated 2026-11-25 covers found legacy gameplay data; raw table files remain in gitignored input-private/.",
+    "ownerAuthorization": "Codex owner authorization message dated 2026-11-25; asserted rights for found game data/assets across projects.",
+    "mobileRuntime": {
+      "version": "5d78c226cb",
+      "permission": "AUTHORIZED_FOR_RUNTIME_BY_OWNER",
+      "normalizedBundle": "src/mobile-source-catalog.js",
+      "importScript": "scripts/import_mobile_runtime.mjs",
+      "privateSnapshotRetained": true,
+      "sourceRecordCount": 2656,
+      "imageManifest": "assets/mobile-source-manifest.json",
+      "sourceAssetCount": 2209,
+      "sourceAssetBytes": 13173749,
+      "bundledSourceAssetUse": "Local images use source URL + SHA-256 records; source library and mapped runtime artwork resolve from local copies."
+    }
   },
   "runtimeCatalogs": [
+    {
+      "domain": "mobileSourceLibrary",
+      "records": 2656,
+      "categories": 7,
+      "status": "VERIFIED_MOBILE",
+      "runtime": "src/mobile-source-catalog.js + src/ui.js",
+      "sourceVersion": "5d78c226cb",
+      "permission": "OWNER_AUTHORIZATION"
+    },
     {
       "domain": "buildings",
       "records": 21,
       "levelsGenerated": 30,
-      "status": "SIMULATED",
-      "runtime": "src/catalog.js + src/engine.js"
+      "status": "MIXED",
+      "runtime": "src/catalog.js + src/engine.js",
+      "mobileLevelTables": 15,
+      "simulatedRecords": 6,
+      "sourceFields": "name, local source art, max level and exact level cost rows for 15 direct Mobile matches"
     },
     {
       "domain": "technologies",
       "records": 19,
       "levelsGenerated": 570,
-      "status": "SIMULATED",
-      "runtime": "src/catalog.js + src/engine.js"
+      "status": "MIXED",
+      "runtime": "src/catalog.js + src/engine.js",
+      "mobileLevelTables": 10,
+      "simulatedRecords": 9,
+      "sourceFields": "name, local source art, source effect and exact level cost rows for 10 direct Mobile matches"
     },
     {
       "domain": "troops",
       "records": 39,
-      "status": "SIMULATED",
-      "runtime": "src/catalog.js + src/engine.js"
+      "status": "MIXED",
+      "runtime": "src/catalog.js + src/engine.js",
+      "mobileRecords": 25,
+      "simulatedRecords": 14,
+      "sourceFields": "name, class, faction, local source art, attack, defense, speed, health, carry, upkeep, population and attack counters"
     },
     {
       "domain": "heroes",
       "records": 540,
-      "status": "SIMULATED",
+      "status": "MIXED",
       "legacyReferenceCount": 540,
-      "runtime": "src/catalog.js + src/engine.js"
+      "runtime": "src/catalog.js + src/engine.js + src/ui.js",
+      "sourceLibraryRecords": 482,
+      "mobileRuntimeRecords": 12,
+      "sourceFields": "12 directly matched canonical entries use Mobile names, portrait, faction, occupation, initial stats, signature and listed abilities; gameplay combat formulas remain SIMULATED"
     },
     {
       "domain": "heroSkills",
@@ -76,14 +111,16 @@
       "domain": "items",
       "records": 2155,
       "status": "SIMULATED",
-      "runtime": "src/catalog.js + src/engine.js"
+      "runtime": "src/catalog.js + src/engine.js",
+      "sourceLibraryRecords": 2036
     },
     {
       "domain": "quests",
       "records": 1158,
       "status": "SIMULATED",
       "legacyReferenceCount": 1158,
-      "runtime": "src/catalog.js + src/engine.js"
+      "runtime": "src/catalog.js + src/engine.js",
+      "sourceLibraryRecords": 0
     },
     {
       "domain": "worldNodes",
@@ -94,15 +131,18 @@
         "immortalMountainLike": 14,
         "campaignBoss": 1
       },
-      "status": "SIMULATED",
-      "runtime": "src/catalog.js + src/engine.js",
+      "status": "MIXED",
+      "runtime": "src/catalog.js + src/engine.js + src/ui.js",
       "campaignBoss": {
         "nodeId": "node-120",
         "name": "Triều Ca · Trụ Vương",
         "unlock": "20 trận thắng và 7 danh thành",
         "ending": "Cờ kết cục và thưởng một lần, endgame tiếp tục",
         "status": "SIMULATED"
-      }
+      },
+      "mobileCityRecords": 73,
+      "simulatedCombatRecords": 120,
+      "sourceFields": "city name, image, map coordinates, type, faction, wall/official level and named garrison; server troop counts and campaign combat remain UNKNOWN/SIMULATED"
     },
     {
       "domain": "fengshenTower",
@@ -140,7 +180,7 @@
     },
     "heroQuality": {
       "tiers": {
-        "Nhân": 1.0,
+        "Nhân": 1,
         "Địa": 1.12,
         "Thiên": 1.28
       },
@@ -237,7 +277,10 @@
         "Scout cost",
         "Trade fee and diplomacy"
       ],
-      "status": "SIMULATED"
+      "status": "MIXED",
+      "mobileExactCostTables": 10,
+      "simulatedEffectMappings": 19,
+      "sourceRateParsing": "First-level Mobile effect percent drives mapped production/attack/defense/build/recruit/march rate where implemented."
     },
     "newPlayerTutorial": {
       "records": 7,
@@ -294,7 +337,9 @@
       ],
       "scouting": "Reveals commander, tactic and troop counts; saved per node",
       "battleReport": "Records enemy formation, commander, tactic and casualties",
-      "status": "SIMULATED"
+      "status": "MIXED",
+      "mobileCityFacts": 73,
+      "remainingCombat": "NPC force size, battle power and battle formations remain SIMULATED; the source says garrison counts vary by server."
     },
     "mainCampaignQuestLine": {
       "regionalObjectives": 8,
@@ -318,7 +363,9 @@
         "five-element counter"
       ],
       "battleReport": "Own and NPC matchup advantage percentages",
-      "status": "SIMULATED"
+      "status": "MIXED",
+      "sourceAttackCounters": 25,
+      "counterResolution": "Mobile attacker/defender class modifiers are applied when source profiles exist; uncovered pairs use the explicit simulation fallback."
     },
     "immortalAffinity": {
       "range": "0-100",
@@ -339,11 +386,11 @@
   "notImported": [
     {
       "domain": "legacyGameplayTables",
-      "reason": "Rows are hash-verified and structurally normalized in gitignored input-private/. No SPDX license or field-level semantic clearance is available; the runtime adapter blocks import without written reuse evidence."
+      "reason": "Rows are hash-verified and structurally normalized in gitignored input-private/. Owner authorization is recorded; most legacy fields still need a gameplay-semantic mapping before runtime use."
     },
     {
       "domain": "mobilePublicCatalogFields",
-      "reason": "Seven public catalogs are captured privately. Public access does not grant redistribution; field-scoped permission is unresolved and the runtime adapter fails closed."
+      "reason": "All seven public catalogs are bundled in the runtime source library. Only directly mapped field meanings affect gameplay; the remaining rows are searchable reference data."
     },
     {
       "domain": "mobileVersionDelta",
@@ -354,8 +401,8 @@
       "reason": "The 8,992 legacy elfland floor records are not evidence of the Fengshen Tower floor count."
     }
   ],
-  "normalizedJsonExport": "data/dacky-game-data.simulated.v1.json",
-  "normalizationStatus": "PRIVATE_STRUCTURAL_NORMALIZATION_COMPLETE; RUNTIME_IMPORT_BLOCKED_PENDING_PERMISSION_AND_FIELD_VALIDATION",
+  "normalizedJsonExport": "data/dacky-game-data.runtime.v1.json",
+  "normalizationStatus": "OWNER_AUTHORIZED_PRIVATE_STRUCTURAL_NORMALIZATION_COMPLETE; RUNTIME_MAPPING_PENDING_FIELD_SEMANTICS",
   "sourceInventory": {
     "legacy": {
       "status": "LEGACY_RESEARCH_DECODED_NOT_IMPORTED",
@@ -1078,21 +1125,23 @@
       "status": "PRIVATE_RESEARCH_ONLY",
       "normalizationVersion": "dacky-legacy-structural-v1",
       "sourceCommit": "13d969fc88c141553535c70943aaa98cf9f86616",
-      "licenseStatus": "UNVERIFIED_NO_SPDX_LICENSE",
-      "runtimeImportStatus": "DISABLED_PENDING_FIELD_SCOPE_AND_REUSE_PERMISSION",
+      "licenseStatus": "OWNER_AUTHORIZATION_NO_SPDX_REQUIRED",
+      "runtimeImportStatus": "PARTIAL_PENDING_GAMEPLAY_FIELD_MAPPING",
       "normalizedTableCount": 67,
       "heldTableCount": 3,
       "normalizedRecordCount": 161331
     },
     "mobilePublicCatalog": {
-      "status": "PUBLIC_CATALOG_CAPTURED_NOT_IMPORTED",
+      "status": "PUBLIC_CATALOG_BUNDLED_PARTIAL_GAMEPLAY_ADAPTER",
       "capturedDate": "2026-11-25",
       "catalogVersion": "5d78c226cb",
       "landingPage": "https://dackytruvuong.com/phong-than-cac/",
       "indexSha256": "c0cc7aebdfc52348507da5bdc434ecc92d327bfd1c0542b3feb164385681ed6e",
       "categoryCount": 7,
       "recordCount": 2656,
-      "runtimeImportedRecordCount": 0,
+      "runtimeImportedRecordCount": 2656,
+      "gameplayMappedRecordCount": 135,
+      "fieldScopedGameplayValueCount": 1551,
       "categories": {
         "than-tien": {
           "title": "Thần tiên",
@@ -1119,7 +1168,8 @@
             "mo": 255
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/than-tien/",
-          "runtimeImportedRecords": 0
+          "runtimeImportedRecords": 482,
+          "gameplayMappedRecords": 12
         },
         "phap-bao": {
           "title": "Pháp bảo",
@@ -1146,7 +1196,8 @@
             "kn": 133
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/phap-bao/",
-          "runtimeImportedRecords": 0
+          "runtimeImportedRecords": 151,
+          "gameplayMappedRecords": 0
         },
         "vat-pham": {
           "title": "Vật phẩm",
@@ -1172,7 +1223,8 @@
             "kn": 915
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/vat-pham/",
-          "runtimeImportedRecords": 0
+          "runtimeImportedRecords": 1885,
+          "gameplayMappedRecords": 0
         },
         "binh-chung": {
           "title": "Binh chủng",
@@ -1197,7 +1249,8 @@
             "bang": 25
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/binh-chung/",
-          "runtimeImportedRecords": 0
+          "runtimeImportedRecords": 25,
+          "gameplayMappedRecords": 25
         },
         "cong-trinh": {
           "title": "Công trình",
@@ -1222,7 +1275,8 @@
             "bang": 20
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/cong-trinh/",
-          "runtimeImportedRecords": 0
+          "runtimeImportedRecords": 21,
+          "gameplayMappedRecords": 15
         },
         "khoa-ky": {
           "title": "Khoa kỹ",
@@ -1247,7 +1301,8 @@
             "bang": 19
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/khoa-ky/",
-          "runtimeImportedRecords": 0
+          "runtimeImportedRecords": 19,
+          "gameplayMappedRecords": 10
         },
         "danh-thanh": {
           "title": "Danh thành",
@@ -1271,10 +1326,11 @@
             "icon": 73
           },
           "referenceUrl": "https://dackytruvuong.com/phong-than-cac/danh-thanh/",
-          "runtimeImportedRecords": 0
+          "runtimeImportedRecords": 73,
+          "gameplayMappedRecords": 73
         }
       },
-      "reuseNote": "Private research snapshot. Do not publish copied descriptions or art. Runtime publication limited to reviewed normalized facts and provenance."
+      "reuseNote": "Owner authorization dated 2026-11-25 covers found Mobile data/assets. The full catalog is bundled in runtime; direct gameplay mapping is per-field and remaining mechanics stay SIMULATED or UNKNOWN."
     },
     "mobileLegacyCountComparison": {
       "status": "CATEGORY_COUNT_DELTA_ONLY",
@@ -1339,7 +1395,7 @@
           "basis": "Mobile city entries vs distinct legacy defender coordinate groups; row semantics may differ"
         }
       ],
-      "contentFieldDiff": "NOT_ESTABLISHED; versions, field meanings, and reuse permissions are unresolved",
+      "contentFieldDiff": "NOT_ESTABLISHED; versions and field semantics remain incompletely mapped",
       "parityClaim": false
     },
     "httpGetChecks": {
@@ -1507,7 +1563,58 @@
         "basis": "Mobile city entries vs distinct legacy defender coordinate groups; row semantics may differ"
       }
     ],
-    "contentFieldDiff": "NOT_ESTABLISHED; versions, field meanings, and reuse permissions are unresolved",
+    "contentFieldDiff": "NOT_ESTABLISHED; versions and field semantics remain incompletely mapped",
     "parityClaim": false
+  },
+  "ownerAuthorization": {
+    "status": "AUTHORIZED_FOR_RUNTIME",
+    "evidenceDate": "2026-11-25",
+    "scope": "Owner asserts rights to use all found game data and assets across our projects, including Mobile and legacy sources.",
+    "spdx": "Not required by owner authorization; no SPDX identifier claimed.",
+    "manifestNote": "Owner authorization; source version, table, field path and SHA recorded."
+  },
+  "mobileLegacyComparison": {
+    "scope": "Identity/count crosswalks only; shared IDs/names do not prove equivalent gameplay values or versions.",
+    "buildings": {
+      "mobile": 21,
+      "legacy": 21,
+      "sharedIds": 20,
+      "mobileOnly": 1,
+      "legacyOnly": 1
+    },
+    "technologies": {
+      "mobile": 19,
+      "legacy": 19,
+      "sharedIds": 19
+    },
+    "troops": {
+      "mobile": 25,
+      "legacy": 40,
+      "sharedIds": 24,
+      "mobileOnly": 1,
+      "legacyOnly": 16
+    },
+    "items": {
+      "mobile": 1885,
+      "legacy": 2157,
+      "sharedIds": 1415,
+      "mobileOnly": 470,
+      "legacyOnly": 742
+    },
+    "heroes": {
+      "mobileRecords": 482,
+      "legacyRecords": 540,
+      "mobileUniqueAccentNormalizedNames": 480,
+      "legacyUniqueAccentNormalizedNames": 515,
+      "sharedNames": 431,
+      "mobileOnlyNames": 49,
+      "legacyOnlyNames": 84
+    },
+    "cities": {
+      "mobileUniqueCoordinates": 73,
+      "legacyFamousCityDefenderRows": 375,
+      "legacyCoordinateGroups": 75,
+      "comparison": "Coordinates and garrison identities are version-specific; defender headcount varies by server."
+    }
   }
 }

@@ -1,11 +1,9 @@
-/*
- * Independently authored game content. Public Mobile catalog pages and
- * legacy tables are now captured for research, but none of their records has
- * been imported into runtime. Every gameplay value remains SIMULATED; names
- * that are mythological references do not imply source parity.
- */
+/* Verified Mobile source facts and explicit simulations share a provenance-aware catalog. */
 import { APPROVED_SOURCE_FACTS, SOURCE_REUSE_DECISION } from './approved-source-data.js';
 import { applyApprovedSourceFields } from './source-adapter.js';
+import { MOBILE_SOURCE_DATABASE } from './mobile-source-catalog.js';
+
+export { MOBILE_SOURCE_DATABASE };
 
 const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
   rows,
@@ -14,9 +12,9 @@ const adaptSourceFacts = (domain, rows) => applyApprovedSourceFields(
 );
 
 export const CONTENT_EVIDENCE = Object.freeze({
-  status: 'SIMULATED',
-  source: 'Independent offline-first design; public Mobile catalog captured 2026-11-25 (version 5d78c226cb), runtime import pending',
-  version: 'dacky-mobile-sim-v1',
+  status: 'MIXED',
+  source: 'Mobile catalog v5d78c226cb is bundled with field provenance; unsupported mechanics remain SIMULATED or UNKNOWN',
+  version: 'dacky-mobile-source-mixed-v1',
   updated: '2026-11-25'
 });
 
@@ -58,7 +56,8 @@ export const BUILDINGS = Object.freeze(adaptSourceFacts('buildings', buildingRow
   baseCost: { food: food * 3, timber: timber * 3, stone: stone * 2, iron: iron * 2, gold: 40 + index * 7 },
   seconds: 12 + index % 4 * 3,
   maxLevel: 30,
-  evidence: 'SIMULATED'
+  evidence: 'SIMULATED', mobileSourceId: null, mobileZone: null, mobileDescription: null,
+    mobileImage: '', mobileLevelCosts: [], sourceFieldStatus: 'UNKNOWN'
 }))));
 
 const troopNames = [
@@ -89,7 +88,9 @@ export const TROOPS = Object.freeze(adaptSourceFacts('troops', troopNames.map(([
     speed: Math.round((5 + (i * 3) % 7) * scale), morale: 70 + i % 4 * 5, counter,
     lane:laneByRole[role],range:rangeByRole[role],
     cost: { food: 18 * tier, timber: role === 'công thành' ? 20 * tier : 4 * tier, iron: 9 * tier, gold: 8 * tier },
-    trainSeconds: 5 + tier * 2, unlockCity: Math.min(30, tier * 2), evidence: 'SIMULATED'
+    trainSeconds: 5 + tier * 2, unlockCity: Math.min(30, tier * 2), evidence: 'SIMULATED',
+    mobileSourceId: null, mobileImage: '', mobileClass: null, mobileFaction: null, mobileLife: null,
+    mobileCarry: null, mobileUpkeep: null, mobileCounterRows: [], sourceFieldStatus: 'UNKNOWN'
   };
 })));
 
@@ -114,7 +115,8 @@ export const HEROES = Object.freeze(adaptSourceFacts('heroes', heroRows.map(([na
     attack: 18 + (i * 7) % 16, defense: 16 + (i * 5) % 18, wisdom: 18 + (i * 11) % 20,
     skill: ['Hỏa Phù Liệt Trận','Huyền Thủy Hộ Thể','Phong Lôi Kích','Thất Tinh Trợ Chiến'][i % 4],
     skillText: ['gây sát thương diện rộng','giảm thương cho quân ta','đánh nhanh tuyến trước','tăng sĩ khí đội hình'][i % 4],
-    evidence: 'SIMULATED'
+    evidence: 'SIMULATED', mobileSourceId: null, mobileImage: '', mobileFaction: '', mobileOccupation: '',
+    mobileBaseStats: null, mobileAbilities: [], mobileSignature: '', sourceFieldStatus: 'UNKNOWN'
   };
 })));
 
@@ -179,7 +181,8 @@ const techNames = [
 export const TECHNOLOGIES = Object.freeze(adaptSourceFacts('technologies', techNames.map(([name,effect], i) => ({
   id: `tech-${String(i + 1).padStart(2,'0')}`, name, effect, maxLevel: 30,
   baseCost: { food: 45 + i * 6, gold: 35 + i * 5, jade: effect === 'hero' ? 1 : 0 }, seconds: 18 + i % 4 * 4,
-  evidence: 'SIMULATED'
+  evidence: 'SIMULATED', mobileSourceId: null, mobileDescription: null, mobileImage: '',
+  mobileLevelCosts: [], sourceFieldStatus: 'UNKNOWN'
 }))));
 
 const questTitles = [
@@ -234,7 +237,13 @@ function generatedNpcForce(index,chapter,kind,power){
   const formation=roles.map((role,slot)=>{
     let choices=TROOPS.filter(unit=>unit.role===role&&unit.tier<=targetTier);
     if(!choices.length){
-      choices=TROOPS.filter(unit=>unit.role===role);
+      const fallbackRole=({ 'công thành':'bộ binh','trinh sát':'kỵ binh','đạo binh':'xạ thủ' })[role]||role;
+      choices=TROOPS.filter(unit=>unit.role===fallbackRole);
+    }
+    if(!choices.length){
+      choices=TROOPS.filter(unit=>unit.role==='bộ binh');
+    }
+    if(choices.length){
       const lowestTier=Math.min(...choices.map(unit=>unit.tier));
       choices=choices.filter(unit=>unit.tier===lowestTier);
     }
@@ -266,7 +275,8 @@ export const WORLD_NODES = Object.freeze(adaptSourceFacts('worldNodes', Array.fr
   return { id: `node-${String(i + 1).padStart(3,'0')}`, name, kind, isBoss, chapter,
     level: Math.max(1, Math.floor(i / 4) + 1), x: 9 + (i * 37) % 82, y: 11 + (i * 53) % 76,
     power, enemy:generatedNpcForce(i,chapter,kind,power), loot: { food: isBoss ? 3200 : 80 + i * 12, timber: isBoss ? 2400 : 65 + i * 9, stone: isBoss ? 2000 : 50 + i * 8, gold: isBoss ? 3600 : 45 + i * 8, jade: isBoss ? 8 : i % 7 === 0 ? 1 : 0 },
-    evidence: 'SIMULATED' };
+    evidence: 'SIMULATED', mobileCityId: null, mobileCityType: null, mobileFaction: null,
+    mobileImage: '', mobileWallLevel: null, mobileOfficialLevel: null, mobileCoordinates: null, mobileGarrison: [], sourceFieldStatus: 'UNKNOWN' };
 })));
 
 const mountainPrefixes=['Thanh Vân','Tử Tiêu','Huyền Đô','Thái Hư','Bồng Lai','Phương Trượng','Doanh Châu','Côn Lôn','Ngọc Hư','Linh Đài','Vạn Thọ','Tụ Tiên','Thục Sơn','Nga Mi','Thái Hành','Kinh Hoa','Lạc Già','Bắc Minh','Nam Hoa','Bạch Vân','Thanh Thành','La Phù','Chung Nam','Tiểu Hàn'];

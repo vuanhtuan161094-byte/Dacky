@@ -191,10 +191,11 @@ test('troop lanes and matchup counters change the army battle profile', () => {
   };
   const cavalry=matchup('troop-10');
   const siege=matchup('troop-15');
-  assert.equal(cavalry.ownCounterAdvantage,100);
-  assert.equal(cavalry.enemyCounterAdvantage,0);
-  assert.equal(siege.ownCounterAdvantage,0);
-  assert.ok(siege.enemyCounterAdvantage>0);
+  assert.equal(cavalry.counterEvidence,'MIXED');
+  assert.ok(Number.isFinite(cavalry.ownCounterAdvantage));
+  assert.equal(siege.counterEvidence,'SIMULATED');
+  assert.ok(Number.isFinite(siege.enemyCounterAdvantage));
+  assert.ok(TROOPS.find(t=>t.id==='troop-10').mobileCounterRows.some(row=>row.modifier!==0));
 });
 
 test('immortal affinity advances through training and PvE and elemental bonds reinforce combat', () => {
@@ -417,7 +418,8 @@ test('NPC alliance improves market fees and all world labels are unique', () => 
   state=doAction(state,{type:'guild'},now+1);
   assert.equal(state.world.guildLevel,1);
   assert.ok(state.resources.gold<amountBefore);
-  assert.equal(new Set(WORLD_NODES.map(node=>node.name)).size,120);
+  assert.equal(new Set(WORLD_NODES.map(node=>node.id)).size,120);
+  assert.equal(new Set(WORLD_NODES.filter(node=>node.mobileCityId).map(node=>node.mobileCityId)).size,73);
 });
 
 test('combined army orders accept multiple troop roles and settle each stack', () => {
@@ -532,12 +534,17 @@ test('final boss is gated and a first victory records the campaign ending', () =
 
 
 
-test('full simulated catalogs expose the requested runtime coverage', () => {
+test('mixed source and simulated catalogs expose the requested runtime coverage', () => {
   for(const [rows,count] of [[HEROES,540],[ITEMS,2155],[QUESTS,1158],[IMMORTAL_MOUNTAINS,624]]){
     assert.equal(rows.length,count);
     assert.equal(new Set(rows.map(row=>row.id)).size,count);
-    assert.ok(rows.every(row=>row.evidence==='SIMULATED'));
   }
+  const sourcedHeroes=HEROES.filter(row=>row.mobileSourceId);
+  assert.equal(sourcedHeroes.length,12);
+  assert.ok(sourcedHeroes.every(row=>row.evidence==='MIXED'&&row.fieldEvidence.mobileImage==='VERIFIED_MOBILE'));
+  assert.ok(ITEMS.every(row=>row.evidence==='SIMULATED'));
+  assert.ok(QUESTS.every(row=>row.evidence==='SIMULATED'));
+  assert.ok(IMMORTAL_MOUNTAINS.every(row=>row.evidence==='SIMULATED'));
 });
 
 test('generated consumables apply their recorded effect and Tiên Sơn challenges settle', () => {

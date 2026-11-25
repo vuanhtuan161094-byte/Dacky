@@ -8,7 +8,7 @@ const profile=await mkdtemp(path.join(os.tmpdir(),'dacky-offline-'));
 const fileOnly=process.argv.includes('--file-only');
 const output=path.resolve('qa/screenshots');
 await mkdir(output,{recursive:true});
-const singleFileUrl=pathToFileURL(path.resolve('dist/offline.html')).href;
+const singleFileUrl=process.env.DACKY_SINGLE_FILE_URL||pathToFileURL(path.resolve('dist/offline.html')).href;
 const initialUrl=fileOnly?singleFileUrl:'http://127.0.0.1:4173/';
 const browser=spawn('/usr/bin/chromium',[
   '--headless=new','--no-sandbox','--disable-dev-shm-usage','--disable-gpu','--disable-background-networking',
@@ -17,7 +17,7 @@ const browser=spawn('/usr/bin/chromium',[
 ],{stdio:'ignore'});
 const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 let socket,id=0;
-const pending=new Map(), errors=[];
+const pending=new Map(), errors=[], requests=[];
 function call(method,params={}) {
   const n=++id;
   return new Promise((resolve,reject)=>{
@@ -57,8 +57,9 @@ try {
   socket.addEventListener('message',event=>{
     const m=JSON.parse(event.data);
     if(m.id&&pending.has(m.id)){const p=pending.get(m.id);pending.delete(m.id);clearTimeout(p.timeout);m.error?p.reject(new Error(m.error.message)):p.resolve(m.result||{});}
-    if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails?.text||'runtime');
+    if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails?.exception?.description||m.params.exceptionDetails?.text||'runtime');
     if(m.method==='Runtime.consoleAPICalled'&&m.params.type==='error')errors.push(m.params.args?.map(x=>x.value||x.description).join(' '));
+    if(m.method==='Network.requestWillBeSent')requests.push(m.params.request.url);
   });
   await call('Page.enable');await call('Runtime.enable');await call('Network.enable');
   if(!fileOnly) {
@@ -75,7 +76,7 @@ try {
     await until('navigator.serviceWorker.controller!==null');
     console.log('Cached entrypoint:',await value('caches.match(location.origin+"/index.html").then(x=>!!x)'));
     await call('Network.emulateNetworkConditions',{offline:true,latency:0,downloadThroughput:0,uploadThroughput:0});
-    await call('Page.reload',{ignoreCache:true});
+    await call('Page.reload',{ignoreCache:false});
     await pause(1200);
     const offlinePage=await value('({url:location.href,title:document.title,scene:!!document.querySelector("#scene"),sceneText:document.querySelector("#scene")?.innerText.slice(0,220),text:document.body?.innerText.slice(0,100)})');
     console.log('Offline page diagnostic:',JSON.stringify(offlinePage));
@@ -86,11 +87,24 @@ try {
   }
 
   if(!fileOnly)await call('Page.navigate',{url:singleFileUrl});
-  await pause(1200);
-  const filePage=await value('({url:location.href,title:document.title,ready:document.readyState,scene:!!document.querySelector("#scene"),sceneText:document.querySelector("#scene")?.innerText.slice(0,220)})');
+  if(fileOnly&&singleFileUrl.startsWith('http:'))await pause(3000);
+  else await pause(1200);
+  const filePage=await value('({url:location.href,title:document.title,ready:document.readyState,scene:!!document.querySelector("#scene"),sceneText:document.querySelector("#scene")?.innerText.slice(0,220),bodyText:document.body?.innerText.slice(0,500)})');
   console.log('Offline HTML diagnostic:',JSON.stringify(filePage));
+  if(errors.length)console.log('Offline HTML browser errors:',errors.slice(0,8).join(' | '));
   const fileWorks=!!filePage.scene&&!!filePage.sceneText?.includes('Khai mở cơ đồ');
-  if(fileWorks){await screenshot('16-single-file-offline');console.log('PASS single-file offline HTML renders from file://.');}
+  if(fileWorks){
+    if(singleFileUrl.startsWith('http:')){
+      await value('(function(){var i=document.querySelector("#new-city-name");i.value="Tây Kỳ";document.querySelector("form[data-form=new-game]").requestSubmit();return true})()');
+      await until('document.querySelector("#page-heading h1")?.innerText==="Thành trì"');
+      await until('Array.from(document.querySelectorAll(".building-card img")).some(x=>x.complete&&x.naturalWidth>0)');
+      const extraRequests=requests.filter(url=>url.startsWith('http:')&&url!==singleFileUrl&&!url.endsWith('/favicon.ico'));
+      if(extraRequests.length)throw new Error('Single-file page requested external assets: '+extraRequests.join(' | '));
+      console.log('PASS single-file build starts and renders Mobile art with no external asset requests over HTTP.');
+    }
+    await screenshot('16-single-file-offline');
+    if(singleFileUrl.startsWith('file:'))console.log('PASS single-file offline HTML renders from file://.');
+  }
   else console.log('BLOCKED Chromium in this environment returned chrome-error for the local file URL; the inline bundle itself passes syntax check.');
   if(errors.length)throw new Error('Browser runtime errors: '+errors.join(' | '));
   if(fileWorks)console.log('PASS zero browser runtime errors.');

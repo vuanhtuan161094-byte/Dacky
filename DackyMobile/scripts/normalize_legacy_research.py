@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Structurally normalize private legacy extracts with per-field provenance.
 
-All row output is written below input-private/. This is a research artifact;
-the script deliberately does not create runtime catalogs or license grants.
+All row output is written below input-private/. The owner has authorized use of
+found data; this script validates structure but does not map gameplay semantics
+or create runtime catalogs.
 """
 import argparse
 import json
@@ -88,9 +89,9 @@ def normalize_table(name, table_meta, extracted_dir, cache_dir, output_dir, sour
         "normalizationVersion": NORMALIZATION_VERSION,
         "sourceCommit": source_commit,
         "sourceTable": name,
-        "status": "PRIVATE_LEGACY_RESEARCH_NOT_RUNTIME_APPROVED",
-        "licenseStatus": "UNVERIFIED_NO_SPDX_LICENSE",
-        "redistributionStatus": "BLOCKED_PENDING_PERMISSION_REVIEW",
+        "status": "PRIVATE_LEGACY_RESEARCH_NOT_RUNTIME_MAPPED",
+        "licenseStatus": "OWNER_AUTHORIZATION_NO_SPDX_REQUIRED",
+        "redistributionStatus": "RAW_DATABASE_DUMP_KEPT_PRIVATE",
         "rowCount": len(rows),
         "recordLayout": table_meta.get("mode"),
         "schema": field_provenance,
@@ -119,8 +120,8 @@ def normalize_all(extracted_dir, cache_dir, output_dir):
         "normalizationVersion": NORMALIZATION_VERSION,
         "sourceCommit": source_commit,
         "status": "PRIVATE_RESEARCH_ONLY",
-        "licenseStatus": "UNVERIFIED_NO_SPDX_LICENSE",
-        "runtimeImportStatus": "DISABLED_PENDING_FIELD_SCOPE_AND_REUSE_PERMISSION",
+        "licenseStatus": "OWNER_AUTHORIZATION_NO_SPDX_REQUIRED",
+        "runtimeImportStatus": "PENDING_GAMEPLAY_FIELD_MAPPING",
         "normalizedTableCount": normalized,
         "heldTableCount": sum(row["status"] == "HOLD" for row in tables.values()),
         "normalizedRecordCount": rows,

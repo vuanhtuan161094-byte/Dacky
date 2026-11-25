@@ -1,16 +1,14 @@
-# Blockers and open risks
+# Remaining production gaps
 
-| Area | Blocker / limitation | Evidence | Current handling |
-| --- | --- | --- | --- |
-| Data provenance | The 7 public Mobile catalogs are captured, but the original client version, complete Mobile/legacy delta and redistribution terms are unknown. | PTC catalog version `5d78c226cb`; no explicit game client version/license manifest on the public catalog page. | Runtime import count stays 0; catalogs and raw rows remain in gitignored `input-private/`. |
-| Legacy parsing | 3 of 70 pinned tables remain `HOLD`; 67 have structural normalization and per-field source hashes. | `DATA_COVERAGE.json`: two MyISAM packed layouts (record types 249/253) have no validated decoder; the pinned tree contains only `fieldrandeventcfginfo.frm`, with no `.MYI` or `.MYD`. | Preserve those three as `HOLD`; do not infer compressed layout or row count. |
-| Source license | GitHub reports no SPDX license for the pinned legacy repository; Mobile catalog has no source license field. | GitHub repo metadata and captured public catalog manifest. | Source adapter is wired but fail-closed. Do not import/publish rows, descriptions or assets without documented reuse permission. |
-| Mobile/legacy delta | Only category row counts have been compared; full field identity and gameplay-version alignment are unresolved. | `DATA_COVERAGE.json` records seven count comparisons and scope caveats. | No parity claim; retain `UNKNOWN` semantics and `SIMULATED` runtime fields. |
-| Android device QA | Debug APK and debug AAB build and integrity checks pass, but app installation/runtime on a device is not tested. | No emulator installed; ADB cannot create `/home/agent/.android` in this read-only environment. | Report static artifact verification only; do not mark Android device QA PASS. |
-| Visual screenshot QA | Current Chromium headless cannot capture the page, including `about:blank`; no current screenshot was produced. | Browser processes failed in crashpad/NSS initialization in this cloud image. Local HTTP assets return 200; earlier checkpoint gameplay smoke passed before the newest artwork. | Do not claim screenshot review for this revision; retain device/browser UI pass as outstanding. |
-| Standalone offline HTML | Single-file HTML is generated with JS/CSS/JPEG inlined, but direct `file://` launch is not validated on this revision. | Earlier `file://` smoke returned `chrome-error://chromewebdata/`; current headless Chromium fails before page capture. | PWA and local HTTP resources pass; standalone mode remains unverified. |
+| Area | Known state | Next action |
+| --- | --- | --- |
+| Legacy parsing | 67 of 70 pinned tables decoded; three remain `HOLD`: two packed record layouts and one missing MyISAM data/index pair. | Keep unsupported fields `UNKNOWN`; continue from decoded tables without guessing binary layouts. |
+| Gameplay source coverage | 2,656 Mobile records are bundled; 1,551 field values across 135 records are mapped to 15 buildings, 10 technology branches, 25 troops, 12 canonical heroes, and 73 city identities. Item, quest, most hero, tower, mountain and NPC combat mechanics still contain `SIMULATED`/`UNKNOWN` values. | Continue field-level mapping where source meaning is established. |
+| Version comparison | Mobile and legacy category deltas are recorded; shared names or IDs do not establish mechanics parity. | Keep versions separate and add field-level comparisons as coverage expands. |
+| Source art | 2,209 referenced Mobile images (13,173,749 bytes) are downloaded locally with source URL and SHA-256. Art appears in the source library and mapped runtime screens. | Extend portrait and asset mapping only where identity is exact. |
+| Web and Android deliverables | Web/PWA, single-file offline HTML, Android debug APK, and debug AAB build successfully. PWA offline relaunch and single-file HTTP smoke pass; APK/AAB package integrity checks pass. | Rebuild after future runtime changes; distribute artifacts separately from Git. |
+| Device QA | No emulator or physical-device session is available. | Keep device interaction unverified; do not infer a device pass from a successful package build. |
 
-The 2026-11-24 public-source HTTP 403 is resolved for the tested public GET routes on 2026-11-25; see `DATA_COVERAGE.json`. No credentials, authenticated flow, private endpoint, server or legacy executable was used.
+The project owner authorized use of found game data and assets on 2026-11-25; no SPDX identifier is required for integration. Raw legacy database dumps and captured input files remain gitignored in `input-private/`. Source image URL/hash details are in `assets/mobile-source-manifest.json`; concise usage notes are in `docs/MOBILE_ASSET_PROVENANCE.md`.
 
-## Owner production directive — 2026-11-25
-See `docs/PRODUCTION_POLICY.md`. Existing zero-import counts and source-rights findings above are historical observations, not an instruction to stop integrating independent factual mechanics. Refactor the adapter to permit documented independent factual parameters without invented license evidence; keep protected material fail-closed. Update actual coverage only after integration and tests. No source permission or runtime import is newly verified by this documentation change.
+See `docs/PRODUCTION_POLICY.md` for the full owner directive. The three legacy `HOLD` tables and unmapped gameplay semantics remain genuine data gaps, separate from usage permission. No credentials, authenticated flow, private endpoint, server or legacy executable was used.

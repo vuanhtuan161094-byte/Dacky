@@ -4,7 +4,7 @@ function requireReusePermission(decision) {
   if (decision?.status !== 'AUTHORIZED_FOR_RUNTIME'
       || typeof decision.license !== 'string' || !decision.license.trim()
       || typeof decision.permissionEvidence !== 'string' || !decision.permissionEvidence.trim()) {
-    throw new Error('Runtime source import requires documented reuse permission and license evidence.');
+    throw new Error('Runtime source import requires an owner authorization record.');
   }
 }
 
@@ -48,13 +48,13 @@ export function applyApprovedSourceFields(rows, facts, decision) {
     const fieldProvenance = { ...(row.fieldProvenance || {}) };
     const fieldEvidence = { ...(row.fieldEvidence || {}) };
     for (const [field, fact] of Object.entries(fields)) {
-      if (!Object.hasOwn(row, field) || ['id', 'evidence', 'fieldProvenance', 'fieldEvidence'].includes(field)) {
+      if (['id', 'evidence', 'fieldProvenance', 'fieldEvidence'].includes(field)) {
         throw new Error(`Source adapter cannot replace field ${field} on ${targetId}.`);
       }
       requireFieldProvenance(fact?.provenance);
       const incomingType = dataType(fact?.value);
       if (!Object.hasOwn(fact, 'value') || fact.targetType !== incomingType
-          || (row[field] !== null && dataType(row[field]) !== incomingType)
+          || (Object.hasOwn(row, field) && row[field] !== null && dataType(row[field]) !== incomingType)
           || (incomingType === 'number' && !Number.isFinite(fact.value))) {
         throw new Error(`Source adapter value type does not match ${targetId}.${field}.`);
       }

@@ -130,7 +130,7 @@ document.body.addEventListener('click', async event => {
   switch(action) {
     case 'catalogPage': {
       const key=button.dataset.pageKey;
-      if(['heroPage','forgePage','consumablePage','questPage','mountainPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
+      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
       return;
     }
     case 'selectNode':
@@ -193,12 +193,21 @@ document.body.addEventListener('submit', async event => {
     event.preventDefault();
     const data=Object.fromEntries(new FormData(form).entries());
     await perform('trade',{...data,amount:Number(data.amount)});
+  } else if (form.dataset.form==='source-search') {
+    event.preventDefault();
+    uiState.sourceQuery=String(new FormData(form).get('query')||'').trim();
+    uiState.sourcePage=0;
+    renderCurrent();
   }
 });
 
 document.body.addEventListener('change', async event => {
   const target=event.target;
-  if (target.matches('[data-change="chapter"]')) {
+  if (target.matches('[data-source-category]')) {
+    uiState.sourceCategory=target.value;
+    uiState.sourcePage=0;
+    renderCurrent();
+  } else if (target.matches('[data-change="chapter"]')) {
     uiState.chapter=Number(target.value)||1;
     uiState.nodeId=null;
     renderCurrent();
