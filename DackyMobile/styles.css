@@ -983,7 +983,7 @@ body.hud-ready:not(.startup-mode):not(.battle-mode) .main-stage{height:100%;min-
 body.hud-ready:not(.startup-mode):not(.battle-mode) .page-heading{flex:0 0 auto}
 body.hud-ready:not(.startup-mode):not(.battle-mode) .scene{flex:1 1 0;height:auto;min-height:0}
 body.hud-ready:not(.startup-mode):not(.battle-mode) .game-dock{position:relative;inset:auto;flex:0 0 auto;min-height:0;width:100%}
-body.hud-hide-top .topbar,body.hud-hide-nav .game-dock,body.hud-hide-heading .page-heading,body.hud-hide-status .status-row{display:none!important}
+body.hud-hide-top .topbar,body.hud-hide-nav #primary-nav.game-dock,body.hud-hide-heading .page-heading,body.hud-hide-status .status-row{display:none!important}
 body.hud-focus:not(.startup-mode):not(.battle-mode) .main-stage{padding:0}
 .hud-controller{display:none}
 body.hud-ready:not(.startup-mode) .hud-controller{display:block;position:fixed;right:max(8px,env(safe-area-inset-right));bottom:76px;z-index:1600}
@@ -1115,3 +1115,6 @@ body.hud-hide-cityLabels .art09-build-timer{display:none!important}
 .art01-city.art09-city .city-building[data-building="wall"] .city-building-art img{object-fit:contain}
 .art01-city.art09-city .city-building[data-building-state="foundation"][data-unlocked="true"] .city-building-art img{opacity:.14}
 .art01-city.art09-city .city-building[data-building-state="foundation"][data-unlocked="false"] .city-building-level{opacity:.35}
+
+/* R9B: exact selector wins over the legacy #primary-nav.game-dock!important. */
+body.startup-mode #primary-nav.game-dock{display:none!important}

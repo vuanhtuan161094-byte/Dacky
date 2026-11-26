@@ -85,7 +85,7 @@ jobs:
           s=re.sub(r"dacky-mobile-shell-[^']+",'dacky-art01-review-shell-'+os.environ['SOURCE_SHA'][:8],p.read_text()).replace("startsWith('dacky-mobile-')","startsWith('dacky-art01-review-')")
           p.write_text(s)
           p=dst/'manifest.webmanifest';data=json.loads(p.read_text());data['name']='Đắc Kỷ · Duyệt thành trì';data['short_name']='Dacky Review';p.write_text(json.dumps(data,ensure_ascii=False))
-          (dst/'build.json').write_text(json.dumps({'source':os.environ['SOURCE_SHA'],'ci':int(os.environ['RUN_ID']),'review':'ART01 R9A native palace','isolatedSave':True}))
+          (dst/'build.json').write_text(json.dumps({'source':os.environ['SOURCE_SHA'],'ci':int(os.environ['RUN_ID']),'review':'ART01 R9B HUD fix','isolatedSave':True}))
           assert 'dacky-art01-review-local' in (dst/'src/store.js').read_text()
           PY
           git config user.name 'github-actions[bot]'

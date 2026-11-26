@@ -12,6 +12,16 @@ with sync_playwright() as p:
         page.locator('[data-form="new-game"] button').click(timeout=60000)
         camera=page.locator(".art01-camera")
         camera.wait_for()
+        # Capture actual runtime before any potentially failing HUD assertion.
+        page.evaluate("document.fonts.ready")
+        page.locator('.art01-terrain').evaluate("(im)=>im.decode()")
+        page.wait_for_function("Array.from(document.querySelectorAll('.city-building-art img')).every(i=>i.complete&&i.naturalWidth>0)",timeout=30000)
+        page.screenshot(path=str(out/(label+"-initial-city.png")))
+        page.locator('.art06-zone-tabs [data-zone="outer"]').click()
+        page.locator('.art01-terrain').evaluate("(im)=>im.decode()")
+        page.wait_for_function("Array.from(document.querySelectorAll('.city-building-art img')).every(i=>i.complete&&i.naturalWidth>0)",timeout=30000)
+        page.screenshot(path=str(out/(label+"-initial-outer.png")))
+        page.locator('.art06-zone-tabs [data-zone="inner"]').click()
         assert page.locator('.art07-toolbar').is_visible()
         assert page.locator('.art07-commands').is_visible()
         # R8 overlays controls rather than reserving a fixed right column.
@@ -24,7 +34,7 @@ with sync_playwright() as p:
         assert scene.bounding_box()['height']>normal_height
         page.locator('[data-hud-key="top"]').first.click()
         page.locator('[data-hud-key="nav"]').first.click()
-        assert not page.locator('#primary-nav').is_visible()
+        assert not page.locator('#primary-nav').is_visible(),page.locator('#primary-nav').evaluate("(el)=>({display:getComputedStyle(el).display,body:document.body.className})")
         page.locator('[data-hud-key="nav"]').first.click()
         page.locator('[data-hud-key="cityCommands"]').first.click()
         assert not page.locator('.art07-commands').is_visible()
@@ -34,8 +44,8 @@ with sync_playwright() as p:
         assert not page.locator('#primary-nav').is_visible()
         assert not page.locator('.art07-toolbar').is_visible()
         assert page.locator('.hud-restore').is_visible()
-        assert camera.bounding_box()['height']>=h-2
         page.screenshot(path=str(out/(label+"-focus.png")))
+        assert camera.bounding_box()['height']>=h-2,{'camera':camera.bounding_box(),'viewport':(w,h)}
         page.locator('.hud-restore').click()
         assert page.locator('.art07-toolbar').is_visible()
         assert page.locator('#primary-nav').is_visible()
