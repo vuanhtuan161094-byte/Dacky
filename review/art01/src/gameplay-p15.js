@@ -22,7 +22,7 @@ function goodsFromTitle(title){const match=norm(title).match(/^(.*?)\s+(\d+)\s*(
 // Housing and the capital's civic level open a broad late-game population
 // curve; the exact Mobile formula was absent, so this cap/growth adapter is
 // intentionally marked SIMULATED in the dependency ledger.
-export function populationCapacity(s){return Math.min(250000,Math.max(180,180+num(s.levels.housing)*1400+num(s.levels.citadel)*700+(Math.max(0,(s.cities?.length||1)-1))*350));}
+export function populationCapacity(s){return Math.min(250000,Math.max(180,180+(num(s.levels.housing)+Object.values(s.cityPlots||{}).reduce((n,p)=>n+(p?.buildingId==='housing'?num(p.level):0),0))*1400+num(s.levels.citadel)*700+(Math.max(0,(s.cities?.length||1)-1))*350));}
 export function trainingSourceQuote(s,t,count){const f=LEGACY_TROOP_REQUIREMENT_FACTS[t.id];if(!f)return null;const gates=f.trainingRequirements.value,unmet=[];for(const g of gates.buildings??[]){const id=g.runtimeBuildingId??(String(g.sourceNamedId)==='22'?'workshop':null);if(id&&(s.levels[id]??0)<g.level)unmet.push((BUILDINGS.find(b=>b.id===id)?.name??id)+' '+g.level);}
  for(const g of gates.technologies??[]){const id=g.runtimeTechnologyId;if(id&&(s.technologies[id]??0)<g.level)unmet.push(id+' '+g.level);}
  return {cost:Object.fromEntries(Object.entries(f.cost.value).map(([k,v])=>[k,v*count])),unmet,evidence:'VERIFIED_LEGACY'};}

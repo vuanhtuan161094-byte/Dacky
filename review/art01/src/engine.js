@@ -31,6 +31,31 @@ const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 let combatService;
 const combat=()=>combatService??=createProductCombat({storageCapacity});
 
+// Additional land preserves legacy building levels and unlocks true repeatable plots.
+export const CITY_PLOT_TYPES=Object.freeze({inner:Object.freeze(["housing","storehouse","granary","barracks","training","market","foundry"]),outer:Object.freeze(["farm","grove","mine","foundryfield"])});
+export const CITY_PLOT_LIMITS=Object.freeze({inner:9,outer:31});
+export function cityPlotZone(id){return typeof id==='string'&&/^i[1-9]$/.test(id)?'inner':typeof id==='string'&&/^o(?:[1-9]|[12][0-9]|3[01])$/.test(id)?'outer':null;}
+export function outerLandCapacity(state){return Math.min(37,8+Math.max(0,Math.floor(Number(state.levels?.citadel)||1)-1));}
+export function cityPlotUnlocked(state,id){const zone=cityPlotZone(id);return zone==='inner'||(zone==='outer'&&Number(id.slice(1))<=outerLandCapacity(state)-6);}
+export function extraBuildingLevels(state,id){return Object.values(state.cityPlots||{}).reduce((n,p)=>n+(p?.buildingId===id?Math.max(0,Number(p.level)||0):0),0);}
+function normalizeCityPlots(s){
+ const clean={};
+ for(const [id,p] of Object.entries(s.cityPlots&&typeof s.cityPlots==='object'&&!Array.isArray(s.cityPlots)?s.cityPlots:{})){
+  const z=cityPlotZone(id),b=BUILDINGS.find(b=>b.id===p?.buildingId);
+  if(z&&b&&CITY_PLOT_TYPES[z].includes(b.id)&&cityPlotUnlocked(s,id)){
+   const level=clamp(Math.floor(Number(p.level)||0),0,b.maxLevel);if(level)clean[id]={buildingId:b.id,level};
+  }
+ }
+ s.cityPlots=clean;
+}
+export function quoteCityPlot(state,plotId,buildingId){
+ const zone=cityPlotZone(plotId),existing=state.cityPlots?.[plotId],id=existing?.buildingId||buildingId;
+ if(!zone||!CITY_PLOT_TYPES[zone].includes(id)||existing&&buildingId&&buildingId!==existing.buildingId)return null;
+ const q=quoteBuilding(state,id,existing?.level||0);
+ const landLocked=!cityPlotUnlocked(state,plotId);
+ return {...q,buildingId:id,plotId,landLocked,locked:q.locked||landLocked};
+}
+
 export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   const levels = Object.fromEntries(BUILDINGS.map(b => [b.id, 0]));
   Object.assign(levels,{government:1,housing:2,hostel:1});
@@ -47,6 +72,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     taxPolicy: 'balanced',
     fame: 0,
     levels,
+    cityPlots: {},
     technologies: Object.fromEntries(TECHNOLOGIES.map(t => [t.id, 0])),
     legacyResearchArchive: {},
     heroes: [{ id: hero.id, level: 3, xp: 0, assigned: true, equipment: { weapon: null, armor: null, artifact: null }, skillLevel: 1, affinity: 0 }],
@@ -82,6 +108,7 @@ export function migrateSave(input, now = Date.now()) {
   for (const key of RESOURCE_KEYS) s.resources[key] = Math.max(0, Number(s.resources[key]) || 0);
   s.levels = s.levels && typeof s.levels === 'object' ? s.levels : {};
   for (const b of BUILDINGS) s.levels[b.id] = clamp(Number(s.levels?.[b.id]) || 0, 0, b.maxLevel);
+  normalizeCityPlots(s);
   s.technologies = s.technologies && typeof s.technologies === 'object' ? s.technologies : {};
   for (const t of TECHNOLOGIES) s.technologies[t.id] = clamp(Number(s.technologies?.[t.id]) || 0, 0, t.maxLevel);
   s.population = clamp(Number(s.population) || 0, 0, 250_000);
@@ -123,6 +150,7 @@ export function migrateSave(input, now = Date.now()) {
     finishAt: clamp(Number(q.finishAt)||now,0,now+30*24*60*60*1000)
   } : null;
   const construction = safeQueue(rawQueues.construction);
+  if(construction?.plotId){const z=cityPlotZone(construction.plotId),p=s.cityPlots[construction.plotId],b=BUILDINGS.find(x=>x.id===construction.buildingId);if(!z||!b||!CITY_PLOT_TYPES[z].includes(b.id)||!cityPlotUnlocked(s,construction.plotId)||p&&p.buildingId!==b.id||Number(construction.level)!==(p?.level||0)+1||Number(construction.level)>b.maxLevel){construction.buildingId=null;construction.cityId=null;}}
   const training = safeQueue(rawQueues.training);
   const research = safeQueue(rawQueues.research);
   const march = safeQueue(rawQueues.march);
@@ -213,7 +241,8 @@ export function migrateSave(input, now = Date.now()) {
 }
 
 export function productionPerHour(state) {
-  const lv = state.levels;
+  const lv = {...state.levels};
+  for(const id of ['farm','grove','mine','foundryfield','granary','market','foundry'])lv[id]=(lv[id]||0)+extraBuildingLevels(state,id);
   const tech = state.technologies;
   const multiplier=state.settings?.combatV13?(1+(cityEffects(state,state.lastTickAt??0).production??0))*((state.gameplay?.laborRate??100)/100):1;
   const satelliteLevels=(state.cities||[]).filter(city=>!city.isCapital).reduce((sum,city)=>sum+city.level,0);
@@ -230,7 +259,7 @@ export function productionPerHour(state) {
 }
 
 export function storageCapacity(state) {
-  const base=2400 + (state.levels.storehouse || 0) * 1650 + (state.levels.granary || 0) * 220;
+  const base=2400 + ((state.levels.storehouse || 0)+extraBuildingLevels(state,'storehouse')) * 1650 + ((state.levels.granary || 0)+extraBuildingLevels(state,'granary')) * 220;
   return Math.floor(base*(1+(state.technologies?.['tech-06']||0)*technologyRate('tech-06',0.04)));
 }
 
@@ -464,10 +493,10 @@ function evaluateBuildingRequirements(state, text) {
   return {status:unmet.length?'LOCKED':unknown.length?'PARTIAL_UNKNOWN':'SATISFIED',unmet,unknown};
 }
 
-export function quoteBuilding(state, buildingId) {
+export function quoteBuilding(state, buildingId, currentLevel=undefined) {
   const b = BUILDINGS.find(x => x.id === buildingId);
   if (!b) return null;
-  const level = (state.levels[b.id] || 0) + 1;
+  const level = (currentLevel??state.levels[b.id]??0) + 1;
   const sourceLevel=b.mobileLevelCosts?.find(item=>Number(item.level)===level);
   const simulatedLevel=b.simulatedLevelCosts?.find(item=>Number(item.level)===level);
   const cost = sourceLevel?.cost ? {...sourceLevel.cost} : simulatedLevel?.cost ? {...simulatedLevel.cost} : progressionCost(b.mobileLevelCosts, b.baseCost, level);
@@ -770,6 +799,11 @@ function completeQueue(state, key, now) {
     if(q.cityId){
       const city=state.cities.find(row=>row.id===q.cityId&&!row.isCapital);
       if(city){city.level=Math.min(10,q.level);state.stats.upgrades++;note(state,`${city.name} đã hoàn thành nâng cấp thành phụ cấp ${city.level}.`);}
+    }else if(q.plotId){
+      const b=BUILDINGS.find(b=>b.id===q.buildingId),p=state.cityPlots[q.plotId];
+      if(b&&cityPlotUnlocked(state,q.plotId)&&(!p||p.buildingId===b.id)&&q.level===(p?.level||0)+1&&q.level<=b.maxLevel){
+        state.cityPlots[q.plotId]={buildingId:b.id,level:q.level};state.stats.upgrades++;note(state,b.name+' · ô '+q.plotId.toUpperCase()+' đã hoàn thành cấp '+q.level+'.');
+      }
     }else{
       state.levels[q.buildingId] = Math.min(30, (state.levels[q.buildingId] || 0) + 1);
       state.stats.upgrades++;
@@ -1176,11 +1210,15 @@ export function doAction(state, action, now = Date.now()) {
       note(s,`Chính sách thuế đổi sang ${TAX_POLICIES[s.taxPolicy].label}.`);
       break;
     }
+    case 'upgradePlot':
     case 'upgrade': {
       if (s.queues.construction) throw new Error('Hàng đợi xây dựng đang bận.');
       const b = BUILDINGS.find(x => x.id === action.buildingId);
       if (!b) throw new Error('Không tìm thấy công trình.');
-      const quote=quoteBuilding(s,b.id);
+      const plotId=action.type==='upgradePlot'?String(action.plotId||''):null;
+      const quote=plotId?quoteCityPlot(s,plotId,b.id):action.type==='upgradePlot'?null:quoteBuilding(s,b.id);
+      if(!quote)throw Error('Loại công trình không phù hợp với ô đất.');
+      if(quote.landLocked)throw Error('Ô đất chưa mở; hãy nâng cấp Tử Vi Thành.');
       const nextLevel=quote.level;
       if (quote.maxed) throw new Error('Công trình đã đạt cấp tối đa.');
       if(quote.requirementStatus==='LOCKED')throw new Error(`Chưa đạt điều kiện Mobile: ${quote.unmetRequirements.join(', ')}.`);
@@ -1191,7 +1229,7 @@ export function doAction(state, action, now = Date.now()) {
       const blueprintNeed=Number(quote.requirementText.match(/Bản Vẽ Xây Dựng\s*[×x]\s*(\d+)/i)?.[1]||0),blueprint=ITEMS.find(item=>item.mobileSourceId==='4906');
       if(blueprintNeed&&blueprint)for(let i=0;i<blueprintNeed;i++)s.items.splice(s.items.indexOf(blueprint.id),1);
       const techSpeed = 1 + (s.technologies['tech-08'] || 0) * technologyRate('tech-08',0.025);
-      s.queues.construction = { buildingId: b.id, level: nextLevel, cost, startAt: now, finishAt: now + b.seconds * Math.pow(nextLevel, 1.2) * 1000 / techSpeed };
+      s.queues.construction = { buildingId: b.id, ...(plotId?{plotId}:{}), level: nextLevel, cost, startAt: now, finishAt: now + b.seconds * Math.pow(nextLevel, 1.2) * 1000 / techSpeed };
       note(s, `Thợ xây bắt đầu nâng ${b.name} lên cấp ${nextLevel}.`);
       break;
     }
@@ -1221,7 +1259,7 @@ export function doAction(state, action, now = Date.now()) {
       const cost = quote.cost;
       if (s.settings.combatV13 && cityEffects(s, now).blockTraining) throw new Error('Đang bị cấm luyện quân.');
       debit(s, cost);
-      const speed = 1 + (s.technologies['tech-09'] || 0) * technologyRate('tech-09',0.02) + (s.levels.training || 0) * 0.025 + (s.levels.barracks || 0) * 0.008;
+      const speed = 1 + (s.technologies['tech-09'] || 0) * technologyRate('tech-09',0.02) + ((s.levels.training || 0)+extraBuildingLevels(s,'training')) * 0.025 + ((s.levels.barracks || 0)+extraBuildingLevels(s,'barracks')) * 0.008;
       s.queues.training = { troopId: t.id, count, cost, startAt: now, finishAt: now + Math.max(4000, quote.seconds * 1000 / speed) };
       note(s, `Bắt đầu huấn luyện ${count} ${t.name}.`);
       break;

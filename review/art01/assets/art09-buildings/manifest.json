@@ -1,0 +1,434 @@
+{
+  "citadel": {
+    "source": "mobile-source/assets/map-ng/thanh/map005.webp",
+    "pixelSize": [
+      526,
+      329
+    ],
+    "foot": [
+      720,
+      194
+    ],
+    "display": [
+      290,
+      179
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "wall": {
+    "source": "mobile-source/flash/city/RES_DAK_IMAGE.png",
+    "pixelSize": [
+      255,
+      236
+    ],
+    "foot": [
+      720,
+      710
+    ],
+    "display": [
+      156,
+      90
+    ],
+    "transformation": "custom terrain-aligned isometric farm/gate sprite; source reference"
+  },
+  "government": {
+    "source": "mobile-source/flash/city/RES_GOVERNMENT_IMAGE.png",
+    "pixelSize": [
+      414,
+      226
+    ],
+    "foot": [
+      270,
+      168
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "academy": {
+    "source": "mobile-source/flash/city/RES_SCHOOL_IMAGE.png",
+    "pixelSize": [
+      203,
+      136
+    ],
+    "foot": [
+      445,
+      168
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "altar": {
+    "source": "mobile-source/flash/city/RES_CALLHERO_IMAGE.png",
+    "pixelSize": [
+      174,
+      140
+    ],
+    "foot": [
+      995,
+      168
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "manor": {
+    "source": "mobile-source/flash/city/RES_DAK_IMAGE.png",
+    "pixelSize": [
+      168,
+      121
+    ],
+    "foot": [
+      1170,
+      168
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "hostel": {
+    "source": "mobile-source/flash/city/RES_HOSTEL_IMAGE.png",
+    "pixelSize": [
+      171,
+      155
+    ],
+    "foot": [
+      230,
+      293
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "embassy": {
+    "source": "mobile-source/flash/city/RES_HONGLUTEMPLE_IMAGE.png",
+    "pixelSize": [
+      190,
+      128
+    ],
+    "foot": [
+      405,
+      293
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "clinic": {
+    "source": "mobile-source/flash/city/RES_HOSPITAL_IMAGE.png",
+    "pixelSize": [
+      175,
+      141
+    ],
+    "foot": [
+      1035,
+      293
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "housing": {
+    "source": "mobile-source/flash/city/RES_HOUSE_IMAGE.png",
+    "pixelSize": [
+      195,
+      112
+    ],
+    "foot": [
+      1210,
+      293
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "market": {
+    "source": "mobile-source/flash/city/RES_FSMARKET_IMAGE.png",
+    "pixelSize": [
+      161,
+      114
+    ],
+    "foot": [
+      230,
+      407
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "granary": {
+    "source": "mobile-source/flash/city/RES_FSMARKET_IMAGE.png",
+    "pixelSize": [
+      161,
+      114
+    ],
+    "foot": [
+      405,
+      407
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "storehouse": {
+    "source": "mobile-source/flash/city/RES_HOUSE_IMAGE.png",
+    "pixelSize": [
+      195,
+      112
+    ],
+    "foot": [
+      1035,
+      407
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "caravan": {
+    "source": "mobile-source/flash/city/RES_HORSESTALL_IMAGE.png",
+    "pixelSize": [
+      206,
+      155
+    ],
+    "foot": [
+      1210,
+      407
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "foundry": {
+    "source": "mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
+    "pixelSize": [
+      171,
+      129
+    ],
+    "foot": [
+      230,
+      521
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "barracks": {
+    "source": "mobile-source/flash/city/RES_BARBACK_IMAGE.png",
+    "pixelSize": [
+      198,
+      153
+    ],
+    "foot": [
+      570,
+      521
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "training": {
+    "source": "mobile-source/flash/city/RES_GYMKHANA_IMAGE.png",
+    "pixelSize": [
+      176,
+      123
+    ],
+    "foot": [
+      870,
+      521
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "workshop": {
+    "source": "mobile-source/flash/city/RES_ARTISANWORKSHOP_IMAGE.png",
+    "pixelSize": [
+      188,
+      161
+    ],
+    "foot": [
+      1210,
+      521
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "watch": {
+    "source": "mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png",
+    "pixelSize": [
+      163,
+      161
+    ],
+    "foot": [
+      230,
+      635
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "skirmisher": {
+    "source": "mobile-source/flash/city/RES_SkirmisherBarrack_IMAGE.png",
+    "pixelSize": [
+      205,
+      127
+    ],
+    "foot": [
+      570,
+      635
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "stable": {
+    "source": "mobile-source/flash/city/RES_HORSESTALL_IMAGE.png",
+    "pixelSize": [
+      206,
+      155
+    ],
+    "foot": [
+      870,
+      635
+    ],
+    "display": [
+      138,
+      95
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "lumber": {
+    "source": "mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png",
+    "pixelSize": [
+      150,
+      109
+    ],
+    "foot": [
+      230,
+      195
+    ],
+    "display": [
+      153,
+      94
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "grove": {
+    "source": "mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png",
+    "pixelSize": [
+      150,
+      109
+    ],
+    "foot": [
+      230,
+      320
+    ],
+    "display": [
+      153,
+      94
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "quarry": {
+    "source": "mobile-source/flash/city/RES_QUARRY_IMAGE.png",
+    "pixelSize": [
+      150,
+      99
+    ],
+    "foot": [
+      1210,
+      195
+    ],
+    "display": [
+      153,
+      94
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "mine": {
+    "source": "mobile-source/flash/city/RES_IRONOREFIELD_IMAGE.png",
+    "pixelSize": [
+      149,
+      78
+    ],
+    "foot": [
+      1210,
+      320
+    ],
+    "display": [
+      153,
+      94
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  },
+  "farm": {
+    "source": "mobile-source/flash/city/RES_CROPLAND_IMAGE.png",
+    "pixelSize": [
+      475,
+      225
+    ],
+    "foot": [
+      720,
+      570
+    ],
+    "display": [
+      153,
+      94
+    ],
+    "transformation": "custom terrain-aligned isometric farm/gate sprite; source reference"
+  },
+  "foundryfield": {
+    "source": "mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
+    "pixelSize": [
+      171,
+      129
+    ],
+    "foot": [
+      1210,
+      570
+    ],
+    "display": [
+      153,
+      94
+    ],
+    "transformation": "alpha trim, bounded resample, common tonal grade"
+  }
+}
