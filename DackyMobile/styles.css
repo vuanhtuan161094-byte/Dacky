@@ -771,3 +771,41 @@ html,body{width:100%;height:100%;min-height:0;overflow:hidden;overscroll-behavio
 .art01-city-mode .game-dock [data-view="market"] .nav-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M4%2012l12-8%2012%208z%20M7%2012v15h18V12%20M12%2027v-9h8v9%22%20fill%3D%22none%22%20stroke%3D%22%23e6c785%22%20stroke-width%3D%221.6%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
 .art01-city-mode .game-dock [data-view="reports"] .nav-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M6%204h20v24H6z%20M10%2022l5-7%204%203%204-9%20M20%209h3v3%22%20fill%3D%22none%22%20stroke%3D%22%23e6c785%22%20stroke-width%3D%221.6%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
 .art01-city-mode .game-dock [data-view="settings"] .nav-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M16%204v4m0%2016v4M4%2016h4m16%200h4M7%207l3%203m12%2012%203%203M7%2025l3-3m12-12%203-3%20M16%209a7%207%200%201%200%200%2014%207%207%200%200%200%200-14z%22%20fill%3D%22none%22%20stroke%3D%22%23e6c785%22%20stroke-width%3D%221.6%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
+
+/* ART01 R3 — organic capital districts, source fortress and fully readable HUD */
+.art01-city-mode .game-layout{height:calc(100dvh - 114px)}
+.art01-city .art01-world{width:max(1000px,min(100%,calc((100dvh - 114px)*1.895)));aspect-ratio:36/19;min-height:0}
+.art01-city .art01-overview .art01-world{width:min(100%,calc((100dvh - 114px)*1.895));max-width:none}
+.art01-city .city-landscape.art01-camera{background:#344b3b}
+.art01-city .city-building{width:10.2%;height:16.3%;transform:translate(-50%,-82%);overflow:visible}
+.art01-city .city-building[data-building="citadel"]{width:28%;height:38%;transform:translate(-50%,-78%)}
+.art01-city .city-building:hover:not(:disabled),.art01-city .city-building:focus-visible,.art01-city .city-building[aria-pressed="true"]{transform:translate(-50%,-82%);filter:drop-shadow(0 0 5px #e8c76d)}
+.art01-city .city-building[data-building="citadel"]:is(:hover,:focus-visible,[aria-pressed="true"]){transform:translate(-50%,-78%)}
+.art01-city .city-building-art img{filter:drop-shadow(3px 7px 4px #152c2388)}
+.art01-city .city-building[data-building-state="foundation"] .city-building-art img{opacity:.06;filter:grayscale(1)}
+.art01-city .city-building[data-unlocked="false"] .city-building-art img{visibility:hidden}
+.art01-city .city-building[data-unlocked="false"] .city-building-level{opacity:.38;box-shadow:none;background:#53624a;border-color:#aeb18b}
+.art01-city .city-building[data-building-state="foundation"] .city-building-level{right:40%;bottom:4%;width:19px;height:19px;min-width:19px}
+.art01-city .city-building[data-building-state="built"] .city-building-level{border-radius:4px;bottom:7%;right:9%;background:#273c2d;color:#ffe9a6;border-color:#dac385}
+.art01-city .city-building[data-building="citadel"] .city-building-level{right:24%;bottom:17%}
+.art01-city .city-board-top{background:linear-gradient(135deg,#263d31ed,#182b25ed);padding:7px 14px}
+.art01-city-mode .topbar{background:linear-gradient(#3e3428,#242b26);border-bottom-color:#b79b65}
+.art01-city-mode .realm-seal{font-size:0;background:linear-gradient(135deg,#8d5c3b,#5c302a);border:1px solid #cfac76;display:grid;place-items:center}
+.art01-city-mode .realm-seal:before{content:"★";font:19px Georgia;color:#edc686}
+.art01-city-mode .settings-shortcut{font-size:0;display:grid;place-items:center}
+.art01-city-mode .settings-shortcut:before{content:"⚙";font:20px system-ui;color:#e5c48a}
+.art01-city-mode .resource-glyph{font-size:0;border:0;background:transparent;width:18px;height:18px;position:relative;background-size:contain;background-position:center;background-repeat:no-repeat}
+.art01-city-mode .resource-pill{grid-template-columns:18px auto;background:#1d2823b5;border-color:#ab92634f}
+.art01-city-mode .resource-value{font-size:12px;color:#ffebbc}
+.art01-city-mode .resource-name{font-size:8px;color:#c9c4a9}
+.art01-city-mode .game-dock{background:linear-gradient(#37382c,#1d2c26);border-color:#b79b65}
+.art01-city .art01-camera-tools{bottom:9px;left:10px}
+.art01-city .art01-camera-tools .button,.art01-city .city-management-drawer>summary{background:linear-gradient(#3b4932,#24342a);color:#f4ddac;border:1px solid #b59c65}
+@media(max-width:680px){.art01-city .art01-world{width:1000px}.art01-city .art01-overview .art01-world{width:100%}.art01-city-mode .resource-glyph{width:15px;height:15px}.art01-city-mode .resource-pill{grid-template-columns:15px auto}.art01-city-mode .resource-value{font-size:10px}}
+@media(max-height:480px) and (orientation:landscape){.art01-city-mode .game-layout{height:calc(100dvh - 84px)}.art01-city .art01-world{width:1000px}.art01-city .art01-overview .art01-world{width:min(100%,calc((100dvh - 84px)*1.895))}.art01-city-mode .resource-value{font-size:10px}}
+.art01-city-mode .resource-pill:nth-child(1) .resource-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M16%2028V6M16%2013Q5%2012%208%204q9%200%208%209M16%2020q-13-1-11-10%2011%201%2011%2010M16%2015q10-1%209-11-9%200-9%2011M16%2023q11-2%2011-10-10%200-11%2010%22%20fill%3D%22%23d9b659%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%23d9b659%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
+.art01-city-mode .resource-pill:nth-child(2) .resource-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M4%2024L22%206l6%206L10%2030z%20M7%2020l7%207M19%209l6%206%22%20fill%3D%22%23aa8051%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%23aa8051%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
+.art01-city-mode .resource-pill:nth-child(3) .resource-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M3%2022l5-15%2014-3%208%2013-10%2013-12-2z%20M8%207l12%2010%2010%200M20%2017l0%2013%22%20fill%3D%22%23aaa89b%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%23aaa89b%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
+.art01-city-mode .resource-pill:nth-child(4) .resource-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M4%2019l9-8h15l-6%2015H4z%20M4%2019h18l6-8M22%2019v7%22%20fill%3D%22%23b2c1c3%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%23b2c1c3%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
+.art01-city-mode .resource-pill:nth-child(5) .resource-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M16%203a13%2013%200%201%200%200%2026%2013%2013%200%200%200%200-26z%20M11%2011h10v10H11z%22%20fill%3D%22%23e0b24f%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%23e0b24f%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
+.art01-city-mode .resource-pill:nth-child(6) .resource-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M16%202L28%2012l-12%2018L4%2012z%20M4%2012h24M16%202l-5%2010%205%2018%205-18z%22%20fill%3D%22%2374bda1%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%2374bda1%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}

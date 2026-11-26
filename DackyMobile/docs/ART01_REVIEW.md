@@ -1,3 +1,3 @@
-# ART01 R2 — Thành trì
+# ART01 R3 — organic capital
 
-R1 technical PASS, art review FAIL. R2 adjusts scene scale, empty lot prominence, terrain detail, navigation glyphs and mobile HUD sizing. Existing building controls retained. Incremental candidate, not an approved match to the original client. Actual runtime screenshots required. No changes to ONE GAME, combat, save or data.
+R1 and R2 rejected after actual runtime visual review. R3 replaces board-like grid with organic roads and grouped districts, restores a native source fortress as centerpiece, reduces prominence of locked lots, and repairs missing resource icons. Keeps 27 building interactions, explicit upgrade confirmation and camera. Original Mobile screenshot parity remains unverified; owner review required. No gameplay engine, save, data, ONE GAME or deploy changes.
