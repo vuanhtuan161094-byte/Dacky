@@ -973,3 +973,100 @@ html,body{width:100%;height:100%;min-height:0;overflow:hidden;overscroll-behavio
  .art07-city .art06-production{bottom:205px}
  .art07-city .art01-overview .art01-world{width:100%}
 }
+
+/* ART01 R8 — one common, independently collapsible HUD; full scene first. */
+body.hud-ready:not(.startup-mode):not(.battle-mode) .app-frame{display:flex;flex-direction:column;min-height:0;height:100dvh;padding:0;overflow:hidden}
+body.hud-ready:not(.startup-mode):not(.battle-mode) .topbar,
+body.hud-ready:not(.startup-mode):not(.battle-mode) .status-row{flex:0 0 auto}
+body.hud-ready:not(.startup-mode):not(.battle-mode) .game-layout{flex:1 1 0;height:auto;min-height:0;overflow:hidden}
+body.hud-ready:not(.startup-mode):not(.battle-mode) .main-stage{height:100%;min-height:0;display:flex;flex-direction:column}
+body.hud-ready:not(.startup-mode):not(.battle-mode) .page-heading{flex:0 0 auto}
+body.hud-ready:not(.startup-mode):not(.battle-mode) .scene{flex:1 1 0;height:auto;min-height:0}
+body.hud-ready:not(.startup-mode):not(.battle-mode) .game-dock{position:relative;inset:auto;flex:0 0 auto;min-height:0;width:100%}
+body.hud-hide-top .topbar,body.hud-hide-nav .game-dock,body.hud-hide-heading .page-heading,body.hud-hide-status .status-row{display:none!important}
+body.hud-focus:not(.startup-mode):not(.battle-mode) .main-stage{padding:0}
+.hud-controller{display:none}
+body.hud-ready:not(.startup-mode) .hud-controller{display:block;position:fixed;right:max(8px,env(safe-area-inset-right));bottom:76px;z-index:1600}
+body.hud-ready.hud-hide-nav .hud-controller,body.hud-ready.battle-mode .hud-controller{bottom:max(8px,env(safe-area-inset-bottom))}
+.hud-controller button{font:600 11px/1.3 system-ui,sans-serif;cursor:pointer;color:#f6e9cc;border:1px solid #b3a078;background:#243930e8;border-radius:4px;padding:6px 9px;min-height:34px}
+.hud-controller .hud-open,.hud-controller .hud-restore{box-shadow:0 2px 10px #101b1590;display:flex;gap:5px;align-items:center}
+.hud-controller .hud-restore{display:none}
+body.hud-focus .hud-controller .hud-open{display:none}
+body.hud-focus .hud-controller .hud-restore{display:flex}
+.hud-menu[hidden]{display:none!important}
+.hud-menu{position:absolute;right:0;bottom:42px;width:min(290px,calc(100vw - 16px));max-height:calc(100dvh - 130px);overflow:auto;padding:10px;background:#22362cf7;border:1px solid #b8a574;box-shadow:0 8px 28px #000a;border-radius:5px}
+.hud-menu header{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:7px;color:#f2dfb8;font:600 15px Georgia,serif}
+.hud-menu header button{min-height:29px;padding:2px 9px;font-size:19px}
+.hud-menu .hud-focus-button,.hud-menu .hud-reset{width:100%;margin:2px 0 7px;background:linear-gradient(#607054,#344b3b)}
+.hud-menu .hud-options{display:grid;gap:4px}
+.hud-menu .hud-options button{display:flex;align-items:center;justify-content:space-between;text-align:left;background:#182d24;border-color:#87947870}
+.hud-menu .hud-options button:after{content:"Ẩn";color:#a5b1a1;font-size:10px}
+.hud-menu .hud-options button[aria-pressed="true"]:after{content:"Hiện";color:#d9e4a9}
+.hud-menu [data-hud-scope]{display:none}
+body.art01-city-mode .hud-menu [data-hud-scope="city"],body.battle-mode .hud-menu [data-hud-scope="battle"]{display:flex}
+body.battle-mode .hud-menu [data-hud-key]:not([data-hud-scope]){display:none}
+body.hud-focus .hud-menu{max-height:calc(100dvh - 64px)}
+/* City map owns the entire central viewport. No permanent side-column reservation. */
+.art01-city.art07-city{display:flex;flex-direction:column;gap:0;min-height:0;background:#324a3c}
+.art07-city .art07-toolbar{flex:0 0 auto;min-height:40px;z-index:1200}
+.art07-city .art07-body{position:relative;display:block;flex:1 1 0;min-height:0;width:100%;overflow:hidden}
+.art07-city .art07-map{position:absolute;inset:0;min-width:0;min-height:0}
+.art07-city .art01-camera{container-type:size}
+.art07-city .art01-world{width:max(940px,100%);aspect-ratio:36/19}
+.art07-city .art01-overview{display:grid!important;place-items:center;overflow:hidden!important}
+.art07-city .art01-overview .art01-world{width:min(100%,calc(100cqh * 1.895));max-width:100%;margin:0}
+.art07-city .art07-commands{position:absolute;z-index:1100;right:8px;top:8px;bottom:auto;width:min(230px,26%);max-height:calc(100% - 60px);padding:6px;gap:4px;background:#23372bd9;border:1px solid #b1a376a0;box-shadow:0 3px 12px #15291b66;border-radius:4px;overflow:auto}
+.art07-city .art07-command-head{font:600 12px Georgia,serif;padding:0 0 3px}
+.art07-city .art07-command-head .button{min-height:26px;padding:4px 6px;font-size:10px}
+.art07-city .art07-command-head .art08-hide-commands{font-size:15px;padding:1px 6px}
+.art07-city .art01-status-hud>div{padding:5px;gap:4px;background:#263e34c9;border-color:#a5b0a055}
+.art07-city .art01-status-hud small{font-size:8px}
+.art07-city .art01-status-hud b{font-size:11px}
+.art07-city .art01-status-hud span{font-size:10px}
+.art07-city .art01-status-hud .button{min-height:27px;padding:4px 7px}
+.art07-city .art01-status-hud .art01-queue-icon,.art07-city .art07-idle{display:none}
+.art07-city .art07-command-content:has(.art07-idle){display:none}
+.art07-city .art07-expanded{width:min(300px,38%);background:#21352bf5}
+.art07-city .art07-expanded .art01-status-hud{display:none}
+.art07-city .art07-expanded .art07-command-content{display:block}
+.art07-city .art01-directory-body{max-height:calc(100dvh - 220px)}
+.art07-city .art01-camera-tools{bottom:8px;left:8px;z-index:1100}
+.art07-city .art06-production{bottom:8px;right:8px;grid-template-columns:repeat(3,minmax(58px,1fr))}
+body.hud-hide-cityToolbar.art01-city-mode .art07-toolbar{display:none!important}
+body.hud-hide-cityCommands.art01-city-mode .art07-commands:not(.art07-expanded){display:none!important}
+body.hud-hide-cityCommands.art01-city-mode .art08-hide-commands{display:none}
+body.hud-focus.art01-city-mode .art07-commands,body.hud-focus.art01-city-mode .art06-production{display:none!important}
+body.hud-hide-cityTools.art01-city-mode .art01-camera-tools{display:none!important}
+body.hud-hide-cityLabels.art01-city-mode .city-building-info,body.hud-hide-cityLabels.art01-city-mode .city-building-level{display:none!important}
+body.hud-focus.art01-city-mode .art01-overview .art01-world{width:min(100%,calc(100cqh * 1.895))}
+/* Combat controls are hideable without touching battle state or commands. */
+body.battle-mode .battle-theater{grid-template-rows:auto minmax(0,1fr) auto auto}
+body.battle-mode .battle-header{min-height:42px}
+body.hud-hide-battleHeader .battle-header,body.hud-hide-battleHeader .battle-result-ribbon,
+body.hud-hide-battleControls .battle-control-deck{display:none!important}
+body.hud-hide-battleHeader.battle-mode .battle-theater{grid-template-rows:0 minmax(0,1fr) 0 auto}
+body.hud-hide-battleControls.battle-mode .battle-theater{grid-template-rows:auto minmax(0,1fr) auto 0}
+body.hud-hide-battleHeader.hud-hide-battleControls.battle-mode .battle-theater{grid-template-rows:0 minmax(0,1fr) 0 0}
+body.hud-hide-battleHeader.battle-mode .battlefield-landscape{grid-row:2}
+body.hud-hide-battleHeader.battle-mode .battle-control-deck{grid-row:4}
+@media(max-width:900px),(max-height:540px) and (orientation:landscape){
+ body.hud-ready:not(.startup-mode) .hud-controller{bottom:64px}
+ body.hud-ready.hud-hide-nav .hud-controller,body.hud-ready.battle-mode .hud-controller{bottom:7px}
+ .hud-menu{max-height:calc(100dvh - 112px)}
+ .art07-city .art07-commands{top:5px;right:5px;bottom:auto;width:min(195px,31%);max-height:calc(100% - 44px)}
+ .art07-city .art07-expanded{width:min(280px,49%)}
+ .art07-city .art01-world{width:max(780px,100%)}
+ .art07-city .art01-overview .art01-world{width:min(100%,calc(100cqh * 1.895))}
+ .art07-city .art06-production{left:auto;right:5px;bottom:5px;grid-template-columns:repeat(2,minmax(55px,1fr))}
+ .art07-city .art01-status-hud>div{padding:3px}
+ .art07-city .art01-status-hud .art01-guide>div>span{display:none}
+ .art07-city .art01-directory-body{max-height:calc(100dvh - 180px)}
+}
+@media(max-width:480px) and (orientation:portrait){
+ .art07-city .art07-toolbar{min-height:70px}
+ .art07-city .art07-commands{top:auto;bottom:45px;left:6px;right:6px;width:auto;max-height:30%}
+ .art07-city .art07-expanded{max-height:62%;width:auto}
+ .art07-city .art01-status-hud{grid-template-columns:1fr 1fr}
+ .art07-city .art06-production{top:6px;bottom:auto;right:6px}
+ .art07-city .art01-directory-body{max-height:40vh}
+}

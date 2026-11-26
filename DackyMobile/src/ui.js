@@ -166,11 +166,11 @@ function cityScreen(state, now, uiState={}) {
     <div class="art07-body">
       <div class="art07-map">
         <div class="city-landscape art01-camera ${uiState.cityOverview?'art01-overview':''}" aria-label="Bản đồ thành trì, kéo để di chuyển"><div class="art01-world"><img class="art01-terrain" src="${esc(assetUrl(cityZone==='outer'?'./assets/art01-outer-ground.svg':'./assets/art01-city-ground.svg'))}" alt="" draggable="false"><div class="city-building-grid">${markers}</div></div></div>
-        <div class="art01-camera-tools"><button data-action="cityZoom" class="button small">${uiState.cityOverview?'Phóng to':'Toàn cảnh'}</button><button data-action="cityCenter" class="button small">Trung tâm</button></div>
+        <div class="art01-camera-tools"><button data-action="cityZoom" class="button small">${uiState.cityOverview?'Phóng to':'Toàn cảnh'}</button><button data-action="cityCenter" class="button small">Trung tâm</button><button data-action="cityDirectory" class="button small">Công trình</button></div>
         ${cityZone==='outer'?`<div class="art06-production">${resources}</div>`:''}
       </div>
       <aside class="art07-commands ${selected||uiState.cityDirectoryOpen?'art07-expanded':''}" aria-label="Điều khiển thành trì">
-        <div class="art07-command-head"><b>Điều lệnh</b><button data-action="cityDirectory" class="button small" aria-expanded="${!!uiState.cityDirectoryOpen}">Công trình</button></div>
+        <div class="art07-command-head"><b>${selected?'Công trình':uiState.cityDirectoryOpen?'Danh sách':'Điều lệnh'}</b><button data-action="cityDirectory" class="button small" aria-expanded="${!!uiState.cityDirectoryOpen}">Công trình</button><button class="button small art08-hide-commands" data-hud-key="cityCommands" aria-label="Ẩn điều lệnh">−</button></div>
         <div class="art01-status-hud">${queueHud}${guideHud}</div>
         <div class="art07-command-content">${directoryPane||inspector||`<div class="art07-idle"><b>${cityZone==='outer'?'Sản xuất tài nguyên':'Phát triển thành trì'}</b><p>Chọn một công trình trên bản đồ hoặc mở danh sách để xây dựng, nâng cấp và sử dụng chức năng.</p><div class="art07-summary"><span>Quân đội <b>${fmt(armyCount(state))}</b></span><span>Dân tâm <b>${Math.round(state.morale)}%</b></span><span>Dân số <b>${fmt(Math.floor(state.population))}</b></span><span>Sức chứa <b>${fmt(capacity)}</b></span></div></div>`}</div>
       </aside>

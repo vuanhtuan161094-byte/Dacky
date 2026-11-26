@@ -14,8 +14,31 @@ with sync_playwright() as p:
         camera.wait_for()
         assert page.locator('.art07-toolbar').is_visible()
         assert page.locator('.art07-commands').is_visible()
-        if label=='desktop':
-            a=camera.bounding_box();b=page.locator('.art07-commands').bounding_box();assert a['x']+a['width']<=b['x']+1
+        # R8 overlays controls rather than reserving a fixed right column.
+        assert camera.bounding_box()['width']>=w-2
+        scene=page.locator('#scene')
+        normal_height=scene.bounding_box()['height']
+        page.locator('.hud-open').click()
+        page.locator('[data-hud-key="top"]').first.click()
+        assert not page.locator('.topbar').is_visible()
+        assert scene.bounding_box()['height']>normal_height
+        page.locator('[data-hud-key="top"]').first.click()
+        page.locator('[data-hud-key="nav"]').first.click()
+        assert not page.locator('#primary-nav').is_visible()
+        page.locator('[data-hud-key="nav"]').first.click()
+        page.locator('[data-hud-key="cityCommands"]').first.click()
+        assert not page.locator('.art07-commands').is_visible()
+        page.locator('[data-hud-key="cityCommands"]').first.click()
+        page.locator('.hud-focus-button').click()
+        assert not page.locator('.topbar').is_visible()
+        assert not page.locator('#primary-nav').is_visible()
+        assert not page.locator('.art07-toolbar').is_visible()
+        assert page.locator('.hud-restore').is_visible()
+        assert camera.bounding_box()['height']>=h-2
+        page.screenshot(path=str(out/(label+"-focus.png")))
+        page.locator('.hud-restore').click()
+        assert page.locator('.art07-toolbar').is_visible()
+        assert page.locator('#primary-nav').is_visible()
         assert page.locator(".art01-city .city-building").count()==21
         assert page.locator(".art06-zone-tabs [data-zone=inner]").get_attribute("aria-pressed")=="true"
         page.evaluate("document.fonts.ready")
@@ -47,6 +70,17 @@ with sync_playwright() as p:
         page.locator('[data-action="cityZoom"]').click()
         page.screenshot(path=str(out/(label+"-overview.png")))
         assert page.evaluate("document.documentElement.scrollWidth<=innerWidth")
+        # All screens share the same shell and restore control.
+        if label=='desktop':
+            for view in ('heroes','army','inventory','world','pve','tech','quests','market','reports','settings','library'):
+                page.locator('#primary-nav [data-view="'+view+'"]').click()
+                page.keyboard.press('F2')
+                assert not page.locator('.topbar').is_visible()
+                assert not page.locator('#primary-nav').is_visible()
+                assert page.locator('.hud-restore').is_visible()
+                page.screenshot(path=str(out/('focus-'+view+'.png')))
+                page.locator('.hud-restore').click()
+                assert page.locator('#primary-nav').is_visible()
         assert not errors,errors
         ctx.close()
     browser.close()

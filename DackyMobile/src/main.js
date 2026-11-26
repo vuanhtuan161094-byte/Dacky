@@ -7,7 +7,31 @@ let game = null;
 let activeView = 'city';
 let dirty = false;
 let busy = false;
-const uiState = { chapter: 1, nodeId: 'node-001', combatMode: 'auto' };
+const uiState = { chapter: 1, nodeId: 'node-001', combatMode: 'auto', cityOverview:true };
+const HUD_KEYS=['top','nav','heading','status','cityToolbar','cityCommands','cityTools','cityLabels','battleHeader','battleControls'];
+const HUD_STORAGE='dacky-hud-v1:'+location.pathname.replace(/index\.html$/,'').replace(/offline\.html$/,'');
+let hudPrefs=Object.fromEntries(HUD_KEYS.map(k=>[k,true])),hudFocus=false,hudMenuOpen=false;
+try{const saved=JSON.parse(localStorage.getItem(HUD_STORAGE)||'{}');for(const k of HUD_KEYS)if(typeof saved[k]==='boolean')hudPrefs[k]=saved[k];}catch{}
+function applyHud(){
+  document.body.classList.toggle('hud-ready',Boolean(game));
+  document.body.classList.toggle('hud-focus',hudFocus);
+  for(const k of HUD_KEYS)document.body.classList.toggle('hud-hide-'+k,hudFocus||!hudPrefs[k]);
+  const panel=document.querySelector('#hud-menu'),trigger=document.querySelector('.hud-open');
+  if(panel)panel.hidden=!hudMenuOpen;
+  trigger?.setAttribute('aria-expanded',String(hudMenuOpen));
+  document.querySelectorAll('[data-hud-key]').forEach(el=>el.setAttribute('aria-pressed',String(hudPrefs[el.dataset.hudKey]&&!hudFocus)));
+  const focusButton=document.querySelector('.hud-focus-button');
+  if(focusButton)focusButton.textContent=hudFocus?'Thoát toàn cảnh · F2':'Toàn cảnh · F2';
+}
+function setHud(action,key){
+  if(action==='menu')hudMenuOpen=!hudMenuOpen;
+  else if(action==='focus'){hudFocus=!hudFocus;hudMenuOpen=false;}
+  else if(action==='reset'){for(const k of HUD_KEYS)hudPrefs[k]=true;hudFocus=false;hudMenuOpen=false;}
+  else if(action==='toggle'&&HUD_KEYS.includes(key)){hudFocus=false;hudPrefs[key]=!hudPrefs[key];}
+  try{localStorage.setItem(HUD_STORAGE,JSON.stringify(hudPrefs));}catch{}
+  applyHud();
+}
+
 const validViews = new Set(NAV.map(x=>x[0]));
 const fmtFileDate = () => new Date().toISOString().slice(0,10);
 const soundAsset = path => globalThis.__DACKY_EMBEDDED_ASSETS__?.[path] || path;
@@ -64,12 +88,14 @@ function setView(view, updateHash=true) {
   activeView = view;
   document.body.classList.remove('startup-mode');
   if (updateHash) history.replaceState(null,'',`#${view}`);
+  applyHud();
   renderScreen(game, activeView, uiState);
+  applyHud();
 }
 
 function renderCurrent() {
-  if (game) { renderScreen(game, activeView, uiState); syncBattleMusic(); }
-  else renderStartup();
+  if (game) { applyHud();renderScreen(game, activeView, uiState);applyHud();syncBattleMusic(); }
+  else {renderStartup();applyHud();}
 }
 
 function markChanged(message) {
@@ -131,6 +157,9 @@ async function initialize() {
 }
 
 document.body.addEventListener('click', async event => {
+  const hudButton=event.target.closest('[data-hud-action],[data-hud-key]');
+  if(hudButton){setHud(hudButton.dataset.hudAction||'toggle',hudButton.dataset.hudKey);return;}
+  if(hudMenuOpen&&!event.target.closest('#hud-controller')){hudMenuOpen=false;applyHud();}
   if(cityDragSuppress&&event.target.closest('.art01-camera')){event.preventDefault();return;}
   if(event.target.closest('.art01-camera')&&!event.target.closest('button')&&uiState.cityBuildingId){uiState.cityBuildingId=null;renderCurrent();return;}
   const heroSupportSummary=event.target.closest('.hero-support-drawer > summary');
@@ -280,7 +309,11 @@ document.body.addEventListener('pointermove',event=>{
 const endCityDrag=event=>{if(!cityDrag||cityDrag.id!==event.pointerId)return;cityDrag.camera.classList.remove('is-panning');if(cityDrag.moved){cityDragSuppress=true;setTimeout(()=>{cityDragSuppress=false;},150);}cityDrag=null;};
 document.body.addEventListener('pointerup',endCityDrag);document.body.addEventListener('pointercancel',endCityDrag);
 document.body.addEventListener('keydown',event=>{
- if(event.key!=='Escape'||activeView!=='city'||!game)return;
+ if(!game)return;
+ if(event.key==='F2'&&!event.repeat){event.preventDefault();setHud('focus');return;}
+ if(event.key==='Escape'&&hudMenuOpen){hudMenuOpen=false;applyHud();return;}
+ if(event.key==='Escape'&&hudFocus){setHud('focus');return;}
+ if(event.key!=='Escape'||activeView!=='city')return;
  const drawer=document.querySelector('.city-management-drawer');
  if(drawer?.open){drawer.open=false;uiState.cityManagementOpen=false;return;}
  if(uiState.cityBuildingId||uiState.cityDirectoryOpen){uiState.cityBuildingId=null;uiState.cityDirectoryOpen=false;renderCurrent();}
