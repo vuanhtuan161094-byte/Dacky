@@ -693,3 +693,46 @@ html,body{width:100%;height:100%;min-height:0;overflow:hidden;overscroll-behavio
 }
 @media(max-height:480px) and (orientation:landscape){.city-board{min-height:0}.city-building{width:clamp(62px,8.4vw,92px);height:clamp(56px,15vh,76px)}.city-capital-art{inset:20% 30% 12%}.hero-roster-window{min-height:calc(100dvh - 175px)}.hero-portrait-stage{min-height:205px}.hero-portrait-stage>.hero-card{min-height:0}.hero-dossier>.portrait{height:min(38vh,205px)}.hero-formation-strip .formation-slot small{font-size:6px}.world-map{height:55vh;min-height:200px}.battle-theater{grid-template-rows:39px minmax(145px,1fr) 29px 125px}.battle-lane{top:21%;bottom:1%}.battle-command-figure{min-height:65px}.battle-portrait{width:38px;height:46px}.battle-unit{height:72px;width:clamp(48px,7vw,72px)}.battle-vfx-sheet{max-height:88px}}
 @media(prefers-reduced-motion:reduce){.city-building[data-building-state="building"] .city-building-art img,.battle-sprite-frame,.battle-commander-frame,.battle-vfx-sheet{animation:none!important}.world-map-content{transition:none}}
+
+/* ART01 R1 — world-space capital, isolated from all other screens. */
+.art01-city-mode .page-heading,.art01-city-mode .status-row{display:none}
+.art01-city-mode .game-layout{height:calc(100dvh - 129px)}
+.art01-city-mode .main-stage{padding:0}
+.art01-city-mode .scene{height:100%;overflow:hidden}
+.art01-city{display:block;position:relative;padding:0;border:0;background:#213b36;box-shadow:none}
+.art01-city .city-landscape.art01-camera{position:absolute;inset:0;display:block;border:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y;background:#233b34;box-shadow:none;scrollbar-width:thin;scrollbar-color:#a28b57 #24392f}
+.art01-city .city-landscape:after,.art01-city .city-landscape:before{content:none}
+.art01-city .art01-world{position:relative;isolation:isolate;width:max(1056px, min(100%, calc((100dvh - 129px) * 1.7778)));aspect-ratio:16/9;min-height:0;margin:auto;container-type:inline-size}
+.art01-city .art01-overview .art01-world{width:100%;min-width:0;max-width:calc((100dvh - 129px)*1.7778)}
+.art01-city .art01-terrain{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none;user-select:none}
+.art01-city .city-building-grid{display:block;inset:0;max-width:none;margin:0}
+.art01-city .city-building{position:absolute;left:var(--bx);top:var(--by);z-index:var(--depth);width:9.2%;height:12.4%;min-width:0;padding:0;transform:translate(-50%,-85%);border:0;box-shadow:none;background:transparent;filter:none;transition:filter .12s}
+.art01-city .city-building[data-building="citadel"]{width:13%;height:16%}
+.art01-city .city-building:hover:not(:disabled),.art01-city .city-building:focus-visible,.art01-city .city-building[aria-pressed="true"]{z-index:999;transform:translate(-50%,-85%);filter:drop-shadow(0 0 3px #f8e8a5);background:transparent;border:0}
+.art01-city .city-building-art{position:absolute;inset:0;display:grid;place-items:end center;min-height:0}
+.art01-city .city-building-art img{width:100%;height:100%;max-height:none;object-fit:contain;object-position:50% 100%;filter:drop-shadow(2px 5px 3px #10201b85)}
+.art01-city .city-building[data-building-state="foundation"] .city-building-art img{height:100%;object-fit:contain;opacity:.32;filter:saturate(.62) drop-shadow(2px 4px 2px #101a17aa)}
+.art01-city .city-building[data-building-state="building"] .city-building-art img{filter:brightness(1.15) drop-shadow(0 0 5px #f2c25e);animation:none}
+.art01-city .city-building-info{display:none;bottom:-2%;max-width:160%;background:#1b2a23f2;padding:3px 7px;border-color:#c1a36c;opacity:1;white-space:nowrap}
+.art01-city .city-building-info b{font-size:clamp(10px,1.05cqw,14px)}
+.art01-city .city-building-info small{display:none}
+.art01-city .city-building:hover .city-building-info,.art01-city .city-building:focus-visible .city-building-info,.art01-city .city-building[aria-pressed="true"] .city-building-info,.art01-city .city-building[data-building-state="building"] .city-building-info{display:block}
+.art01-city .city-building-level{top:auto;bottom:6%;right:6%;min-width:0;width:clamp(17px,2.1cqw,25px);height:clamp(17px,2.1cqw,25px);font:700 clamp(10px,1.15cqw,15px) Georgia,serif;border-radius:50%;background:#243d30e8;border:1px solid #f3d78b;color:#ffedb2;box-shadow:0 2px 4px #0008}
+.art01-city .city-building[data-building-state="foundation"] .city-building-level{opacity:.85;background:#493e2c}
+.art01-city .city-board-top{position:absolute;z-index:1100;top:10px;left:12px;right:auto;max-width:calc(100% - 24px);min-height:0;padding:5px 12px;gap:8px;background:#192920e8;border:1px solid #c6a76a;border-radius:2px;box-shadow:0 3px 9px #0005}
+.art01-city .city-board-top h2{font-size:21px;line-height:1.1;margin:0}
+.art01-city .city-board-top .city-kicker{font-size:8px}
+.art01-city .city-game-hud,.art01-city .city-board-bottom,.art01-city .city-board-actions{display:none}
+.art01-city .city-management-drawer{z-index:1200;top:10px;right:12px}
+.art01-city .city-management-drawer>summary{min-height:32px;padding:8px 10px;font-size:11px;background:#203128ef}
+.art01-city .city-drawer-content{max-height:calc(100dvh - 190px);width:min(490px,90vw)}
+.art01-camera-tools{position:absolute;z-index:1100;left:12px;bottom:10px;display:flex;gap:6px}
+.art01-camera-tools .button{min-height:34px;padding:6px 12px;background:#263c30eb;font-size:11px}
+.art01-inspector{position:absolute;z-index:1150;bottom:10px;right:12px;width:min(330px,calc(100% - 24px));max-height:calc(100% - 70px);overflow:auto;display:grid;grid-template-columns:82px 1fr;gap:9px;padding:12px;border:1px solid #cfb275;border-radius:3px;background:linear-gradient(135deg,#314136f7,#17231ff7);box-shadow:0 5px 20px #0008;color:#f1e2bf}
+.art01-inspector>img{width:82px;height:82px;object-fit:contain;align-self:center}
+.art01-building-detail h3{font:18px Georgia,serif;color:#f7d78f;margin:3px 15px 5px 0}
+.art01-building-detail small,.art01-building-detail p{font-size:11px;line-height:1.4;margin:3px 0}
+.art01-close{position:absolute;top:3px;right:5px;width:28px;height:28px;display:grid;place-items:center;background:#17271f;color:#f5dfad;border:1px solid #a38a58;font-size:20px;cursor:pointer}
+.art01-upgrade{min-height:34px;margin-top:5px;width:100%;font-size:12px}
+@media(max-width:680px){.art01-city-mode .game-layout{height:calc(100dvh - 111px)}.art01-city .art01-world{width:1056px}.art01-city .art01-overview .art01-world{width:100%}.art01-city .city-board-top{top:6px;left:6px;padding:4px 9px}.art01-city .city-board-top h2{font-size:17px}.art01-city .city-management-drawer{top:6px;right:6px}.art01-city .city-management-drawer>summary{font-size:10px;padding:6px}.art01-camera-tools{left:6px;bottom:6px}.art01-inspector{right:6px;bottom:49px;width:calc(100% - 12px)}}
+@media(max-height:480px) and (orientation:landscape){.art01-city-mode .topbar{height:40px}.art01-city-mode .game-dock{height:49px}.art01-city-mode .game-dock .nav-item{height:43px}.art01-city-mode .game-layout{height:calc(100dvh - 89px)}.art01-city .art01-world{width:1056px}.art01-city .art01-overview .art01-world{width:100%;max-width:calc((100dvh - 89px)*1.7778)}.art01-city .city-board-top{top:5px;left:6px;padding:4px 8px}.art01-city .city-board-top h2{font-size:16px}.art01-city .city-management-drawer{top:5px;right:6px}.art01-camera-tools{left:6px;bottom:5px}.art01-camera-tools .button{min-height:28px;font-size:10px;padding:4px 7px}.art01-inspector{bottom:5px;right:6px;width:300px;max-height:calc(100% - 45px);padding:8px}.art01-inspector>img{height:64px;width:64px}.art01-inspector{grid-template-columns:64px 1fr}}

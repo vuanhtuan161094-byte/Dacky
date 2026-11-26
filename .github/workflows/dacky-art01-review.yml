@@ -1,0 +1,40 @@
+name: Dacky ART01 city review
+on:
+  push:
+    branches: [review/dacky-art01-city]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: DackyMobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: pip install playwright
+      - name: Capture city from actual game
+        run: |
+          python -m http.server 4173 --directory dist > /tmp/dacky-art01-http.log 2>&1 &
+          sleep 2
+          CHROME_BIN="$(command -v google-chrome)" python qa/art01-review.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dacky-art01-review
+          path: DackyMobile/qa/art01-review/
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dacky-art01-web
+          path: DackyMobile/dist/

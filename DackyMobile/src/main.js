@@ -166,6 +166,10 @@ document.body.addEventListener('click', async event => {
     case 'mapZoomIn': uiState.mapZoom=Math.min(2,(Number(uiState.mapZoom)||1)+.15);renderCurrent();return;
     case 'mapZoomOut': uiState.mapZoom=Math.max(.82,(Number(uiState.mapZoom)||1)-.15);renderCurrent();return;
     case 'mapReset': uiState.mapZoom=1;uiState.mapPanX=0;uiState.mapPanY=0;renderCurrent();return;
+    case 'citySelect': uiState.cityBuildingId=button.dataset.building;renderCurrent();return;
+    case 'cityClose': uiState.cityBuildingId=null;renderCurrent();return;
+    case 'cityZoom': uiState.cityOverview=!uiState.cityOverview;renderCurrent();{const camera=document.querySelector('.art01-camera');if(camera){camera.scrollLeft=(camera.scrollWidth-camera.clientWidth)/2;camera.scrollTop=(camera.scrollHeight-camera.clientHeight)/2;}}return;
+    case 'cityCenter': {const camera=document.querySelector('.art01-camera');if(camera){camera.scrollLeft=(camera.scrollWidth-camera.clientWidth)/2;camera.scrollTop=(camera.scrollHeight-camera.clientHeight)/2;}}return;
     case 'upgrade': return perform('upgrade',{buildingId:button.dataset.building});
     case 'upgradeCity': return perform('upgradeCity',{cityId:button.dataset.city});
     case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
