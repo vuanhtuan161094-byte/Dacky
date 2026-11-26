@@ -1118,3 +1118,12 @@ body.hud-hide-cityLabels .art09-build-timer{display:none!important}
 
 /* R9B: exact selector wins over the legacy #primary-nav.game-dock!important. */
 body.startup-mode #primary-nav.game-dock{display:none!important}
+
+/* R9C: terrain blends into full view, no gray raised platform at every empty lot. */
+.art01-city.art09-city .city-building[data-building-state="foundation"] .city-building-art img{opacity:0}
+.art01-city.art09-city .city-building[data-building-state="foundation"][data-unlocked="true"] .city-building-art img{opacity:0}
+.art01-city.art09-city .city-building[data-building-state="foundation"] .city-building-level{bottom:4px;background:#263f35b5;border-color:#c7c7a0}
+.art01-city.art09-city .city-building[data-building="farm"] .city-building-art img{filter:none;transform:scale(.94);object-fit:contain}
+.art01-city.art09-city .city-building[data-building="wall"] .city-building-art img{transform:scale(1)}
+.art01-city.art09-city .city-building[data-building-state="built"] .city-building-info{font-size:10px;box-shadow:none;padding:2px 5px}
+.art09-city .art06-production{right:8px;bottom:48px}
