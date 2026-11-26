@@ -733,6 +733,16 @@ function stepManualBattle(state, now, command=null, automatic=false) {
   return snapshot;
 }
 
+// Read-only combat projection for the battlefield scene. Replaying the saved
+// command prefix creates no settlement, receipt, casualties, or rewards.
+export function inspectManualBattle(state) {
+  const q=state.queues?.march;
+  if(!q||q.combatMode!=='manual'||!q.combatV13||!q.arrivedAt)return null;
+  const input=combat().marchInput(state,q).input,session=combat().runtime.session(input);
+  for(const command of q.battleCommands??[])session.step(command);
+  return session.snapshot();
+}
+
 function completeQueue(state, key, now) {
   const q = state.queues[key];
   if (!q || q.finishAt > now) return;
