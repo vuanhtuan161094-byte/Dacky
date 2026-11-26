@@ -2,6 +2,21 @@
 
 Updated 2026-11-26 · Repository `vuanhtuan161094-byte/Dacky` · branch `integration/dacky-one-game-v1`
 
+## Product visual remake V1
+
+Benchmarked against the exact Đắc Kỷ Trụ Vương site at `dackytruvuong.com` (not the VTC 2016 release). Reused the bundled Mobile fortress/building art, troop illustrations and 482 sourced hero portraits; no new external asset set or database import was added.
+
+- Replaced the web-style side rail with a fixed game function dock. The city is now an isometric capital scene with 27 clickable building locations, resource output, a quest brief and a secondary city-management drawer. The world screen has terrain, city/mountain markers and a drawn campaign route. The source library remains a separate reference screen.
+- Hero, troop, equipment and activity screens now use their existing artwork as primary cards. PvE presents five Bất Chu gates with progress/lock requirements. PvE march orders can include a primary troop and supporting troop stacks; the combat formulas and settlement remain the existing engine behavior.
+- Manual army combat is full screen. It uses the sourced city/fight art, portraits and troop images; rendered troop counts and commanders follow the saved Combat P50 round snapshot. Strike, siege, artifact and duel events trigger scene animation. Manual orders, auto-complete, speed control, saved receipts and replay use the existing combat contract. `inspectManualBattle` is a read-only projection; it creates no settlement or reward.
+- PWA shell cache is v25 and includes the city/fight backgrounds and 21 building images. The offline HTML build embeds the added isometric art and the full source art pack.
+- Before screenshots: [P50 baseline screens](qa/screenshots-p41-p50-final/). After screenshots: [visual remake screens](qa/screenshots-visual-remake-after/), 21 images including 12 desktop menu screens, portrait/landscape layouts, the real battlefield, battle report, developed city and offline checks. The [191-second gameplay video](qa/one-game/gameplay-visual-remake.mp4) records construction, recruitment, gear, troop training, march, manual combat, artifact selection, rewards and an upgrade.
+- Verification: Node suite 129/129; dependency graph 1,567 nodes/3,958 edges with no cycle or impossible condition; Chromium gameplay smoke covers all 12 menu screens and save reload with zero runtime errors; PWA offline relaunch and the one-file HTML over HTTP pass with no external requests. `git diff --check` passes.
+- Local build: Web/PWA and 80,907,819-byte single-file HTML (SHA-256 `9543d2b9f1e7ec0d1ff935ba5d377429503ba31666e161363e74efb7f15ba738`); debug APK 63,735,937 bytes (SHA-256 `821b3d09f07999592901a218425159668387920b93233e9c296d02d1417de209`); debug AAB 45,385,948 bytes (SHA-256 `617dcb84fe0a4562f9d98ff02605533ad0d6a41b29c4782a60badd16a5192c72`). Built using the existing JDK 21/SDK 36/Gradle 8.14.3 environment. APK v2 signature and APK/AAB ZIP integrity pass. The sandbox has no `adb` or Android device/emulator, so **DEVICE QA HOLD** remains. Direct `file://` launch is not claimed.
+- Gameplay findings remain visible: endgame Bất Chu doors 2–5 have not been proven cleared on a clean save; the P50 economy policies, some of 594 generic/reference goods, and 620 `PARTIAL_RUNTIME` records still have limited or simulated behavior. Three legacy tables remain HOLD. The UI work did not claim those runtime semantics were completed.
+
+APK/AAB remain local build outputs and will be exposed through the repository Actions artifact; no signing key, database dump or DEV save is staged.
+
 ## P41–P50 final gameplay checkpoint
 
 Baseline integration HEAD was `368cdf1658266c709282703ea5ec89836eb620de`; no source combat files were rewritten. This section supersedes P31-era status statements below while retaining them as history.

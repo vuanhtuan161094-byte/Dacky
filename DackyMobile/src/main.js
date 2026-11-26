@@ -121,6 +121,16 @@ async function initialize() {
 }
 
 document.body.addEventListener('click', async event => {
+  const battleChoice=event.target.closest('[data-battle-choice]');
+  if(battleChoice){
+    const root=battleChoice.closest('.battle-theater'),kind=battleChoice.dataset.battleChoice,value=battleChoice.dataset.value;
+    const controls={stance:'#battle-stance',switch:'#battle-switch',artifact:'#battle-artifact'};
+    const field=root?.querySelector(controls[kind]);if(field)field.value=value;
+    root?.querySelectorAll(`[data-battle-choice="${kind}"]`).forEach(node=>{const selected=node===battleChoice;node.classList.toggle('active',selected);node.setAttribute('aria-pressed',String(selected));});
+    return;
+  }
+  const speedButton=event.target.closest('[data-action="battleSpeed"]');
+  if(speedButton){uiState.battleSpeed=uiState.battleSpeed===1?2:1;const stage=speedButton.closest('.battle-theater');stage?.style.setProperty('--battle-speed',uiState.battleSpeed);speedButton.textContent=`${uiState.battleSpeed}× tốc độ`;return;}
   const viewButton = event.target.closest('[data-view]');
   if (viewButton) { setView(viewButton.dataset.view); return; }
   const button = event.target.closest('[data-action]');
@@ -161,7 +171,12 @@ document.body.addEventListener('click', async event => {
       if (report) showBattleReplay(report, game.settings.effects && !game.settings.reducedMotion);
       return;
     }
-    case 'pveMarch': return perform('march', {nodeId:button.dataset.node, troopId:document.querySelector('#pve-unit')?.value, count:Number(document.querySelector('#pve-count')?.value),combatMode:document.querySelector('#combat-mode')?.value||'auto'});
+    case 'pveMarch': {
+      const troopId=document.querySelector('#pve-unit')?.value,count=Math.max(0,Number(document.querySelector('#pve-count')?.value)||0),troops={};
+      if(troopId&&count)troops[troopId]=count;
+      document.querySelectorAll('[data-pve-support]').forEach(input=>{const id=input.dataset.pveSupport,n=Math.max(0,Number(input.value)||0);if(id&&id!==troopId&&n)troops[id]=n;});
+      return perform('march',{nodeId:button.dataset.node,troops,combatMode:document.querySelector('#combat-mode')?.value||'auto'});
+    }
     case 'battleCommand': {
       const artifact=document.querySelector('#battle-artifact')?.value||'auto',switchTo=document.querySelector('#battle-switch')?.value||'';
       return perform('battleCommand',{round:Number(button.dataset.round),stance:document.querySelector('#battle-stance')?.value||'auto',artifactId:artifact==='auto'?undefined:artifact==='none'?null:artifact,switchTo:switchTo||undefined,challenge:Boolean(document.querySelector('#battle-challenge')?.checked)});
