@@ -1,7 +1,7 @@
 import { activeQuest, advance, createNewGame, doAction, TUTORIAL_STEPS } from './engine.js';
 import { QUESTS } from './catalog.js';
 import { exportSave, importSaveFile, loadGame, saveGame } from './store.js';
-import { NAV, renderScreen, renderShell, renderStartup, showBattleReplay, showDialog, showToast, updateClock } from './ui.js';
+import { CITY_OUTER_IDS, NAV, renderScreen, renderShell, renderStartup, showBattleReplay, showDialog, showToast, updateClock } from './ui.js';
 
 let game = null;
 let activeView = 'city';
@@ -169,7 +169,9 @@ document.body.addEventListener('click', async event => {
     case 'mapZoomOut': uiState.mapZoom=Math.max(.82,(Number(uiState.mapZoom)||1)-.15);renderCurrent();return;
     case 'mapReset': uiState.mapZoom=1;uiState.mapPanX=0;uiState.mapPanY=0;renderCurrent();return;
     case 'citySelect': uiState.cityBuildingId=button.dataset.building;uiState.cityDirectoryOpen=false;renderCurrent();return;
+    case 'cityZone': {const zone=button.dataset.zone==='outer'?'outer':'inner';if(uiState.cityZone===zone)return;uiState.cityZone=zone;uiState.cityBuildingId=null;uiState.cityDirectoryOpen=false;uiState.cityResetCamera=true;renderCurrent();return;}
     case 'cityLocate': {
+      const zone=CITY_OUTER_IDS.includes(button.dataset.building)?'outer':'inner';if((uiState.cityZone||'inner')!==zone){uiState.cityZone=zone;uiState.cityResetCamera=true;}
       uiState.cityBuildingId=button.dataset.building;uiState.cityDirectoryOpen=false;renderCurrent();
       const camera=document.querySelector('.art01-camera'),marker=Array.from(camera?.querySelectorAll('.city-building')||[]).find(el=>el.dataset.building===uiState.cityBuildingId);
       if(camera&&marker){const a=camera.getBoundingClientRect(),b=marker.getBoundingClientRect();camera.scrollLeft+=b.left+b.width/2-a.left-a.width/2;camera.scrollTop+=b.top+b.height/2-a.top-a.height/2;}
