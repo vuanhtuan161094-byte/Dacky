@@ -7,7 +7,7 @@ let game = null;
 let activeView = 'city';
 let dirty = false;
 let busy = false;
-const uiState = { chapter: 1, nodeId: 'node-001' };
+const uiState = { chapter: 1, nodeId: 'node-001', combatMode: 'auto' };
 const validViews = new Set(NAV.map(x=>x[0]));
 const fmtFileDate = () => new Date().toISOString().slice(0,10);
 
@@ -130,7 +130,7 @@ document.body.addEventListener('click', async event => {
   switch(action) {
     case 'catalogPage': {
       const key=button.dataset.pageKey;
-      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage','legacyGameplayPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
+      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage','legacyGameplayPage','artifactPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
       return;
     }
     case 'selectNode':
@@ -140,14 +140,19 @@ document.body.addEventListener('click', async event => {
     case 'upgrade': return perform('upgrade',{buildingId:button.dataset.building});
     case 'upgradeCity': return perform('upgradeCity',{cityId:button.dataset.city});
     case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
+    case 'redeemQuestVouchers': return perform('redeemQuestVouchers',{count:button.dataset.count||1});
     case 'train': return perform('train',{troopId:document.querySelector('#train-unit')?.value||button.dataset.troop,count:document.querySelector('#train-count')?.value||button.dataset.count});
     case 'trainHero': return perform('trainHero',{heroId:button.dataset.hero});
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
     case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero});
     case 'useItem': return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index)});
-    case 'buyItem': return perform('buyItem',{itemId:button.dataset.item});
+    case 'buyItem': return perform('buyItem',{itemId:button.dataset.item,count:button.dataset.count||document.querySelector(`[data-buy-count="${button.dataset.item}"]`)?.value||1});
+    case 'buyArtifact': return perform('buyArtifact',{itemId:button.dataset.item});
     case 'forge': return perform('forge',{itemId:button.dataset.item});
+    case 'enhanceGear': return perform('enhanceGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
+    case 'socketGearGem': return perform('socketGearGem',{heroId:button.dataset.hero,itemId:button.dataset.item,gemId:button.dataset.gem});
+    case 'sellItem': return perform('sellItem',{itemId:button.dataset.item});
     case 'research': return perform('research',{techId:button.dataset.tech});
     case 'scout': return perform('scout',{nodeId:button.dataset.node||uiState.nodeId});
     case 'dailyReward': case 'fieldEvent': case 'refreshRecruitment': return perform(action, {});
@@ -156,7 +161,12 @@ document.body.addEventListener('click', async event => {
       if (report) showBattleReplay(report, game.settings.effects && !game.settings.reducedMotion);
       return;
     }
-    case 'pveMarch': return perform('march', {nodeId:button.dataset.node, troopId:document.querySelector('#pve-unit')?.value, count:Number(document.querySelector('#pve-count')?.value)});
+    case 'pveMarch': return perform('march', {nodeId:button.dataset.node, troopId:document.querySelector('#pve-unit')?.value, count:Number(document.querySelector('#pve-count')?.value),combatMode:document.querySelector('#combat-mode')?.value||'auto'});
+    case 'battleCommand': {
+      const artifact=document.querySelector('#battle-artifact')?.value||'auto',switchTo=document.querySelector('#battle-switch')?.value||'';
+      return perform('battleCommand',{round:Number(button.dataset.round),stance:document.querySelector('#battle-stance')?.value||'auto',artifactId:artifact==='auto'?undefined:artifact==='none'?null:artifact,switchTo:switchTo||undefined,challenge:Boolean(document.querySelector('#battle-challenge')?.checked)});
+    }
+    case 'battleAuto': return perform('battleAuto',{});
     case 'march': {
       const troopId=document.querySelector('#march-unit')?.value||button.dataset.troop;
       const troops={};
@@ -166,7 +176,7 @@ document.body.addEventListener('click', async event => {
         const amount=Math.max(0,Number(input.value)||0);
         if(input.dataset.marchSupport!==troopId&&amount>0)troops[input.dataset.marchSupport]=amount;
       });
-      return perform('march',{nodeId:button.dataset.node||uiState.nodeId,troopId,count,troops});
+      return perform('march',{nodeId:button.dataset.node||uiState.nodeId,troopId,count,troops,combatMode:document.querySelector('#combat-mode')?.value||'auto'});
     }
     case 'guild': return perform('guild',{});
     case 'diplomacy': return perform('diplomacy',{nodeId:button.dataset.node||uiState.nodeId});
@@ -177,7 +187,7 @@ document.body.addEventListener('click', async event => {
     case 'setTaxRate':return perform(action,{rate:document.querySelector('#tax-rate')?.value});
     case 'setLaborRate':return perform(action,{rate:document.querySelector('#labor-rate')?.value});
     case 'guildDonate':return perform(action,{amount:document.querySelector('#guild-donate')?.value});
-    case 'bless':case 'sacrifice':case 'settlePopulation':case 'officialPromote':return perform(action,{});
+    case 'bless':case 'sacrifice':case 'settlePopulation':case 'officialPromote':case 'worldChat':case 'disciplineLabor':case 'relieveLabor':case 'collectLaborTaxes':case 'leaveMountain':return perform(action,{});
     case 'strategicCast':return perform(action,{heroId:document.querySelector('#spell-hero')?.value,spellId:Number(document.querySelector('#spell-id')?.value),nodeId:document.querySelector('#spell-target')?.value});
     case 'claimQuest': {
       await perform('claimQuest',{questId:button.dataset.quest});
@@ -218,7 +228,9 @@ document.body.addEventListener('submit', async event => {
 
 document.body.addEventListener('change', async event => {
   const target=event.target;
-  if (target.matches('[data-source-category]')) {
+  if (target.id==='combat-mode') {
+    uiState.combatMode=target.value==='manual'?'manual':'auto';
+  } else if (target.matches('[data-source-category]')) {
     uiState.sourceCategory=target.value;
     uiState.sourcePage=0;
     renderCurrent();
@@ -271,6 +283,7 @@ setInterval(()=>{
     dirty=true;
     renderCurrent();
     const latest=game.notifications[0]; if (latest) showToast(latest);
+    if(game.queues.march?.combatMode==='manual'&&game.queues.march.arrivedAt)document.querySelector('.manual-battle-panel')?.scrollIntoView({behavior:'smooth',block:'center'});
     persist(true).catch(()=>{});
   }
   if (Date.now()-lastHud>9000) {

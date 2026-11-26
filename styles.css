@@ -442,3 +442,24 @@ body.reduce-motion *, body.reduce-motion *:before, body.reduce-motion *:after { 
   100% { transform: translateX(0); box-shadow: none; }
 }
 @media (prefers-reduced-motion: reduce) { .replay-hit { animation: none; } }
+
+.manual-battle-panel .manual-battle-fields,
+.manual-battle-panel .manual-battle-artifacts { display:grid; align-items:center; gap:10px; }
+.manual-battle-panel .manual-battle-fields { grid-template-columns:100px minmax(0,1fr) 105px minmax(0,1.2fr); }
+.manual-battle-panel .manual-battle-artifacts { grid-template-columns:100px minmax(0,1fr) minmax(180px,.8fr); }
+.manual-battle-panel .manual-battle-fields>label,
+.manual-battle-panel .manual-battle-artifacts>label { white-space:nowrap; }
+.manual-battle-panel .manual-battle-fields .input,
+.manual-battle-panel .manual-battle-artifacts .input { width:100%; min-width:0; }
+.manual-battle-panel .manual-battle-artifacts label:last-child { display:flex; align-items:center; gap:7px; }
+.manual-battle-panel .manual-battle-actions { display:flex; flex-wrap:wrap; gap:8px; }
+@media(max-width:680px){
+ .manual-battle-panel .manual-battle-fields,
+ .manual-battle-panel .manual-battle-artifacts { grid-template-columns:86px minmax(0,1fr); gap:8px; }
+ .manual-battle-panel .manual-battle-artifacts label:last-child { grid-column:1 / -1; }
+}
+.gear-upgrade-list{display:grid;gap:8px;margin:12px 0;padding:10px;border:1px solid var(--line);border-radius:12px;background:rgba(20,29,40,.48)}
+.gear-upgrade-list>small,.gear-upgrade-row>small{color:var(--muted);line-height:1.45}
+.gear-upgrade-row{display:grid;gap:6px;padding-top:7px;border-top:1px solid var(--line)}
+.gear-upgrade-row .field-row{display:flex;flex-wrap:wrap;gap:6px}
+.gear-upgrade-row .button{max-width:100%;white-space:normal}
