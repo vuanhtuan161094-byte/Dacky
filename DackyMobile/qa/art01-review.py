@@ -12,6 +12,10 @@ with sync_playwright() as p:
         page.locator('[data-form="new-game"] button').click(timeout=60000)
         camera=page.locator(".art01-camera")
         camera.wait_for()
+        assert page.locator('.art07-toolbar').is_visible()
+        assert page.locator('.art07-commands').is_visible()
+        if label=='desktop':
+            a=camera.bounding_box();b=page.locator('.art07-commands').bounding_box();assert a['x']+a['width']<=b['x']+1
         assert page.locator(".art01-city .city-building").count()==21
         assert page.locator(".art06-zone-tabs [data-zone=inner]").get_attribute("aria-pressed")=="true"
         page.evaluate("document.fonts.ready")
@@ -30,13 +34,14 @@ with sync_playwright() as p:
         assert page.locator(".art01-city .city-building").count()==21
         assert page.locator('.art01-guide').is_visible()
         assert page.locator('.art01-queue').is_visible()
-        page.locator('.art01-camera-tools [data-action="cityDirectory"]').click()
+        page.locator('.art07-command-head [data-action="cityDirectory"]').click()
         assert page.locator('.art01-directory-item').count()==27
         page.locator('.art01-directory-item[data-building="lumber"]').click()
         assert page.locator('.art01-inspector').is_visible()
         assert page.locator('.city-building[data-building="lumber"]').get_attribute("aria-pressed")=="true"
         assert page.locator(".art06-zone-tabs [data-zone=outer]").get_attribute("aria-pressed")=="true"
         page.screenshot(path=str(out/(label+"-directory-selection.png")))
+        assert page.locator('.art07-command-content .art01-inspector').is_visible()
         page.keyboard.press('Escape')
         assert page.locator('.art01-inspector').count()==0
         page.locator('[data-action="cityZoom"]').click()
