@@ -1,4 +1,4 @@
-const CACHE = 'dacky-art01-review-shell-e1b0d705';
+const CACHE = 'dacky-art01-review-shell-f8157ae8';
 const SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest', './src/catalog.js', './src/mobile-source-catalog.js', './src/legacy-quest-catalog.js', './src/legacy-buzhou-catalog.js', './src/legacy-troop-time-catalog.js', './src/legacy-troop-requirement-catalog.js', './src/engine.js',
   './src/store.js', './src/ui.js', './src/main.js', './src/visual-art-catalog.js', './src/source-adapter.js', './src/approved-source-data.js', './src/legacy-city-garrison-catalog.js', './src/legacy-elfland-catalog.js',
