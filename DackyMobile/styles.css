@@ -1105,3 +1105,13 @@ body.hud-hide-cityLabels .art09-build-timer{display:none!important}
 .art09-city .art01-world .city-building-level{width:14px;height:14px;min-width:14px;font-size:9px}
 }
 @media(max-width:480px) and (orientation:portrait){.art09-city .art07-commands:not(.art07-expanded){width:calc(100% - 12px);top:auto;bottom:42px}.art09-city .art07-expanded{top:auto;bottom:42px;left:6px;right:6px;width:auto}}
+
+/* R9A art gate: real roofed palace; distinct civic/military silhouettes. */
+.art01-city.art09-city .city-building[data-building="citadel"][data-art-tier="0"] .city-building-art img{transform:scale(1)}
+.art01-city.art09-city .city-building[data-building="citadel"][data-art-tier="1"] .city-building-art img{transform:scale(1.025)}
+.art01-city.art09-city .city-building[data-building="citadel"][data-art-tier="2"] .city-building-art img{transform:scale(1.05)}
+.art01-city.art09-city .city-building[data-building="citadel"][data-art-tier="3"] .city-building-art img{transform:scale(1.075)}
+.art01-city.art09-city .city-building[data-building="citadel"] .city-building-level{right:20%;bottom:6%}
+.art01-city.art09-city .city-building[data-building="wall"] .city-building-art img{object-fit:contain}
+.art01-city.art09-city .city-building[data-building-state="foundation"][data-unlocked="true"] .city-building-art img{opacity:.14}
+.art01-city.art09-city .city-building[data-building-state="foundation"][data-unlocked="false"] .city-building-level{opacity:.35}

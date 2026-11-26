@@ -1,0 +1,3 @@
+# R9A visual correction
+
+R6 actual runtime screenshot showed the palace using an altar-like GOVERNMENT sprite, visually incorrect for the owner-approved architectural plan. R9A maps citadel to the verified roofed fortress map008.webp, restores the government asset to its civic role, uses BARBACK for barracks and SkirmisherBarrack for scout camp, and differentiates manor/hostel. The palace is given a larger footprint on the upper terrace and stays full-size at starting level. This is a source-art correction, not a redraw or visual PASS. R9 was still queued when the source-role mismatch was confirmed; runtime acceptance required. No changes to gameplay or save; review branch only.
