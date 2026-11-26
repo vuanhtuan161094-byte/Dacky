@@ -12,7 +12,8 @@ with sync_playwright() as p:
         page.locator('[data-form="new-game"] button').click(timeout=60000)
         camera=page.locator(".art01-camera")
         camera.wait_for()
-        assert page.locator(".art01-city .city-building").count()==27
+        assert page.locator(".art01-city .city-building").count()==21
+        assert page.locator(".art06-zone-tabs [data-zone=inner]").get_attribute("aria-pressed")=="true"
         page.evaluate("document.fonts.ready")
         page.wait_for_timeout(800)
         page.screenshot(path=str(out/(label+"-city.png")))
@@ -22,6 +23,11 @@ with sync_playwright() as p:
         assert marker.get_attribute("aria-pressed")=="true"
         page.screenshot(path=str(out/(label+"-selected.png")))
         page.locator('[data-action="cityClose"]').click()
+        page.locator('.art06-zone-tabs [data-zone="outer"]').click()
+        assert page.locator(".art01-city .city-building").count()==6
+        page.screenshot(path=str(out/(label+"-outer.png")))
+        page.locator('.art06-zone-tabs [data-zone="inner"]').click()
+        assert page.locator(".art01-city .city-building").count()==21
         assert page.locator('.art01-guide').is_visible()
         assert page.locator('.art01-queue').is_visible()
         page.locator('.art01-camera-tools [data-action="cityDirectory"]').click()
@@ -29,6 +35,7 @@ with sync_playwright() as p:
         page.locator('.art01-directory-item[data-building="lumber"]').click()
         assert page.locator('.art01-inspector').is_visible()
         assert page.locator('.city-building[data-building="lumber"]').get_attribute("aria-pressed")=="true"
+        assert page.locator(".art06-zone-tabs [data-zone=outer]").get_attribute("aria-pressed")=="true"
         page.screenshot(path=str(out/(label+"-directory-selection.png")))
         page.keyboard.press('Escape')
         assert page.locator('.art01-inspector').count()==0
