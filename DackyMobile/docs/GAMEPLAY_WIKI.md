@@ -2,28 +2,28 @@
 
 ## Chơi trên ONE GAME
 
-Tại Thành trì, làm lần lượt các bước nhập môn để mở xây dựng, khoa kỹ, chiêu mộ và huấn luyện. Trận quân đội đầu tiên diễn ra ở Vân Mộng Đài. Thắng dã địa trong chương hiện tại để mở chương kế tiếp. Hồi phục thương binh tại Binh doanh. Để đánh thành, ưu tiên đưa thêm quân công thành. Chiến báo cho xem lại quân số, pháp lực, thương vong và tình trạng thành lũy theo hiệp.
+Tại Thành trì, làm lần lượt các bước nhập môn để mở xây dựng, khoa kỹ, chiêu mộ và huấn luyện. Trận quân đội đầu tiên diễn ra ở Vân Mộng Đài. Thắng dã địa trong chương hiện tại để mở chương kế tiếp. Hồi phục thương binh tại Binh doanh. Để đánh thành, ưu tiên đưa thêm quân công thành. Chiến báo lưu từng hiệp, đội hình, pháp bảo, thương vong và quyết toán.
 
-Trong Phong Thần, Phong Thần Tháp và Bất Chu Sơn dùng đội thần tiên. Mục Chinh phạt dùng quân đội. Chọn Tiên Sơn, binh chủng và quân số rồi gửi quân vào tầng đã mở. Các tầng sau cần chiến thắng trước đó. Thành trì NPC và khu Boss ở nhóm bên dưới. Đội hình cố định lấy từ snapshot legacy. Nơi có khoảng cấp và quân số nhưng thiếu đội cụ thể sẽ tạo quân đồn trú theo cấu hình đó. Các trận này có thưởng lần thắng đầu do game cân bằng.
+Phong Thần Tháp dùng đội thần tiên. Mục Chinh phạt dùng quân đội cho chiến dịch, Tiên Sơn, danh thành, thành NPC, Bất Chu Sơn và Boss. Chọn địa điểm đã mở, phân bổ nhiều binh chủng nếu muốn rồi hành quân. Các tầng sau cần thắng tầng trước. Đội hình cố định lấy từ snapshot legacy; nơi chỉ có khoảng cấp/quân số dùng đội hình được tạo bằng công thức SIMULATED. Phần thưởng hiện là luật lần thắng đầu của runtime, không phải loot legacy đã xác minh.
 
-Nhận lương bổng ngày trong Phong Thần. Thắng một trận chính tuyến để mở tuần tra. Dịch quán và Phong Thần Đàn mở ưu đãi chiêu mộ luân phiên. Có thể làm mới ưu đãi một lần mỗi ngày với 50 đồng.
+Khi chọn “Từng hiệp” trước lúc hành quân, trận chờ tới nơi rồi mở lệnh theo hiệp: chọn chiến thuật, pháp bảo, đổi thần tiên chỉ huy hoặc khiêu chiến đấu pháp. Lệnh được lưu trong save. Có thể để máy tự hoàn tất trận. Thương vong và phần thưởng chỉ chốt sau khi trận kết thúc; chiến báo cho xem lại từng hiệp.
 
-Lương bổng, tuần tra, giảm giá chiêu mộ, curve EXP và công thức phần thưởng PvE là thiết kế cục bộ. Bảng thưởng Tiên Sơn và liên kết trang bị Boss legacy còn ở dạng tra cứu. Xem bộ dữ liệu kiểm kê gameplay đi kèm bản Web để biết độ phủ từng nhóm.
+Lương bổng, tuần tra, làm mới chiêu mộ, EXP và phần thưởng PvE là thiết kế cục bộ. Trang bị và phép Boss đi vào đội đối thủ qua adapter SIMULATED. Năm chính sách pháp bảo thiếu dữ liệu dùng chi phí SIMULATED có ghi nhãn. Loot Tiên Sơn vẫn `HOLD`; không cộng thưởng từ 1.093 dòng legacy chưa giải nghĩa. Độ phủ và các HOLD còn lại nằm trong `qa/one-game/GAMEPLAY_LEDGER_P31.md`.
 
 
 > Nội dung dưới đây mô tả runtime của dự án này. Không phải trích xuất chính thức từ game Mobile hoặc legacy.
 
 ## Nguồn dữ liệu và phiên bản
 
-Runtime là bản chơi đơn kết hợp dữ kiện đã xác minh và cơ chế còn SIMULATED/UNKNOWN. Chủ dự án xác nhận quyền sử dụng dữ liệu và tài nguyên đã tìm được vào 2026-11-25; không yêu cầu SPDX. Snapshot Mobile `5d78c226cb` có 2.656 hàng; 37.845 giá trị theo trường đã nối vào gameplay. Legacy giải mã 67/70 bảng, ba bảng `HOLD` còn ghi trong `BLOCKERS.md`. Thư viện tham khảo có 1.158 nhiệm vụ và 5.745 hàng `questcondition` liên kết đủ 1.158 ID; từng cột giữ provenance. Các mã `type/data` chưa xác minh ngữ nghĩa và các bảng nhập không có trường phần thưởng, vì vậy chưa kích hoạt điều kiện/phần thưởng trong tiến trình. Thời gian huấn luyện gốc của 24/25 quân Mobile dùng trường `147-soldierinfo`. Chi phí và điều kiện huấn luyện legacy đã được map cho 16/25 ID; chín ID không có hàng nguồn vẫn SIMULATED và Workshop ID 22 chưa có hệ tương ứng nên UNKNOWN. Delta giữa các phiên bản không chứng minh parity.
+Runtime là bản chơi đơn kết hợp dữ kiện VERIFIED_MOBILE/VERIFIED_LEGACY với luật SIMULATED/UNKNOWN. Chủ dự án xác nhận quyền sử dụng dữ liệu và tài nguyên tìm được vào 2026-11-25; không yêu cầu SPDX. Snapshot Mobile có 2.656 hàng. Ba bảng legacy `generalrefreshlevellimitinfo`, `upgradeexp` và `fieldrandeventcfginfo` còn HOLD; refresh, EXP và sự kiện dã ngoại dùng công thức SIMULATED riêng. Trong 1.158 nhiệm vụ, 984 hiện có mục tiêu chơi được; 1.442/1.880 mục tiêu đã được map hoặc mô phỏng, 438 mục tiêu còn HOLD/UNKNOWN. Trường nguồn được giữ trong adapter; dữ liệu không được suy diễn thành parity.
 
-So sánh danh mục hiện xác nhận: 482 hồ sơ thần tiên Mobile trên 540 định nghĩa runtime (482 được mời chiêu mộ; 58 mô phỏng không mở chiêu mộ), pháp bảo 151/156, vật phẩm 1.885/2.155, binh chủng 25/39 (25 Mobile được huấn luyện), công trình 21/21, khoa kỹ 19/19, danh thành 73/75 nhóm tọa độ legacy. So sánh `quest`/`quest_20_11` ghi 1.156 ID chung, hai ID riêng trong `quest` (110098, 110099) và ba thay đổi trường `title`; các delta này không chứng minh luật Mobile. Đối chiếu nhãn thần tiên legacy/Mobile có 411 tên duy nhất trùng, 129 tên chỉ ở legacy, 70 chỉ ở Mobile; một nhãn Mobile bị trùng. Đây chỉ là đối chiếu tên, không xác minh cùng định danh, chỉ số hoặc công thức.
+Runtime có 482 hồ sơ thần tiên Mobile, 151 pháp bảo, 1.885 hàng hóa, 25 binh chủng huấn luyện được, 21 công trình, 19 khoa kỹ với 570 cấp nguồn và 73 danh thành Mobile. Chỉ số nguồn không khẳng định cùng công thức/gameplay với Mobile gốc. So sánh tên thần tiên legacy/Mobile chỉ cho thấy 411 nhãn trùng duy nhất; không xác minh định danh hoặc parity.
 
 ## Thành trì
 
 Chỉ dẫn nhập môn lần lượt mở xây Phong Mộc Trường, nghiên cứu Nông Chính, dựng Phong Thần Đàn, chiêu mộ thần tiên, trang bị, huấn luyện và trận thắng đầu tiên. Các nút dùng hành động runtime; chỉ dẫn lưu theo save và nhận biết khi queue/trận hoàn tất.
 
-Tử Vi Thành quản lý cấp thành, dân số và mở khóa. Runtime có 21 công trình; 15 hồ sơ Mobile được nối vào gameplay. Bấm Xây dựng/Nâng để trừ chi phí ngay; cấp mới có hiệu lực khi hàng đợi chung hoàn tất. 14 công trình có đủ chi phí và điều kiện Mobile cho 30 cấp (420 hàng cấp). Bệnh viện Mobile ID 200 không có bảng giá hoặc giới hạn cấp nguồn; sáu ID công trình chưa ánh xạ và các điều kiện chưa hiểu giữ SIMULATED/UNKNOWN.
+Tử Vi Thành quản lý cấp thành, dân số và mở khóa. Runtime có 21 công trình với một hàng đợi xây dựng chung; 19 nhánh khoa kỹ dùng hàng đợi nghiên cứu. Bấm Xây dựng/Nâng để trừ chi phí; cấp mới có hiệu lực khi hàng đợi hoàn tất. Giá/điều kiện không có dòng nguồn dùng SIMULATED hoặc hiển thị UNKNOWN. Phủ quan có cap nguồn 1 nhưng một nhánh khoa kỹ đòi Tu Tiên Viện 2, mà công trình này lại đòi Phủ quan 2; runtime dùng một cấp cầu nối SIMULATED, đồng thời giữ cap nguồn 1 trong provenance.
 
 | Công trình | Tác dụng runtime |
 | --- | --- |

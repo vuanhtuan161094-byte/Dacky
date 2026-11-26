@@ -66,7 +66,13 @@ const oldBuildings = adaptSourceFacts('buildings', buildingRows.map(([id,name,zo
     mobileImage: '', mobileLevelCosts: [], sourceFieldStatus: 'UNKNOWN'
 })));
 const additionalBuildings={'13':['government','administration'],'15':['housing','population'],'17':['hostel','recruitment'],'22':['workshop','siege'],'24':['skirmisher','scout'],'26':['stable','cavalry']};
-const extraBuildings=MOBILE_SOURCE_DATABASE.categories['cong-trinh'].filter(r=>additionalBuildings[r.id]).map(r=>{const [id,effect]=additionalBuildings[r.id],block=r.details.find(x=>x.k==='bang'),info=r.details.find(x=>x.k==='cs'),levels=(block?.dong??[]).map(v=>({level:Number(v[0]),requirement:String(v[1]??''),cost:{food:Number(v[2])||0,timber:Number(v[3])||0,stone:Number(v[4])||0,iron:Number(v[5])||0,gold:Number(v[6])||0}}));return {id,name:r.name,zone:'nội thành',glyph:'城',effect,index:oldBuildings.length+Object.keys(additionalBuildings).indexOf(r.id),baseCost:levels[0]?.cost??{},seconds:20,maxLevel:Number(info?.ds?.find(x=>x[0]==='Cấp tối đa')?.[1])||30,evidence:'MIXED',mobileSourceId:r.id,mobileZone:'Nội thành',mobileDescription:r.description,mobileImage:r.image?'./assets/mobile-source/'+r.image.replace(/^https?:\/\/[^/]+\//,''):'',mobileLevelCosts:levels,sourceFieldStatus:'VERIFIED_MOBILE',fieldEvidence:{mobileLevelCosts:'VERIFIED_MOBILE'},fieldProvenance:r.fieldProvenance};});
+const extraBuildings=MOBILE_SOURCE_DATABASE.categories['cong-trinh'].filter(r=>additionalBuildings[r.id]).map(r=>{
+  const [id,effect]=additionalBuildings[r.id],block=r.details.find(x=>x.k==='bang'),info=r.details.find(x=>x.k==='cs');
+  const levels=(block?.dong??[]).map(v=>({level:Number(v[0]),requirement:String(v[1]??''),cost:{food:Number(v[2])||0,timber:Number(v[3])||0,stone:Number(v[4])||0,iron:Number(v[5])||0,gold:Number(v[6])||0}}));
+  const sourceMaxLevel=Number(info?.ds?.find(x=>x[0]==='Cấp tối đa')?.[1])||30;
+  const prerequisiteBridge=id==='government'&&sourceMaxLevel<2;
+  return {id,name:r.name,zone:'nội thành',glyph:'城',effect,index:oldBuildings.length+Object.keys(additionalBuildings).indexOf(r.id),baseCost:levels[0]?.cost??{},seconds:20,maxLevel:prerequisiteBridge?2:sourceMaxLevel,sourceMaxLevel,runtimeMaxEvidence:prerequisiteBridge?'SIMULATED_PREREQUISITE_BRIDGE':undefined,simulatedLevelCosts:prerequisiteBridge?[{level:2,requirement:'—',cost:{food:300,timber:180,stone:120,iron:60,gold:150}}]:[],evidence:'MIXED',mobileSourceId:r.id,mobileZone:'Nội thành',mobileDescription:r.description,mobileImage:r.image?'./assets/mobile-source/'+r.image.replace(/^https?:\/\/[^/]+\//,''):'',mobileLevelCosts:levels,sourceFieldStatus:'VERIFIED_MOBILE',fieldEvidence:{mobileLevelCosts:'VERIFIED_MOBILE'},fieldProvenance:r.fieldProvenance};
+});
 export const BUILDINGS=Object.freeze([...oldBuildings,...extraBuildings]);
 
 const troopNames = [

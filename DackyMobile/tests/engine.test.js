@@ -57,6 +57,23 @@ test('Mobile building prerequisites enforce mapped rules and surface unresolved 
   assert.equal(quoteBuilding(state,'clinic').maxLevelEvidence,'SIMULATED','Mobile has no verified level cap for building 200');
 });
 
+test('prerequisite bridge keeps sourced government cap visible and opens Mobile research path', () => {
+  const now=1_800_000_000_000;
+  const state=createProductionGame('Triều Ca',now);
+  state.levels.government=1;
+  const next=quoteBuilding(state,'government');
+  assert.equal(next.sourceMaxLevel,1);
+  assert.equal(next.level,2);
+  assert.equal(next.maxLevelEvidence,'SIMULATED_PREREQUISITE_BRIDGE');
+  assert.equal(next.costEvidence,'SIMULATED_PREREQUISITE_BRIDGE');
+  assert.equal(next.locked,false);
+  const queued=doAction(state,{type:'upgrade',buildingId:'government'},now+1);
+  const finished=advance(queued,now+120_000).state;
+  assert.equal(finished.levels.government,2);
+  finished.levels.academy=2;
+  assert.equal(quoteResearch(finished,'tech-01').requirementSatisfied,true);
+});
+
 test('legacy base troop training times fill only shared Mobile IDs with provenance', () => {
   const now=1_800_000_000_000;
   const shared=TROOPS.filter(t=>t.trainTimeEvidence==='VERIFIED_LEGACY');
@@ -380,9 +397,9 @@ test('immortal affinity advances through training and PvE and elemental bonds re
   assert.ok(sameElement>0.049);
   assert.equal(mixedResult.skillBonuses.elementResonance,0);
   let maxed=createNewGame('Triều Ca',now);
-  maxed.heroes[0].level=60;maxed.heroes[0].affinity=97;maxed.levels.storehouse=4;maxed.resources.food=10_000;maxed.resources.gold=10_000;
+  maxed.heroes[0].level=150;maxed.heroes[0].affinity=97;maxed.levels.storehouse=30;maxed.resources.food=10_000_000;maxed.resources.gold=10_000_000;
   maxed=doAction(maxed,{type:'trainHero',heroId:'hero-01'},now+3);
-  assert.equal(maxed.heroes[0].level,60);
+  assert.equal(maxed.heroes[0].level,150);
   assert.equal(maxed.heroes[0].affinity,100);
   assert.throws(()=>doAction(maxed,{type:'trainHero',heroId:'hero-01'},now+4),/linh căn tối đa/);
 });
@@ -656,7 +673,7 @@ test('save v1 archives research levels whose meanings changed in the Mobile adap
   old.technologies['tech-14']=3;
   old.technologies['tech-19']=2;
   const migrated=migrateSave(old,now+1);
-  assert.equal(SAVE_VERSION,3);
+  assert.equal(SAVE_VERSION,4);
   assert.equal(migrated.version,SAVE_VERSION);
   assert.equal(migrated.technologies['tech-01'],4,'unchanged farming research stays active');
   assert.equal(migrated.technologies['tech-06'],0);

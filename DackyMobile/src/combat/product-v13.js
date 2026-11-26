@@ -6,7 +6,10 @@ import { createCombatRuntime } from './runtime-v7.js';
 import { createSourceDuelHero } from './hero-progression.js';
 import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff } from '../gameplay-p15.js';
 import { canEquip } from './army-artifacts.js';
-export const PRODUCT_POLICY=Object.freeze({maxRounds:12,damageScale:.24,heroCommandScale:.0005,enableTacticsV8:true,enableTacticsV10:true,enableBalanceV12:true,unknownManaCost:null,enableSimulatedConversion:false});
+// Three source artifacts omit an energy cost and two use a conversion effect.
+// The runtime applies a bounded, explicit fallback policy instead of silently
+// leaving those five records inert. Source effect operations remain intact.
+export const PRODUCT_POLICY=Object.freeze({maxRounds:12,damageScale:.24,heroCommandScale:.0005,enableTacticsV8:true,enableTacticsV10:true,enableBalanceV12:true,unknownManaCost:120,enableSimulatedConversion:true,unknownManaEvidence:'SIMULATED',conversionEvidence:'SIMULATED'});
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const copy=x=>structuredClone(x);
 const integer=(n,k,min=0)=>{if(!Number.isSafeInteger(n)||n<min)throw Error('Invalid '+k);return n};
@@ -30,9 +33,16 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   return {heroId:p.id,instanceId:save.id,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,commandAttack:clamp((stats.attack+stats.magic*.3)*.0005,0,1),commandDefense:clamp(gearBonus(save,'armor')*.001,0,.3),evidence:p.evidence};
  }
  function recover(state,now){if(!Number.isFinite(now))throw Error('INVALID_TIME');const s=copy(state);for(const h of s.heroes){const last=h.combatUpdatedAt;if(!Number.isFinite(last)||now<=last)continue;const c=commander(h,s),ticks=Math.floor((now-last)/60000);if(ticks<=0)continue;h.combatMana=Math.min(c.maxMana,c.mana+Math.ceil(c.maxMana*.05)*ticks);h.combatVitality=Math.min(c.maxVitality,c.vitality+Math.ceil(c.maxVitality*.05)*ticks);h.combatUpdatedAt=last+ticks*60000;}return s;}
- function enemyCommander(n, requestedLevel, name){
-  const p=heroes[(Math.max(0,n-1)*37)%heroes.length],level=requestedLevel??p.baseLevel,stats=createSourceDuelHero(p,{level}).stats;
-  return {heroId:p.id,instanceId:'npc:'+n,name:name||p.name,level,mana:stats.maxMana,maxMana:stats.maxMana,vitality:stats.maxHp,maxVitality:stats.maxHp,equippedArtifactIds:[],ownedArtifactIds:[]};
+ function enemyCommander(n, requestedLevel, name, bossLoadout=null){
+  const named=name?heroes.find(row=>row.name===name):null,p=named??heroes[(Math.max(0,n-1)*37)%heroes.length],level=requestedLevel??p.baseLevel,stats=createSourceDuelHero(p,{level}).stats;
+  const spells=[...new Set((bossLoadout?.spells??[]).map(String).filter(id=>rt.index.artifacts[id]?.status==='MAPPED'))];
+  const gear=(bossLoadout?.equipment??[]).map(row=>({row,item:ITEMS.find(item=>String(item.mobileSourceId)===String(row.id)&&item.fieldProvenance?.mobileSourceId?.sourceTable==='vat-pham')})).filter(x=>x.item);
+  const stat=(item,re)=>(item.mobileStats??[]).filter(row=>re.test(String(row[0]).toLowerCase())).reduce((sum,row)=>sum+(Number(String(row[1]).replace(/[^0-9.]/g,''))||0),0);
+  // Exact Mobile IDs are reused where available; forge scaling is a clearly
+  // labeled local adapter because the legacy equipment formula is unknown.
+  const attackGear=gear.reduce((sum,{row,item})=>sum+Math.max(stat(item,/công|đánh|attack/),stat(item,/pháp/))*(1+Math.max(0,row.forgeLevel||0)*.05),0);
+  const defenseGear=gear.reduce((sum,{row,item})=>sum+Math.max(stat(item,/thủ|phòng|defen/),stat(item,/thể/))*(1+Math.max(0,row.forgeLevel||0)*.05),0);
+  return {heroId:p.id,instanceId:'npc:'+n,name:name||p.name,level,mana:stats.maxMana,maxMana:stats.maxMana,vitality:stats.maxHp,maxVitality:stats.maxHp,equippedArtifactIds:spells,ownedArtifactIds:spells,commandAttack:clamp((stats.attack+attackGear)*PRODUCT_POLICY.heroCommandScale,0,1),commandDefense:clamp(defenseGear*.001,0,.3),equipmentSourceIds:gear.map(x=>x.item.mobileSourceId),loadoutEvidence:bossLoadout?'MIXED':'SIMULATED'};
  }
  function assigned(state){const out=state.heroes.filter(h=>h.assigned).slice(0,3);if(!out.length)throw Error('No assigned commander');return out}
  function ensureNew(state,id){if(typeof id!=='string'||!id)throw Error('Missing battle ID');if((state.combatReceipts??[]).includes(id))throw Error('ALREADY_SETTLED');}
@@ -45,7 +55,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const party=q.commanderIds?q.commanderIds.map(id=>{const h=state.heroes.find(x=>x.id===id);if(!h)throw Error('COMMANDER_MISSING');return h}):assigned(state);
   const [a,...reserves]=party.map(h=>commander(h,state));
   if(a.vitality===0&&!reserves.some(x=>x.vitality>0))throw Error('EXHAUSTED');
-  const n=Number(node.id.split(/[-:]/).at(-1))||1,enemy=enemyCommander(n,node.commanderLevel,node.enemy.formation?.[0]?.commander);
+  const n=Number(node.id.split(/[-:]/).at(-1))||1,enemy=enemyCommander(n,node.commanderLevel,node.enemy.formation?.[0]?.commander,node.bossLoadout);
   const rate=(id,fallback)=>{const row=TECHNOLOGIES.find(x=>x.id===id)?.mobileLevelCosts?.find(x=>Number(x.level)===1),m=String(row?.effect??'').match(/([+-]?\\d+(?:[.,]\\d+)?)\\s*%/);return m?Number(m[1].replace(',','.'))/100:fallback;};
   const research=(id,fallback)=>clamp((state.technologies?.[id]??0)*rate(id,fallback),0,1);
   const ownMagic=cityEffects(state,state.lastTickAt??0),enemyMagic=npcEffects(state,node.id,state.lastTickAt??0);
@@ -57,7 +67,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
  function credit(s,reward){const cap=storageCapacity(s);if(!Number.isFinite(cap)||cap<0)throw Error('INVALID_CAPACITY');const granted={};for(const [k,v] of Object.entries(reward)){if(!Object.hasOwn(s.resources,k)||!Number.isFinite(v)||v<0)continue;const before=s.resources[k];s.resources[k]=Math.min(k==='jade'?99999:cap,before+v);granted[k]=s.resources[k]-before}return granted;}
  function report(s,entry,now){s.reports.unshift({id:s.nextReportId++,at:now,...entry});s.reports=s.reports.slice(0,100);}
  function note(s,message){s.notifications=[message,...(s.notifications??[])].slice(0,12);}
- function xp(h,amount){if(h.level>=60)return;h.xp=(h.xp??0)+amount;while(h.level<60&&h.xp>=experienceForLevel(h.level)){h.xp-=experienceForLevel(h.level);h.level++;if(h.level%4===0)h.skillLevel=Math.min(10,(h.skillLevel??1)+1)}if(h.level>=60)h.xp=0;}
+ function xp(h,amount){if(h.level>=150)return;h.xp=(h.xp??0)+amount;while(h.level<150&&h.xp>=experienceForLevel(h.level)){h.xp-=experienceForLevel(h.level);h.level++;if(h.level%4===0)h.skillLevel=Math.min(10,(h.skillLevel??1)+1)}if(h.level>=150)h.xp=0;}
  function receipt(s,id){s.combatReceipts=[...(s.combatReceipts??[]),id];}
  function finishMarch(state,{now,commands=null}={}){
   const q=state.queues?.march;if(!q)throw Error('NO_PENDING_MARCH');if(!Number.isFinite(now)||now<q.finishAt)throw Error('MARCH_NOT_ARRIVED');
@@ -73,6 +83,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
    const reward={...node.loot};
    if (node.pveEncounter) {
      s.world.pveWins = {...s.world.pveWins, [node.id]: true};
+     if(node.buzhouFloor)s.world.buzhouFloor=Math.max(s.world.buzhouFloor??0,node.buzhouFloor);
    } else if(node.kind==='Danh thành'){if(!s.world.captures.includes(node.id)){s.world.captures.push(node.id);if(s.gameplay)s.gameplay.actions.capture=(s.gameplay.actions.capture??0)+1;s.stats.citiesCaptured++;chapter.citiesCaptured++;s.world.treaties=s.world.treaties.filter(id=>id!==node.id);if(!s.cities.some(c=>c.nodeId===node.id)){const city={id:node.id,nodeId:node.id,name:node.name,level:1,population:70+node.chapter*8,isCapital:false};s.cities.push(city);s.population=Math.min(250000,s.population+city.population);}}}
    else {if(s.gameplay&&node.kind==='Dã địa')s.gameplay.fieldRank=Math.max(s.gameplay.fieldRank??0,node.level??1);chapter.fieldWins++;s.world.storyStage=Math.max(s.world.storyStage,node.chapter*3);}
    if(node.isBoss&&!s.world.campaignComplete){s.world.campaignComplete=true;s.stats.bossesDefeated++;s.world.storyStage=24;s.fame+=1000;for(const [k,v] of Object.entries({food:12000,timber:10000,stone:8000,iron:6000,gold:12000,jade:24}))reward[k]=(reward[k]??0)+v;}
@@ -83,7 +94,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
    }
   }
   let itemDrop=null;const rng=seeded(q.seed^0x9e3779b9);if(battle.victory&&rng()<.3){const pool=ITEMS.filter(i=>i.type!=='vật phẩm'&&i.tier<=Math.min(5,1+Math.floor(node.chapter/2)));const item=pool[Math.floor(rng()*pool.length)];if(item&&s.items.length<500){s.items.push(item.id);itemDrop=item.id;}}
-  s.morale=clamp(s.morale+(battle.victory?2:-5),0,100);receipt(s,input.battleId);report(s,{type:'army',target:node.name,targetKind:node.kind,victory:battle.victory,rounds:battle.rounds.map(r=>({...r,ownDamage:r.incoming[1],enemyDamage:r.incoming[0],ownMorale:s.morale,activeSkills:r.events.filter(e=>e.type==='artifactCast').map(e=>e.name)})),ownPower:Object.values(q.troops).reduce((n,v)=>n+v,0),enemyPower:input.sides[1].stacks.reduce((n,t)=>n+t.count,0),enemyCommander:input.sides[1].name||rt.index.heroes[input.sides[1].heroId].name,enemyFormation:input.sides[1].stacks.map(t=>({unitId:t.id,count:t.count})),events:battle.events,dead:settlement.dead,wounded:settlement.wounded,loot,itemDrop,troopsSent:{...q.troops},combatBattleId:input.battleId,evidence:'SIMULATED'},now);note(s,node.name+(battle.victory?' · Thắng trận':' · Rút lui'));return {state:s,battle,loot};
+  s.morale=clamp(s.morale+(battle.victory?2:-5),0,100);receipt(s,input.battleId);report(s,{type:'army',target:node.name,targetKind:node.kind,victory:battle.victory,rounds:battle.rounds.map(r=>({...r,ownDamage:r.incoming[1],enemyDamage:r.incoming[0],ownMorale:s.morale,activeSkills:r.events.filter(e=>e.type==='artifactCast').map(e=>e.name)})),ownPower:Object.values(q.troops).reduce((n,v)=>n+v,0),enemyPower:input.sides[1].stacks.reduce((n,t)=>n+t.count,0),enemyCommander:input.sides[1].name||rt.index.heroes[input.sides[1].heroId].name,enemyFormation:input.sides[1].stacks.map(t=>({unitId:t.id,count:t.count})),bossLoadout:node.bossLoadout??null,enemyEquipmentSourceIds:input.sides[1].equipmentSourceIds??[],enemyCommandBonuses:{attack:input.sides[1].commandAttack??0,defense:input.sides[1].commandDefense??0},enemyLoadoutEvidence:input.sides[1].loadoutEvidence??'SIMULATED',battleCommands:q.battleCommands??commands??[],events:battle.events,dead:settlement.dead,wounded:settlement.wounded,loot,itemDrop,troopsSent:{...q.troops},combatBattleId:input.battleId,evidence:'SIMULATED'},now);note(s,node.name+(battle.victory?' · Thắng trận':' · Rút lui'));return {state:s,battle,loot};
  }
  function quoteDuel(state,mode,mountainId){
   if(!['mountain','tower','buzhou'].includes(mode))throw Error('UNKNOWN_MODE');

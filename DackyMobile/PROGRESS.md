@@ -1,31 +1,37 @@
 # Dacky V1.0 progress
 
-Updated 2026-11-25 · Repository `vuanhtuan161094-byte/Dacky` · branch `feature/dacky-v1-production`
+Updated 2026-11-26 · Repository `vuanhtuan161094-byte/Dacky` · branch `integration/dacky-one-game-v1`
 
-## ONE GAME checkpoint
+## P31–P40 ONE GAME checkpoint
 
-Production checkpoint `5644bbb` added 147 validated static endgame rows and excluded dynamic ownership and timestamps. [Production CI](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45715311082) passed. ONE GAME applies the P1–P20 changes from combat head `1d5df57` over that checkpoint while preserving production catalogs, images and packaging.
+Baseline HEAD was `059cdc37f3c1ab8c0969791186beb193b5893d25`; baseline integration CI [45716940099](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45716940099) passed. This checkpoint continues that integrated branch; Production and Combat source branches remain separate. No legacy executable, raw database dump, signing key or DEV resource is used in the gameplay simulations.
 
-- New and migrated saves use P20 army and duel dispatch. An already queued legacy march keeps its original settlement path. Reports replay the rounds stored by the engine. Normal battles debit the army once and conserve survivors, wounded and dead across save reloads.
-- Army encounters are available for 624 Tiên Sơn locations with 8,992 fighting floors, 27 NPC strongpoints, and 25 bosses grouped into five sites. 7,934 floors use fixed source lineups. Unspecified lineups use local rules based on the legacy floor bands. Nine strongpoints use generated lineups. Rewards are local and paid on first win. The 1,093 source reward rows, boss equipment links and spells still need verified adapters.
-- The 73 Mobile cities use their own identity, map and wall data with simulated garrisons. The separate legacy rosters remain available for comparison. Bất Chu Sơn uses legacy troop counts and level bands as duel difficulty inputs. Its five floors are implemented, with raw reward rules still held.
-- The runtime maps all 21 Mobile buildings, 19 technologies with 570 source levels and 25 troop profiles. Training duration and costs retain their prior field coverage. P20 quest conditions, equipment sets, potential, rebirth, strategic spells, timed buffs and speedups are wired to the product. Local recruitment refresh, daily salary and patrol replace gameplay gaps from held tables.
-- Save version 3 preserves the old research archive and adds PvE wins, daily claims and combat settlement receipts.
+- Save schema is v4 with migration for older saves. Army battles support round-by-round stance, artifact, commander switch and duel-challenge orders, plus auto-finish, replay, save/reload and one-time settlement.
+- Source Boss equipment IDs and spells now enter Boss opponents through a visibly simulated adapter. Five formerly held artifact policies use explicit simulated costs/conversion behavior. Bất Chu doors now dispatch through army combat and persist first-win progress.
+- The Mobile catalog has 21 buildings, 19 technology branches/570 level rows, 25 trainable troops, 482 recruitable hero profiles, 151 artifacts and 1,885 goods. Hero growth, unsupported building/technology effects, high-end garrisons and unspecified enemy formations remain simulated or partial.
+- Research simulation exposed a Mobile cap/prerequisite contradiction: Phủ quan source max is 1, while Tu Tiên Viện 2 requires Phủ quan 2. Runtime keeps the source cap in provenance and adds one `SIMULATED_PREREQUISITE_BRIDGE` rank. A regression check verifies that this opens the research route.
+- Quest coverage now maps 1,442/1,880 objectives; 984/1,158 quests have all targets playable, and 438 objectives remain `HOLD/UNKNOWN`. This improves the prior mapped count by 481; source semantics are not invented for the remainder.
+- PvE has 624 Tiên Sơn sites/8,992 floors/39,670 NPC stacks, 73 Mobile city nodes, 27 strongpoints, 5 Bất Chu doors, 25 advanced Bosses and the eight-chapter campaign. 7,934 floors use fixed source formations; other lineups and rewards are explicitly simulated. All 1,093 source Tiên Sơn loot rows remain `HOLD`.
+- Mobile data ledger: 620 `PARTIAL_RUNTIME` records span playable heroes/cities/troops/buildings/technology, 757 usable consumables, 534 equipment records, 151 artifacts with executable policies, and 594 goods remain reference/material. See [P31 gameplay ledger](qa/one-game/GAMEPLAY_LEDGER_P31.md) and the per-record [JSON ledger](qa/one-game/gameplay-ledger-p31.json).
 
-| Day | Chapter | Buildings upgraded | Research levels | Troops trained | Army wins | Cities | Tower | Bất Chu Sơn | Tiên Sơn | Source quests claimed |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | 2 | 2 | 2 | 16 | 1 | 0 | 1 | 0 | 0 | 1 |
-| 7 | 2 | 17 | 8 | 71 | 3 | 2 | 4 | 1 | 0 | 7 |
-| 30 | 8 | 86 | 13 | 542 | 21 | 14 | 15 | 4 | 0 | 22 |
-| 90 | 8 | 230 | 13 | 4,834 | 55 | 44 | 39 | 4 | 3 | 33 |
+### Clean-save progression
 
-The 90-day run defeated the final campaign boss. It used a new save, three regular play sessions per simulated day, and serialized/reloaded at each milestone. This run did not defeat an advanced-site boss or strongpoint. One deterministic progression run does not cover late-game balance.
+The deterministic four-policy simulation starts with a new save, uses no DEV resources, advances three eight-hour ticks per day and migrates/reloads at days 1, 7, 30, 90 and 180. All runs completed with no action errors. At day 180: Economy had 122 research levels and 14 wins; Military had 105 levels and cleared the campaign by day 90; Immortals had 68 levels and 17 wins; Balanced had 93 levels, 25 wins, 7 cities and cleared the campaign by day 180. Balanced had 2,624 ready soldiers across 5 troop types and 3 Tiên Sơn PvE wins. Economy, Military and Immortals had depleted their field army by day 180. Military's Bất Chu door 1 attempt lost with 57 troops against the 38,500-count source roster. Advanced Buzhou/late-game readiness is therefore still a blocker; difficulty was not lowered to force a pass. Full milestone output and all counts are in `qa/one-game/progression-p31.json`.
 
-### Open items
+### Remaining release work
 
-- 67/70 decoded legacy tables. Refresh and upgrade EXP retain unsupported record block types 249 and 253. The pinned field-event table only includes a schema file. Local gameplay formulas are in `src/simulated-world.js`.
-- P20 source ledger still counts 653 quests whose objectives all map, 961 mapped objectives and 919 held objectives. 865 held objectives use unknown legacy item links. The audit also lists 5 held artifact policies, 620 partial runtime records and 594 item references or materials. The last group still needs per-item role verification and crafting or other item sinks where supported.
-- Original loot semantics, live round commands in production, full quest and equipment coverage, calibrated late stages, additional sprites and spell VFX/audio, and on-device Android QA remain open. **DEVICE QA HOLD.**
+- Three legacy tables remain `HOLD`: `generalrefreshlevellimitinfo`, `upgradeexp` and `fieldrandeventcfginfo`; their runtime replacements are explicitly simulated.
+- 438 quest objectives, 1,093 Tiên Sơn loot rules and 594 reference/material goods need additional verified semantics or item-specific sinks. Full equipment enhancement/star-upgrade and some source item effects remain incomplete.
+- Late-game economy and troop recovery need more balance work. No 180-day strategy reached the advanced Boss/Buzhou endgame. The result is evidence, not a completion claim.
+- Runtime battle animation/VFX/audio need more work. Local Web/PWA/offline HTML/APK/AAB QA does not establish direct `file://` launch or physical Android interaction. **DEVICE QA HOLD.**
+
+### Local release-candidate verification
+
+- Node suite PASS: 118/118. `git diff --check` PASS.
+- Chromium smoke PASS: real manual army battle, round order, automatic completion, report replay, 12 gameplay screens, PWA offline reopen, single-file HTML with zero external requests over local HTTP, mobile portrait and landscape. `manual-battle.png` verifies the dispatched formation remains visible while commands are active. Five-second gameplay/replay capture: `qa/one-game/battle-replay.mp4`.
+- Web/PWA and one-file offline HTML build PASS. Offline HTML is 67,676,492 bytes, SHA-256 `709dfe91d89d847dd16e6a4b289efbeb9da8f7bdd96a65f3048572565c5771db`.
+- Existing JDK 21, Android SDK 36 and Gradle 8.14.3 produced APK 37,524,883 bytes (SHA-256 `3f12bab33638d7e5f958520b87abf0cfae8d49e0f83a2ef8ead5a004f3d7e623`) and debug AAB 35,276,242 bytes (SHA-256 `1aaafd15c5107bfb17149dac4ab0936143f941b79fa250dd2849f5484f8ccb3c`). APK v2 signature verifies; AAB ZIP integrity passes; package is `vn.dackymobile.offline`, version `1.0`, min SDK 24/compile SDK 36.
+- Web/Android local outputs are build artifacts and remain outside Git; the post-push CI artifact will be the download link. No physical device was available: **DEVICE QA HOLD**.
 
 ## Latest increment: Tiên Sơn source integration and complete Web artifact
 
