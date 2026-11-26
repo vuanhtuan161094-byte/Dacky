@@ -1,0 +1,2361 @@
+{
+  "schemaVersion": 1,
+  "reference": "https://dackytruvuong.com/",
+  "catalog": "Public current Dacky Trụ Vương HTML5 client, not War of Legends legacy galleries",
+  "ownerPermission": "OWNER_ATTESTED per project authorization dated 2026-11-26",
+  "sourceScreenshots": "Gameplay screenshot A not captured: no authorized live game session was available in this managed workspace.",
+  "assets": [
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army00-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army00-stand.png",
+      "bytes": 10403,
+      "sha256": "4c0cf0235d83a3c98f410bb6b77284e5c73b09b940a74d73dc04c852d56939c4",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army00",
+      "state": "stand",
+      "width": 57,
+      "height": 42,
+      "frames": 13,
+      "fps": 24,
+      "durationMs": 542,
+      "anchor": {
+        "x": 0.3508771929824561,
+        "y": 0.7857142857142857
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army00-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army00-run.png",
+      "bytes": 20718,
+      "sha256": "7f564fb9ddef5e21a1adae8b44788786fb864ed6e33a088276cff48f92a73019",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army00",
+      "state": "run",
+      "width": 64,
+      "height": 39,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.265625,
+        "y": 0.7692307692307693
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army00-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army00-attack.png",
+      "bytes": 12430,
+      "sha256": "fff97ccfb89f987d159f48afa80dff7dc4b92a1d971f67dabceae70ba292ff8c",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army00",
+      "state": "attack",
+      "width": 84,
+      "height": 41,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.35714285714285715,
+        "y": 0.7804878048780488
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army00-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army00-injured1.png",
+      "bytes": 8663,
+      "sha256": "85183609b386225f5d1b8f93284b97b2f750acd1d1a22a819aa6761bc54e5cdd",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army00",
+      "state": "injured1",
+      "width": 39,
+      "height": 56,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.4358974358974359,
+        "y": 0.8214285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army00-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army00-dead1.png",
+      "bytes": 3323,
+      "sha256": "01c38e1892d5fc785f944d52952424602937df1182f8c94450ee26558a4f3837",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army00",
+      "state": "dead1",
+      "width": 66,
+      "height": 31,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.3181818181818182,
+        "y": 0.3870967741935484
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army01-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army01-stand.png",
+      "bytes": 7426,
+      "sha256": "a58e9856f32750dbcfa72848a70f05f97bd954cb324aeb1da6a24705f3e0c5eb",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army01",
+      "state": "stand",
+      "width": 39,
+      "height": 38,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.48717948717948717,
+        "y": 0.7368421052631579
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army01-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army01-run.png",
+      "bytes": 18221,
+      "sha256": "a15888daad8abf755b3863f64f41e202b3ddc9e7b5fa2d20cf1d2800bb6968b5",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army01",
+      "state": "run",
+      "width": 42,
+      "height": 39,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.5238095238095238,
+        "y": 0.7435897435897436
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army01-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army01-attack.png",
+      "bytes": 15208,
+      "sha256": "e4019e2d65f03aa88345c789606aa228fd2c49438d88e505918b0a763a6e9989",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army01",
+      "state": "attack",
+      "width": 67,
+      "height": 53,
+      "frames": 11,
+      "fps": 24,
+      "durationMs": 458,
+      "anchor": {
+        "x": 0.4626865671641791,
+        "y": 0.8113207547169812
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army01-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army01-injured1.png",
+      "bytes": 5056,
+      "sha256": "5591448815acf449c4f1b9fbb3beb37f14c92bf7fb02258a39e48fdc3ac88f18",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army01",
+      "state": "injured1",
+      "width": 39,
+      "height": 35,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.48717948717948717,
+        "y": 0.7142857142857143
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army01-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army01-dead1.png",
+      "bytes": 3254,
+      "sha256": "94906df568594005e2e574f0cf5e7240d6d00f102522d1d3be11f83e3bec78cf",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army01",
+      "state": "dead1",
+      "width": 44,
+      "height": 34,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.45454545454545453,
+        "y": 0.6176470588235294
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army04-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army04-stand.png",
+      "bytes": 14565,
+      "sha256": "839fe18846e7923a0059d736fe4533433fe0d3973e7f1d7acb74a323cd1b6375",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army04",
+      "state": "stand",
+      "width": 59,
+      "height": 43,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.3898305084745763,
+        "y": 0.7906976744186046
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army04-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army04-run.png",
+      "bytes": 23326,
+      "sha256": "62b83a2248db2b39a08f748b5fce07e48dfe719ed46d10cab2da8de82a5db286",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army04",
+      "state": "run",
+      "width": 60,
+      "height": 44,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.3,
+        "y": 0.7954545454545454
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army04-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army04-attack.png",
+      "bytes": 14289,
+      "sha256": "2d92fc67113af05570c6aebad5bacaf17d20aba03a699e2c5230630261fc5dbd",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army04",
+      "state": "attack",
+      "width": 84,
+      "height": 41,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.38095238095238093,
+        "y": 0.7804878048780488
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army04-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army04-injured1.png",
+      "bytes": 8798,
+      "sha256": "f69124f41804cbb6a04573e5a2ac8f759a35578a4e526aed31096c8f272e77bd",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army04",
+      "state": "injured1",
+      "width": 40,
+      "height": 55,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.45,
+        "y": 0.8363636363636363
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army04-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army04-dead1.png",
+      "bytes": 3371,
+      "sha256": "5d6d253b3ea94087a4ea1c13e4a59b78feb6cd7be0c2812aaf963ed44dbff940",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army04",
+      "state": "dead1",
+      "width": 61,
+      "height": 30,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.3442622950819672,
+        "y": 0.4
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army05-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army05-stand.png",
+      "bytes": 12440,
+      "sha256": "8c629cab84f1b01f839406a43fe4b27a14923b2761fda55e83b347d50a08cab7",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army05",
+      "state": "stand",
+      "width": 52,
+      "height": 43,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.5961538461538461,
+        "y": 0.7674418604651163
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army05-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army05-run.png",
+      "bytes": 24383,
+      "sha256": "62b52c4fa2b09b9f24fc41ad79045dc78a3c5600c351e1919d2d5b5ed24d6555",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army05",
+      "state": "run",
+      "width": 49,
+      "height": 45,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.5306122448979592,
+        "y": 0.7555555555555555
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army05-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army05-attack.png",
+      "bytes": 24150,
+      "sha256": "f112a30f34e99e8ee89f7b908b4553bd15bb1369bb3be22ee961913ba6b7b40e",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army05",
+      "state": "attack",
+      "width": 105,
+      "height": 66,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.4666666666666667,
+        "y": 0.8181818181818182
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army05-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army05-injured1.png",
+      "bytes": 9884,
+      "sha256": "9ac7e7d15c19d77ddb42a1d5faae93db2d7fb61584028a9d33fc1c070c578afe",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army05",
+      "state": "injured1",
+      "width": 52,
+      "height": 44,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.5961538461538461,
+        "y": 0.7272727272727273
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army05-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army05-dead1.png",
+      "bytes": 3669,
+      "sha256": "c18e3cc07bea12b82638cf2f6c9b81e5669fc26031d3763a4ca082ec124a741e",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army05",
+      "state": "dead1",
+      "width": 62,
+      "height": 31,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.3387096774193548,
+        "y": 0.3870967741935484
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army02-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army02-stand.png",
+      "bytes": 7867,
+      "sha256": "339c87196dd1e3456194572d7603b42c002c895b5ce7a689fd3a8517a110cea3",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army02",
+      "state": "stand",
+      "width": 38,
+      "height": 37,
+      "frames": 13,
+      "fps": 12,
+      "durationMs": 1083,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.7567567567567568
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army02-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army02-run.png",
+      "bytes": 19593,
+      "sha256": "9bcef74c17849559eb0f8f7a47cfccdbf6ccb99a8b7d87b6367cb37a2341907a",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army02",
+      "state": "run",
+      "width": 41,
+      "height": 39,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.4634146341463415,
+        "y": 0.7692307692307693
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army02-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army02-attack.png",
+      "bytes": 12527,
+      "sha256": "26ebcae857e8b0f8dc7e3bf9e62ce28329031bc586221c3903aa4b252cc9f050",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army02",
+      "state": "attack",
+      "width": 68,
+      "height": 53,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.4411764705882353,
+        "y": 0.6037735849056604
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army02-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army02-injured1.png",
+      "bytes": 6431,
+      "sha256": "b6c39db68a300e5e80d00891d3e825946327a93c8adf5fea10cfffd6709398be",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army02",
+      "state": "injured1",
+      "width": 38,
+      "height": 37,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.47368421052631576,
+        "y": 0.7567567567567568
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army02-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army02-dead1.png",
+      "bytes": 2811,
+      "sha256": "7508de2715a358fda21ce3c61d512487c71af99ce7272490f80eb965de37fe5b",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army02",
+      "state": "dead1",
+      "width": 41,
+      "height": 30,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.5121951219512195,
+        "y": 0.6333333333333333
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army03-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army03-stand.png",
+      "bytes": 9024,
+      "sha256": "ac1473949b2afa0c31cd2aa90d4c6e0e4463267099a9a434a6dc719e5e45326a",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army03",
+      "state": "stand",
+      "width": 39,
+      "height": 40,
+      "frames": 13,
+      "fps": 12,
+      "durationMs": 1083,
+      "anchor": {
+        "x": 0.46153846153846156,
+        "y": 0.775
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army03-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army03-run.png",
+      "bytes": 20770,
+      "sha256": "766070a550401bc4d0aad14f47b0e2a7dd9b84e365aae15dca5e73ed9e02fa8c",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army03",
+      "state": "run",
+      "width": 47,
+      "height": 42,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.425531914893617,
+        "y": 0.7619047619047619
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army03-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army03-attack.png",
+      "bytes": 14713,
+      "sha256": "2922b812efaf3d797e16606e1535abb068635127c8d1798841c8a5318a23f55a",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army03",
+      "state": "attack",
+      "width": 83,
+      "height": 60,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.46987951807228917,
+        "y": 0.85
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army03-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army03-injured1.png",
+      "bytes": 6919,
+      "sha256": "6521b69e6316d6017ef0e98343634be823eb77da9bfe044074940710baabd5b2",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army03",
+      "state": "injured1",
+      "width": 37,
+      "height": 37,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.4594594594594595,
+        "y": 0.7567567567567568
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army03-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army03-dead1.png",
+      "bytes": 3007,
+      "sha256": "8ac900a1320061ab40fed67fe01cfff7a511259bec0c857854dc513708806534",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army03",
+      "state": "dead1",
+      "width": 42,
+      "height": 29,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.6206896551724138
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army20-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army20-stand.png",
+      "bytes": 10234,
+      "sha256": "a5d9d0f3435df5bc189d4179d986b4c0479bbf187fc8b7f04315699bb3a78702",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army20",
+      "state": "stand",
+      "width": 39,
+      "height": 39,
+      "frames": 7,
+      "fps": 12,
+      "durationMs": 583,
+      "anchor": {
+        "x": 0.48717948717948717,
+        "y": 0.7435897435897436
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army20-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army20-run.png",
+      "bytes": 18559,
+      "sha256": "e4903950c1ddfa5dc85b434f294bb0f632b32267d66c5b546142ca1561e1cb5a",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army20",
+      "state": "run",
+      "width": 48,
+      "height": 40,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.4583333333333333,
+        "y": 0.75
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army20-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army20-attack.png",
+      "bytes": 15209,
+      "sha256": "d22309ab1d3e52953700e7710c81f19a9680800d04267a70ae6baca51f5b7b06",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army20",
+      "state": "attack",
+      "width": 46,
+      "height": 48,
+      "frames": 10,
+      "fps": 24,
+      "durationMs": 417,
+      "anchor": {
+        "x": 0.41304347826086957,
+        "y": 0.7916666666666666
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army20-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army20-injured1.png",
+      "bytes": 5346,
+      "sha256": "9624d51fbfc521b2598476ff3c1dc619f1a15f46de705770e5153955a5d51e5e",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army20",
+      "state": "injured1",
+      "width": 39,
+      "height": 37,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.48717948717948717,
+        "y": 0.7297297297297297
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army20-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army20-dead1.png",
+      "bytes": 2848,
+      "sha256": "ff55a05907b580f3f6ab7c3588f1cf5b578004d8bc822eca877cd810c688fc54",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army20",
+      "state": "dead1",
+      "width": 55,
+      "height": 26,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.45454545454545453,
+        "y": 0.5769230769230769
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army21-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army21-stand.png",
+      "bytes": 13158,
+      "sha256": "4c464ce454da44447a6639234dadf0cb80c440638bff29047c5ef23bc0fa551c",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army21",
+      "state": "stand",
+      "width": 43,
+      "height": 39,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.4418604651162791,
+        "y": 0.7435897435897436
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army21-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army21-run.png",
+      "bytes": 19279,
+      "sha256": "def6266bd5587e5c52b613ab7d258b6c909d9699b0464ba06e72ff8c53047d49",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army21",
+      "state": "run",
+      "width": 49,
+      "height": 39,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.40816326530612246,
+        "y": 0.7435897435897436
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army21-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army21-attack.png",
+      "bytes": 16904,
+      "sha256": "6e159a93a4c7edc64642f569121e9f0921c68524a309f83864440523d9b6d1fb",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army21",
+      "state": "attack",
+      "width": 48,
+      "height": 51,
+      "frames": 10,
+      "fps": 24,
+      "durationMs": 417,
+      "anchor": {
+        "x": 0.4166666666666667,
+        "y": 0.803921568627451
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army21-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army21-injured1.png",
+      "bytes": 5637,
+      "sha256": "6876aa8a1035617217e669aa179e63c221cec4892c944b390403604199123f65",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army21",
+      "state": "injured1",
+      "width": 40,
+      "height": 38,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.475,
+        "y": 0.7368421052631579
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army21-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army21-dead1.png",
+      "bytes": 2695,
+      "sha256": "01af8a11b7ccca9fb14eedb66284f72300c85158d02ac4e16932f2ae69cb0217",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army21",
+      "state": "dead1",
+      "width": 53,
+      "height": 26,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.4339622641509434,
+        "y": 0.5
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army22-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army22-stand.png",
+      "bytes": 11741,
+      "sha256": "56f2532ad0d5ba04731c6bd91f90f5c18dfc8ba73f1530980e86fe1114a01248",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army22",
+      "state": "stand",
+      "width": 41,
+      "height": 44,
+      "frames": 16,
+      "fps": 12,
+      "durationMs": 1333,
+      "anchor": {
+        "x": 0.4634146341463415,
+        "y": 0.7954545454545454
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army22-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army22-run.png",
+      "bytes": 19358,
+      "sha256": "ed44da306a63254047c23ba7ed78cbe544805e40910662ae7b693bb0cdf3f4b3",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army22",
+      "state": "run",
+      "width": 51,
+      "height": 41,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.37254901960784315,
+        "y": 0.7804878048780488
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army22-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army22-attack.png",
+      "bytes": 15057,
+      "sha256": "0d2c487b273d235c5d195fff394b6fe201c6c89154f55df5f1e3c0f240b79bd4",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army22",
+      "state": "attack",
+      "width": 47,
+      "height": 50,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.425531914893617,
+        "y": 0.82
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army22-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army22-injured1.png",
+      "bytes": 6976,
+      "sha256": "3e9b609afb8697c2bff54f1310165d934e815a3c0d36e60c1c4334b9db85be8e",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army22",
+      "state": "injured1",
+      "width": 41,
+      "height": 38,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.4634146341463415,
+        "y": 0.7631578947368421
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army22-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army22-dead1.png",
+      "bytes": 2911,
+      "sha256": "dad9c2e3a837e88602e3b781d99676365b2532b38fd40ee3a974e57e335d1722",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army22",
+      "state": "dead1",
+      "width": 54,
+      "height": 28,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.4444444444444444,
+        "y": 0.5357142857142857
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army23-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army23-stand.png",
+      "bytes": 13569,
+      "sha256": "8c138a0e0e4a2c62d2991ddc162a0df071e193919143764a4b19724f4bb5d5a1",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army23",
+      "state": "stand",
+      "width": 41,
+      "height": 45,
+      "frames": 16,
+      "fps": 12,
+      "durationMs": 1333,
+      "anchor": {
+        "x": 0.43902439024390244,
+        "y": 0.7777777777777778
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army23-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army23-run.png",
+      "bytes": 22271,
+      "sha256": "08c4d787a65d8773a6cea588b5104ce154733926a9f87e1d4989de526a704369",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army23",
+      "state": "run",
+      "width": 54,
+      "height": 42,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.37037037037037035,
+        "y": 0.7857142857142857
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army23-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army23-attack.png",
+      "bytes": 16544,
+      "sha256": "272da74e236bcd09f30fa846df2f704f8ab3eab02e02ca59831c9da88cf6bafc",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army23",
+      "state": "attack",
+      "width": 49,
+      "height": 53,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.3673469387755102,
+        "y": 0.8113207547169812
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army23-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army23-injured1.png",
+      "bytes": 7377,
+      "sha256": "834b7ec11a62afd247d95a736be8e7118062385a63761bc423f718c7f812478a",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army23",
+      "state": "injured1",
+      "width": 39,
+      "height": 39,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.46153846153846156,
+        "y": 0.7435897435897436
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army23-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army23-dead1.png",
+      "bytes": 3111,
+      "sha256": "5a842ccefab6905013c6c74900fa0c1087eb1bcb683e7993263d28f7c1685474",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army23",
+      "state": "dead1",
+      "width": 55,
+      "height": 27,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.45454545454545453,
+        "y": 0.5185185185185185
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army24-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army24-stand.png",
+      "bytes": 14685,
+      "sha256": "34294ab700473107b3572aa8e82ef0158bfc83ac1a7f369340a7b3bf1c24f1a2",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army24",
+      "state": "stand",
+      "width": 43,
+      "height": 45,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.4186046511627907,
+        "y": 0.8
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army24-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army24-run.png",
+      "bytes": 23201,
+      "sha256": "fea2b704a1b433bad968b513b1bb2dc808f34a44f08c9d2cc77f120986c22f60",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army24",
+      "state": "run",
+      "width": 52,
+      "height": 44,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.34615384615384615,
+        "y": 0.7954545454545454
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army24-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army24-attack.png",
+      "bytes": 21354,
+      "sha256": "c686e1953216f681941b61a33334aacfd8bf3d353cc0d97e122ce6c8cb491d4f",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army24",
+      "state": "attack",
+      "width": 52,
+      "height": 56,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.38461538461538464,
+        "y": 0.8214285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army24-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army24-injured1.png",
+      "bytes": 7816,
+      "sha256": "881652223759876e43599c5096357a94864359f34cef05c4fecb2b9e9247c0a9",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army24",
+      "state": "injured1",
+      "width": 41,
+      "height": 41,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.5121951219512195,
+        "y": 0.7804878048780488
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army24-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army24-dead1.png",
+      "bytes": 3520,
+      "sha256": "b9cb00a630cd8e78a46df0353b82462918f905c68acdaf02bcae963cae186049",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army24",
+      "state": "dead1",
+      "width": 54,
+      "height": 30,
+      "frames": 1,
+      "fps": 24,
+      "durationMs": 42,
+      "anchor": {
+        "x": 0.46296296296296297,
+        "y": 0.5333333333333333
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army25-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army25-stand.png",
+      "bytes": 20281,
+      "sha256": "19db30e813db08949c7f2ff39844152130043e3a7b6c43124e63327f97d37d09",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army25",
+      "state": "stand",
+      "width": 49,
+      "height": 50,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.46938775510204084,
+        "y": 0.82
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army25-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army25-run.png",
+      "bytes": 36760,
+      "sha256": "29dce9c6028f5a4b5d3a8082453a0bc5b8a6063a04de8c9df05dc163aa2a9a11",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army25",
+      "state": "run",
+      "width": 63,
+      "height": 45,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.47619047619047616,
+        "y": 0.8
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army25-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army25-attack.png",
+      "bytes": 21892,
+      "sha256": "478906e1ff5fd11bff948eeb0e7ef17f50f51aea16cc7bae1b1ef6b725bf390b",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army25",
+      "state": "attack",
+      "width": 49,
+      "height": 54,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.4489795918367347,
+        "y": 0.8333333333333334
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army25-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army25-injured1.png",
+      "bytes": 9248,
+      "sha256": "f453194177460795b2a37246c3f8ca100219573210c16f1065a944f95a66750d",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army25",
+      "state": "injured1",
+      "width": 50,
+      "height": 50,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.46,
+        "y": 0.82
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army25-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army25-dead1.png",
+      "bytes": 26127,
+      "sha256": "b11ef6114b648b09035ec841c52ab061bec2449dd0068a6c61742c91b33fafd9",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army25",
+      "state": "dead1",
+      "width": 128,
+      "height": 29,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7372881355932204,
+        "y": 0.6919929865575687
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army10-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army10-stand.png",
+      "bytes": 21908,
+      "sha256": "80be7a9bd51eec0867a6020aff4365acebd4d750b34dd72803ab7c02db18577f",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army10",
+      "state": "stand",
+      "width": 49,
+      "height": 47,
+      "frames": 13,
+      "fps": 12,
+      "durationMs": 1083,
+      "anchor": {
+        "x": 0.4489795918367347,
+        "y": 0.8085106382978723
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army10-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army10-run.png",
+      "bytes": 36501,
+      "sha256": "8adfb5be30e55d59fe0cc5f92d653c7feba675418bc587517288cb985fa9eac1",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army10",
+      "state": "run",
+      "width": 65,
+      "height": 45,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.4461538461538462,
+        "y": 0.8
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army10-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army10-attack.png",
+      "bytes": 18413,
+      "sha256": "96e28f224e4c4f4d4d28d434ad5c07d0e682db930a8920fdfb55fe08b98aab20",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army10",
+      "state": "attack",
+      "width": 78,
+      "height": 50,
+      "frames": 9,
+      "fps": 20,
+      "durationMs": 450,
+      "anchor": {
+        "x": 0.3333333333333333,
+        "y": 0.82
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army10-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army10-injured1.png",
+      "bytes": 9523,
+      "sha256": "46008895adde25e8310353ad43407164a1bcb902b0757e68fb7dd402b91dca43",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army10",
+      "state": "injured1",
+      "width": 50,
+      "height": 54,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8333333333333334
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army10-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army10-dead1.png",
+      "bytes": 39414,
+      "sha256": "26741fcfbf4a13c4f109127b58acacc5014124ef82f5e6b950647f2e89bad292",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army10",
+      "state": "dead1",
+      "width": 128,
+      "height": 33,
+      "frames": 26,
+      "fps": 24,
+      "durationMs": 1083,
+      "anchor": {
+        "x": 0.6271186440677966,
+        "y": 0.7231638418079096
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army11-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army11-stand.png",
+      "bytes": 21622,
+      "sha256": "5dcaca6dd93c28f79a7218133ef24f6cfdff3299b8baacb17b852cbfba4173f8",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army11",
+      "state": "stand",
+      "width": 49,
+      "height": 47,
+      "frames": 13,
+      "fps": 12,
+      "durationMs": 1083,
+      "anchor": {
+        "x": 0.4489795918367347,
+        "y": 0.8085106382978723
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army11-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army11-run.png",
+      "bytes": 36294,
+      "sha256": "70944b8c1b643a15920b87c17d177558835bb8d1549db890e2f62088be3b66bd",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army11",
+      "state": "run",
+      "width": 66,
+      "height": 46,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.45454545454545453,
+        "y": 0.8043478260869565
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army11-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army11-attack.png",
+      "bytes": 17754,
+      "sha256": "7d000e2210e9ba9bcbe3b0959da068e00d6698fce38fa47f13e7b11727221a97",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army11",
+      "state": "attack",
+      "width": 78,
+      "height": 49,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.32051282051282054,
+        "y": 0.8163265306122449
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army11-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army11-injured1.png",
+      "bytes": 9403,
+      "sha256": "32c9811d9687ce8019bb949c21fc4c72d100604c85465635bd7d416ca5a6f1a8",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army11",
+      "state": "injured1",
+      "width": 49,
+      "height": 54,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.46938775510204084,
+        "y": 0.8333333333333334
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army11-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army11-dead1.png",
+      "bytes": 27880,
+      "sha256": "07bc60cfc64d28cc4485e8cd2770e92c197d8a99105cd165a5ad5b12cb7526ba",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army11",
+      "state": "dead1",
+      "width": 128,
+      "height": 28,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.6902654867256637,
+        "y": 0.7079646017699115
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army12-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army12-stand.png",
+      "bytes": 19288,
+      "sha256": "928849f47adca395b410adf151ac4e1b47611b13c580709d8e299f7666425c46",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army12",
+      "state": "stand",
+      "width": 53,
+      "height": 49,
+      "frames": 13,
+      "fps": 12,
+      "durationMs": 1083,
+      "anchor": {
+        "x": 0.5094339622641509,
+        "y": 0.8163265306122449
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army12-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army12-run.png",
+      "bytes": 38117,
+      "sha256": "2cf8d0c6d7d05c05d032083c8d247b24d782b466468e67d68ee786e24b88335f",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army12",
+      "state": "run",
+      "width": 63,
+      "height": 49,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.4444444444444444,
+        "y": 0.8163265306122449
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army12-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army12-attack.png",
+      "bytes": 19308,
+      "sha256": "5f0c67f5486736a52b00065ed5c9aeea0bfe302491b843d2e94f7f3b453c9f4e",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army12",
+      "state": "attack",
+      "width": 84,
+      "height": 52,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.39285714285714285,
+        "y": 0.8269230769230769
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army12-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army12-injured1.png",
+      "bytes": 11661,
+      "sha256": "6b81473e247c6c234c1f07d80756f155d46c7cd6c9b730ae752dd5e0c1b95d0b",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army12",
+      "state": "injured1",
+      "width": 49,
+      "height": 55,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.5306122448979592,
+        "y": 0.8363636363636363
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army12-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army12-dead1.png",
+      "bytes": 29714,
+      "sha256": "e132876a6060c233f63e87933fa02ba781fcaddc69a573720b4f45cac7100ddb",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army12",
+      "state": "dead1",
+      "width": 128,
+      "height": 26,
+      "frames": 28,
+      "fps": 24,
+      "durationMs": 1167,
+      "anchor": {
+        "x": 0.7130044843049327,
+        "y": 0.6843739220420834
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army13-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army13-stand.png",
+      "bytes": 24200,
+      "sha256": "49f01cb1efaa7a33b67d5e08ceb863dea1bf4f49a4e3e4530be3693433024c17",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army13",
+      "state": "stand",
+      "width": 49,
+      "height": 49,
+      "frames": 17,
+      "fps": 12,
+      "durationMs": 1417,
+      "anchor": {
+        "x": 0.46938775510204084,
+        "y": 0.8367346938775511
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army13-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army13-run.png",
+      "bytes": 38532,
+      "sha256": "b582d14f6f87b51efc17ccfd308c803bff8e40ab0178809d55a47d32034d9b6e",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army13",
+      "state": "run",
+      "width": 64,
+      "height": 50,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.453125,
+        "y": 0.82
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army13-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army13-attack.png",
+      "bytes": 19605,
+      "sha256": "c758f554fbc88d4adcaeae58870dce075a47be2693de5609e534af2ae438f188",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army13",
+      "state": "attack",
+      "width": 82,
+      "height": 52,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.3780487804878049,
+        "y": 0.8461538461538461
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army13-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army13-injured1.png",
+      "bytes": 11759,
+      "sha256": "7f11ca8633a6212b94814eaa61c33712d3574f615b4a2b2bdb859667e708da11",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army13",
+      "state": "injured1",
+      "width": 50,
+      "height": 54,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.52,
+        "y": 0.8518518518518519
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army13-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army13-dead1.png",
+      "bytes": 27327,
+      "sha256": "7a80b8b8bc07662c6c6962856dcf5d6d1964a59958991074a91269d4eba1c983",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army13",
+      "state": "dead1",
+      "width": 128,
+      "height": 25,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7203389830508474,
+        "y": 0.7159322033898304
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army14-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army14-stand.png",
+      "bytes": 25403,
+      "sha256": "3de4e9ae039fb9a888bbfe7e40481f50b4bebac6890ab235c8de62dfa523428a",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army14",
+      "state": "stand",
+      "width": 54,
+      "height": 50,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.84
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army14-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army14-run.png",
+      "bytes": 41253,
+      "sha256": "ea601621ad23d5560a23d5dd85c7be63dbabd762dd77d2494a3fe77a28394048",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army14",
+      "state": "run",
+      "width": 67,
+      "height": 48,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.44776119402985076,
+        "y": 0.8333333333333334
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army14-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army14-attack.png",
+      "bytes": 25400,
+      "sha256": "89815ff1f85b3da8c6b3132d4f9263f22d8e23cb08fc8f5789c2fafc08a1b29c",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army14",
+      "state": "attack",
+      "width": 87,
+      "height": 51,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.39080459770114945,
+        "y": 0.8431372549019608
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army14-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army14-injured1.png",
+      "bytes": 12412,
+      "sha256": "7f0693b07dddcad5b5fd6f59cc35e49b1df2f209b51c4b9df349f1592eb800f6",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army14",
+      "state": "injured1",
+      "width": 52,
+      "height": 56,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8571428571428571
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army14-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army14-dead1.png",
+      "bytes": 14434,
+      "sha256": "a644e55dce74f7d76e38275a2f742deded3c6121824d78b6b177abbe9a72ec3e",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army14",
+      "state": "dead1",
+      "width": 128,
+      "height": 18,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7865168539325842,
+        "y": 0.7191011235955056
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army15-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army15-stand.png",
+      "bytes": 25848,
+      "sha256": "8ecff2ba2dc5767042aabd5e8e7b36cbc4a7434723453044ae3eab01ae4f43cd",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army15",
+      "state": "stand",
+      "width": 54,
+      "height": 50,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.84
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army15-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army15-run.png",
+      "bytes": 42064,
+      "sha256": "72d5e13dd42be12770a1f2d862e0642ea95d59b2ab7697927f73096e26070ad0",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army15",
+      "state": "run",
+      "width": 65,
+      "height": 48,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.46153846153846156,
+        "y": 0.8333333333333334
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army15-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army15-attack.png",
+      "bytes": 25859,
+      "sha256": "69ed39d7bd0981cfc9725c7232e94a10d34f1b1acd85ecd6e4a3f887e243f1df",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army15",
+      "state": "attack",
+      "width": 87,
+      "height": 52,
+      "frames": 8,
+      "fps": 12,
+      "durationMs": 667,
+      "anchor": {
+        "x": 0.40229885057471265,
+        "y": 0.8461538461538461
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army15-injured1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army15-injured1.png",
+      "bytes": 12519,
+      "sha256": "c3db3db41f47418b7329ace4b89bb3621e2f5cdb492c55f3203c23c296cff91c",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army15",
+      "state": "injured1",
+      "width": 51,
+      "height": 55,
+      "frames": 12,
+      "fps": 24,
+      "durationMs": 500,
+      "anchor": {
+        "x": 0.5098039215686274,
+        "y": 0.8545454545454545
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/quan/army15-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/quan/army15-dead1.png",
+      "bytes": 14895,
+      "sha256": "d839fe2d4d59bd349c024336cd8c11dafd4ac94f74d09b18890d97403a699079",
+      "kind": "current-mobile-battle-sprite",
+      "family": "army15",
+      "state": "dead1",
+      "width": 128,
+      "height": 18,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.8005865102639296,
+        "y": 0.750733137829912
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_01-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_01-stand.png",
+      "bytes": 47590,
+      "sha256": "0b0811dd387cd911ade718328816cf1e640be0f10ac9adefedaa3b24645a8817",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_01",
+      "state": "stand",
+      "width": 80,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.5125,
+        "y": 0.8714285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_01-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_01-run.png",
+      "bytes": 76384,
+      "sha256": "43daa2e07f6222eb9e7657f4ccf4b41b7c6ddedfdbc67ffb71b7306ba03dbf8e",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_01",
+      "state": "run",
+      "width": 94,
+      "height": 70,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.48936170212765956,
+        "y": 0.8714285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_01-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_01-attack.png",
+      "bytes": 38562,
+      "sha256": "09952348f69f541250ddeb146af09ba569c61d17710d70e38429380872c4d5c5",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_01",
+      "state": "attack",
+      "width": 131,
+      "height": 73,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.37404580152671757,
+        "y": 0.8767123287671232
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_01-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_01-dead1.png",
+      "bytes": 30724,
+      "sha256": "54a3a511ea5aef4c6a4b3f95d52e69cb665ed8ff425e6e7f992d9df15ec8e4dd",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_01",
+      "state": "dead1",
+      "width": 200,
+      "height": 29,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7249466950959489,
+        "y": 0.7499448569958092
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_01-cheer.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_01-cheer.png",
+      "bytes": 47855,
+      "sha256": "169e18ea8f683da9afd3abef1c8646d3fe6388a4ee143fd1e665f271741ceb74",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_01",
+      "state": "cheer",
+      "width": 69,
+      "height": 117,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.463768115942029,
+        "y": 0.9230769230769231
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_02-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_02-stand.png",
+      "bytes": 41046,
+      "sha256": "57c1833faa26047fb96d2398d6c9b955a70e5253d4800feda6e757b862db73a9",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_02",
+      "state": "stand",
+      "width": 70,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.45714285714285713,
+        "y": 0.8714285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_02-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_02-run.png",
+      "bytes": 72283,
+      "sha256": "841e3b58c98382fffd4a2b53479371738c375279d44c633e98e06cdd577c3c3d",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_02",
+      "state": "run",
+      "width": 91,
+      "height": 70,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.4835164835164835,
+        "y": 0.8714285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_02-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_02-attack.png",
+      "bytes": 44405,
+      "sha256": "2f4e1adf117e3bff2a210ea9d3120009dc232e6f83eb264a170c7e83dcadc8b4",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_02",
+      "state": "attack",
+      "width": 106,
+      "height": 72,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.330188679245283,
+        "y": 0.875
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_02-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_02-dead1.png",
+      "bytes": 44315,
+      "sha256": "3ba14484fd2d5471d924adbcd0643b19ed76b0504d46c54df7580877a8acb13e",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_02",
+      "state": "dead1",
+      "width": 200,
+      "height": 38,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7309782608695652,
+        "y": 0.7294050343249427
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_02-cheer.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_02-cheer.png",
+      "bytes": 52555,
+      "sha256": "f72e5814f6910e21048d028509327e441df382c4380119050474270a216765b6",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_02",
+      "state": "cheer",
+      "width": 69,
+      "height": 110,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.4782608695652174,
+        "y": 0.9181818181818182
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_03-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_03-stand.png",
+      "bytes": 47821,
+      "sha256": "8a337165f1deccdaab09c09227bb07f387a26199d3d280ec2e1624964c0c7db1",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_03",
+      "state": "stand",
+      "width": 77,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.5064935064935064,
+        "y": 0.8714285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_03-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_03-run.png",
+      "bytes": 78729,
+      "sha256": "4696b383487f86cc7e0ef9fb76a57f8d97a0d6649826767fe70af6e58815e61b",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_03",
+      "state": "run",
+      "width": 91,
+      "height": 70,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.4945054945054945,
+        "y": 0.8714285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_03-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_03-attack.png",
+      "bytes": 49184,
+      "sha256": "a190e35a2d50527e505aa6c37ea75a277f3be1fd7115f19c62e49e43a6a7d7d6",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_03",
+      "state": "attack",
+      "width": 128,
+      "height": 74,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.3828125,
+        "y": 0.8783783783783784
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_03-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_03-dead1.png",
+      "bytes": 37569,
+      "sha256": "7b106a713e28257807e658840ecf05ce56af375da3cb899a982f93cf7a00a587",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_03",
+      "state": "dead1",
+      "width": 200,
+      "height": 33,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.6642335766423357,
+        "y": 0.7520460075204601
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_03-cheer.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_03-cheer.png",
+      "bytes": 60034,
+      "sha256": "cfd554464eafae2ea3c0d8c508c58e7db7ee50aba71cf309a74404965231cc98",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_03",
+      "state": "cheer",
+      "width": 69,
+      "height": 120,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.463768115942029,
+        "y": 0.925
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_04-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_04-stand.png",
+      "bytes": 47443,
+      "sha256": "a12f70b7fa12137f7338cfc1d9520f86a5aec268b3f5f5ebb6e7ede9cf3c1684",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_04",
+      "state": "stand",
+      "width": 76,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8714285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_04-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_04-run.png",
+      "bytes": 77338,
+      "sha256": "aa133ce8efd71dd21a58bb5e26336e22e80c7d8c3c29b7656006a6433685344c",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_04",
+      "state": "run",
+      "width": 94,
+      "height": 71,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.46808510638297873,
+        "y": 0.8732394366197183
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_04-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_04-attack.png",
+      "bytes": 48741,
+      "sha256": "d4de37168771a1d944769f7e121d91fdc532bfdcf27650ff719351100c65f32b",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_04",
+      "state": "attack",
+      "width": 128,
+      "height": 74,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.3984375,
+        "y": 0.8783783783783784
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_04-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_04-dead1.png",
+      "bytes": 39436,
+      "sha256": "46ff90231ab0fb174826aaea781329c2331b6ad9a6295cf154418cb2c7bca3cc",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_04",
+      "state": "dead1",
+      "width": 200,
+      "height": 34,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.6876574307304786,
+        "y": 0.7556675062972292
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_04-cheer.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_04-cheer.png",
+      "bytes": 59298,
+      "sha256": "3f462f1f91e23cf8690dfa0ef8d03c735c39e1727a1f66d738e0e031252fde46",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_04",
+      "state": "cheer",
+      "width": 70,
+      "height": 117,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.4857142857142857,
+        "y": 0.9230769230769231
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_05-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_05-stand.png",
+      "bytes": 39873,
+      "sha256": "aee90450f0127aa077b9c4ddb3a0f0cf4868b19301365454ad97e7834709fe12",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_05",
+      "state": "stand",
+      "width": 73,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.4931506849315068,
+        "y": 0.8714285714285714
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_05-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_05-run.png",
+      "bytes": 68494,
+      "sha256": "a2f4158dca55517b7188789539d3e00f17806de511dade80c475413075f1d880",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_05",
+      "state": "run",
+      "width": 89,
+      "height": 67,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.5168539325842697,
+        "y": 0.8656716417910447
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_05-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_05-attack.png",
+      "bytes": 42550,
+      "sha256": "f033158b9156273e155eea573a598226242ceed1c1f7da4a5319b68f31c7e8b9",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_05",
+      "state": "attack",
+      "width": 111,
+      "height": 71,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.4144144144144144,
+        "y": 0.8732394366197183
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_05-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_05-dead1.png",
+      "bytes": 43508,
+      "sha256": "939d3250f708c8aaac6ca4f87734eef128111c173c4f58290ee3a0cf239a5036",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_05",
+      "state": "dead1",
+      "width": 200,
+      "height": 44,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7319034852546917,
+        "y": 0.6214964660004875
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_05-cheer.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_05-cheer.png",
+      "bytes": 53071,
+      "sha256": "cc8b7e05808c20f2d6188c4bb21c11fef4e5fa61aec54c087eb74f747d6f07be",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_05",
+      "state": "cheer",
+      "width": 67,
+      "height": 110,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.47761194029850745,
+        "y": 0.9181818181818182
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_06-stand.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_06-stand.png",
+      "bytes": 39507,
+      "sha256": "5db3c21c3ade632ef471725b0078983932e32255895236a1fd34caea53a0d711",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_06",
+      "state": "stand",
+      "width": 77,
+      "height": 72,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.4675324675324675,
+        "y": 0.875
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_06-run.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_06-run.png",
+      "bytes": 69105,
+      "sha256": "4d9429b34f8d1d7e6bd1740b94e898a40be136603383b4dc8dc1b18f4578d2e4",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_06",
+      "state": "run",
+      "width": 92,
+      "height": 70,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8428571428571429
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_06-attack.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_06-attack.png",
+      "bytes": 41988,
+      "sha256": "050626a8f6fb756f62ed800e60ce450c9a814adae02e967924c3d2fb921b5153",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_06",
+      "state": "attack",
+      "width": 123,
+      "height": 73,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.3902439024390244,
+        "y": 0.8767123287671232
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_06-dead1.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_06-dead1.png",
+      "bytes": 40956,
+      "sha256": "9e23d51e535f67e0a3f9b7c2a11ce62ee814e387233d7bdb5288f6ab42ac6793",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_06",
+      "state": "dead1",
+      "width": 200,
+      "height": 34,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7338709677419354,
+        "y": 0.8064516129032258
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-ng/tuong/hero_06-cheer.png",
+      "url": "https://dackytruvuong.com/assets/battle-ng/tuong/hero_06-cheer.png",
+      "bytes": 54204,
+      "sha256": "7d6806380beae85caa384c7ca1af89dd82892d826858e29ac581bce048cd5808",
+      "kind": "current-mobile-commander-sprite",
+      "family": "hero_06",
+      "state": "cheer",
+      "width": 68,
+      "height": 114,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9210526315789473
+      }
+    },
+    {
+      "path": "assets/visual/assets/battle-fx/bang235.webp",
+      "url": "https://dackytruvuong.com/assets/battle-fx/bang235.webp",
+      "bytes": 161130,
+      "sha256": "6279337bb98e42727fe40d326eeaa12296e86d088492050d5dcdcb2f86a2fb3c",
+      "kind": "normal",
+      "effect": "eff010_11",
+      "phase": "fire",
+      "width": 362,
+      "height": 432,
+      "frames": 21,
+      "durationMs": 2100
+    },
+    {
+      "path": "assets/visual/assets/battle-fx/fire225.webp",
+      "url": "https://dackytruvuong.com/assets/battle-fx/fire225.webp",
+      "bytes": 44766,
+      "sha256": "508fd6f5edc886ad2818bb11ad49c1153bb177141bf2452e548dfc4972589635",
+      "kind": "critical",
+      "effect": "eff160",
+      "phase": "fire",
+      "width": 154,
+      "height": 130,
+      "frames": 8,
+      "durationMs": 443
+    },
+    {
+      "path": "assets/visual/assets/battle-fx/fire272.webp",
+      "url": "https://dackytruvuong.com/assets/battle-fx/fire272.webp",
+      "bytes": 11048,
+      "sha256": "c750eb46ebf1f6a54fac2fdf18e95b23814de881281e449706d12c7cbd7cdb98",
+      "kind": "skill",
+      "effect": "eff707a",
+      "phase": "hurt",
+      "width": 78,
+      "height": 70,
+      "frames": 6,
+      "durationMs": 856
+    },
+    {
+      "path": "assets/visual/assets/battle-fx/bang717r.webp",
+      "url": "https://dackytruvuong.com/assets/battle-fx/bang717r.webp",
+      "bytes": 696952,
+      "sha256": "57a446723dee0f263ea5e0b437152a105ce95377107cc3ad8779907a0063ecec",
+      "kind": "artifact",
+      "effect": "eff717r",
+      "phase": "bang",
+      "width": 510,
+      "height": 512,
+      "frames": 24,
+      "durationMs": 1999
+    },
+    {
+      "path": "assets/visual/flash/worldmap/allmap-bg.webp",
+      "url": "https://dackytruvuong.com/flash/worldmap/allmap-bg.webp",
+      "bytes": 247232,
+      "sha256": "246fc4616155e89d07381975eb356532cc1ae0e88b3b833cdc425d5f0638efcb",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/battle/nen-troi.jpg",
+      "url": "https://dackytruvuong.com/assets/battle/nen-troi.jpg",
+      "bytes": 60430,
+      "sha256": "e7d227de7c5f82affe5692da6d178612686c4d8d9b85ff64828e2566b110c56b",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/battle/nen-thung-lung.jpg",
+      "url": "https://dackytruvuong.com/assets/battle/nen-thung-lung.jpg",
+      "bytes": 174362,
+      "sha256": "ec44af4e75047cdb34680119119cf408cade080e5d32be1b098f652c59b88d44",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/khung.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/khung.png",
+      "bytes": 119027,
+      "sha256": "6813475eb9721af63479a140024ba951cd60242c3e62893fdc4df544f1391dbc",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/nut-dong.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/nut-dong.png",
+      "bytes": 6197,
+      "sha256": "c37998dccb697502242c5c63f436088af7b244e9f434bc35f254ae36c129058f",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/nut-vang.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/nut-vang.png",
+      "bytes": 9494,
+      "sha256": "d187dc4bdcc872f82c13137f376f3fe01c962614a228be6631bf5fafd9ffa1b9",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/nut-xanh.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/nut-xanh.png",
+      "bytes": 2019,
+      "sha256": "45b337429bad353681f2abc4941cdf6ef604cc0cf4f88fb23277922790a32d9c",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/nut-xam.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/nut-xam.png",
+      "bytes": 1858,
+      "sha256": "38728676c1b34d589201848d5c6e6a93daf2265929e65de082184c49368c50e6",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/tab-toi.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/tab-toi.png",
+      "bytes": 3649,
+      "sha256": "ee84886d9724e8a2d434526b2250542fed08d4abcf712ba05b853661f3a8cd44",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/tab-sang.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/tab-sang.png",
+      "bytes": 4848,
+      "sha256": "1a6c05616947be3030d63d243a6bafcdce8ff05e0c5dbb47de21f5f2aea8a78d",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/gach.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/gach.png",
+      "bytes": 464,
+      "sha256": "2093511278807d31b80aa16b31778619f1e4358e16e42add4e4b9a212cbe2654",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/nhan-xanh.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/nhan-xanh.png",
+      "bytes": 1352,
+      "sha256": "706e8a9314205a62de2e6541c4d676ad5ce4bc70c428881516fa9eb95086a2d7",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/than-tuong/nen-muc.webp",
+      "url": "https://dackytruvuong.com/assets/blr-ui/than-tuong/nen-muc.webp",
+      "bytes": 30050,
+      "sha256": "b0a1a2183aa01f2d7248326a532089dd8accc76557eaa26a612e8b8a429ef0f3",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/than-tuong/hao-quang.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/than-tuong/hao-quang.png",
+      "bytes": 16914,
+      "sha256": "2e1da97098028e138ae415ff93a6064291f31a0aad7529f874ed3a44a34146e7",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/than-tuong/thanh-nen.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/than-tuong/thanh-nen.png",
+      "bytes": 1868,
+      "sha256": "88aa8f7e7d140eb533b5892bd6cddb000f857882be90eaa92b7c590ca91f18ee",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/than-tuong/thanh-tu-vi.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/than-tuong/thanh-tu-vi.png",
+      "bytes": 1914,
+      "sha256": "753134d5fdea0385ca31758e4dd09b5a5225a5870a7cb2d463283672cee1e940",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/blr-ui/than-tuong/vong-phep.png",
+      "url": "https://dackytruvuong.com/assets/blr-ui/than-tuong/vong-phep.png",
+      "bytes": 9825,
+      "sha256": "e3af9379aacd141f27c1752e09e3cc960c415c1483e9cf09676036a4859ab20d",
+      "kind": "current-mobile-scene-art"
+    },
+    {
+      "path": "assets/visual/assets/am-thanh/tieng/bam.mp3",
+      "url": "https://dackytruvuong.com/assets/am-thanh/tieng/bam.mp3",
+      "bytes": 2821,
+      "sha256": "c8379e3f138a91ea7b2b61383d2ec37326488fde0d16c5b0caec29036c9ecb0a",
+      "kind": "current-client-audio"
+    },
+    {
+      "path": "assets/visual/assets/am-thanh/tieng/hanh-quan.mp3",
+      "url": "https://dackytruvuong.com/assets/am-thanh/tieng/hanh-quan.mp3",
+      "bytes": 12852,
+      "sha256": "de9ad26e6dbb55a55809d539941b66bd7f1cd95ba9f7cb2b817509164e17d7fe",
+      "kind": "current-client-audio"
+    },
+    {
+      "path": "assets/visual/assets/am-thanh/nhac/tran.mp3",
+      "url": "https://dackytruvuong.com/assets/am-thanh/nhac/tran.mp3",
+      "bytes": 1411587,
+      "sha256": "089f2f8fa343dfe68136c033650a2bc7ddbc52f69ee3331b112f334244883794",
+      "kind": "current-client-audio"
+    }
+  ]
+}
