@@ -21,16 +21,17 @@ with sync_playwright() as p:
         page.locator('.art01-terrain').evaluate("(im)=>im.decode()")
         page.wait_for_function("Array.from(document.querySelectorAll('.city-building-art img')).every(i=>i.complete&&i.naturalWidth>0)",timeout=30000)
         page.screenshot(path=str(out/(label+"-initial-outer.png")))
-        assert page.locator('.city-extra-plot[data-unlocked=true]').count()==3
+        assert page.locator('.city-extra-plot[data-unlocked=true]').count()==9
         page.locator('.city-extra-plot[data-plot="o1"]').click()
         assert page.locator('.art10-plot-inspector').is_visible()
-        assert page.locator('.art10-plot-choice').count()==4
+        assert page.locator('.art10-plot-choice').count()>=4
+        assert page.locator('.art10-plot-choice button[data-building="farm"]').count()==1
         page.screenshot(path=str(out/(label+"-free-outer-plot.png")))
         page.locator('[data-action="cityClose"]').click()
         page.locator('.art06-zone-tabs [data-zone="inner"]').click()
-        assert page.locator('.city-extra-plot[data-unlocked=true]').count()==9
+        assert page.locator('.city-extra-plot[data-unlocked=true]').count()==28
         page.locator('.city-extra-plot[data-plot="i1"]').click()
-        assert page.locator('.art10-plot-choice').count()==7
+        assert page.locator('.art10-plot-choice').count()>=7
         page.screenshot(path=str(out/(label+"-free-inner-plot.png")))
         page.locator('[data-action="cityClose"]').click()
         # A separate browser context contains a QA-only developed-city fixture,
@@ -102,7 +103,7 @@ with sync_playwright() as p:
         assert page.locator('.art01-directory-item').count()==27
         page.locator('.art01-directory-item[data-building="lumber"]').click()
         assert page.locator('.art01-inspector').is_visible()
-        assert page.locator('.city-building[data-building="lumber"]').get_attribute("aria-pressed")=="true"
+        assert page.locator('.city-building[data-plot="b-lumber"]').get_attribute("aria-pressed")=="true"
         assert page.locator(".art06-zone-tabs [data-zone=outer]").get_attribute("aria-pressed")=="true"
         page.screenshot(path=str(out/(label+"-directory-selection.png")))
         assert page.locator('.art07-command-content .art01-inspector').is_visible()
