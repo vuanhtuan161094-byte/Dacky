@@ -18,8 +18,8 @@
   "wall": {
     "source": "mobile-source/flash/city/RES_DAK_IMAGE.png",
     "pixelSize": [
-      255,
-      236
+      355,
+      266
     ],
     "foot": [
       720,
@@ -29,7 +29,7 @@
       156,
       90
     ],
-    "transformation": "custom terrain-aligned isometric farm/gate sprite; source reference"
+    "transformation": "custom terrain-aligned farm; native-roof stone gate; source reference"
   },
   "government": {
     "source": "mobile-source/flash/city/RES_GOVERNMENT_IMAGE.png",
@@ -402,18 +402,18 @@
   "farm": {
     "source": "mobile-source/flash/city/RES_CROPLAND_IMAGE.png",
     "pixelSize": [
-      475,
-      225
+      495,
+      224
     ],
     "foot": [
-      720,
-      570
+      468.8,
+      230.71428571428572
     ],
     "display": [
       153,
       94
     ],
-    "transformation": "custom terrain-aligned isometric farm/gate sprite; source reference"
+    "transformation": "custom terrain-aligned farm; native-roof stone gate; source reference"
   },
   "foundryfield": {
     "source": "mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
