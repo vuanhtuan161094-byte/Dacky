@@ -1,3 +1,3 @@
-# ART01 R4 — raster terrain and visible buildings
+# ART01 R5 — interaction review
 
-R1/R2/R3 rejected after runtime inspection. R4 uses reproducible raster terrain, all 27 interactive lots, original fortress/building art, full desktop width, names on built buildings and compact mobile HUD. Fixed built buildings disappearing due to next-level locks. Terrain is embedded in offline HTML and PWA shell. Build: pip install -r requirements-art01.txt; npm ci; npm run build. Local exact-renderer visual preview inspected at 1280×720 and 844×390; interactive CI review required. No combat, save, catalog, ONE GAME or deploy changes. Original Mobile screen parity remains unverified; owner ART approval pending.
+R4 feedback: cumbersome interaction and insufficient original visual fidelity. R5 adds mouse drag, construction timer, tutorial routing, building directory, Escape/backdrop closing and management drawer state preservation. Keeps R4 art and all engine/data/save behavior. Automatic publication of the isolated review subdirectory after successful CI only; no production root changes. Original Mobile client visual parity still unverified; OWNER HOLD.

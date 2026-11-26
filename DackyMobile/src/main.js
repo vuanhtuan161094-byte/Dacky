@@ -1,4 +1,4 @@
-import { activeQuest, advance, createNewGame, doAction } from './engine.js';
+import { activeQuest, advance, createNewGame, doAction, TUTORIAL_STEPS } from './engine.js';
 import { QUESTS } from './catalog.js';
 import { exportSave, importSaveFile, loadGame, saveGame } from './store.js';
 import { NAV, renderScreen, renderShell, renderStartup, showBattleReplay, showDialog, showToast, updateClock } from './ui.js';
@@ -131,6 +131,8 @@ async function initialize() {
 }
 
 document.body.addEventListener('click', async event => {
+  if(cityDragSuppress&&event.target.closest('.art01-camera')){event.preventDefault();return;}
+  if(event.target.closest('.art01-camera')&&!event.target.closest('button')&&uiState.cityBuildingId){uiState.cityBuildingId=null;renderCurrent();return;}
   const heroSupportSummary=event.target.closest('.hero-support-drawer > summary');
   if(heroSupportSummary)uiState.heroSupportOpen=!heroSupportSummary.parentElement.open;
   const heroChoice=event.target.closest('[data-select-hero]');
@@ -166,7 +168,19 @@ document.body.addEventListener('click', async event => {
     case 'mapZoomIn': uiState.mapZoom=Math.min(2,(Number(uiState.mapZoom)||1)+.15);renderCurrent();return;
     case 'mapZoomOut': uiState.mapZoom=Math.max(.82,(Number(uiState.mapZoom)||1)-.15);renderCurrent();return;
     case 'mapReset': uiState.mapZoom=1;uiState.mapPanX=0;uiState.mapPanY=0;renderCurrent();return;
-    case 'citySelect': uiState.cityBuildingId=button.dataset.building;renderCurrent();return;
+    case 'citySelect': uiState.cityBuildingId=button.dataset.building;uiState.cityDirectoryOpen=false;renderCurrent();return;
+    case 'cityLocate': {
+      uiState.cityBuildingId=button.dataset.building;uiState.cityDirectoryOpen=false;renderCurrent();
+      const camera=document.querySelector('.art01-camera'),marker=Array.from(camera?.querySelectorAll('.city-building')||[]).find(el=>el.dataset.building===uiState.cityBuildingId);
+      if(camera&&marker){const a=camera.getBoundingClientRect(),b=marker.getBoundingClientRect();camera.scrollLeft+=b.left+b.width/2-a.left-a.width/2;camera.scrollTop+=b.top+b.height/2-a.top-a.height/2;}
+      return;
+    }
+    case 'cityDirectory': uiState.cityDirectoryOpen=!uiState.cityDirectoryOpen;uiState.cityBuildingId=null;renderCurrent();return;
+    case 'cityGuide': {
+      const guide=TUTORIAL_STEPS[game.tutorialStep],view={research:'tech',recruit:'heroes',equip:'inventory',train:'army',march:'world'}[guide?.action]||'quests';
+      if(guide?.action==='march')uiState.nodeId=guide.data.nodeId;
+      setView(view);return;
+    }
     case 'cityClose': uiState.cityBuildingId=null;renderCurrent();return;
     case 'cityZoom': uiState.cityOverview=!uiState.cityOverview;renderCurrent();{const camera=document.querySelector('.art01-camera');if(camera){camera.scrollLeft=(camera.scrollWidth-camera.clientWidth)/2;camera.scrollTop=(camera.scrollHeight-camera.clientHeight)/2;}}return;
     case 'cityCenter': {const camera=document.querySelector('.art01-camera');if(camera){camera.scrollLeft=(camera.scrollWidth-camera.clientWidth)/2;camera.scrollTop=(camera.scrollHeight-camera.clientHeight)/2;}}return;
@@ -246,6 +260,29 @@ document.body.addEventListener('click', async event => {
   }
 });
 
+let cityDrag=null,cityDragSuppress=false;
+document.body.addEventListener('pointerdown',event=>{
+  const camera=event.target.closest('.art01-camera');
+  if(!camera||event.pointerType!=='mouse'||event.button!==0)return;
+  cityDragSuppress=false;
+  cityDrag={id:event.pointerId,camera,x:event.clientX,y:event.clientY,left:camera.scrollLeft,top:camera.scrollTop,moved:false};
+});
+document.body.addEventListener('pointermove',event=>{
+  if(!cityDrag||cityDrag.id!==event.pointerId)return;
+  if(!cityDrag.camera.isConnected){cityDrag=null;return;}
+  const dx=event.clientX-cityDrag.x,dy=event.clientY-cityDrag.y;
+  if(!cityDrag.moved&&Math.hypot(dx,dy)<6)return;
+  if(!cityDrag.moved){cityDrag.moved=true;cityDrag.camera.classList.add('is-panning');try{cityDrag.camera.setPointerCapture(event.pointerId);}catch{}}
+  event.preventDefault();cityDrag.camera.scrollLeft=cityDrag.left-dx;cityDrag.camera.scrollTop=cityDrag.top-dy;
+});
+const endCityDrag=event=>{if(!cityDrag||cityDrag.id!==event.pointerId)return;cityDrag.camera.classList.remove('is-panning');if(cityDrag.moved){cityDragSuppress=true;setTimeout(()=>{cityDragSuppress=false;},150);}cityDrag=null;};
+document.body.addEventListener('pointerup',endCityDrag);document.body.addEventListener('pointercancel',endCityDrag);
+document.body.addEventListener('keydown',event=>{
+ if(event.key!=='Escape'||activeView!=='city'||!game)return;
+ const drawer=document.querySelector('.city-management-drawer');
+ if(drawer?.open){drawer.open=false;uiState.cityManagementOpen=false;return;}
+ if(uiState.cityBuildingId||uiState.cityDirectoryOpen){uiState.cityBuildingId=null;uiState.cityDirectoryOpen=false;renderCurrent();}
+});
 let worldDrag=null;
 document.body.addEventListener('pointerdown',event=>{
   const viewport=event.target.closest('[data-world-map]');

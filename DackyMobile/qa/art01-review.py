@@ -22,6 +22,16 @@ with sync_playwright() as p:
         assert marker.get_attribute("aria-pressed")=="true"
         page.screenshot(path=str(out/(label+"-selected.png")))
         page.locator('[data-action="cityClose"]').click()
+        assert page.locator('.art01-guide').is_visible()
+        assert page.locator('.art01-queue').is_visible()
+        page.locator('.art01-camera-tools [data-action="cityDirectory"]').click()
+        assert page.locator('.art01-directory-item').count()==27
+        page.locator('.art01-directory-item[data-building="lumber"]').click()
+        assert page.locator('.art01-inspector').is_visible()
+        assert page.locator('.city-building[data-building="lumber"]').get_attribute("aria-pressed")=="true"
+        page.screenshot(path=str(out/(label+"-directory-selection.png")))
+        page.keyboard.press('Escape')
+        assert page.locator('.art01-inspector').count()==0
         page.locator('[data-action="cityZoom"]').click()
         page.screenshot(path=str(out/(label+"-overview.png")))
         assert page.evaluate("document.documentElement.scrollWidth<=innerWidth")
