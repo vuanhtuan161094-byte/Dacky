@@ -161,7 +161,7 @@ document.body.addEventListener('click', async event => {
   if(hudButton){setHud(hudButton.dataset.hudAction||'toggle',hudButton.dataset.hudKey);return;}
   if(hudMenuOpen&&!event.target.closest('#hud-controller')){hudMenuOpen=false;applyHud();}
   if(cityDragSuppress&&event.target.closest('.art01-camera')){event.preventDefault();return;}
-  if(event.target.closest('.art01-camera')&&!event.target.closest('button')&&uiState.cityBuildingId){uiState.cityBuildingId=null;renderCurrent();return;}
+  if(event.target.closest('.art01-camera')&&!event.target.closest('button')&&(uiState.cityBuildingId||uiState.cityPlotId)){uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;}
   const heroSupportSummary=event.target.closest('.hero-support-drawer > summary');
   if(heroSupportSummary)uiState.heroSupportOpen=!heroSupportSummary.parentElement.open;
   const heroChoice=event.target.closest('[data-select-hero]');
@@ -197,24 +197,26 @@ document.body.addEventListener('click', async event => {
     case 'mapZoomIn': uiState.mapZoom=Math.min(2,(Number(uiState.mapZoom)||1)+.15);renderCurrent();return;
     case 'mapZoomOut': uiState.mapZoom=Math.max(.82,(Number(uiState.mapZoom)||1)-.15);renderCurrent();return;
     case 'mapReset': uiState.mapZoom=1;uiState.mapPanX=0;uiState.mapPanY=0;renderCurrent();return;
-    case 'citySelect': uiState.cityBuildingId=button.dataset.building;uiState.cityDirectoryOpen=false;renderCurrent();return;
-    case 'cityZone': {const zone=button.dataset.zone==='outer'?'outer':'inner';if(uiState.cityZone===zone)return;uiState.cityZone=zone;uiState.cityBuildingId=null;uiState.cityDirectoryOpen=false;uiState.cityResetCamera=true;renderCurrent();return;}
+    case 'cityPlotSelect': {const id=button.dataset.plot,zone=id.startsWith('o')?'outer':'inner';if((uiState.cityZone||'inner')!==zone){uiState.cityZone=zone;uiState.cityResetCamera=true;}uiState.cityBuildingId=null;uiState.cityPlotId=id;uiState.cityDirectoryOpen=false;renderCurrent();return;}
+    case 'citySelect': uiState.cityPlotId=null;uiState.cityBuildingId=button.dataset.building;uiState.cityDirectoryOpen=false;renderCurrent();return;
+    case 'cityZone': {const zone=button.dataset.zone==='outer'?'outer':'inner';if(uiState.cityZone===zone)return;uiState.cityZone=zone;uiState.cityBuildingId=null;uiState.cityPlotId=null;uiState.cityDirectoryOpen=false;uiState.cityResetCamera=true;renderCurrent();return;}
     case 'cityLocate': {
       const zone=CITY_OUTER_IDS.includes(button.dataset.building)?'outer':'inner';if((uiState.cityZone||'inner')!==zone){uiState.cityZone=zone;uiState.cityResetCamera=true;}
-      uiState.cityBuildingId=button.dataset.building;uiState.cityDirectoryOpen=false;renderCurrent();
+      uiState.cityPlotId=null;uiState.cityBuildingId=button.dataset.building;uiState.cityDirectoryOpen=false;renderCurrent();
       const camera=document.querySelector('.art01-camera'),marker=Array.from(camera?.querySelectorAll('.city-building')||[]).find(el=>el.dataset.building===uiState.cityBuildingId);
       if(camera&&marker){const a=camera.getBoundingClientRect(),b=marker.getBoundingClientRect();camera.scrollLeft+=b.left+b.width/2-a.left-a.width/2;camera.scrollTop+=b.top+b.height/2-a.top-a.height/2;}
       return;
     }
-    case 'cityDirectory': uiState.cityDirectoryOpen=!uiState.cityDirectoryOpen;uiState.cityBuildingId=null;renderCurrent();return;
+    case 'cityDirectory': uiState.cityDirectoryOpen=!uiState.cityDirectoryOpen;uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;
     case 'cityGuide': {
       const guide=TUTORIAL_STEPS[game.tutorialStep],view={research:'tech',recruit:'heroes',equip:'inventory',train:'army',march:'world'}[guide?.action]||'quests';
       if(guide?.action==='march')uiState.nodeId=guide.data.nodeId;
       setView(view);return;
     }
-    case 'cityClose': uiState.cityBuildingId=null;renderCurrent();return;
+    case 'cityClose': uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;
     case 'cityZoom': uiState.cityOverview=!uiState.cityOverview;renderCurrent();{const camera=document.querySelector('.art01-camera');if(camera){camera.scrollLeft=(camera.scrollWidth-camera.clientWidth)/2;camera.scrollTop=(camera.scrollHeight-camera.clientHeight)/2;}}return;
     case 'cityCenter': {const camera=document.querySelector('.art01-camera');if(camera){camera.scrollLeft=(camera.scrollWidth-camera.clientWidth)/2;camera.scrollTop=(camera.scrollHeight-camera.clientHeight)/2;}}return;
+    case 'upgradePlot': return perform('upgradePlot',{plotId:button.dataset.plot,buildingId:button.dataset.building});
     case 'upgrade': return perform('upgrade',{buildingId:button.dataset.building});
     case 'upgradeCity': return perform('upgradeCity',{cityId:button.dataset.city});
     case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
@@ -316,7 +318,7 @@ document.body.addEventListener('keydown',event=>{
  if(event.key!=='Escape'||activeView!=='city')return;
  const drawer=document.querySelector('.city-management-drawer');
  if(drawer?.open){drawer.open=false;uiState.cityManagementOpen=false;return;}
- if(uiState.cityBuildingId||uiState.cityDirectoryOpen){uiState.cityBuildingId=null;uiState.cityDirectoryOpen=false;renderCurrent();}
+ if(uiState.cityBuildingId||uiState.cityPlotId||uiState.cityDirectoryOpen){uiState.cityBuildingId=null;uiState.cityPlotId=null;uiState.cityDirectoryOpen=false;renderCurrent();}
 });
 let worldDrag=null;
 document.body.addEventListener('pointerdown',event=>{

@@ -21,15 +21,26 @@ with sync_playwright() as p:
         page.locator('.art01-terrain').evaluate("(im)=>im.decode()")
         page.wait_for_function("Array.from(document.querySelectorAll('.city-building-art img')).every(i=>i.complete&&i.naturalWidth>0)",timeout=30000)
         page.screenshot(path=str(out/(label+"-initial-outer.png")))
+        assert page.locator('.city-extra-plot[data-unlocked=true]').count()==3
+        page.locator('.city-extra-plot[data-plot="o1"]').click()
+        assert page.locator('.art10-plot-inspector').is_visible()
+        assert page.locator('.art10-plot-choice').count()==4
+        page.screenshot(path=str(out/(label+"-free-outer-plot.png")))
+        page.locator('[data-action="cityClose"]').click()
         page.locator('.art06-zone-tabs [data-zone="inner"]').click()
+        assert page.locator('.city-extra-plot[data-unlocked=true]').count()==9
+        page.locator('.city-extra-plot[data-plot="i1"]').click()
+        assert page.locator('.art10-plot-choice').count()==7
+        page.screenshot(path=str(out/(label+"-free-inner-plot.png")))
+        page.locator('[data-action="cityClose"]').click()
         # A separate browser context contains a QA-only developed-city fixture,
         # rendered by the actual runtime and never published to player storage.
         if label=="desktop":
             developed=browser.new_context(viewport={"width":w,"height":h})
             dp=developed.new_page()
             dp.goto("http://127.0.0.1:4173/",wait_until="domcontentloaded",timeout=60000)
-            dp.evaluate("""async()=>{const {createNewGame}=await import('/src/engine.js');const {BUILDINGS}=await import('/src/catalog.js');const {saveGame}=await import('/src/store.js');const s=createNewGame('Triều Ca · QA thành phát triển',Date.now());for(const b of BUILDINGS)s.levels[b.id]=Math.min(8,b.maxLevel);await saveGame(s);}""")
-            dp.goto("http://127.0.0.1:4173/#city",wait_until="domcontentloaded",timeout=60000)
+            dp.evaluate("""async()=>{const {createNewGame}=await import('/src/engine.js');const {BUILDINGS}=await import('/src/catalog.js');const {saveGame}=await import('/src/store.js');const s=createNewGame('Triều Ca · QA thành phát triển',Date.now());for(const b of BUILDINGS)s.levels[b.id]=Math.min(8,b.maxLevel);s.cityPlots={i1:{buildingId:'housing',level:5},i2:{buildingId:'barracks',level:4},i3:{buildingId:'storehouse',level:4},o1:{buildingId:'farm',level:5},o2:{buildingId:'farm',level:3},o3:{buildingId:'grove',level:4},o4:{buildingId:'mine',level:4}};await saveGame(s);}""")
+            dp.reload(wait_until="domcontentloaded",timeout=60000)
             dp.locator('.art01-camera').wait_for()
             dp.locator('.art01-terrain').evaluate("(im)=>im.decode()")
             dp.wait_for_function("Array.from(document.querySelectorAll('.city-building-art img')).every(i=>i.complete&&i.naturalWidth>0)",timeout=30000)
@@ -66,7 +77,7 @@ with sync_playwright() as p:
         page.locator('.hud-restore').click()
         assert page.locator('.art07-toolbar').is_visible()
         assert page.locator('#primary-nav').is_visible()
-        assert page.locator(".art01-city .city-building").count()==21
+        assert page.locator(".art01-city .city-building").count()==30
         assert page.locator(".art06-zone-tabs [data-zone=inner]").get_attribute("aria-pressed")=="true"
         page.evaluate("document.fonts.ready")
         page.wait_for_function("Array.from(document.querySelectorAll('.city-building-art img')).every(i=>i.complete&&i.naturalWidth>0)")
@@ -81,10 +92,10 @@ with sync_playwright() as p:
         page.screenshot(path=str(out/(label+"-selected.png")))
         page.locator('[data-action="cityClose"]').click()
         page.locator('.art06-zone-tabs [data-zone="outer"]').click()
-        assert page.locator(".art01-city .city-building").count()==6
+        assert page.locator(".art01-city .city-building").count()==37
         page.screenshot(path=str(out/(label+"-outer.png")))
         page.locator('.art06-zone-tabs [data-zone="inner"]').click()
-        assert page.locator(".art01-city .city-building").count()==21
+        assert page.locator(".art01-city .city-building").count()==30
         assert page.locator('.art01-guide').is_visible()
         assert page.locator('.art01-queue').is_visible()
         page.locator('.art07-command-head [data-action="cityDirectory"]').click()

@@ -217,108 +217,66 @@ def waterway(sc,points,width=76):
   x=R.randrange(W);y=R.randrange(H)
   if m.getpixel((x,y)) and x+12<W and m.getpixel((x+12,y)):d.line((x,y,x+R.randint(4,12),y),fill=(106,151,151,130),width=1)
  return m
+# R10: front-facing, rectangular city courts; no rotated diamond board.
+extra=json.loads(re.search(r'CITY_EXTRA_LAYOUT=Object\.freeze\((\{[^\n]+\})\);',(root/'src/ui.js').read_text()).group(1))
+assert len(extra)==40
+def rect_points(x1,y1,x2,y2):return [(x1,y1),(x2,y1),(x2,y2),(x1,y2)]
+def straight_lot(sc,x,y,r,stone=True):
+ d=ImageDraw.Draw(sc,'RGBA')
+ # Mark a ground rectangle/trapezoid with the back edge narrower; fronts stay horizontal.
+ p=[(x-r*.84,y-43),(x+r*.84,y-43),(x+r,y+9),(x-r,y+9)]
+ d.polygon(p,fill=(139,149,130,255) if stone else (122,137,85,255),outline=(102,119,99,255) if stone else (87,111,65,255),width=2)
+ d.line((x-r+3,y+7,x+r-3,y+7),fill=(202,197,168,255) if stone else (173,171,112,255),width=2)
+ for k in range(-2,3):
+  xx=x+k*r*.32;d.line((xx,y-40,xx+k*2,y+5),fill=(152,159,139,255) if stone else (139,150,95,255),width=1)
 inner=ground()
-# Approved shape: broad hexagonal walled city, palace on high rear terrace,
-# civic wings around a clear central axis, military front near the main gate.
-moat=waterway(inner,[(-80,610),(190,655),(390,739),(710,751),(1060,735),(1350,650),(1520,550)],62)
-boundary=[(720,48),(1260,162),(1390,350),(1230,626),(720,731),(210,626),(50,350),(180,162)]
+moat=waterway(inner,[(-50,699),(220,732),(720,750),(1220,732),(1490,699)],38)
+boundary=[(125,67),(1315,67),(1360,145),(1360,676),(1290,728),(150,728),(80,676),(80,145)]
 baseMask=poly_mask(boundary)
-scatter(inner,lambda x,y:not baseMask.getpixel((x,y)) and not moat.getpixel((x,y)),[],180)
-terrace(inner,boundary,(156,162,146),24)
-midTerrace=[(720,111),(1170,209),(1240,341),(1130,484),(720,558),(310,484),(200,341),(270,209)]
-terrace(inner,midTerrace,(168,170,151),23)
-upper=[(720,73),(1065,151),(1105,230),(720,302),(335,230),(375,151)]
-terrace(inner,upper,(179,181,161),29)
-# Three flights lead down from palace to civic plaza and military court.
-stair(inner,720,282,110,52);stair(inner,720,475,118,58)
+scatter(inner,lambda x,y:not baseMask.getpixel((x,y)) and not moat.getpixel((x,y)),[],100)
+terrace(inner,boundary,(156,162,146),18)
+# Broad rear raised court, horizontal stone retaining wall, direct stairs.
+terrace(inner,rect_points(160,49,1280,224),(174,175,156),18)
 d=ImageDraw.Draw(inner,'RGBA')
-# ceremonial axis, central plaza, ornamental paths and shallow pools
-d.polygon([(720,338),(859,383),(720,430),(581,383)],fill=(187,185,162,255),outline=(118,133,122,255),width=2)
-d.ellipse((676,351,764,397),fill=(143,153,138,255),outline=(224,215,188,255),width=3)
-d.ellipse((688,357,752,391),fill=(74,128,128,255),outline=(104,159,155,255),width=2)
-for x in (563,877):
- d.polygon([(x-29,302),(x,287),(x+29,302),(x,318)],fill=(89,133,129,255),outline=(217,206,175,255),width=3)
-# The approved central axis is a real procession path, with landscaped wings.
-courtyard_band(inner,720,325,70,31)
-courtyard_band(inner,720,404,85,71)
-courtyard_band(inner,720,572,80,96)
-for x,y,rx,ry in [(550,262,48,19),(890,262,48,19),(345,379,46,18),(1095,379,46,18),(545,410,38,15),(895,410,38,15),(390,511,47,18),(1050,511,47,18),(610,580,34,14),(830,580,34,14),(350,676,36,15),(1090,676,36,15)]:
- garden(inner,x,y,rx,ry)
-# walls along the visible front; split at the entrance to leave gate access.
-for a,b in [(boundary[2],boundary[3]),(boundary[3],(820,710)),((620,710),boundary[5]),(boundary[5],boundary[6]),(boundary[6],boundary[7]),(boundary[1],boundary[2])]:wall_segment(inner,a,b,21)
-# Towers at wall corners; no building asset hidden behind a foreground wall.
-d=ImageDraw.Draw(inner,'RGBA')
-for x,y in [(1260,162),(1390,350),(1230,626),(210,626),(50,350),(180,162)]:
- d.rectangle((x-18,y-13,x+18,y+15),fill=(124,139,129,255),outline=(65,85,76,255),width=2)
- d.polygon([(x-25,y-13),(x,y-28),(x+25,y-13),(x,y)],fill=(65,103,91,255),outline=(192,188,152,255),width=2)
-for bid,(x,y,w,h,r,source) in layout.items():
- if bid in outer_ids:continue
- plot(inner,x,y,r,True)
-# Architecture at the walls: actual native roofed tower art, decorative only.
-for x,y in [(180,187),(1260,187),(63,379),(1377,379),(224,650),(1216,650)]:
- source_stamp(inner,'mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png',x,y,56,72)
-# Rear gate approach and two planted pairs around the ceremonial stair.
-for x,y in [(575,290),(865,290),(564,469),(876,469),(596,539),(844,539)]:
- t=trees[int(x+y)%len(trees)].resize((48,48),Image.Resampling.LANCZOS)
- inner.alpha_composite(t,(x-24,y-34))
-# Deliberate ornamental trees between districts, placed only clear of lot centers.
-inner_ex=[(v[0],v[1],v[4]+17) for k,v in layout.items() if k not in outer_ids]
-scatter(inner,lambda x,y:bool(baseMask.getpixel((x,y))) and abs(x-720)>95 and (x<220 or x>1220 or 255<y<285 or 468<y<506),inner_ex,23)
-save_scene(inner,path)
-# Outside: woodland left, hills/mineral deposits right, irrigated fields front.
-outer=ground()
-river=waterway(outer,[(-30,55),(165,140),(380,285),(440,420),(367,570),(490,800)],83)
-# Mountain foothills: weathered multi-plane rock, irregular ridges and texture.
-for p,c in [
- ([(1440,0),(1154,0),(1109,37),(1040,58),(1022,100),(1071,151),(1144,183),(1265,202),(1348,168),(1440,137)],(111,123,103)),
- ([(1440,0),(1240,0),(1200,25),(1160,70),(1208,109),(1290,142),(1440,90)],(147,153,132)),
- ([(1120,28),(1077,53),(1020,70),(970,92),(1000,159),(1048,146),(1090,118),(1160,170),(1240,83)],(128,139,119))]:
- textured_poly(outer,p,c)
- mask=poly_mask(p)
- d=ImageDraw.Draw(outer,'RGBA')
- for j in range(140):
-  x=R.randint(965,1435);y=R.randint(0,195)
-  if not mask.getpixel((x,y)):continue
-  ln=R.randint(5,25);b=min(H-1,y+ln)
-  if x-ln>0 and mask.getpixel((x-ln,b)):d.line((x,y,x-ln,b),fill=R.choice([(88,106,89,255),(154,161,141,255),(109,124,104,255)]),width=R.randint(1,3))
- for x,y in [(1040,132),(1134,97),(1320,149),(1390,91)]:
-  if mask.getpixel((x,y)):d.ellipse((x-12,y-4,x+12,y+4),fill=(93,118,77,255))
-
-road(outer,[(720,35),(720,160),(650,295),(695,516),(845,620),(1110,600)],29)
-road(outer,[(650,295),(880,248),(1120,184),(1110,363),(1110,600)],24)
-road(outer,[(650,295),(500,330),(275,230),(175,410)],24)
-d=ImageDraw.Draw(outer,'RGBA')
-# crossing on the woodland route
-d.polygon([(350,284),(381,263),(471,326),(441,347)],fill=(115,82,47,255),outline=(73,60,42,255),width=3)
-for i in range(12):
- x=355+i*7.2;y=280+i*5.4;d.line((x,y,x+28,y-20),fill=(184,148,97,255),width=4)
-# Irrigated cultivated parcels around the farm instead of identical platforms.
-for cx,cy,rx,ry in [(565,478,78,39),(692,519,116,56),(810,477,85,41),(690,612,109,51),(795,575,65,32)]:
- p=[(cx-rx,cy),(cx,cy-ry),(cx+rx,cy),(cx,cy+ry)]
- textured_poly(outer,p,(147,137,68),(190,172,111,255));d=ImageDraw.Draw(outer,'RGBA');m=poly_mask(p);rows=Image.new('RGBA',(W,H));rd=ImageDraw.Draw(rows)
- for j in range(-14,15):
-  x=cx+j*12;rd.line((x-80,cy-70,x+80,cy+70),fill=(96,113,54,255),width=5);rd.line((x-83,cy-70,x+77,cy+70),fill=(181,167,89,255),width=1)
- outer.paste(rows,(0,0),Image.fromarray(np.minimum(np.asarray(m),np.asarray(rows.getchannel('A'))).astype('uint8')))
-# Irrigation channels and planting rows follow the parcel geometry.
-d=ImageDraw.Draw(outer,'RGBA')
-d.line([(565,448),(691,510),(810,447)],fill=(59,108,107,255),width=5)
-d.line([(692,558),(795,607)],fill=(70,115,110,255),width=4)
-# An actual road entrance connects both views (decorative, not an extra lot).
-source_stamp(outer,'mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png',720,80,66,86)
-# exposed veins, stone rubble and ore piles surrounding the two mines.
-d=ImageDraw.Draw(outer,'RGBA')
-for bid in ('quarry','mine','foundryfield'):
- x,y,w,h,r,_=layout[bid]
- for j in range(35):
-  a=x+R.randint(-r-35,r+35);b=y+R.randint(-45,38)
-  if not(10<a<W-10 and 10<b<H-10):continue
-  s=R.randint(4,17)
-  d.polygon([(a-s,b),(a-s//2,b-s),(a+s//2,b-s-2),(a+s,b),(a,b+s//2)],fill=(130,139,124,255),outline=(88,101,91,255))
-  d.polygon([(a-s//2,b-s),(a+s//2,b-s-2),(a+s,b),(a,b-2)],fill=(177,183,161,255))
+d.rectangle((632,224,808,684),fill=(190,187,162,255),outline=(144,149,130,255),width=2)
+for y in (305,419,533):
+ d.rectangle((155,y+12,1285,y+25),fill=(189,188,166,255))
+stair(inner,720,208,115,55)
+for y in (354,468,582):
+ d.rectangle((654,y,786,y+22),fill=(169,147,118,255),outline=(209,195,157,255))
+ for x in (640,800):garden(inner,x,y+11,13,9)
+# Continuous wall segments and gate gap with horizontal street access.
+for x1,x2 in [(150,641),(799,1290)]:wall_segment(inner,(x1,708),(x2,708),20)
+for a,b in [((80,145),(80,676)),((1360,145),(1360,676)),((125,67),(1315,67))]:wall_segment(inner,a,b,16)
+for x,y in [(95,145),(1345,145),(95,676),(1345,676)]:
+ source_stamp(inner,'mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png',x,y,64,76)
 for bid,(x,y,w,h,r,_) in layout.items():
- if bid in outer_ids:plot(outer,x,y,r,False)
-outer_ex=[(v[0],v[1],v[4]+30) for k,v in layout.items() if k in outer_ids]
-scatter(outer,lambda x,y:not river.getpixel((x,y)) and (x<355 or x>1270 or y<90 or (x<590 and y>625)),outer_ex,205)
+ if bid not in outer_ids and bid not in ('citadel','wall'):straight_lot(inner,x,y,r)
+for bid,(x,y,w,h,r) in extra.items():
+ if bid.startswith('i'):straight_lot(inner,x,y,r)
+for x,y in [(165,250),(1275,250),(165,365),(1275,365),(165,479),(1275,479),(165,593),(1275,593),(613,180),(827,180)]:
+ garden(inner,x,y,18,10)
+save_scene(inner,path)
+outer=ground()
+river=waterway(outer,[(-65,0),(79,85),(85,250),(73,450),(100,635),(190,800)],58)
+# Resource land remains free-choice; landscape is natural outside surveyed plots.
+for p,c in [([(1440,0),(1150,0),(1120,47),(1302,92),(1440,153)],(120,133,116)), ([(1440,0),(1310,0),(1260,39),(1440,104)],(151,158,135))]:
+ textured_poly(outer,p,c)
+ mask=poly_mask(p);d=ImageDraw.Draw(outer)
+ for j in range(110):
+  x=R.randrange(1120,1440);y=R.randrange(0,150)
+  if mask.getpixel((x,y)) and x>1130 and y<136:d.line((x,y,x-9,y+8),fill=(106,123,104,255),width=2)
+d=ImageDraw.Draw(outer,'RGBA')
+# Straight primary avenue and horizontal farm roads, no perspective rotation.
+d.rounded_rectangle((693,0,747,H),radius=10,fill=(164,151,113,255))
+for y in [100,234,359,484,609,727]:
+ d.rounded_rectangle((149,y,1291,y+12),radius=5,fill=(161,149,110,255))
+for bid,(x,y,w,h,r,_) in layout.items():
+ if bid in outer_ids:straight_lot(outer,x,y,r,False)
+for bid,(x,y,w,h,r) in extra.items():
+ if bid.startswith('o'):straight_lot(outer,x,y,r,False)
+all_ex=[(v[0],v[1],v[4]+14) for k,v in layout.items() if k in outer_ids]+[(v[0],v[1],v[4]+14) for k,v in extra.items() if k.startswith('o')]
+scatter(outer,lambda x,y:not river.getpixel((x,y)) and (x<180 or x>1300 or y<30),all_ex,110)
 save_scene(outer,path.with_name('art01-outer-ground.svg'))
 # Build-normalize native source sprites: trim transparent margins, preserve silhouette,
 # mild uniform tonal grade, fixed bottom anchor and bounded output resolution.

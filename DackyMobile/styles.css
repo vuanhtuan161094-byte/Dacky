@@ -1127,3 +1127,21 @@ body.startup-mode #primary-nav.game-dock{display:none!important}
 .art01-city.art09-city .city-building[data-building="wall"] .city-building-art img{transform:scale(1)}
 .art01-city.art09-city .city-building[data-building-state="built"] .city-building-info{font-size:10px;box-shadow:none;padding:2px 5px}
 .art09-city .art06-production{right:8px;bottom:48px}
+
+/* R10 city land: axial courts and true independent free plots. */
+.art10-plot-inspector{display:block!important;padding:9px!important}
+.art10-plot-inspector .art01-building-detail{min-width:0}
+.art10-plot-choice{display:grid;grid-template-columns:39px minmax(0,1fr) auto;align-items:center;gap:5px;padding:6px 0;border-bottom:1px solid #a7ad8c44}
+.art10-plot-choice img{width:39px;height:36px;object-fit:contain}
+.art10-plot-choice div{display:grid;gap:2px;min-width:0}
+.art10-plot-choice b{font-size:11px;color:#eee2ba}
+.art10-plot-choice small{font-size:9px;line-height:1.2;overflow-wrap:anywhere}
+.art10-plot-choice .button{min-height:30px;padding:5px 8px}
+.art09-city .city-extra-plot[data-building-state="foundation"]{filter:none}
+.art09-city .city-extra-plot[data-building-state="foundation"] .city-building-level{width:24px;height:24px;min-width:24px;font-size:16px;background:#314a37c9;right:calc(50% - 12px);bottom:0;border-color:#a9b796}
+.art09-city .city-extra-plot[data-unlocked="false"] .city-building-level{opacity:.25}
+.art09-city .city-extra-plot[aria-pressed="true"] .city-building-level{opacity:1;border-color:#e7c66e}
+.art09-city .city-extra-plot[data-unlocked="true"][data-building-state="foundation"]:hover{background:linear-gradient(transparent 65%,#e5d49644 65%)}
+.art09-city .city-building[data-building-state="foundation"] .city-building-level{bottom:0}
+.art09-city .art07-expanded{width:min(345px,42%);max-height:calc(100% - 45px)}
+@media(max-width:480px) and (orientation:portrait){.art09-city .art07-expanded{width:auto}}
