@@ -10,6 +10,8 @@ let busy = false;
 const uiState = { chapter: 1, nodeId: 'node-001', combatMode: 'auto' };
 const validViews = new Set(NAV.map(x=>x[0]));
 const fmtFileDate = () => new Date().toISOString().slice(0,10);
+const soundAsset = path => globalThis.__DACKY_EMBEDDED_ASSETS__?.[path] || path;
+let uiSound, battleMusic;
 
 function setSaveStatus(text, saved=false) {
   const node = document.querySelector('#save-status');
@@ -19,20 +21,28 @@ function setSaveStatus(text, saved=false) {
 }
 
 function playChime() {
-  if (!game?.settings?.sound || !globalThis.AudioContext) return;
+  if (!game?.settings?.sound) return;
   try {
-    const context = new AudioContext();
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(554, context.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(830, context.currentTime + .08);
-    gain.gain.setValueAtTime(.018, context.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.0001, context.currentTime + .24);
-    oscillator.connect(gain).connect(context.destination);
-    oscillator.start(); oscillator.stop(context.currentTime + .25);
-    oscillator.onended=()=>context.close();
+    uiSound ||= new Audio(soundAsset('./assets/visual/assets/am-thanh/tieng/bam.mp3'));
+    uiSound.currentTime = 0;
+    uiSound.volume = .45;
+    uiSound.play().catch(()=>{});
   } catch { /* Audio is optional and never blocks play. */ }
+}
+
+function syncBattleMusic() {
+  const battle = Boolean(game?.settings?.sound && game.queues?.march?.combatMode === 'manual' && game.queues?.march?.combatV13 && game.queues?.march?.arrivedAt);
+  try {
+    if (battle) {
+      battleMusic ||= new Audio(soundAsset('./assets/visual/assets/am-thanh/nhac/tran.mp3'));
+      battleMusic.loop = true;
+      battleMusic.volume = .18;
+      if (battleMusic.paused) battleMusic.play().catch(()=>{});
+    } else if (battleMusic && !battleMusic.paused) {
+      battleMusic.pause();
+      battleMusic.currentTime = 0;
+    }
+  } catch { /* Mobile audio can remain locked until the next user gesture. */ }
 }
 
 async function persist(force=false) {
@@ -58,7 +68,7 @@ function setView(view, updateHash=true) {
 }
 
 function renderCurrent() {
-  if (game) renderScreen(game, activeView, uiState);
+  if (game) { renderScreen(game, activeView, uiState); syncBattleMusic(); }
   else renderStartup();
 }
 
@@ -121,6 +131,12 @@ async function initialize() {
 }
 
 document.body.addEventListener('click', async event => {
+  const heroSupportSummary=event.target.closest('.hero-support-drawer > summary');
+  if(heroSupportSummary)uiState.heroSupportOpen=!heroSupportSummary.parentElement.open;
+  const heroChoice=event.target.closest('[data-select-hero]');
+  if(heroChoice){uiState.selectedHeroId=heroChoice.dataset.selectHero;renderCurrent();return;}
+  const recruitPane=event.target.closest('[data-open-hero-support]');
+  if(recruitPane){uiState.heroSupportOpen=true;const pane=document.querySelector('.hero-support-drawer');if(pane){pane.open=true;pane.scrollIntoView({behavior:'smooth',block:'start'});}return;}
   const battleChoice=event.target.closest('[data-battle-choice]');
   if(battleChoice){
     const root=battleChoice.closest('.battle-theater'),kind=battleChoice.dataset.battleChoice,value=battleChoice.dataset.value;
@@ -130,7 +146,7 @@ document.body.addEventListener('click', async event => {
     return;
   }
   const speedButton=event.target.closest('[data-action="battleSpeed"]');
-  if(speedButton){uiState.battleSpeed=uiState.battleSpeed===1?2:1;const stage=speedButton.closest('.battle-theater');stage?.style.setProperty('--battle-speed',uiState.battleSpeed);speedButton.textContent=`${uiState.battleSpeed}× tốc độ`;return;}
+  if(speedButton){uiState.battleSpeed=uiState.battleSpeed===1?2:1;const stage=speedButton.closest('.battle-theater');stage?.style.setProperty('--battle-speed',uiState.battleSpeed);stage?.querySelectorAll('[data-anim-ms]').forEach(node=>{node.style.animationDuration=`${Number(node.dataset.animMs)/uiState.battleSpeed}ms`;});speedButton.textContent=`${uiState.battleSpeed}× tốc độ`;return;}
   const viewButton = event.target.closest('[data-view]');
   if (viewButton) { setView(viewButton.dataset.view); return; }
   const button = event.target.closest('[data-action]');
@@ -147,6 +163,9 @@ document.body.addEventListener('click', async event => {
       uiState.nodeId = button.dataset.node;
       renderCurrent();
       return;
+    case 'mapZoomIn': uiState.mapZoom=Math.min(2,(Number(uiState.mapZoom)||1)+.15);renderCurrent();return;
+    case 'mapZoomOut': uiState.mapZoom=Math.max(.82,(Number(uiState.mapZoom)||1)-.15);renderCurrent();return;
+    case 'mapReset': uiState.mapZoom=1;uiState.mapPanX=0;uiState.mapPanY=0;renderCurrent();return;
     case 'upgrade': return perform('upgrade',{buildingId:button.dataset.building});
     case 'upgradeCity': return perform('upgradeCity',{cityId:button.dataset.city});
     case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
@@ -222,6 +241,29 @@ document.body.addEventListener('click', async event => {
     default: showToast('Mệnh lệnh chưa được nối vào hệ thống.', 'warning');
   }
 });
+
+let worldDrag=null;
+document.body.addEventListener('pointerdown',event=>{
+  const viewport=event.target.closest('[data-world-map]');
+  if(!viewport||event.target.closest('[data-action="selectNode"]'))return;
+  worldDrag={pointerId:event.pointerId,viewport,x:event.clientX,y:event.clientY,panX:Number(uiState.mapPanX)||0,panY:Number(uiState.mapPanY)||0};
+  viewport.classList.add('is-panning');
+  try{viewport.setPointerCapture(event.pointerId);}catch{}
+});
+document.body.addEventListener('pointermove',event=>{
+  if(!worldDrag||event.pointerId!==worldDrag.pointerId)return;
+  uiState.mapPanX=worldDrag.panX+event.clientX-worldDrag.x;uiState.mapPanY=worldDrag.panY+event.clientY-worldDrag.y;
+  const content=worldDrag.viewport.querySelector('.world-map-content');
+  if(content)content.style.transform=`translate(calc(-50% + ${uiState.mapPanX}px),calc(-50% + ${uiState.mapPanY}px)) scale(${Math.max(.82,Math.min(2,Number(uiState.mapZoom)||1))})`;
+});
+const endWorldDrag=event=>{if(worldDrag&&event.pointerId===worldDrag.pointerId){worldDrag.viewport.classList.remove('is-panning');worldDrag=null;}};
+document.body.addEventListener('pointerup',endWorldDrag);
+document.body.addEventListener('pointercancel',endWorldDrag);
+document.body.addEventListener('wheel',event=>{
+  const viewport=event.target.closest('[data-world-map]');if(!viewport)return;
+  event.preventDefault();uiState.mapZoom=Math.max(.82,Math.min(2,(Number(uiState.mapZoom)||1)+(event.deltaY<0?.08:-.08)));
+  const content=viewport.querySelector('.world-map-content');if(content)content.style.transform=`translate(calc(-50% + ${Number(uiState.mapPanX)||0}px),calc(-50% + ${Number(uiState.mapPanY)||0}px)) scale(${uiState.mapZoom})`;
+},{passive:false});
 
 document.body.addEventListener('submit', async event => {
   const form=event.target;

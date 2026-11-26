@@ -145,7 +145,8 @@ try {
     if(view==='world'){
       check(await evaluate('Array.from(document.querySelectorAll("#world-chapter option")).find(x=>x.value==="2")?.disabled===true'));
       check(await evaluate('Number(document.querySelector("#march-count")?.max)>0&&document.querySelector(".target-card")?.innerText.includes("Số quân điều động")'));
-      await waitFor('document.querySelector(".map-routes path")?.getAttribute("d")?.length>20');
+      await waitFor('document.querySelector(".world-map-art")?.complete&&document.querySelector(".world-map-art")?.naturalWidth>0');
+      check(await evaluate('document.querySelectorAll(".map-node").length>0&&document.querySelector("[data-action=mapZoomIn]")&&document.querySelector("[data-world-map]")'));
       check(await evaluate('document.querySelector(".map-side")?.innerText.match(/provenance|snapshot legacy|VERIFIED_MOBILE|VERIFIED_LEGACY|ID binh chủng/i)===null'));
       await click('.map-node[data-node="node-011"]');
       check(await evaluate('document.querySelector(".target-card")?.innerText.includes("Trinh sát tài nguyên")'));
@@ -159,6 +160,10 @@ try {
       check(await evaluate('document.querySelectorAll(".tech-card [data-action=research]").length===19&&Array.from(document.querySelectorAll(".tech-card")).every(card=>card.querySelector(".progress-note")&&card.querySelector(".tech-card-top h3"))'));
     }
     if(view==='library')await waitFor('Array.from(document.querySelectorAll(".source-entry img")).some(x=>x.complete&&x.naturalWidth>0)');
+    if(view==='heroes'){
+      await waitFor('document.querySelector(".hero-dossier .portrait img")?.complete&&document.querySelector(".hero-dossier .portrait img").naturalWidth>0');
+      check(await evaluate('document.querySelector(".hero-dossier .hero-name")?.innerText==="Khương Tử Nha"&&document.querySelector(".hero-dossier .hero-equipment-dock .hero-equipment-slot")&&document.querySelector(".hero-dossier .hero-skill-panel")'));
+    }
     await shot(String(index++).padStart(2,'0')+'-'+view+'-desktop');
     await recordingHold(6500);
   }
@@ -208,6 +213,8 @@ try {
   console.log('PASS tax policy changes are saved into the economy state.');
 
   await click('#primary-nav [data-view="heroes"]');
+  await click('[data-open-hero-support]');
+  await waitFor('document.querySelector(".hero-support-drawer")?.open===true');
   await waitFor('document.querySelectorAll("[data-page-key=heroPage]").length===2');
   await click('[data-page-key="heroPage"][data-page="1"]');
   await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
@@ -293,7 +300,7 @@ try {
   if(recordGameplay){
     await waitFor('document.querySelector("#battle-artifact")!==null',15000);
     await waitFor('document.querySelector(".manual-battle-panel .friendly-army .battle-unit")&&document.querySelector(".manual-battle-panel .hostile-army .battle-unit")&&getComputedStyle(document.querySelector(".manual-battle-panel")).visibility==="visible"',5000);
-    await waitFor('Array.from(document.querySelectorAll(".manual-battle-panel .battle-unit img")).filter(x=>x.complete&&x.naturalWidth>0).length>=2&&document.querySelector(".manual-battle-panel .battle-fortification img")?.naturalWidth>0',5000);
+    await waitFor('document.querySelectorAll(".manual-battle-panel .battle-sprite-frame").length>=2&&document.querySelector(".manual-battle-panel .battle-fortification img")?.naturalWidth>0&&getComputedStyle(document.querySelector(".manual-battle-panel .battle-sprite-frame")).backgroundImage.includes("army")',5000);
     check(await evaluate('document.querySelector(".manual-battle-panel .battle-result-ribbon")&&document.querySelector(".manual-battle-panel .battle-control-deck")&&document.querySelector(".manual-battle-panel .battle-fortification")'));
     await shot('16-manual-army-battle');
     await click('.battle-artifact-choice[data-value="5045"]');

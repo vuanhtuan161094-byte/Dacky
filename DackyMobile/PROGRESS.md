@@ -2,7 +2,24 @@
 
 Updated 2026-11-26 · Repository `vuanhtuan161094-byte/Dacky` · branch `integration/dacky-one-game-v1`
 
-## Product visual remake V1
+## Product visual fidelity V2 — current
+
+Baseline HEAD: `f7bdce6f07536b7234eb37275d98a3fb8769970f`. This is a visual/runtime increment only; no database expansion or combat engine rewrite.
+
+- Researched the current Mobile client at `dackytruvuong.com/play`, its city/map/hero/UI/battle catalogs, the current encyclopedia page and the distinct legacy War of Legends galleries. Imported 144 source art/audio files with origin and SHA-256 in `assets/visual-art-manifest.json`. Source assets are marked `OWNER_ATTESTED`; this does not assert a third-party SPDX license.
+- City uses the current Mobile isometric map and 21 source building illustrations at 27 interactive positions (21 Mobile buildings plus six support buildings). Unbuilt, building and built states still dispatch through the existing construction queue. World navigation uses the current terrain map, source coordinates, selectable location pins, pan and zoom.
+- Hero view now renders the selected hero’s actual source portrait and full dossier. Fixed a renderer bug where the card array had been joined into a string, leaving only the first `<` character on the stage. Quality and element names render in Vietnamese. Recruitment/catalog state survives pagination.
+- Manual combat uses current-client troop animation strips and VFX/commander frames mapped to all 25 trainable Mobile roles, with battlefield background, fortification, two sides, commands, playback speed and audio hooks driven from existing Combat P50 events. The battle effect still uses the existing engine’s settlement contract. No combat file was rewritten.
+- Loot review found no source-row regression: all 1,093 Tiên Sơn rows still feed 80 runtime candidate keys across 8,992 floors. The earlier “all HOLD” wording was stale; interval odds and 179 unjoined goods IDs remain simulated/HOLD. The generic item roll is suppressed on source-rule floors to prevent double awards.
+- Comparison evidence: B and C captures cover 19 P50 screens at matched 1440×1000 desktop or matching mobile sizes. The current live gameplay page did not yield a screenshot, so every A cell is marked **not captured** in [the comparison record](qa/visual-fidelity-v2/benchmark-sources.md). Do not treat this as A/B/C screenshot parity.
+- Chromium recorded the actual game runtime for **190.75 seconds**, including construction, recruitment, training, map travel, manual orders, artifact use, automatic finish, reward settlement and save/reload. Screenshots are in `qa/visual-fidelity-v2/after/`; the video is `qa/visual-fidelity-v2/gameplay-v2.mp4`.
+- Verification: `npm test` 129/129, source parser 10/10, dependency graph 1,567 nodes/3,958 edges with no cycles/impossible nodes, full web smoke across 12 screens, manual combat, settlement and reload, and offline one-file smoke with zero cross-origin requests and zero browser runtime errors. Mobile viewport checks passed at 390×844 and 844×390.
+- Web/PWA/offline build completed. `dist/offline.html` is 89,683,999 bytes, SHA-256 `fef498120b047aca5dfe4a5ab31777167bb93a28e5bf5d9548b44c2f896217e4`. The gameplay video is 12,274,192 bytes, SHA-256 `cd84a48a49b6071cea4b72e1eb6ba6ccb3a2293a3db662f2bf7ea5c49bed15b8`.
+- Local APK/AAB build was blocked because `/home/agent/.gradle` is read-only/missing and the wrapper could not download Gradle 8.14.3 through Java’s direct network route. The configured GitHub Actions production workflow builds and uploads APK/AAB on the normal branch push. No `adb` or device/emulator is available: **DEVICE QA HOLD** remains.
+
+## Product visual remake V1 (superseded)
+
+The following V1 figures describe the previous rejected visual pass and are retained only as history; V2 evidence above supersedes them.
 
 Benchmarked against the exact Đắc Kỷ Trụ Vương site at `dackytruvuong.com` (not the VTC 2016 release). Reused the bundled Mobile fortress/building art, troop illustrations and 482 sourced hero portraits; no new external asset set or database import was added.
 
@@ -41,7 +58,7 @@ Baseline HEAD was `059cdc37f3c1ab8c0969791186beb193b5893d25`; baseline integrati
 - The Mobile catalog has 21 buildings, 19 technology branches/570 level rows, 25 trainable troops, 482 recruitable hero profiles, 151 artifacts and 1,885 goods. Hero growth, unsupported building/technology effects, high-end garrisons and unspecified enemy formations remain simulated or partial.
 - Research simulation exposed a Mobile cap/prerequisite contradiction: Phủ quan source max is 1, while Tu Tiên Viện 2 requires Phủ quan 2. Runtime keeps the source cap in provenance and adds one `SIMULATED_PREREQUISITE_BRIDGE` rank. A regression check verifies that this opens the research route.
 - Quest coverage now maps 1,442/1,880 objectives; 984/1,158 quests have all targets playable, and 438 objectives remain `HOLD/UNKNOWN`. This improves the prior mapped count by 481; source semantics are not invented for the remainder.
-- PvE has 624 Tiên Sơn sites/8,992 floors/39,670 NPC stacks, 73 Mobile city nodes, 27 strongpoints, 5 Bất Chu doors, 25 advanced Bosses and the eight-chapter campaign. 7,934 floors use fixed source formations; other lineups and rewards are explicitly simulated. All 1,093 source Tiên Sơn loot rows remain `HOLD`.
+- PvE has 624 Tiên Sơn sites/8,992 floors/39,670 NPC stacks, 73 Mobile city nodes, 27 strongpoints, 5 Bất Chu doors, 25 advanced Bosses and the eight-chapter campaign. 7,934 floors use fixed source formations; other lineups and rewards are explicitly simulated. The 1,093 Tiên Sơn loot rows are joined into 80 runtime candidate keys. They are not all runtime `HOLD`: the interpretation of `RdmInfo` odds/counts, malformed/overlapping intervals, and 179 unjoined goods IDs remains `SIMULATED` or `HOLD` by field.
 - Mobile data ledger: 620 `PARTIAL_RUNTIME` records span playable heroes/cities/troops/buildings/technology, 757 usable consumables, 534 equipment records, 151 artifacts with executable policies, and 594 goods remain reference/material. See [P31 gameplay ledger](qa/one-game/GAMEPLAY_LEDGER_P31.md) and the per-record [JSON ledger](qa/one-game/gameplay-ledger-p31.json).
 
 ### Clean-save progression
@@ -51,7 +68,7 @@ The deterministic four-policy simulation starts with a new save, uses no DEV res
 ### Remaining release work
 
 - Three legacy tables remain `HOLD`: `generalrefreshlevellimitinfo`, `upgradeexp` and `fieldrandeventcfginfo`; their runtime replacements are explicitly simulated.
-- 438 quest objectives, 1,093 Tiên Sơn loot rules and 594 reference/material goods need additional verified semantics or item-specific sinks. Full equipment enhancement/star-upgrade and some source item effects remain incomplete.
+- 438 quest objectives, unverified Tiên Sơn loot semantics (source candidates are active, but their probability/count meaning remains simulated) and 594 reference/material goods need additional verified semantics or item-specific sinks. Full equipment enhancement/star-upgrade and some source item effects remain incomplete.
 - Late-game economy and troop recovery need more balance work. No 180-day strategy reached the advanced Boss/Buzhou endgame. The result is evidence, not a completion claim.
 - Runtime battle animation/VFX/audio need more work. Local Web/PWA/offline HTML/APK/AAB QA does not establish direct `file://` launch or physical Android interaction. **DEVICE QA HOLD.**
 
@@ -67,7 +84,7 @@ The deterministic four-policy simulation starts with a new save, uses no DEV res
 
 - Added a reproducible importer for four pinned legacy tables: 624 locations, 8,992 floor configs, 39,670 NPC formations and 1,093 raw loot rules (50,379 records / 310,750 field values). Each row resolves per-field hashes through its table and source row index; cross-links are checked by `ElflandID + FloorID`.
 - Compared `elfland*` with `*_45`: location names/descriptions/coordinates match across 624 IDs, while 94 levels and 93 floor counts differ; floor configs have 744 primary-only keys and 665 changed names; formation full-row multisets contain 32,545 shared, 7,125 primary-only and 2,475 comparison-only rows. Versions remain separate.
-- Tiên Sơn's 624 displayed names, descriptions, levels and floor counts now use legacy fields; the PVE page lets players inspect each location's source floor rows and fixed NPC stacks. Power, chapter/rank, challenge settlement and loot stay `SIMULATED`; the present combat fallback remains active. Raw `RdmInfo` remains `UNKNOWN`; no source damage or reward is applied.
+- At the earlier P31 checkpoint, Tiên Sơn names/floors were linked while no source reward was applied. P45 later added the runtime candidate adapter described above. The current runtime still labels its `RdmInfo` interval interpretation `SIMULATED`; it does not claim verified odds or exact legacy reward parity.
 - Added `legacyElflandReference` to the runtime export and coverage inventory. The single-file build embeds the data for offline play. The full PWA build omits the duplicate JSON export from `dist`; CI now uploads the complete `dist/` tree so the web artifact is playable.
 - Verification: Node tests PASS 53/53; source parser tests PASS 10/10; Chromium passed 12 screens, all 624 location options, floor/NPC inspection, save/reload and mobile portrait/landscape with zero runtime errors. PWA shell v21 reopens with network disabled. The offline HTML passed the same journey over local HTTP with zero cross-origin requests; the managed browser blocked direct `file://` launch, so that specific launch path remains unverified.
 - Web and offline build PASS. Reused the existing JDK 21/Android 36/Gradle 8.14.3 toolchain; debug APK 37,210,633 bytes (SHA-256 `bf25fe9de1df129e5b8af28ad69222b493c5403277da27a1d798f7e493414978`), debug AAB 35,011,822 bytes (SHA-256 `fd75588c9df6c16a93e323139a8bb300d080eedb888df1e8ebd4afcb60aa03d0`), and offline HTML 66,922,088 bytes (SHA-256 `ff40fc538719a1d78f06df9215886d12a9808cd94ba03739231b9070abd35700`). APK v2 signature and AAB ZIP integrity PASS. This increment's CI run is pending push. Device QA remains unavailable. Combat Core files were untouched.

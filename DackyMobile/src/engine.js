@@ -705,15 +705,24 @@ function finishProductMarch(state,now,commands=null){
   }
   if(result.battle.victory&&node?.pveEncounter&&finalEncounterClear){
     result.state.world.pveLastClearDay={...(result.state.world.pveLastClearDay||{}),[node.id]:Math.floor(now/86400000)};
+    const report=result.state.reports?.[0];
+    // Source-rule Tiên Sơn floors have one item reward path. The combat module's
+    // generic 30% gear roll remains available for encounters without a source
+    // rule, but must not stack with this floor's interpreted source candidate.
+    if(node.lootRuleCandidates?.length&&report?.itemDrop){
+      if(result.state.items.at(-1)===report.itemDrop)result.state.items.pop();
+      report.itemDrop=null;
+      report.genericItemDropSuppressed='SOURCE_FLOOR_RULE';
+    }
     const drop=rollPveLoot(node,q.seed);
     if(drop){
       const item=drop.itemSourceId?ITEMS.find(row=>String(row.mobileSourceId)===drop.itemSourceId):null;
-      let granted=0,reason=null;
+      let granted=0,reason=null,fallbackResources=null;
       if(item&&result.state.items.length+drop.count<=500){for(let i=0;i<drop.count;i++)result.state.items.push(item.id);granted=drop.count;}
       else if(!item&&drop.itemSourceId)reason='SOURCE_ITEM_NOT_IN_MOBILE_CATALOG';
       else if(item)reason='INVENTORY_FULL';
-      const report=result.state.reports?.[0];
-      if(report)report.sourceLoot={...drop,itemId:item?.id??null,granted,skippedReason:reason};
+      if(reason&&drop.count>0){const tier=Math.max(1,Math.floor((node.level||1)/10)+1);fallbackResources={food:drop.count*40*tier,gold:drop.count*25*tier};credit(result.state,fallbackResources);}
+      if(report)report.sourceLoot={...drop,itemId:item?.id??null,granted,skippedReason:reason,fallbackResources,fallbackEvidence:fallbackResources?'SIMULATED_UNJOINED_SOURCE_ITEM_CONVERSION':null};
     }
   }
   return result;

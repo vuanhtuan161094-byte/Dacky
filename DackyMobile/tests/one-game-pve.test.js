@@ -57,8 +57,8 @@ test('Tiên Sơn loot rules drive deterministic source-linked drops and daily fa
   const node=LEGACY_ELFLAND_LOCATIONS.flatMap(place=>getMountainBattles(place.ElflandID)).find(row=>row.lootRuleCandidates?.length);
   assert.ok(node);const a=rollPveLoot(node,12345),b=rollPveLoot(node,12345);assert.deepEqual(a,b);assert.equal(a.evidence,'SIMULATED_LEGACY_INTERVAL_INTERPRETATION');
   let state=createNewGame('Tiên Sơn',start);const troopId=Object.keys(state.army)[0];state.world.storyStage=24;state.stats.victories=20;state.stats.citiesCaptured=7;state.army[troopId]=100_000;
-  const sent=doAction(state,{type:'march',nodeId:node.id,troops:{[troopId]:100_000},seed:12345},start);state=advance(sent,sent.queues.march.finishAt+1).state;
-  assert.equal(state.world.pveWins[node.id],true);assert.equal(state.reports[0].sourceLoot?.evidence,'SIMULATED_LEGACY_INTERVAL_INTERPRETATION');assert.equal(pveLock(state,node,8),'Đã nhận thưởng hôm nay');
+  const sent=doAction(state,{type:'march',nodeId:node.id,troops:{[troopId]:100_000},seed:1},start);state=advance(sent,sent.queues.march.finishAt+1).state;
+  assert.equal(state.world.pveWins[node.id],true);assert.equal(state.reports[0].sourceLoot?.evidence,'SIMULATED_LEGACY_INTERVAL_INTERPRETATION');assert.equal(state.reports[0].itemDrop,null);assert.equal(state.reports[0].genericItemDropSuppressed,'SOURCE_FLOOR_RULE');assert.equal(pveLock(state,node,8),'Đã nhận thưởng hôm nay');
   const nextDay=(state.world.pveLastClearDay[node.id]+1)*86400000;assert.equal(pveLock(advance(state,nextDay).state,node,8),'');
   const battleCount=state.stats.battles;state=advance(state,sent.queues.march.finishAt+2).state;assert.equal(state.stats.battles,battleCount);
 });

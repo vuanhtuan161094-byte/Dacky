@@ -51,7 +51,7 @@ let html = await readFile(path.join(root,'index.html'),'utf8');
 let css = await readFile(path.join(root,'styles.css'),'utf8');
 const dataUrl = async name => {
   const ext = path.extname(name).toLowerCase();
-  const mime = ext === '.jpg' ? 'image/jpeg' : ext === '.webp' ? 'image/webp' : 'image/svg+xml';
+  const mime = ext === '.jpg' ? 'image/jpeg' : ext === '.webp' ? 'image/webp' : ext === '.png' ? 'image/png' : ext === '.mp3' ? 'audio/mpeg' : 'image/svg+xml';
   return `data:${mime};base64,${(await readFile(path.join(root,'assets',name))).toString('base64')}`;
 };
 const inlineImages = await Promise.all(['crest.svg','city-panorama.jpg','heroes-atlas.svg','portraits/jiang-zia.webp','portraits/na-tra.webp','buildings/tuvithanh.webp','mobile-source/assets/map-ng/thanh/map008.webp','mobile-source/assets/map-ng/thanh/map00401.webp'].map(async name=>[name,await dataUrl(name)]));
@@ -59,14 +59,15 @@ const imageUrls = Object.fromEntries(inlineImages);
 css = css.replace(/url\(['"]?\.\/assets\/([^)'"\s]+)['"]?\)/g, (_,name) => `url('${imageUrls[name] || ''}')`);
 for (const [name,url] of inlineImages) bundle = bundle.replaceAll(`./assets/${name}`,url);
 for (const [name,url] of inlineImages) html = html.replaceAll(`./assets/${name}`,url);
-const sourceAssetManifest = JSON.parse(await readFile(path.join(root,'assets/mobile-source-manifest.json'),'utf8'));
+const sourceAssetManifests = await Promise.all(['mobile-source-manifest.json','visual-art-manifest.json'].map(async file=>JSON.parse(await readFile(path.join(root,'assets',file),'utf8'))));
 const sourceAssetUrls = new Map();
-for (const asset of sourceAssetManifest.assets) {
+for (const asset of sourceAssetManifests.flatMap(manifest=>manifest.assets)) {
   const ext = path.extname(asset.path).toLowerCase();
-  const mime = ({'.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.gif':'image/gif','.svg':'image/svg+xml','.avif':'image/avif'})[ext] || 'application/octet-stream';
+  const mime = ({'.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.gif':'image/gif','.svg':'image/svg+xml','.avif':'image/avif','.mp3':'audio/mpeg'})[ext] || 'application/octet-stream';
   const dataUrl = `data:${mime};base64,${(await readFile(path.join(root,asset.path))).toString('base64')}`;
   sourceAssetUrls.set(`./${asset.path}`,dataUrl);
 }
+for (const [name,url] of sourceAssetUrls) css = css.replaceAll(name,url);
 const embeddedSourceAssetMap = JSON.stringify(Object.fromEntries(sourceAssetUrls));
 html = html.replace('<link rel="manifest" href="./manifest.webmanifest">','');
 html = html.replace('<link rel="stylesheet" href="./styles.css">',`<style>\n${css}\n</style>`);
