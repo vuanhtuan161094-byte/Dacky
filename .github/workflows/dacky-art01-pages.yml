@@ -1,0 +1,57 @@
+name: Publish ART01 R4 preview
+on:
+  push:
+    branches: [review/dacky-art01-city]
+    paths:
+      - '.github/workflows/dacky-art01-pages.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: dacky-art01-preview-deploy
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: deploy/dacky-one-game-v1
+      - uses: actions/download-artifact@v4
+        with:
+          name: dacky-art01-web
+          run-id: 45833115093
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ runner.temp }}/art01-dist
+      - name: Prepare isolated review site
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, shutil
+          src=pathlib.Path(os.environ['RUNNER_TEMP'])/'art01-dist'
+          dst=pathlib.Path('review/art01')
+          assert (src/'index.html').is_file() and (src/'assets/art01-city-ground.svg').is_file()
+          if dst.exists(): shutil.rmtree(dst)
+          dst.mkdir(parents=True)
+          for name in ['index.html','styles.css','manifest.webmanifest','sw.js','src','assets']:
+              p=src/name
+              if p.is_dir(): shutil.copytree(p,dst/name)
+              else: shutil.copy2(p,dst/name)
+          for name in ['src/store.js','src/main.js']:
+              p=dst/name
+              s=p.read_text().replace('dacky-mobile-local','dacky-art01-review-local').replace('dacky-mobile-save-v1','dacky-art01-review-save-v1')
+              p.write_text(s)
+          p=dst/'sw.js'
+          s=p.read_text().replace('dacky-mobile-shell-v30-art01-r4','dacky-art01-review-shell-v30').replace("startsWith('dacky-mobile-')","startsWith('dacky-art01-review-')")
+          p.write_text(s)
+          p=dst/'manifest.webmanifest'; data=json.loads(p.read_text());data['name']='Đắc Kỷ · Duyệt thành trì R4';data['short_name']='Dacky Review';p.write_text(json.dumps(data,ensure_ascii=False))
+          (dst/'build.json').write_text(json.dumps({'source':'0e5fb55f2b5d9555f629c6426fb970fc0b5faf09','ci':45833115093,'review':'ART01 R4','isolatedSave':True}))
+          (dst/'index.html').write_text((dst/'index.html').read_text().replace('<title>Đắc Kỷ · Mưu Định Phong Thần</title>','<title>Đắc Kỷ · Review thành trì R4</title>'))
+          assert 'dacky-art01-review-local' in (dst/'src/store.js').read_text()
+          assert "startsWith('dacky-art01-review-')" in (dst/'sw.js').read_text()
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add review/art01
+          if git diff --cached --quiet; then echo 'No preview delta'; else git commit -m 'deploy: ART01 R4 isolated review preview'; git push origin HEAD:deploy/dacky-one-game-v1; fi
