@@ -32,7 +32,7 @@ const fmt = formatNumber;
 const resourceGlyph = key => RESOURCE_INFO[key]?.glyph || ({questVouchers:'券',population:'民',official:'官',morale:'心'}[key]||'?');
 const ELEMENT_NAMES=Object.freeze({fire:'Hỏa',water:'Thủy',wood:'Mộc',metal:'Kim',earth:'Thổ',wind:'Phong'});
 const costText = cost => Object.entries(cost || {}).filter(([,n]) => n > 0).map(([key,n]) => `${resourceGlyph(key)} ${fmt(n)}${RESOURCE_INFO[key]?'':` ${({questVouchers:'thẻ quà',population:'dân số',official:'quan chức',morale:'dân tâm'})[key]||key}`}`).join(' · ') || 'Miễn phí';
-const cityCostText = cost => Object.entries(cost||{}).filter(([,n])=>n>0).map(([key,n])=>`${RESOURCE_INFO[key]?.short||key} ${fmt(n)}`).join(' · ') || 'Miễn phí';
+const cityCostText = cost => Object.entries(cost||{}).filter(([,n])=>n>0).map(([key,n])=>`${RESOURCE_INFO[key]?.name||key} ${fmt(n)}`).join(' · ') || 'Miễn phí';
 const isAffordable = (state, cost) => Object.entries(cost || {}).every(([key,n]) => (state.resources[key] || 0) >= n);
 const button = (action, text, disabled = false, cls = 'button', extra = '') => `<button class="${cls}" data-action="${esc(action)}" ${disabled ? 'disabled' : ''} ${extra}>${text}</button>`;
 const title = (name, description, aside='') => `<div class="heading-copy"><h1>${name}</h1><p>${description}</p></div><div class="heading-aside">${aside}</div>`;
@@ -116,22 +116,22 @@ function satelliteManagementPanel(state) {
 }
 
 export const CITY_OUTER_IDS=Object.freeze(["lumber","quarry","farm","grove","mine","foundryfield"]);
+export const CITY_R9_LAYOUT=Object.freeze({"citadel":[720,208,302,205,114,"mobile-source/flash/city/RES_GOVERNMENT_IMAGE.png"],"government":[445,226,145,108,66,"mobile-source/flash/city/RES_HONGLUTEMPLE_IMAGE.png"],"altar":[990,226,150,116,66,"mobile-source/flash/city/RES_CALLHERO_IMAGE.png"],"academy":[315,326,156,112,70,"mobile-source/flash/city/RES_SCHOOL_IMAGE.png"],"manor":[1125,326,156,115,70,"mobile-source/flash/city/RES_HOSTEL_IMAGE.png"],"embassy":[500,342,135,99,64,"mobile-source/flash/city/RES_HONGLUTEMPLE_IMAGE.png"],"hostel":[940,342,136,101,64,"mobile-source/flash/city/RES_HOSTEL_IMAGE.png"],"market":[270,443,150,105,69,"mobile-source/flash/city/RES_FSMARKET_IMAGE.png"],"granary":[470,450,139,101,64,"mobile-source/flash/city/RES_BARBACK_IMAGE.png"],"storehouse":[285,540,128,94,60,"mobile-source/flash/city/RES_ARTISANWORKSHOP_IMAGE.png"],"housing":[1165,447,147,108,65,"mobile-source/flash/city/RES_HOUSE_IMAGE.png"],"clinic":[965,452,145,104,64,"mobile-source/flash/city/RES_HOSPITAL_IMAGE.png"],"caravan":[1155,541,143,100,65,"mobile-source/flash/city/RES_HORSESTALL_IMAGE.png"],"barracks":[424,622,175,119,75,"mobile-source/flash/city/RES_SkirmisherBarrack_IMAGE.png"],"training":[720,552,173,112,75,"mobile-source/flash/city/RES_GYMKHANA_IMAGE.png"],"workshop":[1016,622,164,114,72,"mobile-source/flash/city/RES_ARTISANWORKSHOP_IMAGE.png"],"skirmisher":[582,644,133,91,60,"mobile-source/flash/city/RES_SkirmisherBarrack_IMAGE.png"],"stable":[858,644,137,97,60,"mobile-source/flash/city/RES_HORSESTALL_IMAGE.png"],"foundry":[230,612,123,92,55,"mobile-source/flash/city/RES_IRONSMITH_IMAGE.png"],"wall":[720,712,145,92,64,"mobile-source/flash/city/RES_DAK_IMAGE.png"],"watch":[1210,612,122,106,52,"mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png"],"lumber":[275,230,202,146,92,"mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png"],"grove":[175,410,184,129,84,"mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png"],"quarry":[1120,184,218,140,96,"mobile-source/flash/city/RES_QUARRY_IMAGE.png"],"mine":[1110,363,219,143,96,"mobile-source/flash/city/RES_IRONOREFIELD_IMAGE.png"],"farm":[695,516,257,155,116,"mobile-source/flash/city/RES_CROPLAND_IMAGE.png"],"foundryfield":[1110,600,206,145,91,"mobile-source/flash/city/RES_IRONSMITH_IMAGE.png"]});
 function cityScreen(state, now, uiState={}) {
   const active=activeQuest(state),prod=productionPerHour(state),capacity=storageCapacity(state);
-  const buildingSpots={"citadel":[720,378],"barracks":[720,642],"granary":[348,444],"foundry":[720,510],"market":[472,378],"academy":[596,180],"altar":[844,180],"manor":[720,246],"training":[596,576],"clinic":[472,510],"wall":[1092,312],"watch":[1216,378],"storehouse":[224,378],"embassy":[968,246],"caravan":[968,378],"government":[720,114],"housing":[472,246],"hostel":[348,312],"workshop":[1092,444],"skirmisher":[968,510],"stable":[844,576],"lumber":[610,194.5],"quarry":[830,311.5],"farm":[1050,428.5],"grove":[390,311.5],"mine":[610,428.5],"foundryfield":[830,545.5]};
   const cityZone=uiState.cityZone==='outer'?'outer':'inner';
   const inZone=b=>CITY_OUTER_IDS.includes(b.id)===(cityZone==='outer');
-  const buildingArt={citadel:'./assets/mobile-source/flash/city/RES_GOVERNMENT_IMAGE.png',granary:'./assets/mobile-source/flash/city/RES_ARTISANWORKSHOP_IMAGE.png',manor:'./assets/mobile-source/flash/city/RES_HOUSE_IMAGE.png',wall:'./assets/mobile-source/assets/map-ng/thanh/map00401.webp',storehouse:'./assets/mobile-source/flash/city/RES_HONGLUTEMPLE_IMAGE.png',grove:'./assets/mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png',mine:'./assets/mobile-source/flash/city/RES_QUARRY_IMAGE.png'};
   const markers=BUILDINGS.filter(inZone).map((b,i)=>{
     const level=state.levels[b.id]||0,quote=quoteBuilding(state,b.id);
-    const artPath=(b.id==='citadel'?buildingArt.citadel:b.mobileImage||buildingArt[b.id])||'./assets/mobile-source/flash/city/RES_HOUSE_IMAGE.png';
+    const artPath='./assets/art09-buildings/'+b.id+'.webp';
     const art=`<img src="${esc(assetUrl(artPath))}" alt="" aria-hidden="true" loading="lazy" decoding="async">`;
     const construction=state.queues.construction?.buildingId===b.id;
     const visualState=construction?'building':level?'built':'foundation';
     const status=construction?'Đang thi công':quote.maxed?'Đã tối đa':quote.locked?'Chưa mở':state.queues.construction?'Thợ đang bận':!isAffordable(state,quote.cost)?'Thiếu tài nguyên':level?'Nâng cấp':'Đặt nền móng';
     const tip=`${b.name} · Cấp ${level}/${b.maxLevel} · ${costText(quote.cost)} · ${formatDuration(quote.seconds*1000)}${quote.requirementText&&quote.requirementText!=='—'?` · ${quote.requirementText}`:''}`;
-    const [x,y]=buildingSpots[b.id]||[720,380];
-    return `<button class="city-building building-card" data-action="citySelect" data-building="${esc(b.id)}" data-building-state="${visualState}" data-unlocked="${level>0||!quote.locked}" aria-pressed="${uiState.cityBuildingId===b.id}" style="--slot:${i};--bx:${x/14.4}%;--by:${y/7.6}%;--depth:${Math.round(y)}" title="${esc(tip)}" aria-label="${esc(tip)}"><span class="city-building-art">${art}</span><span class="city-building-info"><b>${esc(b.name)}</b><small>C.${level} · ${status}</small></span><span class="city-building-level">${level|| (quote.locked ? '·' : '+')}</span></button>`;
+    const [x,y,w,h]=CITY_R9_LAYOUT[b.id]||[720,380,140,100];
+    const tier=level>=20?3:level>=10?2:level>=5?1:0;
+    return `<button class="city-building building-card" data-action="citySelect" data-building="${esc(b.id)}" data-building-state="${visualState}" data-art-tier="${tier}" data-unlocked="${level>0||!quote.locked}" aria-pressed="${uiState.cityBuildingId===b.id}" style="--slot:${i};--bx:${x/14.4}%;--by:${y/7.6}%;--depth:${Math.round(y)};--lot-w:${w/14.4}%;--lot-h:${h/7.6}%" title="${esc(tip)}" aria-label="${esc(tip)}"><span class="city-building-art">${art}</span><span class="city-building-info"><b>${esc(b.name)}</b><small>C.${level} · ${status}</small></span><span class="city-building-level">${level|| (quote.locked ? '·' : '+')}</span>${construction?`<span class="art09-build-timer" data-queue-time="${state.queues.construction.finishAt}">${formatDuration(Math.max(0,state.queues.construction.finishAt-now))}</span>`:''}</button>`;
   }).join('');
   const resources=Object.entries(RESOURCE_INFO).map(([key,r])=>`<div class="city-production"><span class="resource-glyph">${r.glyph}</span><span>${r.name}</span><b>+${fmt(prod[key])}/giờ</b></div>`).join('');
   const queue=state.queues.construction?`${BUILDINGS.find(b=>b.id===state.queues.construction.buildingId)?.name||'Công trình'} đang tu sửa · ${formatDuration(Math.max(0,state.queues.construction.finishAt-now))}`:'Thợ xây đang nghỉ';
@@ -149,7 +149,7 @@ function cityScreen(state, now, uiState={}) {
   const selected=BUILDINGS.find(b=>b.id===uiState.cityBuildingId);
   const q=selected?quoteBuilding(state,selected.id):null;
   const selectedLevel=selected?(state.levels[selected.id]||0):0;
-  const selectedArt=selected?(selected.mobileImage||buildingArt[selected.id]||'./assets/mobile-source/flash/city/RES_HOUSE_IMAGE.png'):'';
+  const selectedArt=selected?'./assets/art09-buildings/'+selected.id+'.webp':'';
   const busy=Boolean(state.queues.construction);
   const block=q&&(busy||q.maxed||q.locked||!isAffordable(state,q.cost));
   const reason=q?(busy?'Thợ xây đang bận':q.maxed?'Đã đạt cấp tối đa':q.locked?'Chưa đủ điều kiện':!isAffordable(state,q.cost)?'Thiếu tài nguyên':'Sẵn sàng'):'';
@@ -157,7 +157,7 @@ function cityScreen(state, now, uiState={}) {
   const shortcutLabel={army:'Quân sự',tech:'Nghiên cứu',heroes:'Thần tiên',market:'Giao dịch',inventory:'Túi đồ'};
   const shortcut=selected&&selectedLevel>0&&buildingView[selected.id]?button('view-'+buildingView[selected.id],shortcutLabel[buildingView[selected.id]],false,'button art07-shortcut'):'';
   const inspector=selected?`<aside class="art01-inspector" role="region" aria-label="Công trình đã chọn"><button data-action="cityClose" class="art01-close" aria-label="Đóng">×</button><img src="${esc(assetUrl(selectedArt))}" alt=""><div class="art01-building-detail"><small>${esc(selected.zone)} · Cấp ${selectedLevel}/${selected.maxLevel}</small><h3>${esc(selected.name)}</h3><p class="art07-reason">${esc(reason)}</p><p>Thời gian: <b>${esc(formatDuration(q.seconds*1000))}</b></p><p class="art07-cost">Chi phí: ${esc(cityCostText(q.cost))}</p>${q.requirementText&&q.requirementText!=='—'?`<p>${esc(q.requirementText)}</p>`:''}${button('upgrade',selectedLevel?'Nâng cấp':'Xây dựng',Boolean(block),'button art01-upgrade',`data-building="${esc(selected.id)}"`)}${shortcut}</div></aside>`:'';
-  return `<section class="city-board art01-city art07-city art06-${cityZone}">
+  return `<section class="city-board art01-city art07-city art09-city art06-${cityZone}">
     <header class="art07-toolbar">
       <div class="art07-identity"><small>${cityZone==='outer'?'NGOẠI THÀNH':'NỘI THÀNH'}</small><b>${esc(state.profile.name)}</b><span>Cấp ${fmt(state.levels.citadel||0)}</span></div>
       <nav class="art06-zone-tabs" aria-label="Khu vực thành trì"><button data-action="cityZone" data-zone="inner" aria-pressed="${cityZone==='inner'}">Nội thành</button><button data-action="cityZone" data-zone="outer" aria-pressed="${cityZone==='outer'}">Ngoại thành</button><button data-view="world">Bản đồ</button></nav>

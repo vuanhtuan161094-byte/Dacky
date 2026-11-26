@@ -63,6 +63,8 @@ for (const [name,url] of inlineImages) bundle = bundle.replaceAll(`./assets/${na
 for (const [name,url] of inlineImages) html = html.replaceAll(`./assets/${name}`,url);
 const sourceAssetManifests = await Promise.all(['mobile-source-manifest.json','visual-art-manifest.json'].map(async file=>JSON.parse(await readFile(path.join(root,'assets',file),'utf8'))));
 const sourceAssetUrls = new Map();
+const art09=JSON.parse(await readFile(path.join(root,'assets/art09-buildings/manifest.json'),'utf8'));
+for(const id of Object.keys(art09)){const name='art09-buildings/'+id+'.webp';sourceAssetUrls.set('./assets/'+name,await dataUrl(name));}
 for (const asset of sourceAssetManifests.flatMap(manifest=>manifest.assets)) {
   const ext = path.extname(asset.path).toLowerCase();
   const mime = ({'.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.gif':'image/gif','.svg':'image/svg+xml','.avif':'image/avif','.mp3':'audio/mpeg'})[ext] || 'application/octet-stream';

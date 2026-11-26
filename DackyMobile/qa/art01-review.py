@@ -42,6 +42,9 @@ with sync_playwright() as p:
         assert page.locator(".art01-city .city-building").count()==21
         assert page.locator(".art06-zone-tabs [data-zone=inner]").get_attribute("aria-pressed")=="true"
         page.evaluate("document.fonts.ready")
+        page.wait_for_function("Array.from(document.querySelectorAll('.city-building-art img')).every(i=>i.complete&&i.naturalWidth>0)")
+        assert page.locator('.art09-city').count()==1
+        assert page.locator('.city-building[data-building=citadel] img').get_attribute('src').endswith('art09-buildings/citadel.webp')
         page.wait_for_timeout(800)
         page.screenshot(path=str(out/(label+"-city.png")))
         marker=page.locator('.city-building[data-building="citadel"]')
@@ -68,6 +71,9 @@ with sync_playwright() as p:
         page.keyboard.press('Escape')
         assert page.locator('.art01-inspector').count()==0
         page.locator('[data-action="cityZoom"]').click()
+        assert not page.locator('.art01-overview').count()
+        page.locator('[data-action="cityZoom"]').click()
+        assert page.locator('.art01-overview').count()==1
         page.screenshot(path=str(out/(label+"-overview.png")))
         assert page.evaluate("document.documentElement.scrollWidth<=innerWidth")
         # All screens share the same shell and restore control.

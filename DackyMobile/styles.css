@@ -1070,3 +1070,38 @@ body.hud-hide-battleHeader.battle-mode .battle-control-deck{grid-row:4}
  .art07-city .art06-production{top:6px;bottom:auto;right:6px}
  .art07-city .art01-directory-body{max-height:40vh}
 }
+
+/* R9 approved terraced capital. Asset feet match terrain's lot anchors. */
+.art01-city.art09-city .city-building{width:var(--lot-w);height:var(--lot-h);transform:translate(-50%,-100%);overflow:visible}
+.art01-city.art09-city .city-building:is(:hover,:focus-visible,[aria-pressed="true"]){transform:translate(-50%,-100%)}
+.art01-city.art09-city .city-building[data-building="citadel"]{width:var(--lot-w);height:var(--lot-h);transform:translate(-50%,-100%)}
+.art01-city.art09-city .city-building[data-building="citadel"]:is(:hover,:focus-visible,[aria-pressed="true"]){transform:translate(-50%,-100%)}
+.art09-city .city-building-art img{object-position:center bottom;transform-origin:50% 100%;filter:drop-shadow(3px 5px 2px #15271d80)}
+.art09-city .city-building[data-art-tier="0"] .city-building-art img{transform:scale(.9)}
+.art09-city .city-building[data-art-tier="1"] .city-building-art img{transform:scale(.96)}
+.art09-city .city-building[data-art-tier="2"] .city-building-art img{transform:scale(1.02)}
+.art09-city .city-building[data-art-tier="3"] .city-building-art img{transform:scale(1.07)}
+.art09-city .city-building[data-art-tier="2"] .city-building-art img,.art09-city .city-building[data-art-tier="3"] .city-building-art img{filter:saturate(1.08) drop-shadow(3px 5px 2px #15271d90)}
+.art01-city.art09-city .city-building[data-building-state="foundation"] .city-building-art img{opacity:.11}
+.art01-city.art09-city .city-building[data-unlocked="false"][data-building-state="foundation"] .city-building-art img{visibility:hidden}
+.art01-city.art09-city .city-building-level{bottom:0;right:3%;width:18px;height:18px;min-width:18px;font:600 10px system-ui;border-radius:3px}
+.art01-city.art09-city .city-building[data-building-state="foundation"] .city-building-level{right:calc(50% - 9px);bottom:0;border-radius:50%;opacity:.85}
+.art01-city.art09-city .city-building-info{display:none;bottom:-14px;left:50%;right:auto;transform:translateX(-50%);width:max-content;max-width:170%;background:#1b3027dc;border:1px solid #ad986666;padding:2px 5px;box-shadow:none}
+.art01-city.art09-city .city-building:is(:hover,:focus-visible,[aria-pressed="true"]) .city-building-info,.art01-city.art09-city .city-building[data-building-state="building"] .city-building-info{display:block}
+.art01-city.art09-city .city-building-info b{font:600 10px system-ui;color:#f7e6ba}
+.art01-city.art09-city .art09-build-timer{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:#273d2ae8;color:#f3d78a;border:1px solid #bfa46a;border-radius:3px;padding:2px 5px;font:600 10px system-ui}
+body.hud-hide-cityLabels .art09-build-timer{display:none!important}
+.art09-city .art07-commands:not(.art07-expanded){left:6px;right:auto;top:6px;width:min(165px,19%);padding:3px;border:0;box-shadow:none;background:#182c2490}
+.art09-city .art07-commands:not(.art07-expanded) .art07-command-head{font-size:10px;border:0;padding:0}
+.art09-city .art07-commands:not(.art07-expanded) .art01-status-hud>div{background:#24392cad;border:1px solid #9b9b7460;padding:4px;box-shadow:none}
+.art09-city .art07-commands:not(.art07-expanded) .art01-guide>div>span,.art09-city .art07-commands:not(.art07-expanded) .art01-queue>div>span:not([data-queue-time]){display:none}
+.art09-city .art07-expanded{right:6px;left:auto;top:6px;max-height:calc(100% - 48px)}
+.art09-city .art06-production{background:#20372aab;border-color:#a6a87555;box-shadow:none}
+@media(max-width:900px) and (orientation:landscape){
+.art09-city .art07-commands:not(.art07-expanded){width:min(128px,18%)}.art09-city .art07-command-head>b{display:none}
+.art09-city .art07-commands:not(.art07-expanded) .art01-status-hud>div{padding:3px;gap:2px}
+.art09-city .art07-commands:not(.art07-expanded) .art01-status-hud .button{min-height:23px;padding:2px 4px;font-size:9px}
+.art09-city .art07-commands:not(.art07-expanded) .art01-status-hud b{font-size:9px}
+.art09-city .art01-world .city-building-level{width:14px;height:14px;min-width:14px;font-size:9px}
+}
+@media(max-width:480px) and (orientation:portrait){.art09-city .art07-commands:not(.art07-expanded){width:calc(100% - 12px);top:auto;bottom:42px}.art09-city .art07-expanded{top:auto;bottom:42px;left:6px;right:6px;width:auto}}

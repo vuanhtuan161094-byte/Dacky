@@ -97,77 +97,188 @@ import io,base64
 buf=io.BytesIO();out.save(buf,format='WEBP',quality=88,method=6);b64=base64.b64encode(buf.getvalue()).decode();path.write_text(f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 {W} {H}"><image width="{W}" height="{H}" xlink:href="data:image/webp;base64,{b64}"/></svg>')
 print(path,len(buf.getvalue()),'bytes')
 
-# ART06: separate inner stone courtyard and outer resource plots.
-# Reuse the deterministic terrain/noise/tree palette; no benchmark screenshot is shipped.
+
+# ART09 — approved terraced city and organic resource landscape.
+# Layout/asset source is defined once, in the actual renderer, then consumed here.
+import json,re
+from PIL import ImageEnhance,ImageOps
+root=path.parent.parent
+layout=json.loads(re.search(r'CITY_R9_LAYOUT=Object\.freeze\((\{[^\n]+\})\);',(root/'src/ui.js').read_text()).group(1))
+outer_ids={'lumber','quarry','farm','grove','mine','foundryfield'}
+assert len(layout)==27 and len(outer_ids)==6
 def save_scene(scene,target):
- buf=io.BytesIO();scene.convert('RGB').save(buf,format='WEBP',quality=91,method=6)
+ buf=io.BytesIO();scene.convert('RGB').save(buf,format='WEBP',quality=93,method=6)
  b64=base64.b64encode(buf.getvalue()).decode()
  target.write_text(f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 {W} {H}"><image width="{W}" height="{H}" xlink:href="data:image/webp;base64,{b64}"/></svg>')
-def project(u,v):
- return (720+(u-v)*124,378+(u+v-4)*66)
-def diamond(u,v,r=.47):
- return [project(u-r,v-r),project(u+r,v-r),project(u+r,v+r),project(u-r,v+r)]
-def polygon_scene():
- sc=Image.fromarray(np.uint8(np.clip(base,0,255)),'RGB').convert('RGBA')
- sc.paste(bank,(0,0),riverbank.filter(ImageFilter.GaussianBlur(2)))
- sc.paste(water,(0,0),watermask.filter(ImageFilter.GaussianBlur(.9)))
- return sc
-inner=polygon_scene()
-# Stone plinth with stepped outer boundary and raised rim.
-shape=[project(-.67,-.67),project(4.67,-.67),project(4.67,4.67),project(-.67,4.67)]
-mask=Image.new('L',(W,H));ImageDraw.Draw(mask).polygon(shape,fill=255)
-shadow=Image.new('L',(W,H));ImageDraw.Draw(shadow).polygon([(x+8,y+20) for x,y in shape],fill=200)
-inner.paste(Image.new('RGBA',(W,H),(31,49,39,255)),(0,0),shadow.filter(ImageFilter.GaussianBlur(8)))
+def ground():
+ return Image.fromarray(np.uint8(np.clip(base,0,255)),'RGB').convert('RGBA')
+def poly_mask(points):
+ m=Image.new('L',(W,H));ImageDraw.Draw(m).polygon(points,fill=255);return m
+def color_texture(rgb, strength=1):
+ v=large*13+mid*12+small*7+grain*2
+ arr=np.stack([np.clip(c+v*strength,0,255) for c in rgb],2)
+ return Image.fromarray(arr.astype(np.uint8),'RGB').convert('RGBA')
+def textured_poly(sc,points,rgb,edge=None):
+ sc.paste(color_texture(rgb),(0,0),poly_mask(points))
+ if edge:ImageDraw.Draw(sc).line(points+[points[0]],fill=edge,width=2,joint='curve')
+def stone_surface(sc,points,rgb):
+ textured_poly(sc,points,rgb,(82,91,81,255))
+ mask=poly_mask(points)
+ tile=Image.new('RGBA',(W,H));td=ImageDraw.Draw(tile)
+ # small irregular blocks, subtle joint seams, no floating grid.
+ for y in range(0,H+18,18):
+  for x in range(-38,W+38,36):
+   a=x+(y//18%2)*18; k=R.randint(-9,9)
+   td.polygon([(a,y),(a+35,y-1),(a+42,y+17),(a+7,y+18)],fill=tuple(max(0,min(255,c+k)) for c in rgb)+(255,),outline=(111,113,100,160))
+   td.line((a+2,y+1,a+32,y),fill=(213,209,184,135),width=1)
+ sc.paste(tile,(0,0),mask.point(lambda v:int(v*.38)))
+def shadow_poly(sc,p,dy=16):
+ m=poly_mask([(x+7,y+dy) for x,y in p]).filter(ImageFilter.GaussianBlur(7))
+ sc.paste(Image.new('RGBA',(W,H),(31,47,34,255)),(0,0),m.point(lambda v:int(v*.62)))
+def terrace(sc,p,rgb,height=30):
+ shadow_poly(sc,p,height+5);d=ImageDraw.Draw(sc,'RGBA')
+ for i,a in enumerate(p):
+  b=p[(i+1)%len(p)]
+  if a[0]<b[0] and a[1]<=b[1]:continue
+  face=[a,b,(b[0],b[1]+height),(a[0],a[1]+height)]
+  d.polygon(face,fill=(91,101,92,255),outline=(59,72,64,255))
+  for k in range(8,height,8):d.line((a[0],a[1]+k,b[0],b[1]+k),fill=(129,137,122,255),width=1)
+ stone_surface(sc,p,rgb)
+ d=ImageDraw.Draw(sc,'RGBA');d.line(p+[p[0]],fill=(202,201,177,255),width=5,joint='curve')
+def plot(sc,x,y,r,stone=True):
+ p=[(x-r,y-10),(x,y-r*.43-10),(x+r,y-10),(x,y+r*.43-10)]
+ shadow_poly(sc,p,5)
+ textured_poly(sc,p,(157,164,144) if stone else (121,129,76),(116,125,109,255))
+ d=ImageDraw.Draw(sc,'RGBA');q=[(x+(a-x)*.84,y-10+(b-y+10)*.84) for a,b in p]
+ d.line(q+[q[0]],fill=(197,194,163,220),width=2,joint='curve')
+def stair(sc,x,y,w,h):
+ d=ImageDraw.Draw(sc,'RGBA')
+ d.polygon([(x-w/2-8,y),(x+w/2+8,y),(x+w*.62,y+h),(x-w*.62,y+h)],fill=(103,109,99,255))
+ for k in range(0,h,7):
+  dx=w/2+k*.11;d.polygon([(x-dx,y+k),(x+dx,y+k),(x+dx+2,y+k+5),(x-dx-2,y+k+5)],fill=(180-k%13,178-k%9,156,255))
+ d.line((x-w/2-5,y,x-w*.62,y+h),fill=(221,211,185,255),width=4);d.line((x+w/2+5,y,x+w*.62,y+h),fill=(221,211,185,255),width=4)
+def road(sc,pts,width=20):
+ pts=bezier(pts);m=maskline(pts,width)
+ sc.paste(color_texture((117,109,79)),(0,0),maskline(pts,width+8).filter(ImageFilter.GaussianBlur(2)))
+ sc.paste(color_texture((172,158,117)),(0,0),m.filter(ImageFilter.GaussianBlur(.8)))
+def scatter(sc,allowed,exclude,count=400):
+ # Paint foliage outside walkable terraces, depth-sort by footpoint.
+ positions=[]
+ for i in range(count*5):
+  x=R.randint(8,W-8);y=R.randint(22,H-4)
+  if not allowed(x,y) or any(math.hypot((x-a)*.9,y-b)<r for a,b,r in exclude):continue
+  if any(math.hypot(x-a,y-b)<22 for a,b,_ in positions):continue
+  positions.append((x,y,R.uniform(.43,1.05)))
+  if len(positions)>=count:break
+ for i,(x,y,s) in enumerate(sorted(positions,key=lambda p:p[1])):
+  t=trees[i%len(trees)].resize((round(96*s),round(96*s)),Image.Resampling.LANCZOS)
+  sc.alpha_composite(t,(round(x-t.width*.45),round(y-t.height*.70)))
+def wall_segment(sc,a,b,height=23):
+ d=ImageDraw.Draw(sc,'RGBA');dx=b[0]-a[0];dy=b[1]-a[1];ln=math.hypot(dx,dy);nx=-dy/ln*6;ny=dx/ln*6
+ face=[a,b,(b[0],b[1]+height),(a[0],a[1]+height)]
+ d.polygon(face,fill=(92,104,99,255),outline=(57,76,69,255))
+ for k in range(5,height,7):d.line((a[0],a[1]+k,b[0],b[1]+k),fill=(139,149,137,255),width=1)
+ d.line((a,b),fill=(200,200,177,255),width=7)
+ for i in range(max(1,int(ln/23))):
+  t=(i+.5)/max(1,int(ln/23));x=a[0]+t*dx;y=a[1]+t*dy
+  d.rectangle((x-5,y-8,x+5,y+1),fill=(159,171,153,255),outline=(76,91,82,255))
+def waterway(sc,points,width=76):
+ pts=bezier(points)
+ sc.paste(color_texture((144,149,104)),(0,0),maskline(pts,width+22).filter(ImageFilter.GaussianBlur(2)))
+ sc.paste(color_texture((49,101,105)),(0,0),maskline(pts,width).filter(ImageFilter.GaussianBlur(1)))
+ d=ImageDraw.Draw(sc,'RGBA');m=maskline(pts,width-3)
+ for _ in range(2000):
+  x=R.randrange(W);y=R.randrange(H)
+  if m.getpixel((x,y)) and x+12<W and m.getpixel((x+12,y)):d.line((x,y,x+R.randint(4,12),y),fill=(106,151,151,130),width=1)
+ return m
+inner=ground()
+# Approved shape: broad hexagonal walled city, palace on high rear terrace,
+# civic wings around a clear central axis, military front near the main gate.
+moat=waterway(inner,[(-80,610),(190,655),(390,739),(710,751),(1060,735),(1350,650),(1520,550)],62)
+boundary=[(720,48),(1260,162),(1390,350),(1230,626),(720,731),(210,626),(50,350),(180,162)]
+baseMask=poly_mask(boundary)
+scatter(inner,lambda x,y:not baseMask.getpixel((x,y)) and not moat.getpixel((x,y)),[],180)
+terrace(inner,boundary,(156,162,146),24)
+midTerrace=[(720,111),(1170,209),(1240,341),(1130,484),(720,558),(310,484),(200,341),(270,209)]
+terrace(inner,midTerrace,(168,170,151),23)
+upper=[(720,73),(1065,151),(1105,230),(720,302),(335,230),(375,151)]
+terrace(inner,upper,(179,181,161),29)
+# Three flights lead down from palace to civic plaza and military court.
+stair(inner,720,282,110,52);stair(inner,720,475,118,58)
 d=ImageDraw.Draw(inner,'RGBA')
-for i in range(4):
- a,b=shape[i],shape[(i+1)%4];d.polygon([a,b,(b[0],b[1]+15),(a[0],a[1]+15)],fill=(83,98,94,255),outline=(43,61,55,255))
-# Warm grey paved base, individual weathered stone slabs following isometric axes.
-stone=np.stack([143+large*17+mid*13+small*8+grain*2,150+large*15+mid*13+small*8+grain*2,143+large*15+mid*10+small*8+grain*2],2)
-stone=Image.fromarray(np.uint8(np.clip(stone,0,255)),'RGB').convert('RGBA')
-sd=ImageDraw.Draw(stone,'RGBA')
-for u in np.arange(-.7,4.8,.12):
- for v in np.arange(-.7,4.8,.12):
-  p=[project(u,v),project(u+.12,v),project(u+.12,v+.12),project(u,v+.12)]
-  k=R.randint(-13,13);sd.polygon(p,fill=(147+k,155+k,148+k,255),outline=(110+k,123+k,116+k,255));sd.line([p[0],p[1]],fill=(191+k,196+k,182+k,255),width=1)
-inner.paste(stone,(0,0),mask)
+# ceremonial axis, central plaza, ornamental paths and shallow pools
+d.polygon([(720,338),(859,383),(720,430),(581,383)],fill=(187,185,162,255),outline=(118,133,122,255),width=2)
+d.ellipse((676,351,764,397),fill=(143,153,138,255),outline=(224,215,188,255),width=3)
+d.ellipse((688,357,752,391),fill=(74,128,128,255),outline=(104,159,155,255),width=2)
+for x in (563,877):
+ d.polygon([(x-29,302),(x,287),(x+29,302),(x,318)],fill=(89,133,129,255),outline=(217,206,175,255),width=3)
+# walls along the visible front; split at the entrance to leave gate access.
+for a,b in [(boundary[2],boundary[3]),(boundary[3],(820,710)),((620,710),boundary[5]),(boundary[5],boundary[6]),(boundary[6],boundary[7]),(boundary[1],boundary[2])]:wall_segment(inner,a,b,21)
+# Towers at wall corners; no building asset hidden behind a foreground wall.
 d=ImageDraw.Draw(inner,'RGBA')
-d.line(shape+[shape[0]],fill=(203,199,178,255),width=14,joint='curve')
-d.line(shape+[shape[0]],fill=(87,110,106,255),width=3,joint='curve')
-# Plots have jade-grey frames, not brown floating circular pads.
-for u in range(5):
- for v in range(5):
-  if (u,v) in [(1,2),(2,1),(2,3),(3,2),(2,2)]:continue
-  p=diamond(u,v,.435);d.polygon(p,fill=(109,132,126,255),outline=(62,85,81,255),width=2)
-  q=diamond(u,v,.36);d.polygon(q,fill=(155,166,154,255),outline=(190,201,182,255),width=2)
-  for k in [.12,.24]:
-   a=project(u-.36,v-.36+k);b=project(u+.36,v-.36+k);d.line((a,b),fill=(123,144,137,180),width=1)
-   a=project(u-.36+k,v-.36);b=project(u-.36+k,v+.36);d.line((a,b),fill=(123,144,137,180),width=1)
-d.polygon(diamond(2,2,.76),fill=(82,126,122,255),outline=(211,207,178,255),width=4)
-d.polygon(diamond(2,2,.64),fill=(117,155,145,255),outline=(43,81,77,255),width=2)
-# Stone access bridges, outside grounds and decorative pillars.
-for a,b in [((720,35),(720,100)),((720,650),(720,754)),((22,378),(78,378)),((1362,378),(1430,378))]:
- d.line((a,b),fill=(85,93,79,255),width=62);d.line((a,b),fill=(174,174,153,255),width=50)
-for x,y in [(720,34),(58,378),(1382,378),(720,724)]:
- d.rounded_rectangle((x-14,y-18,x+14,y+10),radius=2,fill=(137,148,133,255),outline=(63,78,68,255),width=2)
- d.polygon([(x-18,y-18),(x,y-28),(x+18,y-18),(x,y-8)],fill=(193,195,163,255),outline=(75,86,74,255))
-for i,(x,y,s) in enumerate(sorted(places,key=lambda p:p[1])):
- if mask.getpixel((int(x),int(y)))>0 or (y<110 and abs(x-720)<90) or (y>635 and abs(x-720)<65):continue
- t=trees[i%len(trees)].resize((round(96*s),round(96*s)),Image.Resampling.LANCZOS);inner.alpha_composite(t,(round(x-t.width*.45),round(y-t.height*.69)))
+for x,y in [(1260,162),(1390,350),(1230,626),(210,626),(50,350),(180,162)]:
+ d.rectangle((x-18,y-13,x+18,y+15),fill=(124,139,129,255),outline=(65,85,76,255),width=2)
+ d.polygon([(x-25,y-13),(x,y-28),(x+25,y-13),(x,y)],fill=(65,103,91,255),outline=(192,188,152,255),width=2)
+for bid,(x,y,w,h,r,source) in layout.items():
+ if bid in outer_ids:continue
+ plot(inner,x,y,r,True)
+# Deliberate ornamental trees between districts, placed only clear of lot centers.
+inner_ex=[(v[0],v[1],v[4]+17) for k,v in layout.items() if k not in outer_ids]
+scatter(inner,lambda x,y:bool(baseMask.getpixel((x,y))) and abs(x-720)>95 and (x<220 or x>1220 or 255<y<285 or 468<y<506),inner_ex,23)
 save_scene(inner,path)
-outer=polygon_scene()
-od=ImageDraw.Draw(outer,'RGBA')
-outer_pts=[[610,194.5],[830,311.5],[1050,428.5],[390,311.5],[610,428.5],[830,545.5]]
-for i,(x,y) in enumerate(outer_pts):
- # Isometric agricultural parcels, stone/grassy verge and worn paths.
- p=[(x-106,y),(x,y-58),(x+106,y),(x,y+58)]
- od.polygon([(a+5,b+9) for a,b in p],fill=(69,83,49,180))
- od.polygon(p,fill=(139,142,88,255),outline=(169,167,117,255),width=3)
- q=[(x-88,y),(x,y-46),(x+88,y),(x,y+46)]
- od.polygon(q,fill=(122,128,74,255),outline=(98,112,67,255))
- for k in range(-4,5):
-  a=(x-58+k*10,y-5+k*5);b=(x+21+k*10,y+33+k*5)
-  od.line((a,b),fill=(157,154,97,160),width=2)
-for i,(x,y,s) in enumerate(sorted(places,key=lambda p:p[1])):
- if any(math.hypot((x-a)*.85,y-b)<117 for a,b in outer_pts):continue
- t=trees[i%len(trees)].resize((round(96*s),round(96*s)),Image.Resampling.LANCZOS);outer.alpha_composite(t,(round(x-t.width*.45),round(y-t.height*.69)))
+# Outside: woodland left, hills/mineral deposits right, irrigated fields front.
+outer=ground()
+river=waterway(outer,[(-30,55),(165,140),(380,285),(440,420),(367,570),(490,800)],83)
+# Mountain foothills and sloping rocky faces in the north-east.
+d=ImageDraw.Draw(outer,'RGBA')
+for p,c in [([(1440,0),(1160,0),(1020,74),(1080,169),(1340,230),(1440,150)],(102,121,103,255)), ([(1440,0),(1240,0),(1170,64),(1290,142),(1440,90)],(137,148,132,255)), ([(1120,28),(970,92),(1000,160),(1090,118),(1160,170),(1240,83)],(127,139,123,255))]:
+ d.polygon(p,fill=c)
+ for j in range(28):
+  x=R.randint(970,1430);y=R.randint(0,178);d.line((x,y,x-R.randint(9,26),y+R.randint(12,36)),fill=(83,105,94,175),width=2)
+road(outer,[(720,35),(720,160),(650,295),(695,516),(845,620),(1110,600)],29)
+road(outer,[(650,295),(880,248),(1120,184),(1110,363),(1110,600)],24)
+road(outer,[(650,295),(500,330),(275,230),(175,410)],24)
+d=ImageDraw.Draw(outer,'RGBA')
+# crossing on the woodland route
+d.polygon([(350,284),(381,263),(471,326),(441,347)],fill=(115,82,47,255),outline=(73,60,42,255),width=3)
+for i in range(12):
+ x=355+i*7.2;y=280+i*5.4;d.line((x,y,x+28,y-20),fill=(184,148,97,255),width=4)
+# Irrigated cultivated parcels around the farm instead of identical platforms.
+for cx,cy,rx,ry in [(565,478,78,39),(692,519,116,56),(810,477,85,41),(690,612,109,51),(795,575,65,32)]:
+ p=[(cx-rx,cy),(cx,cy-ry),(cx+rx,cy),(cx,cy+ry)]
+ textured_poly(outer,p,(147,137,68),(190,172,111,255));d=ImageDraw.Draw(outer,'RGBA');m=poly_mask(p);rows=Image.new('RGBA',(W,H));rd=ImageDraw.Draw(rows)
+ for j in range(-14,15):
+  x=cx+j*12;rd.line((x-80,cy-70,x+80,cy+70),fill=(96,113,54,255),width=5);rd.line((x-83,cy-70,x+77,cy+70),fill=(181,167,89,255),width=1)
+ outer.paste(rows,(0,0),Image.fromarray(np.minimum(np.asarray(m),np.asarray(rows.getchannel('A'))).astype('uint8')))
+# exposed veins, stone rubble and ore piles surrounding the two mines.
+d=ImageDraw.Draw(outer,'RGBA')
+for bid in ('quarry','mine','foundryfield'):
+ x,y,w,h,r,_=layout[bid]
+ for j in range(35):
+  a=x+R.randint(-r-35,r+35);b=y+R.randint(-45,38)
+  if not(10<a<W-10 and 10<b<H-10):continue
+  s=R.randint(4,17)
+  d.polygon([(a-s,b),(a-s//2,b-s),(a+s//2,b-s-2),(a+s,b),(a,b+s//2)],fill=(130,139,124,255),outline=(88,101,91,255))
+  d.polygon([(a-s//2,b-s),(a+s//2,b-s-2),(a+s,b),(a,b-2)],fill=(177,183,161,255))
+for bid,(x,y,w,h,r,_) in layout.items():
+ if bid in outer_ids:plot(outer,x,y,r,False)
+outer_ex=[(v[0],v[1],v[4]+30) for k,v in layout.items() if k in outer_ids]
+scatter(outer,lambda x,y:not river.getpixel((x,y)) and (x<355 or x>1270 or y<90 or (x<590 and y>625)),outer_ex,205)
 save_scene(outer,path.with_name('art01-outer-ground.svg'))
+# Build-normalize native source sprites: trim transparent margins, preserve silhouette,
+# mild uniform tonal grade, fixed bottom anchor and bounded output resolution.
+dst=root/'assets/art09-buildings';dst.mkdir(exist_ok=True)
+manifest={}
+for bid,(x,y,w,h,r,source) in layout.items():
+ original=root/'assets'/source
+ im=Image.open(original).convert('RGBA')
+ alpha=im.getchannel('A');bbox=alpha.point(lambda v:255 if v>12 else 0).getbbox()
+ if bbox: im=im.crop(bbox)
+ alpha=im.getchannel('A');rgb=im.convert('RGB')
+ rgb=ImageEnhance.Color(rgb).enhance(.92);rgb=ImageEnhance.Contrast(rgb).enhance(1.04)
+ im=rgb.convert('RGBA');im.putalpha(alpha)
+ im.thumbnail((640,560),Image.Resampling.LANCZOS)
+ im.save(dst/(bid+'.webp'),format='WEBP',quality=93,method=6)
+ manifest[bid]={'source':source,'pixelSize':list(im.size),'foot':[x,y],'display':[w,h],'transformation':'alpha trim, bounded resample, common tonal grade'}
+(dst/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+print('ART09:',len(manifest),'normalized source-derived sprites; two terrain scenes')
