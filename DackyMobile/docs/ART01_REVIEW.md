@@ -1,3 +1,3 @@
-# ART01 R3 — organic capital
+# ART01 R4 — raster terrain and visible buildings
 
-R1 and R2 rejected after actual runtime visual review. R3 replaces board-like grid with organic roads and grouped districts, restores a native source fortress as centerpiece, reduces prominence of locked lots, and repairs missing resource icons. Keeps 27 building interactions, explicit upgrade confirmation and camera. Original Mobile screenshot parity remains unverified; owner review required. No gameplay engine, save, data, ONE GAME or deploy changes.
+R1/R2/R3 rejected after runtime inspection. R4 uses reproducible raster terrain, all 27 interactive lots, original fortress/building art, full desktop width, names on built buildings and compact mobile HUD. Fixed built buildings disappearing due to next-level locks. Terrain is embedded in offline HTML and PWA shell. Build: pip install -r requirements-art01.txt; npm ci; npm run build. Local exact-renderer visual preview inspected at 1280×720 and 844×390; interactive CI review required. No combat, save, catalog, ONE GAME or deploy changes. Original Mobile screen parity remains unverified; owner ART approval pending.

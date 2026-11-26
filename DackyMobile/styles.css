@@ -809,3 +809,22 @@ html,body{width:100%;height:100%;min-height:0;overflow:hidden;overscroll-behavio
 .art01-city-mode .resource-pill:nth-child(4) .resource-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M4%2019l9-8h15l-6%2015H4z%20M4%2019h18l6-8M22%2019v7%22%20fill%3D%22%23b2c1c3%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%23b2c1c3%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
 .art01-city-mode .resource-pill:nth-child(5) .resource-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M16%203a13%2013%200%201%200%200%2026%2013%2013%200%200%200%200-26z%20M11%2011h10v10H11z%22%20fill%3D%22%23e0b24f%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%23e0b24f%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
 .art01-city-mode .resource-pill:nth-child(6) .resource-glyph{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M16%202L28%2012l-12%2018L4%2012z%20M4%2012h24M16%202l-5%2010%205%2018%205-18z%22%20fill%3D%22%2374bda1%22%20fill-opacity%3D%22.6%22%20stroke%3D%22%2374bda1%22%20stroke-width%3D%221.5%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E")}
+
+/* ART01 R4 — raster terrain and real built-state visibility. */
+.art01-city .art01-world{width:max(1000px,100%);aspect-ratio:36/19}
+.art01-city .art01-overview .art01-world{width:min(100%,calc((100dvh - 114px)*1.895));max-width:none}
+.art01-city .city-landscape.art01-camera{background:#526b43}
+.art01-city .city-building[data-building-state="built"] .city-building-art img{visibility:visible;filter:drop-shadow(3px 7px 4px #152c2388)}
+.art01-city .city-building[data-building-state="building"] .city-building-art img{visibility:visible}
+.art01-city .city-building[data-building-state="foundation"] .city-building-art img{opacity:.025}
+.art01-city .city-building[data-building-state="foundation"] .city-building-level{right:41%;bottom:3%;width:18px;height:18px;border-radius:50%;border:1px solid #dac48f;background:#354d36d9;color:#f5e1a8;font-size:13px;opacity:.9}
+.art01-city .city-building[data-unlocked="false"] .city-building-level{opacity:.38;border-color:#b3b696;color:#ddd6b1;background:#526443}
+.art01-city .city-building[data-building-state="built"] .city-building-info{display:block;bottom:-5%;padding:2px 7px;border:1px solid #c1a67580;background:#18271fda;box-shadow:0 2px 6px #0005;border-radius:3px}
+.art01-city .city-building-info b{font:600 11px system-ui,sans-serif;color:#ffedc2;line-height:1.2}
+.art01-city .city-building[data-building="citadel"] .city-building-info{bottom:2%;padding:4px 12px;background:#26372bf2}
+.art01-city .city-building[data-building="citadel"] .city-building-info b{font-size:13px}
+.art01-city .city-building[data-building="citadel"] .city-building-level{right:19%;bottom:19%}
+.art01-city-mode .topbar{box-shadow:0 2px 6px #0006}
+.art01-city-mode .game-dock{background:linear-gradient(#38392d,#222d24);box-shadow:0 -3px 10px #152a2290}
+@media(max-width:900px){.art01-city .city-building[data-building-state="built"] .city-building-info{display:none}.art01-city .city-building[aria-pressed="true"] .city-building-info,.art01-city .city-building:focus-visible .city-building-info{display:block}}
+@media(max-height:480px) and (orientation:landscape){.art01-city .art01-overview .art01-world{width:min(100%,calc((100dvh - 84px)*1.895))}}

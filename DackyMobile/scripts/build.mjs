@@ -1,8 +1,10 @@
 import { cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+execFileSync('python3', [path.join(root,'scripts/generate-art01-terrain.py'),path.join(root,'assets/art01-city-ground.svg')],{cwd:root,stdio:'inherit'});
 const { exportDatabase } = await import('./export-database.mjs');
 await exportDatabase();
 const dist = process.env.DACKY_BUILD_OUT
@@ -54,7 +56,7 @@ const dataUrl = async name => {
   const mime = ext === '.jpg' ? 'image/jpeg' : ext === '.webp' ? 'image/webp' : ext === '.png' ? 'image/png' : ext === '.mp3' ? 'audio/mpeg' : 'image/svg+xml';
   return `data:${mime};base64,${(await readFile(path.join(root,'assets',name))).toString('base64')}`;
 };
-const inlineImages = await Promise.all(['crest.svg','city-panorama.jpg','heroes-atlas.svg','portraits/jiang-zia.webp','portraits/na-tra.webp','buildings/tuvithanh.webp','mobile-source/assets/map-ng/thanh/map008.webp','mobile-source/assets/map-ng/thanh/map00401.webp'].map(async name=>[name,await dataUrl(name)]));
+const inlineImages = await Promise.all(['art01-city-ground.svg','crest.svg','city-panorama.jpg','heroes-atlas.svg','portraits/jiang-zia.webp','portraits/na-tra.webp','buildings/tuvithanh.webp','mobile-source/assets/map-ng/thanh/map008.webp','mobile-source/assets/map-ng/thanh/map00401.webp'].map(async name=>[name,await dataUrl(name)]));
 const imageUrls = Object.fromEntries(inlineImages);
 css = css.replace(/url\(['"]?\.\/assets\/([^)'"\s]+)['"]?\)/g, (_,name) => `url('${imageUrls[name] || ''}')`);
 for (const [name,url] of inlineImages) bundle = bundle.replaceAll(`./assets/${name}`,url);
