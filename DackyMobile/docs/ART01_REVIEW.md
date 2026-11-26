@@ -1,3 +1,3 @@
-# ART01 R1 — Thành trì
+# ART01 R2 — Thành trì
 
-Base af6034b; owner approval pending. Only city presentation is changed. This is a locally designed isometric terrain using existing building sprites, not a recovered original Mobile scene or a verified visual match. 27 fixed world-space lots; mobile camera pans rather than squashing the city; overview mode, building selection and explicit upgrade confirmation. Production, tax, tutorial and queues remain in the management drawer. No engine or catalog changes. No merge/deploy before owner review.
+R1 technical PASS, art review FAIL. R2 adjusts scene scale, empty lot prominence, terrain detail, navigation glyphs and mobile HUD sizing. Existing building controls retained. Incremental candidate, not an approved match to the original client. Actual runtime screenshots required. No changes to ONE GAME, combat, save or data.
