@@ -1145,3 +1145,6 @@ body.startup-mode #primary-nav.game-dock{display:none!important}
 .art09-city .city-building[data-building-state="foundation"] .city-building-level{bottom:0}
 .art09-city .art07-expanded{width:min(345px,42%);max-height:calc(100% - 45px)}
 @media(max-width:480px) and (orientation:portrait){.art09-city .art07-expanded{width:auto}}
+
+/* CITY R11 — free parcel actions and compact labels; art overhaul after gameplay acceptance. */
+.art11-plot-actions{display:flex;gap:5px;flex-wrap:wrap;padding:9px 0 3px}.art11-demolish{color:#e7b2a0;border-color:#b38071}.art10-plot-inspector .art10-plot-choice:last-of-type{border-bottom:0}.art09-city .city-extra-plot[data-occupied="false"][data-unlocked="false"]{opacity:.48}.art09-city .city-extra-plot .city-building-info{max-width:118%;overflow:hidden;text-overflow:ellipsis}.art09-city .city-extra-plot .city-building-info b{font-size:9px}.art09-city .city-extra-plot[data-building-state="built"]:not(:hover):not([aria-pressed="true"]) .city-building-info{max-width:98%}

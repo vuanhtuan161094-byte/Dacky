@@ -31,29 +31,82 @@ const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 let combatService;
 const combat=()=>combatService??=createProductCombat({storageCapacity});
 
-// Additional land preserves legacy building levels and unlocks true repeatable plots.
-export const CITY_PLOT_TYPES=Object.freeze({inner:Object.freeze(["housing","storehouse","granary","barracks","training","market","foundry"]),outer:Object.freeze(["farm","grove","mine","foundryfield"])});
-export const CITY_PLOT_LIMITS=Object.freeze({inner:9,outer:31});
-export function cityPlotZone(id){return typeof id==='string'&&/^i[1-9]$/.test(id)?'inner':typeof id==='string'&&/^o(?:[1-9]|[12][0-9]|3[01])$/.test(id)?'outer':null;}
+// The original 25 named site anchors are now ordinary land parcels; only palace/wall are fixed.
+export const CITY_PLOT_TYPES=Object.freeze({inner:Object.freeze(["government","academy","altar","manor","hostel","embassy","clinic","housing","market","granary","storehouse","caravan","foundry","barracks","training","workshop","watch","skirmisher","stable"]),outer:Object.freeze(["lumber","quarry","farm","grove","mine","foundryfield"])});
+export const CITY_REPEATABLE=Object.freeze(["housing","storehouse","granary","barracks","training","market","foundry","workshop","farm","grove","mine","foundryfield"]);
+export const CITY_PLOT_LIMITS=Object.freeze({inner:28,outer:37});
+export function cityPlotZone(id){
+ if(typeof id!=='string')return null;
+ if(id.startsWith('b-')){const type=id.slice(2);return CITY_PLOT_TYPES.inner.includes(type)?'inner':CITY_PLOT_TYPES.outer.includes(type)?'outer':null;}
+ return /^i[1-9]$/.test(id)?'inner':/^o(?:[1-9]|[12][0-9]|3[01])$/.test(id)?'outer':null;
+}
+export function cityPlotIds(zone){return [...CITY_PLOT_TYPES[zone].map(id=>'b-'+id),...Array.from({length:zone==='inner'?9:31},(_,i)=>(zone==='inner'?'i':'o')+(i+1))];}
 export function outerLandCapacity(state){return Math.min(37,8+Math.max(0,Math.floor(Number(state.levels?.citadel)||1)-1));}
-export function cityPlotUnlocked(state,id){const zone=cityPlotZone(id);return zone==='inner'||(zone==='outer'&&Number(id.slice(1))<=outerLandCapacity(state)-6);}
+export function cityPlotUnlocked(state,id){const zone=cityPlotZone(id);return zone==='inner'||(zone==='outer'&&(id.startsWith('b-')||Number(id.slice(1))<=outerLandCapacity(state)-6));}
 export function extraBuildingLevels(state,id){return Object.values(state.cityPlots||{}).reduce((n,p)=>n+(p?.buildingId===id?Math.max(0,Number(p.level)||0):0),0);}
+export function highestBuildingLevel(state,id){return Math.max(Number(state.levels?.[id])||0,...Object.values(state.cityPlots||{}).filter(p=>p.buildingId===id).map(p=>Number(p.level)||0));}
+export function cityPlotRecord(state,id){
+ const extra=state.cityPlots?.[id];if(extra)return {...extra,primary:false};
+ for(const [type,site] of Object.entries(state.cityPrimarySites||{}))if(site===id&&state.levels[type]>0)return {buildingId:type,level:state.levels[type],primary:true};
+ // Raw fixtures/legacy callers without the new placement field.
+ if(!state.cityPrimarySites&&id.startsWith('b-')&&state.levels[id.slice(2)]>0)return {buildingId:id.slice(2),level:state.levels[id.slice(2)],primary:true};
+ return null;
+}
+export function cityPrimarySite(state,type){
+ const zone=CITY_PLOT_TYPES.inner.includes(type)?'inner':CITY_PLOT_TYPES.outer.includes(type)?'outer':null;
+ if(!zone)return null;
+ const mapped=state.cityPrimarySites?.[type];if(mapped&&cityPlotRecord(state,mapped)?.buildingId===type)return mapped;
+ const preferred='b-'+type;
+ if(cityPlotUnlocked(state,preferred)&&!cityPlotRecord(state,preferred))return preferred;
+ return cityPlotIds(zone).find(id=>cityPlotUnlocked(state,id)&&!cityPlotRecord(state,id))||null;
+}
 function normalizeCityPlots(s){
- const clean={};
+ const clean={},previous=s.cityPrimarySites&&typeof s.cityPrimarySites==='object'?s.cityPrimarySites:{};
  for(const [id,p] of Object.entries(s.cityPlots&&typeof s.cityPlots==='object'&&!Array.isArray(s.cityPlots)?s.cityPlots:{})){
   const z=cityPlotZone(id),b=BUILDINGS.find(b=>b.id===p?.buildingId);
-  if(z&&b&&CITY_PLOT_TYPES[z].includes(b.id)&&cityPlotUnlocked(s,id)){
+  if(z&&b&&CITY_PLOT_TYPES[z].includes(b.id)&&CITY_REPEATABLE.includes(b.id)&&cityPlotUnlocked(s,id)){
    const level=clamp(Math.floor(Number(p.level)||0),0,b.maxLevel);if(level)clean[id]={buildingId:b.id,level};
   }
  }
- s.cityPlots=clean;
+ s.cityPlots=clean;s.cityPrimarySites={};
+ const used=new Set(Object.keys(clean));
+ // Restore valid moved primary sites before allocating anything else.
+ for(const z of ['inner','outer'])for(const type of CITY_PLOT_TYPES[z]){
+  const site=previous[type];
+  if(s.levels[type]>0&&cityPlotZone(site)===z&&cityPlotUnlocked(s,site)&&!used.has(site)){s.cityPrimarySites[type]=site;used.add(site);}
+ }
+ for(const z of ['inner','outer'])for(const type of CITY_PLOT_TYPES[z]){
+  if(!(s.levels[type]>0)||s.cityPrimarySites[type])continue;
+  const preferred='b-'+type,site=!used.has(preferred)?preferred:cityPlotIds(z).find(id=>cityPlotUnlocked(s,id)&&!used.has(id));
+  if(site){s.cityPrimarySites[type]=site;used.add(site);}
+ }
+}
+export function cityPlotChoices(state,id){
+ const z=cityPlotZone(id),p=cityPlotRecord(state,id);if(!z)return [];
+ if(p)return [p.buildingId];
+ return CITY_PLOT_TYPES[z].filter(type=>CITY_REPEATABLE.includes(type)||!highestBuildingLevel(state,type));
 }
 export function quoteCityPlot(state,plotId,buildingId){
- const zone=cityPlotZone(plotId),existing=state.cityPlots?.[plotId],id=existing?.buildingId||buildingId;
+ const zone=cityPlotZone(plotId),existing=cityPlotRecord(state,plotId),id=existing?.buildingId||buildingId;
  if(!zone||!CITY_PLOT_TYPES[zone].includes(id)||existing&&buildingId&&buildingId!==existing.buildingId)return null;
+ const uniqueLocked=!existing&&!CITY_REPEATABLE.includes(id)&&highestBuildingLevel(state,id)>0;
  const q=quoteBuilding(state,id,existing?.level||0);
  const landLocked=!cityPlotUnlocked(state,plotId);
- return {...q,buildingId:id,plotId,landLocked,locked:q.locked||landLocked};
+ return {...q,buildingId:id,plotId,primary:existing?existing.primary:!(state.levels[id]>0),uniqueLocked,landLocked,locked:q.locked||landLocked||uniqueLocked};
+}
+export function trainingSites(state){
+ return [...(state.levels.barracks>0?[{id:'primary',site:state.cityPrimarySites?.barracks||'b-barracks',level:state.levels.barracks}]:[]),...Object.entries(state.cityPlots||{}).filter(([,p])=>p.buildingId==='barracks'&&p.level>0).map(([id,p])=>({id,site:id,level:p.level}))];
+}
+export function trainingQueue(state,id){return id==='primary'?state.queues.training:state.queues.extraTraining?.[id]||null;}
+export function trainingAvailable(state){return trainingSites(state).some(b=>!trainingQueue(state,b.id));}
+export function allTrainingQueues(state){return [state.queues.training,...Object.values(state.queues.extraTraining||{})].filter(Boolean);}
+export function canDemolishPlot(state,id){
+ const p=cityPlotRecord(state,id);if(!p)return false;
+ if(state.queues.construction)return false;
+ if(p.buildingId==='barracks'&&(p.primary?allTrainingQueues(state).length:trainingQueue(state,id)))return false;
+ if(p.buildingId==='academy'&&state.queues.research)return false;
+ if(state.queues.march)return false;
+ return true;
 }
 
 export function createNewGame(name = 'Triều Ca', now = Date.now()) {
@@ -90,6 +143,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     tutorialStep: 0,
     nextReportId: 1
   };
+  normalizeCityPlots(state);
   normalizeGameplay(state);
   return state;
 }
@@ -150,7 +204,8 @@ export function migrateSave(input, now = Date.now()) {
     finishAt: clamp(Number(q.finishAt)||now,0,now+30*24*60*60*1000)
   } : null;
   const construction = safeQueue(rawQueues.construction);
-  if(construction?.plotId){const z=cityPlotZone(construction.plotId),p=s.cityPlots[construction.plotId],b=BUILDINGS.find(x=>x.id===construction.buildingId);if(!z||!b||!CITY_PLOT_TYPES[z].includes(b.id)||!cityPlotUnlocked(s,construction.plotId)||p&&p.buildingId!==b.id||Number(construction.level)!==(p?.level||0)+1||Number(construction.level)>b.maxLevel){construction.buildingId=null;construction.cityId=null;}}
+  if(construction?.plotId){const quote=quoteCityPlot(s,construction.plotId,construction.buildingId);if(!quote||quote.landLocked||quote.uniqueLocked||Number(construction.level)!==quote.level||quote.maxed){construction.buildingId=null;construction.cityId=null;}else{construction.primary=quote.primary;}}
+  if(construction?.primarySite){const id=construction.primarySite,p=cityPlotRecord(s,id);if(!cityPlotUnlocked(s,id)||p&&p.buildingId!==construction.buildingId){construction.buildingId=null;construction.cityId=null;}}
   const training = safeQueue(rawQueues.training);
   const research = safeQueue(rawQueues.research);
   const march = safeQueue(rawQueues.march);
@@ -164,6 +219,12 @@ export function migrateSave(input, now = Date.now()) {
       battleCommands:Array.isArray(march.battleCommands)?march.battleCommands.slice(0,12).filter(x=>x&&typeof x==='object').map(x=>({...x})):[]
     }:null
   };
+  const extraTraining={};
+  for(const [id,raw] of Object.entries(rawQueues.extraTraining||{})){
+    const b=s.cityPlots[id],job=safeQueue(raw);
+    if(b?.buildingId==='barracks'&&b.level>0&&job&&TROOPS.some(t=>t.id===job.troopId))extraTraining[id]={...job,count:clamp(Math.floor(Number(job.count)||1),1,500)};
+  }
+  if(Object.keys(extraTraining).length)s.queues.extraTraining=extraTraining;
   s.wounded = s.wounded && typeof s.wounded === 'object' ? s.wounded : {};
   for(const [id,count] of Object.entries(s.wounded)){
     if(!TROOPS.some(t=>t.id===id))delete s.wounded[id];
@@ -428,7 +489,7 @@ export function armyPower(state, counts = state.army) {
 export function questProgress(state, quest) {
   switch (quest.type) {
     case 'chapterField': return Number(state.world.chapterProgress?.[String(quest.chapter)]?.fieldWins)||0;
-    case 'upgrade': return state.levels[quest.target] || 0;
+    case 'upgrade': return highestBuildingLevel(state,quest.target);
     case 'train': return state.stats.troopsTrained;
     case 'recruit': return state.stats.heroesRecruited;
     case 'equip': return state.stats.itemsEquipped;
@@ -488,7 +549,7 @@ function evaluateBuildingRequirements(state, text) {
     const source=sourceRows.find(row=>String(row.name||'').trim()===name.trim());
     const building=source&&BUILDINGS.find(row=>String(row.mobileSourceId||'')===String(source.id));
     if(!building||(!state.settings?.combatV13&&['government','housing','hostel','workshop','skirmisher','stable'].includes(building.id))){unknown.push(term);continue;}
-    if((state.levels[building.id]||0)<Number(rawLevel))unmet.push(term);
+    if(highestBuildingLevel(state,building.id)<Number(rawLevel))unmet.push(term);
   }
   return {status:unmet.length?'LOCKED':unknown.length?'PARTIAL_UNKNOWN':'SATISFIED',unmet,unknown};
 }
@@ -502,8 +563,10 @@ export function quoteBuilding(state, buildingId, currentLevel=undefined) {
   const cost = sourceLevel?.cost ? {...sourceLevel.cost} : simulatedLevel?.cost ? {...simulatedLevel.cost} : progressionCost(b.mobileLevelCosts, b.baseCost, level);
   const requirements=evaluateBuildingRequirements(state,sourceLevel?.requirement??simulatedLevel?.requirement);
   const cityLocked=b.id!=='citadel'&&(state.levels.citadel||0)<Math.max(1,Math.ceil(level/2));
+  const needsLand=currentLevel===undefined&&level===1&&b.id!=='citadel'&&b.id!=='wall';
+  const landLocked=needsLand&&!cityPrimarySite(state,b.id);
   return { level, cost, seconds: b.seconds * Math.pow(level, 1.2), maxed: level > b.maxLevel,
-    locked: cityLocked||requirements.status==='LOCKED',cityLocked,
+    locked: cityLocked||requirements.status==='LOCKED'||landLocked,cityLocked,landLocked,
     maxLevelEvidence:b.runtimeMaxEvidence||b.fieldProvenance?.maxLevel?.evidence||'SIMULATED',
     sourceMaxLevel:b.sourceMaxLevel??null,
     costEvidence:sourceLevel?.cost?'VERIFIED_MOBILE':simulatedLevel?'SIMULATED_PREREQUISITE_BRIDGE':'SIMULATED',
@@ -520,14 +583,15 @@ export function quoteCityUpgrade(state, cityId) {
     locked:(state.levels.citadel||0)<Math.max(2,Math.ceil(level/2)+1)};
 }
 
-function evaluateTrainingRequirements(state, troop) {
+function evaluateTrainingRequirements(state, troop,siteId=null) {
+  const level=id=>id==='barracks'&&siteId?(trainingSites(state).find(s=>s.id===siteId)?.level||0):highestBuildingLevel(state,id);
   const unmet = [];
   const unknown = [];
   let simulatedBridge=false;
   const buildings = troop.trainingRequirements?.buildings || [];
   const technologies = troop.trainingRequirements?.technologies || [];
   if (!troop.trainingRequirements) {
-    const barracksLevel = Number(state.levels.barracks) || 0;
+    const barracksLevel = level('barracks');
     if (barracksLevel < 1) unmet.push('Thần Binh Doanh cấp 1');
     const citadelLevel = Number(state.levels.citadel) || 0;
     if (citadelLevel < troop.unlockCity) unmet.push(`Tử Vi Thành cấp ${troop.unlockCity} · SIMULATED`);
@@ -539,7 +603,7 @@ function evaluateTrainingRequirements(state, troop) {
       unknown.push(`${requirement.sourceName} cấp ${requirement.level} · UNKNOWN`);
       continue;
     }
-    if ((Number(state.levels[building.id]) || 0) < requirement.level) {
+    if (level(building.id) < requirement.level) {
       unmet.push(`${building.name} cấp ${requirement.level}`);
     }
   }
@@ -554,13 +618,13 @@ function evaluateTrainingRequirements(state, troop) {
     }
   }
   if (!buildings.some(row => row.runtimeBuildingId === 'barracks')
-      && (Number(state.levels.barracks) || 0) < 1) {
+      && (level('barracks')) < 1) {
     unmet.push('Thần Binh Doanh cấp 1 · SIMULATED');
   }
   for (const requirement of troop.trainingRequirements.unknown || []) {
     const alias={WorkShop:'workshop',Workshop:'workshop'}[requirement.sourceName];
     const building=alias&&BUILDINGS.find(row=>row.id===alias);
-    if(building){simulatedBridge=true;if((Number(state.levels[building.id])||0)<requirement.level)unmet.push(`${building.name} cấp ${requirement.level} · SIMULATED_CROSS_VERSION_BRIDGE`);}
+    if(building){simulatedBridge=true;if(level(building.id)<requirement.level)unmet.push(`${building.name} cấp ${requirement.level} · SIMULATED_CROSS_VERSION_BRIDGE`);}
     else unknown.push(`${requirement.sourceName} cấp ${requirement.level} · UNKNOWN`);
   }
   return {
@@ -571,11 +635,11 @@ function evaluateTrainingRequirements(state, troop) {
   };
 }
 
-export function quoteTraining(state, troopId, count = 1) {
+export function quoteTraining(state, troopId, count = 1,siteId=null) {
   const t = TROOPS.find(x => x.id === troopId);
   if (!t) return null;
   count = clamp(Math.floor(Number(count) || 1), 1, 500);
-  const requirements = evaluateTrainingRequirements(state, t);
+  const requirements = evaluateTrainingRequirements(state, t,siteId);
   return { count, cost: Object.fromEntries(Object.entries(t.cost).map(([key, value]) => [key, value * count])),
     seconds: Math.max(4, t.trainSeconds * count), timeEvidence:t.trainTimeEvidence||'SIMULATED',
     costEvidence:t.trainingCostEvidence||'SIMULATED',
@@ -603,7 +667,7 @@ function evaluateResearchRequirements(state, requirementText='') {
       continue;
     }
     const building=BUILDINGS.find(row=>row.name===name);
-    if(building&&(!['government','housing','hostel','workshop','skirmisher','stable'].includes(building.id)||state.settings?.combatV13)){if((state.levels[building.id]||0)<requiredLevel)unmet.push(requirement);continue;}
+    if(building&&(!['government','housing','hostel','workshop','skirmisher','stable'].includes(building.id)||state.settings?.combatV13)){if(highestBuildingLevel(state,building.id)<requiredLevel)unmet.push(requirement);continue;}
     const technology=TECHNOLOGIES.find(row=>row.name===name);
     if(technology){if((state.technologies[technology.id]||0)<requiredLevel)unmet.push(requirement);continue;}
     unknown.push(requirement);
@@ -800,11 +864,13 @@ function completeQueue(state, key, now) {
       const city=state.cities.find(row=>row.id===q.cityId&&!row.isCapital);
       if(city){city.level=Math.min(10,q.level);state.stats.upgrades++;note(state,`${city.name} đã hoàn thành nâng cấp thành phụ cấp ${city.level}.`);}
     }else if(q.plotId){
-      const b=BUILDINGS.find(b=>b.id===q.buildingId),p=state.cityPlots[q.plotId];
-      if(b&&cityPlotUnlocked(state,q.plotId)&&(!p||p.buildingId===b.id)&&q.level===(p?.level||0)+1&&q.level<=b.maxLevel){
-        state.cityPlots[q.plotId]={buildingId:b.id,level:q.level};state.stats.upgrades++;note(state,b.name+' · ô '+q.plotId.toUpperCase()+' đã hoàn thành cấp '+q.level+'.');
+      const b=BUILDINGS.find(b=>b.id===q.buildingId),p=cityPlotRecord(state,q.plotId),quote=quoteCityPlot(state,q.plotId,q.buildingId);
+      if(b&&quote&&!quote.landLocked&&!quote.uniqueLocked&&q.level===(p?.level||0)+1&&q.level<=b.maxLevel){
+        if(quote.primary){state.levels[b.id]=q.level;state.cityPrimarySites[b.id]=q.plotId;}else state.cityPlots[q.plotId]={buildingId:b.id,level:q.level};
+        state.stats.upgrades++;note(state,b.name+' · ô '+q.plotId.toUpperCase()+' đã hoàn thành cấp '+q.level+'.');
       }
     }else{
+      if(q.primarySite)state.cityPrimarySites[q.buildingId]=q.primarySite;
       state.levels[q.buildingId] = Math.min(30, (state.levels[q.buildingId] || 0) + 1);
       state.stats.upgrades++;
       note(state, `${BUILDINGS.find(b => b.id === q.buildingId)?.name || 'Công trình'} đã hoàn thành cấp ${state.levels[q.buildingId]}.`);
@@ -1169,6 +1235,8 @@ export function advance(state, now = Date.now()) {
   next.lastTickAt = now;
   completeQueue(next, 'construction', now);
   completeQueue(next, 'training', now);
+  for(const [id,q] of Object.entries(next.queues.extraTraining||{}))if(q.finishAt<=now){delete next.queues.extraTraining[id];next.army[q.troopId]=(next.army[q.troopId]||0)+q.count;next.stats.troopsTrained+=q.count;note(next,'Binh doanh '+id.toUpperCase()+' hoàn thành '+q.count+' quân.');}
+  if(next.queues.extraTraining&&!Object.keys(next.queues.extraTraining).length)delete next.queues.extraTraining;
   completeQueue(next, 'research', now);
   completeQueue(next, 'march', now);
   if(next.settings.combatV13&&!next.queues.march)Object.assign(next,combat().recover(next,now));
@@ -1210,6 +1278,18 @@ export function doAction(state, action, now = Date.now()) {
       note(s,`Chính sách thuế đổi sang ${TAX_POLICIES[s.taxPolicy].label}.`);
       break;
     }
+    case 'demolishPlot': {
+      const id=String(action.plotId||''),p=cityPlotRecord(s,id);
+      if(!p||!canDemolishPlot(s,id))throw Error('Không thể phá dỡ: ô trống hoặc đang có mệnh lệnh.');
+      if(p.primary){
+        delete s.cityPrimarySites[p.buildingId];
+        const promoted=Object.entries(s.cityPlots).filter(([,x])=>x.buildingId===p.buildingId).sort((a,b)=>b[1].level-a[1].level)[0];
+        if(promoted){const [site,row]=promoted;s.levels[p.buildingId]=row.level;s.cityPrimarySites[p.buildingId]=site;delete s.cityPlots[site];}
+        else s.levels[p.buildingId]=0;
+      }else delete s.cityPlots[id];
+      note(s,'Đã phá dỡ công trình tại ô '+id.toUpperCase()+'. Không hoàn trả tài nguyên.');
+      break;
+    }
     case 'upgradePlot':
     case 'upgrade': {
       if (s.queues.construction) throw new Error('Hàng đợi xây dựng đang bận.');
@@ -1218,7 +1298,8 @@ export function doAction(state, action, now = Date.now()) {
       const plotId=action.type==='upgradePlot'?String(action.plotId||''):null;
       const quote=plotId?quoteCityPlot(s,plotId,b.id):action.type==='upgradePlot'?null:quoteBuilding(s,b.id);
       if(!quote)throw Error('Loại công trình không phù hợp với ô đất.');
-      if(quote.landLocked)throw Error('Ô đất chưa mở; hãy nâng cấp Tử Vi Thành.');
+      if(quote.uniqueLocked)throw Error('Mỗi thành chỉ có một công trình loại này.');
+      if(quote.landLocked)throw Error('Không còn đất trống hoặc ô đất chưa mở; hãy nâng cấp thành hoặc phá dỡ.');
       const nextLevel=quote.level;
       if (quote.maxed) throw new Error('Công trình đã đạt cấp tối đa.');
       if(quote.requirementStatus==='LOCKED')throw new Error(`Chưa đạt điều kiện Mobile: ${quote.unmetRequirements.join(', ')}.`);
@@ -1229,7 +1310,7 @@ export function doAction(state, action, now = Date.now()) {
       const blueprintNeed=Number(quote.requirementText.match(/Bản Vẽ Xây Dựng\s*[×x]\s*(\d+)/i)?.[1]||0),blueprint=ITEMS.find(item=>item.mobileSourceId==='4906');
       if(blueprintNeed&&blueprint)for(let i=0;i<blueprintNeed;i++)s.items.splice(s.items.indexOf(blueprint.id),1);
       const techSpeed = 1 + (s.technologies['tech-08'] || 0) * technologyRate('tech-08',0.025);
-      s.queues.construction = { buildingId: b.id, ...(plotId?{plotId}:{}), level: nextLevel, cost, startAt: now, finishAt: now + b.seconds * Math.pow(nextLevel, 1.2) * 1000 / techSpeed };
+      s.queues.construction = { buildingId: b.id, ...(plotId?{plotId,primary:quote.primary}:nextLevel===1&&b.id!=='citadel'&&b.id!=='wall'?{primarySite:cityPrimarySite(s,b.id)}:{}), level: nextLevel, cost, startAt: now, finishAt: now + b.seconds * Math.pow(nextLevel, 1.2) * 1000 / techSpeed };
       note(s, `Thợ xây bắt đầu nâng ${b.name} lên cấp ${nextLevel}.`);
       break;
     }
@@ -1247,20 +1328,23 @@ export function doAction(state, action, now = Date.now()) {
       break;
     }
     case 'train': {
-      if (s.queues.training) throw new Error('Doanh trại đang huấn luyện một đạo quân.');
       const t = TROOPS.find(x => x.id === action.troopId);
       const count = clamp(Math.floor(Number(action.count) || 1), 1, 500);
       if (!t) throw new Error('Không tìm thấy binh chủng.');
       if (!t.mobileSourceId) throw new Error('Chỉ hồ sơ binh chủng Mobile có nguồn mới được huấn luyện mới.');
-      const quote = quoteTraining(s, t.id, count);
+      const requested=action.barracksId||null,sites=trainingSites(s),eligible=sites.filter(b=>!trainingQueue(s,b.id)&&!quoteTraining(s,t.id,count,b.id).locked);
+      const site=requested?sites.find(b=>b.id===requested):eligible[0]||sites.find(b=>!trainingQueue(s,b.id));
+      if(!site||trainingQueue(s,site.id))throw Error('Doanh trại đang huấn luyện một đạo quân hoặc chưa có binh doanh.');
+      const quote = quoteTraining(s, t.id, count,site.id);
       if (quote.locked) {
         throw new Error(`Chưa đủ điều kiện huấn luyện: ${quote.unmetRequirements.join(', ')}.`);
       }
       const cost = quote.cost;
       if (s.settings.combatV13 && cityEffects(s, now).blockTraining) throw new Error('Đang bị cấm luyện quân.');
       debit(s, cost);
-      const speed = 1 + (s.technologies['tech-09'] || 0) * technologyRate('tech-09',0.02) + ((s.levels.training || 0)+extraBuildingLevels(s,'training')) * 0.025 + ((s.levels.barracks || 0)+extraBuildingLevels(s,'barracks')) * 0.008;
-      s.queues.training = { troopId: t.id, count, cost, startAt: now, finishAt: now + Math.max(4000, quote.seconds * 1000 / speed) };
+      const speed = 1 + (s.technologies['tech-09'] || 0) * technologyRate('tech-09',0.02) + ((s.levels.training || 0)+extraBuildingLevels(s,'training')) * 0.025 + site.level * 0.008 + extraBuildingLevels(s,'workshop')*.015;
+      const job = { troopId: t.id, count, cost, startAt: now, finishAt: now + Math.max(4000, quote.seconds * 1000 / speed) };
+      if(site.id==='primary')s.queues.training=job;else (s.queues.extraTraining??={})[site.id]=job;
       note(s, `Bắt đầu huấn luyện ${count} ${t.name}.`);
       break;
     }
