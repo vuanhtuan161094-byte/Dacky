@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { activeQuest, advance, armyPower, createNewGame as createProductionGame, doAction, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteBuilding, quoteResearch, quoteScouting, quoteTraining, SAVE_VERSION, storageCapacity, unlockedChapter } from '../src/engine.js';
+import { activeQuest, advance, armyPower, createNewGame as createProductionGame, doAction, foodUpkeepPerHour, heroBaseRating, heroPower, marchTroopCapacity, migrateSave, productionPerHour, questProgress, quoteArtifactPurchase, quoteBuilding, quoteGearEnhancement, quoteGearGemSocket, quoteItemSale, quoteResearch, quoteScouting, quoteTraining, SAVE_VERSION, storageCapacity, unlockedChapter, MOBILE_UPKEEP_RUNTIME_SCALE } from '../src/engine.js';
 import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS, QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES } from '../src/catalog.js';
 import { LEGACY_TROOP_REQUIREMENT_SOURCE } from '../src/legacy-troop-requirement-catalog.js';
 
@@ -11,6 +11,15 @@ function createNewGame(...args) {
   Object.assign(state.levels, {government:0, housing:0, hostel:0});
   return state;
 }
+
+test('fresh save initializes the same normalized gameplay state as a reloaded save',()=>{
+  const state=createProductionGame('Mở đầu',1_800_000_000_000);
+  assert.equal(state.gameplay.official,0);
+  assert.deepEqual(state.gameplay.questClaims,[]);
+  assert.deepEqual(state.gameplay.actions,{});
+  assert.equal(state.gameplay.taxRate,20);
+  assert.ok(!JSON.stringify(state.gameplay).includes('undefined'));
+});
 
 test('simulated Fengshen Tower cap is independent of legacy elfland floor count', () => {
   assert.equal(TOWER_FLOORS,9999);
@@ -34,6 +43,30 @@ test('new save has a bounded, offline-first settlement', () => {
   assert.ok(result.state.resources.food<=storageCapacity(result.state));
   assert.ok(productionPerHour(result.state).food>0);
   assert.equal(state.taxPolicy,'balanced');
+});
+
+test('sourced Mobile upkeep keeps raw Lương provenance and uses the documented simulated runtime conversion',()=>{
+  const state=createNewGame('Lương quân',1_800_000_000_000),troop=TROOPS.find(row=>row.mobileSourceId);
+  state.army={[troop.id]:100};
+  assert.equal(troop.fieldEvidence.mobileUpkeep,'VERIFIED_MOBILE');
+  assert.ok(Math.abs(foodUpkeepPerHour(state)-100*troop.mobileUpkeep*MOBILE_UPKEEP_RUNTIME_SCALE/24)<1e-9);
+  assert.equal(MOBILE_UPKEEP_RUNTIME_SCALE,0.25);
+});
+
+test('source Mobile artifact acquisition uses a simulated price and the bought artifact casts in manual army combat',()=>{
+  const now=1_800_000_000_000;let state=createNewGame('Thương hội',now);state.settings.combatV13=true;
+  state.resources.gold=2000;
+  const quote=quoteArtifactPurchase(state,'item-1749');
+  assert.equal(quote.evidence,'SIMULATED_SOURCE_ARTIFACT_MARKET_PRICE');assert.equal(quote.available,true);
+  state=doAction(state,{type:'buyArtifact',itemId:'item-1749'},now+1);
+  state=doAction(state,{type:'equip',heroId:'hero-01',itemId:'item-1749'},now+2);
+  const troopId=Object.keys(state.army)[0];
+  state=doAction(state,{type:'march',nodeId:'node-001',troops:{[troopId]:18},combatMode:'manual'},now+3);
+  state=advance(state,state.queues.march.finishAt+1).state;
+  state=doAction(state,{type:'battleCommand',round:1,stance:'assault',artifactId:'5045'},state.lastTickAt+1);
+  state=doAction(state,{type:'battleAuto'},state.lastTickAt+2);
+  assert.ok(state.reports[0].rounds.some(round=>round.events.some(event=>event.type==='artifactCast'&&event.artifactId==='5045'&&event.evidence==='VERIFIED_MOBILE')));
+  assert.equal(state.combatReceipts.length,1);
 });
 
 test('Mobile building prerequisites enforce mapped rules and surface unresolved rules', () => {
@@ -72,6 +105,21 @@ test('prerequisite bridge keeps sourced government cap visible and opens Mobile 
   assert.equal(finished.levels.government,2);
   finished.levels.academy=2;
   assert.equal(quoteResearch(finished,'tech-01').requirementSatisfied,true);
+});
+
+test('dependency bridge reaches the rank required by every Mobile Phủ quan technology row', () => {
+  const now=1_800_000_000_000,state=createProductionGame('Triều Ca',now);
+  state.levels.government=2;state.levels.academy=3;state.technologies['tech-05']=2;
+  const locked=quoteResearch(state,'tech-05');
+  assert.equal(locked.requirementStatus,'LOCKED');
+  assert.deepEqual(locked.unmetRequirements,['Phủ quan 3']);
+  const government=quoteBuilding(state,'government');
+  assert.equal(government.level,3);
+  assert.equal(government.maxLevelEvidence,'SIMULATED_PREREQUISITE_BRIDGE');
+  state.levels.government=3;
+  assert.equal(quoteResearch(state,'tech-05').requirementSatisfied,true);
+  state.technologies['tech-08']=2;
+  assert.equal(quoteResearch(state,'tech-08').requirementSatisfied,true);
 });
 
 test('legacy base troop training times fill only shared Mobile IDs with provenance', () => {
@@ -126,8 +174,10 @@ test('verified legacy troop costs and mapped prerequisites drive Mobile training
   partial.levels.barracks=10;
   partial.technologies['tech-09']=5;
   const partialQuote=quoteTraining(partial,workshopUnit.id,1);
-  assert.equal(partialQuote.locked,false,'an unmapped source building stays permissive rather than invented');
-  assert.ok(partialQuote.unknownRequirements.some(value=>value.startsWith('WorkShop cấp 1')));
+  assert.equal(partialQuote.locked,true,'legacy WorkShop maps to the Mobile Xưởng chế tạo gate');
+  assert.ok(partialQuote.unmetRequirements.some(value=>value.startsWith('Xưởng chế tạo cấp 1')));
+  partial.levels.workshop=1;
+  assert.equal(quoteTraining(partial,workshopUnit.id,1).locked,false,'the cross-version building alias opens the source troop route');
   assert.equal(workshopUnit.trainingCostEvidence,'VERIFIED_LEGACY');
 
   const unavailable=TROOPS.find(troop=>troop.mobileSourceId==='1040');
@@ -823,16 +873,19 @@ test('final boss is gated and a first victory records the campaign ending', () =
 
 
 test('mixed source and simulated catalogs expose the requested runtime coverage', () => {
-  for(const [rows,count] of [[HEROES,540],[ITEMS,4040],[QUESTS,1158],[IMMORTAL_MOUNTAINS,624]]){
+  for(const [rows,count] of [[HEROES,540],[QUESTS,1158],[IMMORTAL_MOUNTAINS,624]]){
     assert.equal(rows.length,count);
     assert.equal(new Set(rows.map(row=>row.id)).size,count);
   }
+  assert.equal(ITEMS.length,4040+ITEMS.filter(row=>row.legacySourceId).length);
+  assert.equal(new Set(ITEMS.map(row=>row.id)).size,ITEMS.length);
   const sourcedHeroes=HEROES.filter(row=>row.mobileSourceId);
   assert.equal(sourcedHeroes.length,482);
   assert.equal(HEROES.filter(row=>row.evidence==='SIMULATED').length,58);
   assert.ok(sourcedHeroes.every(row=>row.evidence==='MIXED'&&row.fieldEvidence.mobileImage==='VERIFIED_MOBILE'));
   assert.equal(ITEMS.filter(row=>row.mobileSourceId).length,2036);
   assert.ok(ITEMS.filter(row=>!row.mobileSourceId).every(row=>row.evidence==='SIMULATED'));
+  assert.ok(ITEMS.filter(row=>row.simulationKey==='SIMULATED_LEGACY_QUEST_GOOD').every(row=>row.sourceFieldStatus==='SIMULATED'&&row.legacySourceRecords?.length));
   assert.ok(QUESTS.every(row=>row.evidence==='SIMULATED'));
   assert.ok(IMMORTAL_MOUNTAINS.every(row=>row.evidence==='MIXED'
     && row.fieldEvidence.name==='VERIFIED_LEGACY'
@@ -907,4 +960,31 @@ test('NPC consumable merchant enforces inventory and affordability limits', () =
   state.items=Array(500).fill('item-13');
   assert.throws(()=>doAction(state,{type:'buyItem',itemId:'item-0022'},now+1),/Túi đồ đã đầy/);
   assert.throws(()=>doAction(createNewGame('Triều Ca',now),{type:'buyItem',itemId:'item-01'},now+1),/không bán vật phẩm/);
+});
+
+test('reference goods have a real buyback sink and legacy quest tokens stay reserved',()=>{
+  const now=1_800_000_000_000;let state=createProductionGame('Tây Kỳ',now);state.items.push('item-0022');
+  const quote=quoteItemSale(state,'item-0022');assert.ok(quote?.gold>0);const before=state.resources.gold;
+  state=doAction(state,{type:'sellItem',itemId:'item-0022'},now+1);assert.equal(state.items.includes('item-0022'),false);assert.ok(Math.abs(state.resources.gold-(before+quote.gold))<0.01);
+  const reserved=ITEMS.find(item=>item.legacySourceId);assert.ok(reserved);assert.equal(quoteItemSale(state,reserved.id),null);
+  state.items.push('mobile-good-4703');assert.equal(quoteItemSale(state,'mobile-good-4703'),null);
+  const spentQuestGoods=ITEMS.find(item=>item.mobileGroup==='Nhiệm vụ'&&item.mobileSourceId==='6036');assert.ok(spentQuestGoods);state.items.push(spentQuestGoods.id);assert.ok(quoteItemSale(state,spentQuestGoods.id));
+  state.gameplay.questVouchers=2000;const jade=state.resources.jade;state=doAction(state,{type:'redeemQuestVouchers',count:1},now+2);
+  assert.equal(state.gameplay.questVouchers,1000);assert.ok(Math.abs(state.resources.jade-(jade+1))<0.01);
+});
+
+test('Mobile Bảo rương without a source drop table grants a deterministic local resource pack',()=>{
+  const now=1_800_000_000_000;let state=createProductionGame('Tây Kỳ',now);
+  const chest=ITEMS.find(item=>item.mobileSourceId&&item.mobileGroup==='Bảo rương'&&!item.mobileOpening?.rewards?.length);assert.ok(chest);
+  state.items.push(chest.id);const before={...state.resources};state=doAction(state,{type:'useItem',itemId:chest.id},now+1);
+  assert.equal(state.items.includes(chest.id),false);assert.ok(state.resources.food>before.food);assert.ok(state.resources.gold>before.gold);assert.ok(state.notifications.some(row=>row.includes('SIMULATED')));
+});
+
+test('gear enhancement and gem sockets consume resources/items and change combat rating',()=>{
+  const now=1_800_000_000_000;let state=createProductionGame('Tây Kỳ',now);const hero=state.heroes[0],gear=ITEMS.find(item=>item.mobileSourceId&&item.type==='vũ khí'),gem=ITEMS.find(item=>item.mobileGroup==='Châu báu');
+  assert.ok(gear&&gem);hero.equipment.weapon=gear.id;hero.gearEnhancements={};state.levels.foundry=1;state.resources={...state.resources,gold:100000,iron:100000,stone:100000};state.items.push(gem.id);
+  const before=heroPower(hero,state);assert.ok(quoteGearEnhancement(state,hero.id,gear.id)?.available);state=doAction(state,{type:'enhanceGear',heroId:hero.id,itemId:gear.id},now+1);
+  assert.equal(state.heroes[0].gearEnhancements[gear.id].rank,1);assert.ok(heroPower(state.heroes[0],state)>before);
+  assert.ok(quoteGearGemSocket(state,hero.id,gear.id,gem.id)?.available);state=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now+2);
+  assert.deepEqual(state.heroes[0].gearEnhancements[gear.id].gems,[gem.id]);assert.equal(state.items.includes(gem.id),false);assert.ok(heroPower(state.heroes[0],state)>before);
 });

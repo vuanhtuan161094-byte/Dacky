@@ -130,7 +130,7 @@ document.body.addEventListener('click', async event => {
   switch(action) {
     case 'catalogPage': {
       const key=button.dataset.pageKey;
-      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage','legacyGameplayPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
+      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage','legacyGameplayPage','artifactPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
       return;
     }
     case 'selectNode':
@@ -140,14 +140,19 @@ document.body.addEventListener('click', async event => {
     case 'upgrade': return perform('upgrade',{buildingId:button.dataset.building});
     case 'upgradeCity': return perform('upgradeCity',{cityId:button.dataset.city});
     case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
+    case 'redeemQuestVouchers': return perform('redeemQuestVouchers',{count:button.dataset.count||1});
     case 'train': return perform('train',{troopId:document.querySelector('#train-unit')?.value||button.dataset.troop,count:document.querySelector('#train-count')?.value||button.dataset.count});
     case 'trainHero': return perform('trainHero',{heroId:button.dataset.hero});
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
     case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero});
     case 'useItem': return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index)});
-    case 'buyItem': return perform('buyItem',{itemId:button.dataset.item});
+    case 'buyItem': return perform('buyItem',{itemId:button.dataset.item,count:button.dataset.count||document.querySelector(`[data-buy-count="${button.dataset.item}"]`)?.value||1});
+    case 'buyArtifact': return perform('buyArtifact',{itemId:button.dataset.item});
     case 'forge': return perform('forge',{itemId:button.dataset.item});
+    case 'enhanceGear': return perform('enhanceGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
+    case 'socketGearGem': return perform('socketGearGem',{heroId:button.dataset.hero,itemId:button.dataset.item,gemId:button.dataset.gem});
+    case 'sellItem': return perform('sellItem',{itemId:button.dataset.item});
     case 'research': return perform('research',{techId:button.dataset.tech});
     case 'scout': return perform('scout',{nodeId:button.dataset.node||uiState.nodeId});
     case 'dailyReward': case 'fieldEvent': case 'refreshRecruitment': return perform(action, {});
@@ -182,7 +187,7 @@ document.body.addEventListener('click', async event => {
     case 'setTaxRate':return perform(action,{rate:document.querySelector('#tax-rate')?.value});
     case 'setLaborRate':return perform(action,{rate:document.querySelector('#labor-rate')?.value});
     case 'guildDonate':return perform(action,{amount:document.querySelector('#guild-donate')?.value});
-    case 'bless':case 'sacrifice':case 'settlePopulation':case 'officialPromote':return perform(action,{});
+    case 'bless':case 'sacrifice':case 'settlePopulation':case 'officialPromote':case 'worldChat':case 'disciplineLabor':case 'relieveLabor':case 'collectLaborTaxes':case 'leaveMountain':return perform(action,{});
     case 'strategicCast':return perform(action,{heroId:document.querySelector('#spell-hero')?.value,spellId:Number(document.querySelector('#spell-id')?.value),nodeId:document.querySelector('#spell-target')?.value});
     case 'claimQuest': {
       await perform('claimQuest',{questId:button.dataset.quest});

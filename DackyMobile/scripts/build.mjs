@@ -1,12 +1,13 @@
-import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const { exportDatabase } = await import('./export-database.mjs');
 await exportDatabase();
-const dist = path.join(root, 'dist');
-await rm(dist, { recursive: true, force: true });
+const dist = process.env.DACKY_BUILD_OUT
+  ? path.resolve(root, process.env.DACKY_BUILD_OUT)
+  : path.join(root, 'dist');
 await mkdir(dist, { recursive: true });
 for (const name of ['index.html','styles.css','manifest.webmanifest','sw.js','src','assets','docs']) {
   await cp(path.join(root, name), path.join(dist, name), { recursive: true });

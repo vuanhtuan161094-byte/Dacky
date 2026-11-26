@@ -105,4 +105,7 @@ jobs:
           name: dacky-browser-evidence-${{ github.sha }}
           if-no-files-found: error
           retention-days: 14
-          path: DackyMobile/qa/one-game/
+          path: |
+            DackyMobile/qa/one-game/
+            DackyMobile/qa/screenshots-p41-p50-final/
+            DackyMobile/qa/screenshots-p41-p50-final-offline/

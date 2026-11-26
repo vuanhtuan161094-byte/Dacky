@@ -66,12 +66,39 @@ const oldBuildings = adaptSourceFacts('buildings', buildingRows.map(([id,name,zo
     mobileImage: '', mobileLevelCosts: [], sourceFieldStatus: 'UNKNOWN'
 })));
 const additionalBuildings={'13':['government','administration'],'15':['housing','population'],'17':['hostel','recruitment'],'22':['workshop','siege'],'24':['skirmisher','scout'],'26':['stable','cavalry']};
+// Mobile research rows can require a building rank beyond that building's
+// published cap. Preserve the source cap, but derive the smallest explicit
+// runtime bridge needed to keep the full source research tree reachable.
+function researchBuildingRequirementCaps(){
+  const sourceBuildings=MOBILE_SOURCE_DATABASE.categories?.['cong-trinh']||[];
+  const names=new Map(sourceBuildings.map(row=>[String(row.name||'').trim(),String(row.id)]));
+  const caps=new Map();
+  for(const tech of MOBILE_SOURCE_DATABASE.categories?.['khoa-ky']||[]){
+    const table=tech.details?.find(row=>row.k==='bang');
+    for(const row of table?.dong||[]){
+      const raw=String(row[2]||'');
+      for(const term of raw.split(/\s*[·,]\s*/)){
+        const match=term.trim().match(/^(.+?)\s+(\d+)$/);if(!match)continue;
+        const sourceId=names.get(match[1].trim());if(!sourceId)continue;
+        caps.set(sourceId,Math.max(caps.get(sourceId)||0,Number(match[2])));
+      }
+    }
+  }
+  return caps;
+}
+const researchBuildingCaps=researchBuildingRequirementCaps();
 const extraBuildings=MOBILE_SOURCE_DATABASE.categories['cong-trinh'].filter(r=>additionalBuildings[r.id]).map(r=>{
   const [id,effect]=additionalBuildings[r.id],block=r.details.find(x=>x.k==='bang'),info=r.details.find(x=>x.k==='cs');
   const levels=(block?.dong??[]).map(v=>({level:Number(v[0]),requirement:String(v[1]??''),cost:{food:Number(v[2])||0,timber:Number(v[3])||0,stone:Number(v[4])||0,iron:Number(v[5])||0,gold:Number(v[6])||0}}));
   const sourceMaxLevel=Number(info?.ds?.find(x=>x[0]==='Cấp tối đa')?.[1])||30;
-  const prerequisiteBridge=id==='government'&&sourceMaxLevel<2;
-  return {id,name:r.name,zone:'nội thành',glyph:'城',effect,index:oldBuildings.length+Object.keys(additionalBuildings).indexOf(r.id),baseCost:levels[0]?.cost??{},seconds:20,maxLevel:prerequisiteBridge?2:sourceMaxLevel,sourceMaxLevel,runtimeMaxEvidence:prerequisiteBridge?'SIMULATED_PREREQUISITE_BRIDGE':undefined,simulatedLevelCosts:prerequisiteBridge?[{level:2,requirement:'—',cost:{food:300,timber:180,stone:120,iron:60,gold:150}}]:[],evidence:'MIXED',mobileSourceId:r.id,mobileZone:'Nội thành',mobileDescription:r.description,mobileImage:r.image?'./assets/mobile-source/'+r.image.replace(/^https?:\/\/[^/]+\//,''):'',mobileLevelCosts:levels,sourceFieldStatus:'VERIFIED_MOBILE',fieldEvidence:{mobileLevelCosts:'VERIFIED_MOBILE'},fieldProvenance:r.fieldProvenance};
+  const runtimeMaxLevel=Math.max(sourceMaxLevel,researchBuildingCaps.get(String(r.id))||0);
+  const prerequisiteBridge=runtimeMaxLevel>sourceMaxLevel;
+  const bridgeBase={food:300,timber:180,stone:120,iron:60,gold:150};
+  const simulatedLevelCosts=Array.from({length:runtimeMaxLevel-sourceMaxLevel},(_,i)=>{
+    const level=sourceMaxLevel+i+1,scale=Math.pow(Math.max(1,level-sourceMaxLevel),1.25);
+    return {level,requirement:'—',cost:Object.fromEntries(Object.entries(bridgeBase).map(([key,value])=>[key,Math.ceil(value*scale)]))};
+  });
+  return {id,name:r.name,zone:'nội thành',glyph:'城',effect,index:oldBuildings.length+Object.keys(additionalBuildings).indexOf(r.id),baseCost:levels[0]?.cost??{},seconds:20,maxLevel:runtimeMaxLevel,sourceMaxLevel,runtimeMaxEvidence:prerequisiteBridge?'SIMULATED_PREREQUISITE_BRIDGE':undefined,simulatedLevelCosts,evidence:'MIXED',mobileSourceId:r.id,mobileZone:'Nội thành',mobileDescription:r.description,mobileImage:r.image?'./assets/mobile-source/'+r.image.replace(/^https?:\/\/[^/]+\//,''):'',mobileLevelCosts:levels,sourceFieldStatus:'VERIFIED_MOBILE',fieldEvidence:{mobileLevelCosts:'VERIFIED_MOBILE'},fieldProvenance:r.fieldProvenance};
 });
 export const BUILDINGS=Object.freeze([...oldBuildings,...extraBuildings]);
 
@@ -217,9 +244,25 @@ const adaptedItemRows = adaptSourceFacts('items', [
   }),
   ...mobileGoods
 ]);
-export const ITEMS = Object.freeze(adaptedItemRows.map(item => item.mobileSourceId
-  ? { ...item, bonus: 0, bonusEvidence: 'SIMULATED' }
-  : item));
+const legacyQuestGoods=new Map();
+for(const quest of LEGACY_QUESTS)for(const condition of quest.conditions||[]){
+  const data=condition.data||[];
+  if(![1,2].includes(condition.typeCode)||data[1]!==5||data[2]!==0||!(Number(data[3])>0))continue;
+  const sourceId=String(data[3]);
+  if(MOBILE_SOURCE_DATABASE.categories['vat-pham'].some(row=>String(row.id)===sourceId))continue;
+  const row=legacyQuestGoods.get(sourceId)||{sourceId,sourceRecordIds:[],suggestedCount:1};
+  row.sourceRecordIds.push(String(condition.sourceId));row.suggestedCount=Math.max(row.suggestedCount,Number(data[4])||1);legacyQuestGoods.set(sourceId,row);
+}
+const simulatedQuestGoods=[...legacyQuestGoods.values()].map(row=>({
+  id:`legacy-quest-good-${row.sourceId}`,name:`Tín vật nhiệm vụ #${row.sourceId}`,type:'vật phẩm',glyph:'信',tier:1,bonus:0,
+  effect:'Vật phẩm yêu cầu bởi nhiệm vụ legacy · dữ liệu Mobile không có',useEffect:null,evidence:'SIMULATED',simulationKey:'SIMULATED_LEGACY_QUEST_GOOD',bonusEvidence:'SIMULATED',
+  mobileSourceId:null,mobileImage:'',mobileGroup:'Nhiệm vụ',mobileQuality:'UNKNOWN',mobileOccupation:'',mobileRequiredLevel:null,mobileStats:[],mobileDescription:'Tạo token runtime từ ID vật phẩm trong điều kiện nhiệm vụ legacy. Tên, hình ảnh, giá và nguồn kiếm chưa được xác minh.',mobileAcquisition:[],
+  mobileAvailableAtMerchant:false,mobileSaleGold:null,legacySourceId:row.sourceId,legacySourceRecords:row.sourceRecordIds,legacySuggestedCount:row.suggestedCount,sourceFieldStatus:'SIMULATED'
+}));
+export const ITEMS = Object.freeze([
+  ...adaptedItemRows.map(item => item.mobileSourceId ? { ...item, bonus: 0, bonusEvidence: 'SIMULATED' } : item),
+  ...simulatedQuestGoods
+]);
 
 const techNames = [
   ['Canh tác thuật','food','SUPPORTED_SOURCE_MAPPING'], ['Đốn mộc thuật','timber','SUPPORTED_SOURCE_MAPPING'],

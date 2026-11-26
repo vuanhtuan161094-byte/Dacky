@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 
 const profile=await mkdtemp(path.join(os.tmpdir(),'dacky-offline-'));
 const fileOnly=process.argv.includes('--file-only');
-const output=path.resolve('qa/screenshots');
+const output=path.resolve(process.env.DACKY_SCREENSHOT_DIR||'qa/screenshots');
 await mkdir(output,{recursive:true});
 const singleFileUrl=process.env.DACKY_SINGLE_FILE_URL||pathToFileURL(path.resolve('dist/offline.html')).href;
 const initialUrl=fileOnly?singleFileUrl:'http://127.0.0.1:4173/';

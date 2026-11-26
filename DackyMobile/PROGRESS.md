@@ -2,6 +2,21 @@
 
 Updated 2026-11-26 · Repository `vuanhtuan161094-byte/Dacky` · branch `integration/dacky-one-game-v1`
 
+## P41–P50 final gameplay checkpoint
+
+Baseline integration HEAD was `368cdf1658266c709282703ea5ec89836eb620de`; no source combat files were rewritten. This section supersedes P31-era status statements below while retaining them as history.
+
+- P41 dependency analysis covers 1,567 progression nodes and 3,958 edges with zero cycles, impossible conditions, or unknown unique references. The 21 Mobile buildings, 570 technology ranks, 25 troops, and the Phủ quan bridge are checked. Runtime shows 21 Mobile buildings plus six explicitly identified support buildings. Fresh saves now initialize gameplay/official state before first render.
+- P43 maps all 1,883 targets across 1,158 quests to linked gameplay or labeled simulation; 480 target interpretations and 53 reward interpretations use simulated behavior. Remaining code meaning is not passed off as source truth.
+- P44 adds guarded item resale, simulated missing-source chest drops, +1…+5 gear enhancement, two gem sockets, set evaluation and Mobile-source artifact NPC purchase. A source artifact was bought, equipped and cast in manual combat. Some of the 594 goods still lack item-specific sinks.
+- P45 activates all 1,093 Tiên Sơn loot rows through 80 floor-rule keys and a deterministic repeat-day adapter. One invalid interval is excluded, five overlaps use the first valid interval, and 179 unjoined legacy goods IDs use labeled simulated resource fallback.
+- P46 proves one fair endgame step: a clean-save specialist run reaches 20,025 ready troops and clears Bất Chu door 1 against its unchanged 38,500 source-count roster by day 180. Door 2–5 remain unproven.
+- P47 retains 620 `PARTIAL_RUNTIME` records and the three undecoded legacy tables as explicit partial/HOLD; their replacement runtime rules are simulated. No source formula is fabricated.
+- P49 four-policy results at day 180: Economy 0 ready troops/14 wins (campaign incomplete); Military 1,580/22 wins (campaign clear by day 90); Immortals 0/17 wins (campaign incomplete); Balanced 6,589 troops in eight types/25 wins (campaign clear by day 180). All four outputs include days 1/7/30/90/180. Economy and Immortals army depletion remains a balance finding.
+- P50 local RC outputs are built: Web/PWA, 67,714,760-byte offline HTML, 53,444,381-byte debug APK and 35,299,492-byte debug AAB. APK v2 signature and AAB ZIP integrity verify. Chromium captured 19 final screenshots and a 141.75-second gameplay video with manual combat, artifact command, rewards, city capture, save/reload and mobile portrait/landscape. PWA relaunch passed with network disabled; offline HTML loaded over local HTTP with zero external requests. Node tests pass 129/129; source parser tests pass 10/10; dependency graph is clean. Matching CI artifact and deploy links are recorded in the final checkpoint handoff. No direct `file://` or physical Android-device launch is claimed; **DEVICE QA HOLD** remains.
+
+See [P41–P50 gameplay ledger](qa/one-game/GAMEPLAY_LEDGER_P41_P50.md), the clean-save [four-policy progression](qa/one-game/progression-p41-p50-v2.json), and [specialist endgame route](qa/one-game/endgame-route-p41-p50-v2.json).
+
 ## P31–P40 ONE GAME checkpoint
 
 Baseline HEAD was `059cdc37f3c1ab8c0969791186beb193b5893d25`; baseline integration CI [45716940099](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45716940099) passed. This checkpoint continues that integrated branch; Production and Combat source branches remain separate. No legacy executable, raw database dump, signing key or DEV resource is used in the gameplay simulations.

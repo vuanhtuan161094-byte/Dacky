@@ -6,7 +6,9 @@ import os from 'node:os';
 const baseUrl = process.env.DACKY_REVIEW_URL || 'http://127.0.0.1:4173/';
 const baseOrigin = new URL(baseUrl).origin;
 const landscapeOnly = process.env.DACKY_LANDSCAPE_ONLY === '1';
-const outDir = path.resolve('qa/screenshots');
+const outDir = path.resolve(process.env.DACKY_SCREENSHOT_DIR || 'qa/screenshots');
+const recordGameplay = process.env.DACKY_RECORD_GAMEPLAY === '1';
+const videoPath = path.resolve(process.env.DACKY_VIDEO_PATH || 'qa/one-game/gameplay-p41-p50.mp4');
 await mkdir(outDir,{recursive:true});
 const profile = await mkdtemp(path.join(os.tmpdir(),'dacky-chromium-'));
 const browser = spawn('/usr/bin/chromium',[
@@ -15,6 +17,10 @@ const browser = spawn('/usr/bin/chromium',[
   '--remote-allow-origins=*','--user-data-dir='+profile,'--window-size=1440,1000',baseUrl
 ],{stdio:'ignore'});
 let socket;
+let recorder;
+let frameCapture;
+let recordingActive=false;
+let recordingStartedAt=0;
 const pending=new Map();
 const errors=[];
 const externalRequests=new Set();
@@ -102,6 +108,13 @@ try {
   await waitFor('document.querySelector("#scene").innerText.includes("Khai mở cơ đồ")');
   check((await evaluate('document.title')).includes('Đắc Kỷ'));
   check((await evaluate('document.querySelector("#scene").innerText')).includes('Khai mở cơ đồ'));
+  if(recordGameplay){
+    recorder=spawn('ffmpeg',['-y','-hide_banner','-loglevel','error','-f','image2pipe','-framerate','4','-vcodec','mjpeg','-i','pipe:0','-vf','scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720','-an','-c:v','libx264','-preset','ultrafast','-crf','24','-pix_fmt','yuv420p','-movflags','+faststart',videoPath],{stdio:['pipe','ignore','pipe']});
+    recordingStartedAt=Date.now();
+    recordingActive=true;
+    frameCapture=(async()=>{while(recordingActive&&recorder?.stdin.writable){const began=Date.now();try{const frame=await cdp('Page.captureScreenshot',{format:'jpeg',quality:68,fromSurface:true});if(!recorder.stdin.write(Buffer.from(frame.data,'base64')))await new Promise(resolve=>recorder.stdin.once('drain',resolve));}catch{break;}await delay(Math.max(15,250-(Date.now()-began)));}})();
+  }
+  const recordingHold=ms=>recordGameplay?delay(ms):Promise.resolve();
   if(landscapeOnly){
     await evaluate('(function(){var i=document.querySelector("#new-city-name");i.value="Tây Kỳ";document.querySelector("form[data-form=new-game]").requestSubmit();return true})()');
     await waitFor('document.querySelector("#page-heading h1")?.innerText==="Thành trì"');
@@ -117,11 +130,11 @@ try {
 
   await evaluate('(function(){var i=document.querySelector("#new-city-name");i.value="Tây Kỳ";document.querySelector("form[data-form=new-game]").requestSubmit();return true})()');
   await waitFor('document.querySelector("#page-heading h1")?.innerText==="Thành trì"');
-  await waitFor('document.querySelectorAll(".building-card").length===21');
+  await waitFor('document.querySelectorAll(".building-card").length===27');
   await waitFor('document.querySelector(".resource-pill")!==null');
   check((await evaluate('document.querySelector(".tutorial-panel")?.innerText')).includes('Mở rộng sản xuất'));
   check(await evaluate('!!document.querySelector(".tutorial-panel [data-action=upgrade][data-building=lumber]")'));
-  console.log('PASS new save and 21 live city buildings.');
+  console.log('PASS new save with 21 Mobile buildings and 6 runtime support buildings.');
 
   const screens=['city','heroes','inventory','army','world','pve','tech','quests','market','reports','settings','library'];
   let index=2;
@@ -150,6 +163,7 @@ try {
     }
     if(view==='library')await waitFor('Array.from(document.querySelectorAll(".source-entry img")).some(x=>x.complete&&x.naturalWidth>0)');
     await shot(String(index++).padStart(2,'0')+'-'+view+'-desktop');
+    await recordingHold(6500);
   }
   console.log('PASS all 12 primary menu screens render with source artwork.');
 
@@ -171,6 +185,24 @@ try {
   console.log('PASS legacy city NPC library exposes all 375 rows and searchable legacy-only references.');
 
   await click('#primary-nav [data-view="market"]');
+  await evaluate('(function(){var f=document.querySelector("form[data-form=trade]");f.querySelector("#trade-from").value="food";f.querySelector("#trade-to").value="gold";f.querySelector("#trade-amount").value="800";f.requestSubmit();return true})()');
+  await waitFor('document.querySelectorAll(".resource-pill")[4]?.innerText.includes("1.233")');
+  await delay(400);
+  await evaluate('(function(){var f=document.querySelector("form[data-form=trade]");f.querySelector("#trade-from").value="stone";f.querySelector("#trade-to").value="gold";f.querySelector("#trade-amount").value="400";f.requestSubmit();return true})()');
+  await waitFor('document.querySelectorAll(".resource-pill")[4]?.innerText.includes("1.417")');
+  await delay(400);
+  await evaluate('(function(){var f=document.querySelector("form[data-form=trade]");f.querySelector("#trade-from").value="iron";f.querySelector("#trade-to").value="gold";f.querySelector("#trade-amount").value="400";f.requestSubmit();return true})()');
+  await waitFor('document.querySelectorAll(".resource-pill")[4]?.innerText.includes("1.636")');
+  await delay(400);
+  for(let page=0;page<16&&!(await evaluate('!!document.querySelector(`[data-action="buyArtifact"][data-item="item-1749"]`)'));page++){
+    const hasNext=await evaluate('!!Array.from(document.querySelectorAll(`[data-page-key="artifactPage"][data-page]`)).find(x=>x.innerText.includes("Tiếp")&&!x.disabled)');
+    if(!hasNext)break;
+    await click('[data-page-key="artifactPage"][data-page]');
+  }
+  check(await evaluate('!!document.querySelector(`[data-action="buyArtifact"][data-item="item-1749"]`)'));
+  await click('[data-action="buyArtifact"][data-item="item-1749"]');
+  await waitFor('!document.querySelector(`[data-action="buyArtifact"][data-item="item-1749"]`)');
+  await delay(400);
   await click('[data-action="setTaxPolicy"][data-policy="heavy"]');
   await waitFor('document.querySelector("[data-action=setTaxPolicy][data-policy=heavy]")?.disabled===true');
   await delay(200);
@@ -203,19 +235,23 @@ try {
   await click('[data-page-key="questPage"][data-page="0"]');
 
   await click('#primary-nav [data-view="pve"]');
-  const buzhouReference=await evaluate('({floorCount:document.querySelectorAll(".buzhou-source-floor").length,formationName:Array.from(document.querySelectorAll(".buzhou-source-floor")).map(x=>x.textContent).join(" ").includes("Mục Kiền Liên"),inactive:document.body.innerText.includes("chưa cộng sát thương hoặc phần thưởng")})');
+  const pveRuntime=await evaluate('({elflandLocations:document.querySelectorAll("#elfland-source-select option").length,buzhouControl:Array.from(document.querySelectorAll("[data-action=pveMarch]")).some(x=>x.dataset.node==="buzhou:1"),elflandBattle:Array.from(document.querySelectorAll("[data-action=pveMarch]")).some(x=>x.dataset.node?.startsWith("elfland:"))})');
+  check(pveRuntime.elflandLocations===624&&pveRuntime.buzhouControl&&pveRuntime.elflandBattle);
+  await click('#primary-nav [data-view="library"]');
+  const buzhouReference=await evaluate('({floorCount:document.querySelectorAll(".buzhou-source-floor").length,formationName:Array.from(document.querySelectorAll(".buzhou-source-floor")).map(x=>x.textContent).join(" ").includes("Mục Kiền Liên"),inactive:document.body.innerText.includes("chưa được xem là xác suất đã xác minh")})');
   check(buzhouReference.floorCount===5&&buzhouReference.formationName&&buzhouReference.inactive);
+  await evaluate('(function(){var s=document.querySelector("#elfland-source-select");s.value="4";s.dispatchEvent(new Event("change",{bubbles:true}));return true})()');
+  await waitFor('document.querySelector("#elfland-source-select")?.value==="4"&&document.querySelectorAll(".elfland-source-floor").length===30');
   const elflandReference=await evaluate('({locations:document.querySelectorAll("#elfland-source-select option").length,selected:document.querySelector("#elfland-source-select")?.value,floors:document.querySelectorAll(".elfland-source-floor").length,sourceRoster:document.querySelector(".elfland-source-floor ul")?.textContent||"",hasElflandPanel:Array.from(document.querySelectorAll(".panel-title")).some(x=>x.innerText.includes("Tiên Sơn · dữ liệu NPC legacy"))})');
   check(elflandReference.locations===624&&elflandReference.selected==="4"&&elflandReference.floors===30);
   check(elflandReference.sourceRoster.includes("ID binh chủng legacy")&&elflandReference.hasElflandPanel);
   await evaluate('(function(){var s=document.querySelector("#elfland-source-select");s.value="5";s.dispatchEvent(new Event("change",{bubbles:true}));return true})()');
   await waitFor('document.querySelector("#elfland-source-select")?.value==="5"&&document.querySelectorAll(".elfland-source-floor").length===15');
   check(await evaluate('document.querySelector("#elfland-source-select")?.closest(".panel")?.querySelector(".panel-body p b")?.innerText==="Linh Thạch Tịnh Đài"'));
-  await click('[data-page-key="mountainPage"][data-page="1"]');
-  await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
-  check((await evaluate('document.querySelectorAll("[data-mode=mountain]").length'))===24);
-  await click('[data-page-key="mountainPage"][data-page="0"]');
-  console.log('PASS paginated hero/shop/quest/Tiên Sơn catalogs; Buzhou source roster remains reference-only; NPC purchase settles.');
+  await evaluate('(function(){var s=document.querySelector("#elfland-source-select");s.value="4";s.dispatchEvent(new Event("change",{bubbles:true}));return true})()');
+  await waitFor('document.querySelector("#elfland-source-select")?.value==="4"&&document.querySelectorAll(".elfland-source-floor").length===30');
+  check(await evaluate('Array.from(document.querySelectorAll(".elfland-source-floor")).some(x=>x.textContent.includes("ID binh chủng legacy"))'));
+  console.log('PASS paginated hero, shop and quest screens; Tiên Sơn and Bất Chu source rosters remain searchable references.');
 
   await click('#primary-nav [data-view="city"]');
   await click('[data-action="upgrade"][data-building="altar"]');
@@ -234,30 +270,51 @@ try {
   await evaluate('(function(){var s=document.querySelector("[data-equip-select=item-01]");if(s)s.value="hero-02";return true})()');
   await click('[data-action="equip"][data-item="item-01"]');
   await waitFor('document.querySelector("#scene").innerText.includes("Bạch Ngọc Kiếm")');
+  await click('#primary-nav [data-view="inventory"]');
+  await evaluate('(function(){var s=document.querySelector("[data-equip-select=item-1749]");if(s)s.value="hero-01";return true})()');
+  await click('[data-action="equip"][data-item="item-1749"]');
+  await waitFor('document.querySelector("#scene").innerText.includes("Phạm Hoang Trần")');
   console.log('PASS recruitment and equipment linked to hero state.');
 
   await click('#primary-nav [data-view="army"]');
-  const troopRecruitment=await evaluate('({options:document.querySelectorAll("#train-unit option").length,legacyTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>/\\d+s VERIFIED_LEGACY · Giá/.test(x.textContent)).length,simulatedTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>/\\d+s SIMULATED · Giá/.test(x.textContent)).length,legacyCosts:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("Giá VERIFIED_LEGACY")).length,partialRequirements:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("PARTIAL_UNKNOWN")).length,unknownWorkshops:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("WorkShop")&&x.textContent.includes("UNKNOWN")).length})');
+  const troopRecruitment=await evaluate('({options:document.querySelectorAll("#train-unit option").length,legacyTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>/\\d+s VERIFIED_LEGACY · Giá/.test(x.textContent)).length,simulatedTimes:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>/\\d+s SIMULATED · Giá/.test(x.textContent)).length,legacyCosts:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("Giá VERIFIED_LEGACY")).length,crossVersionBridges:Array.from(document.querySelectorAll("#train-unit option")).filter(x=>x.textContent.includes("SIMULATED_CROSS_VERSION_BRIDGE")).length})');
   check(troopRecruitment.options===25&&troopRecruitment.legacyTimes===24&&troopRecruitment.simulatedTimes===1);
-  check(troopRecruitment.legacyCosts===16&&troopRecruitment.partialRequirements===14&&troopRecruitment.unknownWorkshops===14);
-  const trainingTroopName=await evaluate('document.querySelector("#train-unit")?.selectedOptions[0]?.textContent.split(" · ")[0]||""');
+  check(troopRecruitment.legacyCosts===16&&troopRecruitment.crossVersionBridges===14);
+  const trainingTroopName=await evaluate('(function(){var s=document.querySelector("#train-unit"),o=Array.from(s.options).find(x=>x.textContent.startsWith("Trường Kích Binh"));if(!o)return "";s.value=o.value;s.dispatchEvent(new Event("change",{bubbles:true}));return o.textContent.split(" · ")[0]})()');
   check(trainingTroopName.length>0);
   await evaluate('(function(){document.querySelector("#train-count").value="1";return true})()');
   await click('[data-action="train"]');
   const trainingQueue=`Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes(${JSON.stringify(trainingTroopName)}))`;
+  await delay(350);
   await waitFor(trainingQueue,5000);
   await waitFor(`!${trainingQueue}`,14000);
   await click('#primary-nav [data-view="world"]');
-  await evaluate('(function(){document.querySelector("#march-count").value="3";return true})()');
+  if(recordGameplay)await evaluate('(function(){var s=document.querySelector("#combat-mode");s.value="manual";s.dispatchEvent(new Event("change",{bubbles:true}));return true})()');
+  await evaluate('(function(){document.querySelector("#march-count").value="18";return true})()');
   await click('[data-action="march"]');
   await waitFor('Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Tây Kì"))',5000);
+  if(recordGameplay){
+    await waitFor('document.querySelector("#battle-artifact")!==null',15000);
+    await shot('16-manual-army-battle');
+    const artifactCommand=await evaluate('(function(){var a=document.querySelector("#battle-artifact");a.value="5045";var t=document.querySelector("#battle-stance");t.value="assault";return a.selectedOptions[0]?.textContent||""})()');
+    check(artifactCommand.includes('Phạm Hoang Trần'));
+    await click('[data-action="battleCommand"]');
+    await waitFor('document.querySelector(".manual-battle-panel .panel-title")?.innerText.includes("Hiệp 2")',5000);
+    await recordingHold(6000);
+    await click('[data-action="battleAuto"]');
+  }
   await waitFor('!Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Tây Kì"))',15000);
   await click('#primary-nav [data-view="reports"]');
   await waitFor('document.querySelector(".report-card")!==null');
+  if(recordGameplay)await shot('17-settled-battle-report');
   check((await evaluate('document.querySelector(".report-card").innerText')).includes('Chiến lợi phẩm'));
+  if(recordGameplay)check((await evaluate('document.querySelector(".report-card").textContent')).includes('Phạm Hoang Trần'));
+  await recordingHold(9000);
   console.log('PASS troop training, march settlement, loot and battle report.');
   await click('#primary-nav [data-view="city"]');
   await waitFor('Array.from(document.querySelectorAll(".panel-title")).some(x=>x.innerText.includes("Quản lý thành phụ"))');
+  if(recordGameplay)await shot('18-developed-city');
+  await recordingHold(8000);
   check(await evaluate('!!document.querySelector("[data-action=upgradeCity][data-city=node-001]")'));
   check(await evaluate('Array.from(document.querySelectorAll(".panel-title")).some(x=>x.innerText.includes("Quản lý thành phụ"))'));
   console.log('PASS captured satellite city appears in the city manager with its upgrade action.');
@@ -272,11 +329,18 @@ try {
   await waitFor('document.querySelector("#realm-title")?.innerText==="Tây Kỳ"');
   console.log('PASS IndexedDB save survives reload.');
 
+  if(recordGameplay){
+    const route=['city','heroes','inventory','army','world','pve','quests','market','reports','city'];let index=0;
+    while(Date.now()-recordingStartedAt<125000){
+      const view=route[index++%route.length];await click('#primary-nav [data-view='+JSON.stringify(view)+']');await waitFor('location.hash==="#'+view+'"');await recordingHold(4500);
+    }
+  }
+
   await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await click('#mobile-nav [data-view="city"]');
   await waitFor('document.querySelector("#page-heading h1")?.innerText==="Thành trì"');
   const mobile=await evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth,nav:getComputedStyle(document.querySelector("#mobile-nav")).display,buildings:document.querySelectorAll(".building-card").length})');
-  check(mobile.width===390&&mobile.nav!=='none'&&mobile.buildings===21);
+  check(mobile.width===390&&mobile.nav!=='none'&&mobile.buildings===27);
   await shot('13-city-mobile-390');
   await click('#mobile-nav [data-view="world"]');
   await shot('14-world-mobile-390');
@@ -294,6 +358,13 @@ try {
   if(new URL(baseUrl).pathname.endsWith('/offline.html'))console.log('PASS single-file page made no cross-origin HTTP requests.');
   console.log('PASS zero browser runtime/console errors.');
 } finally {
+  if(recorder){
+    recordingActive=false;
+    await frameCapture;
+    recorder.stdin.end();
+    const exitCode=recorder.exitCode??await new Promise(resolve=>recorder.once('exit',resolve));
+    if(exitCode!==0)throw new Error('Gameplay video encoder exited with code '+exitCode);
+  }
   try { socket?.close(); } catch {}
   browser.kill('SIGTERM');
   await delay(300);

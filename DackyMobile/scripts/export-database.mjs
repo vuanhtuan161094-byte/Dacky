@@ -1,5 +1,6 @@
 import { LEGACY_ENDGAME_SOURCE, LEGACY_STRONGPOINTS, LEGACY_STRONGPOINT_FORMATIONS, LEGACY_ADVANCED_FIELDS, LEGACY_ADVANCED_FIELD_BOSSES } from '../src/legacy-endgame-catalog.js';
 import { mkdir, writeFile } from 'node:fs/promises';
+import { gzipSync } from 'node:zlib';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
@@ -34,7 +35,7 @@ const legacyEndgameRows = [
 ].map(row => ({...row, id: `${row.sourceTable}-${row.sourceRowIndex}`}));
 const tables = { buildings: BUILDINGS, technologies: TECHNOLOGIES, troops: TROOPS, heroes: HEROES, heroSkills: HERO_SKILLS, items: ITEMS, quests: QUESTS, legacyQuestReference: LEGACY_QUESTS, legacyBuzhouReference: legacyBuzhouRows, legacyCityGarrisonReference: legacyCityGarrisonRows, legacyElflandReference: legacyElflandRows, legacyEndgameReference: legacyEndgameRows, worldNodes: WORLD_NODES, immortalMountains: IMMORTAL_MOUNTAINS };
 
-export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky-game-data.runtime.v1.json')) {
+export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky-game-data.runtime.compact.v2.json')) {
   const tableStats = {};
   let totalRecords = 0;
   for (const [name, rows] of Object.entries(tables)) {
@@ -48,7 +49,8 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
   }
 
   const database = {
-    schemaVersion: 1,
+    schemaVersion: 2,
+    provenanceEncoding: 'dictionary-v1',
     dataVersion: CONTENT_EVIDENCE.version,
     updated: CONTENT_EVIDENCE.updated,
     evidenceStatus: Object.values(tableStats).every(table => table.evidence === 'SIMULATED') ? 'SIMULATED' : 'MIXED',
@@ -81,25 +83,31 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
       { name: 'legacyElflandCombatAndLoot', importedReferenceRecords: legacyElflandRows.length, reason: 'Names, descriptions, floor configurations, NPC stacks and raw random-reward rows are source-backed references. Fixed rosters and source bands feed army combat; RdmInfo rewards remain UNKNOWN.' }
     ]
   };
-  const formatJson=(value,depth=0)=>{
-    const indent='  '.repeat(depth);
-    if(Array.isArray(value)){
-      if(!value.length)return '[]';
-      if(value.length>20&&value.every(row=>row&&typeof row==='object'&&!Array.isArray(row))){
-        return '[\n'+value.map(row=>indent+'  '+JSON.stringify(row)).join(',\n')+'\n'+indent+']';
-      }
-      return '[\n'+value.map(row=>indent+'  '+formatJson(row,depth+1)).join(',\n')+'\n'+indent+']';
+  const provenanceDictionary={};
+  const provenanceIds=new Map();
+  const compactProvenance=value=>{
+    if(Array.isArray(value))return value.map(compactProvenance);
+    if(!value||typeof value!=='object')return value;
+    const output={};
+    for(const [key,item] of Object.entries(value)){
+      if(key==='fieldProvenance'&&item&&typeof item==='object'&&!Array.isArray(item)){
+        const refs={};
+        for(const [field,source] of Object.entries(item)){
+          const serialized=JSON.stringify(source);let ref=provenanceIds.get(serialized);
+          if(!ref){ref=`p${String(provenanceIds.size+1).padStart(5,'0')}`;provenanceIds.set(serialized,ref);provenanceDictionary[ref]=source;}
+          refs[field]=ref;
+        }
+        output.provenanceRefs=refs;
+      }else output[key]=compactProvenance(item);
     }
-    if(value&&typeof value==='object'){
-      const entries=Object.entries(value);
-      if(!entries.length)return '{}';
-      return '{\n'+entries.map(([key,item])=>indent+'  '+JSON.stringify(key)+': '+formatJson(item,depth+1)).join(',\n')+'\n'+indent+'}';
-    }
-    return JSON.stringify(value);
+    return output;
   };
+  const compactDatabase={...database,tables:compactProvenance(database.tables),provenanceDictionary};
   await mkdir(path.dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, formatJson(database) + '\n');
-  console.log('JSON database exported: '+outputPath+' ('+totalRecords+' records; field evidence retained).');
+  const output=JSON.stringify(compactDatabase)+'\n';
+  await writeFile(outputPath,output);
+  await writeFile(outputPath+'.gz',gzipSync(output,{level:9}));
+  console.log('Compact JSON database exported: '+outputPath+' ('+totalRecords+' records; '+provenanceIds.size+' unique field-evidence records retained).');
   return database;
 }
 

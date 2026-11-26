@@ -458,3 +458,8 @@ body.reduce-motion *, body.reduce-motion *:before, body.reduce-motion *:after { 
  .manual-battle-panel .manual-battle-artifacts { grid-template-columns:86px minmax(0,1fr); gap:8px; }
  .manual-battle-panel .manual-battle-artifacts label:last-child { grid-column:1 / -1; }
 }
+.gear-upgrade-list{display:grid;gap:8px;margin:12px 0;padding:10px;border:1px solid var(--line);border-radius:12px;background:rgba(20,29,40,.48)}
+.gear-upgrade-list>small,.gear-upgrade-row>small{color:var(--muted);line-height:1.45}
+.gear-upgrade-row{display:grid;gap:6px;padding-top:7px;border-top:1px solid var(--line)}
+.gear-upgrade-row .field-row{display:flex;flex-wrap:wrap;gap:6px}
+.gear-upgrade-row .button{max-width:100%;white-space:normal}

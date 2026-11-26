@@ -1,12 +1,13 @@
 import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulated-world.js';
-import { getPveEncounter, pveLock } from './pve-campaign.js';
+import { getPveEncounter, pveAssaultProgress, pveLock, rollPveLoot } from './pve-campaign.js';
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
-import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,equipmentSlot } from './gameplay-p15.js';
+import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,equipmentSlot } from './gameplay-p15.js';
 import { createProductCombat } from './combat/product-v13.js';
 
 export const SAVE_VERSION = 4;
 const HERO_LEVEL_CAP = 150;
+export const MOBILE_UPKEEP_RUNTIME_SCALE = 0.25;
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const RESOURCE_KEYS = Object.keys(RESOURCE_INFO);
 const STARTER_TROOP = TROOPS.find(unit => unit.mobileSourceId === '1000') || TROOPS.find(unit => unit.mobileSourceId) || TROOPS[0];
@@ -36,7 +37,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   Object.assign(levels, { citadel: 2, barracks: 1, granary: 1, farm: 1, manor: 1, storehouse: 1, academy: 1 });
   const hero = HEROES[0];
   const troop = STARTER_TROOP;
-  return {
+  const state = {
     version: SAVE_VERSION,
     profile: { name: String(name || 'Triều Ca').slice(0, 22), createdAt: now },
     lastTickAt: now,
@@ -54,7 +55,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     army: { [troop.id]: 18 },
     wounded: {},
     queues: { construction: null, training: null, research: null, march: null },
-    world: { storyStage: 0, towerFloor: 0, buzhouFloor: 0, captures: [], scouted: [], scoutedKinds:{}, treaties: [], guildLevel: 0, marketDay: 1, campaignComplete: false, mountainWins: [], chapterProgress:Object.fromEntries(Array.from({length:8},(_,i)=>[String(i+1),{wins:0,fieldWins:0,citiesCaptured:0}])) },
+    world: { storyStage: 0, towerFloor: 0, buzhouFloor: 0, captures: [], scouted: [], scoutedKinds:{}, treaties: [], guildLevel: 0, marketDay: 1, campaignComplete: false, mountainWins: [], pveLastClearDay:{}, chapterProgress:Object.fromEntries(Array.from({length:8},(_,i)=>[String(i+1),{wins:0,fieldWins:0,citiesCaptured:0}])) },
     stats: { upgrades: 0, troopsTrained: 0, heroesRecruited: 0, itemsEquipped: 0, itemPurchases: 0, battles: 0, victories: 0, citiesCaptured: 0, bossesDefeated: 0, duels: 0, tradeCount: 0 },
     claims: [],
     reports: [],
@@ -63,6 +64,8 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     tutorialStep: 0,
     nextReportId: 1
   };
+  normalizeGameplay(state);
+  return state;
 }
 
 export function migrateSave(input, now = Date.now()) {
@@ -102,6 +105,7 @@ export function migrateSave(input, now = Date.now()) {
       artifact: ITEMS.some(i=>i.id===gear.artifact&&i.type==='pháp bảo')?gear.artifact:null
     };
     for(const slot of ['helmet','belt','boots','gloves','relic','relic2','mount'])if(gear[slot]&&ITEMS.some(i=>i.id===gear[slot]&&equipmentSlot(i)===slot))h.equipment[slot]=gear[slot];
+    h.gearEnhancements=Object.fromEntries(Object.entries(h.gearEnhancements||{}).filter(([itemId,value])=>Object.values(h.equipment).includes(itemId)&&value&&typeof value==='object').map(([itemId,value])=>[itemId,{rank:clamp(Math.floor(Number(value.rank)||0),0,5),gems:[...new Set((Array.isArray(value.gems)?value.gems:[]).filter(id=>ITEMS.some(item=>item.id===id&&item.mobileGroup==='Châu báu')))].slice(0,2)}]));
     return h;
   });
   s.items = Array.isArray(s.items) ? s.items.filter(id => ITEMS.some(item => item.id === id)).slice(0, 500) : [];
@@ -142,6 +146,7 @@ export function migrateSave(input, now = Date.now()) {
   s.world.towerFloor=clamp(Number(s.world.towerFloor)||0,0,TOWER_FLOORS);
   s.world.buzhouFloor=clamp(Number(s.world.buzhouFloor)||0,0,BUZHOU_FLOORS);
   s.world.pveWins = Object.fromEntries(Object.entries(s.world.pveWins || {}).filter(([id, won]) => won === true && getPveEncounter(id)));
+  s.world.pveLastClearDay=Object.fromEntries(Object.entries(s.world.pveLastClearDay||{}).filter(([id,day])=>getPveEncounter(id)&&Number.isSafeInteger(day)));
   s.world.campaignComplete=Boolean(s.world.campaignComplete);
   const mountainIds=new Set(IMMORTAL_MOUNTAINS.map(x=>x.id));
   s.world.mountainWins=Array.isArray(s.world.mountainWins)?[...new Set(s.world.mountainWins.filter(id=>mountainIds.has(id)))]:[];
@@ -187,7 +192,7 @@ export function migrateSave(input, now = Date.now()) {
     if(archivedLevels)s.notifications=[`Đã lưu trữ ${archivedLevels} cấp khoa kỹ cũ chưa có ánh xạ Mobile an toàn; các cấp này không cộng chỉ số runtime.`,...s.notifications].slice(0,12);
   }
   normalizeGameplay(s);
-  s.gameplay.worldDays = Object.fromEntries(['daily', 'field'].flatMap(kind => {
+  s.gameplay.worldDays = Object.fromEntries(['daily', 'field', 'chat'].flatMap(kind => {
     const day = s.gameplay.worldDays?.[kind];
     return Number.isSafeInteger(day) ? [[kind, day]] : [];
   }));
@@ -227,6 +232,18 @@ export function productionPerHour(state) {
 export function storageCapacity(state) {
   const base=2400 + (state.levels.storehouse || 0) * 1650 + (state.levels.granary || 0) * 220;
   return Math.floor(base*(1+(state.technologies?.['tech-06']||0)*technologyRate('tech-06',0.04)));
+}
+
+// The Mobile "Lương" stat is source-backed, but its time/unit conversion is
+// not documented in the captured catalog. Convert it with a local simulated
+// factor; treating it as literal food per troop per day made endgame armies
+// impossible to sustain under the documented farm/storage caps.
+export function foodUpkeepPerHour(state) {
+  return Object.entries(state.army||{}).reduce((sum,[id,count])=>{
+    const troop=TROOPS.find(row=>row.id===id),sourceRate=Number(troop?.mobileUpkeep);
+    const daily=Number.isFinite(sourceRate)&&sourceRate>0?sourceRate*MOBILE_UPKEEP_RUNTIME_SCALE:2;
+    return sum+Math.max(0,Number(count)||0)*daily/24;
+  },0);
 }
 
 export function armyCount(state) { return Object.values(state.army).reduce((a, n) => a + n, 0); }
@@ -292,7 +309,8 @@ export function heroPower(hero, state) {
   if (!def) return 0;
   const gear = Object.values(hero.equipment || {}).filter(Boolean).reduce((sum, id) => {
     const item=ITEMS.find(row=>row.id===id);
-    return sum+(item?.mobileStats?.length?mobileEquipmentRating(item):item?.bonus||0);
+    const base=item?.mobileStats?.length?mobileEquipmentRating(item):item?.bonus||0,upgrade=hero.gearEnhancements?.[id];
+    return sum+base*(1+(upgrade?.rank||0)*0.08+(upgrade?.gems?.length||0)*0.06);
   }, 0);
   const affinity=1+clamp(Number(hero.affinity)||0,0,100)*0.0015;
   const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1;
@@ -339,8 +357,8 @@ function heroCombatProfile(heroList,state,enemyElement) {
   const artifactOwnTroopBonus=clamp(artifactSum('ownTroopBonus'),-0.4,0.4);
   const artifactEnemyTroopLoss=clamp(artifactSum('enemyTroopLoss'),0,0.45);
   const artifactOwnTroopRecovery=clamp(artifactSum('ownTroopRecovery'),0,0.45);
-  const equipmentAttack=rows.reduce((sum,row)=>sum+equipmentStat(row,'weapon','Công kích'),0);
-  const equipmentDefense=rows.reduce((sum,row)=>sum+equipmentStat(row,'armor','Phòng thủ'),0);
+  const equipmentAttack=rows.reduce((sum,row)=>{const gear=Object.values(row.save.equipment||{}).filter(Boolean).reduce((n,id)=>{const u=row.save.gearEnhancements?.[id];return n+(u?.rank||0)*0.006+(u?.gems?.length||0)*0.012;},0);return sum+equipmentStat(row,'weapon','Công kích')+gear;},0);
+  const equipmentDefense=rows.reduce((sum,row)=>{const gear=Object.values(row.save.equipment||{}).filter(Boolean).reduce((n,id)=>{const u=row.save.gearEnhancements?.[id];return n+(u?.rank||0)*0.006+(u?.gems?.length||0)*0.012;},0);return sum+equipmentStat(row,'armor','Phòng thủ')+gear;},0);
   const artifactSkillBonus=rows.reduce((sum,row)=>sum+equippedBonus(row,'artifact')*0.001,0);
   const has=skill=>rows.filter(row=>row.data.skill===skill).reduce((n,row)=>n+Math.max(1,row.save.skillLevel||1)*(1+clamp(Number(row.save.affinity)||0,0,100)*0.002),0);
   const attack=has('Hỏa Phù Liệt Trận')*0.012+equipmentAttack;
@@ -429,8 +447,12 @@ function evaluateBuildingRequirements(state, text) {
   const sourceRows=MOBILE_SOURCE_DATABASE.categories?.['cong-trinh']||[];
   const unmet=[],unknown=[];
   for(const term of raw.split(/\s*[·,]\s*/).map(value=>value.trim()).filter(Boolean)){
-    const population=term.match(/^Dân số\s+(\d+)$/i);
-    if(population){if(Number(state.population||0)<Number(population[1]))unmet.push(term);continue;}
+    const population=term.match(/^Dân số\s+([\d.,]+)$/i);
+    if(population){const need=Number(population[1].replace(/\./g,'').replace(',','.'));if(Number(state.population||0)<need)unmet.push(term);continue;}
+    const official=term.match(/^Quan chức\s+(\d+)$/i);
+    if(official){if(Number(state.gameplay?.official||0)<Number(official[1]))unmet.push(term);continue;}
+    const blueprint=term.match(/^Bản Vẽ Xây Dựng\s*[×x]\s*(\d+)$/i);
+    if(blueprint){const item=ITEMS.find(row=>row.mobileSourceId==='4906');if(!item||state.items.filter(id=>id===item.id).length<Number(blueprint[1]))unmet.push(term);continue;}
     const levelRequirement=term.match(/^(.+?)\s+(\d+)$/);
     if(!levelRequirement){unknown.push(term);continue;}
     const [,name,rawLevel]=levelRequirement;
@@ -472,6 +494,7 @@ export function quoteCityUpgrade(state, cityId) {
 function evaluateTrainingRequirements(state, troop) {
   const unmet = [];
   const unknown = [];
+  let simulatedBridge=false;
   const buildings = troop.trainingRequirements?.buildings || [];
   const technologies = troop.trainingRequirements?.technologies || [];
   if (!troop.trainingRequirements) {
@@ -506,10 +529,13 @@ function evaluateTrainingRequirements(state, troop) {
     unmet.push('Thần Binh Doanh cấp 1 · SIMULATED');
   }
   for (const requirement of troop.trainingRequirements.unknown || []) {
-    unknown.push(`${requirement.sourceName} cấp ${requirement.level} · UNKNOWN`);
+    const alias={WorkShop:'workshop',Workshop:'workshop'}[requirement.sourceName];
+    const building=alias&&BUILDINGS.find(row=>row.id===alias);
+    if(building){simulatedBridge=true;if((Number(state.levels[building.id])||0)<requirement.level)unmet.push(`${building.name} cấp ${requirement.level} · SIMULATED_CROSS_VERSION_BRIDGE`);}
+    else unknown.push(`${requirement.sourceName} cấp ${requirement.level} · UNKNOWN`);
   }
   return {
-    status: unknown.length ? 'PARTIAL_UNKNOWN' : troop.trainingRequirementEvidence || 'VERIFIED_LEGACY',
+    status: unknown.length ? 'PARTIAL_UNKNOWN' : simulatedBridge?'MIXED_SIMULATED_CROSS_VERSION':troop.trainingRequirementEvidence || 'VERIFIED_LEGACY',
     unmet,
     unknown,
     locked: unmet.length > 0
@@ -532,18 +558,28 @@ export function quoteTraining(state, troopId, count = 1) {
 
 function evaluateResearchRequirements(state, requirementText='') {
   const requirements=String(requirementText||'').split(/\s*[·,]\s*/).map(value=>value.trim()).filter(Boolean);
-  const unmet=[],unknown=[];
+  const unmet=[],unknown=[],simulated=[];
   for(const requirement of requirements){
     const match=requirement.match(/^(.+?)\s+(\d+)$/);
     if(!match){unknown.push(requirement);continue;}
     const [,name,rawLevel]=match,requiredLevel=Number(rawLevel);
+    if(name==='Công trình'){
+      const total=BUILDINGS.reduce((sum,row)=>sum+Math.max(0,Number(state.levels?.[row.id])||0),0);
+      if(total<requiredLevel)unmet.push(requirement);
+      simulated.push(requirement);
+      continue;
+    }
+    if(name==='Quan chức'){
+      if((state.gameplay?.official||0)<requiredLevel)unmet.push(requirement);
+      continue;
+    }
     const building=BUILDINGS.find(row=>row.name===name);
     if(building&&(!['government','housing','hostel','workshop','skirmisher','stable'].includes(building.id)||state.settings?.combatV13)){if((state.levels[building.id]||0)<requiredLevel)unmet.push(requirement);continue;}
     const technology=TECHNOLOGIES.find(row=>row.name===name);
     if(technology){if((state.technologies[technology.id]||0)<requiredLevel)unmet.push(requirement);continue;}
     unknown.push(requirement);
   }
-  return {met:unmet.length===0,status:unmet.length?'LOCKED':unknown.length?'PARTIAL_UNKNOWN':requirements.length?'SATISFIED':'UNKNOWN',unmet,unknown};
+  return {met:unmet.length===0,status:unmet.length?'LOCKED':unknown.length?'PARTIAL_UNKNOWN':simulated.length?'SIMULATED':requirements.length?'SATISFIED':'UNKNOWN',unmet,unknown,simulated};
 }
 
 export function quoteResearch(state, techId) {
@@ -554,17 +590,58 @@ export function quoteResearch(state, techId) {
   const requirement=evaluateResearchRequirements(state,nextRow?.requirement||'');
   return { level, cost: progressionCost(t.mobileLevelCosts, t.baseCost, level), seconds: t.seconds * Math.pow(level, 1.12), maxed: level > t.maxLevel,
     costEvidence: nextRow ? 'VERIFIED_MOBILE' : 'SIMULATED', requirementText:nextRow?.requirement||'',
-    requirementStatus:requirement.status, requirementSatisfied:requirement.met, unmetRequirements:requirement.unmet, unknownRequirements:requirement.unknown };
+    requirementStatus:requirement.status, requirementSatisfied:requirement.met, unmetRequirements:requirement.unmet, unknownRequirements:requirement.unknown,simulatedRequirements:requirement.simulated||[] };
 }
 
 function canAfford(state, cost) { return Object.entries(cost).every(([key, amount]) => (state.resources[key] || 0) >= amount); }
 
-export function quoteItemPurchase(state, itemId) {
+export function quoteItemPurchase(state, itemId, requestedCount=1) {
   const item=ITEMS.find(row=>row.id===itemId&&row.type==='vật phẩm');
-  if(!item||item.mobileSourceId&&!item.mobileAvailableAtMerchant)return null;
+  if(!item)return null;
+  const count=clamp(Math.floor(Number(requestedCount)||1),1,500);
+  if(item.legacySourceId){const cost={gold:12*count,food:8*count};return {count,cost,available:state.items.length+count<=500&&canAfford(state,cost),costEvidence:'SIMULATED_LEGACY_QUEST_SUPPLY'};}
+  if(item.mobileSourceId==='4906'){
+    const cost={gold:1200,iron:700,stone:500};
+    return {cost,available:(state.levels.workshop||0)>=1&&state.items.length<500&&canAfford(state,cost),costEvidence:'SIMULATED_WORKSHOP_ORDER'};
+  }
+  if(item.mobileSourceId&&!item.mobileAvailableAtMerchant)return null;
   const cost={gold:90*item.tier,food:45*item.tier};
   if(item.tier>=8)cost.jade=1;
   return {cost,available:state.items.length<500&&canAfford(state,cost),costEvidence:item.mobileSourceId?'SIMULATED_SOURCE_PRICE':'SIMULATED'};
+}
+
+export function quoteArtifactPurchase(state,itemId){
+  const item=ITEMS.find(row=>row.id===itemId&&row.type==='pháp bảo'&&row.mobileSourceId);
+  if(!item)return null;
+  const owned=state.items.includes(item.id)||state.heroes.some(hero=>Object.values(hero.equipment||{}).includes(item.id));
+  const qualityRate={Lục:1,Lam:1.25,Tím:1.65,Cam:2.2,Đỏ:3};
+  const discount=Math.max(.75,1-(Number(state.levels.market)||0)*.01);
+  const cost={gold:Math.max(150,Math.round((180+(item.tier||1)*130+(item.mobileRequiredLevel||1)*15)*(qualityRate[item.mobileQuality]||1)*discount))};
+  if((item.mobileQuality==='Cam'||item.mobileQuality==='Đỏ')&&item.tier>=7)cost.jade=1;
+  return {itemId:item.id,cost,available:!owned&&state.items.length<500&&canAfford(state,cost),evidence:'SIMULATED_SOURCE_ARTIFACT_MARKET_PRICE'};
+}
+
+export function quoteItemSale(state,itemId){
+  const item=ITEMS.find(row=>row.id===itemId),index=state.items.indexOf(itemId);
+  if(!item||index<0||item.legacySourceId)return null;
+  if(state.heroes.some(hero=>Object.values(hero.equipment||{}).includes(itemId)||hero.activeMatrix===itemId))return null;
+  if(state.items.filter(id=>id===itemId).length<=reservedQuestItemCount(state,itemId))return null;
+  return {gold:Math.max(1,Math.round((item.tier||1)*(item.type==='vật phẩm'?18:30))),evidence:'SIMULATED_NPC_BUYBACK'};
+}
+
+export function quoteGearEnhancement(state,heroId,itemId){
+  const hero=state.heroes.find(row=>row.id===heroId),item=ITEMS.find(row=>row.id===itemId);
+  if(!hero||!item||!Object.values(hero.equipment||{}).includes(itemId))return null;
+  const rank=hero.gearEnhancements?.[itemId]?.rank||0;if(rank>=5)return {rank,maxed:true,cost:{},available:false,evidence:'SIMULATED_GEAR_ENHANCEMENT'};
+  const nextRank=rank+1,cost={gold:Math.round(500*nextRank*(item.tier||1)),iron:Math.round(180*nextRank*(item.tier||1)),stone:Math.round(90*nextRank*(item.tier||1))};
+  return {rank,nextRank,cost,available:(state.levels.foundry||0)>=1&&canAfford(state,cost),evidence:'SIMULATED_GEAR_ENHANCEMENT'};
+}
+
+export function quoteGearGemSocket(state,heroId,itemId,gemId){
+  const hero=state.heroes.find(row=>row.id===heroId),gear=ITEMS.find(row=>row.id===itemId),gem=ITEMS.find(row=>row.id===gemId);
+  if(!hero||!gear||!Object.values(hero.equipment||{}).includes(itemId)||!gem||gem.mobileGroup!=='Châu báu'||!state.items.includes(gemId))return null;
+  const gems=hero.gearEnhancements?.[itemId]?.gems||[];
+  return {gems:gems.length,maxed:gems.length>=2,cost:{},available:(state.levels.foundry||0)>=1&&gems.length<2,evidence:'SIMULATED_GEM_SOCKET'};
 }
 
 function debit(state, cost) {
@@ -601,6 +678,47 @@ function report(state, entry) {
   return id;
 }
 
+function finishProductMarch(state,now,commands=null){
+  const q=state.queues?.march;
+  const node=q?.nodeId?getPveEncounter(q.nodeId):null;
+  const priorClear=!!state.world.pveWins?.[node?.id];
+  const result=combat().finishMarch(state,{now,commands});
+  let finalEncounterClear=!!result.battle.victory;
+  if(node?.buzhouFloor>=4&&q?.pveAssault){
+    const assault=q.pveAssault,remaining={...assault.remainingBefore};
+    if(result.battle.victory)for(const [unitId,count] of Object.entries(assault.wave))remaining[unitId]=Math.max(0,(remaining[unitId]||0)-count);
+    const left=Object.values(remaining).reduce((sum,count)=>sum+count,0),report=result.state.reports?.[0];
+    finalEncounterClear=!!result.battle.victory&&left===0;
+    if(result.battle.victory&&!finalEncounterClear){
+      result.state.gameplay.endgameAssaults[node.id]={remaining,total:assault.total};
+      if(priorClear)result.state.world.pveWins[node.id]=true;else delete result.state.world.pveWins[node.id];
+      delete result.state.world.pveLastClearDay?.[node.id];
+      result.state.world.buzhouFloor=state.world.buzhouFloor||0;
+      result.state.resources={...state.resources};
+      if(report){report.loot={};report.itemDrop=null;report.assault={evidence:'SIMULATED_MULTI_SORTIE_SOURCE_ROSTER',total:assault.total,cleared:assault.total-left,remaining:left,sortieVictory:true};}
+      note(result.state,`Bất Chu Sơn · đã phá ${Math.round((assault.total-left)/assault.total*100)}% đội hình nguồn; tập hợp lại trước đợt tiếp theo.`);
+    }else if(finalEncounterClear){
+      delete result.state.gameplay.endgameAssaults[node.id];
+      const npc=result.state.gameplay.strategic.npc?.[node.id];if(npc)delete npc.troops;
+      if(report)report.assault={evidence:'SIMULATED_MULTI_SORTIE_SOURCE_ROSTER',total:assault.total,cleared:assault.total,remaining:0,sortieVictory:true};
+    }else if(report)report.assault={evidence:'SIMULATED_MULTI_SORTIE_SOURCE_ROSTER',total:assault.total,cleared:assault.total-Object.values(assault.remainingBefore).reduce((sum,count)=>sum+count,0),remaining:Object.values(assault.remainingBefore).reduce((sum,count)=>sum+count,0),sortieVictory:false};
+  }
+  if(result.battle.victory&&node?.pveEncounter&&finalEncounterClear){
+    result.state.world.pveLastClearDay={...(result.state.world.pveLastClearDay||{}),[node.id]:Math.floor(now/86400000)};
+    const drop=rollPveLoot(node,q.seed);
+    if(drop){
+      const item=drop.itemSourceId?ITEMS.find(row=>String(row.mobileSourceId)===drop.itemSourceId):null;
+      let granted=0,reason=null;
+      if(item&&result.state.items.length+drop.count<=500){for(let i=0;i<drop.count;i++)result.state.items.push(item.id);granted=drop.count;}
+      else if(!item&&drop.itemSourceId)reason='SOURCE_ITEM_NOT_IN_MOBILE_CATALOG';
+      else if(item)reason='INVENTORY_FULL';
+      const report=result.state.reports?.[0];
+      if(report)report.sourceLoot={...drop,itemId:item?.id??null,granted,skippedReason:reason};
+    }
+  }
+  return result;
+}
+
 function stepManualBattle(state, now, command=null, automatic=false) {
   const q=state.queues?.march;
   if(!q||q.combatMode!=='manual'||!q.combatV13)throw new Error('Không có trận thủ công đang chờ mệnh lệnh.');
@@ -610,7 +728,7 @@ function stepManualBattle(state, now, command=null, automatic=false) {
   if(automatic){while(!session.snapshot().finished)session.step({});}
   else session.step(command??{});
   const snapshot=session.snapshot();q.arrivedAt??=now;q.battleCommands=snapshot.commands;
-  if(snapshot.finished){const settled=combat().finishMarch(state,{now,commands:snapshot.commands});Object.assign(state,settled.state);}
+  if(snapshot.finished){const settled=finishProductMarch(state,now,snapshot.commands);Object.assign(state,settled.state);}
   else note(state,`Hiệp ${snapshot.round} · chọn chiến thuật tiếp theo.`);
   return snapshot;
 }
@@ -624,7 +742,7 @@ function completeQueue(state, key, now) {
       return;
     }
     // Resolve from pending queue; only replace state on successful atomic settlement.
-    const result=combat().finishMarch(state,{now});
+    const result=finishProductMarch(state,now);
     Object.assign(state,result.state);
     return;
   }
@@ -987,11 +1105,11 @@ export function advance(state, now = Date.now()) {
     const perHour = productionPerHour(next);
     const cap = storageCapacity(next);
     for (const key of RESOURCE_KEYS) {
-      const upkeepPerHour = key === 'food' ? armyCount(next) * 0.35 : 0;
+      const upkeepPerHour = key === 'food' ? foodUpkeepPerHour(next) : 0;
       next.resources[key] = clamp(next.resources[key] + (perHour[key] - upkeepPerHour) * elapsed / 3600, 0, key === 'jade' ? 99_999 : cap);
     }
     const hours=elapsed/3600;
-    next.population = Math.min(next.settings.combatV13?Math.max(next.population,populationCapacity(next)):250_000, next.population + hours * (0.1 + next.morale/450 + next.levels.citadel * 0.11)*(1+(cityEffects(next,now).populationGrowth??0)));
+    next.population = Math.min(next.settings.combatV13?Math.max(next.population,populationCapacity(next)):250_000, next.population + hours * (0.1 + next.morale/450 + next.levels.citadel * 0.11)*(1+(next.levels.housing||0)*0.06)*(1+(cityEffects(next,now).populationGrowth??0)));
     next.morale=clamp(next.morale+hours*TAX_POLICIES[next.taxPolicy].moralePerHour,0,100);
     next.world.marketDay += elapsed / 86_400;
   }
@@ -1013,11 +1131,17 @@ export function doAction(state, action, now = Date.now()) {
     case 'repairGear': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h||s.queues.march)throw Error('Thần tiên đang bận');const ids=Object.values(h.equipment??{}).filter(Boolean),loss=ids.reduce((n,id)=>n+100-(h.combatDurability?.[id]??100),0);if(!loss)throw Error('Trang bị không cần sửa');debit(s,{gold:Math.ceil(loss*5),iron:Math.ceil(loss/2)});h.combatDurability=Object.fromEntries(ids.map(id=>[id,100]));break;}
     case 'switchMatrix': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h?.matrices?.includes(action.itemId)||s.queues.march)throw Error('Ma trận chưa mở');h.activeMatrix=action.itemId;break;}
     case 'claimSourceQuest': {credit(s,claimSourceQuest(s,action.questId,productionPerHour));note(s,'Đã nhận thưởng nhiệm vụ legacy (mô phỏng).');break;}
+    case 'redeemQuestVouchers': {const count=clamp(Math.floor(Number(action.count)||1),1,Math.floor((s.gameplay.questVouchers||0)/1000));if(count<1)throw Error('Cần 1.000 thẻ quà nhiệm vụ để đổi 1 linh ngọc.');s.gameplay.questVouchers-=count*1000;credit(s,{jade:count});note(s,`Đã đổi ${count*1000} thẻ quà nhiệm vụ thành ${count} linh ngọc (tỷ lệ mô phỏng).`);break;}
     case 'setTaxRate': {s.gameplay.taxRate=clamp(Math.floor(Number(action.rate)||0),0,50);s.taxPolicy=s.gameplay.taxRate<=10?'relief':s.gameplay.taxRate>=35?'heavy':'balanced';break;}
     case 'setLaborRate': {s.gameplay.laborRate=clamp(Math.floor(Number(action.rate)||0),0,100);break;}
     case 'bless': {debit(s,{gold:30});s.morale=clamp(s.morale+5,0,100);break;}
     case 'sacrifice': {debit(s,{food:50});s.fame+=3;break;}
     case 'settlePopulation': {debit(s,{food:100,gold:50});s.population=Math.min(populationCapacity(s),s.population+10);break;}
+    case 'worldChat': {const day=Math.floor(now/86400000);if(s.gameplay.worldDays.chat===day)throw Error('Hôm nay đã gửi thư truyền âm.');debit(s,{gold:5});s.gameplay.worldDays.chat=day;break;}
+    case 'disciplineLabor': {debit(s,{gold:30});s.morale=clamp(s.morale-1,0,100);break;}
+    case 'relieveLabor': {debit(s,{food:100,gold:50});s.population=Math.min(populationCapacity(s),s.population+10);s.morale=clamp(s.morale+1,0,100);break;}
+    case 'collectLaborTaxes': {credit(s,{gold:100+Math.floor(s.population*.02)});s.morale=clamp(s.morale-2,0,100);break;}
+    case 'leaveMountain': {if((s.gameplay.mountainRank||0)<1)throw Error('Cần hoàn thành một chuyến Tiên Sơn trước khi rời núi.');break;}
     case 'changeFlag': {s.gameplay.flag=String(action.flag||'周').slice(0,4);break;}
     case 'officialPromote': {const n=s.gameplay.official+1;if(n>19||s.fame<n*n*100)throw Error('Thiếu danh vọng');debit(s,{gold:n*100});s.gameplay.official=n;break;}
     case 'guildDonate': {if(!s.world.guildLevel)throw Error('Chưa có minh hội');const n=clamp(Math.floor(Number(action.amount)||0),1,100000);debit(s,{gold:n});s.gameplay.guildDonation+=n;break;}
@@ -1045,6 +1169,8 @@ export function doAction(state, action, now = Date.now()) {
       let cost = quote.cost;
       if(s.settings.combatV13){const buffs=(s.gameplay.itemBuffs??[]).filter(b=>b.key==='buildCost'&&b.expiresAt>now&&nextLevel<=b.levelCap);const rate=Math.max(0,...buffs.map(b=>b.ratio));cost=Object.fromEntries(Object.entries(cost).map(([k,v])=>[k,Math.ceil(v*(1-rate))]));}
       debit(s, cost);
+      const blueprintNeed=Number(quote.requirementText.match(/Bản Vẽ Xây Dựng\s*[×x]\s*(\d+)/i)?.[1]||0),blueprint=ITEMS.find(item=>item.mobileSourceId==='4906');
+      if(blueprintNeed&&blueprint)for(let i=0;i<blueprintNeed;i++)s.items.splice(s.items.indexOf(blueprint.id),1);
       const techSpeed = 1 + (s.technologies['tech-08'] || 0) * technologyRate('tech-08',0.025);
       s.queues.construction = { buildingId: b.id, level: nextLevel, cost, startAt: now, finishAt: now + b.seconds * Math.pow(nextLevel, 1.2) * 1000 / techSpeed };
       note(s, `Thợ xây bắt đầu nâng ${b.name} lên cấp ${nextLevel}.`);
@@ -1160,18 +1286,47 @@ export function doAction(state, action, now = Date.now()) {
       note(s, `Rèn thành công ${item.name} tại Huyền Thiết Lò.`);
       break;
     }
+    case 'enhanceGear': {
+      const quote=quoteGearEnhancement(s,action.heroId,action.itemId);
+      if(!quote||quote.maxed)throw Error('Trang bị không hợp lệ hoặc đã đạt cường hóa tối đa.');
+      if(s.queues.march)throw Error('Không cường hóa trang bị khi đang hành quân.');
+      if(!quote.available)throw Error((s.levels.foundry||0)<1?'Cần Huyền Thiết Lò cấp 1 để cường hóa.':'Thiếu tài nguyên cường hóa.');
+      debit(s,quote.cost);const hero=s.heroes.find(row=>row.id===action.heroId);hero.gearEnhancements??={};hero.gearEnhancements[action.itemId]??={rank:0,gems:[]};hero.gearEnhancements[action.itemId].rank=quote.nextRank;
+      note(s,`${ITEMS.find(row=>row.id===action.itemId)?.name} cường hóa lên +${quote.nextRank} · ${quote.evidence}.`);break;
+    }
+    case 'socketGearGem': {
+      const quote=quoteGearGemSocket(s,action.heroId,action.itemId,action.gemId);
+      if(!quote||quote.maxed)throw Error('Trang bị hoặc ngọc không hợp lệ; mỗi món có tối đa hai lỗ ngọc.');
+      if(s.queues.march)throw Error('Không khảm ngọc khi đang hành quân.');
+      if(!quote.available)throw Error((s.levels.foundry||0)<1?'Cần Huyền Thiết Lò cấp 1 để khảm ngọc.':'Không còn lỗ ngọc.');
+      const hero=s.heroes.find(row=>row.id===action.heroId),index=s.items.indexOf(action.gemId);hero.gearEnhancements??={};hero.gearEnhancements[action.itemId]??={rank:0,gems:[]};hero.gearEnhancements[action.itemId].gems.push(action.gemId);s.items.splice(index,1);
+      note(s,`Đã khảm ${ITEMS.find(row=>row.id===action.gemId)?.name} vào ${ITEMS.find(row=>row.id===action.itemId)?.name} · hiệu quả chiến đấu SIMULATED.`);break;
+    }
     case 'buyItem': {
       const item=ITEMS.find(i=>i.id===action.itemId&&i.type==='vật phẩm');
-      if(!item||item.mobileSourceId&&!item.mobileAvailableAtMerchant)throw new Error('Thương nhân không bán vật phẩm này.');
-      if(s.items.length>=500)throw new Error('Túi đồ đã đầy. Hãy sử dụng hoặc sắp xếp vật phẩm trước.');
-      const cost={gold:90*item.tier,food:45*item.tier};
-      if(item.tier>=8)cost.jade=1;
-      debit(s,cost);
-      s.items.push(item.id);
-      s.stats.itemPurchases++;
-      note(s,`Đã mua ${item.name} từ thương nhân NPC.`);
+      const workshopBlueprint=item?.mobileSourceId==='4906';
+      if(!item||item.mobileSourceId&&!item.mobileAvailableAtMerchant&&!workshopBlueprint)throw new Error('Thương nhân không bán vật phẩm này.');
+      if(workshopBlueprint&&(s.levels.workshop||0)<1)throw new Error('Cần Xưởng chế tạo cấp 1 để đặt làm Bản Vẽ Xây Dựng.');
+      const count=clamp(Math.floor(Number(action.count)||1),1,500),quote=quoteItemPurchase(s,item.id,count);
+      if(!quote)throw Error('Thương nhân không bán vật phẩm này.');
+      if(s.items.length+count>500)throw Error('Túi đồ đã đầy. Hãy sử dụng hoặc sắp xếp vật phẩm trước.');
+      if(!canAfford(s,quote.cost))throw Error('Tài nguyên chưa đủ. Hãy chờ sản xuất hoặc đổi hàng ở Triều Ca Thị.');
+      if(!quote.available)throw Error('Điều kiện đặt hàng chưa đáp ứng.');
+      debit(s,quote.cost);
+      for(let i=0;i<count;i++)s.items.push(item.id);
+      s.stats.itemPurchases+=count;
+      note(s,`Đã mua ${count} ${item.name} từ thương nhân NPC${item.legacySourceId?' · nguồn mua SIMULATED':''}.`);
       break;
     }
+    case 'buyArtifact': {
+      const quote=quoteArtifactPurchase(s,action.itemId),item=ITEMS.find(row=>row.id===action.itemId);
+      if(!quote||!item)throw Error('Thương hội không có pháp bảo Mobile này.');
+      if(!quote.available)throw Error('Pháp bảo đã sở hữu, túi đầy hoặc chưa đủ tài nguyên.');
+      debit(s,quote.cost);s.items.push(item.id);s.stats.itemPurchases++;
+      note(s,`Thỉnh ${item.name} tại thương hội · giá SIMULATED, dữ kiện pháp bảo Mobile giữ nguyên.`);
+      break;
+    }
+    case 'sellItem': {const quote=quoteItemSale(s,action.itemId);if(!quote)throw Error('Vật phẩm đang trang bị hoặc còn dành cho nhiệm vụ chưa nhận nên không thể bán.');const index=s.items.indexOf(action.itemId);if(index<0)throw Error('Không còn vật phẩm để bán.');s.items.splice(index,1);credit(s,{gold:quote.gold});note(s,`Đã bán vật phẩm cho thương nhân NPC · giá SIMULATED ${quote.gold} đồng.`);break;}
     case 'useItem': {
       const itemIndex = s.items.indexOf(action.itemId);
       const item = ITEMS.find(i => i.id === action.itemId);
@@ -1182,6 +1337,11 @@ export function doAction(state, action, now = Date.now()) {
       if(effect?.kind==='resourcePack'){credit(s,Object.fromEntries(['food','timber','stone','iron'].map(k=>[k,effect.amount])));s.items.splice(itemIndex,1);break;}
       if(effect?.kind==='matrix'){const h=s.heroes.find(x=>x.id===action.heroId)||s.heroes.find(x=>x.assigned);if(!h||s.queues.march)throw Error('Chọn thần tiên đang nghỉ');h.matrices=[...new Set(h.matrices??[])];if(h.matrices.includes(item.id))throw Error('Ma trận đã mở');h.matrices.push(item.id);h.activeMatrix=item.id;s.items.splice(itemIndex,1);note(s,'Đã mở Ma trận '+item.name);break;}
       if(!effect)throw new Error('Hiệu ứng của vật phẩm nguồn chưa được mô hình hóa; xem hồ sơ Mobile để biết dữ kiện đã xác minh.');
+      if(effect.kind==='simulatedChest'){
+        const tier=clamp(Number(item.tier)||1,1,10),amount=250*tier;
+        credit(s,{food:amount*2,gold:amount,timber:amount,stone:Math.floor(amount*.8),iron:Math.floor(amount*.5)});
+        note(s,`Mở ${item.name}: nhận tài nguyên theo bậc ${tier} · phần thưởng SIMULATED vì danh sách mở rương nguồn chưa có.`);
+      }
       if(effect.kind==='mobileChest')openMobileChest(s,item,now);
       if(effect?.kind==='resource')credit(s,{[effect.resource]:effect.amount});
       else if(effect?.kind==='heroXp'){
@@ -1247,7 +1407,19 @@ export function doAction(state, action, now = Date.now()) {
       if(!count)throw new Error('Chưa có binh sĩ sẵn sàng hành quân.');
       const leadLimit=marchTroopCapacity(s);
       if(count>leadLimit)throw new Error(`Đội quân vượt giới hạn lĩnh binh ${leadLimit.toLocaleString('vi-VN')}; nâng Lĩnh binh thuật hoặc phân công thêm thần tiên.`);
-      if(s.settings.combatV13){if(node.isBoss&&s.world.campaignComplete)throw new Error('Đã hoàn thành trận quyết chiến.');if(s.world.captures.includes(node.id))throw new Error('Danh thành đã thuộc quyền quản lý.');combat().marchInput(s,{nodeId:node.id,troops,startAt:now,seed:1});}
+      let pveAssault=null;
+      if(s.settings.combatV13){
+        if(node.isBoss&&s.world.campaignComplete)throw new Error('Đã hoàn thành trận quyết chiến.');
+        if(s.world.captures.includes(node.id))throw new Error('Danh thành đã thuộc quyền quản lý.');
+        if(node.buzhouFloor>=4){
+          const progress=pveAssaultProgress(s,node,leadLimit);if(!progress?.wave.length)throw Error('Chưa có lực lượng để mở đợt công Bất Chu Sơn.');
+          const prior={remaining:progress.remainingByTroop,total:progress.total};
+          s.gameplay.endgameAssaults[node.id]=prior;
+          const wave=Object.fromEntries(progress.wave.map(row=>[row.unitId,row.count]));pveAssault={remainingBefore:{...prior.remaining},wave,total:prior.total};
+          const npc=s.gameplay.strategic.npc[node.id]||{morale:80,loyalty:100,troops:{},effects:[]};npc.troops=wave;s.gameplay.strategic.npc[node.id]=npc;
+        }
+        combat().marchInput(s,{nodeId:node.id,troops,startAt:now,seed:1});
+      }
       for(const [id,n] of Object.entries(troops)){s.army[id]-=n;if(!s.army[id])delete s.army[id];}
       const averageSpeed=Object.entries(troops).reduce((sum,[id,n])=>sum+(TROOPS.find(t=>t.id===id)?.speed||0)*n,0)/count;
       const marchSpeed = 1 + (s.settings.combatV13?(cityEffects(s,now).marchSpeed??0):0) + averageSpeed*.012
@@ -1256,7 +1428,7 @@ export function doAction(state, action, now = Date.now()) {
         + (s.levels.watch || 0) * 0.015;
       const seed=Object.entries(troops).reduce((value,[id,n])=>value^n^Number(id.slice(-2)),(now^node.power)>>>0);
       if(action.combatMode!==undefined&&!['auto','manual'].includes(action.combatMode))throw new Error('Không nhận diện được chế độ giao chiến.');
-      s.queues.march = { nodeId: node.id, troops, startAt: now, finishAt: now + Math.max(2000, (7 + node.chapter * 1.7) * 1000 / marchSpeed), seed:seed>>>0 };
+      s.queues.march = { nodeId: node.id, troops, startAt: now, finishAt: now + Math.max(2000, (7 + node.chapter * 1.7) * 1000 / marchSpeed), seed:seed>>>0,...(pveAssault?{pveAssault}:{}) };
       if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.combatMode=action.combatMode==='manual'?'manual':'auto';s.queues.march.battleCommands=[];s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=s.heroes.filter(h=>h.assigned).slice(0,3).map(h=>h.id);}
       note(s, `Đội quân rời thành hướng ${node.name}.`);
       break;
@@ -1427,6 +1599,7 @@ export function doAction(state, action, now = Date.now()) {
     default: throw new Error('Thao tác không được hỗ trợ.');
   }
   trackAction(s,action);
+  if(action.type==='duel'&&action.mode==='mountain')s.gameplay.actions.mountainMeeting=(s.gameplay.actions.mountainMeeting||0)+1;
   updateTutorial(s);
   return migrateSave(s, now);
 }

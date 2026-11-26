@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {advance, createNewGame, doAction, migrateSave} from '../src/engine.js';
 import {LEGACY_ELFLAND_LOCATIONS} from '../src/legacy-elfland-catalog.js';
 import {LEGACY_STRONGPOINTS, LEGACY_ADVANCED_FIELDS} from '../src/legacy-endgame-catalog.js';
-import {getEndgameBattles, getMountainBattles} from '../src/pve-campaign.js';
+import {getEndgameBattles, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot} from '../src/pve-campaign.js';
 
 const start = 1_800_000_000_000;
 
@@ -27,6 +27,40 @@ test('Bất Chu source doors settle through the army engine and persist their on
   assert.equal(state.stats.battles,1);assert.equal(state.world.buzhouFloor,1);assert.equal(state.world.pveWins['buzhou:1'],true);
   assert.equal(state.army[troopId]+state.wounded[troopId]+state.reports[0].dead[troopId],100_000);
   assert.equal(advance(state,sent.queues.march.finishAt+2).state.stats.battles,1);
+});
+
+test('Bất Chu doors 4–5 retain source roster counts and expose multi-sortie readiness',()=>{
+  const state=createNewGame('Vây Bất Chu',start),door4=getEndgameBattles().find(row=>row.id==='buzhou:4'),door5=getEndgameBattles().find(row=>row.id==='buzhou:5'),troopId=Object.keys(state.army)[0];
+  state.world.storyStage=24;state.world.pveWins={'buzhou:1':true,'buzhou:2':true,'buzhou:3':true};state.world.buzhouFloor=3;state.army[troopId]=25_000;
+  const progress=pveAssaultProgress(state,door4,100_000);
+  assert.equal(progress.total,3_450_000);assert.equal(progress.remaining,3_450_000);assert.equal(progress.sortieSize,25_000);assert.equal(progress.sortiesRemaining,138);
+  assert.equal(progress.wave.reduce((sum,row)=>sum+row.count,0),25_000);assert.equal(pveLock(state,door4,8),'');
+  state.world.pveWins['buzhou:4']=true;assert.match(pveLock(state,door5,8),/Cần ít nhất 100\.000 quân/);state.army[troopId]=100_000;
+  assert.equal(pveAssaultProgress(state,door5,300_000).total,10_700_000);assert.equal(pveLock(state,door5,8),'');
+  assert.equal(door4.enemy.formation.reduce((sum,row)=>sum+row.count,0),3_450_000);assert.equal(door5.enemy.formation.reduce((sum,row)=>sum+row.count,0),10_700_000);
+});
+
+test('Bất Chu door 4 resolves a real source-sized wave, clamps edited save progress and defers full-clear rewards',()=>{
+  let state=createNewGame('Vây Cửa Tư',start);state.world.storyStage=24;state.world.buzhouFloor=3;state.world.pveWins={'buzhou:1':true,'buzhou:2':true,'buzhou:3':true};state.army['troop-14']=100_000;
+  state.gameplay={endgameAssaults:{'buzhou:4':{total:1,remaining:{'legacy-npc-1000':0,'legacy-npc-999999':0}}}};
+  const queued=doAction(state,{type:'march',nodeId:'buzhou:4',troops:{'troop-14':100_000}},start);
+  assert.equal(queued.queues.march.pveAssault.total,3_450_000);
+  assert.equal(Object.values(queued.queues.march.pveAssault.remainingBefore).reduce((sum,count)=>sum+count,0),3_450_000);
+  assert.equal(queued.queues.march.pveAssault.total,3_450_000);assert.equal(Object.values(queued.queues.march.pveAssault.wave).reduce((sum,count)=>sum+count,0),100_000);
+  state=advance(migrateSave(JSON.parse(JSON.stringify(queued)),start),queued.queues.march.finishAt+1).state;
+  assert.equal(state.reports[0].victory,true);assert.equal(state.reports[0].assault.evidence,'SIMULATED_MULTI_SORTIE_SOURCE_ROSTER');assert.equal(state.reports[0].assault.cleared,100_000);assert.equal(state.reports[0].assault.remaining,3_350_000);
+  assert.equal(state.world.pveWins['buzhou:4'],undefined);assert.equal(state.world.buzhouFloor,3);assert.deepEqual(state.reports[0].loot,{});assert.equal(state.combatReceipts.length,1);
+  state=advance(state,queued.queues.march.finishAt+2).state;assert.equal(state.combatReceipts.length,1);assert.equal(state.reports[0].assault.remaining,3_350_000);
+});
+
+test('Tiên Sơn loot rules drive deterministic source-linked drops and daily farming',()=>{
+  const node=LEGACY_ELFLAND_LOCATIONS.flatMap(place=>getMountainBattles(place.ElflandID)).find(row=>row.lootRuleCandidates?.length);
+  assert.ok(node);const a=rollPveLoot(node,12345),b=rollPveLoot(node,12345);assert.deepEqual(a,b);assert.equal(a.evidence,'SIMULATED_LEGACY_INTERVAL_INTERPRETATION');
+  let state=createNewGame('Tiên Sơn',start);const troopId=Object.keys(state.army)[0];state.world.storyStage=24;state.stats.victories=20;state.stats.citiesCaptured=7;state.army[troopId]=100_000;
+  const sent=doAction(state,{type:'march',nodeId:node.id,troops:{[troopId]:100_000},seed:12345},start);state=advance(sent,sent.queues.march.finishAt+1).state;
+  assert.equal(state.world.pveWins[node.id],true);assert.equal(state.reports[0].sourceLoot?.evidence,'SIMULATED_LEGACY_INTERVAL_INTERPRETATION');assert.equal(pveLock(state,node,8),'Đã nhận thưởng hôm nay');
+  const nextDay=(state.world.pveLastClearDay[node.id]+1)*86400000;assert.equal(pveLock(advance(state,nextDay).state,node,8),'');
+  const battleCount=state.stats.battles;state=advance(state,sent.queues.march.finishAt+2).state;assert.equal(state.stats.battles,battleCount);
 });
 
 test('Boss source equipment and spells alter an actual army fight and appear in its receipt',()=>{
