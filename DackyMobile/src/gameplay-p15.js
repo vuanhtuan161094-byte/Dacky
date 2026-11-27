@@ -156,6 +156,7 @@ const sourceHeroResetItems=new Map([
 const sourceRootCultivation=new Map([
  ['8955',{minimumRoot:50,minimum:1,maximum:5}],['8956',{minimumRoot:55,minimum:1,maximum:5}]
 ]);
+const sourceOfficialSeals=new Map(Array.from({length:9},(_,index)=>{const sourceId=String(6225+index),minimumRank=index*2+1;return [sourceId,{minimumRank,maximumRank:minimumRank+1,quantityPerPromotion:1}]}));
 const sourceTowerBooks=new Map([
  ['8700',{stats:{maxHp:.03},runtimeEffect:'SIMULATED_TOWER_HEALING_BRIDGE'}],
  ['8701',{stats:{attack:.15}}],['8702',{stats:{defense:.10}}],['8703',{stats:{magic:.15}}],['8704',{stats:{resistance:.10}}],
@@ -174,7 +175,7 @@ const sourceHeroCombatGems=new Map([
  ['7653',{trait:'followUpAttack',chance:.01}],['7654',{trait:'followUpAttack',chance:.03}],['7655',{trait:'followUpAttack',chance:.05}],
  ['7656',{trait:'counterAttack',chance:.01}],['7657',{trait:'counterAttack',chance:.03}],['7658',{trait:'counterAttack',chance:.05}],
  ['7659',{trait:'dodge',chance:.01}],['7660',{trait:'dodge',chance:.03}],['7661',{trait:'dodge',chance:.05}],
- ['7674',{trait:'lifeSteal',ratio:.08}]
+ ['7674',{trait:'lifeSteal',ratio:.08}],['7675',{trait:'lifeSteal',ratio:.18}]
 ]);
 const sourceEquipmentGems=new Map([
  ['7639',{kind:'equipmentStatGem',stats:{magic:.50}}],
@@ -195,7 +196,7 @@ export function sourceGearGemRule(item){
  const rule=sourceHeroStatGems.get(String(item.mobileSourceId));
  if(rule)return {kind:'heroStatGem',...rule,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_HERO_STAT_GEM_ADAPTER'};
  const combat=sourceHeroCombatGems.get(String(item.mobileSourceId));
- if(combat)return {kind:'heroCombatGem',...combat,sourceId:String(item.mobileSourceId),evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:combat.trait==='lifeSteal'?'SIMULATED_NORMAL_HIT_LIFESTEAL_ADAPTER':'SIMULATED_EXPECTED_DUEL_TRAIT_ADAPTER',socketColorEvidence:String(item.mobileSourceId)==='7674'?'VERIFIED_BLUE_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'};
+ if(combat){const socketColor=String(item.mobileSourceId)==='7674'?'blue':String(item.mobileSourceId)==='7675'?'red':null;return {kind:'heroCombatGem',...combat,sourceId:String(item.mobileSourceId),evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:combat.trait==='lifeSteal'?'SIMULATED_NORMAL_HIT_LIFESTEAL_ADAPTER':'SIMULATED_EXPECTED_DUEL_TRAIT_ADAPTER',socketColorEvidence:socketColor?'VERIFIED_'+socketColor.toUpperCase()+'_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'};}
  const equipment=sourceEquipmentGems.get(String(item.mobileSourceId));
  if(equipment)return {...equipment,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:equipment.kind==='mountSpeedGem'?'SIMULATED_MOUNT_GEM_MARCH_SPEED':'SIMULATED_EQUIPMENT_STAT_GEM',socketColorEvidence:equipment.socketColor?'VERIFIED_'+equipment.socketColor.toUpperCase()+'_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'};
  const army=sourceArmyCombatGems.get(String(item.mobileSourceId));
@@ -211,6 +212,8 @@ export function itemUseRule(item){
  }
  if(sid==='4917')return {kind:'renameVoucher',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
  if(sid==='4916')return {kind:'flagVoucher',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
+ if(sourceOfficialSeals.has(sid))return {kind:'officialSeal',...sourceOfficialSeals.get(sid),evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_OFFICIAL_SEAL_PROMOTION'};
+ if(sid==='6036')return {kind:'eventExchange',ingredients:[{sourceId:'6036',count:1},{sourceId:'6037',count:1},{sourceId:'6043',count:1},{sourceId:'6044',count:1}],rewardSourceId:'6039',evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_EVENT_EXCHANGE_QUANTITY'};
  if(sid==='4408')return {kind:'mountainRefresh',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeScopeEvidence:'SIMULATED_SELECTED_MOUNTAIN_DAILY_RESET'};
  if(sid==='4910')return {kind:'recruitmentRefresh',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
  if(sid==='4904')return {kind:'moraleReset',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',unsupported:['city unrest has no runtime field']};

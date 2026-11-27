@@ -1577,6 +1577,20 @@ export function doAction(state, action, now = Date.now()) {
         if(effect.cooldownSeconds)s.gameplay.itemCooldowns[sourceId]=now+effect.cooldownSeconds*1000;
         s.items.splice(itemIndex,1);note(s,`${item.name} thi triển thành công · ${events.map(row=>row.type).join(', ')} · nguồn Mobile, phép toán theo adapter legacy SIMULATED.`);break;
       }
+      if(effect?.kind==='officialSeal'){
+        const rank=(s.gameplay.official||0)+1;
+        if(rank<effect.minimumRank||rank>effect.maximumRank||rank>18)throw Error(`Quyển này chỉ dùng cho Quan Ấn cấp ${effect.minimumRank}–${effect.maximumRank}; vật phẩm chưa bị tiêu hao.`);
+        if(s.fame<rank*rank*100||s.resources.gold<rank*100)throw Error(`Cần ${formatNumber(rank*rank*100)} danh vọng và ${formatNumber(rank*100)} đồng để nâng Quan Ấn cấp ${rank}; vật phẩm chưa bị tiêu hao.`);
+        debit(s,{gold:rank*100});s.gameplay.official=rank;s.items.splice(itemIndex,1);
+        note(s,`Quan Ấn tăng lên cấp ${rank} bằng ${item.name} · số quyển mỗi cấp và công thức chi phí dùng adapter SIMULATED.`);break;
+      }
+      if(effect?.kind==='eventExchange'){
+        const ingredients=effect.ingredients.map(row=>({row,item:ITEMS.find(candidate=>String(candidate.mobileSourceId)===String(row.sourceId))}));
+        for(const {row,item:ingredient} of ingredients){if(!ingredient||s.items.filter(id=>id===ingredient.id).length<row.count+reservedQuestItemCount(s,ingredient.id))throw Error('Thiếu vật liệu sự kiện còn dư sau khi giữ đủ đồ nhiệm vụ; vật phẩm chưa bị tiêu hao.');}
+        const reward=ITEMS.find(candidate=>String(candidate.mobileSourceId)===String(effect.rewardSourceId));if(!reward||s.items.length>=500)throw Error('Không còn chỗ trong túi hoặc thiếu phần thưởng đã ánh xạ; vật phẩm chưa bị tiêu hao.');
+        for(const {row,item:ingredient} of ingredients)for(let count=0;count<row.count;count++)s.items.splice(s.items.indexOf(ingredient.id),1);
+        s.items.push(reward.id);note(s,`Đã đổi bộ vật liệu Tết Đoan Ngọ lấy ${reward.name} · lượng quy đổi mỗi vật phẩm dùng adapter SIMULATED.`);break;
+      }
       if(effect?.kind==='nextBattleBuffSet'){
         if(s.queues.march)throw Error('Đang có đạo quân hành quân; phù chiến đấu chưa bị tiêu hao.');
         const sourceId=String(item.mobileSourceId??item.id);

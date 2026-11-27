@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewGame, doAction, migrateSave, quoteGearGemSocket, storageCapacity } from '../src/engine.js';
 import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
-import { cityEffects, claimSourceQuest, gameplayQuestList, itemBuff, itemUseRule, sourceGearGemRule } from '../src/gameplay-p15.js';
+import { cityEffects, claimSourceQuest, gameplayQuestList, itemBuff, itemUseRule, reservedQuestItemCount, sourceGearGemRule } from '../src/gameplay-p15.js';
 import { getMountainBattles, pveLock, resolvePveLootItem } from '../src/pve-campaign.js';
 import { createProductCombat } from '../src/combat/product-v13.js';
 import { recruitmentPromotion } from '../src/simulated-world.js';
@@ -35,6 +35,28 @@ test('source-linked quest goods are consumed once through the ordinary quest cla
   assert.ok(quest&&item);assert.ok(quest.conditions.some(row=>row.typeCode===1));state.items.push(item.id);
   const q=claimSourceQuest(state,quest.id,()=>({}));assert.ok(q);assert.ok(!state.items.includes(item.id));assert.ok(state.gameplay.questClaims.includes(quest.id));
   assert.throws(()=>claimSourceQuest(state,quest.id,()=>({})),/Nhiệm vụ chưa đủ điều kiện hoặc đang HOLD/);
+});
+
+test('nine source Secret Scroll tiers advance matching official seals and preserve valid-use costs',()=>{
+  for(let index=0;index<9;index++){
+    const rank=index*2+1,state=createNewGame('Thử Quan Ấn nguồn',now),book=sourceItem(6225+index);state.items.push(book.id);state.gameplay.official=rank-1;state.fame=rank*rank*100;state.resources.gold=rank*100;
+    const promoted=doAction(state,{type:'useItem',itemId:book.id},now);assert.equal(promoted.gameplay.official,rank);assert.equal(promoted.resources.gold,0);assert.ok(!promoted.items.includes(book.id));
+    const upperRank=rank+1;if(upperRank<=18){const second=sourceItem(6225+Math.floor((upperRank-1)/2)),next=structuredClone(promoted);next.items.push(second.id);next.fame=upperRank*upperRank*100;next.resources.gold=upperRank*100;assert.equal(doAction(next,{type:'useItem',itemId:second.id},now).gameplay.official,upperRank);}
+    if(index<8){const wrong=sourceItem(6226+index),blocked=createNewGame('Thử quyển sai bậc',now);blocked.items.push(wrong.id);assert.throws(()=>doAction(blocked,{type:'useItem',itemId:wrong.id},now),/chỉ dùng cho Quan Ấn/);assert.ok(blocked.items.includes(wrong.id));}
+  }
+});
+
+test('Dragon Boat item set exchanges once into its source Bánh Ú chest without spending reserved quest copies',()=>{
+  const state=createNewGame('Thử đổi lễ Đoan Ngọ',now),required=['6036','6037','6043','6044'].map(sourceId=>sourceItem(sourceId));
+  for(const ingredient of required)for(let count=0;count<1+reservedQuestItemCount(state,ingredient.id);count++)state.items.push(ingredient.id);
+  const before=Object.fromEntries(required.map(item=>[item.id,state.items.filter(id=>id===item.id).length]));
+  const exchanged=doAction(state,{type:'useItem',itemId:sourceItem('6036').id},now);
+  assert.ok(exchanged.items.includes(sourceItem('6039').id));
+  for(const ingredient of required)assert.equal(exchanged.items.filter(id=>id===ingredient.id).length,before[ingredient.id]-1);
+  const opened=doAction(exchanged,{type:'useItem',itemId:sourceItem('6039').id},now);
+  assert.ok(opened.items.includes(sourceItem('6042').id)&&opened.items.includes(sourceItem('6041').id),'the crafted Mobile chest enters its sourced opening table');
+  const incomplete=createNewGame('Thử thiếu vật liệu',now);incomplete.items.push(sourceItem('6036').id);
+  assert.throws(()=>doAction(incomplete,{type:'useItem',itemId:sourceItem('6036').id},now),/Thiếu vật liệu sự kiện/);assert.ok(incomplete.items.includes(sourceItem('6036').id));
 });
 
 test('Thần Phù Khoa Nga demolishes a selected built plot immediately and consumes only on success',()=>{
@@ -222,12 +244,15 @@ test('equipment stat and life-steal gem families alter duel inputs, healing and 
     const before=combat.commander(hero,state).commandAttack,after=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),command=combat.commander(after.heroes[0],after).commandAttack;
     assert.ok(command>before,`${sourceId} increases the commander input`);assert.ok(!after.items.includes(gem.id));
   }
-  const state=createNewGame('Thử hút máu',now),hero=state.heroes[0],gem=sourceItem('7674');hero.assigned=true;hero.equipment.helmet=gear.id;state.levels.foundry=1;state.items.push(gear.id,gem.id);
-  const socketed=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),maxHp=combat.commander(socketed.heroes[0],socketed).maxVitality;
-  socketed.heroes[0].combatVitality=Math.floor(maxHp*.5);
-  const result=combat.runDuel(socketed,{battleId:'leech-family',mode:'tower',seed:1,now});
-  assert.ok(result.battle.events.some(event=>event.type==='lifeSteal'&&event.amount>0),'a normal hit produces a real duel healing event');
-  assert.ok(result.state.reports[0].rounds.flatMap(round=>round.events??[]).some(event=>event.type==='lifeSteal'&&event.amount>0),'the one-time battle report preserves the actual healing');
+  const healedBySource={};
+  for(const sourceId of [7674,7675]){
+    const state=createNewGame('Thử hút máu',now),hero=state.heroes[0],gem=sourceItem(sourceId);hero.assigned=true;hero.equipment.helmet=gear.id;state.levels.foundry=1;state.items.push(gear.id,gem.id);
+    const socketed=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),maxHp=combat.commander(socketed.heroes[0],socketed).maxVitality;
+    socketed.heroes[0].combatVitality=Math.floor(maxHp*.5);
+    const result=combat.runDuel(socketed,{battleId:'leech-family:'+sourceId,mode:'tower',seed:1,now}),event=result.battle.events.find(row=>row.type==='lifeSteal'&&row.amount>0);
+    assert.ok(event,`${sourceId} normal hits produce a real duel healing event`);assert.ok(result.state.reports[0].rounds.flatMap(round=>round.events??[]).some(row=>row.type==='lifeSteal'&&row.amount>0),'the one-time battle report preserves the actual healing');healedBySource[sourceId]=event.amount;
+  }
+  assert.ok(healedBySource['7675']>healedBySource['7674'],'the 18% source gem heals more than its 8% tier');
 });
 
 test('blue mount-speed gems only socket to a mount and shorten actual march time',()=>{
