@@ -1,9 +1,9 @@
 {
   "citadel": {
-    "source": "mobile-source/assets/map-ng/thanh/map005.webp",
+    "source": "ART13 generated text-free source illustration silhouette cutout",
     "pixelSize": [
-      526,
-      329
+      320,
+      217
     ],
     "foot": [
       720,
@@ -13,13 +13,14 @@
       290,
       179
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "00883b15a06616ad70ae18b28ff51c40eda1d25e33a82c70421af4fa8c622ee3",
+    "transformation": "ART13 independent architecture cutout"
   },
   "wall": {
-    "source": "mobile-source/flash/city/RES_DAK_IMAGE.png",
+    "source": "ART13 generated text-free source illustration silhouette cutout",
     "pixelSize": [
-      355,
-      266
+      305,
+      261
     ],
     "foot": [
       720,
@@ -29,7 +30,8 @@
       156,
       90
     ],
-    "transformation": "custom terrain-aligned farm; native-roof stone gate; source reference"
+    "sha256": "a9855b575eaf9fbb12cbce257d1f309267bb0767e8346714e2a2ef8fb7310d73",
+    "transformation": "ART13 independent architecture cutout"
   },
   "government": {
     "source": "mobile-source/flash/city/RES_GOVERNMENT_IMAGE.png",
@@ -45,7 +47,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "5504426395a1d039ede710dbc41280c3f4671dc6675a47a09b171d71c0048486",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "academy": {
     "source": "mobile-source/flash/city/RES_SCHOOL_IMAGE.png",
@@ -61,7 +64,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "148eb512abe92c01728fc2c5ced9c861be9f6ae20e1e518d36e53d7b4eae0b7b",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "altar": {
     "source": "mobile-source/flash/city/RES_CALLHERO_IMAGE.png",
@@ -77,7 +81,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "a17ff5c2ca26cf2d422b4339a96c3e40b9f2d632904af1aada276458a1d8d111",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "manor": {
     "source": "mobile-source/flash/city/RES_DAK_IMAGE.png",
@@ -93,7 +98,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "1554dc7ca7eb995156519801e2edf0944c5244fd95beb1d0701a0d040dd339e8",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "hostel": {
     "source": "mobile-source/flash/city/RES_HOSTEL_IMAGE.png",
@@ -109,7 +115,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "273286330b26f856d4e7277de980e229060ff497628b31b255667c45754ef35c",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "embassy": {
     "source": "mobile-source/flash/city/RES_HONGLUTEMPLE_IMAGE.png",
@@ -125,7 +132,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "c97fb324b827ab862eb89ca27a12d7a773630b1fd2244b4c6e8e6c0cc91c8c8a",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "clinic": {
     "source": "mobile-source/flash/city/RES_HOSPITAL_IMAGE.png",
@@ -141,7 +149,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "44e196545d3beb273d23dc6f6be82debd648c72ffe7c3fcce9d62714c634ac24",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "housing": {
     "source": "mobile-source/flash/city/RES_HOUSE_IMAGE.png",
@@ -157,7 +166,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "market": {
     "source": "mobile-source/flash/city/RES_FSMARKET_IMAGE.png",
@@ -173,7 +183,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "granary": {
     "source": "mobile-source/flash/city/RES_FSMARKET_IMAGE.png",
@@ -189,7 +200,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "storehouse": {
     "source": "mobile-source/flash/city/RES_HOUSE_IMAGE.png",
@@ -205,7 +217,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "caravan": {
     "source": "mobile-source/flash/city/RES_HORSESTALL_IMAGE.png",
@@ -221,7 +234,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "foundry": {
     "source": "mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
@@ -237,7 +251,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "barracks": {
     "source": "mobile-source/flash/city/RES_BARBACK_IMAGE.png",
@@ -253,7 +268,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "8e7e51e5b51e83cec9074f0fee71db5bf1582783f6542b90418853881994f42f",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "training": {
     "source": "mobile-source/flash/city/RES_GYMKHANA_IMAGE.png",
@@ -269,7 +285,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "3312824e6aafd1e8dae284c12d4658af672cdd27972c1299f95cc79985a487c8",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "workshop": {
     "source": "mobile-source/flash/city/RES_ARTISANWORKSHOP_IMAGE.png",
@@ -285,7 +302,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "fcf45c7f049cfb7d958d9e3d3ccb93887cca33a0a2a66117ba85e83e5e346e41",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "watch": {
     "source": "mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png",
@@ -301,7 +319,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "649433eedbee0facf2e2f6499f1bd9c409c471fd82ed22ab450179915b891c3c",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "skirmisher": {
     "source": "mobile-source/flash/city/RES_SkirmisherBarrack_IMAGE.png",
@@ -317,7 +336,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "e331943ce07b8a81cbf32708235d91efd3dccc20a15d9743fd6c61996866579b",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "stable": {
     "source": "mobile-source/flash/city/RES_HORSESTALL_IMAGE.png",
@@ -333,7 +353,8 @@
       138,
       95
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "lumber": {
     "source": "mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png",
@@ -349,7 +370,8 @@
       153,
       94
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "grove": {
     "source": "mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png",
@@ -365,7 +387,8 @@
       153,
       94
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "quarry": {
     "source": "mobile-source/flash/city/RES_QUARRY_IMAGE.png",
@@ -381,7 +404,8 @@
       153,
       94
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "f70c0b707059bf06a37f5c5d4af0f3849ab61f2131d92a82318ecf9a8c6f3d71",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "mine": {
     "source": "mobile-source/flash/city/RES_IRONOREFIELD_IMAGE.png",
@@ -397,7 +421,8 @@
       153,
       94
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "3dfb285b4066b19eb7373ffd2caccab9ed79deba63247adec779af2eda3de778",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "farm": {
     "source": "mobile-source/flash/city/RES_CROPLAND_IMAGE.png",
@@ -406,14 +431,15 @@
       224
     ],
     "foot": [
-      468.8,
-      230.71428571428572
+      720,
+      570
     ],
     "display": [
       153,
       94
     ],
-    "transformation": "custom terrain-aligned farm; native-roof stone gate; source reference"
+    "sha256": "67ff90e68821cc72297840eb04cf9bb6cb10bc06ffb1d29ddfae146db50c8b6c",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   },
   "foundryfield": {
     "source": "mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
@@ -429,6 +455,7 @@
       153,
       94
     ],
-    "transformation": "alpha trim, bounded resample, common tonal grade"
+    "sha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
+    "transformation": "ART12 source-derived sprite tonal normalization"
   }
 }
