@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-execFileSync('python3', [path.join(root,'scripts/generate-art01-terrain.py'),path.join(root,'assets/art01-city-ground.svg')],{cwd:root,stdio:'inherit'});
+execFileSync('python3', [path.join(root,'scripts/install-art13.py'),path.join(root,'assets/art01-city-ground.svg')],{cwd:root,stdio:'inherit'});
 const { exportDatabase } = await import('./export-database.mjs');
 await exportDatabase();
 const dist = process.env.DACKY_BUILD_OUT

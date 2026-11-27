@@ -37,7 +37,7 @@ with sync_playwright() as p:
         # A separate browser context contains a QA-only developed-city fixture,
         # rendered by the actual runtime and never published to player storage.
         if label=="desktop":
-            developed=browser.new_context(viewport={"width":w,"height":h})
+            developed=browser.new_context(viewport={"width":1648,"height":928})
             dp=developed.new_page()
             dp.goto("http://127.0.0.1:4173/",wait_until="domcontentloaded",timeout=60000)
             dp.evaluate("""async()=>{const {createNewGame}=await import('/src/engine.js');const {BUILDINGS}=await import('/src/catalog.js');const {saveGame}=await import('/src/store.js');const s=createNewGame('Triều Ca · QA thành phát triển',Date.now());for(const b of BUILDINGS)s.levels[b.id]=Math.min(8,b.maxLevel);s.cityPlots={i1:{buildingId:'housing',level:5},i2:{buildingId:'barracks',level:4},i3:{buildingId:'storehouse',level:4},o1:{buildingId:'farm',level:5},o2:{buildingId:'farm',level:3},o3:{buildingId:'grove',level:4},o4:{buildingId:'mine',level:4}};await saveGame(s);}""")
