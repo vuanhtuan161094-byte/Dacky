@@ -1,6 +1,7 @@
-import os, pathlib
+import os, pathlib, json
 from playwright.sync_api import sync_playwright
 out=pathlib.Path("qa/art01-review");out.mkdir(parents=True,exist_ok=True)
+ui_audit=[]
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path=os.environ.get("CHROME_BIN","/usr/bin/google-chrome"),args=["--no-sandbox"])
     for label,w,h in [("desktop",1280,720),("landscape",844,390),("portrait",390,844)]:
@@ -119,6 +120,8 @@ with sync_playwright() as p:
         if label=='desktop':
             for view in ('heroes','army','inventory','world','pve','tech','quests','market','reports','settings','library'):
                 page.locator('#primary-nav [data-view="'+view+'"]').click()
+                page.screenshot(path=str(out/('normal-'+view+'.png')))
+                ui_audit.append({'viewport':label,'screen':view,**page.evaluate('''()=>({viewport:innerWidth,documentWidth:document.documentElement.scrollWidth,sceneWidth:document.querySelector("#scene")?.scrollWidth||0,visibleBrokenImages:[...document.images].filter(i=>i.complete&&!i.naturalWidth&&i.getBoundingClientRect().width>0).length})''')})
                 page.keyboard.press('F2')
                 assert not page.locator('.topbar').is_visible()
                 assert not page.locator('#primary-nav').is_visible()
@@ -129,4 +132,5 @@ with sync_playwright() as p:
         assert not errors,errors
         ctx.close()
     browser.close()
+(out/"ui-audit.json").write_text(json.dumps(ui_audit,indent=2))
 print("ART01 technical preview PASS; visual approval remains OWNER HOLD")
