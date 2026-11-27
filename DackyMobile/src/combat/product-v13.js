@@ -50,7 +50,13 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   for(const [key,ratio] of Object.entries(book?.stats||{}))if(Number.isFinite(out[key])&&Number.isFinite(ratio))out[key]=Math.round(out[key]*(1+ratio));
   // Keep the source percentage visible after the runtime's integer stat
   // rounding so small but valid gems also affect real duel and commander input.
-  if(state){const gems=Object.values(save.equipment??{}).filter(Boolean).flatMap(id=>save.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(byItem.get(id))).filter(Boolean);for(const gem of gems)if(Number.isFinite(out[gem.stat]))out[gem.stat]*=1+gem.ratio;}
+  if(state){
+   const gems=Object.values(save.equipment??{}).filter(Boolean).flatMap(id=>save.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(byItem.get(id))).filter(Boolean);
+   for(const gem of gems)if(gem.kind==='heroStatGem'&&Number.isFinite(out[gem.stat]))out[gem.stat]*=1+gem.ratio;
+   const expectedExtra=gems.filter(gem=>gem.kind==='heroCombatGem'&&['followUpAttack','counterAttack'].includes(gem.trait)).reduce((sum,gem)=>sum+gem.chance,0),dodge=gems.filter(gem=>gem.kind==='heroCombatGem'&&gem.trait==='dodge').reduce((sum,gem)=>sum+gem.chance,0);
+   if(expectedExtra)out.attack*=1+Math.min(.5,expectedExtra);
+   if(dodge){const reduction=Math.min(.35,dodge);for(const key of ['defense','resistance'])out[key]=(100+out[key])/(1-reduction)-100;}
+  }
   return out;
  }
  function commander(save,state){

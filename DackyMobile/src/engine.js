@@ -1519,8 +1519,9 @@ export function doAction(state, action, now = Date.now()) {
       if(s.queues.march)throw Error('Không khảm ngọc khi đang hành quân.');
       if(!quote.available)throw Error((s.levels.foundry||0)<1?'Cần Huyền Thiết Lò cấp 1 để khảm ngọc.':'Không còn lỗ ngọc.');
       const hero=s.heroes.find(row=>row.id===action.heroId),index=s.items.indexOf(action.gemId);hero.gearEnhancements??={};hero.gearEnhancements[action.itemId]??={rank:0,gems:[]};hero.gearEnhancements[action.itemId].gems.push(action.gemId);s.items.splice(index,1);
-      const gem=ITEMS.find(row=>row.id===action.gemId),red=SOURCE_RED_GEMS.has(String(gem?.mobileSourceId)),statRule=sourceGearGemRule(gem);
-      note(s,`Đã khảm ${gem?.name} vào ${ITEMS.find(row=>row.id===action.itemId)?.name} · ${statRule?'chỉ số '+({attack:'công kích',magic:'đạo pháp',defense:'phòng thủ',resistance:'kháng phép'}[statRule.stat]||statRule.stat)+' tăng '+Math.round(statRule.ratio*100)+'% theo adapter SIMULATED':red?'hiệu ứng ngọc đội hình nối vào chiến đấu bằng adapter SIMULATED':'hiệu quả chiến đấu SIMULATED'}.`);break;
+      const gem=ITEMS.find(row=>row.id===action.gemId),red=SOURCE_RED_GEMS.has(String(gem?.mobileSourceId)),statRule=sourceGearGemRule(gem),combatGemLabels={followUpAttack:'liên kích',counterAttack:'phản kích',dodge:'né tránh'},statLabel={attack:'công kích',magic:'đạo pháp',defense:'phòng thủ',resistance:'kháng phép'}[statRule?.stat]||statRule?.stat;
+      const effectText=statRule?.kind==='heroStatGem'?'chỉ số '+statLabel+' tăng '+Math.round(statRule.ratio*100)+'% theo adapter SIMULATED':statRule?.kind==='heroCombatGem'?combatGemLabels[statRule.trait]+' theo adapter SIMULATED':red?'hiệu ứng ngọc đội hình nối vào chiến đấu bằng adapter SIMULATED':'hiệu quả chiến đấu SIMULATED';
+      note(s,`Đã khảm ${gem?.name} vào ${ITEMS.find(row=>row.id===action.itemId)?.name} · ${effectText}.`);break;
     }
     case 'buyItem': {
       const item=ITEMS.find(i=>i.id===action.itemId&&i.type==='vật phẩm');

@@ -170,10 +170,17 @@ const sourceHeroStatGems=new Map([
  ['7665',{stat:'attack',ratio:.03}],['7666',{stat:'attack',ratio:.09}],['7667',{stat:'attack',ratio:.20}],
  ['7668',{stat:'magic',ratio:.03}],['7669',{stat:'magic',ratio:.09}],['7670',{stat:'magic',ratio:.20}]
 ]);
+const sourceHeroCombatGems=new Map([
+ ['7653',{trait:'followUpAttack',chance:.01}],['7654',{trait:'followUpAttack',chance:.03}],['7655',{trait:'followUpAttack',chance:.05}],
+ ['7656',{trait:'counterAttack',chance:.01}],['7657',{trait:'counterAttack',chance:.03}],['7658',{trait:'counterAttack',chance:.05}],
+ ['7659',{trait:'dodge',chance:.01}],['7660',{trait:'dodge',chance:.03}],['7661',{trait:'dodge',chance:.05}]
+]);
 export function sourceGearGemRule(item){
  if(!item||String(item.mobileGroup||'')!=='Nguyên liệu')return null;
  const rule=sourceHeroStatGems.get(String(item.mobileSourceId));
- return rule?{kind:'heroStatGem',...rule,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_HERO_STAT_GEM_ADAPTER'}:null;
+ if(rule)return {kind:'heroStatGem',...rule,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_HERO_STAT_GEM_ADAPTER'};
+ const combat=sourceHeroCombatGems.get(String(item.mobileSourceId));
+ return combat?{kind:'heroCombatGem',...combat,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_EXPECTED_DUEL_TRAIT_ADAPTER'}:null;
 }
 export function itemUseRule(item){
  if(!item||item.type!=='vật phẩm')return null;

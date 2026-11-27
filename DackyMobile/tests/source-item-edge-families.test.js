@@ -182,6 +182,19 @@ test('12 Mobile stat-gem materials socket, modify their described hero attribute
   }
 });
 
+test('nine Mobile duel-trait gems change real expected attack or incoming damage and survive migration',()=>{
+  const combat=createProductCombat({storageCapacity}),gear=sourceItem('7232'),cases=[['7653','followUpAttack',.01],['7654','followUpAttack',.03],['7655','followUpAttack',.05],['7656','counterAttack',.01],['7657','counterAttack',.03],['7658','counterAttack',.05],['7659','dodge',.01],['7660','dodge',.03],['7661','dodge',.05]];
+  for(const [sourceId,trait,chance] of cases){
+    const state=createNewGame('Thử ngọc đấu pháp',now),hero=state.heroes[0],gem=sourceItem(sourceId);state.levels.foundry=1;hero.assigned=true;hero.equipment.helmet=gear.id;state.items.push(gear.id,gem.id);
+    const baseline=combat.runDuel(state,{battleId:`trait-baseline-${sourceId}`,mode:'tower',seed:616,now}),rule=sourceGearGemRule(gem);
+    assert.equal(rule?.kind,'heroCombatGem',sourceId);assert.equal(rule.trait,trait);assert.equal(rule.chance,chance);
+    const enhanced=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),after=combat.runDuel(enhanced,{battleId:`trait-enhanced-${sourceId}`,mode:'tower',seed:616,now});
+    const damage=(battle,side,target)=>battle.events.filter(event=>event.type==='damage'&&event.side===side&&event.target===target).reduce((sum,event)=>sum+event.amount,0);
+    assert.ok(trait==='dodge'?damage(after.battle,1,0)<damage(baseline.battle,1,0):damage(after.battle,0,1)>damage(baseline.battle,0,1),`${sourceId} changes duel results through the product adapter`);
+    assert.deepEqual(migrateSave(JSON.parse(JSON.stringify(enhanced)),now+1).heroes[0].gearEnhancements[gear.id].gems,[gem.id],`${sourceId} survives save reload`);
+  }
+});
+
 test('70 verified frame and chat-bubble goods unlock once, equip by slot and persist through migration',()=>{
   const cosmetics=ITEMS.filter(item=>itemUseRule(item)?.kind==='cosmeticUnlock');
   assert.equal(cosmetics.length,70);
