@@ -1,0 +1,139 @@
+{
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "screens": [
+    {
+      "mode": "web",
+      "path": "qa/product-completion/inventory-category-web.png",
+      "visibleCategoryImages": 14,
+      "brokenVisibleImages": 0,
+      "imageState": [
+        {
+          "ok": true,
+          "src": "n_item_95334.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_95334.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_7237.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_5023.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        },
+        {
+          "ok": true,
+          "src": "n_item_6214.jpg"
+        }
+      ],
+      "externalRequests": []
+    },
+    {
+      "mode": "offline",
+      "path": "qa/product-completion/inventory-category-offline.png",
+      "visibleCategoryImages": 14,
+      "brokenVisibleImages": 0,
+      "imageState": [
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        },
+        {
+          "ok": true,
+          "src": "embedded"
+        }
+      ],
+      "externalRequests": []
+    }
+  ],
+  "browserErrors": []
+}

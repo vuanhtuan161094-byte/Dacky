@@ -24,9 +24,14 @@ const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;
 const assetUrl = value => globalThis.__DACKY_EMBEDDED_ASSETS__?.[value] || value;
 const sourceListText = value => Array.isArray(value) ? value.map(entry => typeof entry === 'string' ? entry : entry?.t || entry?.v || '').filter(Boolean).join(' · ') : '';
 const sourceStatsText = value => Array.isArray(value) ? value.map(entry=>`${entry[0]} ${entry[1]}`).join(' · ') : '';
+// Reused, visually reviewed Mobile images for non-source records only. These
+// depict an item category and must never be treated as the exact item asset.
+const ITEM_CATEGORY_ART=Object.freeze({'vũ khí':'./assets/mobile-source/assets/items/n_item_95334.jpg','giáp':'./assets/mobile-source/assets/items/n_item_7237.jpg','pháp bảo':'./assets/mobile-source/assets/items/n_item_5023.jpg','vật phẩm':'./assets/mobile-source/assets/items/n_item_6214.jpg'});
 const itemArt = item => item.mobileImage
   ? `<img class="item-source-art" src="${esc(assetUrl(item.mobileImage))}" alt="" loading="lazy" decoding="async">`
-  : `<span class="unit-glyph">${esc(item.glyph)}</span>`;
+  : ITEM_CATEGORY_ART[item.type]
+    ? `<img class="item-source-art item-category-art" src="${esc(assetUrl(ITEM_CATEGORY_ART[item.type]))}" alt="" title="Hình minh họa theo loại · không định danh vật phẩm" loading="lazy" decoding="async">`
+    : `<span class="unit-glyph">${esc(item.glyph)}</span>`;
 const itemSourceDetails = item => item.mobileDescription ? `<small>${esc(item.mobileDescription)}</small>` : item.mobileEquipmentSlot ? `<small>${esc(item.mobileEquipmentSlot)} · ${esc(item.mobileOccupation||'Trang bị')}</small>` : '';
 const fmt = formatNumber;
 const resourceGlyph = key => RESOURCE_INFO[key]?.glyph || ({questVouchers:'券',population:'民',official:'官',morale:'心'}[key]||'?');

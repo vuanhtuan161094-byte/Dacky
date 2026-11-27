@@ -179,7 +179,12 @@ export function pveLock(state, node, chapter) {
   }
   if (chapter < node.chapter) return `Cần mở chương ${node.chapter}`;
   if (node.previousId && !state.world.pveWins?.[node.previousId]) return 'Cần thắng trận trước';
-  if(node.buzhouFloor===4){const ready=countArmy(state);if(ready<25_000)return `Cần ít nhất 25.000 quân sẵn sàng · hiện có ${ready.toLocaleString('vi-VN')}`;}
-  if(node.buzhouFloor===5){const ready=countArmy(state);if(ready<100_000)return `Cần ít nhất 100.000 quân sẵn sàng · hiện có ${ready.toLocaleString('vi-VN')}`;}
+  // The roster threshold gates the first sortie. Once a source-sized siege has
+  // made real progress, let the player regroup and resume with the recovered
+  // force instead of requiring the original entry strength for every sortie.
+  const assault=node.buzhouFloor>=4?pveAssaultProgress(state,node):null;
+  const resuming=!!assault&&assault.cleared>0&&assault.remaining>0;
+  if(node.buzhouFloor===4&&!resuming){const ready=countArmy(state);if(ready<25_000)return `Cần ít nhất 25.000 quân sẵn sàng · hiện có ${ready.toLocaleString('vi-VN')}`;}
+  if(node.buzhouFloor===5&&!resuming){const ready=countArmy(state);if(ready<100_000)return `Cần ít nhất 100.000 quân sẵn sàng · hiện có ${ready.toLocaleString('vi-VN')}`;}
   return '';
 }

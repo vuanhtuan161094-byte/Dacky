@@ -2,6 +2,16 @@
 
 Updated 2026-11-27 · Repository `vuanhtuan161094-byte/Dacky` · active branch `feature/dacky-product-completion`
 
+## Latest continuation — mass gameplay completion
+
+- Continued in the existing ONE GAME branch. Added runtime behavior for resuming partially cleared Bất Chu doors 4–5 after regrouping; focused Buzhou regression is 9/9.
+- Full Node suite is 152/152; dependency graph remains 1,567 nodes / 3,958 edges with no cycles, impossible conditions or unknown unique references. Python source tests are 10/10.
+- Fixed the ART13 build installer to accept its already installed exact CSS patch when additional styles follow it. Web/PWA build and single-file offline HTML build now pass.
+- The 720-day clean-save endgame simulation reached campaign clear and Bất Chu door 3. Door 4 had cleared 1,024,330 of its 3,450,000 source troops; door 5 was not reached. The route was run before the siege-resumption fix. It also recorded 65 quest claims blocked by a full inventory. A post-fix route and long-term recovery remain unverified.
+- Inventory Web/offline screenshots in `qa/product-completion/` show 14 visible illustrations at 1280×720, no broken images, no browser errors and no external requests. The four reused source images are category fallbacks only, not exact item matches; manifest: `docs/ITEM_CATEGORY_ART_PROVENANCE.json`.
+- Remaining blockers: 620 semantic `PARTIAL_RUNTIME` rows; 430 reference/material goods; 179 Tiên Sơn loot IDs without a Mobile join; three legacy tables on HOLD; a full Buzhou 4–5 route; 65 bag-space quest claim failures; current-client comparison images; physical Android/device QA. This checkpoint does not claim V1.0 complete.
+- Build contents: 59,017 compact runtime records and 128,253 unique field-evidence records; offline HTML is generated but no public Pages URL is newly verified. CI for the new push is pending; DEVICE QA HOLD remains.
+
 ## Product completion checkpoint
 
 Branch base: ART13-preserving commit `41455f6c1888b981a5a2351654fbc7c1e056cfd4`. This is one integrated game and continues the P50 runtime; no Combat Engine rewrite or database expansion was made.

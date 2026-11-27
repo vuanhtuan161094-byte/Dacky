@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Visual category fallback for runtime items without an exact image.",
+  "identityClaim": false,
+  "gameplayClaim": false,
+  "authorization": "Project-owner authorization recorded in the conversation; no third-party SPDX claim is made.",
+  "review": "Each image was visually inspected for category fit on 2026-11-27. The source manifest remains authoritative for source URL and SHA-256.",
+  "mappings": [
+    {
+      "itemType": "vũ khí",
+      "path": "assets/mobile-source/assets/items/n_item_95334.jpg",
+      "sha256": "e15740c861625d51eb13d5e1b34b47194d5714a209c8ce12653d816defc56dc0",
+      "label": "Hình minh họa theo loại · không định danh vật phẩm"
+    },
+    {
+      "itemType": "giáp",
+      "path": "assets/mobile-source/assets/items/n_item_7237.jpg",
+      "sha256": "8b79b36f36e51bad7b31018ce55d2ca931df3e5cdad1251ffb8a5e328a2fceff",
+      "label": "Hình minh họa theo loại · không định danh vật phẩm"
+    },
+    {
+      "itemType": "pháp bảo",
+      "path": "assets/mobile-source/assets/items/n_item_5023.jpg",
+      "sha256": "78ea0b51ee82ec795caa180263170fe057777f8187b67d732768d1d205a5f07c",
+      "label": "Hình minh họa theo loại · không định danh vật phẩm"
+    },
+    {
+      "itemType": "vật phẩm",
+      "path": "assets/mobile-source/assets/items/n_item_6214.jpg",
+      "sha256": "96c5a21294494817c019fb1e343dd6d29455c538efacd52be6a56ce012d3d1e5",
+      "label": "Hình minh họa theo loại · không định danh vật phẩm"
+    }
+  ]
+}

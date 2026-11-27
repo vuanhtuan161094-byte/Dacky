@@ -40,6 +40,19 @@ test('Bất Chu doors 4–5 retain source roster counts and expose multi-sortie 
   assert.equal(door4.enemy.formation.reduce((sum,row)=>sum+row.count,0),3_450_000);assert.equal(door5.enemy.formation.reduce((sum,row)=>sum+row.count,0),10_700_000);
 });
 
+test('Bất Chu siege entry thresholds do not block a resumed, source-sized assault',()=>{
+  const state=createNewGame('Tập hợp Bất Chu',start),door4=getEndgameBattles().find(row=>row.id==='buzhou:4'),door5=getEndgameBattles().find(row=>row.id==='buzhou:5'),troopId=Object.keys(state.army)[0];
+  state.world.storyStage=24;state.world.pveWins={'buzhou:1':true,'buzhou:2':true,'buzhou:3':true};state.world.buzhouFloor=3;
+  state.army[troopId]=24_999;assert.match(pveLock(state,door4,8),/Cần ít nhất 25\.000 quân/);
+  const source4=door4.enemy.formation.reduce((out,row)=>{out[row.unitId]=(out[row.unitId]||0)+row.count;return out;},{}),damaged4={...source4};
+  damaged4[Object.keys(damaged4)[0]]-=1;state.gameplay.endgameAssaults={'buzhou:4':{total:3_450_000,remaining:damaged4}};
+  assert.equal(pveAssaultProgress(state,door4).cleared,1);assert.equal(pveLock(state,door4,8),'');
+  state.world.pveWins['buzhou:4']=true;state.world.buzhouFloor=4;state.army[troopId]=99_999;assert.match(pveLock(state,door5,8),/Cần ít nhất 100\.000 quân/);
+  const source5=door5.enemy.formation.reduce((out,row)=>{out[row.unitId]=(out[row.unitId]||0)+row.count;return out;},{}),damaged5={...source5};
+  damaged5[Object.keys(damaged5)[0]]-=1;state.gameplay.endgameAssaults['buzhou:5']={total:10_700_000,remaining:damaged5};
+  assert.equal(pveAssaultProgress(state,door5).cleared,1);assert.equal(pveLock(state,door5,8),'');
+});
+
 test('Bất Chu door 4 resolves a real source-sized wave, clamps edited save progress and defers full-clear rewards',()=>{
   let state=createNewGame('Vây Cửa Tư',start);state.world.storyStage=24;state.world.buzhouFloor=3;state.world.pveWins={'buzhou:1':true,'buzhou:2':true,'buzhou:3':true};state.army['troop-14']=100_000;
   state.gameplay={endgameAssaults:{'buzhou:4':{total:1,remaining:{'legacy-npc-1000':0,'legacy-npc-999999':0}}}};
