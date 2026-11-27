@@ -737,6 +737,14 @@ export function quoteItemPurchase(state, itemId, requestedCount=1) {
   if(!item)return null;
   const count=clamp(Math.floor(Number(requestedCount)||1),1,500);
   const discount=memberDiscountRate(state,item);
+  if(item.mobileSourceId==='4912'){
+    const cost={gold:30*count,food:18*count};
+    return {count,cost,available:state.items.length+count<=500&&canAfford(state,cost),costEvidence:'SIMULATED_SOURCE_POUCH_PRICE'};
+  }
+  if(item.mobileSourceId==='8746'){
+    const cost={gold:1_000*count};
+    return {count,cost,available:state.items.length+count<=500&&canAfford(state,cost),costEvidence:'SIMULATED_SOURCE_FENGSHEN_ORDER_PRICE'};
+  }
   if(item.legacySourceId){const cost={gold:Math.ceil(12*(1-discount))*count,food:Math.ceil(8*(1-discount))*count};return {count,cost,available:state.items.length+count<=500&&canAfford(state,cost),costEvidence:'SIMULATED_LEGACY_QUEST_SUPPLY',discountEvidence:discount?'SIMULATED_20_PERCENT_MEMBER_RATE':null};}
   if(item.mobileSourceId==='4906'){
     const cost={gold:1200,iron:700,stone:500};
@@ -1311,7 +1319,21 @@ export function advance(state, now = Date.now()) {
 export function doAction(state, action, now = Date.now()) {
   let s = advance(state, now).state;
   switch (action.type) {
-    case 'rebirthHero': {if(!s.settings.combatV13||s.queues.march)throw Error('Chưa sẵn sàng chuyển sinh');const h=s.heroes.find(x=>x.id===action.heroId);if(!h||h.assigned||h.level<60||(h.rebirths??0)>=5)throw Error('Cần cấp 60, nghỉ đội hình, tối đa 5 lần chuyển sinh');const cost=1670000;debit(s,{gold:cost});const def=HEROES.find(x=>x.id===h.id),profile=combat().runtime.index.heroes[String(def.mobileSourceId)];h.rebirths=(h.rebirths??0)+1;h.rootBonus=(h.rootBonus??0)+1;h.level=clamp(profile?.baseLevel??1,1,HERO_LEVEL_CAP);h.xp=0;h.skillLevel=1;delete h.combatMana;delete h.combatVitality;note(s,'Chuyển sinh thành công (mô phỏng).');break;}
+    case 'rebirthHero': {
+      if(!s.settings.combatV13||s.queues.march)throw Error('Chưa sẵn sàng chuyển sinh');
+      const h=s.heroes.find(x=>x.id===action.heroId);
+      if(!h||h.assigned||h.level<60||(h.rebirths??0)>=5)throw Error('Cần cấp 60, nghỉ đội hình, tối đa 5 lần chuyển sinh');
+      const def=HEROES.find(x=>x.id===h.id),profile=def&&combat().runtime.index.heroes[String(def.mobileSourceId)];
+      if(!profile)throw Error('Thiếu hồ sơ nguồn thần tiên.');
+      const root=Number(profile.root||0)+(h.rootBonus||0)+(h.sourceRootBonus||0)+Object.values(h.mobileRootBonuses||{}).reduce((sum,value)=>sum+(Number(value)||0),0);
+      const order=ITEMS.find(item=>String(item.mobileSourceId)==='8746'),orderIndex=order?s.items.indexOf(order.id):-1,requiresOrder=root<45;
+      if(requiresOrder&&orderIndex<0)throw Error('Căn cốt dưới 45 cần Lệnh Phong Thần (8746) · SIMULATED; vật phẩm chưa bị tiêu hao.');
+      const rebirthCost=8_000+3_000*(h.rebirths||0);
+      debit(s,{gold:rebirthCost});
+      if(requiresOrder)s.items.splice(orderIndex,1);
+      h.rebirths=(h.rebirths??0)+1;h.rootBonus=(h.rootBonus??0)+1;h.level=clamp(profile.baseLevel??1,1,HERO_LEVEL_CAP);h.xp=0;h.skillLevel=1;delete h.combatMana;delete h.combatVitality;
+      note(s,'Chuyển sinh thành công'+(requiresOrder?' · đã dùng Lệnh Phong Thần cho căn cốt dưới 45':'')+' · công thức tăng trưởng SIMULATED.');break;
+    }
     case 'allocatePotential': {const h=s.heroes.find(x=>x.id===action.heroId),stat=action.stat;if(!h||s.queues.march||!['attack','magic','defense'].includes(stat))throw Error('Không thể phân bổ');h.potential={...(h.potential??{})};const used=Object.values(h.potential).reduce((n,v)=>n+v,0),gifted=(h.mobilePotentialBonuses||[]).reduce((n,row)=>n+row.points,0);if(used>=h.level*2+(h.rebirths??0)*10+gifted)throw Error('Hết điểm tiềm năng');h.potential[stat]=(h.potential[stat]??0)+1;break;}
     case 'repairGear': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h||s.queues.march)throw Error('Thần tiên đang bận');const ids=Object.values(h.equipment??{}).filter(Boolean),loss=ids.reduce((n,id)=>n+100-(h.combatDurability?.[id]??100),0);if(!loss)throw Error('Trang bị không cần sửa');debit(s,{gold:Math.ceil(loss*5),iron:Math.ceil(loss/2)});h.combatDurability=Object.fromEntries(ids.map(id=>[id,100]));break;}
     case 'switchMatrix': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h?.matrices?.includes(action.itemId)||s.queues.march)throw Error('Ma trận chưa mở');h.activeMatrix=action.itemId;break;}
@@ -1518,14 +1540,14 @@ export function doAction(state, action, now = Date.now()) {
       if(s.queues.march)throw Error('Không khảm ngọc khi đang hành quân.');
       if(!quote.available)throw Error(quote.evidence==='VERIFIED_MOBILE_SLOT_REQUIREMENT'?`Ngọc này chỉ khảm vào ô ${quote.requiredSlot}; chưa tiêu hao vật phẩm.`:(s.levels.foundry||0)<1?'Cần Huyền Thiết Lò cấp 1 để khảm ngọc.':'Không còn lỗ ngọc.');
       const hero=s.heroes.find(row=>row.id===action.heroId),index=s.items.indexOf(action.gemId);hero.gearEnhancements??={};hero.gearEnhancements[action.itemId]??={rank:0,gems:[]};hero.gearEnhancements[action.itemId].gems.push(action.gemId);s.items.splice(index,1);
-      const gem=ITEMS.find(row=>row.id===action.gemId),red=SOURCE_RED_GEMS.has(String(gem?.mobileSourceId)),statRule=sourceGearGemRule(gem),combatGemLabels={followUpAttack:'liên kích',counterAttack:'phản kích',dodge:'né tránh',lifeSteal:'hút máu đòn thường'},armyEffectLabels={counterBonus:'khắc chế quân',criticalBonus:'bạo kích khắc chế',firstRoundGuard:'đỡ đòn lượt đầu',firstRoundAttack:'cường kích lượt đầu',classAttack:'tấn công binh chủng'},troopLabels={spear:'trường kích',shield:'đao thuẫn',archer:'cung binh',cavalry:'kỵ binh'},statLabel={attack:'công kích',magic:'đạo pháp',defense:'phòng thủ',resistance:'kháng phép'}[statRule?.stat]||statRule?.stat;
+      const gem=ITEMS.find(row=>row.id===action.gemId),red=SOURCE_RED_GEMS.has(String(gem?.mobileSourceId)),statRule=sourceGearGemRule(gem),combatGemLabels={followUpAttack:'liên kích',counterAttack:'phản kích',dodge:'né tránh',lifeSteal:'hút máu đòn thường'},armyEffectLabels={counterBonus:'khắc chế quân',criticalBonus:'bạo kích khắc chế',doubleDamageProc:'xác suất nhân đôi sát thương toàn quân',firstRoundGuard:'đỡ đòn lượt đầu',firstRoundAttack:'cường kích lượt đầu',classAttack:'tấn công binh chủng'},troopLabels={spear:'trường kích',shield:'đao thuẫn',archer:'cung binh',cavalry:'kỵ binh'},statLabel={attack:'công kích',magic:'đạo pháp',defense:'phòng thủ',resistance:'kháng phép'}[statRule?.stat]||statRule?.stat;
       const effectText=statRule?.kind==='heroStatGem'?'chỉ số '+statLabel+' tăng '+Math.round(statRule.ratio*100)+'% theo adapter SIMULATED':statRule?.kind==='equipmentStatGem'?'chỉ số trang bị tăng theo adapter SIMULATED':statRule?.kind==='mountSpeedGem'?'tốc độ hành quân tăng '+Math.round(statRule.ratio*100)+'% theo adapter SIMULATED':statRule?.kind==='heroCombatGem'?combatGemLabels[statRule.trait]+' theo adapter SIMULATED':statRule?.kind==='armyCombatGem'?armyEffectLabels[statRule.effect]+' cho '+troopLabels[statRule.sourceClass]+' · hiệu ứng đội quân SIMULATED':red?'hiệu ứng ngọc đội hình nối vào chiến đấu bằng adapter SIMULATED':'hiệu quả chiến đấu SIMULATED';
       note(s,`Đã khảm ${gem?.name} vào ${ITEMS.find(row=>row.id===action.itemId)?.name} · ${effectText}.`);break;
     }
     case 'buyItem': {
       const item=ITEMS.find(i=>i.id===action.itemId&&i.type==='vật phẩm');
       const workshopBlueprint=item?.mobileSourceId==='4906';
-      if(!item||item.mobileSourceId&&!item.mobileAvailableAtMerchant&&!workshopBlueprint)throw new Error('Thương nhân không bán vật phẩm này.');
+      if(!item||item.mobileSourceId&&!item.mobileAvailableAtMerchant&&!workshopBlueprint&&!['4912','8746'].includes(String(item.mobileSourceId)))throw new Error('Thương nhân không bán vật phẩm này.');
       if(workshopBlueprint&&(s.levels.workshop||0)<1)throw new Error('Cần Xưởng chế tạo cấp 1 để đặt làm Bản Vẽ Xây Dựng.');
       const count=clamp(Math.floor(Number(action.count)||1),1,500),quote=quoteItemPurchase(s,item.id,count);
       if(!quote)throw Error('Thương nhân không bán vật phẩm này.');
@@ -1572,7 +1594,7 @@ export function doAction(state, action, now = Date.now()) {
         if(node&&!s.gameplay.strategic.npc[node.id])s.gameplay.strategic.npc[node.id]={morale:80,loyalty:100,troops:node.enemy.formation.reduce((out,row)=>(out[row.unitId]=(out[row.unitId]||0)+row.count,out),{}),effects:[]};
         const events=castWorldSpell(s,{spellId:effect.spellId,heroId:hero.id,nodeId:node?.id,now,combat:combat()});
         if(effect.cooldownSeconds)s.gameplay.itemCooldowns[sourceId]=now+effect.cooldownSeconds*1000;
-        s.items.splice(itemIndex,1);note(s,`${item.name} thi triển thành công · ${events.map(row=>row.type).join(', ')} · nguồn Mobile, phép toán theo adapter legacy SIMULATED.`);break;
+        s.items.splice(s.items.indexOf(item.id),1);note(s,`${item.name} thi triển thành công · ${events.map(row=>row.type).join(', ')} · nguồn Mobile, phép toán theo adapter legacy SIMULATED.`);break;
       }
       if(effect?.kind==='officialSeal'){
         const rank=(s.gameplay.official||0)+1;
@@ -1938,14 +1960,14 @@ export function doAction(state, action, now = Date.now()) {
       const rates = { food: 1, timber: 1.15, stone: 1.3, iron: 1.55, gold: 2.2, jade: 16 };
       const fee = Math.max(0.02, 0.22 - (s.levels.caravan || 0) * 0.012 - (s.levels.embassy || 0) * 0.006 - (s.world.guildLevel||0)*0.005);
       const baseReceived = Math.floor(amount * rates[from] / rates[to] * (1 - fee));
-      const expedited=Number(s.gameplay.tradeVouchers)>0;
-      const received = Math.floor(baseReceived*(expedited?1.1:1));
+      const expedited=Number(s.gameplay.tradeVouchers)>0,contractBonus=itemBuff(s,'tradeThroughput',now);
+      const received = Math.floor(baseReceived*(expedited?1.1:1)*(1+contractBonus));
       if (received < 1) throw new Error('Lô hàng quá nhỏ để đổi có lợi.');
       s.resources[from] -= amount;
       s.resources[to] = Math.min(to === 'jade' ? 99_999 : storageCapacity(s), s.resources[to] + received);
       if(expedited)s.gameplay.tradeVouchers--;
       s.stats.tradeCount++;
-      note(s, `Đổi ${amount} ${RESOURCE_INFO[from].short} lấy ${received} ${RESOURCE_INFO[to].short} tại thị trường NPC${expedited?' · Xe Chỉ Nam tăng thông lượng 10% SIMULATED':''}.`);
+      note(s, `Đổi ${amount} ${RESOURCE_INFO[from].short} lấy ${received} ${RESOURCE_INFO[to].short} tại thị trường NPC${expedited?' · Xe Chỉ Nam tăng thông lượng 10% SIMULATED':''}${contractBonus?' · Khế Ước Đoàn Thương tăng thông lượng 5% SIMULATED':''}.`);
       break;
     }
     case 'guild': {

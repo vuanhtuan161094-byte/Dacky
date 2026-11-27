@@ -16,11 +16,11 @@ Updated 2026-11-26 on `integration/dacky-one-game-v1`. The accompanying `gamepla
 
 ## Runtime catalog status
 
-The generated 2,656-row ledger groups records as follows: 620 `PARTIAL_RUNTIME` (482 heroes, 73 cities, 25 troops, 21 buildings, 19 technologies), 151 artifacts with executable simulated or verified costs, 757 usable consumables, 534 equipment records, and 594 goods still marked reference/material. These status totals describe adapter coverage, not a completion score.
+The generated 2,656-row ledger currently groups records as follows: 620 `PARTIAL_RUNTIME` (482 heroes, 73 cities, 25 troops, 21 buildings, 19 technologies), 151 artifacts with executable simulated or verified costs, 1,065 `USE_RUNTIME`, 594 `EQUIP_RUNTIME`, 193 `QUEST_RUNTIME`, and 33 `REFERENCE_OR_MATERIAL`. These statuses describe adapter coverage, not a completion score.
 
 Runtime-path audit: all 482 source heroes resolve to finite product commander profiles; all 21 building and 19 technology identities return live progression quotes; all 25 troops return live training quotes; all 73 sourced city garrisons provide their verified named troop types and commanders to battle inputs. Mobile garrison troop counts remain simulated because the source says counts vary by server. The 620 `PARTIAL_RUNTIME` labels remain because this check does not prove source formula or balance parity.
 
-The 594 reference/material goods break down into 218 treasures, 170 quest items, 97 materials, 91 chests, 10 gems, 3 production goods, 3 miscellaneous goods and 2 speedups. Some adjacent source descriptions already map into runtime rules, but this group still needs item-by-item function verification and valid sinks before it can be called complete. Equipment currently has equip, set bonus, durability/repair and forge paths; the full source enhancement/star-upgrade system is not implemented.
+At the original P31 import, 594 goods had been grouped as reference/material: 218 treasures, 170 quest items, 97 materials, 91 chests, 10 gems, 3 production goods, 3 miscellaneous goods and 2 speedups. Shared effects and sinks have since reduced the current unclassified purpose group to 33; remaining instance-only, multiplayer-only and no-effect source items stay explicit.
 
 ## Four-strategy clean-save simulation
 
@@ -38,10 +38,10 @@ Army is current ready headcount/number of troop types; hero and gear counts are 
 
 ## Genuine holds
 
-- 438 quest objectives have unverified legacy `type/data` semantics or item links.
-- 1,093 Tiên Sơn raw loot rows remain unapplied; the current rewards are local first-win rules.
+- All 1,158 quests have playable objective adapters and 1,883 objectives are mapped; some source condition/reward semantics remain simulated.
+- 977/1,093 Tiên Sơn loot rows attach to playable floor candidates; 116 have no matching playable floor. Interval interpretation is simulated, and 174 of 190 unique item IDs still use the bounded fallback.
 - `generalrefreshlevellimitinfo`, `upgradeexp` and `fieldrandeventcfginfo` remain 3/70 legacy tables `HOLD`. Their runtime refresh, experience and field-event behavior is explicitly `SIMULATED`.
-- 594 goods remain reference/material status as grouped above. The parser's 67/70 decoded legacy table count is not treated as a proxy for gameplay completion.
+- 33 goods remain reference/material status as grouped above. The parser's 67/70 decoded legacy table count is not treated as a proxy for gameplay completion.
 - Source hero and equipment formulas, high-end PvE calibration, several unsupported technology and building effects, full enhancement crafting, additional runtime battle animation/VFX/audio and physical Android interaction remain open. **DEVICE QA HOLD.**
 
 The machine QA captures real Web/PWA/offline journeys and manual combat. A passing package build is not device QA. See `qa/one-game/` for screenshots and `battle-replay.mp4` for the captured combat session.

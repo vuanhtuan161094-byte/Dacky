@@ -69,6 +69,8 @@ export function equipmentSlot(item){const slots={'Mũ':'helmet','Giáp':'armor',
 const setBySource=new Map(MOBILE_SOURCE_DATABASE.categories['vat-pham'].filter(x=>x.details.some(d=>d.k==='kn'&&String(d.t).startsWith('Bộ '))).map(x=>{const b=x.details.find(d=>d.k==='kn'&&String(d.t).startsWith('Bộ '));return [String(x.id),{name:b.ds?.[0]?.t??b.t,thresholds:b.ds?.[0]?.n??[]}];}));
 export function equipmentSets(h){const counts=new Map();for(const id of new Set(Object.values(h.equipment??{}).filter(Boolean))){if((h.combatDurability?.[id]??100)<=0)continue;const it=ITEMS.find(x=>x.id===id),s=setBySource.get(String(it?.mobileSourceId));if(s){const v=counts.get(s.name)??{...s,count:0};v.count++;counts.set(s.name,v)}}return [...counts.values()].map(s=>({...s,active:s.thresholds.filter(x=>Number(String(x).match(/^\d+/)?.[0]??Infinity)<=s.count)}));}
 const sourceTimedBuffs=new Map([
+  ['4405',{seconds:86400,effects:[{key:'heroXp',ratio:.25}],unsupported:[],simulated:['SIMULATED_IDLE_CULTIVATION_TO_HERO_XP_BOOST']}],
+  ['4905',{seconds:72*3600,effects:[{key:'tradeThroughput',ratio:.05}],unsupported:[],simulated:['SIMULATED_SCHEDULED_CONVOY_TO_LOCAL_MARKET_THROUGHPUT']}],
   ['4501',{seconds:86400,effects:[{key:'production',ratio:.25},{key:'storageCapacity',ratio:1}],unsupported:[]}],
   ['4502',{seconds:7*86400,effects:[{key:'production',ratio:.25},{key:'storageCapacity',ratio:1}],unsupported:[]}],
   ['4503',{seconds:30*86400,effects:[{key:'production',ratio:.25},{key:'storageCapacity',ratio:1}],unsupported:[]}],
@@ -169,7 +171,8 @@ const sourceHeroStatGems=new Map([
  ['7650',{stat:'defense',ratio:.03}],['7651',{stat:'defense',ratio:.09}],['7652',{stat:'defense',ratio:.20}],
  ['7662',{stat:'resistance',ratio:.03}],['7663',{stat:'resistance',ratio:.09}],['7664',{stat:'resistance',ratio:.20}],
  ['7665',{stat:'attack',ratio:.03}],['7666',{stat:'attack',ratio:.09}],['7667',{stat:'attack',ratio:.20}],
- ['7668',{stat:'magic',ratio:.03}],['7669',{stat:'magic',ratio:.09}],['7670',{stat:'magic',ratio:.20}]
+ ['7668',{stat:'magic',ratio:.03}],['7669',{stat:'magic',ratio:.09}],['7670',{stat:'magic',ratio:.20}],
+ ['7671',{stat:'attack',amount:100,ratio:.08,socketColor:'red'}],['7672',{stat:'defense',amount:100,ratio:.10,socketColor:'red'}],['7673',{stat:'magic',amount:100,ratio:.08,socketColor:'red'}]
 ]);
 const sourceHeroCombatGems=new Map([
  ['7653',{trait:'followUpAttack',chance:.01}],['7654',{trait:'followUpAttack',chance:.03}],['7655',{trait:'followUpAttack',chance:.05}],
@@ -189,18 +192,19 @@ const sourceArmyCombatGems=new Map([
  ['7618',{effect:'counterBonus',sourceClass:'spear',targetClass:'cavalry',ratio:.10}],['7619',{effect:'counterBonus',sourceClass:'archer',targetClass:'spear',ratio:.10}],['7620',{effect:'counterBonus',sourceClass:'shield',targetClass:'archer',ratio:.10}],['7621',{effect:'counterBonus',sourceClass:'cavalry',targetClass:'shield',ratio:.10}],
  ['7622',{effect:'criticalBonus',sourceClass:'spear',targetClass:'cavalry',ratio:.05}],['7623',{effect:'criticalBonus',sourceClass:'archer',targetClass:'spear',ratio:.05}],['7624',{effect:'criticalBonus',sourceClass:'shield',targetClass:'archer',ratio:.05}],['7625',{effect:'criticalBonus',sourceClass:'cavalry',targetClass:'shield',ratio:.05}],
  ['7626',{effect:'criticalBonus',sourceClass:'spear',targetClass:'cavalry',ratio:.10}],['7627',{effect:'criticalBonus',sourceClass:'archer',targetClass:'spear',ratio:.10}],['7628',{effect:'criticalBonus',sourceClass:'shield',targetClass:'archer',ratio:.10}],['7629',{effect:'criticalBonus',sourceClass:'cavalry',targetClass:'shield',ratio:.10}],
- ['7630',{effect:'firstRoundGuard',sourceClass:'shield',ratio:.05}],['7631',{effect:'firstRoundGuard',sourceClass:'shield',ratio:.10}],['7632',{effect:'firstRoundAttack',sourceClass:'archer',ratio:.05}],['7633',{effect:'firstRoundAttack',sourceClass:'archer',ratio:.10}],['7634',{effect:'classAttack',sourceClass:'cavalry',ratio:.05}],['7635',{effect:'classAttack',sourceClass:'cavalry',ratio:.10}],['7636',{effect:'firstRoundGuard',sourceClass:'shield',ratio:.25}]
+ ['7630',{effect:'firstRoundGuard',sourceClass:'shield',ratio:.05}],['7631',{effect:'firstRoundGuard',sourceClass:'shield',ratio:.10}],['7632',{effect:'firstRoundAttack',sourceClass:'archer',ratio:.05}],['7633',{effect:'firstRoundAttack',sourceClass:'archer',ratio:.10}],['7634',{effect:'classAttack',sourceClass:'cavalry',ratio:.05}],['7635',{effect:'classAttack',sourceClass:'cavalry',ratio:.10}],['7636',{effect:'firstRoundGuard',sourceClass:'shield',ratio:.25}],
+ ['7642',{effect:'doubleDamageProc',ratio:.10,socketColor:'red'}]
 ]);
 export function sourceGearGemRule(item){
  if(!item||String(item.mobileGroup||'')!=='Nguyên liệu')return null;
  const rule=sourceHeroStatGems.get(String(item.mobileSourceId));
- if(rule)return {kind:'heroStatGem',...rule,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_HERO_STAT_GEM_ADAPTER'};
+ if(rule)return {kind:'heroStatGem',...rule,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_HERO_STAT_GEM_ADAPTER',socketColorEvidence:rule.socketColor?'VERIFIED_'+rule.socketColor.toUpperCase()+'_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'};
  const combat=sourceHeroCombatGems.get(String(item.mobileSourceId));
  if(combat){const socketColor=String(item.mobileSourceId)==='7674'?'blue':String(item.mobileSourceId)==='7675'?'red':null;return {kind:'heroCombatGem',...combat,sourceId:String(item.mobileSourceId),evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:combat.trait==='lifeSteal'?'SIMULATED_NORMAL_HIT_LIFESTEAL_ADAPTER':'SIMULATED_EXPECTED_DUEL_TRAIT_ADAPTER',socketColorEvidence:socketColor?'VERIFIED_'+socketColor.toUpperCase()+'_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'};}
  const equipment=sourceEquipmentGems.get(String(item.mobileSourceId));
  if(equipment)return {...equipment,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:equipment.kind==='mountSpeedGem'?'SIMULATED_MOUNT_GEM_MARCH_SPEED':'SIMULATED_EQUIPMENT_STAT_GEM',socketColorEvidence:equipment.socketColor?'VERIFIED_'+equipment.socketColor.toUpperCase()+'_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'};
  const army=sourceArmyCombatGems.get(String(item.mobileSourceId));
- return army?{kind:'armyCombatGem',...army,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_WEIGHTED_ARMY_GEM_ADAPTER',socketColorEvidence:'UNKNOWN_COLORLESS_RUNTIME_SOCKET'}:null;
+ return army?{kind:'armyCombatGem',...army,sourceId:String(item.mobileSourceId),evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:army.effect==='doubleDamageProc'?'SIMULATED_EXPECTED_ARMY_DOUBLE_DAMAGE_ADAPTER':'SIMULATED_WEIGHTED_ARMY_GEM_ADAPTER',socketColorEvidence:army.socketColor?'VERIFIED_'+army.socketColor.toUpperCase()+'_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'}:null;
 }
 export function itemUseRule(item){
  if(!item||item.type!=='vật phẩm')return null;
@@ -267,9 +271,24 @@ export function strategicQuote(){return strategicCatalog();}
 export function cityEffects(s,now){
  const out=strategicEffects({effects:s.gameplay?.strategic?.effects??[]},Math.floor(now/1000));
  for(const key of ['attack','defense','wallDefense','marchSpeed']){const bonus=itemBuff(s,key,now);if(bonus)out[key]=clamp((out[key]??0)+bonus,-.8,2);}
- const redGemCount=(s.heroes??[]).filter(hero=>hero.assigned).reduce((count,hero)=>count+Object.values(hero.equipment??{}).filter(id=>id&&(hero.combatDurability?.[id]??100)>0).reduce((sum,id)=>sum+(hero.gearEnhancements?.[id]?.gems??[]).filter(gemId=>ITEMS.find(item=>item.id===gemId)?.mobileSourceId==='7642').length,0),0);
- if(redGemCount)out.attack=clamp((out.attack??0)+Math.min(1,redGemCount*.10),-.8,2);
  return out;
 }
 export function npcEffects(s,id,now){return strategicEffects({effects:s.gameplay?.strategic?.npc?.[id]?.effects??[]},Math.floor(now/1000));}
-export function castWorldSpell(s,{spellId,heroId,nodeId,now,combat}){const h=s.heroes.find(x=>x.id===heroId);if(!h||s.queues.march)throw Error('Thần tiên không sẵn sàng');const c=combat.commander(h,s),row=strategicCatalog().find(x=>x.row.ID===Number(spellId));if(!row?.rule)throw Error('Pháp thuật HOLD');const own=row.rule[0]==='own',target=own?'capital':nodeId;if(!target||(!own&&s.world.captures.includes(target)))throw Error('Mục tiêu không hợp lệ');const g=s.gameplay.strategic,npc=g.npc?.[target]??{morale:80,loyalty:100,troops:{},effects:[]};const world={casters:{h:{cityId:'capital',ownerId:'p',energy:c.mana,spellTier:Math.min(10,Math.max(1,Math.floor(h.level/10)+1))}},cities:{capital:{ownerId:'p',morale:s.morale,loyalty:100,troops:s.army,effects:g.effects??[]},...(!own?{[target]:{ownerId:'npc',...npc}}:{})},receipts:g.receipts??[]};const castId='spell:'+s.profile.createdAt+':'+(++s.combatSequence);const r=castStrategic({world,casterId:'h',targetId:target,spellId:Number(spellId),castId,now:Math.floor(now/1000)});if(!r.ok)throw Error(r.reason);h.combatMana=r.world.casters.h.energy;h.combatUpdatedAt=now;g.effects=r.world.cities.capital.effects??[];s.morale=r.world.cities.capital.morale;g.receipts=r.world.receipts;if(!own)g.npc[target]={...r.world.cities[target]};return r.events;}
+export function castWorldSpell(s,{spellId,heroId,nodeId,now,combat}){
+ const h=s.heroes.find(x=>x.id===heroId);
+ if(!h||s.queues.march)throw Error('Thần tiên không sẵn sàng');
+ const c=combat.commander(h,s),row=strategicCatalog().find(x=>x.row.ID===Number(spellId));
+ if(!row?.rule)throw Error('Pháp thuật HOLD');
+ const pouch=ITEMS.find(item=>String(item.mobileSourceId)==='4912'),pouchIndex=pouch?s.items.indexOf(pouch.id):-1;
+ if(pouchIndex<0)throw Error('Thi triển pháp thuật cần Túi Gấm (4912); hãy mua tại Triều Ca Thị.');
+ const own=row.rule[0]==='own',target=own?'capital':nodeId;
+ if(!target||(!own&&s.world.captures.includes(target)))throw Error('Mục tiêu không hợp lệ');
+ const g=s.gameplay.strategic,npc=g.npc?.[target]??{morale:80,loyalty:100,troops:{},effects:[]};
+ const world={casters:{h:{cityId:'capital',ownerId:'p',energy:c.mana,spellTier:Math.min(10,Math.max(1,Math.floor(h.level/10)+1))}},cities:{capital:{ownerId:'p',morale:s.morale,loyalty:100,troops:s.army,effects:g.effects??[]},...(!own?{[target]:{ownerId:'npc',...npc}}:{})},receipts:g.receipts??[]};
+ const castId='spell:'+s.profile.createdAt+':'+(++s.combatSequence),r=castStrategic({world,casterId:'h',targetId:target,spellId:Number(spellId),castId,now:Math.floor(now/1000)});
+ if(!r.ok)throw Error(r.reason);
+ s.items.splice(pouchIndex,1);
+ h.combatMana=r.world.casters.h.energy;h.combatUpdatedAt=now;g.effects=r.world.cities.capital.effects??[];s.morale=r.world.cities.capital.morale;g.receipts=r.world.receipts;
+ if(!own)g.npc[target]={...r.world.cities[target]};
+ return r.events;
+}

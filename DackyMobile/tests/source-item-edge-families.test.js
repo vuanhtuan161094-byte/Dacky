@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createNewGame, doAction, migrateSave, quoteGearGemSocket, storageCapacity } from '../src/engine.js';
+import { createNewGame, doAction, migrateSave, quoteGearGemSocket, quoteItemPurchase, storageCapacity } from '../src/engine.js';
 import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
 import { cityEffects, claimSourceQuest, gameplayQuestList, itemBuff, itemUseRule, reservedQuestItemCount, sourceGearGemRule } from '../src/gameplay-p15.js';
 import { getMountainBattles, pveLock, resolvePveLootAward, resolvePveLootItem } from '../src/pve-campaign.js';
@@ -210,10 +210,38 @@ test('source red-slot gems socket through the hero UI adapter and affect army or
   assert.ok(combat.commander(enhanced.heroes[0],enhanced).commandAttack>before,'Xi Vưu Thần Ngọc reaches the commander profile');
 
   const army=prepare('7642'),base=combat.marchInput(army.state,{nodeId:node.id,troops:{[troop.id]:10},startAt:now,seed:13}).input;
+  assert.equal(sourceGearGemRule(army.gem)?.kind,'armyCombatGem');
   const socketed=doAction(army.state,{type:'socketGearGem',heroId:army.hero.id,itemId:gear.id,gemId:army.gem.id},now);
   const buffed=combat.marchInput(socketed,{nodeId:node.id,troops:{[troop.id]:10},startAt:now,seed:13}).input;
-  assert.ok(Math.abs(cityEffects(socketed,now).attack-.1)<1e-8);
+  assert.equal(cityEffects(socketed,now).attack,undefined,'the army gem is applied once through the army adapter');
   assert.ok(Math.abs(buffed.sides[0].armyAttack-base.sides[0].armyAttack-.1)<1e-8,'expected value of the source 10% double-damage proc reaches army combat');
+});
+
+test('all four red Mobile gems expose their verified stat or army effect and require red-slot metadata',()=>{
+  for(const id of ['7642','7671','7672','7673']){
+    const gem=sourceItem(id),rule=sourceGearGemRule(gem);
+    assert.ok(rule,id);assert.equal(rule.evidence,'VERIFIED_MOBILE',id);assert.equal(rule.socketColorEvidence,'VERIFIED_RED_SOCKET',id);
+    assert.ok(rule.kind==='armyCombatGem'||rule.kind==='heroStatGem',id);
+  }
+  assert.deepEqual(itemUseRule(sourceItem('6036')).ingredients.map(row=>row.sourceId),['6036','6037','6043','6044']);
+  const combat=createProductCombat({storageCapacity}),gear=sourceItem('7232');
+  const damage=(battle,side,target)=>battle.events.filter(event=>event.type==='damage'&&event.side===side&&event.target===target).reduce((sum,event)=>sum+event.amount,0);
+  for(const [id,channel] of [['7671','attack'],['7672','defense'],['7673','magic']]){
+    const state=createNewGame('Thử ngọc đỏ',now),hero=state.heroes[0],gem=sourceItem(id);state.levels.foundry=1;hero.assigned=true;hero.equipment.helmet=gear.id;state.items.push(gear.id,gem.id);
+    const before=combat.runDuel(state,{battleId:'red-before-'+id,mode:'tower',seed:711,now});
+    const afterState=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),after=combat.runDuel(afterState,{battleId:'red-after-'+id,mode:'tower',seed:711,now});
+    assert.ok(channel==='defense'?damage(after.battle,1,0)<damage(before.battle,1,0):damage(after.battle,0,1)>damage(before.battle,0,1),`${id} changes actual ${channel} combat`);
+  }
+});
+
+test('Lệnh Phong Thần is consumed only when a low-root hero completes rebirth',()=>{
+  const definition=HEROES.find(row=>Number(String(row.mobileBaseStats?.find(stat=>stat.label==='Căn cốt')?.value||'').match(/\d+/)?.[0]||0)<45),state=createNewGame('Thử phong thần',now),hero=state.heroes[0],order=sourceItem('8746');
+  assert.ok(definition&&order);hero.id=definition.id;hero.level=60;hero.assigned=false;state.levels.storehouse=18;state.resources.gold=30_000;
+  assert.throws(()=>doAction(state,{type:'rebirthHero',heroId:hero.id},now),/Lệnh Phong Thần/);
+  assert.equal(state.resources.gold,30_000,'rejected promotion spends nothing');
+  const quote=quoteItemPurchase(state,order.id);assert.equal(quote.costEvidence,'SIMULATED_SOURCE_FENGSHEN_ORDER_PRICE');assert.ok(quote.available);
+  const prepared=doAction(state,{type:'buyItem',itemId:order.id},now),promoted=doAction(prepared,{type:'rebirthHero',heroId:hero.id},now);
+  assert.ok(!promoted.items.includes(order.id));assert.equal(promoted.heroes[0].rebirths,1);
 });
 
 test('12 Mobile stat-gem materials socket, modify their described hero attribute and survive migration',()=>{

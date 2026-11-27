@@ -791,6 +791,12 @@ test('NPC world nodes expose distinct formations and scouting persists battle in
   assert.ok(new Set(WORLD_NODES.map(node=>node.enemy.tactic.id)).size>=4);
   assert.ok(WORLD_NODES.every(node=>node.enemy.formation.every(row=>TROOPS.some(t=>t.id===row.unitId)&&row.count>0)));
   for(const node of WORLD_NODES){
+    if(node.mobileCityId){
+      assert.equal(node.enemy.formationEvidence,'VERIFIED_MOBILE_IDENTITIES_SIMULATED_COUNTS',node.mobileCityId);
+      assert.equal(node.enemy.formation.length,5,node.mobileCityId);
+      assert.ok(node.enemy.formation.every(row=>TROOPS.find(unit=>unit.id===row.unitId)?.name===row.sourceTroopText),node.mobileCityId);
+      continue;
+    }
     const preferredTier=Math.ceil(node.chapter*7/8);
     for(const row of node.enemy.formation){
       const troop=TROOPS.find(unit=>unit.id===row.unitId);

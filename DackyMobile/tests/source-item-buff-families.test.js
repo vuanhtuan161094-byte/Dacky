@@ -347,15 +347,17 @@ test('outpost battle seals are prepared once, affect the real battle input, and 
 
 test('Mobile strategic scrolls use the shared spell engine, saved cooldowns and selected NPC target',()=>{
   const economy=withItem('4551'),hero=economy.state.heroes[0];hero.level=150;hero.combatMana=10_000;
+  const pouch=sourceItem('4912');assert.ok(pouch);economy.state.items.push(pouch.id);
   const production=doAction(economy.state,{type:'useItem',itemId:economy.item.id,heroId:hero.id},now);
   assert.ok(!production.items.includes(economy.item.id));
+  assert.ok(!production.items.includes(pouch.id),'one strategy pouch is spent by the spell');
   assert.ok(cityEffects(production,now).production>=.05);
   assert.equal(production.gameplay.itemCooldowns['4551'],now+2*3600_000);
   production.items.push(economy.item.id);
   assert.throws(()=>doAction(production,{type:'useItem',itemId:economy.item.id,heroId:hero.id},now+1),/hồi chiêu/);
   assert.ok(production.items.includes(economy.item.id),'cooldown rejection keeps the scroll');
 
-  const troopLoss=withItem('4557'),caster=troopLoss.state.heroes[0],node=WORLD_NODES.find(row=>row.id==='node-120');
+  const troopLoss=withItem('4557'),caster=troopLoss.state.heroes[0],node=WORLD_NODES.find(row=>row.id==='node-120');troopLoss.state.items.push(pouch.id);
   caster.level=150;caster.combatMana=10_000;
   const before=node.enemy.formation.reduce((sum,row)=>sum+row.count,0);
   const debuffed=doAction(troopLoss.state,{type:'useItem',itemId:troopLoss.item.id,heroId:caster.id,nodeId:node.id},now);
@@ -366,6 +368,34 @@ test('Mobile strategic scrolls use the shared spell engine, saved cooldowns and 
   const migrated=migrateSave(JSON.parse(JSON.stringify(debuffed)),now+2);
   assert.equal(migrated.gameplay.strategic.npc[node.id].troops && Object.values(migrated.gameplay.strategic.npc[node.id].troops).reduce((sum,count)=>sum+count,0),after);
   assert.equal(migrated.gameplay.itemCooldowns['4557'],undefined);
+});
+
+test('Gossamer Pouch is a priced spell material and failed casts preserve it and the scroll',()=>{
+  const pouch=sourceItem('4912'),state=createNewGame('Túi thi pháp',now),quote=quoteItemPurchase(state,pouch.id);
+  assert.equal(quote.costEvidence,'SIMULATED_SOURCE_POUCH_PRICE');assert.ok(quote.available);
+  const bought=doAction(state,{type:'buyItem',itemId:pouch.id},now);assert.ok(bought.items.includes(pouch.id));
+  const scroll=sourceItem('4551');bought.items.push(scroll.id);bought.heroes[0].level=150;bought.heroes[0].combatMana=10_000;
+  const failed=structuredClone(bought);failed.items.splice(failed.items.indexOf(pouch.id),1);
+  assert.throws(()=>doAction(failed,{type:'useItem',itemId:scroll.id,heroId:failed.heroes[0].id},now),/Túi Gấm/);
+  assert.ok(failed.items.includes(scroll.id));
+  const cast=doAction(bought,{type:'useItem',itemId:scroll.id,heroId:bought.heroes[0].id},now);
+  assert.ok(!cast.items.includes(pouch.id));assert.ok(!cast.items.includes(scroll.id));
+});
+
+test('idle cultivation medicine and merchant contract affect shared XP and trade systems',()=>{
+  const idle=withItem('4405'),idleRule=itemUseRule(idle.item);
+  assert.equal(idleRule.kind,'timedBuffSet');assert.ok(idleRule.simulated.includes('SIMULATED_IDLE_CULTIVATION_TO_HERO_XP_BOOST'));
+  const boosted=doAction(idle.state,{type:'useItem',itemId:idle.item.id},now);
+  assert.equal(itemBuff(boosted,'heroXp',now),.25);assert.ok(!boosted.items.includes(idle.item.id));
+  const contract=withItem('4905'),baseline=createNewGame('Giao dịch cơ sở',now);
+  for(const state of [contract.state,baseline]){state.resources.food=5000;state.resources.timber=0;}
+  const active=doAction(contract.state,{type:'useItem',itemId:contract.item.id},now);
+  assert.equal(itemBuff(active,'tradeThroughput',now),.05);
+  const normal=doAction(baseline,{type:'trade',from:'food',to:'timber',amount:3000},now);
+  const increased=doAction(active,{type:'trade',from:'food',to:'timber',amount:3000},now);
+  assert.ok(increased.resources.timber>normal.resources.timber);
+  assert.match(increased.notifications[0],/SIMULATED/);
+  assert.equal(itemBuff(migrateSave(JSON.parse(JSON.stringify(active)),now+1),'tradeThroughput',now+1),.05);
 });
 
 test('source hero recovery and respec items have bounded, consumable gameplay effects',()=>{
