@@ -2,6 +2,7 @@ import { canEquip, resolveArtifactRound, resolveArtifactStrikes } from './army-a
 import { tacticalProfile, specialPassiveModifiers } from './tactics-v6.js';
 import { prepareCommanders, commanderSnapshot, commanderChoice, chooseStance, TACTICAL_STANCES, createWall, hitWall, applyCommanderFatigue } from './command-v8.js';
 import { commanderDuel } from './battle-session-v10.js';
+import { aggregateSquadStacks, validateSquadAllocation, squadView } from './squad-ownership.js';
 const int=(n,label)=>{if(!Number.isSafeInteger(n)||n<0)throw Error('Invalid '+label);return n};
 const sum=s=>s.reduce((n,x)=>n+x.count,0),clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const rngFor=seed=>{let x=Number(seed)>>>0;return()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296}};
@@ -47,11 +48,18 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={},siege=nul
  const cfg={...ARMY_POLICY,...policy};
  if(!Array.isArray(sides)||sides.length!==2||!Number.isInteger(cfg.maxRounds)||cfg.maxRounds<1||cfg.maxRounds>100||!Number.isFinite(cfg.damageScale)||cfg.damageScale<=0||cfg.damageScale>10||!Number.isFinite(cfg.heroCommandScale)||cfg.heroCommandScale<0||cfg.heroCommandScale>1)throw Error('Invalid army policy');
  let army=sides.map(s=>({...s,equippedArtifactIds:[...(s.equippedArtifactIds||[])],stacks:normalizeArmyStacks(s.stacks,troops)}));
- const advanced=cfg.enableTacticsV10===true||cfg.enableTacticsV8===true||Boolean(siege)||sides.some(s=>s.reserves?.length||s.switchPlan||s.stance);
+ const squadMode=sides.some(s=>s.squadStacks!==undefined);
+ const advanced=squadMode||cfg.enableTacticsV10===true||cfg.enableTacticsV8===true||Boolean(siege)||sides.some(s=>s.reserves?.length||s.switchPlan||s.stance);
  const rosters=advanced?sides.map(s=>prepareCommanders(s,index)):null,active=[0,0],wall=createWall(siege);
+ const groups=squadMode?sides.map((s,i)=>validateSquadAllocation(s.stacks,s.squadStacks,rosters[i].length).map(g=>g.length?normalizeArmyStacks(g,troops):[])):null;
+ const viable=(i,j)=>rosters[i][j].vitality>0&&sum(groups[i][j])>0;
+ const selectSquad=(i,j)=>{const c=rosters[i][j];army[i]={...army[i],legacyPassiveName:null,legacyDuelPassiveIds:[],ownedArtifactIds:undefined,switchLocked:false,...c,stacks:groups[i][j]};active[i]=j;};
+ if(squadMode)for(let i=0;i<2;i++){const j=rosters[i].findIndex((_,k)=>viable(i,k));selectSquad(i,j<0?0:j);}
+ const allStacks=i=>squadMode?aggregateSquadStacks(groups[i]):army[i].stacks;
+ const total=i=>sum(allStacks(i));
  const challengeUsed=[false,false];
  const passiveNames=sides.map(s=>s.legacyPassiveName??null);
- const initial=army.map(s=>sum(s.stacks)),random=rngFor(seed),rounds=[],events=[];
+ const initial=army.map((s,i)=>total(i)),random=rngFor(seed),rounds=[],events=[];
  const summary=s=>({...s,troops:sum(s.stacks),initialTroops:s.stacks.reduce((n,t)=>n+t.initialCount,0)});
  const power=(side,other,mods,tactical,passive,enemyPassive,stances=['balanced','balanced'])=>{
   const own=side.stacks,enemy=other.stacks,total=sum(own),enemyTotal=sum(enemy);
@@ -60,11 +68,13 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={},siege=nul
   const defense=Math.max(0,avgDef*(1+mods[1].defense+enemyPassive.defense+clamp(other.commandDefense??0,0,.3)+clamp(other.armyDefense??0,0,1))*TACTICAL_STANCES[stances[1]].defense),attack=own.reduce((n,t)=>n+t.attack*t.count,0)*Math.max(.05,1+mods[0].attack+passive.attack)*command*Math.max(.05,1+clamp(side.armyAttack??0,-.5,1)+clamp(side.armyMorale??0,0,.2))*Math.max(.05,1+tactical.counter+tactical.formation)*TACTICAL_STANCES[stances[0]].attack;
   return total&&enemyTotal?Math.min(enemyTotal,Math.max(cfg.enableBalanceV12&&attack>0?1:0,Math.floor(attack/(Math.max(1,avgLife*(1+clamp(other.armyLife??0,0,1)))+defense)*cfg.damageScale*(.9+random()*.2)))):0;
  };
- for(let round=1;round<=cfg.maxRounds&&army.every(s=>sum(s.stacks)>0);round++){
+ for(let round=1;round<=cfg.maxRounds&&(squadMode?rosters.every((r,i)=>r.some((_,j)=>viable(i,j))):army.every(s=>sum(s.stacks)>0));round++){
   const roundEvents=[],log=(type,side,data={})=>roundEvents.push({round,type,side,...data});
   if(advanced)for(let i=0;i<2;i++){
-   const s=army[i],c=commanderChoice({side:s,roster:rosters[i],active:active[i],round,index,enemy:army[1-i],plan:sides[i].switchPlan,mode:sides[i].commanderMode??'ordered'});
-   if(c.next!==active[i]){const old=rosters[i][active[i]];active[i]=c.next;const next=rosters[i][active[i]];army[i]={...s,legacyPassiveName:null,legacyDuelPassiveIds:[],ownedArtifactIds:undefined,...next};log('commanderSwitch',i,{from:old.heroId,to:next.heroId,instanceId:next.instanceId,reason:c.reason});}
+   const s=army[i],candidateRoster=squadMode?rosters[i].map((c,j)=>viable(i,j)?c:{...c,vitality:0}):rosters[i];
+   const forced=squadMode&&!viable(i,active[i])?candidateRoster.findIndex(c=>c.vitality>0):-1;
+   const c=forced>=0?{next:forced,reason:'SQUAD_DEFEATED'}:commanderChoice({side:s,roster:candidateRoster,active:active[i],round,index,enemy:army[1-i],plan:sides[i].switchPlan,mode:sides[i].commanderMode??'ordered'});
+   if(c.next!==active[i]){const old=rosters[i][active[i]];active[i]=c.next;const next=rosters[i][active[i]];if(squadMode)selectSquad(i,c.next);else army[i]={...s,legacyPassiveName:null,legacyDuelPassiveIds:[],ownedArtifactIds:undefined,...next};log('commanderSwitch',i,{from:old.heroId,to:next.heroId,instanceId:next.instanceId,reason:c.reason,...(squadMode?{fromSquadId:old.instanceId,toSquadId:next.instanceId}:{})});}
    else if(sides[i].switchPlan?.[round]!==undefined&&c.reason!=='MANUAL')log('switchRejected',i,{reason:c.reason});
   }
   const before=army.map(s=>sum(s.stacks));
@@ -95,13 +105,16 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={},siege=nul
   const settled=resolveArtifactStrikes(prep,incoming);
   army=army.map((s,i)=>({...s,...settled.sides[i],stacks:allocateTroopDelta(s.stacks,settled.sides[i].troops-sum(s.stacks))}));
   if(advanced)for(let i=0;i<2;i++){
-   const c={...rosters[i][active[i]],...commanderSnapshot(army[i])},f=applyCommanderFatigue(c,Math.max(0,before[i]-sum(army[i].stacks)),initial[i]);
+   const c={...rosters[i][active[i]],...commanderSnapshot(army[i])},f=applyCommanderFatigue(c,Math.max(0,before[i]-sum(army[i].stacks)),(squadMode?army[i].stacks.reduce((n,t)=>n+t.initialCount,0):initial[i]));
    const {damage,...snapshot}=f;rosters[i][active[i]]=snapshot;army[i].vitality=snapshot.vitality;if(damage)log('commanderFatigue',i,{amount:damage,vitality:snapshot.vitality});
   }
+  if(squadMode)for(let i=0;i<2;i++)groups[i][active[i]]=army[i].stacks;
   const prior=roundEvents.filter(e=>['commanderSwitch','switchRejected'].includes(e.type)),after=roundEvents.filter(e=>!prior.includes(e));
-  const ev=[...prior,...settled.events.filter(e=>e.type!=='strikeLoss'),...after.filter(e=>e.type!=='commanderFatigue'),...settled.events.filter(e=>e.type==='strikeLoss'),...after.filter(e=>e.type==='commanderFatigue')].map((e,j)=>({...e,seq:events.length+j+1}));events.push(...ev);
-  rounds.push({round,incoming,tactical,passives,stances,wall:wall?{...wall}:null,events:ev,sides:army.map(s=>({heroId:s.heroId,instanceId:advanced?rosters[army.indexOf(s)][active[army.indexOf(s)]].instanceId:s.instanceId,troops:sum(s.stacks),mana:s.mana,vitality:s.vitality,stacks:s.stacks.map(t=>({id:t.id,count:t.count})),switchLocked:s.switchLocked}))});
+  const ev=[...prior,...settled.events.filter(e=>e.type!=='strikeLoss'),...after.filter(e=>e.type!=='commanderFatigue'),...settled.events.filter(e=>e.type==='strikeLoss'),...after.filter(e=>e.type==='commanderFatigue')].map((e,j)=>({...e,seq:events.length+j+1,...(squadMode&&(e.side===0||e.side===1)?{sideSquadId:rosters[e.side][active[e.side]].instanceId,opposingSquadId:rosters[1-e.side][active[1-e.side]].instanceId}:{})}));events.push(...ev);
+  rounds.push({round,incoming,tactical,passives,stances,wall:wall?{...wall}:null,events:ev,sides:army.map(s=>({heroId:s.heroId,instanceId:advanced?rosters[army.indexOf(s)][active[army.indexOf(s)]].instanceId:s.instanceId,troops:sum(s.stacks),mana:s.mana,vitality:s.vitality,stacks:s.stacks.map(t=>({id:t.id,count:t.count})),switchLocked:s.switchLocked,...(squadMode?{squads:squadView(groups[army.indexOf(s)],rosters[army.indexOf(s)],active[army.indexOf(s)]),activeSquadId:rosters[army.indexOf(s)][active[army.indexOf(s)]].instanceId,totalTroops:total(army.indexOf(s))}:{})}))});
  }
- const ratios=army.map((s,i)=>sum(s.stacks)/Math.max(1,initial[i]));const winner=wall?.hp>0?1:ratios[0]===ratios[1]?null:ratios[0]>ratios[1]?0:1;
- return {winner,victory:winner===0,wall,commanders:rosters,activeCommanderIndices:advanced?active:null,rounds,events,sides:army.map(summary),losses:army.map((s,i)=>initial[i]-sum(s.stacks)),evidence:'MIXED',formulaEvidence:'SIMULATED',settlementIntents:events.filter(e=>e.type==='settlementIntent'),challengeUsed};
+ const ratios=army.map((s,i)=>total(i)/Math.max(1,initial[i]));
+ const ready=squadMode?rosters.map((r,i)=>r.some((_,j)=>viable(i,j))):null;
+ const winner=squadMode?(wall?.hp>0?1:ready[0]===ready[1]?null:ready[0]?0:1):(wall?.hp>0?1:ratios[0]===ratios[1]?null:ratios[0]>ratios[1]?0:1);
+ return {winner,victory:winner===0,wall,commanders:rosters,activeCommanderIndices:advanced?active:null,rounds,events,sides:army.map((s,i)=>squadMode?{...summary(s),troops:total(i),initialTroops:initial[i],stacks:allStacks(i),squads:squadView(groups[i],rosters[i],active[i]),activeSquadId:rosters[i][active[i]].instanceId}:summary(s)),losses:army.map((s,i)=>initial[i]-total(i)),...(squadMode?{squadMode:true,termination:ready.every(Boolean)?'ROUND_LIMIT':'SQUAD_END'}:{}),evidence:'MIXED',formulaEvidence:'SIMULATED',settlementIntents:events.filter(e=>e.type==='settlementIntent'),challengeUsed};
 }
