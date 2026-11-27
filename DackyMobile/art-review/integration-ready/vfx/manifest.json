@@ -1,50 +1,121 @@
 [
   {
     "path": "assets/visual/assets/battle-fx/bang235.webp",
-    "status": "HOLD",
-    "size": [
-      362,
-      432
+    "sourceEffect": "eff010_11",
+    "sourcePhase": "fire",
+    "status": "EXPORTED",
+    "layout": "native-animated-webp",
+    "frames": 21,
+    "encodedGifFrames": 21,
+    "timing": "native-frame-duration",
+    "sourceFrameDurationsMs": [
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100
     ],
-    "expected": [
-      7602,
-      432
-    ]
+    "durationMs": 2100,
+    "gifDurationMs": 2100,
+    "gif": "normal/normal.gif"
   },
   {
     "path": "assets/visual/assets/battle-fx/fire225.webp",
-    "status": "HOLD",
-    "size": [
-      154,
-      130
+    "sourceEffect": "eff160",
+    "sourcePhase": "fire",
+    "status": "EXPORTED",
+    "layout": "native-animated-webp",
+    "frames": 8,
+    "encodedGifFrames": 8,
+    "timing": "native-frame-duration",
+    "sourceFrameDurationsMs": [
+      55,
+      56,
+      55,
+      56,
+      55,
+      56,
+      55,
+      55
     ],
-    "expected": [
-      1232,
-      130
-    ]
+    "durationMs": 443,
+    "gifDurationMs": 440,
+    "gif": "critical/critical.gif"
   },
   {
     "path": "assets/visual/assets/battle-fx/fire272.webp",
-    "status": "HOLD",
-    "size": [
-      78,
-      70
+    "sourceEffect": "eff707a",
+    "sourcePhase": "hurt",
+    "status": "EXPORTED",
+    "layout": "native-animated-webp",
+    "frames": 6,
+    "encodedGifFrames": 6,
+    "timing": "native-frame-duration",
+    "sourceFrameDurationsMs": [
+      142,
+      143,
+      143,
+      143,
+      143,
+      142
     ],
-    "expected": [
-      468,
-      70
-    ]
+    "durationMs": 856,
+    "gifDurationMs": 860,
+    "gif": "skill/skill.gif"
   },
   {
     "path": "assets/visual/assets/battle-fx/bang717r.webp",
-    "status": "HOLD",
-    "size": [
-      510,
-      512
+    "sourceEffect": "eff717r",
+    "sourcePhase": "bang",
+    "status": "EXPORTED",
+    "layout": "native-animated-webp",
+    "frames": 24,
+    "encodedGifFrames": 24,
+    "timing": "native-frame-duration",
+    "sourceFrameDurationsMs": [
+      83,
+      83,
+      84,
+      83,
+      83,
+      84,
+      83,
+      83,
+      84,
+      83,
+      83,
+      84,
+      83,
+      83,
+      84,
+      83,
+      83,
+      84,
+      83,
+      83,
+      84,
+      83,
+      83,
+      83
     ],
-    "expected": [
-      12240,
-      512
-    ]
+    "durationMs": 1999,
+    "gifDurationMs": 2000,
+    "gif": "artifact/artifact.gif"
   }
 ]
