@@ -23,11 +23,21 @@ export function hdArmyMarkup(clip){
 }
 // Positions are foot anchors. Frontmost column always faces the centre.
 // Keep a small army at the front line, not at the centre of its own half.
-export function compactRanks(count,side,groups=1){
- const n=Math.min(Math.max(0,Math.floor(Number(count)||0)),groups===1?12:8,Math.max(1,Math.ceil(Math.log2(Math.max(0,Number(count)||0)+1)*1.35)));
- const cols=n>8?4:n>4?3:n>1?2:1,rows=Math.ceil(n/cols);
+export function isRangedArmy(troop){
+ const label=String(troop?.name||'')+' '+String(troop?.role||'');
+ return /(?:cung|tiễn|nỏ|xạ|archer|ranged)/iu.test(label);
+}
+export function compactRanks(count,side,groups=1,options={}){
+ const {ranged=false,hasMelee=false,roleIndex=0,roleCount=1}=options;
+ const back=ranged&&hasMelee;
+ const cap=groups===1?12:back?6:8;
+ const n=Math.min(Math.max(0,Math.floor(Number(count)||0)),cap,Math.max(1,Math.ceil(Math.log2(Math.max(0,Number(count)||0)+1)*1.35)));
+ const cols=back?Math.min(2,n):n>8?4:n>4?3:n>1?2:1,rows=Math.ceil(n/Math.max(1,cols));
+ const laneHeight=56/Math.max(1,roleCount),laneStart=27+roleIndex*laneHeight;
+ const front=back?43:93,spacing=back?18:17;
  return Array.from({length:n},(_,k)=>{
-  const col=k%cols,r=Math.floor(k/cols),fromFront=col*19+(r%2?2:0);
-  return {x:side===0?91-fromFront:9+fromFront,y:rows===1?76:35+r*52/(rows-1),depth:r+1,delay:(k%4)*24};
+  const col=k%cols,r=Math.floor(k/cols),fromFront=col*spacing+(r%2?2:0);
+  const y=rows===1?laneStart+laneHeight*.53:laneStart+5+r*Math.max(5,laneHeight-13)/(rows-1);
+  return {x:side===0?front-fromFront:100-front+fromFront,y,depth:Math.round(y),delay:(k%4)*24};
  });
 }

@@ -1327,3 +1327,13 @@ body.hud-ready.battle-mode:not(.startup-mode) .hud-menu{top:42px;bottom:auto}
 @media(max-width:850px){.fidelity-line,.fidelity-line[data-groups="1"]{width:43%;top:38%}.fidelity-line.ally{left:5%}.fidelity-line.enemy{right:5%}.fidelity-motion .fidelity-layer{transform:scale(.72);transform-origin:0 0}.fidelity-line[data-groups="2"]{top:17%}}
 @media(max-height:480px){.fidelity-line,.fidelity-line[data-groups="1"]{top:29%;bottom:12%}.fidelity-line[data-groups="2"]{top:15%}.fidelity-motion .fidelity-layer{transform:scale(.60);transform-origin:0 0}}
 @media(prefers-reduced-motion:reduce){.fidelity-hd-sprite{animation:none!important}}
+
+/* R4B: shared melee frontage and rear ranged support, not separate top/bottom battle rows. */
+.fidelity-line,.fidelity-line[data-groups="1"],.fidelity-line[data-groups="2"]{display:block;top:32%;bottom:12%;width:42%}
+.fidelity-line .fidelity-formation{position:absolute;inset:0;display:block;height:auto;min-height:0;pointer-events:none}
+.fidelity-line .fidelity-ranks{inset:0;overflow:visible}
+.fidelity-formation>.fidelity-unit-label{position:absolute;left:var(--label-x);top:var(--label-y);bottom:auto;transform:translateX(-50%);white-space:nowrap;z-index:90;font-size:9px;line-height:1.15}
+.fidelity-more{bottom:0;z-index:91}
+.fidelity-soldier{z-index:var(--rank-depth)}
+@media(max-width:850px){.fidelity-line,.fidelity-line[data-groups="1"],.fidelity-line[data-groups="2"]{top:35%;width:43%;bottom:12%}.fidelity-formation>.fidelity-unit-label{font-size:7px}}
+@media(max-height:480px){.fidelity-line,.fidelity-line[data-groups="1"],.fidelity-line[data-groups="2"]{top:25%;bottom:14%}}

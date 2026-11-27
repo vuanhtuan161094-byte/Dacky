@@ -3,7 +3,7 @@ import { getPveEncounter, getMountainBattles, getEndgameBattles, pveAssaultProgr
 import { BUILDINGS, CONTENT_EVIDENCE, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_BUZHOU_EQUIPMENT_RULES, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_SOURCE, LEGACY_CITY_GARRISON_SOURCE, LEGACY_CITY_GARRISONS, LEGACY_ELFLAND_FLOORS, LEGACY_ELFLAND_FORMATIONS, LEGACY_ELFLAND_LOCATIONS, LEGACY_ELFLAND_REWARD_RULES, LEGACY_ELFLAND_SOURCE, LEGACY_QUESTS, LEGACY_QUEST_SOURCE, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, BUZHOU_FLOORS, TOWER_FLOORS } from './catalog.js';
 import { battleCommanderFrame, battleTroopFrame, BATTLE_EFFECT_FRAMES } from './visual-art-catalog.js';
 import { reuseNpcClip, reuseNpcMarkup, reuseVfxMarkup, presentationEvents, presentationTarget, REUSE_BACKGROUND_PATH } from './reuse-battle-art.js';
-import { hdArmyClip, hdArmyMarkup, compactRanks } from './hd-army-art.js';
+import { hdArmyClip, hdArmyMarkup, compactRanks, isRangedArmy } from './hd-army-art.js';
 import { gameplayQuestList,questQuote,itemUseRule,strategicQuote,populationCapacity,buzhouPlan,equipmentSets } from './gameplay-p15.js';
 import { CITY_PLOT_TYPES, cityPlotZone, cityPlotRecord, cityPlotChoices, cityPrimarySite, canDemolishPlot, trainingSites, trainingQueue, trainingAvailable, allTrainingQueues, cityPlotUnlocked, outerLandCapacity, quoteCityPlot, activeQuest, armyCount, armyPower, formatDuration, formatNumber, heroPower, inspectManualBattle, marchTroopCapacity, productionPerHour, questProgress, quoteArtifactPurchase, quoteBuilding, quoteCityUpgrade, quoteGearEnhancement, quoteGearGemSocket, quoteItemPurchase, quoteItemSale, quoteResearch, quoteScouting, quoteTraining, storageCapacity, TAX_POLICIES, TUTORIAL_STEPS, unlockedChapter } from './engine.js';
 
@@ -624,18 +624,21 @@ function fidelityBattlefield({sides,events=[],wall=null,effects=true,enemyLabel=
   const stacks=counts(row);
   if(stacks===null)return '<div class="fidelity-unknown">Chiến báo cũ · thiếu dữ liệu binh chủng</div>';
   if(!stacks.length)return '<div class="fidelity-unknown">Đã hết quân</div>';
-  return stacks.slice(0,4).map((t,j)=>{
-   const troop=troopFor(t.id||t.unitId);if(!troop)return '';
+  const visible=stacks.slice(0,4).map(t=>({t,troop:troopFor(t.id||t.unitId)})).filter(x=>x.troop);
+  const hasMelee=visible.some(x=>!isRangedArmy(x.troop));
+  return visible.map(({t,troop},j)=>{
    const attack=effects&&attacks[i],hit=effects&&losses[i]>0&&!attack,phase=attack?'attack':hit?'injured1':'stand';
-   const ranged=/(?:xạ|cung|tiễn|nỏ|ranged|archer)/iu.test(String(troop.role||'')+' '+troop.name);
+   const ranged=isRangedArmy(troop);
    const moving=attack&&!ranged;
    const clips={idle:'stand',action:phase,...(moving?{run:'run'}:{})};
    const layerData=Object.entries(clips).map(([layer,state])=>({layer,frame:battleTroopFrame(troop,state),hd:hdArmyClip(troop,state)}));
    const images=layerData.map(({layer,frame,hd})=>`--sprite-${layer}:url('${esc(assetUrl(hd?.path||frame.path))}')`).join(';');
    const layers=layerData.map(({layer,frame,hd})=>`<span class="fidelity-layer" data-layer="${layer}">${hd?hdArmyMarkup(hd):sheet(frame,1)}</span>`).join('');
-   const ranks=compactRanks(number(t.count),i,stacks.length);
+   const peers=visible.filter(x=>isRangedArmy(x.troop)===ranged),roleIndex=peers.findIndex(x=>x.t===t);
+   const ranks=compactRanks(number(t.count),i,visible.length,{ranged,hasMelee,roleIndex,roleCount:peers.length});
+   const labelX=ranks.length?ranks.reduce((s,r)=>s+r.x,0)/ranks.length:50,labelY=ranks.length?Math.max(...ranks.map(r=>r.y))+5:90;
    const mode=attack?(moving?'charge':'ranged'):hit?'hit':'idle';
-   return `<div class="fidelity-formation" data-motion="${mode}" aria-label="${esc(troop.name)}" style="${images}"><div class="fidelity-ranks">${ranks.map(r=>`<span class="fidelity-soldier" style="left:${r.x}%;top:${r.y}%;z-index:${r.depth};--rank-delay:${r.delay}ms"><span class="fidelity-motion">${layers}</span></span>`).join('')}</div><span class="fidelity-unit-label">${esc(troop.name)} · ${fmt(number(t.count))}</span></div>`;
+   return `<div class="fidelity-formation" data-motion="${mode}" aria-label="${esc(troop.name)}" style="${images};--label-x:${labelX}%;--label-y:${labelY}%"><div class="fidelity-ranks">${ranks.map(r=>`<span class="fidelity-soldier" style="left:${r.x}%;top:${r.y}%;z-index:${r.depth};--rank-delay:${r.delay}ms"><span class="fidelity-motion">${layers}</span></span>`).join('')}</div><span class="fidelity-unit-label">${esc(troop.name)} · ${fmt(number(t.count))}</span></div>`;
   }).join('')+(stacks.length>4?`<small class="fidelity-more">+${stacks.length-4} loại · xem danh sách</small>`:'');
  };
  const commander=(row,i)=>{
