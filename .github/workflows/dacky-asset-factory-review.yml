@@ -1,0 +1,63 @@
+name: Dacky asset factory review
+on:
+  push:
+    branches: [review/dacky-asset-factory]
+  pull_request:
+    branches: [review/dacky-combat-fidelity]
+    paths: ['DackyMobile/src/reuse-battle-art.js', 'DackyMobile/assets/reuse/**']
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: DackyMobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pillow
+      - run: node --test tests/reuse-battle-art.test.js
+      - run: npm test
+      - run: DACKY_COMBAT_PREVIEW=1 npm run build
+      - run: npm install --no-save --package-lock=false playwright && npx playwright install --with-deps chromium
+      - name: Actual game preview and replay smoke
+        run: |
+          python -m http.server 4173 --directory dist > /tmp/dacky-asset-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          mkdir -p qa/asset-factory
+          node --input-type=module <<'JS'
+          import { chromium } from 'playwright';
+          const browser=await chromium.launch({headless:true});
+          try {
+            const page=await browser.newPage({viewport:{width:1280,height:720}});
+            const errors=[];page.on('pageerror',e=>errors.push(e.message));
+            await page.goto('http://127.0.0.1:4173/combat-product.html?squadSmoke=1',{waitUntil:'domcontentloaded',timeout:120000});
+            await page.waitForFunction(()=>document.body.dataset.squadSmoke,{timeout:60000});
+            if(await page.locator('body').getAttribute('data-squad-smoke')!=='PASS')throw Error(await page.locator('body').getAttribute('data-squad-error'));
+            await page.screenshot({path:'qa/asset-factory/squad-battle.png'});
+            await page.goto('http://127.0.0.1:4173/combat-product.html?productSmoke=1',{waitUntil:'domcontentloaded',timeout:120000});
+            await page.waitForFunction(()=>document.body.dataset.productSmoke,{timeout:60000});
+            if(await page.locator('body').getAttribute('data-product-smoke')!=='PASS')throw Error(await page.locator('body').getAttribute('data-product-error'));
+            const replay=page.locator('[data-action="battleReplay"]').first();
+            if(await replay.count()){await replay.click();await page.locator('.replay-theater').waitFor();await page.screenshot({path:'qa/asset-factory/replay.png'});}
+            if(errors.length)throw Error(errors.join('\n'));
+          } finally {await browser.close();}
+          JS
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: dacky-asset-factory-web
+          path: DackyMobile/dist/offline.html
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dacky-asset-factory-screens
+          path: DackyMobile/qa/asset-factory/
