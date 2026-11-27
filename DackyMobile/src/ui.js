@@ -2,7 +2,7 @@ import { recruitmentPromotion, worldOffer } from './simulated-world.js';
 import { getPveEncounter, getMountainBattles, getEndgameBattles, pveAssaultProgress, pveLock, PVE_TROOPS } from './pve-campaign.js';
 import { BUILDINGS, CONTENT_EVIDENCE, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_BUZHOU_EQUIPMENT_RULES, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_SOURCE, LEGACY_CITY_GARRISON_SOURCE, LEGACY_CITY_GARRISONS, LEGACY_ELFLAND_FLOORS, LEGACY_ELFLAND_FORMATIONS, LEGACY_ELFLAND_LOCATIONS, LEGACY_ELFLAND_REWARD_RULES, LEGACY_ELFLAND_SOURCE, LEGACY_QUESTS, LEGACY_QUEST_SOURCE, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, BUZHOU_FLOORS, TOWER_FLOORS } from './catalog.js';
 import { battleCommanderFrame, battleTroopFrame, BATTLE_EFFECT_FRAMES } from './visual-art-catalog.js';
-import { reuseNpcClip, reuseNpcMarkup, reuseVfxMarkup } from './reuse-battle-art.js';
+import { reuseNpcClip, reuseNpcMarkup, reuseVfxMarkup, presentationEvents, presentationTarget, REUSE_BACKGROUND_PATH } from './reuse-battle-art.js';
 import { gameplayQuestList,questQuote,itemUseRule,strategicQuote,populationCapacity,buzhouPlan,equipmentSets } from './gameplay-p15.js';
 import { CITY_PLOT_TYPES, cityPlotZone, cityPlotRecord, cityPlotChoices, cityPrimarySite, canDemolishPlot, trainingSites, trainingQueue, trainingAvailable, allTrainingQueues, cityPlotUnlocked, outerLandCapacity, quoteCityPlot, activeQuest, armyCount, armyPower, formatDuration, formatNumber, heroPower, inspectManualBattle, marchTroopCapacity, productionPerHour, questProgress, quoteArtifactPurchase, quoteBuilding, quoteCityUpgrade, quoteGearEnhancement, quoteGearGemSocket, quoteItemPurchase, quoteItemSale, quoteResearch, quoteScouting, quoteTraining, storageCapacity, TAX_POLICIES, TUTORIAL_STEPS, unlockedChapter } from './engine.js';
 
@@ -607,9 +607,9 @@ function fidelityBattlefield({sides,events=[],wall=null,effects=true,enemyLabel=
  const counts=row=>Array.isArray(row?.stacks)?row.stacks.filter(t=>Number(t.count)>0):null;
  const number=n=>Number.isFinite(Number(n))?Math.max(0,Number(n)):0;
  const heroFor=id=>HEROES.find(h=>h.id===id||String(h.mobileSourceId)===String(id)||'dev:'+h.id===id);
- const sheet=(frame,scale=1)=>`<span class="fidelity-sprite" data-anim-ms="${frame.durationMs}" style="width:${frame.width*scale}px;height:${frame.height*scale}px;background-image:url('${esc(assetUrl(frame.path))}');background-size:${frame.width*frame.frames*scale}px ${frame.height*scale}px;--sprite-frames:${frame.frames};--sprite-duration:${frame.durationMs}ms"></span>`;
+ const sheet=(frame,scale=1)=>`<span class="fidelity-sprite" data-anim-ms="${frame.durationMs}" style="width:${frame.width*scale}px;height:${frame.height*scale}px;background-size:${frame.width*frame.frames*scale}px ${frame.height*scale}px;--sprite-end:-${frame.width*frame.frames*scale}px;--sprite-frames:${frame.frames};--sprite-duration:${frame.durationMs}ms"></span>`;
  const losses=[0,0];for(const e of events)if(e.type==='strikeLoss'&&(e.side===0||e.side===1))losses[e.side]+=number(e.actual);
- const active=events.some(e=>e.type==='strikeLoss');
+ const attacks=[losses[1]>0||events.some(e=>e.type==='wallHit'&&number(e.amount)>0),losses[0]>0];
  const panel=(row,i)=>{
   const hero=heroFor(row?.heroId),stacks=counts(row),name=hero?.name||row?.heroName||(i?enemyLabel:'Chỉ huy quân ta');
   const total=row?.totalTroops??row?.troops??(stacks||[]).reduce((n,t)=>n+number(t.count),0);
@@ -623,17 +623,30 @@ function fidelityBattlefield({sides,events=[],wall=null,effects=true,enemyLabel=
   const stacks=counts(row);
   if(stacks===null)return '<div class="fidelity-unknown">Chiến báo cũ · thiếu dữ liệu binh chủng</div>';
   if(!stacks.length)return '<div class="fidelity-unknown">Đã hết quân</div>';
-  return stacks.slice(0,4).map(t=>{
+  return stacks.slice(0,4).map((t,j)=>{
    const troop=troopFor(t.id||t.unitId);if(!troop)return '';
-   const phase=effects&&active&&losses[1-i]>0?'attack':'stand';
-   const frame=battleTroopFrame(troop,phase),n=Math.min(12,Math.max(1,Math.ceil(Math.log2(number(t.count)+1)*1.25)));
-   const reused=reuseNpcClip(troop.id,phase),reuseStyle=reused?` style="--reuse-unit-image:url('${esc(assetUrl(reused.path))}')"`:'';
-   return `<div class="fidelity-formation" aria-label="${esc(troop.name)}"><div class="fidelity-ranks"${reuseStyle}>${Array.from({length:n},(_,k)=>`<i style="--rank-x:${(k%3)*19}%;--rank-y:${Math.floor(k/3)*16}%;--rank-depth:${Math.floor(k/3)+1}">${reused?reuseNpcMarkup(reused):sheet(frame,1.15)}</i>`).join('')}</div><span>${esc(troop.name)} · ${fmt(number(t.count))}</span></div>`;
-  }).join('');
+   const attack=effects&&attacks[i],hit=effects&&losses[i]>0&&!attack,phase=attack?'attack':hit?'injured1':'stand';
+   const ranged=/(?:xạ|cung|tiễn|nỏ|ranged|archer)/iu.test(String(troop.role||'')+' '+troop.name);
+   const moving=attack&&!ranged;
+   const clips={idle:'stand',action:phase,...(moving?{run:'run'}:{})};
+   const layerData=Object.entries(clips).map(([layer,state])=>({layer,frame:battleTroopFrame(troop,state),reused:reuseNpcClip(troop.id,state)}));
+   const images=layerData.map(({layer,frame,reused})=>`--sprite-${layer}:url('${esc(assetUrl(reused?.path||frame.path))}')`).join(';');
+   const layers=layerData.map(({layer,frame,reused})=>`<span class="fidelity-layer" data-layer="${layer}">${reused?reuseNpcMarkup(reused):sheet(frame,1.02)}</span>`).join('');
+   const n=Math.min(stacks.length===1?24:14,Math.max(1,Math.ceil(Math.log2(number(t.count)+1)*1.65)));
+   const cols=n>14?5:n>7?4:n>3?3:Math.min(n,2),rows=Math.ceil(n/cols);
+   const mode=attack?(moving?'charge':'ranged'):hit?'hit':'idle';
+   return `<div class="fidelity-formation" data-motion="${mode}" aria-label="${esc(troop.name)}" style="${images}"><div class="fidelity-ranks">${Array.from({length:n},(_,k)=>{const col=k%cols,r=Math.floor(k/cols),x=cols===1?50:12+col*76/(cols-1),y=rows===1?72:25+r*61/(rows-1);return `<span class="fidelity-soldier" style="left:${x+(r%2?2:0)}%;top:${y}%;z-index:${r+1};--rank-delay:${(k%5)*19}ms"><span class="fidelity-motion">${layers}</span></span>`;}).join('')}</div><span class="fidelity-unit-label">${esc(troop.name)} · ${fmt(number(t.count))}</span></div>`;
+  }).join('')+(stacks.length>4?`<small class="fidelity-more">+${stacks.length-4} loại · xem danh sách</small>`:'');
  };
- const visualEvents=effects?events.filter(e=>['strikeLoss','wallHit','wallBreached','artifactCast','commanderDuel','troopDelta'].includes(e.type)).slice(-2):[];
- const vfx=visualEvents.map((e,i)=>{const reuse=reuseVfxMarkup(e,i,assetUrl,esc);if(reuse)return reuse;const kind=e.type==='artifactCast'?'artifact':e.type==='commanderDuel'?'skill':e.type==='wallBreached'?'critical':e.type==='troopDelta'?'magic':'normal',f=BATTLE_EFFECT_FRAMES[kind]||BATTLE_EFFECT_FRAMES.normal,scale=.32;return `<span class="battle-vfx-sheet" style="left:${e.side===0?'32%':e.side===1?'65%':'48%'};top:${40+i*12}%;width:${f.width*scale}px;height:${f.height*scale}px;background-image:url('${esc(assetUrl(f.path))}');background-size:${f.width*f.frames*scale}px ${f.height*scale}px;--sprite-frames:${f.frames};--sprite-duration:${f.durationMs}ms" data-anim-ms="${f.durationMs}"></span>`;}).join('');
- return `<div class="battlefield-landscape fidelity-field ${effects?'':'fidelity-static'}">${panel(sides[0],0)}<div class="fidelity-arena"><img class="battle-scenery" src="${esc(assetUrl('./assets/visual/assets/battle/nen-thung-lung.jpg'))}" alt=""><div class="fidelity-battle-note">${sides.some(s=>s?.squads)?'Tiểu đội giao chiến · quy tắc mô phỏng':'Đội quân hiện tại · chưa phân bổ theo từng thần tiên'}</div>${wall&&Number(wall.maxHp)>0?`<div class="fidelity-wall"><img src="${esc(assetUrl('./assets/mobile-source/assets/map-ng/thanh/map00401.webp'))}" alt="Thành lũy"><small>${fmt(number(wall.hp))} / ${fmt(number(wall.maxHp))}</small></div>`:''}<div class="fidelity-line ally">${formation(sides[0],0)}</div><div class="fidelity-line enemy">${formation(sides[1],1)}</div>${vfx}<div class="fidelity-key">Hình quân đại diện · quân số thật ở hai cột</div>${reuseCreditsMarkup()}</div>${panel(sides[1],1)}</div>`;
+ const commander=(row,i)=>{
+  if(!row?.heroId&&!row?.heroName)return '';
+  const h=heroFor(row.heroId),name=h?.name||row.heroName||'Chỉ huy',frame=battleCommanderFrame(row.heroId,'stand');
+  return `<span class="fidelity-commander ${i?'enemy':'ally'}" aria-label="${esc(name)}" style="--sprite-image:url('${esc(assetUrl(frame.path))}')">${sheet(frame,.94)}<span>${esc(name)}</span></span>`;
+ };
+ const visualEvents=effects?presentationEvents(events):[];
+ const vfx=visualEvents.map((e,i)=>{const reuse=reuseVfxMarkup(e,i,assetUrl,esc);if(reuse)return reuse;const kind=e.type==='artifactCast'?'artifact':e.type==='commanderDuel'?'skill':e.type==='wallBreached'?'critical':e.type==='troopDelta'?'magic':'normal',f=BATTLE_EFFECT_FRAMES[kind]||BATTLE_EFFECT_FRAMES.normal,scale=.29,side=presentationTarget(e,null);return `<span class="battle-vfx-sheet fidelity-impact" style="left:${side===0?'32%':side===1?'68%':'50%'};top:${58+i%2*9}%;width:${f.width*scale}px;height:${f.height*scale}px;background-image:url('${esc(assetUrl(f.path))}');background-size:${f.width*f.frames*scale}px ${f.height*scale}px;--sprite-end:-${f.width*f.frames*scale}px;--sprite-frames:${f.frames};--sprite-duration:${f.durationMs}ms;--impact-delay:${220+i*90}ms" data-anim-ms="${f.durationMs}"></span>`;}).join('');
+ const lossText=effects?losses.map((n,i)=>n>0?`<span class="fidelity-damage ${i?'enemy':'ally'}">−${fmt(n)}</span>`:'').join(''):'';
+ return `<div class="battlefield-landscape fidelity-field ${effects?'':'fidelity-static'}">${panel(sides[0],0)}<div class="fidelity-arena"><div class="battle-scenery fidelity-ground" style="background-image:url('${esc(assetUrl(REUSE_BACKGROUND_PATH))}'),url('${esc(assetUrl('./assets/visual/assets/battle/nen-thung-lung.jpg'))}')" aria-hidden="true"></div><div class="fidelity-battle-note">${sides.some(s=>s?.squads)?'Tiểu đội giao chiến · quy tắc mô phỏng':'Đội quân hiện tại · chưa phân bổ theo từng thần tiên'}</div>${wall&&Number(wall.maxHp)>0?`<div class="fidelity-wall"><img src="${esc(assetUrl('./assets/mobile-source/assets/map-ng/thanh/map00401.webp'))}" alt="Thành lũy"><small>${fmt(number(wall.hp))} / ${fmt(number(wall.maxHp))}</small></div>`:''}<div class="fidelity-line ally" data-groups="${Math.min(4,counts(sides[0])?.length||1)}">${formation(sides[0],0)}</div><div class="fidelity-line enemy" data-groups="${Math.min(4,counts(sides[1])?.length||1)}">${formation(sides[1],1)}</div>${commander(sides[0],0)}${commander(sides[1],1)}${vfx}${lossText}<div class="fidelity-key">Hình quân đại diện · quân số thật ở hai cột</div>${reuseCreditsMarkup()}</div>${panel(sides[1],1)}</div>`;
 }
 function manualBattlePanel(state,now,uiState={}){
  const q=state.queues.march;if(!q||q.combatMode!=='manual'||!q.combatV13)return '';

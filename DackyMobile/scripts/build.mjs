@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 execFileSync('python3', [path.join(root,'scripts/install-art13.py'),path.join(root,'assets/art01-city-ground.svg')],{cwd:root,stdio:'inherit'});
+execFileSync('python3', [path.join(root,'scripts/install-hog-field.py')],{cwd:root,stdio:'inherit'});
 const { exportDatabase } = await import('./export-database.mjs');
 await exportDatabase();
 const dist = process.env.DACKY_BUILD_OUT
@@ -63,7 +64,7 @@ for (const [name,url] of inlineImages) bundle = bundle.replaceAll(`./assets/${na
 for (const [name,url] of inlineImages) html = html.replaceAll(`./assets/${name}`,url);
 const sourceAssetManifests = await Promise.all(['mobile-source-manifest.json','visual-art-manifest.json'].map(async file=>JSON.parse(await readFile(path.join(root,'assets',file),'utf8'))));
 const sourceAssetUrls = new Map();
-const reusePaths = ["./assets/reuse/skeleton/idle.png","./assets/reuse/skeleton/walk.png","./assets/reuse/skeleton/attack.png","./assets/reuse/skeleton/hit.png","./assets/reuse/skeleton/death.png","./assets/reuse/heavy-soldier/idle.png","./assets/reuse/heavy-soldier/walk.png","./assets/reuse/heavy-soldier/attack.png","./assets/reuse/heavy-soldier/hit.png","./assets/reuse/heavy-soldier/death.png","./assets/reuse/vfx/fireball.png","./assets/reuse/vfx/quake.png","./assets/reuse/vfx/thunderstrike.png"];
+const reusePaths = ["./assets/reuse/skeleton/idle.png","./assets/reuse/skeleton/walk.png","./assets/reuse/skeleton/attack.png","./assets/reuse/skeleton/hit.png","./assets/reuse/skeleton/death.png","./assets/reuse/heavy-soldier/idle.png","./assets/reuse/heavy-soldier/walk.png","./assets/reuse/heavy-soldier/attack.png","./assets/reuse/heavy-soldier/hit.png","./assets/reuse/heavy-soldier/death.png","./assets/reuse/vfx/fireball.png","./assets/reuse/vfx/quake.png","./assets/reuse/vfx/thunderstrike.png","./assets/reuse/vfx/shield.png","./assets/reuse/vfx/heal.png","./assets/reuse/vfx/freeze.png","./assets/reuse/vfx/cleave.png","./assets/reuse/battlefield/open-field.webp"];
 for (const name of reusePaths) sourceAssetUrls.set(name,await dataUrl(name.slice('./assets/'.length)));
 const art09=JSON.parse(await readFile(path.join(root,'assets/art09-buildings/manifest.json'),'utf8'));
 for(const id of Object.keys(art09)){const name='art09-buildings/'+id+'.webp';sourceAssetUrls.set('./assets/'+name,await dataUrl(name));}
@@ -75,7 +76,7 @@ for (const asset of sourceAssetManifests.flatMap(manifest=>manifest.assets)) {
 }
 for (const [name,url] of sourceAssetUrls) css = css.replaceAll(name,url);
 const embeddedSourceAssetMap = JSON.stringify(Object.fromEntries(sourceAssetUrls));
-const reuseCredits = (await Promise.all(['reuse/skeleton/LICENSE.txt','reuse/heavy-soldier/LICENSE.txt','reuse/vfx/NOTICE.md','reuse/vfx/CREDITS.txt'].map(name=>readFile(path.join(root,'assets',name),'utf8')))).join('\n\n');
+const reuseCredits = (await Promise.all(['reuse/skeleton/LICENSE.txt','reuse/heavy-soldier/LICENSE.txt','reuse/vfx/NOTICE.md','reuse/vfx/CREDITS.txt','reuse/battlefield/NOTICE.md'].map(name=>readFile(path.join(root,'assets',name),'utf8')))).join('\n\n');
 const escapeCredits=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 html=html.replace('</body>',`<template id="reuse-asset-credits"><pre>${escapeCredits(reuseCredits)}</pre></template></body>`);
 html = html.replace('<link rel="manifest" href="./manifest.webmanifest">','');

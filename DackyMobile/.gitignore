@@ -10,3 +10,7 @@ input-private/
 *.log
 __pycache__/
 *.py[cod]
+
+# Generated, hash-checked battlefield; receipt is build artifact.
+assets/reuse/battlefield/open-field.webp
+assets/reuse/battlefield/receipt.json

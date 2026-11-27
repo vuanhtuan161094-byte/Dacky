@@ -1,5 +1,6 @@
-const CACHE = 'dacky-mobile-shell-v44-asset-factory';
+const CACHE = 'dacky-mobile-shell-v45-combat-art';
 const SHELL = [
+  "./assets/reuse/vfx/shield.png", "./assets/reuse/vfx/heal.png", "./assets/reuse/vfx/freeze.png", "./assets/reuse/vfx/cleave.png", "./assets/reuse/battlefield/open-field.webp", "./assets/reuse/battlefield/NOTICE.md", "./assets/reuse/vfx/NOTICE.md", "./assets/reuse/vfx/CREDITS.txt", "./assets/reuse/skeleton/LICENSE.txt", "./assets/reuse/heavy-soldier/LICENSE.txt",
   './src/reuse-battle-art.js',
   "./assets/reuse/skeleton/idle.png", "./assets/reuse/skeleton/walk.png", "./assets/reuse/skeleton/attack.png", "./assets/reuse/skeleton/hit.png", "./assets/reuse/skeleton/death.png", "./assets/reuse/heavy-soldier/idle.png", "./assets/reuse/heavy-soldier/walk.png", "./assets/reuse/heavy-soldier/attack.png", "./assets/reuse/heavy-soldier/hit.png", "./assets/reuse/heavy-soldier/death.png", "./assets/reuse/vfx/fireball.png", "./assets/reuse/vfx/quake.png", "./assets/reuse/vfx/thunderstrike.png",
   './', './index.html', './styles.css', './manifest.webmanifest', './src/catalog.js', './src/mobile-source-catalog.js', './src/legacy-quest-catalog.js', './src/legacy-buzhou-catalog.js', './src/legacy-troop-time-catalog.js', './src/legacy-troop-requirement-catalog.js', './src/engine.js',
