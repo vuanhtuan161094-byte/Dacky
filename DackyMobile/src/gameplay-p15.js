@@ -89,6 +89,7 @@ const sourceTimedBuffs=new Map([
   ['6303',{seconds:24*3600,effects:[{key:'heroXp',ratio:.15}],unsupported:[]}],
   ['4922',{seconds:7*86400,effects:[{key:'marchSpeed',ratio:.30}],unsupported:[]}],
   ['4954',{seconds:8*3600,effects:[{key:'heroXp',ratio:1}],unsupported:[],stackingEvidence:'VERIFIED_MOBILE'}],
+  ['4953',{seconds:3600,effects:[{key:'heroXp',ratio:1}],unsupported:[],stackingEvidence:'VERIFIED_MOBILE'}],
   ['95702',{seconds:24*3600,effects:[{key:'heroXp',ratio:2}],unsupported:[],stackingEvidence:'VERIFIED_MOBILE'}],
   ['6534',{seconds:30*86400,effects:[{key:'production',ratio:.25},{key:'storageCapacity',ratio:1},{key:'constructionQueueCapacity',ratio:5},{key:'memberDiscount:acceleration',ratio:.20},{key:'memberDiscount:production',ratio:.20}],unsupported:[],simulated:['memberDiscount:20%']}],
   ['6535',{seconds:30*86400,effects:[{key:'heroXp',ratio:.25},{key:'marchSpeed',ratio:.25},{key:'captureChance',ratio:.05},{key:'memberDiscount:chest',ratio:.20},{key:'memberDiscount:quest',ratio:.20}],unsupported:[],simulated:['memberDiscount:20%']}],
@@ -132,9 +133,27 @@ const sourceHeroResetItems=new Map([
 const sourceRootCultivation=new Map([
  ['8955',{minimumRoot:50,minimum:1,maximum:5}],['8956',{minimumRoot:55,minimum:1,maximum:5}]
 ]);
+const sourceTowerBooks=new Map([
+ ['8700',{stats:{maxHp:.03},runtimeEffect:'SIMULATED_TOWER_HEALING_BRIDGE'}],
+ ['8701',{stats:{attack:.15}}],['8702',{stats:{defense:.10}}],['8703',{stats:{magic:.15}}],['8704',{stats:{resistance:.10}}],
+ ['8705',{reviveChance:.10,reviveHp:.20,runtimeEffect:'SIMULATED_TOWER_REVIVE'}],
+ ['8706',{stats:{speed:.15},runtimeEffect:'SIMULATED_TOWER_DODGE_AS_SPEED'}],['8707',{stats:{defense:.15},runtimeEffect:'SIMULATED_TOWER_GUARD_AS_DEFENSE'}],
+ ['8708',{stats:{attack:.15},runtimeEffect:'SIMULATED_TOWER_COUNTER_AS_ATTACK'}],['8709',{stats:{attack:.15},runtimeEffect:'SIMULATED_TOWER_CHAIN_AS_ATTACK'}],
+ ['8710',{stats:{attack:.10,defense:.10}}],['8711',{stats:{magic:.10,resistance:.10}}],['8712',{stats:{attack:.10,resistance:.10}}],['8713',{stats:{magic:.10,defense:.10}}]
+]);
 export function itemUseRule(item){
  if(!item||item.type!=='vật phẩm')return null;
  const name=norm(item.name),d=norm(item.mobileDescription??''),sid=String(item.mobileSourceId);
+ if(sid==='4917')return {kind:'renameVoucher',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
+ if(sid==='4916')return {kind:'flagVoucher',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
+ if(sid==='4408')return {kind:'mountainRefresh',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeScopeEvidence:'SIMULATED_SELECTED_MOUNTAIN_DAILY_RESET'};
+ if(sid==='4910')return {kind:'recruitmentRefresh',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
+ if(sid==='4904')return {kind:'moraleReset',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',unsupported:['city unrest has no runtime field']};
+ if(sourceTowerBooks.has(sid))return {kind:'towerBook',sourceId:sid,towerEffects:{...sourceTowerBooks.get(sid)},evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description'};
+ if(item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE'&&d.includes('mo khoa')&&d.includes('hinh dai dien')){
+  if(d.includes('khung'))return {kind:'cosmeticUnlock',slot:'frame',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
+  if(d.includes('bong bong'))return {kind:'cosmeticUnlock',slot:'chatBubble',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
+ }
  if(speedups[sid]){const [queue,amount,building]=speedups[sid];return {kind:'queueSpeedup',queue,amount,building,once:amount<1,evidence:'MIXED'};}
  if(prodItems[sid]){const [key,seconds]=prodItems[sid];return {kind:'timedBuff',key,seconds,ratio:.25,evidence:'MIXED'};}
  if(['4151','4152','4153'].includes(sid))return {kind:'timedBuff',key:'buildCost',seconds:86400,ratio:.30,levelCap:{4151:5,4152:8,4153:20}[sid],evidence:'MIXED'};
@@ -142,6 +161,9 @@ export function itemUseRule(item){
  if(sid==='4400')return {kind:'timedBuff',key:'heroXp',seconds:604800,ratio:1,evidence:'MIXED'};
  if(['4401','4402','4403','8994'].includes(sid))return {kind:'heroTimedBuff',key:{4401:'heroArcane',4402:'heroPhysical',4403:'heroStrategy',8994:'heroPhysical'}[sid],ratio:{4401:.10,4402:.10,4403:.10,8994:.15}[sid],seconds:sid==='8994'?3600:72*3600,evidence:'VERIFIED_MOBILE',sourceId:sid};
  if(['4221','4223'].includes(sid))return {kind:'heroRestore',resource:sid==='4221'?'mana':'vitality',ratio:.30,evidence:'VERIFIED_MOBILE',sourceId:sid};
+ if(sid==='4222')return {kind:'heroRestore',resource:'mana',full:true,evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
+ if(sid==='4224')return {kind:'heroRestore',resource:'vitality',full:true,evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
+ if(sid==='4225')return {kind:'heroRestore',resource:'mana',ratio:.50,evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
  if(sid==='4903')return {kind:'populationPack',ratio:.20,minimum:100,evidence:'VERIFIED_MOBILE',sourceId:sid};
  if(sid==='8721'&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {kind:'resourcePackFixed',resources:{gold:50_000},evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
  if(sid==='4511'&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {kind:'resourcePackChoice',resources:['food','timber','stone','iron','gold'],minimum:10_000,maximum:100_000,evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_SEEDED_RESOURCE_AND_AMOUNT'};

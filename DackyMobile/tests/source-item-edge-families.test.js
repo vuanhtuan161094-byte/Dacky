@@ -1,10 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewGame, doAction, migrateSave, quoteGearGemSocket, storageCapacity } from '../src/engine.js';
-import { HEROES, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
-import { cityEffects, itemUseRule } from '../src/gameplay-p15.js';
-import { resolvePveLootItem } from '../src/pve-campaign.js';
+import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
+import { cityEffects, itemBuff, itemUseRule } from '../src/gameplay-p15.js';
+import { getMountainBattles, pveLock, resolvePveLootItem } from '../src/pve-campaign.js';
 import { createProductCombat } from '../src/combat/product-v13.js';
+import { recruitmentPromotion } from '../src/simulated-world.js';
 
 const now=1_810_000_000_000;
 const sourceItem=id=>ITEMS.find(item=>String(item.mobileSourceId)===String(id));
@@ -57,6 +58,66 @@ test('source root cultivation bottles enforce their root thresholds, consume onc
   assert.equal(loaded.heroes[0].mobileRootBonuses['8956'],grown.heroes[0].mobileRootBonuses['8956']);
 });
 
+test('full and half hero restoratives target the selected hero and consume only when they restore a deficit',()=>{
+  const combat=createProductCombat({storageCapacity});
+  for(const [sourceId,resource,fraction] of [['4222','mana',1],['4224','vitality',1],['4225','mana',.5]]){
+    const item=sourceItem(sourceId),state=createNewGame('Thử linh dược',now),hero=state.heroes[0],profile=combat.commander(hero,state),field=resource==='mana'?'combatMana':'combatVitality',maximum=resource==='mana'?profile.maxMana:profile.maxVitality;
+    state.items.push(item.id);hero[field]=1;
+    const next=doAction(state,{type:'useItem',itemId:item.id,heroId:hero.id},now),restored=next.heroes[0][field]-1;
+    assert.equal(itemUseRule(item).kind,'heroRestore');assert.ok(Math.abs(restored/maximum-fraction)<.01,`${sourceId} restores its described fraction`);assert.ok(!next.items.includes(item.id));
+    assert.throws(()=>doAction(next,{type:'useItem',itemId:item.id,heroId:hero.id},now+1),/Không thể sử dụng/);
+  }
+});
+
+test('Phong Thần Tháp book family equips one hero-only passive and changes tower combat',()=>{
+  const books=ITEMS.filter(item=>/^87(0[0-9]|1[0-3])$/.test(String(item.mobileSourceId)));
+  assert.equal(books.length,14);assert.ok(books.every(item=>itemUseRule(item)?.kind==='towerBook'));
+  const combat=createProductCombat({storageCapacity}),book=sourceItem('8701'),state=createNewGame('Thử sách tháp',now),hero=state.heroes[0],baseline=combat.runDuel(state,{battleId:'tower-book-baseline',mode:'tower',seed:613,now});
+  state.items.push(book.id);
+  const learned=doAction(state,{type:'useItem',itemId:book.id,heroId:hero.id},now+1);
+  assert.equal(learned.heroes[0].towerBookSourceId,'8701');assert.ok(!learned.items.includes(book.id));
+  assert.equal(migrateSave(JSON.parse(JSON.stringify(learned)),now+2).heroes[0].towerBookSourceId,'8701');
+  const enhanced=combat.runDuel(learned,{battleId:'tower-book-enhanced',mode:'tower',seed:613,now:now+3});
+  assert.notDeepEqual(enhanced.battle.rounds,baseline.battle.rounds,'the tower book affects the actual tower duel adapter');
+  assert.equal(combat.runDuel(learned,{battleId:'tower-book-outside',mode:'buzhou',seed:613,now:now+4}).quote.mode,'buzhou');
+});
+
+test('Mobile rename and banner tokens update the profile and consume only after a valid choice',()=>{
+  const rename=sourceItem('4917'),banner=sourceItem('4916'),state=createNewGame('Triều Ca',now);
+  state.items.push(rename.id,banner.id);
+  assert.throws(()=>doAction(state,{type:'useItem',itemId:rename.id,name:'   '},now),/Nhập tên mới/);
+  assert.ok(state.items.includes(rename.id));
+  let next=doAction(state,{type:'useItem',itemId:rename.id,name:'Tân Triều'},now);
+  assert.equal(next.profile.name,'Tân Triều');assert.equal(next.cities[0].name,'Tân Triều');assert.ok(!next.items.includes(rename.id));
+  assert.throws(()=>doAction(next,{type:'useItem',itemId:banner.id},now+1),/Chọn cờ hiệu/);
+  next=doAction(next,{type:'useItem',itemId:banner.id,flag:'西岐'},now+2);
+  assert.equal(next.gameplay.flag,'西岐');assert.ok(!next.items.includes(banner.id));
+  assert.equal(migrateSave(JSON.parse(JSON.stringify(next)),now+3).gameplay.flag,'西岐');
+});
+
+test('Thời Quang Tỏa refreshes one Tiên Sơn daily reward set without clearing other locations',()=>{
+  const item=sourceItem('4408'),mountain=IMMORTAL_MOUNTAINS[0],floor=getMountainBattles(mountain.legacySourceId)[0],otherFloor=getMountainBattles(IMMORTAL_MOUNTAINS[1].legacySourceId)[0],state=createNewGame('Thử làm mới',now),day=Math.floor(now/86400000);
+  state.world.pveWins={[floor.id]:true,[otherFloor.id]:true};state.world.pveLastClearDay={[floor.id]:day,[otherFloor.id]:day};state.items.push(item.id);
+  assert.match(pveLock(state,floor,floor.chapter),/Đã nhận thưởng hôm nay/);
+  const refreshed=doAction(state,{type:'useItem',itemId:item.id,mountainId:mountain.id},now);
+  assert.equal(refreshed.world.pveLastClearDay[floor.id],undefined);assert.equal(refreshed.world.pveLastClearDay[otherFloor.id],day);assert.ok(!refreshed.items.includes(item.id));
+  assert.equal(pveLock(refreshed,floor,floor.chapter),'');
+});
+
+test('recruitment refresh, morale reset and double-XP goods reach shared runtime systems',()=>{
+  const refresh=sourceItem('4910'),refreshState=createNewGame('Thử Dẫn Tiên Đài',now);refreshState.levels.hostel=1;refreshState.levels.altar=1;refreshState.items.push(refresh.id);
+  const before=recruitmentPromotion(refreshState,now),refreshed=doAction(refreshState,{type:'useItem',itemId:refresh.id},now);
+  assert.notEqual(recruitmentPromotion(refreshed,now),before);assert.equal(refreshed.gameplay.recruitmentRefresh,Math.floor(now/86400000));
+  const duplicate=sourceItem('4910'),blocked=structuredClone(refreshed);blocked.items.push(duplicate.id);assert.throws(()=>doAction(blocked,{type:'useItem',itemId:duplicate.id},now+1),/đã làm mới hôm nay/);assert.ok(blocked.items.includes(duplicate.id));
+
+  const decree=sourceItem('4904'),civic=createNewGame('Thử an bang',now);civic.morale=27;civic.items.push(decree.id);
+  const calm=doAction(civic,{type:'useItem',itemId:decree.id},now);assert.equal(calm.morale,100);assert.ok(!calm.items.includes(decree.id));
+  assert.match(calm.notifications[0],/dân oán không được runtime theo dõi/);
+
+  const xp=sourceItem('4953'),xpState=createNewGame('Thử song bội',now);xpState.items.push(xp.id);
+  const boosted=doAction(xpState,{type:'useItem',itemId:xp.id},now);assert.equal(itemBuff(boosted,'heroXp',now),1);assert.equal(itemBuff(boosted,'heroXp',now+3_600_001),0);
+});
+
 test('Xe Chỉ Nam stores a one-trade simulated throughput bonus and consumes it after settlement',()=>{
   const item=sourceItem('4027'),state=createNewGame('Thử giao dịch',now);
   state.items.push(item.id);
@@ -100,4 +161,24 @@ test('source red-slot gems socket through the hero UI adapter and affect army or
   const buffed=combat.marchInput(socketed,{nodeId:node.id,troops:{[troop.id]:10},startAt:now,seed:13}).input;
   assert.ok(Math.abs(cityEffects(socketed,now).attack-.1)<1e-8);
   assert.ok(Math.abs(buffed.sides[0].armyAttack-base.sides[0].armyAttack-.1)<1e-8,'expected value of the source 10% double-damage proc reaches army combat');
+});
+
+test('70 verified frame and chat-bubble goods unlock once, equip by slot and persist through migration',()=>{
+  const cosmetics=ITEMS.filter(item=>itemUseRule(item)?.kind==='cosmeticUnlock');
+  assert.equal(cosmetics.length,70);
+  const frame=cosmetics.find(item=>itemUseRule(item).slot==='frame'),bubble=cosmetics.find(item=>itemUseRule(item).slot==='chatBubble');
+  const state=createNewGame('Thử mỹ phẩm',now);state.items.push(frame.id,bubble.id);
+  let next=doAction(state,{type:'useItem',itemId:frame.id},now);
+  assert.ok(!next.items.includes(frame.id));
+  assert.deepEqual(next.profile.cosmeticsUnlocked,[frame.id]);
+  assert.equal(next.profile.activeCosmetics.frame,frame.id);
+  next=doAction(next,{type:'useItem',itemId:bubble.id},now+1);
+  assert.deepEqual(next.profile.cosmeticsUnlocked,[frame.id,bubble.id]);
+  assert.equal(next.profile.activeCosmetics.chatBubble,bubble.id);
+  assert.throws(()=>doAction(next,{type:'setCosmetic',slot:'frame',itemId:bubble.id},now+2),/chưa được mở khóa hoặc không đúng loại/);
+  next=doAction(next,{type:'setCosmetic',slot:'frame',itemId:null},now+2);
+  const loaded=migrateSave(JSON.parse(JSON.stringify(next)),now+3);
+  assert.deepEqual(loaded.profile.cosmeticsUnlocked,[frame.id,bubble.id]);
+  assert.equal(loaded.profile.activeCosmetics.frame,null);
+  assert.equal(loaded.profile.activeCosmetics.chatBubble,bubble.id);
 });

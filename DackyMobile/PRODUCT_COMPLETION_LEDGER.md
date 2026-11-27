@@ -1,6 +1,6 @@
 # Dacky product completion ledger
 
-Updated 2026-11-27 · active branch `feature/dacky-product-completion` · latest pushed parent `077ce29c03428af6f407d09633df7bd8b4ffe1cc`.
+Updated 2026-11-27 · active branch `feature/dacky-product-completion` · latest pushed parent `993a649f0df63e0cda0f0e385750f43fd94d2687`.
 
 This ledger describes playable behavior and evidence. Record counts, tests and imported rows do not establish source parity or product completion.
 
@@ -46,6 +46,18 @@ This ledger describes playable behavior and evidence. Record counts, tests and i
 - `npm run build`: PASS after the ART13 idempotence fix. Web assets/PWA shell and `dist/offline.html` were produced; compact runtime export contains 59,017 records and 128,253 unique field-evidence records. Offline HTML bundle contains 61,803,224 JavaScript characters.
 - Browser smoke on the built Web and single-file offline HTML: both rendered the inventory at 1280×720 with 14 visible category illustrations, no broken visible image, no browser error and no external request. Evidence: `qa/product-completion/inventory-category-web.png`, `inventory-category-offline.png`, and `inventory-category-smoke.json`.
 - PWA service-worker test installed the shell, went offline, reopened the app and rendered the start screen with no page errors; screenshot: `qa/product-completion/pwa-offline.png`.
+
+## Mass gameplay continuation · shared effects and endgame policy
+
+- The 720-day clean-save `endgame` strategy completed with real `doAction`/`advance` calls, legal trades, training, quest claims, buff items and PvE settlements. It won doors 1–3 by day 270 and reached door 4 by day 360. At day 720 it had won 45/45 attempted battles, trained 262,031 soldiers across seven Mobile troop types and three training sites, and cleared 1,007,145/3,450,000 source soldiers at door 4. Door 5 was not reached. There were 76,131 wounded and 42,872 ready soldiers; the test policy had skipped partial healing whenever it could not afford the entire wounded roster. This is an endgame HOLD, not a route-completion claim.
+- Corrected that simulation-policy error: it now computes the largest heal batch affordable under the clinic-adjusted runtime costs and heals partial groups. No combat casualty or healing rule was changed. A new clean-save run is required before using this policy as endgame evidence.
+- Added shared runtime/UI effects for full mana, full vitality and half-mana medicines (4222/4224/4225); dedicated artifact and mount star stones (95604/95605); and the 14 source Phong Thần Tower books. Tower book attack/defense/attribute conversions, revive chance and unmodeled dodge/guard/counter/chain semantics are explicitly simulated in the existing product adapter; the Combat Engine was not rewritten.
+- Added usable Mobile name/banner tokens (4917/4916) and `Thời Quang Tỏa` (4408). The latter refreshes only a selected Tiên Sơn's floors cleared today and consumes only when at least one such floor is refreshed; its selected-location scope is SIMULATED because the source item's global refresh target is not described precisely.
+- The pending item families now also cover recruitment refresh (4910), morale reset (4904), and one-hour double hero XP (4953). The legacy unrest reduction on 4904 has no city-unrest runtime state and remains explicitly unsupported; the item still restores shared morale to 100.
+- The existing 70 verified portrait-frame/chat-bubble goods now unlock/equip by slot, persist through save migration and appear in Settings; the hero screen lets players choose the actual gem item for a socket. These changes reuse existing UI/gameplay adapters.
+- Reviewed `origin/review/dacky-art-direction` at `304f47e`: it is a documentation/mapping handoff, and its 2,353 asset paths already exist in this production checkout. No branch merge or asset copy was needed. Current runtime maps all 25 Mobile troop records to standing, running and attack clips; source family clips are reused visually and are not asserted as exact identity for every troop. Existing battle UI already binds those clips and VFX to combat events. The review's required current-client and physical-device comparisons remain unperformed.
+- Focused current-worktree checks: **35/35** source-item, gear, tower-book, PvE and settlement tests; syntax checks and `git diff --check` pass; dependency graph remains 1,567 nodes / 3,958 edges with zero cycles, impossible conditions or unknown unique references. The pushed parent CI [45992914191](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/45992914191) passed before these pending edits; this worktree is not yet covered by that CI.
+- Still open in LOT A/B: several legacy goods describe multiplayer-only city relocation/protection/alliances, asynchronous transport or mechanics with no equivalent player-facing system. They remain `UNKNOWN`/`SIMULATED` rather than being claimed as exact. The three binary legacy tables remain HOLD. The 174 loot IDs with no item record still use bounded simulated resource conversion; source IDs/provenance remain in receipts.
 
 ## Prior checks on the previous increment
 

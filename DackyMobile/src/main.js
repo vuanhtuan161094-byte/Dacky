@@ -224,6 +224,7 @@ document.body.addEventListener('click', async event => {
     case 'upgradeCity': return perform('upgradeCity',{cityId:button.dataset.city});
     case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
     case 'redeemQuestVouchers': return perform('redeemQuestVouchers',{count:button.dataset.count||1});
+    case 'setCosmetic': return perform('setCosmetic',{slot:button.dataset.slot,itemId:document.querySelector('[data-cosmetic="'+button.dataset.slot+'"]')?.value||null});
     case 'train': return perform('train',{troopId:document.querySelector('#train-unit')?.value||button.dataset.troop,count:document.querySelector('#train-count')?.value||button.dataset.count,barracksId:document.querySelector('#train-barracks')?.value||undefined});
     case 'trainHero': return perform('trainHero',{heroId:button.dataset.hero});
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
@@ -231,7 +232,7 @@ document.body.addEventListener('click', async event => {
     case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero});
     case 'useItem': {
       if(button.dataset.kind==='demolishPlot'&&!window.confirm('Phá dỡ công trình này ngay? Vật phẩm sẽ mất và không hoàn trả tài nguyên.'))return;
-      return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index),heroId:document.querySelector('[data-item-target="'+button.dataset.item+'"]')?.value,plotId:document.querySelector('[data-item-plot="'+button.dataset.item+'"]')?.value});
+      return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index),heroId:document.querySelector('[data-item-target="'+button.dataset.item+'"]')?.value,plotId:document.querySelector('[data-item-plot="'+button.dataset.item+'"]')?.value,name:document.querySelector('[data-item-name="'+button.dataset.item+'"]')?.value,flag:document.querySelector('[data-item-flag="'+button.dataset.item+'"]')?.value,mountainId:document.querySelector('[data-item-mountain="'+button.dataset.item+'"]')?.value});
     }
     case 'exchangeItem': return perform('exchangeItem',{itemId:button.dataset.item});
     case 'buyItem': return perform('buyItem',{itemId:button.dataset.item,count:button.dataset.count||document.querySelector(`[data-buy-count="${button.dataset.item}"]`)?.value||1});
@@ -239,7 +240,7 @@ document.body.addEventListener('click', async event => {
     case 'forge': return perform('forge',{itemId:button.dataset.item});
     case 'enhanceGear': return perform('enhanceGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
     case 'starUpGear': return perform('starUpGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
-    case 'socketGearGem': return perform('socketGearGem',{heroId:button.dataset.hero,itemId:button.dataset.item,gemId:button.dataset.gem});
+    case 'socketGearGem': return perform('socketGearGem',{heroId:button.dataset.hero,itemId:button.dataset.item,gemId:document.querySelector('[data-gem-select="'+button.dataset.hero+':'+button.dataset.item+'"]')?.value||button.dataset.gem});
     case 'sellItem': return perform('sellItem',{itemId:button.dataset.item});
     case 'research': return perform('research',{techId:button.dataset.tech});
     case 'scout': return perform('scout',{nodeId:button.dataset.node||uiState.nodeId});

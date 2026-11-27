@@ -1,5 +1,5 @@
 import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulated-world.js';
-import { getPveEncounter, pveAssaultProgress, pveLock, rollPveLoot, resolvePveLootItem } from './pve-campaign.js';
+import { getPveEncounter, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot, resolvePveLootItem } from './pve-campaign.js';
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
 import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,equipmentSlot } from './gameplay-p15.js';
@@ -140,7 +140,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   const troop = STARTER_TROOP;
   const state = {
     version: SAVE_VERSION,
-    profile: { name: String(name || 'Triều Ca').slice(0, 22), createdAt: now },
+    profile: { name: String(name || 'Triều Ca').slice(0, 22), createdAt: now, cosmeticsUnlocked:[], activeCosmetics:{frame:null,chatBubble:null} },
     lastTickAt: now,
     resources: { food: 1600, timber: 1300, stone: 1150, iron: 1200, gold: 950, jade: 6 },
     population: 180,
@@ -180,6 +180,10 @@ export function migrateSave(input, now = Date.now()) {
   s.profile = s.profile && typeof s.profile === 'object' ? s.profile : {};
   s.profile.name = String(s.profile.name || 'Triều Ca').trim().slice(0,22) || 'Triều Ca';
   s.profile.createdAt = Number(s.profile.createdAt) || now;
+  const cosmeticItems=new Map(ITEMS.filter(item=>itemUseRule(item)?.kind==='cosmeticUnlock').map(item=>[item.id,itemUseRule(item).slot]));
+  s.profile.cosmeticsUnlocked=[...new Set((Array.isArray(s.profile.cosmeticsUnlocked)?s.profile.cosmeticsUnlocked:[]).filter(id=>cosmeticItems.has(id)))].slice(0,250);
+  const activeCosmetics=s.profile.activeCosmetics&&typeof s.profile.activeCosmetics==='object'?s.profile.activeCosmetics:{};
+  s.profile.activeCosmetics=Object.fromEntries(['frame','chatBubble'].map(slot=>[slot,s.profile.cosmeticsUnlocked.includes(activeCosmetics[slot])&&cosmeticItems.get(activeCosmetics[slot])===slot?activeCosmetics[slot]:null]));
   s.resources = s.resources && typeof s.resources === 'object' ? s.resources : {};
   for(const key of Object.keys(s.resources))if(!RESOURCE_KEYS.includes(key))delete s.resources[key];
   for (const key of RESOURCE_KEYS) s.resources[key] = Math.max(0, Number(s.resources[key]) || 0);
@@ -208,6 +212,8 @@ export function migrateSave(input, now = Date.now()) {
       armor: ITEMS.some(i=>i.id===gear.armor&&i.type==='giáp')?gear.armor:null,
       artifact: ITEMS.some(i=>i.id===gear.artifact&&i.type==='pháp bảo')?gear.artifact:null
     };
+    const towerBook=ITEMS.find(item=>String(item.mobileSourceId)===String(h.towerBookSourceId||'')&&itemUseRule(item)?.kind==='towerBook');
+    h.towerBookSourceId=towerBook?String(towerBook.mobileSourceId):null;
     for(const slot of ['helmet','belt','boots','gloves','relic','relic2','mount'])if(gear[slot]&&ITEMS.some(i=>i.id===gear[slot]&&equipmentSlot(i)===slot))h.equipment[slot]=gear[slot];
     h.gearEnhancements=Object.fromEntries(Object.entries(h.gearEnhancements||{}).filter(([itemId,value])=>Object.values(h.equipment).includes(itemId)&&value&&typeof value==='object').map(([itemId,value])=>[itemId,{rank:clamp(Math.floor(Number(value.rank)||0),0,5),stars:clamp(Math.floor(Number(value.stars)||0),0,15),gems:[...new Set((Array.isArray(value.gems)?value.gems:[]).filter(id=>ITEMS.some(item=>item.id===id&&(item.mobileGroup==='Châu báu'||SOURCE_RED_GEMS.has(String(item.mobileSourceId))))))].slice(0,2)}]));
     return h;
@@ -784,7 +790,7 @@ export function quoteGearStar(state,heroId,itemId){
   if(!hero||!item||!Object.values(hero.equipment||{}).includes(itemId))return null;
   const current=hero.gearEnhancements?.[itemId]?.stars||0;
   if(current>=15)return {current,maxed:true,available:false,evidence:'SIMULATED_STAR_STAT_SCALE'};
-  const next=current+1,stoneSourceId=next<=5?'95601':next<=10?'95602':'95603',stone=ITEMS.find(row=>String(row.mobileSourceId)===stoneSourceId);
+  const next=current+1,slot=equipmentSlot(item),stoneSourceId=slot==='mount'?'95605':item.type==='pháp bảo'||slot==='artifact'?'95604':next<=5?'95601':next<=10?'95602':'95603',stone=ITEMS.find(row=>String(row.mobileSourceId)===stoneSourceId);
   return {current,next,stoneSourceId,available:(state.levels.foundry||0)>=1&&Boolean(stone&&state.items.includes(stone.id)),evidence:'VERIFIED_MOBILE_STONE_TIER+SIMULATED_STAR_STAT_SCALE'};
 }
 
@@ -1318,6 +1324,12 @@ export function doAction(state, action, now = Date.now()) {
     case 'collectLaborTaxes': {const day=Math.floor(now/86400000);if(s.gameplay.worldDays.laborTax===day)throw Error('Đã trưng thu hôm nay.');if(s.morale<2)throw Error('Dân tâm quá thấp để trưng thu.');s.gameplay.worldDays.laborTax=day;credit(s,{gold:100+Math.floor(s.population*.02)});s.morale=clamp(s.morale-2,0,100);note(s,'Trưng thu một lần mỗi ngày (SIMULATED).');break;}
     case 'leaveMountain': {if((s.gameplay.mountainRank||0)<1)throw Error('Cần hoàn thành một chuyến Tiên Sơn trước khi rời núi.');break;}
     case 'changeFlag': {s.gameplay.flag=String(action.flag||'周').slice(0,4);break;}
+    case 'setCosmetic': {
+      const slot=String(action.slot||''),itemId=action.itemId?String(action.itemId):null,item=itemId&&ITEMS.find(row=>row.id===itemId),rule=itemUseRule(item);
+      if(!['frame','chatBubble'].includes(slot)||itemId&&(!s.profile.cosmeticsUnlocked.includes(itemId)||rule?.kind!=='cosmeticUnlock'||rule.slot!==slot))throw Error('Mỹ phẩm chưa được mở khóa hoặc không đúng loại.');
+      s.profile.activeCosmetics??={frame:null,chatBubble:null};s.profile.activeCosmetics[slot]=itemId;
+      note(s,itemId?`Đã dùng ${item.name} trong hồ sơ quân chủ.`:'Đã trở về kiểu hồ sơ mặc định.');break;
+    }
     case 'officialPromote': {const n=s.gameplay.official+1;if(n>19||s.fame<n*n*100)throw Error('Thiếu danh vọng');debit(s,{gold:n*100});s.gameplay.official=n;break;}
     case 'guildDonate': {if(!s.world.guildLevel)throw Error('Chưa có minh hội');const n=clamp(Math.floor(Number(action.amount)||0),1,100000);debit(s,{gold:n});s.gameplay.guildDonation+=n;break;}
     case 'strategicCast': {if(!s.settings.combatV13)throw Error('Cần engine mới');const node=WORLD_NODES.find(n=>n.id===action.nodeId);if(action.nodeId&&!node)throw Error('Không tìm thấy mục tiêu');if(node&&!s.gameplay.strategic.npc[node.id])s.gameplay.strategic.npc[node.id]={morale:80,loyalty:100,troops:node.enemy.formation.reduce((o,r)=>(o[r.unitId]=(o[r.unitId]??0)+r.count,o),{}),effects:[]};castWorldSpell(s,{...action,now,combat:combat()});note(s,'Thi triển pháp thuật chiến lược');break;}
@@ -1570,6 +1582,42 @@ export function doAction(state, action, now = Date.now()) {
         s.items.splice(itemIndex,1);
         note(s,'Xe Chỉ Nam sẵn sàng cho giao dịch kế tiếp · tăng lượng hàng nhận 10% theo bộ chuyển đổi SIMULATED vì giao dịch runtime hiện không có thời lượng chuyến hàng.');
         break;
+      }
+      if(effect?.kind==='cosmeticUnlock'){
+        if(s.profile.cosmeticsUnlocked.includes(item.id))throw Error('Mỹ phẩm này đã được mở khóa; vật phẩm chưa bị tiêu hao.');
+        s.profile.cosmeticsUnlocked.push(item.id);s.profile.activeCosmetics??={frame:null,chatBubble:null};s.profile.activeCosmetics[effect.slot]=item.id;
+        s.items.splice(itemIndex,1);note(s,`Đã mở khóa và dùng ${item.name} · ${effect.slot==='frame'?'khung hồ sơ':'bong bóng chat'} VERIFIED_MOBILE.`);break;
+      }
+      if(effect?.kind==='towerBook'){
+        const hero=s.heroes.find(row=>row.id===action.heroId);
+        if(!hero||s.queues.march)throw Error('Chọn thần tiên đang nghỉ để học sách Phong Thần Tháp; vật phẩm chưa bị tiêu hao.');
+        if(String(hero.towerBookSourceId||'')===String(effect.sourceId))throw Error('Thần tiên đã học sách này; vật phẩm chưa bị tiêu hao.');
+        hero.towerBookSourceId=String(effect.sourceId);s.items.splice(itemIndex,1);
+        note(s,`${hero.name||HEROES.find(row=>row.id===hero.id)?.name||'Thần tiên'} học ${item.name} · thay thế sách cũ; hiệu lực chỉ ở Phong Thần Tháp.`);break;
+      }
+      if(effect?.kind==='renameVoucher'){
+        const name=String(action.name||'').trim().slice(0,22);if(!name)throw Error('Nhập tên mới trước khi dùng Thiếp Bái Danh.');
+        s.profile.name=name;if(s.cities[0]?.isCapital)s.cities[0].name=name;s.items.splice(itemIndex,1);note(s,`Dùng Thiếp Bái Danh đổi tên thành trì thành ${name} · VERIFIED_MOBILE.`);break;
+      }
+      if(effect?.kind==='flagVoucher'){
+        const flag=String(action.flag||'').trim().slice(0,4);if(!flag)throw Error('Chọn cờ hiệu trước khi dùng Long Kỳ.');
+        s.gameplay.flag=flag;s.items.splice(itemIndex,1);note(s,`Dùng Long Kỳ đổi cờ hiệu bản đồ thành ${flag} · VERIFIED_MOBILE.`);break;
+      }
+      if(effect?.kind==='mountainRefresh'){
+        const mountain=IMMORTAL_MOUNTAINS.find(row=>row.id===action.mountainId);if(!mountain)throw Error('Chọn một Tiên Sơn cần làm mới.');
+        const day=Math.floor(now/86400000),floors=getMountainBattles(mountain.legacySourceId).filter(node=>s.world.pveWins?.[node.id]&&s.world.pveLastClearDay?.[node.id]===day);
+        if(!floors.length)throw Error('Tiên Sơn này chưa nhận thưởng hôm nay; Thời Quang Tỏa chưa bị tiêu hao.');
+        for(const node of floors)delete s.world.pveLastClearDay[node.id];
+        s.items.splice(itemIndex,1);note(s,`Dùng Thời Quang Tỏa làm mới ${mountain.name}; mở lại ${floors.length} tầng đã nhận thưởng hôm nay · phạm vi chọn một Tiên Sơn SIMULATED.`);break;
+      }
+      if(effect?.kind==='recruitmentRefresh'){
+        if(!s.levels.hostel||!s.levels.altar)throw Error('Cần Dịch quán và Phong Thần Đàn; vật phẩm chưa bị tiêu hao.');
+        const day=Math.floor(now/86400000);if(s.gameplay.recruitmentRefresh===day)throw Error('Dẫn Tiên Đài đã làm mới hôm nay; vật phẩm chưa bị tiêu hao.');
+        s.gameplay.recruitmentRefresh=day;s.items.splice(itemIndex,1);note(s,'Thẻ Phan Dẫn Tiên làm mới lời mời tại Dẫn Tiên Đài · VERIFIED_MOBILE.');break;
+      }
+      if(effect?.kind==='moraleReset'){
+        if(s.morale>=100)throw Error('Dân tâm đã ổn định; vật phẩm chưa bị tiêu hao.');
+        s.morale=100;s.items.splice(itemIndex,1);note(s,'Cáo Thị An Bang khôi phục dân tâm lên 100 · chỉ số dân oán không được runtime theo dõi (PARTIAL_RUNTIME).');break;
       }
       if(effect?.kind==='heroRootBoost'){const target=HEROES.find(row=>String(row.mobileSourceId)===effect.targetHeroSourceId),hero=target&&s.heroes.find(row=>row.id===target.id);if(!hero)throw new Error('Cần chiêu mộ Lý Tịnh trước khi dùng vật phẩm này.');if((hero.sourceRootBonus??0)>=effect.amount)throw Error('Lý Tịnh đã nhận tối đa căn cốt từ vật phẩm này.');hero.sourceRootBonus=effect.amount;hero.sourceRootBonusEvidence='VERIFIED_MOBILE';hero.sourceRootBonusSourceTable=effect.sourceTable;hero.sourceRootBonusSourceField=effect.sourceField;hero.sourceRootBonusSourceId=effect.sourceRecordId;hero.sourceRootBonusStackingEvidence=effect.stackingEvidence;s.items.splice(itemIndex,1);note(s,`Lý Tịnh nhận +${effect.amount} căn cốt · tác động tăng trưởng theo công thức SIMULATED.`);break;}
       if(effect?.kind==='heroRootGift'||effect?.kind==='heroPotentialGift'){

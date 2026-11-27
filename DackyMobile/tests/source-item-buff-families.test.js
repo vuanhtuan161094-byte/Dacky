@@ -280,6 +280,18 @@ test('verified Mobile star stones are consumed in their source tier and stars ra
   assert.equal(migrated.heroes[0].gearEnhancements[weapon.id].stars,1);
 });
 
+test('artifact and mount star-up use their dedicated source stones and affect equipped battle profiles',()=>{
+  const combat=createProductCombat({storageCapacity}),artifact=sourceItem('95901'),artifactStone=sourceItem('95604'),horse=sourceItem('7513'),horseStone=sourceItem('95605');
+  assert.ok(artifact&&artifactStone&&horse&&horseStone);
+  const state=createNewGame('Triều Ca',now),definition=HEROES.find(row=>row.mobileSourceId==='ba-trung'),hero={...structuredClone(state.heroes[0]),id:definition.id,level:150,equipment:{weapon:null,armor:null,artifact:artifact.id,mount:horse.id},gearEnhancements:{[artifact.id]:{stars:0,rank:0,gems:[]},[horse.id]:{stars:0,rank:0,gems:[]}}};
+  state.heroes=[hero];hero.assigned=true;state.levels.foundry=1;state.items.push(artifactStone.id,horseStone.id);
+  const before=combat.commander(hero,state).commandAttack,artifactQuote=quoteGearStar(state,hero.id,artifact.id),horseQuote=quoteGearStar(state,hero.id,horse.id);
+  assert.equal(artifactQuote.stoneSourceId,'95604');assert.equal(horseQuote.stoneSourceId,'95605');
+  const first=doAction(state,{type:'starUpGear',heroId:hero.id,itemId:artifact.id},now),second=doAction(first,{type:'starUpGear',heroId:hero.id,itemId:horse.id},now+1);
+  assert.ok(!second.items.includes(artifactStone.id)&&!second.items.includes(horseStone.id));
+  assert.ok(combat.commander(second.heroes[0],second).commandAttack>before,'artifact stars feed an explicitly simulated command-stat bridge');
+});
+
 test('source hero recovery and respec items have bounded, consumable gameplay effects',()=>{
   const meal=sourceItem('95701'),mealState=createNewGame('Triều Ca',now);mealState.items.push(meal.id);mealState.heroes[0].combatVitality=1;
   const rested=doAction(mealState,{type:'useItem',itemId:meal.id,heroId:mealState.heroes[0].id},now);

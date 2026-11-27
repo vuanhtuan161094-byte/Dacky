@@ -4,7 +4,7 @@ import { getPveEncounter, PVE_TROOPS } from '../pve-campaign.js';
 import { MOBILE_SOURCE_DATABASE,TROOPS,HEROES,ITEMS,TECHNOLOGIES,WORLD_NODES,IMMORTAL_MOUNTAINS,TOWER_FLOORS,BUZHOU_FLOORS } from '../catalog.js';
 import { createCombatRuntime } from './runtime-v7.js';
 import { createSourceDuelHero } from './hero-progression.js';
-import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff } from '../gameplay-p15.js';
+import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff,itemUseRule } from '../gameplay-p15.js';
 import { canEquip } from './army-artifacts.js';
 // Three source artifacts omit an energy cost and two use a conversion effect.
 // The runtime applies a bounded, explicit fallback policy instead of silently
@@ -17,7 +17,7 @@ const seeded=seed=>{let x=Number(seed)>>>0;return()=>{x=(Math.imul(x,1664525)+10
 export function createProductCombat({storageCapacity, runtime=null}={}){
  if(typeof storageCapacity!=='function')throw Error('Production storageCapacity callback required');
  const rt=runtime??createCombatRuntime({database:MOBILE_SOURCE_DATABASE,troopRows:[...TROOPS, ...PVE_TROOPS],allowSimulatedLife:true});
- const heroes=Object.values(rt.index.heroes),byHero=new Map(HEROES.map(x=>[x.id,x])),byItem=new Map(ITEMS.map(x=>[x.id,x]));
+ const heroes=Object.values(rt.index.heroes),byHero=new Map(HEROES.map(x=>[x.id,x])),byItem=new Map(ITEMS.map(x=>[x.id,x])),bySourceItem=new Map(ITEMS.filter(x=>x.mobileSourceId!=null).map(x=>[String(x.mobileSourceId),x]));
  function profileFor(save){
   const def=byHero.get(save.id);if(!def)throw Error('Unknown runtime hero '+save.id);
   let p=rt.index.heroes[String(def.mobileSourceId)];
@@ -25,7 +25,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   return p;
  }
  function gearBonus(save,slot){const id=save.equipment?.[slot],item=byItem.get(id);if(!item||(save.combatDurability?.[id]??100)<=0)return 0;const key=slot==='weapon'?['công','dũng']:['phòng','thể'];const sourced=(item.mobileStats??[]).filter(r=>key.some(k=>String(r[0]).toLowerCase().includes(k))).reduce((n,r)=>n+(Number(String(r[1]).replace(/[^0-9.]/g,''))||0),0),base=clamp(Math.max(Number(item.bonus)||0,sourced),0,300),upgrade=save.gearEnhancements?.[id];return clamp(base*(1+(upgrade?.rank||0)*.04+(upgrade?.stars||0)*.025+(upgrade?.gems?.length||0)*.03),0,300);}
- function duelStats(p,save,state=null){
+ function duelStats(p,save,state=null,tower=false){
   const now=state?.lastTickAt??0,flat=key=>state?itemBuff(state,key,now):0;
   const stats=createSourceDuelHero({...p,root:p.root+(save.rootBonus??0)+(save.sourceRootBonus??0)+Object.values(save.mobileRootBonuses||{}).reduce((n,v)=>n+(Number(v)||0),0),physical:p.physical+flat('heroFlatPhysical'),arcane:p.arcane+flat('heroFlatArcane'),strategy:p.strategy+flat('heroFlatStrategy')},{level:save.level}).stats;
   if(state){
@@ -39,8 +39,16 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
    stats.defense=Math.round(stats.defense*(1+strategy*.3+vitality*.2));stats.resistance=Math.round(stats.resistance*(1+strategy*.3+mana*.2));
    stats.speed=Math.round(stats.speed*(1+strategy*.4));stats.maxHp=Math.round(stats.maxHp*(1+vitality));stats.maxMana=Math.round(stats.maxMana*(1+mana));
   }
+  const artifactItem=byItem.get(save.equipment?.artifact),artifactId=artifactItem?.mobileSourceId==null?null:String(artifactItem.mobileSourceId),artifactProfile=artifactId&&rt.index.artifacts[artifactId],artifactStars=artifactItem?.type==='pháp bảo'&&artifactProfile&&canEquip(artifactProfile,p,{level:save.level,ownedArtifactIds:[artifactId]}).ok?clamp(save.gearEnhancements?.[artifactItem.id]?.stars||0,0,15):0;
+  // Source text says artifact stars strengthen its battle effect, but gives no
+  // scale. Apply a capped, state-local combat-stat bridge; never alter the shared
+  // Combat Engine's source artifact operations.
+  if(artifactStars){const scale=1+artifactStars*.02;for(const key of ['attack','magic','defense','resistance'])stats[key]=Math.round(stats[key]*scale);}
   const weapon=gearBonus(save,'weapon')+gearBonus(save,'relic')+gearBonus(save,'relic2'),armor=['armor','helmet','belt','boots','gloves','mount'].reduce((n,k)=>n+gearBonus(save,k),0),mastery=1+clamp(Number(save.skillLevel)||1,1,10)*.025+clamp(Number(save.affinity)||0,0,100)*.001,activeSets=equipmentSets(save).reduce((n,s)=>n+s.active.length,0),matrix=1+Math.min(.35,(save.matrices?.length??0)*.015)+Math.min(.20,activeSets*.03);
-  return {...stats,attack:Math.round((stats.attack+weapon+(save.potential?.attack??0))*mastery*matrix),magic:Math.round((stats.magic+weapon*.4+(save.potential?.magic??0))*mastery*matrix),defense:Math.round((stats.defense+armor+(save.potential?.defense??0))*matrix),resistance:stats.resistance+Math.round(armor*.6)};
+  const out={...stats,attack:Math.round((stats.attack+weapon+(save.potential?.attack??0))*mastery*matrix),magic:Math.round((stats.magic+weapon*.4+(save.potential?.magic??0))*mastery*matrix),defense:Math.round((stats.defense+armor+(save.potential?.defense??0))*matrix),resistance:stats.resistance+Math.round(armor*.6)};
+  const book=tower&&itemUseRule(bySourceItem.get(String(save.towerBookSourceId||'')))?.towerEffects;
+  for(const [key,ratio] of Object.entries(book?.stats||{}))if(Number.isFinite(out[key])&&Number.isFinite(ratio))out[key]=Math.round(out[key]*(1+ratio));
+  return out;
  }
  function commander(save,state){
   const p=profileFor(save),level=integer(save.level,'hero level',1),stats=duelStats(p,save,state);
@@ -129,8 +137,9 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   // Existing source-based hero stats vs an explicitly simulated NPC difficulty curve.
   const d=q.difficulty,enemyStats={attack:Math.max(1,d*.65),magic:Math.max(1,d*.65),defense:d*.3,resistance:d*.3,speed:10+Math.sqrt(d),maxHp:Math.max(1,d*3),maxMana:Math.max(0,d*2)};
   let enemy={id:'npc',stats:enemyStats,hp:enemyStats.maxHp,mana:enemyStats.maxMana},rounds=[],events=[],victory=false;
-  for(let i=0;i<party.length;i++){const h=party[i],c=commander(h,s);if(!c.vitality)continue;const p=rt.index.heroes[c.heroId],stats=duelStats(p,h,s);
-   const r=rt.duel({fighters:[{id:h.id,stats,hp:c.vitality,mana:c.mana},enemy],seed:(Number(seed)+i*7919)>>>0,maxRounds:12,enableManaBurst:true});
+  for(let i=0;i<party.length;i++){const h=party[i],c=commander(h,s);if(!c.vitality)continue;const p=rt.index.heroes[c.heroId],stats=duelStats(p,h,s,mode==='tower'),towerBook=mode==='tower'?itemUseRule(bySourceItem.get(String(h.towerBookSourceId||'')))?.towerEffects:null;
+   const hpRatio=c.maxVitality?c.vitality/c.maxVitality:0,r=rt.duel({fighters:[{id:h.id,stats,hp:Math.min(stats.maxHp,Math.round(stats.maxHp*hpRatio)),mana:c.mana},enemy],seed:(Number(seed)+i*7919)>>>0,maxRounds:12,enableManaBurst:true});
+   if(r.fighters[0].hp<=0&&towerBook?.reviveChance&&seeded((Number(seed)^Math.imul(i+1,0x9e3779b1))>>>0)()<towerBook.reviveChance){r.fighters[0].hp=Math.max(1,Math.floor(stats.maxHp*towerBook.reviveHp));r.events.push({type:'towerBookRevive',heroId:h.id,sourceId:h.towerBookSourceId,hp:r.fighters[0].hp,evidence:towerBook.runtimeEffect||'SIMULATED'});}
    h.combatVitality=Math.max(0,Math.ceil(r.fighters[0].hp));h.combatMana=Math.max(0,Math.floor(r.fighters[0].mana));h.combatUpdatedAt=now;enemy={...enemy,hp:r.fighters[1].hp,mana:r.fighters[1].mana};
    rounds.push(...r.rounds.map(x=>({...x,commanderId:h.id})));events.push(...r.events.map((x,j)=>({...x,commanderId:h.id,seq:events.length+j+1})));h.affinity=clamp((h.affinity??0)+1,0,100);
    if(enemy.hp<=0||r.winner===0){victory=true;break;}

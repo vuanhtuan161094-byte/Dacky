@@ -23,6 +23,12 @@ function run(policy){
  const localFailures={};let questCursor=0,itemsSold=0;const buffsUsed=[];const fail=(kind,error)=>{const k=kind+': '+String(error?.message||error);localFailures[k]=(localFailures[k]||0)+1;failures[k]=(failures[k]||0)+1;};
  const act=(type,data={})=>{try{state=doAction(state,{type,...data},now);return true;}catch(error){fail(type,error);return false;}};
  const affordable=cost=>Object.entries(cost||{}).every(([key,value])=>(state.resources[key]||0)>=value);
+ const affordableHealCount=injured=>{
+   const foodFactor=Math.max(.35,1-Math.min(.45,(state.levels.clinic||0)*.015)),goldFactor=Math.max(.45,1-Math.min(.35,(state.levels.clinic||0)*.01));
+   let low=0,high=Math.max(0,Math.floor(injured));
+   while(low<high){const mid=Math.ceil((low+high)/2),food=Math.max(1,Math.floor(mid*8*foodFactor)),gold=Math.max(1,Math.floor(mid*2*goldFactor));if(food<=(state.resources.food||0)&&gold<=(state.resources.gold||0))low=mid;else high=mid-1;}
+   return low;
+ };
  const researchBuildingNeeds=()=>{
    const required=[];
    for(const tech of TECHNOLOGIES){
@@ -260,7 +266,7 @@ function run(policy){
    if(day%2===0)for(const h of state.heroes.filter(x=>x.assigned))if(state.resources.food>=65*h.level&&state.resources.gold>=85*h.level)act('trainHero',{heroId:h.id});
    questSweep();activateAvailableBuffs();if(day%14===0)act('duel',{mode:'tower'});
    balanceForTraining();addTrainingSite();addFoodSite();startBuild();startResearch();gearOne();startTraining(day);
-   const wounded=Object.values(state.wounded).reduce((n,v)=>n+v,0);if(wounded>0&&state.resources.food>wounded*8&&state.resources.gold>wounded*2)act('heal',{count:wounded});
+   const wounded=Object.values(state.wounded).reduce((n,v)=>n+v,0),healCount=affordableHealCount(wounded);if(healCount>0)act('heal',{count:healCount});
    march(day);
    if(days.includes(day)){
      state=migrateSave(JSON.parse(JSON.stringify(state)),now);
