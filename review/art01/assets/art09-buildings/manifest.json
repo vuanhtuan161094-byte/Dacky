@@ -1,9 +1,9 @@
 {
   "citadel": {
-    "source": "ART13 generated text-free source illustration silhouette cutout",
+    "source": "ART13 illustration cutout retained; low-alpha cleanup",
     "pixelSize": [
-      320,
-      217
+      618,
+      426
     ],
     "foot": [
       720,
@@ -13,14 +13,14 @@
       290,
       179
     ],
-    "sha256": "00883b15a06616ad70ae18b28ff51c40eda1d25e33a82c70421af4fa8c622ee3",
-    "transformation": "ART13 independent architecture cutout"
+    "sha256": "4d0bd5901c2d242b9c440dedf15d9bf95f276a326af571d5a3b8edf27a0536d8",
+    "transformation": "ART14 runtime sprite"
   },
   "wall": {
-    "source": "ART13 generated text-free source illustration silhouette cutout",
+    "source": "ART13 illustration cutout retained; low-alpha cleanup",
     "pixelSize": [
-      305,
-      261
+      598,
+      514
     ],
     "foot": [
       720,
@@ -30,14 +30,14 @@
       156,
       90
     ],
-    "sha256": "a9855b575eaf9fbb12cbce257d1f309267bb0767e8346714e2a2ef8fb7310d73",
-    "transformation": "ART13 independent architecture cutout"
+    "sha256": "319e86e27811d948d79c5f2cfda4d881b2a92c4864c973a40260b9718c1ee7b9",
+    "transformation": "ART14 runtime sprite"
   },
   "government": {
-    "source": "mobile-source/flash/city/RES_GOVERNMENT_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      414,
-      226
+      360,
+      224
     ],
     "foot": [
       270,
@@ -47,14 +47,14 @@
       138,
       95
     ],
-    "sha256": "5504426395a1d039ede710dbc41280c3f4671dc6675a47a09b171d71c0048486",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "29acb30a522f3975153c8e217d3a8366a7668642f5e8b2b3cffab45744a4e960",
+    "transformation": "ART14 runtime sprite"
   },
   "academy": {
-    "source": "mobile-source/flash/city/RES_SCHOOL_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      203,
-      136
+      360,
+      224
     ],
     "foot": [
       445,
@@ -64,14 +64,14 @@
       138,
       95
     ],
-    "sha256": "148eb512abe92c01728fc2c5ced9c861be9f6ae20e1e518d36e53d7b4eae0b7b",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "323851caf78116b073661a1ea4bea4cef7b1ea39fbe21a7f4560db8aa18e84ff",
+    "transformation": "ART14 runtime sprite"
   },
   "altar": {
-    "source": "mobile-source/flash/city/RES_CALLHERO_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      174,
-      140
+      360,
+      224
     ],
     "foot": [
       995,
@@ -81,14 +81,14 @@
       138,
       95
     ],
-    "sha256": "a17ff5c2ca26cf2d422b4339a96c3e40b9f2d632904af1aada276458a1d8d111",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "1b51a556c01c4bfe1756fe602a8fa6dc9549ee58ef31eb4b94b4e9d4e4954fb4",
+    "transformation": "ART14 runtime sprite"
   },
   "manor": {
-    "source": "mobile-source/flash/city/RES_DAK_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      168,
-      121
+      360,
+      224
     ],
     "foot": [
       1170,
@@ -98,14 +98,14 @@
       138,
       95
     ],
-    "sha256": "1554dc7ca7eb995156519801e2edf0944c5244fd95beb1d0701a0d040dd339e8",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "514fc91dfd5dc39f5dcb7c444191253de799d8e9bce03cc08ce8fdc0f2c8a8e3",
+    "transformation": "ART14 runtime sprite"
   },
   "hostel": {
-    "source": "mobile-source/flash/city/RES_HOSTEL_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      171,
-      155
+      360,
+      224
     ],
     "foot": [
       230,
@@ -115,14 +115,14 @@
       138,
       95
     ],
-    "sha256": "273286330b26f856d4e7277de980e229060ff497628b31b255667c45754ef35c",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "20ca9875f2d0d5500dd8a837bc7ad37f1ea579e5e3521642ab4ddb4f4cee7f60",
+    "transformation": "ART14 runtime sprite"
   },
   "embassy": {
-    "source": "mobile-source/flash/city/RES_HONGLUTEMPLE_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      190,
-      128
+      360,
+      224
     ],
     "foot": [
       405,
@@ -132,14 +132,14 @@
       138,
       95
     ],
-    "sha256": "c97fb324b827ab862eb89ca27a12d7a773630b1fd2244b4c6e8e6c0cc91c8c8a",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "7783a964dabbe6df67adc842505f00fc713db8c2a33d1d8241f177c0f3c7cf1f",
+    "transformation": "ART14 runtime sprite"
   },
   "clinic": {
-    "source": "mobile-source/flash/city/RES_HOSPITAL_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      175,
-      141
+      360,
+      224
     ],
     "foot": [
       1035,
@@ -149,14 +149,14 @@
       138,
       95
     ],
-    "sha256": "44e196545d3beb273d23dc6f6be82debd648c72ffe7c3fcce9d62714c634ac24",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "31c9ef9a29f793b397e1b05d2aa04e237d616795ee73a0f47e4f4791885528a7",
+    "transformation": "ART14 runtime sprite"
   },
   "housing": {
-    "source": "mobile-source/flash/city/RES_HOUSE_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      195,
-      112
+      360,
+      224
     ],
     "foot": [
       1210,
@@ -166,14 +166,14 @@
       138,
       95
     ],
-    "sha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "33d37373b648c8808559c495818eacda9a90869ebf0bfb4e56a425b314c5f6f2",
+    "transformation": "ART14 runtime sprite"
   },
   "market": {
-    "source": "mobile-source/flash/city/RES_FSMARKET_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      161,
-      114
+      360,
+      224
     ],
     "foot": [
       230,
@@ -183,14 +183,14 @@
       138,
       95
     ],
-    "sha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "c6f138c6bf68e25a38c5548954a7c74b930d3b88435f38777726edb35841c114",
+    "transformation": "ART14 runtime sprite"
   },
   "granary": {
-    "source": "mobile-source/flash/city/RES_FSMARKET_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      161,
-      114
+      360,
+      224
     ],
     "foot": [
       405,
@@ -200,14 +200,14 @@
       138,
       95
     ],
-    "sha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "ddb9531c455996958dc41fbe644e26d8b5b1fe2388bdea0dd6f169b8b7fa5b37",
+    "transformation": "ART14 runtime sprite"
   },
   "storehouse": {
-    "source": "mobile-source/flash/city/RES_HOUSE_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      195,
-      112
+      360,
+      224
     ],
     "foot": [
       1035,
@@ -217,14 +217,14 @@
       138,
       95
     ],
-    "sha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "5718f042476856158481a0dd2f2d30bfff221d38418f8a96903d257fbb008eca",
+    "transformation": "ART14 runtime sprite"
   },
   "caravan": {
-    "source": "mobile-source/flash/city/RES_HORSESTALL_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      206,
-      155
+      360,
+      224
     ],
     "foot": [
       1210,
@@ -234,14 +234,14 @@
       138,
       95
     ],
-    "sha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "6436f0226e8e95ece76e489b0e6dad55b2d71c1f1d0bf38300d702c633335546",
+    "transformation": "ART14 runtime sprite"
   },
   "foundry": {
-    "source": "mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      171,
-      129
+      360,
+      224
     ],
     "foot": [
       230,
@@ -251,14 +251,14 @@
       138,
       95
     ],
-    "sha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "70dab8af8b817b46601a327361c1e66f8b2a5f4cc26b56bb9267ec655fad832b",
+    "transformation": "ART14 runtime sprite"
   },
   "barracks": {
-    "source": "mobile-source/flash/city/RES_BARBACK_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      198,
-      153
+      360,
+      224
     ],
     "foot": [
       570,
@@ -268,14 +268,14 @@
       138,
       95
     ],
-    "sha256": "8e7e51e5b51e83cec9074f0fee71db5bf1582783f6542b90418853881994f42f",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "7bc86b548741fea3d4f939d14a4ad9c17818cc6d5f246b0ca1f2c4bf042abba2",
+    "transformation": "ART14 runtime sprite"
   },
   "training": {
-    "source": "mobile-source/flash/city/RES_GYMKHANA_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      176,
-      123
+      360,
+      224
     ],
     "foot": [
       870,
@@ -285,14 +285,14 @@
       138,
       95
     ],
-    "sha256": "3312824e6aafd1e8dae284c12d4658af672cdd27972c1299f95cc79985a487c8",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "ed305853f0022043806246abbf3fa18b8a00add4c447cd1574d64765e1d7c2d7",
+    "transformation": "ART14 runtime sprite"
   },
   "workshop": {
-    "source": "mobile-source/flash/city/RES_ARTISANWORKSHOP_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      188,
-      161
+      360,
+      224
     ],
     "foot": [
       1210,
@@ -302,14 +302,14 @@
       138,
       95
     ],
-    "sha256": "fcf45c7f049cfb7d958d9e3d3ccb93887cca33a0a2a66117ba85e83e5e346e41",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "e7feb4cc078c2481bd5ccbc969db6c81505ce246165bd057c8db9fd152db5abd",
+    "transformation": "ART14 runtime sprite"
   },
   "watch": {
-    "source": "mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      163,
-      161
+      360,
+      224
     ],
     "foot": [
       230,
@@ -319,14 +319,14 @@
       138,
       95
     ],
-    "sha256": "649433eedbee0facf2e2f6499f1bd9c409c471fd82ed22ab450179915b891c3c",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "0377efad184154c97e2031df73321441565c3c6692c856121ece7d16ec6ab7ea",
+    "transformation": "ART14 runtime sprite"
   },
   "skirmisher": {
-    "source": "mobile-source/flash/city/RES_SkirmisherBarrack_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      205,
-      127
+      360,
+      224
     ],
     "foot": [
       570,
@@ -336,14 +336,14 @@
       138,
       95
     ],
-    "sha256": "e331943ce07b8a81cbf32708235d91efd3dccc20a15d9743fd6c61996866579b",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "98cb1de957ec4ced8033f999b6ba51dcdf99660bdcc7c18a4e79ef459d8acf60",
+    "transformation": "ART14 runtime sprite"
   },
   "stable": {
-    "source": "mobile-source/flash/city/RES_HORSESTALL_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      206,
-      155
+      360,
+      224
     ],
     "foot": [
       870,
@@ -353,14 +353,14 @@
       138,
       95
     ],
-    "sha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "ad3e3d533b1714b995d3b009105e334eb2b89f6a993f3c333fff247e3374a731",
+    "transformation": "ART14 runtime sprite"
   },
   "lumber": {
-    "source": "mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      150,
-      109
+      360,
+      224
     ],
     "foot": [
       230,
@@ -370,14 +370,14 @@
       153,
       94
     ],
-    "sha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "b4ce660ab233de12bebeae18937c7a2ad493b79ea7f8e88abf123d156d1b63fb",
+    "transformation": "ART14 runtime sprite"
   },
   "grove": {
-    "source": "mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      150,
-      109
+      360,
+      224
     ],
     "foot": [
       230,
@@ -387,14 +387,14 @@
       153,
       94
     ],
-    "sha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "2f639a34c623000d778c6145cf88940560f5c8b610a16c47c675f75ec7a6f9aa",
+    "transformation": "ART14 runtime sprite"
   },
   "quarry": {
-    "source": "mobile-source/flash/city/RES_QUARRY_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      150,
-      99
+      360,
+      224
     ],
     "foot": [
       1210,
@@ -404,14 +404,14 @@
       153,
       94
     ],
-    "sha256": "f70c0b707059bf06a37f5c5d4af0f3849ab61f2131d92a82318ecf9a8c6f3d71",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "016733e4a5af51c073ee4b913d1dd641b2d9cc2ed1210a9bbaa9b7914b03495f",
+    "transformation": "ART14 runtime sprite"
   },
   "mine": {
-    "source": "mobile-source/flash/city/RES_IRONOREFIELD_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      149,
-      78
+      360,
+      224
     ],
     "foot": [
       1210,
@@ -421,13 +421,13 @@
       153,
       94
     ],
-    "sha256": "3dfb285b4066b19eb7373ffd2caccab9ed79deba63247adec779af2eda3de778",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "a279d33e86e439ac042a4241b15c6f662b36fe541612a65206929f1cab64e41e",
+    "transformation": "ART14 runtime sprite"
   },
   "farm": {
-    "source": "mobile-source/flash/city/RES_CROPLAND_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      495,
+      360,
       224
     ],
     "foot": [
@@ -438,14 +438,14 @@
       153,
       94
     ],
-    "sha256": "67ff90e68821cc72297840eb04cf9bb6cb10bc06ffb1d29ddfae146db50c8b6c",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "be416b6d39dcb64c7c5c79057bfd2a954e363ac5d90c7fd3b49ac7eeca089e4f",
+    "transformation": "ART14 runtime sprite"
   },
   "foundryfield": {
-    "source": "mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
+    "source": "ART14 independent orthographic architecture render",
     "pixelSize": [
-      171,
-      129
+      360,
+      224
     ],
     "foot": [
       1210,
@@ -455,7 +455,7 @@
       153,
       94
     ],
-    "sha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
-    "transformation": "ART12 source-derived sprite tonal normalization"
+    "sha256": "f4f0fdb9c96d06782f429d22c87465e7cf1676c2b48a6bb24882b84db312c746",
+    "transformation": "ART14 runtime sprite"
   }
 }
