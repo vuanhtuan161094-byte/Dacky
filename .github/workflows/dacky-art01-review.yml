@@ -93,7 +93,7 @@ jobs:
           (dst/'captures').mkdir()
           for name in ('desktop-developed-city.png','desktop-developed-outer.png','desktop-initial-city.png','desktop-initial-outer.png'):
               shutil.copy2(captures/name,dst/'captures'/name)
-          (dst/'build.json').write_text(json.dumps({'source':os.environ['SOURCE_SHA'],'ci':int(os.environ['RUN_ID']),'review':'ART14 terrain and architecture review','isolatedSave':True}))
+          (dst/'build.json').write_text(json.dumps({'source':os.environ['SOURCE_SHA'],'ci':int(os.environ['RUN_ID']),'review':'ART13 restored painted city; ART14 rejected','isolatedSave':True}))
           assert 'dacky-art01-review-local' in (dst/'src/store.js').read_text()
           PY
           git config user.name 'github-actions[bot]'
