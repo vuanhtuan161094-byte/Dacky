@@ -21,7 +21,7 @@ export function createBattleSession(runtime,input){
   const out=runtime.army({...base,sides,policy:{...base.policy,enableTacticsV8:true,enableTacticsV10:true,maxRounds:next.length}});
   if(out.rounds.length!==next.length)throw Error('Unexpected session prefix');
   if(result&&JSON.stringify(out.rounds.slice(0,-1))!==JSON.stringify(result.rounds))throw Error('Battle history diverged');
-  commands=next;result=out;finished=commands.length>=maxRounds||out.sides.some(s=>s.troops===0)||out.termination==='RETREAT';
+  commands=next;result=out;finished=commands.length>=maxRounds||out.sides.some(s=>s.troops===0)||['RETREAT','SQUAD_END'].includes(out.termination);
   return snapshot();
  }
  return {snapshot,step};
