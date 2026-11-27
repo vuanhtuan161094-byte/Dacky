@@ -605,7 +605,7 @@ html,body{width:100%;height:100%;min-height:0;overflow:hidden;overscroll-behavio
 .hero-equipment-slot>img{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 2px 4px #000)}
 .hero-equipment-slot>b{max-width:100%;overflow:hidden;font-size:7px;text-overflow:ellipsis;white-space:nowrap}
 .hero-equipment-slot>i{position:absolute;right:2px;top:2px;padding:2px 3px;background:#653d2e;color:#ffe8b1;font-size:8px;font-style:normal}
-.empty-gear-glyph{width:38px;height:38px;border:1px solid #776744;background:#171b19}
+.empty-gear-glyph{display:block;width:38px;height:38px;border:1px solid #9f8350;border-radius:4px;background:url('./assets/visual/assets/blr-ui/khung.png') center/cover no-repeat #302b20;box-shadow:inset 0 0 12px #080a0a80,0 2px 5px #080a0a}
 .hero-set-summary{overflow:hidden;color:#dfc98e;font-size:8px;text-overflow:ellipsis;white-space:nowrap}
 .hero-potential-row{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:5px}
 .hero-potential-row>b{margin-right:auto;color:#e7ce8f;font-size:9px}
