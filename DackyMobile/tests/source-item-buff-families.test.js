@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewGame, doAction, marchTroopCapacity, migrateSave, productionPerHour, quoteTraining, storageCapacity } from '../src/engine.js';
-import { ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
+import { HEROES, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
 import { cityEffects, itemBuff, itemUseRule } from '../src/gameplay-p15.js';
 import { createProductCombat } from '../src/combat/product-v13.js';
 
@@ -109,4 +109,33 @@ test('additional verified Mobile consumables execute through the shared timed-bu
   const baseQueue=doAction(trainer.state,{type:'train',troopId:eligible.id,count:1},now);
   const boostedQueue=doAction(trained,{type:'train',troopId:eligible.id,count:1},now);
   assert.ok(Math.abs((boostedQueue.queues.training.finishAt-now)-(baseQueue.queues.training.finishAt-now)*.75)<.01);
+});
+
+test('verified Thánh Dược Nhiên Đăng targets Lý Tịnh and changes later combat growth',()=>{
+  const item=sourceItem('4961'),rule=itemUseRule(item),definition=HEROES.find(row=>row.mobileSourceId==='ly-tinh');
+  assert.ok(item&&definition);
+  assert.equal(rule.kind,'heroRootBoost');
+  assert.equal(rule.targetHeroSourceId,'ly-tinh');
+  assert.equal(rule.amount,21);
+  let state=createNewGame('Triều Ca',now);state.items.push(item.id);
+  assert.throws(()=>doAction(state,{type:'useItem',itemId:item.id},now),/Cần chiêu mộ Lý Tịnh/);
+  assert.ok(state.items.includes(item.id),'an ineligible use keeps the source item');
+  const hero={...structuredClone(state.heroes[0]),id:definition.id,level:150,assigned:true,equipment:{},potential:{attack:0,magic:0,defense:0}};
+  state.heroes=[hero];
+  const combat=createProductCombat({storageCapacity}),node=WORLD_NODES.find(row=>row.kind==='Dã địa'),troop=TROOPS.find(row=>row.mobileSourceId);
+  const before=combat.marchInput(state,{nodeId:node.id,troops:{[troop.id]:10},startAt:now,seed:31}).input;
+  let next=doAction(state,{type:'useItem',itemId:item.id},now);
+  assert.ok(!next.items.includes(item.id));
+  assert.equal(next.heroes[0].sourceRootBonus,21);
+  assert.equal(next.heroes[0].sourceRootBonusEvidence,'VERIFIED_MOBILE');
+  assert.equal(next.heroes[0].sourceRootBonusSourceTable,'vat-pham');
+  assert.equal(next.heroes[0].sourceRootBonusSourceField,'Description');
+  assert.equal(next.heroes[0].sourceRootBonusSourceId,'4961');
+  assert.equal(next.heroes[0].sourceRootBonusStackingEvidence,'SIMULATED');
+  const after=combat.marchInput(next,{nodeId:node.id,troops:{[troop.id]:10},startAt:now,seed:31}).input;
+  assert.ok(after.sides[0].commandAttack>before.sides[0].commandAttack,'the root increase changes commander combat growth');
+  next=migrateSave(JSON.parse(JSON.stringify(next)),now+1);
+  assert.equal(next.heroes[0].sourceRootBonus,21);
+  next.items.push(item.id);
+  assert.throws(()=>doAction(next,{type:'useItem',itemId:item.id},now+2),/đã nhận tối đa/);
 });
