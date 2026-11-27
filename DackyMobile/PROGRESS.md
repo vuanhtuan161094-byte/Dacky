@@ -2,6 +2,15 @@
 
 Updated 2026-11-27 · Repository `vuanhtuan161094-byte/Dacky` · active branch `feature/dacky-product-completion`
 
+## Latest continuation — legal office progression and endgame evidence
+
+- The specialist clean-save policy now promotes officials with the real fame/gold action. Rank 17 opens source level-21 academy and barracks gates; the city management drawer shows the next requirement and blocks unaffordable promotion.
+- Exact code checkpoint `f467fb1e4d5bb993f7ddc2540580d712fc62b5fd` passed focused item/PvE regressions **31/31** and GitHub CI [46051325757](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/46051325757). CI artifacts: [Web/PWA/offline](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/46051325757/artifacts/15224367472), [APK](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/46051325757/artifacts/15225285338), [AAB](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/46051325757/artifacts/15224457418), [screenshots/UI audit](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/46051325757/artifacts/15223639312).
+- Legal simulation days 1/7/30/90/180/270/360 had zero failed actions. At day 360: rank 19, campaign complete, research 180, five troop types, 86,812 cumulative trained, 45,599 ready, 12 heroes, Bất Chu doors 1–3 cleared. Door 4 cleared 202,691/3,450,000; door 5 not reached. This is not an endgame pass. Evidence: `qa/product-completion/endgame-route-ranked-360.json`.
+- Pages was normally updated from the verified Web artifact. Pages workflow [46052117151](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/46052117151) passed and both `/` and `/offline.html` returned HTTP 200. Deploy commit at that checkpoint: `da6d482`.
+- Remaining release gates: doors 4–5, 620 source-parity `PARTIAL_RUNTIME` rows, 26 reference/material goods, three legacy HOLD tables, 174 unmatched Tiên Sơn item IDs, current-client A/B visual comparison, and physical Android QA. The device status remains **DEVICE QA HOLD**.
+
+
 ## Current continuation — mass gameplay A–E integration checkpoint
 
 - 4710/4711 now affect real refinement outcomes; 4714/4715 affect real gem socket outcomes. Source descriptions are verified; 5% refinement and 3% socket risk, +10 ceiling and local failure handling remain explicitly simulated. Protections are selected in the hero equipment screen and consumed only when their outcome applies (4714 is consumed for its guaranteed socket).
