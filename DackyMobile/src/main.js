@@ -229,11 +229,13 @@ document.body.addEventListener('click', async event => {
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
     case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero});
-    case 'useItem': return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index)});
+    case 'useItem': return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index),heroId:document.querySelector('[data-item-target="'+button.dataset.item+'"]')?.value});
+    case 'exchangeItem': return perform('exchangeItem',{itemId:button.dataset.item});
     case 'buyItem': return perform('buyItem',{itemId:button.dataset.item,count:button.dataset.count||document.querySelector(`[data-buy-count="${button.dataset.item}"]`)?.value||1});
     case 'buyArtifact': return perform('buyArtifact',{itemId:button.dataset.item});
     case 'forge': return perform('forge',{itemId:button.dataset.item});
     case 'enhanceGear': return perform('enhanceGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
+    case 'starUpGear': return perform('starUpGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
     case 'socketGearGem': return perform('socketGearGem',{heroId:button.dataset.hero,itemId:button.dataset.item,gemId:button.dataset.gem});
     case 'sellItem': return perform('sellItem',{itemId:button.dataset.item});
     case 'research': return perform('research',{techId:button.dataset.tech});
