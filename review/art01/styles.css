@@ -1182,8 +1182,3 @@ body.art01-city-mode{--ink:#fff0d0;background:#183732}.art01-city-mode .topbar,.
 body.hud-hide-cityLabels .art01-city.art09-city .city-building-info,body.hud-hide-cityLabels .art01-city.art09-city .city-building-level{display:none!important}
 .art09-city .art07-commands,.art09-city .art06-production{background:#16352cde;border-color:#c39b58;box-shadow:0 2px 10px #14281c55}.art09-city .art07-command-head,.art09-city .art07-commands .button{color:#ffedc4;border-color:#b68c4d}
 @media(max-width:800px){.art01-city.art09-city .city-extra-plot[data-building-state="built"]:not(:hover):not([aria-pressed="true"]) .city-building-info{display:none}}
-
-/* ART14 scene integration */
-.art01-city.art09-city .city-extra-plot[data-building-state="built"] .city-building-art img{transform:scale(1.03);filter:drop-shadow(0 2px 1px #272d2260)}
-.art01-city.art09-city.art06-outer .city-extra-plot[data-unlocked="true"][data-building-state="foundation"]::before{background:linear-gradient(180deg,#aebf7440,#64774744);border:1px solid #c5c7a16b}
-.art01-city.art09-city .city-extra-plot[data-building-state="built"]:not(:hover):not([aria-pressed="true"]) .city-building-info{display:none}
