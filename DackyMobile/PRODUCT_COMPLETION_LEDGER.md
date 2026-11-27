@@ -1,8 +1,16 @@
 # Dacky product completion ledger
 
-Updated 2026-11-27 · active branch `feature/dacky-product-completion` · current continuation closes the item/recovery batch and rebuilds the Web/PWA/Android release artifacts.
+Updated 2026-11-27 · active branch `feature/dacky-product-completion` · latest code continuation adds legal official-rank progression to the endgame policy and improves its in-game promotion status.
 
-## Active mass-gameplay continuation
+## Latest continuation — office gates, grouped item audit, and endgame policy
+
+- The clean-save endgame policy now uses the real `officialPromote` action, fame requirement, and gold cost. The previous policy never promoted officials, so it stopped at level-20 building and technology gates despite available legal progression. A focused runtime regression confirms rank 17 opens the source level-21 academy and barracks requirements; the city management drawer now shows next-rank fame/gold and disables promotion until affordable. Browser UI smoke passed for both locked and ready states.
+- Clean-save simulation through days 1/7/30/90/180/270/360 had **zero failed actions**. Rank 19 was reached by day 90; the campaign and Bất Chu doors 1–3 were clear by day 270. At day 360, five troop types had been trained, 86,812 troops had been trained cumulatively, 12 heroes were recruited, research totaled 180 levels, and 45,599 troops were ready. Door 4 had cleared 202,691/3,450,000 source soldiers; 3,247,309 remained. Door 5 was not reached. This remains an endgame HOLD, not a completion route. Evidence: [`endgame-route-ranked-360.json`](qa/product-completion/endgame-route-ranked-360.json).
+- Item-family regressions: **21/21**; PvE/Bất Chu regressions: **10/10**. The existing grouped runtime tests cover 4913 command capacity, 4901 five-build queue, 8920 defense/exchange choice, capture chance, and VIP purchase discounts. They confirm runtime behavior, not source parity for the `SIMULATED` bridges.
+- The 620 `PARTIAL_RUNTIME` identities, 26 reference/material goods, three legacy HOLD tables, 174 Tiên Sơn IDs without Mobile item joins, and full doors 4–5 route remain open. The previous day-720 policy result and earlier release evidence below are historical; they do not establish a cleared endgame for this corrected policy.
+- Baseline HEAD before this continuation was `33dc93f5beeaa1ac2b04b875d899318b0d3ef710`; its docs-only CI [46047820317](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/46047820317) passed. Code changes in this continuation still need their own pushed CI and artifact run.
+
+## Previous evidence batch: items, recovery and release artifacts
 
 - The 620 `PARTIAL_RUNTIME` identities were checked through player-facing adapters: 482 heroes produce finite combat commander profiles; 21 buildings, 19 technologies and 25 troop types produce runtime quotes; all 73 Mobile city garrisons now drive actual battle rosters using verified commander and troop names. Counts for those garrisons are simulated because the source says they vary by server. The 620 source-parity labels remain partial.
 - Current Tiên Sơn audit: 8,992 playable stages, 977/1,093 raw reward rows attached to playable floors, 116 raw rows without a matching playable level/floor, 190 unique reward IDs, 16 joined and 174 unlinked. Every successful unknown-ID drop and joined item blocked by a full bag now resolves to bounded, receipt-marked food/gold under `SIMULATED_UNJOINED_SOURCE_ITEM_CONVERSION`; raw source IDs are retained. Interval interpretation remains simulated.

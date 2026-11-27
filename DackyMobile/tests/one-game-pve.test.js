@@ -1,11 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {advance, createNewGame, doAction, migrateSave} from '../src/engine.js';
+import {advance, createNewGame, doAction, migrateSave, quoteBuilding, quoteResearch} from '../src/engine.js';
 import {LEGACY_ELFLAND_LOCATIONS} from '../src/legacy-elfland-catalog.js';
 import {LEGACY_STRONGPOINTS, LEGACY_ADVANCED_FIELDS} from '../src/legacy-endgame-catalog.js';
 import {getEndgameBattles, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot} from '../src/pve-campaign.js';
 
 const start = 1_800_000_000_000;
+
+test('legal official promotion opens source level-21 building and research gates',()=>{
+  const state=createNewGame('Thăng quan',start);
+  state.gameplay.official=16;state.fame=28_900;state.resources.gold=1_700;
+  state.levels.citadel=30;state.levels.government=2;state.levels.training=1;
+  state.levels.academy=20;state.levels.barracks=20;state.technologies['tech-09']=20;
+  assert.deepEqual(quoteBuilding(state,'academy').unmetRequirements,['Quan chức 17']);
+  assert.deepEqual(quoteBuilding(state,'barracks').unmetRequirements,['Quan chức 17']);
+  const promoted=doAction(state,{type:'officialPromote'},start);
+  assert.equal(promoted.gameplay.official,17);
+  assert.equal(promoted.resources.gold,0);
+  assert.equal(quoteBuilding(promoted,'academy').locked,false);
+  assert.equal(quoteBuilding(promoted,'barracks').locked,false);
+  promoted.levels.academy=21;promoted.levels.barracks=21;
+  assert.equal(quoteResearch(promoted,'tech-09').requirementSatisfied,true);
+});
 
 test('all linked source floors, strongpoints and bosses resolve to valid army opponents', () => {
   const floors = LEGACY_ELFLAND_LOCATIONS.flatMap(place => getMountainBattles(place.ElflandID));
