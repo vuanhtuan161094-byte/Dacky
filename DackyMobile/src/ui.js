@@ -606,7 +606,7 @@ function fidelityBattlefield({sides,events=[],wall=null,effects=true,enemyLabel=
  const troopFor=id=>TROOPS.find(t=>t.id===id)||PVE_TROOPS.find(t=>t.id===id);
  const counts=row=>Array.isArray(row?.stacks)?row.stacks.filter(t=>Number(t.count)>0):null;
  const number=n=>Number.isFinite(Number(n))?Math.max(0,Number(n)):0;
- const heroFor=id=>HEROES.find(h=>h.id===id||String(h.mobileSourceId)===String(id)||'dev:'+h.id===id);
+ const heroFor=id=>id==null?undefined:HEROES.find(h=>h.id===id||h.mobileSourceId!=null&&String(h.mobileSourceId)===String(id)||'dev:'+h.id===id);
  const sheet=(frame,scale=1)=>`<span class="fidelity-sprite" data-anim-ms="${frame.durationMs}" style="width:${frame.width*scale}px;height:${frame.height*scale}px;background-size:${frame.width*frame.frames*scale}px ${frame.height*scale}px;--sprite-end:-${frame.width*frame.frames*scale}px;--sprite-frames:${frame.frames};--sprite-duration:${frame.durationMs}ms"></span>`;
  const losses=[0,0];for(const e of events)if(e.type==='strikeLoss'&&(e.side===0||e.side===1))losses[e.side]+=number(e.actual);
  const attacks=[losses[1]>0||events.some(e=>e.type==='wallHit'&&number(e.amount)>0),losses[0]>0];

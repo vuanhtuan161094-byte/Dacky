@@ -25,7 +25,8 @@ jobs:
       - run: python -m pip install pillow
       - run: node --test tests/reuse-battle-art.test.js
       - run: npm test
-      - run: DACKY_COMBAT_PREVIEW=1 npm run build
+      - run: DACKY_HOG_FIELD=1 DACKY_COMBAT_PREVIEW=1 npm run build
+      - run: cat assets/reuse/battlefield/receipt.json
       - run: npm install --no-save --package-lock=false playwright && npx playwright install --with-deps chromium
       - name: Actual game preview and replay smoke
         run: |
@@ -35,21 +36,69 @@ jobs:
           mkdir -p qa/asset-factory
           node --input-type=module <<'JS'
           import { chromium } from 'playwright';
+          import { writeFileSync, copyFileSync, mkdirSync } from 'node:fs';
+          const base='http://127.0.0.1:4173';
           const browser=await chromium.launch({headless:true});
+          const errors=[],result={};
+          const context=await browser.newContext({viewport:{width:1280,height:720},recordVideo:{dir:'qa/asset-factory/video',size:{width:1280,height:720}}});
           try {
-            const page=await browser.newPage({viewport:{width:1280,height:720}});
-            const errors=[];page.on('pageerror',e=>errors.push(e.message));
-            await page.goto('http://127.0.0.1:4173/combat-product.html?squadSmoke=1',{waitUntil:'domcontentloaded',timeout:120000});
-            await page.waitForFunction(()=>document.body.dataset.squadSmoke,{timeout:60000});
+            const page=await context.newPage();
+            page.on('pageerror',e=>errors.push(e.message));
+            await page.goto(base+'/combat-product.html?squadSmoke=1',{waitUntil:'domcontentloaded',timeout:120000});
+            await page.waitForFunction(()=>document.body.dataset.squadSmoke,null,{timeout:60000});
             if(await page.locator('body').getAttribute('data-squad-smoke')!=='PASS')throw Error(await page.locator('body').getAttribute('data-squad-error'));
+            await page.locator('.fidelity-ground').waitFor();
             await page.screenshot({path:'qa/asset-factory/squad-battle.png'});
-            await page.goto('http://127.0.0.1:4173/combat-product.html?productSmoke=1',{waitUntil:'domcontentloaded',timeout:120000});
-            await page.waitForFunction(()=>document.body.dataset.productSmoke,{timeout:60000});
+            result.squad='PASS';
+            const cmd=page.locator('[data-action="battleCommand"]').first();
+            if(await cmd.isVisible()&&await cmd.isEnabled()){await cmd.click();await page.waitForTimeout(380);await page.screenshot({path:'qa/asset-factory/squad-round.png'});result.liveRound='command clicked';await page.waitForTimeout(800);}
+            await page.goto(base+'/combat-product.html?productSmoke=1',{waitUntil:'domcontentloaded',timeout:120000});
+            await page.waitForFunction(()=>document.body.dataset.productSmoke,null,{timeout:60000});
             if(await page.locator('body').getAttribute('data-product-smoke')!=='PASS')throw Error(await page.locator('body').getAttribute('data-product-error'));
             const replay=page.locator('[data-action="battleReplay"]').first();
-            if(await replay.count()){await replay.click();await page.locator('.replay-theater').waitFor();await page.screenshot({path:'qa/asset-factory/replay.png'});}
+            await replay.waitFor();
+            await replay.click();
+            await page.locator('.replay-theater').waitFor();
+            await page.screenshot({path:'qa/asset-factory/replay.png'});
+            result.actualReplay='PASS';
+            await page.waitForTimeout(900);
+            await page.close();
+            // Exercise the actual shared replay renderer in the actual multi-file game
+            // using explicitly labeled deterministic fixtures; never change player save.
+            const fixture=await context.newPage();
+            fixture.on('pageerror',e=>errors.push(e.message));
+            await fixture.goto(base+'/index.html',{waitUntil:'domcontentloaded',timeout:120000});
+            await fixture.locator('#modal-root').waitFor({state:'attached'});
+            await fixture.evaluate(async()=>{
+              const { showBattleReplay }=await import('/src/ui.js');
+              const { REUSE_ASSET_PATHS,REUSE_BACKGROUND_PATH }=await import('/src/reuse-battle-art.js');
+              await Promise.all([...REUSE_ASSET_PATHS,REUSE_BACKGROUND_PATH].map(src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve();img.onerror=()=>reject(Error('Unable to decode '+src));img.src=src;})));
+              const names=['Hỏa Long','Thiên Lôi','Địa Chấn','Hộ Thuẫn','Hồi phục','Hàn Băng','Kiếm khí'];
+              const sides=[{heroId:'dev-art-01',heroName:'Chỉ huy thử nghiệm',stacks:[{id:'legacy-npc-1021',count:180}],totalTroops:180},{heroId:'dev-art-02',heroName:'NPC thử nghiệm',stacks:[{id:'legacy-npc-1101',count:160}],totalTroops:160}];
+              const rounds=names.map(name=>({sides,events:[{type:'artifactCast',side:0,name},{type:'strikeLoss',side:1,actual:13},{type:'strikeLoss',side:0,actual:5}],wall:null,incoming:[5,13]}));
+              showBattleReplay({target:'QA · kiểm tra atlas / không phải chiến báo thật',rounds},true);
+            });
+            result.fixtureEffects=[];
+            const ids=['fireball','thunderstrike','quake','shield','heal','freeze','cleave'];
+            for(let i=0;i<ids.length;i++){
+              const id=ids[i];
+              await fixture.locator('[data-reuse-effect="'+id+'"]').waitFor({state:'attached'});
+              if(await fixture.locator('[data-reuse-npc="skeleton"]').count()===0||await fixture.locator('[data-reuse-npc="heavy-soldier"]').count()===0)throw Error('Legacy NPC renderer missing');
+              await fixture.waitForTimeout(260);
+              await fixture.screenshot({path:'qa/asset-factory/fixture-'+id+'.png'});
+              result.fixtureEffects.push(id);
+              await fixture.waitForTimeout(700);
+              if(i<ids.length-1)await fixture.locator('[data-replay-next]').click();
+            }
+            await fixture.setViewportSize({width:844,height:390});
+            await fixture.screenshot({path:'qa/asset-factory/fixture-mobile.png'});
             if(errors.length)throw Error(errors.join('\n'));
-          } finally {await browser.close();}
+          } finally {
+            result.errors=errors;writeFileSync('qa/asset-factory/qa-receipt.json',JSON.stringify(result,null,2));
+            copyFileSync('assets/reuse/battlefield/receipt.json','qa/asset-factory/battlefield-receipt.json');
+            copyFileSync('assets/reuse/battlefield/open-field.webp','qa/asset-factory/open-field.webp');
+            await context.close();await browser.close();
+          }
           JS
       - uses: actions/upload-artifact@v4
         if: success()
