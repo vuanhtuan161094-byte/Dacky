@@ -21,7 +21,7 @@ def install(meta,encoded):
     records[name]=sha
     if name=='art13.css':
         style=root/'styles.css';base=style.read_text();patch=data.decode('utf8')
-        if not base.endswith(patch):
+        if patch not in base:
             assert '/* ART13 premium warm jade + gilt' not in base,'conflicting ART13 CSS'
             style.write_text(base+patch)
     else:
