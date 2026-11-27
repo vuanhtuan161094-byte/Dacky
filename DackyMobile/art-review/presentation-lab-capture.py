@@ -45,7 +45,7 @@ with sync_playwright() as p:
     page.locator('[data-action="battleReplay"]').first.wait_for(timeout=30000)
     capture('15-settled-report')
     page.locator('[data-action="battleReplay"]').first.click()
-    page.locator('.battle-replay').wait_for()
+    page.locator('.replay-theater').wait_for()
     capture('16-replay');page.wait_for_timeout(1200)
     for i in range(3):
         b=page.locator('[data-replay-next]')
