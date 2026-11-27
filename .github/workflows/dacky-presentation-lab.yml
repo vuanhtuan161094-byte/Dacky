@@ -40,9 +40,15 @@ jobs:
       - name: Build actual game
         working-directory: luna-lab/DackyMobile
         run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dacky-premium-review-web
+          path: luna-lab/DackyMobile/dist/
+          if-no-files-found: error
       - name: Capture and record actual gameplay
         run: |
           export LAB_OUT="$GITHUB_WORKSPACE/DackyMobile/art-review/presentation-lab-output"
+          rm -rf "$LAB_OUT"
           export CHROME_BIN="$(command -v google-chrome)"
           python -m http.server 4173 --directory luna-lab/DackyMobile/dist > /tmp/dacky-lab-http.log 2>&1 &
           trap 'kill $!' EXIT
