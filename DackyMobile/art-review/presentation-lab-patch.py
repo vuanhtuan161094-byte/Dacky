@@ -221,3 +221,32 @@ body.hud-ready:has(.replay-theater) .hud-menu{top:42px;bottom:auto}
 @media(max-height:480px){.combat-ranks{scale:.68}.combat-stack-label{top:17px;font-size:8px;padding:2px 3px}.combat-impact{scale:.75;transform-origin:50% 100%}.combat-commander{max-width:42%}.combat-stage-status{top:16%}.battle-theater .battle-header-tools{margin-right:7px}}
 ''')
 print('Combat R2: actual source grass crop and alpha-trimmed source VFX atlases; original art lock unchanged.')
+
+# R3 — eliminate phase gaps and keep labels inside mobile scene.
+s=ui.read_text()
+rr('data-stack-id="${esc(t.id)}" data-side="${side}"','data-stack-id="${esc(t.id)}" data-side="${side}" data-slot="${i}"')
+rr('const commander=`<aside class="combat-commander','const commander=`<aside class="combat-commander')
+ui.write_text(s)
+css.write_text(css.read_text()+'''
+/* All phase timelines share exact boundaries. No hidden/duplicate rank at transitions. */
+@keyframes combat-idle{0%{visibility:hidden}88%,100%{visibility:visible}}
+@keyframes combat-run{0%{visibility:visible}28%{visibility:hidden}64%{visibility:visible}88%,100%{visibility:hidden}}
+@keyframes combat-attack{0%{visibility:hidden}28%{visibility:visible}64%,100%{visibility:hidden}}
+@keyframes combat-hit{0%{visibility:hidden}36%{visibility:visible}62%,100%{visibility:hidden}}
+@keyframes combat-hit-attack{0%{visibility:hidden}28%{visibility:visible}36%{visibility:hidden}62%{visibility:visible}64%,100%{visibility:hidden}}
+@keyframes combat-ranged-idle{0%{visibility:visible}28%{visibility:hidden}64%,100%{visibility:visible}}
+@keyframes combat-hit-idle{0%{visibility:visible}36%{visibility:hidden}62%,100%{visibility:visible}}
+.combat-stack-label{max-width:155px;gap:3px}
+.combat-stack-label small{overflow:hidden;text-overflow:ellipsis;max-width:120px}
+.combat-stack.side-1[data-slot="0"] .combat-stack-label{top:43px}
+.combat-loss{font-size:16px}
+@media(max-height:480px){
+  body.hud-ready.battle-mode:not(.startup-mode) .battle-header{padding-right:112px}
+  .combat-stack[data-slot="1"]{top:79%!important}
+  .combat-stack[data-slot="4"]{top:86%!important}
+  .combat-stack.side-1[data-slot="0"] .combat-stack-label{top:29px}
+  .combat-stack-label{max-width:105px}.combat-stack-label small{max-width:76px}
+  .combat-loss{font-size:13px}
+}
+''')
+print('R3 phase continuity and mobile label corrections installed.')

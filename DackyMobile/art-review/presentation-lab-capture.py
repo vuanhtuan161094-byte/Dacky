@@ -34,13 +34,14 @@ with sync_playwright() as p:
     mark=time.monotonic()-start;videoMarks.append({'scene':'live-exchange','seconds':mark})
     # Inspect actual computed coordinates and clip visibility during a real exchange.
     samples=[];t=time.monotonic()
-    for ms,name in [(120,'approach'),(500,'impact'),(950,'withdraw'),(1800,'rest')]:
+    for ms,name in [(120,'approach'),(400,None),(500,None),(550,'impact'),(700,None),(950,'withdraw'),(1200,None),(1500,None),(1800,'rest'),(1950,None)]:
         page.wait_for_timeout(max(0,int(ms-(time.monotonic()-t)*1000)))
         info=page.evaluate("""()=>[...document.querySelectorAll('.combat-stack')].map(e=>({id:e.dataset.stackId,side:e.dataset.side,x:e.getBoundingClientRect().x,advance:e.classList.contains('is-advancing'),visible:[...e.querySelectorAll('.combat-rank:first-child .combat-source-sprite')].filter(s=>getComputedStyle(s).visibility==='visible').map(s=>s.className)}))""")
         samples.append({'ms':ms,'stacks':info})
-        capture(page,'combat-02-'+name)
+        if name:capture(page,'combat-02-'+name)
     moved=any(abs(a['x']-b['x'])>12 for a in samples[0]['stacks'] for b in samples[-1]['stacks'] if a['id']==b['id'] and a['side']==b['side'])
     assert moved, samples
+    assert all(len(x['visible'])==1 for sample in samples for x in sample['stacks']), samples
     fx=page.locator('.combat-impact')
     assert fx.count()>0
     audit.append({'motionVerified':moved,'samples':samples,'effects':fx.count(),'effectTargets':fx.evaluate_all("(xs)=>xs.map(x=>x.dataset.targetSide)")})
