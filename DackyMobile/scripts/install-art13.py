@@ -41,3 +41,7 @@ for bid,(x,y,w,h,r,source) in layout.items():
     manifest[bid]={'source':source if bid not in ('citadel','wall') else 'ART13 generated text-free source illustration silhouette cutout','pixelSize':size,'foot':[x,y],'display':[w,h],'sha256':records[path],'transformation':'ART13 independent architecture cutout' if bid in ('citadel','wall') else 'ART12 source-derived sprite tonal normalization'}
 (root/'assets/art09-buildings/manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
 print('ART13 installed: 2 terrain scenes, 27 independent sprites, exact hashes verified')
+
+# ART14 is the active visual layer; ART13 remains the verified source pack.
+import runpy
+runpy.run_path(str(root/'scripts/render-art14.py'),run_name='__main__')
