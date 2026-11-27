@@ -128,3 +128,96 @@ s=s.replace('Math.max(350,1100/speed)','Math.max(450,1850/speed)')
 ui.write_text(s)
 css.write_text(css.read_text()+"\n/* COMBAT REWORK: common live/replay scene, original source sprites, anchored feet. */\n.combat-shared-stage{container-type:inline-size;background:#253a30;isolation:isolate;overflow:hidden}\n.combat-shared-stage:before{display:none}\n.combat-scenery{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center bottom;z-index:-3}\n.combat-ground-tint{position:absolute;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(180deg,#0c192b30 0%,transparent 45%,#25382722 62%,#192b23a0 100%)}\n.combat-stack{position:absolute;width:0;height:0;pointer-events:none;--cycle:calc(1.7s / var(--battle-speed,1))}\n.combat-ranks{position:absolute;left:0;top:0}\n.combat-rank{position:absolute;left:var(--dx);top:var(--dy);width:0;height:0;font-style:normal}\n.combat-contact{position:absolute;left:-20px;top:-4px;width:40px;height:9px;background:radial-gradient(ellipse,#111d13a0 0%,#15261b75 44%,transparent 74%);filter:blur(1px)}\n.combat-source-sprite{position:absolute;display:block;background-repeat:no-repeat;animation:combat-strip var(--clip-ms) steps(var(--strip-steps),end) infinite;image-rendering:auto;filter:drop-shadow(0 1px 1px #14231680)}\n@keyframes combat-strip{from{background-position:0 0}to{background-position:var(--strip-end) 0}}\n.combat-stack-label{position:absolute;left:0;top:26px;transform:translateX(-50%);white-space:nowrap;display:flex;align-items:center;gap:4px;padding:2px 5px;background:#192c24dc;border:1px solid #b9a26a80;color:#f4e4bb;font:10px system-ui;border-radius:3px;z-index:50}\n.combat-stack-label b{font-size:12px;color:#ffe3a0}.combat-stack-label small{font-size:10px}\n.combat-stack.side-1 .combat-stack-label{border-color:#c48061;color:#f2ba9e}\n.combat-stack .phase-run,.combat-stack .phase-attack,.combat-stack .phase-hit{visibility:hidden}\n.combat-stack.is-advancing{animation:combat-charge var(--cycle) ease-in-out both}\n.combat-stack.is-advancing .phase-idle{animation:combat-idle var(--cycle) steps(1,end) both,combat-strip var(--clip-ms) steps(var(--strip-steps),end) infinite}\n.combat-stack.is-advancing .phase-run{animation:combat-run var(--cycle) steps(1,end) both,combat-strip var(--clip-ms) steps(var(--strip-steps),end) infinite}\n.combat-stack.is-advancing .phase-attack{animation:combat-attack var(--cycle) steps(1,end) both,combat-strip var(--clip-ms) steps(var(--strip-steps),end) infinite}\n.combat-stack.is-hit .phase-hit{animation:combat-hit var(--cycle) steps(1,end) both,combat-strip var(--clip-ms) steps(var(--strip-steps),end) infinite;z-index:2}\n.combat-stack.is-ranged .phase-run{visibility:hidden}\n@keyframes combat-charge{0%{translate:0 0}27%,62%{translate:var(--advance) 0}92%,100%{translate:0 0}}\n@keyframes combat-idle{0%,88%{visibility:visible}1%,87%{visibility:hidden}}\n@keyframes combat-run{0%,26%,63%,88%{visibility:hidden}1%,64%{visibility:visible}}\n@keyframes combat-attack{0%,27%,63%{visibility:hidden}28%{visibility:visible}}\n@keyframes combat-hit{0%,35%,62%{visibility:hidden}36%{visibility:visible}}\n.combat-impact{position:absolute;z-index:90;pointer-events:none;transform:translate(-50%,-75%);opacity:0;animation:combat-impact var(--impact-duration) ease-out var(--impact-delay) both}\n.combat-impact img{display:block;max-width:125px;filter:drop-shadow(0 0 8px #e2b96b70)}\n.combat-loss{position:absolute;top:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;font:800 19px system-ui;color:#ffd19d;text-shadow:0 1px 4px #24140f,0 1px 2px #000}\n@keyframes combat-impact{0%{opacity:0;transform:translate(-50%,-55%) scale(.75)}12%,55%{opacity:1;transform:translate(-50%,-75%) scale(1)}100%{opacity:0;transform:translate(-50%,-100%) scale(.95)}}\n.combat-commander{position:absolute;top:14px;display:flex;align-items:center;gap:9px;max-width:38%;padding:5px 10px 5px 5px;background:#182b24ed;border:1px solid #bd9d61;color:#f7e6c5;border-radius:4px;z-index:95}\n.combat-commander.side-0{left:12px}.combat-commander.side-1{right:12px;flex-direction:row-reverse;text-align:right;border-color:#c38d73}\n.combat-commander img{width:48px;height:54px;object-fit:cover;border:1px solid #b39864}\n.combat-commander b,.combat-commander small{display:block}.combat-commander b{font:600 14px system-ui}.combat-commander small{font:11px system-ui;color:#d4c5a3;margin-top:3px}\n.combat-stage-status{position:absolute;top:19%;left:50%;transform:translateX(-50%);padding:4px 11px;border:1px solid #af976766;background:#21332ddd;color:#f3e1bd;font:12px system-ui}\n.combat-fortress{position:absolute;top:32%;left:75%;width:18%;transform:translateX(-50%);z-index:4;text-align:center}.combat-fortress img{width:100%;max-height:145px;object-fit:contain}.combat-fortress small{display:block;color:#f4e6b8;text-shadow:0 1px 3px #000}\n.replay-theater:has(.combat-shared-stage){grid-template-rows:55px minmax(220px,1fr) 42px 72px}\n.replay-theater .replay-controls{align-items:center}.replay-theater .replay-controls .button{height:40px;min-width:100px}\n@media(max-height:480px){.combat-commander{top:4px;padding:3px}.combat-commander img{width:31px;height:35px}.combat-commander b{font-size:11px}.combat-commander small{font-size:9px}.combat-ranks{scale:.70;transform-origin:0 0}.combat-stack-label{top:17px;font-size:8px}.combat-stack-label b,.combat-stack-label small{font-size:8px}.combat-stage-status{top:10%;font-size:9px}.replay-theater:has(.combat-shared-stage){grid-template-rows:39px minmax(120px,1fr) 29px 48px}.replay-theater .replay-controls .button{height:30px;min-width:65px}}\n@media(prefers-reduced-motion:reduce){.combat-stack.is-advancing{animation:none}.combat-source-sprite{animation:none}.combat-stack .phase-idle{visibility:visible!important}.combat-stack .phase-run,.combat-stack .phase-attack,.combat-stack .phase-hit{visibility:hidden!important}}\n")
 print('Shared anchored live and replay battle renderer installed.')
+
+# COMBAT-R2 — source-only foreground composition and precise effect crop.
+import re,io,base64,subprocess
+from PIL import Image
+root=root.resolve()
+subprocess.run([sys.executable,str(root/'scripts/install-art13.py')],cwd=root,check=True)
+lab=root/'assets/lab-combat';lab.mkdir(parents=True,exist_ok=True)
+# Crop, do not draw: take uninterrupted grass pixels from locked ART13 outdoor art.
+payload=re.search(r'data:image/webp;base64,([A-Za-z0-9+/=]+)',(root/'assets/art01-outer-ground.svg').read_text()).group(1)
+with Image.open(io.BytesIO(base64.b64decode(payload))) as src:
+    w,h=src.size
+    grass=src.crop((round(w*.48),round(h*.332),round(w*.875),round(h*.464))).convert('RGB')
+    grass.save(lab/'field-grass.webp','WEBP',quality=94,method=6)
+# Animated WebP has large transparent margins; crop to the union of actual visible pixels.
+fxmeta={}
+for a in source:
+    if '/battle-fx/' not in a['path']:continue
+    with Image.open(root/a['path']) as im:
+        frames=[];delays=[]
+        for i in range(im.n_frames):
+            im.seek(i);f=im.convert('RGBA');frames.append(f.copy());delays.append(im.info.get('duration',0))
+    n=len(frames);assert n==a['frames'],a['path']
+    boxes=[f.getbbox() for f in frames if f.getbbox()]
+    box=(min(b[0] for b in boxes),min(b[1] for b in boxes),max(b[2] for b in boxes),max(b[3] for b in boxes))
+    w,h=box[2]-box[0],box[3]-box[1]
+    atlas=Image.new('RGBA',(w*n,h))
+    for i,f in enumerate(frames):atlas.paste(f.crop(box),(i*w,0))
+    name=Path(a['path']).stem
+    atlas.save(lab/(name+'.webp'),'WEBP',lossless=True,method=6)
+    if any(not d or d<=0 for d in delays):delays=[a['durationMs']/n]*n
+    # Preserve source relative frame timings; presentation may speed up the whole clip.
+    total=sum(delays);elapsed=0;rules=[]
+    for i,d in enumerate(delays):
+        rules.append(f'{elapsed/total*100:.6f}%{{background-position:{0 if n==1 else 100*i/(n-1):.6f}% 0}}')
+        elapsed+=d
+    rules.append('100%{background-position:100% 0}')
+    fxmeta[a['path']]=dict(path='./assets/lab-combat/'+name+'.webp',w=w,h=h,n=n,ms=total,anim='source-fx-'+name,sourceCrop=list(box))
+    css.write_text(css.read_text()+'\n@keyframes source-fx-'+name+'{'+''.join(rules)+'}\n')
+# Keep the original manifests untouched; include only new derived, source-pixel assets in offline mapping.
+build=root/'scripts/build.mjs'
+b=build.read_text()
+needle='const sourceAssetUrls = new Map();'
+assert needle in b
+names=['lab-combat/field-grass.webp']+['lab-combat/'+Path(x['path']).stem+'.webp' for x in source if '/battle-fx/' in x['path']]
+b=b.replace(needle,needle+'\nfor(const name of '+json.dumps(names)+'){sourceAssetUrls.set("./assets/"+name,await dataUrl(name));}',1)
+# CSS offline inliner removes paths it does not know; include ground crop in inlineImages too.
+b=b.replace("['art01-city-ground.svg','art01-outer-ground.svg'","['lab-combat/field-grass.webp','art01-city-ground.svg','art01-outer-ground.svg'",1)
+build.write_text(b)
+s=ui.read_text()
+def rr(a,b):
+    global s
+    assert a in s,a[:100]
+    s=s.replace(a,b,1)
+rr('function sharedBattleStage(', 'const COMBAT_FX_CROPS='+json.dumps(fxmeta,separators=(',',':'))+';\nfunction sharedBattleStage(')
+rr('const hero=HEROES.find(x=>x.id===row?.heroId);','const hero=HEROES.find(x=>x.id===row?.instanceId)||HEROES.find(x=>x.id===row?.heroId)||HEROES.find(x=>x.mobileSourceId!=null&&String(x.mobileSourceId)===String(row?.heroId));')
+rr('const col=i%2, rowIndex=Math.floor(i/2),x=side?67+col*9:33-col*9,y=64+rowIndex*10+(col?4:0);','const slots=[[34,68,46],[25,86,40],[20,57,39],[13,75,32],[11,91,28]],slot=slots[i],col=i%2,rowIndex=Math.floor(i/2),x=side?100-slot[0]:slot[0],y=slot[1];')
+rr('const advance=ranged?2:Math.max(5,Math.abs(50-x)-5);','const advance=ranged?0:slot[2]-slot[0];')
+rr('const scale=1.20+rowIndex*.10;','const scale=1.44+(y-57)*.009;')
+rr('const dx=(j%3-1)*26,dy=Math.floor(j/3)*19+(j%2)*4;','const dx=(j%3-1)*33,dy=Math.floor(j/3)*17+(j%2)*5;')
+rr('--strip-end:${-(frame.frames-1)*w}px;--strip-steps:${Math.max(1,frame.frames-1)}','--strip-end:${-frame.frames*w}px;--strip-steps:${Math.max(1,frame.frames)}')
+rr('const f=BATTLE_EFFECT_FRAMES[kind]||BATTLE_EFFECT_FRAMES.normal;','const f=BATTLE_EFFECT_FRAMES[kind]||BATTLE_EFFECT_FRAMES.normal, crop=COMBAT_FX_CROPS[f.path.replace(/^\\.\\//,"")], size=Math.min(132,crop.w*.55), height=size*crop.h/crop.w;')
+rr('<img src="${esc(assetUrl(f.path))}" alt="" style="width:${Math.min(120,f.width*.28)}px;height:auto">','<span class="combat-fx-art" style="width:${size}px;height:${height}px;background-image:url(\\\'${esc(assetUrl(crop.path))}\\\');background-size:${size*crop.n}px ${height}px;--fx-anim:${crop.anim};--fx-time:${Math.min(1150,crop.ms)}ms" aria-hidden="true"></span>')
+rr('<div class="combat-ground-tint"></div>${fortress}','<div class="combat-ground-tint"></div><div class="combat-field-plane"></div>${fortress}')
+# Raw event types aren't player-facing captions.
+rr("troopDelta:'Pháp bảo đổi quân'}[e.type]","troopDelta:'Pháp bảo đổi quân',stance:'Thế trận',commanderFatigue:'Hao tổn thể lực'}[e.type]")
+rr("damage:'Giao phong',casualty:'Thương vong'}[e.type]","damage:'Giao phong',casualty:'Thương vong',strikeLoss:'Trúng đòn',stance:'Thế trận',commanderFatigue:'Hao tổn thể lực'}[e.type]")
+ui.write_text(s)
+css.write_text(css.read_text()+'''
+/* R2: source crop foreground, separate contact slots, native source frames at impact. */
+.combat-shared-stage .combat-scenery{object-position:center 28%}
+.combat-shared-stage .combat-ground-tint{background:linear-gradient(180deg,#10232b18,transparent 42%,#243b2826 58%,#2135265c 100%)}
+.combat-field-plane{position:absolute;inset:42% 0 0;z-index:-1;background:linear-gradient(0deg,#182f24a0,#2a472540 50%,#6d8c4135),url('./assets/lab-combat/field-grass.webp') center center/100% 100% no-repeat;mask-image:linear-gradient(180deg,transparent 0%,#000 30%);pointer-events:none}
+.combat-stack{--cycle:calc(1.9s / var(--battle-speed,1))}
+.combat-stack-label{top:28px;font-size:11px;padding:2px 6px;box-shadow:0 2px 3px #10251980}
+.combat-contact{width:52px;height:13px;left:-26px;top:-5px;background:radial-gradient(ellipse,#14241bd9,#15261b60 50%,transparent 75%)}
+.combat-stack.is-ranged.is-advancing{animation:none}
+.combat-stack.is-ranged.is-advancing .phase-idle{animation:combat-ranged-idle var(--cycle) steps(1,end) both,combat-strip var(--clip-ms) steps(var(--strip-steps),end) infinite}
+.combat-stack.is-ranged.is-advancing .phase-run{animation:none;visibility:hidden}
+@keyframes combat-ranged-idle{0%,27%,65%,100%{visibility:visible}28%,64%{visibility:hidden}}
+.combat-stack.is-hit.is-advancing .combat-rank:first-child .phase-attack{animation:combat-hit-attack var(--cycle) steps(1,end) both,combat-strip var(--clip-ms) steps(var(--strip-steps),end) infinite}
+@keyframes combat-hit-attack{0%,27%,36%,63%,100%{visibility:hidden}28%,35%,62%{visibility:visible}}
+.combat-stack.is-hit:not(.is-advancing) .combat-rank:first-child .phase-idle{animation:combat-hit-idle var(--cycle) steps(1,end) both,combat-strip var(--clip-ms) steps(var(--strip-steps),end) infinite}
+@keyframes combat-hit-idle{0%,35%,63%,100%{visibility:visible}36%,62%{visibility:hidden}}
+.combat-impact{transform:translate(-50%,-85%);animation-duration:calc(var(--impact-duration) / var(--battle-speed,1));animation-delay:calc(var(--impact-delay) / var(--battle-speed,1))}
+.combat-fx-art{display:block;background-repeat:no-repeat;animation-name:var(--fx-anim);animation-duration:calc(var(--fx-time) / var(--battle-speed,1));animation-timing-function:steps(1,end);animation-delay:calc(var(--impact-delay) / var(--battle-speed,1));animation-fill-mode:both;filter:drop-shadow(0 0 8px #eadc8e60)}
+.combat-loss{top:-12px}
+@keyframes combat-impact{0%{opacity:0;transform:translate(-50%,-78%) scale(.9)}12%,65%{opacity:1;transform:translate(-50%,-90%) scale(1)}100%{opacity:0;transform:translate(-50%,-110%) scale(.96)}}
+body.hud-ready:has(.replay-theater) .hud-controller{top:6px;bottom:auto;right:8px}
+body:has(.replay-theater) .replay-theater .battle-header{padding-right:110px}
+body.hud-ready:has(.replay-theater) .hud-menu{top:42px;bottom:auto}
+@media(max-height:480px){.combat-ranks{scale:.68}.combat-stack-label{top:17px;font-size:8px;padding:2px 3px}.combat-impact{scale:.75;transform-origin:50% 100%}.combat-commander{max-width:42%}.combat-stage-status{top:16%}.battle-theater .battle-header-tools{margin-right:7px}}
+''')
+print('Combat R2: actual source grass crop and alpha-trimmed source VFX atlases; original art lock unchanged.')
