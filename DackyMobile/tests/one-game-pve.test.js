@@ -47,6 +47,8 @@ test('Bất Chu siege entry thresholds do not block a resumed, source-sized assa
   const source4=door4.enemy.formation.reduce((out,row)=>{out[row.unitId]=(out[row.unitId]||0)+row.count;return out;},{}),damaged4={...source4};
   damaged4[Object.keys(damaged4)[0]]-=1;state.gameplay.endgameAssaults={'buzhou:4':{total:3_450_000,remaining:damaged4}};
   assert.equal(pveAssaultProgress(state,door4).cleared,1);assert.equal(pveLock(state,door4,8),'');
+  const resumed=doAction(state,{type:'march',nodeId:'buzhou:4',troops:{[troopId]:24_999}},start);
+  assert.equal(resumed.queues.march.nodeId,'buzhou:4');assert.equal(Object.values(resumed.queues.march.pveAssault.wave).reduce((sum,count)=>sum+count,0),24_999);
   state.world.pveWins['buzhou:4']=true;state.world.buzhouFloor=4;state.army[troopId]=99_999;assert.match(pveLock(state,door5,8),/Cần ít nhất 100\.000 quân/);
   const source5=door5.enemy.formation.reduce((out,row)=>{out[row.unitId]=(out[row.unitId]||0)+row.count;return out;},{}),damaged5={...source5};
   damaged5[Object.keys(damaged5)[0]]-=1;state.gameplay.endgameAssaults['buzhou:5']={total:10_700_000,remaining:damaged5};

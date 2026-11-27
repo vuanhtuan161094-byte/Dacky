@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "status": "PARTIAL_ROUTE",
+  "sourceBranch": "feature/dacky-product-completion",
+  "sourceHead": "84a5196fad45cbc88165a8730dd8edf1c953c0b9",
+  "simulationPolicyRevision": "pre-three-site-consolidation",
+  "save": "new save via createNewGame; progression uses engine doAction/advance, trades, quests, training, healing and normal PvE rewards; no direct resource injection",
+  "horizonDays": 720,
+  "milestones": [
+    { "day": 180, "campaignComplete": true, "buzhouFloor": 1, "trainedCumulative": 30815, "researchLevels": 116, "troopTypesUsed": 2 },
+    { "day": 270, "campaignComplete": true, "buzhouFloor": 2, "trainedCumulative": 52323, "researchLevels": 165, "troopTypesUsed": 4 },
+    { "day": 360, "campaignComplete": true, "buzhouFloor": 3, "buzhouDoor4Cleared": 238673, "buzhouDoor4Total": 3450000, "trainedCumulative": 77249, "researchLevels": 165, "troopTypesUsed": 5 },
+    { "day": 450, "campaignComplete": true, "buzhouFloor": 3, "buzhouDoor4Cleared": 358499, "buzhouDoor4Total": 3450000, "trainedCumulative": 105016, "researchLevels": 224 },
+    { "day": 540, "campaignComplete": true, "buzhouFloor": 3, "buzhouDoor4Cleared": 489043, "buzhouDoor4Total": 3450000, "trainedCumulative": 130891, "researchLevels": 301 },
+    { "day": 630, "campaignComplete": true, "buzhouFloor": 3, "buzhouDoor4Cleared": 713594, "buzhouDoor4Total": 3450000, "trainedCumulative": 176844, "researchLevels": 361 },
+    { "day": 720, "campaignComplete": true, "buzhouFloor": 3, "buzhouDoor4Cleared": 1120692, "buzhouDoor4Total": 3450000, "buzhouDoor5Reached": false, "trainedCumulative": 256990, "researchLevels": 375, "trainingSites": 3, "heroes": 12, "activeHeroes": 3, "cities": 7, "trades": 312, "mixedBattles": 419, "sourceQuestsClaimed": 173, "troopTypesUsed": 5, "buzhouDoor4MarchActions": 394, "bagFullQuestClaimFailures": 5, "garrisonOnlyReadyArmySnapshot": 0, "committedMarchAndWoundedCountsCaptured": false }
+  ],
+  "limitations": [
+    "The report captured ready garrison, not the army in the pending march queue; a zero ready count does not prove that the field army was exhausted.",
+    "The clean-save route made partial progress through Buzhou door 4 but did not clear it or reach door 5.",
+    "The run used the real game actions and did not inject resources; it was an imperfect simulation policy and is not proof that no better player route exists."
+  ],
+  "policyRerun": {
+    "status": "INTERRUPTED_NO_OUTPUT",
+    "targetHorizonDays": 720,
+    "changesUnderTest": [
+      "record pending march, wounded troops, training queues and assault remainder",
+      "allow all three training sites to queue distinct eligible troop types",
+      "consolidate a 100000-soldier sortie force before Buzhou attacks",
+      "use available combat, training, march and production buffs through the existing item-use runtime",
+      "sell only legally sellable duplicates and low-tier unreserved gear/reference goods to make quest inventory room"
+    ],
+    "result": "The process was stopped after more than 18 minutes because it had produced no output; no conclusion about this 100,000-force-every-door policy is recorded. A later 360-day correction is summarized separately."
+  },
+  "followupPolicy": {
+    "status": "COMPLETED_PARTIAL_ROUTE",
+    "targetHorizonDays": 360,
+    "correction": "Keep the source policy gates for Buzhou doors 1–3; target 50,000 troops when regrouping for door 4; preserve the source 100,000 first-entry gate for door 5.",
+    "reason": "The initial 100,000 policy delayed doors 1–3 and was rejected as an over-conservative simulator strategy.",
+    "result": {
+      "campaignComplete": true,
+      "buzhouFloor": 3,
+      "door1": "WIN by day 180; player sent 26,602 troops against the source roster of 38,500",
+      "door2": "WIN by day 270; player sent 35,027 troops against the source roster of 55,000",
+      "door4": { "sourceTotal": 3450000, "cleared": 100414, "remaining": 3349586, "sortieMarchActions": 2, "lastSortieVictory": true },
+      "day360": { "readyGarrison": 40189, "marching": 0, "wounded": 12519, "trainedCumulative": 77431, "researchLevels": 165, "trainingSites": 3, "heroes": 12, "activeHeroes": 3, "sourceQuestsClaimed": 134, "itemsInBag": 440, "itemsSoldAtNpc": 15, "buffsUsed": 6, "troopTypesUsed": 6 },
+      "actionFailures": {},
+      "bagFullQuestClaimFailures": 0,
+      "mixedMarches": 27,
+      "door5Reached": false,
+      "resourceInjection": false
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import {advance,allConstructionQueues,armyCount,armyPower,cityPlotIds,cityPlotRecord,createNewGame,doAction,foodUpkeepPerHour,marchTroopCapacity,migrateSave,outerLandCapacity,productionPerHour,quoteBuilding,quoteCityPlot,quoteItemSale,quoteResearch,quoteTraining,storageCapacity,trainingQueue,trainingSites,unlockedChapter} from '../src/engine.js';
 import {BUILDINGS,HEROES,ITEMS,TECHNOLOGIES,TROOPS,WORLD_NODES} from '../src/catalog.js';
-import {gameplayQuestList,questQuote,itemUseRule} from '../src/gameplay-p15.js';
+import {gameplayQuestList,questQuote,itemBuff,itemUseRule} from '../src/gameplay-p15.js';
 import {getEndgameBattles,getMountainBattles,pveAssaultProgress,pveLock} from '../src/pve-campaign.js';
 import {LEGACY_ELFLAND_LOCATIONS} from '../src/legacy-elfland-catalog.js';
 import {worldOffer} from '../src/simulated-world.js';
@@ -20,7 +20,7 @@ const endgameBattles=getEndgameBattles();
 const failures={};
 function run(policy){
  let state=createNewGame('Triều Ca',start),now=start;const attempted={},troopTypes=new Set(),recruited=new Set(),equipped=new Set(),battleMix={mixed:0,single:0},history=[];
- const localFailures={};let questCursor=0;const fail=(kind,error)=>{const k=kind+': '+String(error?.message||error);localFailures[k]=(localFailures[k]||0)+1;failures[k]=(failures[k]||0)+1;};
+ const localFailures={};let questCursor=0,itemsSold=0;const buffsUsed=[];const fail=(kind,error)=>{const k=kind+': '+String(error?.message||error);localFailures[k]=(localFailures[k]||0)+1;failures[k]=(failures[k]||0)+1;};
  const act=(type,data={})=>{try{state=doAction(state,{type,...data},now);return true;}catch(error){fail(type,error);return false;}};
  const affordable=cost=>Object.entries(cost||{}).every(([key,value])=>(state.resources[key]||0)>=value);
  const researchBuildingNeeds=()=>{
@@ -96,10 +96,18 @@ function run(policy){
    // Use the live NPC buyback to clear surplus duplicate rewards before claims;
    // the quote protects quest-reserved items and equipped gear.
    gearOne();
-   for(let released=0;state.items.length>400&&released<100;released++){
+   for(let released=0;state.items.length>440&&released<100;released++){
      const counts=new Map();for(const id of state.items)counts.set(id,(counts.get(id)||0)+1);
      const candidate=[...counts].filter(([id,count])=>count>1&&quoteItemSale(state,id)).map(([id])=>ITEMS.find(item=>item.id===id)).filter(Boolean).sort((a,b)=>(a.tier||1)-(b.tier||1))[0];
-     if(!candidate||!act('sellItem',{itemId:candidate.id}))break;
+     let item=candidate;
+     if(!item){
+       // Keep crafting materials, quest objects, unopened chests and usable
+       // consumables. Sell only legal, unequipped low-tier equipment or
+       // reference treasure when the legal market quote protects its quest use.
+       item=state.items.map(id=>ITEMS.find(row=>row.id===id)).filter(row=>row&&quoteItemSale(state,row.id)&&(row.type!=='vật phẩm'||!['Nguyên liệu','Nhiệm vụ','Bảo rương','Châu báu','Tăng tốc'].includes(row.mobileGroup)&&!row.useEffect&&!itemUseRule(row)))
+         .sort((a,b)=>(a.tier||1)-(b.tier||1)||String(a.id).localeCompare(String(b.id)))[0];
+     }
+     if(!item||!act('sellItem',{itemId:item.id}))break;itemsSold++;
    }
    for(let i=0;i<8&&allQuests.length;i++){
      const q=allQuests[questCursor];questCursor=(questCursor+1)%allQuests.length;
@@ -109,6 +117,20 @@ function run(policy){
      const item=ITEMS.find(x=>x.id===state.items[i]);if(item?.type==='vật phẩm'&&(item.useEffect||itemUseRule(item))){
        const rule=item.useEffect||itemUseRule(item);if(rule?.kind==='resource'&&state.resources[rule.resource]<1500){act('useItem',{itemId:item.id,index:i});break;}
      }
+   }
+ };
+ const activateAvailableBuffs=()=>{
+   if(!state.world.campaignComplete)return;
+   let used=0;
+   for(const key of ['trainingTimeReduction','production','attack','defense','marchSpeed','heroXp']){
+     if(used>=3||itemBuff(state,key,now)>0)continue;
+     const index=state.items.findIndex(id=>{
+       const item=ITEMS.find(row=>row.id===id),rule=item?.useEffect||itemUseRule(item);
+       return rule?.kind==='timedBuff'&&rule.key===key||rule?.kind==='timedBuffSet'&&rule.effects?.some(effect=>effect.key===key);
+     });
+     if(index<0)continue;
+     const item=ITEMS.find(row=>row.id===state.items[index]);
+     if(act('useItem',{itemId:item.id,index})){used++;buffsUsed.push({day:Math.max(1,Math.floor((now-start)/86400000)),sourceId:item.mobileSourceId??item.id,key});}
    }
  };
  const startBuild=()=>{
@@ -142,18 +164,18 @@ function run(policy){
  };
  const startTraining=day=>{
    const order=day<15?troopOrder.slice(0,5):troopOrder;
-   const queuedRoles=new Set();
+   const queuedTroops=new Set();
    const laneCount=lane=>sourceTroops.filter(t=>t.lane===lane).reduce((n,t)=>n+(state.army[t.id]||0),0);
    const laneTarget=policy.id==='endgame'?Math.ceil(policy.trainTarget/2):policy.trainTarget;
    const typeTarget=policy.id==='endgame'?Math.ceil(laneTarget/4):Math.ceil(policy.trainTarget/Math.max(1,sourceTroops.length));
    for(const site of trainingSites(state).filter(row=>!trainingQueue(state,row.id))){
      const eligible=order.filter(t=>{
        const total=state.army[t.id]||0,q=quoteTraining(state,t.id,1,site.id),perTypeTarget=typeTarget;
-       return !q.locked&&total<Math.max(40,perTypeTarget+(day%4===0?90:0))&&affordable(q.cost)&&(!queuedRoles.has(t.lane)||policy.id!=='endgame');
+       return !q.locked&&!queuedTroops.has(t.id)&&total<Math.max(40,perTypeTarget+(day%4===0?90:0))&&affordable(q.cost);
      });
      const candidate=policy.id==='endgame'?eligible.filter(t=>laneCount(t.lane)<laneTarget).sort((a,b)=>laneCount(a.lane)-laneCount(b.lane)||order.indexOf(a)-order.indexOf(b))[0]:eligible[0];
      if(!candidate)continue;
-     if(policy.id==='endgame')queuedRoles.add(candidate.lane);
+     if(policy.id==='endgame')queuedTroops.add(candidate.id);
      const desired=Math.min(500,candidate.id===Object.keys(state.army)[0]?Math.max(120,policy.trainTarget):Math.max(6,Math.floor(policy.trainTarget/Math.max(2,sourceTroops.length))));
      let low=0,high=desired;
      while(low<high){const middle=Math.ceil((low+high)/2),quote=quoteTraining(state,candidate.id,middle,site.id);if(!quote.locked&&affordable(quote.cost))low=middle;else high=middle-1;}
@@ -206,7 +228,13 @@ function run(policy){
      const nextFloor=(state.world.buzhouFloor||0)+1,candidate=endgameBattles.find(x=>x.id===`buzhou:${nextFloor}`),minimum={1:20000,2:35000,3:55000,4:25000,5:100000}[nextFloor]||Infinity;
      const resumedAssault=!!candidate&&pveAssaultProgress(state,candidate,marchTroopCapacity(state))?.cleared>0;
      if(candidate&&total<minimum&&!resumedAssault)return;
-     if(candidate&&total>=minimum&&!pveLock(state,candidate,chapter))node=candidate;
+     // Preserve the source entry bands for doors 1–3. On door 4, regroup to a
+     // 50k sortie force instead of spending soldiers on tiny waves; door 5
+     // keeps its 100k source entry band. These are policy choices, not NPC edits.
+     const sortieTarget=nextFloor===4?Math.max(minimum,Math.min(50_000,marchTroopCapacity(state))):minimum;
+     if(candidate&&total<sortieTarget)return;
+     if(candidate&&(total>=minimum||resumedAssault)&&!pveLock(state,candidate,chapter))node=candidate;
+     else if(candidate&&resumedAssault)return;
      else if(!candidate)node=endgameBattles.find(x=>!attempted[x.id]&&!pveLock(state,x,chapter)&&x.enemy.formation.reduce((n,r)=>n+r.count,0)<=total*1.5);
    }
    else if(state.world.campaignComplete)node=endgameBattles.find(x=>!attempted[x.id]&&!pveLock(state,x,chapter)&&x.enemy.formation.reduce((n,r)=>n+r.count,0)<=total*1.5);
@@ -230,7 +258,7 @@ function run(policy){
    if(policy.id==='endgame'&&state.morale>45){const tax=state.resources.gold<12_000?'heavy':'balanced';if(state.taxPolicy!==tax)act('setTaxPolicy',{policy:tax});}
    recruitNext();assignOpenSlots();
    if(day%2===0)for(const h of state.heroes.filter(x=>x.assigned))if(state.resources.food>=65*h.level&&state.resources.gold>=85*h.level)act('trainHero',{heroId:h.id});
-   questSweep();if(day%14===0)act('duel',{mode:'tower'});
+   questSweep();activateAvailableBuffs();if(day%14===0)act('duel',{mode:'tower'});
    balanceForTraining();addTrainingSite();addFoodSite();startBuild();startResearch();gearOne();startTraining(day);
    const wounded=Object.values(state.wounded).reduce((n,v)=>n+v,0);if(wounded>0&&state.resources.food>wounded*8&&state.resources.gold>wounded*2)act('heal',{count:wounded});
    march(day);
@@ -238,10 +266,10 @@ function run(policy){
      state=migrateSave(JSON.parse(JSON.stringify(state)),now);
      const research=Object.values(state.technologies).reduce((a,b)=>a+b,0),eligible=TECHNOLOGIES.filter(t=>{const q=quoteResearch(state,t.id);return !q.maxed&&q.requirementSatisfied;}).length;
      const affordableResearch=TECHNOLOGIES.filter(t=>{const q=quoteResearch(state,t.id);return !q.maxed&&q.requirementSatisfied&&affordable(q.cost);}).length;
-     const techRows=TECHNOLOGIES.map(t=>{const q=quoteResearch(state,t.id);return {id:t.id,level:state.technologies[t.id],maxed:q.maxed,status:q.requirementStatus,unmet:q.unmetRequirements,shortfall:Object.entries(q.cost).filter(([k,n])=>state.resources[k]<n).map(([k,n])=>[k,n,state.resources[k]])};});const troopUnlocks=sourceTroops.map(t=>{const q=quoteTraining(state,t.id,1);return {id:t.id,locked:q.locked,unmet:q.unmetRequirements};});history.push({day,chapter:unlockedChapter(state),population:Math.floor(state.population),populationCapacity:state.levels.housing*1400+state.levels.citadel*700+Math.max(0,state.cities.length-1)*350+180,foodUpkeepPerDay:Math.round(foodUpkeepPerHour(state)*24),foodProductionPerDay:Math.round(productionPerHour(state).food*24),buildings:state.stats.upgrades,research,researchMax:570,researchEligible:eligible,researchAffordable:affordableResearch,researchRows:techRows,researchBuildings:Object.fromEntries(['government','manor','altar','academy','farm','grove','mine','foundryfield','barracks','training','skirmisher','stable','caravan','storehouse','market','granary','housing'].map(id=>[id,state.levels[id]])),resources:state.resources,troopUnlocks,trained:state.stats.troopsTrained,trainedTypes:troopTypes.size,trainingSites:trainingSites(state).length,tradeCount:state.stats.tradeCount,armyLanes:Object.fromEntries(['front','mid','rear','siege'].map(lane=>[lane,sourceTroops.filter(t=>t.lane===lane).reduce((n,t)=>n+(state.army[t.id]||0),0)])),armyTypes:Object.keys(state.army).length,armyRoster:Object.fromEntries(Object.entries(state.army).filter(([,n])=>n>0)),readyArmy:armyCount(state),marchCapacity:marchTroopCapacity(state),armyPower:armyPower(state),heroes:state.heroes.length,activeHeroes:state.heroes.filter(h=>h.assigned).length,maxHeroLevel:Math.max(...state.heroes.map(h=>h.level)),recruits:state.stats.heroesRecruited,itemsEquipped:state.stats.itemsEquipped,sourceArtifacts:state.items.map(id=>ITEMS.find(item=>item.id===id)).filter(item=>item?.mobileSourceId&&item.type==='pháp bảo').map(item=>({id:item.id,name:item.name,source:item.mobileSourceId})),uniqueGear:equipped.size,battles:state.stats.battles,wins:state.stats.victories,cities:state.stats.citiesCaptured,tower:state.world.towerFloor,buzhou:state.world.buzhouFloor,pveWins:Object.keys(state.world.pveWins).length,sourceQuests:state.gameplay.questClaims.length,campaignComplete:state.world.campaignComplete,lastBattle:(state.reports||[]).find(r=>r.type==='army')?((r=>({target:r.target,victory:r.victory,ownPower:r.ownPower,enemyPower:r.enemyPower,dead:r.dead,wounded:r.wounded,enemyEquipmentSourceIds:r.enemyEquipmentSourceIds,assault:r.assault}))(state.reports.find(r=>r.type==='army'))):null,receipts:state.combatReceipts.length,mixedMarches:battleMix.mixed});
+     const techRows=TECHNOLOGIES.map(t=>{const q=quoteResearch(state,t.id);return {id:t.id,level:state.technologies[t.id],maxed:q.maxed,status:q.requirementStatus,unmet:q.unmetRequirements,shortfall:Object.entries(q.cost).filter(([k,n])=>state.resources[k]<n).map(([k,n])=>[k,n,state.resources[k]])};});const troopUnlocks=sourceTroops.map(t=>{const q=quoteTraining(state,t.id,1);return {id:t.id,locked:q.locked,unmet:q.unmetRequirements};});const pendingMarch=state.queues.march, marchingRoster=pendingMarch?.troops||{}, marchingArmy=Object.values(marchingRoster).reduce((n,x)=>n+x,0),pendingTraining=[...(state.queues.training?[{id:'primary',...state.queues.training}]:[]),...Object.entries(state.queues.extraTraining||{}).map(([id,q])=>({id,...q}))];history.push({day,chapter:unlockedChapter(state),population:Math.floor(state.population),populationCapacity:state.levels.housing*1400+state.levels.citadel*700+Math.max(0,state.cities.length-1)*350+180,foodUpkeepPerDay:Math.round(foodUpkeepPerHour(state)*24),foodProductionPerDay:Math.round(productionPerHour(state).food*24),buildings:state.stats.upgrades,research,researchMax:570,researchEligible:eligible,researchAffordable:affordableResearch,researchRows:techRows,researchBuildings:Object.fromEntries(['government','manor','altar','academy','farm','grove','mine','foundryfield','barracks','training','skirmisher','stable','caravan','storehouse','market','granary','housing'].map(id=>[id,state.levels[id]])),resources:state.resources,troopUnlocks,trained:state.stats.troopsTrained,trainedTypes:troopTypes.size,trainingSites:trainingSites(state).length,pendingTraining:pendingTraining.map(({id,troopId,count,finishAt})=>({id,troopId,count,finishInHours:Math.max(0,Math.round((finishAt-now)/hour))})),tradeCount:state.stats.tradeCount,armyLanes:Object.fromEntries(['front','mid','rear','siege'].map(lane=>[lane,sourceTroops.filter(t=>t.lane===lane).reduce((n,t)=>n+(state.army[t.id]||0),0)])),armyTypes:Object.keys(state.army).length,armyRoster:Object.fromEntries(Object.entries(state.army).filter(([,n])=>n>0)),readyArmy:armyCount(state),marchingArmy,marchingNode:pendingMarch?.nodeId||null,marchingRoster,armyCommitted:armyCount(state)+marchingArmy,woundedArmy:Object.values(state.wounded).reduce((n,x)=>n+x,0),marchCapacity:marchTroopCapacity(state),armyPower:armyPower(state),heroes:state.heroes.length,activeHeroes:state.heroes.filter(h=>h.assigned).length,maxHeroLevel:Math.max(...state.heroes.map(h=>h.level)),recruits:state.stats.heroesRecruited,itemsEquipped:state.stats.itemsEquipped,sourceArtifacts:state.items.map(id=>ITEMS.find(item=>item.id===id)).filter(item=>item?.mobileSourceId&&item.type==='pháp bảo').map(item=>({id:item.id,name:item.name,source:item.mobileSourceId})),uniqueGear:equipped.size,battles:state.stats.battles,wins:state.stats.victories,cities:state.stats.citiesCaptured,tower:state.world.towerFloor,buzhou:state.world.buzhouFloor,pveWins:Object.keys(state.world.pveWins).length,assaults:{'buzhou:4':state.gameplay.endgameAssaults?.['buzhou:4']?{total:state.gameplay.endgameAssaults['buzhou:4'].total,remaining:Object.values(state.gameplay.endgameAssaults['buzhou:4'].remaining||{}).reduce((n,x)=>n+x,0)}:null,'buzhou:5':state.gameplay.endgameAssaults?.['buzhou:5']?{total:state.gameplay.endgameAssaults['buzhou:5'].total,remaining:Object.values(state.gameplay.endgameAssaults['buzhou:5'].remaining||{}).reduce((n,x)=>n+x,0)}:null},sourceQuests:state.gameplay.questClaims.length,campaignComplete:state.world.campaignComplete,lastBattle:(state.reports||[]).find(r=>r.type==='army')?((r=>({target:r.target,victory:r.victory,ownPower:r.ownPower,enemyPower:r.enemyPower,dead:r.dead,wounded:r.wounded,troopsSent:r.troopsSent,enemyEquipmentSourceIds:r.enemyEquipmentSourceIds,assault:r.assault}))(state.reports.find(r=>r.type==='army'))):null,itemsInBag:state.items.length,itemsSold,buffsUsed:buffsUsed.length,receipts:state.combatReceipts.length,mixedMarches:battleMix.mixed});
    }
  }
- return {strategy:policy.id,history,attempted,failures:localFailures,troopTypes:[...troopTypes],recruited:[...recruited],mixedBattles:battleMix};
+ return {strategy:policy.id,history,attempted,failures:localFailures,troopTypes:[...troopTypes],recruited:[...recruited],mixedBattles:battleMix,itemsSold,buffsUsed};
 }
 const results=policies.map(run);
 console.log(JSON.stringify({milestones:days,strategies:results,failures,limits:{sourceTroops:sourceTroops.length,mobileHeroes:sourceHeroes.length,sourceTechnologies:570,quests:allQuests.length}},null,2));
