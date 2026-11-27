@@ -631,7 +631,7 @@ function fidelityBattlefield({sides,events=[],wall=null,effects=true,enemyLabel=
    const clips={idle:'stand',action:phase,...(moving?{run:'run'}:{})};
    const layerData=Object.entries(clips).map(([layer,state])=>({layer,frame:battleTroopFrame(troop,state),reused:reuseNpcClip(troop.id,state)}));
    const images=layerData.map(({layer,frame,reused})=>`--sprite-${layer}:url('${esc(assetUrl(reused?.path||frame.path))}')`).join(';');
-   const layers=layerData.map(({layer,frame,reused})=>`<span class="fidelity-layer" data-layer="${layer}">${reused?reuseNpcMarkup(reused):sheet(frame,1.02)}</span>`).join('');
+   const layers=layerData.map(({layer,frame,reused})=>`<span class="fidelity-layer" data-layer="${layer}">${reused?reuseNpcMarkup(reused):sheet(frame,stacks.length===1?1.20:1.04)}</span>`).join('');
    const n=Math.min(Math.max(1,Math.floor(number(t.count))),stacks.length===1?24:14,Math.max(1,Math.ceil(Math.log2(number(t.count)+1)*1.65)));
    const cols=n>14?5:n>7?4:n>3?3:Math.min(n,2),rows=Math.ceil(n/cols);
    const mode=attack?(moving?'charge':'ranged'):hit?'hit':'idle';
@@ -641,12 +641,17 @@ function fidelityBattlefield({sides,events=[],wall=null,effects=true,enemyLabel=
  const commander=(row,i)=>{
   if(!row?.heroId&&!row?.heroName)return '';
   const h=heroFor(row.heroId),name=h?.name||row.heroName||'Chỉ huy',frame=battleCommanderFrame(row.heroId,'stand');
-  return `<span class="fidelity-commander ${i?'enemy':'ally'}" aria-label="${esc(name)}" style="--sprite-image:url('${esc(assetUrl(frame.path))}')">${sheet(frame,.94)}<span>${esc(name)}</span></span>`;
+  return `<span class="fidelity-commander ${i?'enemy':'ally'}" aria-label="${esc(name)}" style="--sprite-image:url('${esc(assetUrl(frame.path))}')">${sheet(frame,1.18)}<span>${esc(name)}</span></span>`;
  };
  const visualEvents=effects?presentationEvents(events):[];
+ // Derive a purely visual volley from an actual strike against a force with ranged troops.
+ for(let i=0;i<2&&effects;i++){
+  const ranged=(counts(sides[i])||[]).some(t=>{const troop=troopFor(t.id||t.unitId);return troop&&/(?:xạ|cung|tiễn|nỏ|ranged|archer)/iu.test(String(troop.role||'')+' '+troop.name)});
+  if(ranged&&losses[1-i]>0&&visualEvents.length<5)visualEvents.push({type:'rangedVisual',side:i,targetSide:1-i});
+ }
  const vfx=visualEvents.map((e,i)=>{const reuse=reuseVfxMarkup(e,i,assetUrl,esc);if(reuse)return reuse;const kind=e.type==='artifactCast'?'artifact':e.type==='commanderDuel'?'skill':e.type==='wallBreached'?'critical':e.type==='troopDelta'?'magic':'normal',f=BATTLE_EFFECT_FRAMES[kind]||BATTLE_EFFECT_FRAMES.normal,scale=.29,side=presentationTarget(e,null);return `<span class="battle-vfx-sheet fidelity-impact" style="left:${side===0?'32%':side===1?'68%':'50%'};top:${58+i%2*9}%;width:${f.width*scale}px;height:${f.height*scale}px;background-image:url('${esc(assetUrl(f.path))}');background-size:${f.width*f.frames*scale}px ${f.height*scale}px;--sprite-end:-${f.width*f.frames*scale}px;--sprite-frames:${f.frames};--sprite-duration:${f.durationMs}ms;--impact-delay:${220+i*90}ms" data-anim-ms="${f.durationMs}"></span>`;}).join('');
  const lossText=effects?losses.map((n,i)=>n>0?`<span class="fidelity-damage ${i?'enemy':'ally'}">−${fmt(n)}</span>`:'').join(''):'';
- return `<div class="battlefield-landscape fidelity-field ${effects?'':'fidelity-static'}">${panel(sides[0],0)}<div class="fidelity-arena"><div class="battle-scenery fidelity-ground" style="background-image:url('${esc(assetUrl(REUSE_BACKGROUND_PATH))}'),url('${esc(assetUrl('./assets/visual/assets/battle/nen-thung-lung.jpg'))}')" aria-hidden="true"></div><div class="fidelity-battle-note">${sides.some(s=>s?.squads)?'Tiểu đội giao chiến · quy tắc mô phỏng':'Đội quân hiện tại · chưa phân bổ theo từng thần tiên'}</div>${wall&&Number(wall.maxHp)>0?`<div class="fidelity-wall"><img src="${esc(assetUrl('./assets/mobile-source/assets/map-ng/thanh/map00401.webp'))}" alt="Thành lũy"><small>${fmt(number(wall.hp))} / ${fmt(number(wall.maxHp))}</small></div>`:''}<div class="fidelity-line ally" data-groups="${Math.min(4,counts(sides[0])?.length||1)}">${formation(sides[0],0)}</div><div class="fidelity-line enemy" data-groups="${Math.min(4,counts(sides[1])?.length||1)}">${formation(sides[1],1)}</div>${commander(sides[0],0)}${commander(sides[1],1)}${vfx}${lossText}<div class="fidelity-key">Hình quân đại diện · quân số thật ở hai cột</div>${reuseCreditsMarkup()}</div>${panel(sides[1],1)}</div>`;
+ return `<div class="battlefield-landscape fidelity-field ${effects?'':'fidelity-static'}">${panel(sides[0],0)}<div class="fidelity-arena"><div class="battle-scenery fidelity-ground" style="background-image:url('${esc(assetUrl(REUSE_BACKGROUND_PATH))}'),url('${esc(assetUrl('./assets/visual/assets/battle/nen-thung-lung.jpg'))}')" aria-hidden="true"></div><div class="fidelity-battle-note">${sides.some(s=>s?.squads)?'TIỂU ĐỘI GIAO CHIẾN':'ĐỘI QUÂN GIAO CHIẾN'}</div>${wall&&Number(wall.maxHp)>0?`<div class="fidelity-wall"><img src="${esc(assetUrl('./assets/mobile-source/assets/map-ng/thanh/map00401.webp'))}" alt="Thành lũy"><small>${fmt(number(wall.hp))} / ${fmt(number(wall.maxHp))}</small></div>`:''}<div class="fidelity-line ally" data-groups="${Math.min(4,counts(sides[0])?.length||1)}">${formation(sides[0],0)}</div><div class="fidelity-line enemy" data-groups="${Math.min(4,counts(sides[1])?.length||1)}">${formation(sides[1],1)}</div>${commander(sides[0],0)}${commander(sides[1],1)}${vfx}${lossText}<div class="fidelity-key">Hình quân đại diện · quân số thật ở hai cột</div>${reuseCreditsMarkup()}</div>${panel(sides[1],1)}</div>`;
 }
 function manualBattlePanel(state,now,uiState={}){
  const q=state.queues.march;if(!q||q.combatMode!=='manual'||!q.combatV13)return '';
@@ -734,7 +739,7 @@ export function showBattleReplay(report, effects) {
     root.querySelector('[data-replay-close]').onclick=()=>{stop();root.innerHTML='';};
     root.querySelector('[data-replay-back]').onclick=()=>{stop();index--;draw();};
     root.querySelector('[data-replay-next]').onclick=()=>{if(index<rounds.length-1){index++;draw();}else stop();};
-    root.querySelector('[data-replay-play]').onclick=()=>{if(playing){stop();draw();return;}playing=true;draw();timer=setInterval(()=>{if(index>=rounds.length-1){stop();draw();return;}index++;draw();},Math.max(350,1100/speed));};
+    root.querySelector('[data-replay-play]').onclick=()=>{if(playing){stop();draw();return;}playing=true;draw();timer=setInterval(()=>{if(index>=rounds.length-1){stop();draw();return;}index++;draw();},Math.max(400,1650/speed));};
     root.querySelector('[data-replay-speed]').onclick=()=>{speed=speed===1?2:speed===2?4:1;const stage=root.querySelector('.battle-theater');stage.style.setProperty('--battle-speed',speed);root.querySelector('[data-replay-speed]').textContent=`${speed}× tốc độ`;if(playing){stop();root.querySelector('[data-replay-play]').click();}};
   }
   draw();
