@@ -2,153 +2,274 @@
   "lunaSha": "d0e424136f598e29df6e3447a954adbd61c593eb",
   "captures": [
     {
-      "screen": "01-city",
+      "screen": "combat-01-formation",
       "width": 1280,
       "docWidth": 1280,
       "broken": 0,
-      "navIcon": true
+      "renderer": "shared-combat",
+      "stacks": 4
     },
     {
-      "screen": "02-outer",
+      "screen": "combat-02-approach",
       "width": 1280,
       "docWidth": 1280,
       "broken": 0,
-      "navIcon": true
+      "renderer": "shared-combat",
+      "stacks": 4
     },
     {
-      "screen": "03-heroes",
+      "screen": "combat-02-impact",
       "width": 1280,
       "docWidth": 1280,
       "broken": 0,
-      "navIcon": true
+      "renderer": "shared-combat",
+      "stacks": 4
     },
     {
-      "screen": "04-inventory",
+      "screen": "combat-02-withdraw",
       "width": 1280,
       "docWidth": 1280,
       "broken": 0,
-      "navIcon": true
+      "renderer": "shared-combat",
+      "stacks": 4
     },
     {
-      "screen": "05-army",
+      "screen": "combat-02-rest",
       "width": 1280,
       "docWidth": 1280,
       "broken": 0,
-      "navIcon": true
+      "renderer": "shared-combat",
+      "stacks": 4
     },
     {
-      "screen": "06-world",
+      "motionVerified": true,
+      "samples": [
+        {
+          "ms": 120,
+          "stacks": [
+            {
+              "id": "troop-03",
+              "side": "0",
+              "x": 449.38262939453125,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-run"
+              ]
+            },
+            {
+              "id": "troop-12",
+              "side": "1",
+              "x": 830.6017456054688,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-run"
+              ]
+            },
+            {
+              "id": "troop-10",
+              "side": "1",
+              "x": 925.5609130859375,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-run"
+              ]
+            },
+            {
+              "id": "troop-06",
+              "side": "1",
+              "x": 853.0950927734375,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-run"
+              ]
+            }
+          ]
+        },
+        {
+          "ms": 500,
+          "stacks": [
+            {
+              "id": "troop-03",
+              "side": "0",
+              "x": 575.9906005859375,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-attack"
+              ]
+            },
+            {
+              "id": "troop-12",
+              "side": "1",
+              "x": 703.9937744140625,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-attack"
+              ]
+            },
+            {
+              "id": "troop-10",
+              "side": "1",
+              "x": 703.9968872070312,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-attack"
+              ]
+            },
+            {
+              "id": "troop-06",
+              "side": "1",
+              "x": 831.9937744140625,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-attack"
+              ]
+            }
+          ]
+        },
+        {
+          "ms": 950,
+          "stacks": [
+            {
+              "id": "troop-03",
+              "side": "0",
+              "x": 575.9906005859375,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-attack",
+                "combat-source-sprite phase-hit"
+              ]
+            },
+            {
+              "id": "troop-12",
+              "side": "1",
+              "x": 703.9937744140625,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-attack",
+                "combat-source-sprite phase-hit"
+              ]
+            },
+            {
+              "id": "troop-10",
+              "side": "1",
+              "x": 703.9968872070312,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-attack",
+                "combat-source-sprite phase-hit"
+              ]
+            },
+            {
+              "id": "troop-06",
+              "side": "1",
+              "x": 831.9937744140625,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-attack",
+                "combat-source-sprite phase-hit"
+              ]
+            }
+          ]
+        },
+        {
+          "ms": 1800,
+          "stacks": [
+            {
+              "id": "troop-03",
+              "side": "0",
+              "x": 422.390625,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-idle"
+              ]
+            },
+            {
+              "id": "troop-12",
+              "side": "1",
+              "x": 857.59375,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-idle"
+              ]
+            },
+            {
+              "id": "troop-10",
+              "side": "1",
+              "x": 972.796875,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-idle"
+              ]
+            },
+            {
+              "id": "troop-06",
+              "side": "1",
+              "x": 857.59375,
+              "advance": true,
+              "visible": [
+                "combat-source-sprite phase-idle"
+              ]
+            }
+          ]
+        }
+      ],
+      "effects": 2,
+      "effectTargets": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "screen": "combat-03-settlement",
       "width": 1280,
       "docWidth": 1280,
       "broken": 0,
-      "navIcon": true
+      "renderer": null,
+      "stacks": 0
     },
     {
-      "screen": "07-pve",
+      "screen": "combat-04-replay",
       "width": 1280,
       "docWidth": 1280,
       "broken": 0,
-      "navIcon": true
+      "renderer": "shared-combat",
+      "stacks": 4
     },
     {
-      "screen": "08-tech",
+      "screen": "combat-05-replay-later",
       "width": 1280,
       "docWidth": 1280,
       "broken": 0,
-      "navIcon": true
+      "renderer": "shared-combat",
+      "stacks": 4
     },
     {
-      "screen": "09-quests",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "screen": "10-market",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "screen": "11-library",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "screen": "12-settings",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "screen": "13-live-battle",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "screen": "14-battle-impact",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "battleEffects": 2,
-      "effectCSS": {
-        "size": "100% 100%",
-        "animation": "none"
-      }
-    },
-    {
-      "screen": "15-settled-report",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "screen": "16-replay",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "screen": "17-developed-inner",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "screen": "18-developed-outer",
-      "width": 1280,
-      "docWidth": 1280,
-      "broken": 0,
-      "navIcon": true
-    },
-    {
-      "screen": "19-mobile-city",
+      "screen": "combat-06-mobile-formation",
       "width": 844,
       "docWidth": 844,
       "broken": 0,
-      "navIcon": true
+      "renderer": "shared-combat",
+      "stacks": 4
     },
     {
-      "screen": "20-mobile-inventory",
+      "screen": "combat-07-mobile-impact",
       "width": 844,
       "docWidth": 844,
       "broken": 0,
-      "navIcon": true
+      "renderer": "shared-combat",
+      "stacks": 4
     }
   ],
   "pageErrors": [],
-  "note": "actual runtime; developed city seeded QA fixture, not earned progression"
+  "videoMarks": [
+    {
+      "scene": "live-exchange",
+      "seconds": 7.473775301000003
+    },
+    {
+      "scene": "replay",
+      "seconds": 9.674414595000002
+    }
+  ],
+  "note": "Real new-save combat; replay uses the same renderer, recorded stack counts and events. No simulated battle fixture."
 }
