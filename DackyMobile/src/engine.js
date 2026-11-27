@@ -305,7 +305,7 @@ export function productionPerHour(state) {
   const lv = {...state.levels};
   for(const id of ['farm','grove','mine','foundryfield','granary','market','foundry'])lv[id]=(lv[id]||0)+extraBuildingLevels(state,id);
   const tech = state.technologies;
-  const multiplier=state.settings?.combatV13?(1+(cityEffects(state,state.lastTickAt??0).production??0))*((state.gameplay?.laborRate??100)/100):1;
+  const multiplier=state.settings?.combatV13?(1+Math.max(-.8,Math.min(1,(cityEffects(state,state.lastTickAt??0).production??0)+itemBuff(state,'production',state.lastTickAt??0))))*((state.gameplay?.laborRate??100)/100):1;
   const satelliteLevels=(state.cities||[]).filter(city=>!city.isCapital).reduce((sum,city)=>sum+city.level,0);
   const bonus = effect => 1 + TECHNOLOGIES.filter(t => t.effect === effect).reduce((n, t) => n + (tech[t.id] || 0) * technologyRate(t.id), 0);
   const out={
@@ -321,7 +321,8 @@ export function productionPerHour(state) {
 
 export function storageCapacity(state) {
   const base=2400 + ((state.levels.storehouse || 0)+extraBuildingLevels(state,'storehouse')) * 1650 + ((state.levels.granary || 0)+extraBuildingLevels(state,'granary')) * 220;
-  return Math.floor(base*(1+(state.technologies?.['tech-06']||0)*technologyRate('tech-06',0.04)));
+  const sourced=Math.floor(base*(1+(state.technologies?.['tech-06']||0)*technologyRate('tech-06',0.04)));
+  return Math.floor(sourced*(1+(state.settings?.combatV13?itemBuff(state,'storageCapacity',state.lastTickAt??0):0)));
 }
 
 // The Mobile "Lương" stat is source-backed, but its time/unit conversion is
@@ -1474,6 +1475,7 @@ export function doAction(state, action, now = Date.now()) {
       if (itemIndex < 0 || !item || item.type !== 'vật phẩm') throw new Error('Không thể sử dụng vật phẩm này.');
       const effect=item.useEffect??(s.settings.combatV13?itemUseRule(item):null);
       if(effect?.kind==='queueSpeedup'){const q=s.queues[effect.queue];if(!q||effect.building&&q.buildingId!==effect.building||effect.once&&q.sourceSpeedupUsed)throw Error('Không có hàng đợi phù hợp hoặc đã dùng tăng tốc');q.finishAt=Math.max(now,effect.once?now+(q.finishAt-now)*(1-effect.amount):q.finishAt-effect.amount*1000);if(effect.once)q.sourceSpeedupUsed=true;s.items.splice(itemIndex,1);completeQueue(s,effect.queue,now);break;}
+      if(effect?.kind==='timedBuffSet'){const list=s.gameplay.itemBuffs,sourceId=String(item.mobileSourceId??item.id);for(const buff of effect.effects){const previous=list.find(x=>x.key===buff.key&&x.sourceId===sourceId&&x.levelCap===buff.levelCap);if(previous){previous.expiresAt=Math.max(previous.expiresAt,now)+effect.seconds*1000;previous.ratio=Math.max(previous.ratio,buff.ratio);}else list.push({key:buff.key,ratio:buff.ratio,levelCap:buff.levelCap,expiresAt:now+effect.seconds*1000,sourceId,sourceTable:effect.sourceTable,sourceField:effect.sourceField,evidence:effect.evidence,stackingEvidence:effect.stackingEvidence,status:'VERIFIED_MOBILE'});}s.items.splice(itemIndex,1);const mapped=effect.effects.map(x=>({production:'sản lượng',storageCapacity:'sức chứa kho',heroXp:'kinh nghiệm thần tiên',marchSpeed:'tốc độ hành quân',attack:'công quân đội',defense:'thủ quân đội'}[x.key]||x.key)).join(', ');const unsupported=effect.unsupported?.length?` · chưa hỗ trợ: ${effect.unsupported.join(', ')} (PARTIAL_RUNTIME)`:'';note(s,`Đã kích hoạt ${item.name}: ${mapped} trong ${Math.floor(effect.seconds/86400)} ngày · cộng dồn thời hạn SIMULATED${unsupported}.`);break;}
       if(effect?.kind==='timedBuff'){const list=s.gameplay.itemBuffs,previous=list.find(x=>x.key===effect.key&&x.levelCap===effect.levelCap);if(previous)previous.expiresAt=Math.max(previous.expiresAt,now)+effect.seconds*1000;else list.push({key:effect.key,ratio:effect.ratio,levelCap:effect.levelCap,expiresAt:now+effect.seconds*1000});s.items.splice(itemIndex,1);break;}
       if(effect?.kind==='resourcePack'){credit(s,Object.fromEntries(['food','timber','stone','iron'].map(k=>[k,effect.amount])));s.items.splice(itemIndex,1);break;}
       if(effect?.kind==='matrix'){const h=s.heroes.find(x=>x.id===action.heroId)||s.heroes.find(x=>x.assigned);if(!h||s.queues.march)throw Error('Chọn thần tiên đang nghỉ');h.matrices=[...new Set(h.matrices??[])];if(h.matrices.includes(item.id))throw Error('Ma trận đã mở');h.matrices.push(item.id);h.activeMatrix=item.id;s.items.splice(itemIndex,1);note(s,'Đã mở Ma trận '+item.name);break;}

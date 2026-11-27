@@ -2,9 +2,9 @@ name: Dacky production branch
 
 on:
   push:
-    branches: [feature/dacky-v1-production, integration/dacky-one-game-v1]
+    branches: [feature/dacky-v1-production, integration/dacky-one-game-v1, feature/dacky-product-completion]
   pull_request:
-    branches: [feature/dacky-v1-production, integration/dacky-one-game-v1]
+    branches: [feature/dacky-v1-production, integration/dacky-one-game-v1, feature/dacky-product-completion]
   workflow_dispatch:
 
 permissions:
@@ -67,6 +67,23 @@ jobs:
             node scripts/gameplay-coverage-p20.mjs dist/docs
           fi
 
+      - name: Set up Python for product runtime captures
+        if: github.ref == 'refs/heads/feature/dacky-product-completion'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install browser capture dependencies
+        if: github.ref == 'refs/heads/feature/dacky-product-completion'
+        run: pip install -r requirements-art01.txt playwright
+
+      - name: Capture actual product runtime screens
+        if: github.ref == 'refs/heads/feature/dacky-product-completion'
+        run: |
+          python -m http.server 4173 --directory dist > /tmp/dacky-product-http.log 2>&1 &
+          sleep 2
+          CHROME_BIN="$(command -v google-chrome)" python qa/art01-review.py
+
       - name: Sync Capacitor Android project
         run: npx cap sync android
 
@@ -111,3 +128,12 @@ jobs:
             DackyMobile/qa/screenshots-p41-p50-final-offline/
             DackyMobile/qa/screenshots-visual-remake-after/
             DackyMobile/qa/visual-fidelity-v2/
+
+      - name: Upload product runtime screenshots
+        if: github.ref == 'refs/heads/feature/dacky-product-completion'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dacky-product-runtime-captures-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 14
+          path: DackyMobile/qa/art01-review/

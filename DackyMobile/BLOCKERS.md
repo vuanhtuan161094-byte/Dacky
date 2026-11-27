@@ -1,6 +1,6 @@
-# Remaining ONE GAME release blockers — P41–P50
+# Remaining product release blockers — P50 baseline and product-completion branch
 
-Current scope is `integration/dacky-one-game-v1`; Git HEAD is authoritative. P31–P40 findings are archived in `GAMEPLAY_LEDGER_P31.md`; current gameplay evidence is in [P41–P50 gameplay ledger](qa/one-game/GAMEPLAY_LEDGER_P41_P50.md), and current visual evidence is in [V2 comparison record](qa/visual-fidelity-v2/benchmark-sources.md).
+Active work continues on `feature/dacky-product-completion`, based on the ART13-preserving review descendant `41455f6c1888b981a5a2351654fbc7c1e056cfd4`. P31–P50 findings remain the gameplay baseline in [P41–P50 gameplay ledger](qa/one-game/GAMEPLAY_LEDGER_P41_P50.md); current visual capture limitations are in [V2 comparison record](qa/visual-fidelity-v2/benchmark-sources.md). New decree-item effects 4503/4505/4506 are runtime-backed, but the capture-chance clause remains unsupported. Exact-head CI is pending push.
 
 | Area | Current state | Remaining blocker |
 | --- | --- | --- |

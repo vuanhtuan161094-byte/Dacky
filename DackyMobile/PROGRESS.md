@@ -1,6 +1,20 @@
 # Dacky V1.0 progress
 
-Updated 2026-11-26 · Repository `vuanhtuan161094-byte/Dacky` · branch `integration/dacky-one-game-v1`
+Updated 2026-11-27 · Repository `vuanhtuan161094-byte/Dacky` · active branch `feature/dacky-product-completion`
+
+## Product completion checkpoint
+
+Branch base: ART13-preserving commit `41455f6c1888b981a5a2351654fbc7c1e056cfd4`. This is one integrated game and continues the P50 runtime; no Combat Engine rewrite or database expansion was made.
+
+- Added runtime handling for verified Mobile items 4503, 4505 and 4506: source-declared timed production/storage, immortal XP, march speed and army attack/defense. The unsupported capture chance remains marked partial; duration stacking is simulated and disclosed.
+- Added targeted regression coverage including save reload and one-time inventory consumption. `npm test` passes 140/140; source parser tests pass 10/10; dependency graph has 1,567 nodes / 3,958 edges with zero cycles, impossible nodes or unknown unique references.
+- Web/PWA/offline build passes. Compact output contains 59,017 records and 128,253 unique field-evidence entries. Single-file HTML is produced at `dist/offline.html`.
+- ART13 build verifier installed two terrain scenes and 27 source sprites with exact pack hashes. Hash lock: `docs/ART13_ASSET_LOCK.json`.
+- Actual Chromium capture: 55 PNGs in `qa/art01-review/`; 11 screen audit entries at 1280 px, zero visible broken images and zero document-width overflow. Current-client gameplay screenshots remain unavailable, so no A/B/C parity claim is made.
+- Current four-policy/endgame findings remain those recorded in `qa/one-game/GAMEPLAY_LEDGER_P41_P50.md`; this increment did not rerun unrelated long simulations. Bất Chu doors 2–5 and full endgame are still unproven. Three legacy tables remain HOLD; source-parity and device QA blockers remain.
+- Exact-head GitHub Actions, debug APK/AAB and artifact links are pending push of this branch. No Android device/emulator is attached. GitHub Pages is not configured for public serving; use the Web CI artifact until repository Pages is enabled.
+
+## Review baseline — product visual fidelity V2
 
 ## Product visual fidelity V2 — current
 
