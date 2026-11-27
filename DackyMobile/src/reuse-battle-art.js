@@ -37,5 +37,5 @@ export function reuseVfxMarkup(event,index,assetUrl,esc){
  return '<span class="reuse-vfx" data-reuse-effect="'+id+'" aria-hidden="true" style="left:'+left+'%;top:'+(55+index*9)+'%;--reuse-image:url(\''+esc(assetUrl(e.path))+'\');--reuse-scale:'+scale+'"><span class="reuse-vfx-anchor">'+frames+'</span></span>';
 }
 export function reuseNpcMarkup(clip){
- return '<span class="reuse-npc" data-reuse-npc="'+clip.key+'" aria-hidden="true"><i class="reuse-npc-atlas" style="left:'+(-clip.pivot[0])+'px;top:'+(-clip.pivot[1])+'px;--reuse-clip:'+clip.ms+'ms;--reuse-key:reuse-'+clip.cols+'-'+clip.frames+'"></i></span>';
+ return '<span class="reuse-npc" data-reuse-npc="'+clip.key+'" aria-hidden="true"><i class="reuse-npc-atlas" style="left:'+(33-clip.pivot[0]*.29)+'px;top:'+(52-clip.pivot[1]*.29)+'px;--reuse-clip:'+clip.ms+'ms;--reuse-key:reuse-'+clip.cols+'-'+clip.frames+'"></i></span>';
 }

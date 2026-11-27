@@ -75,6 +75,9 @@ for (const asset of sourceAssetManifests.flatMap(manifest=>manifest.assets)) {
 }
 for (const [name,url] of sourceAssetUrls) css = css.replaceAll(name,url);
 const embeddedSourceAssetMap = JSON.stringify(Object.fromEntries(sourceAssetUrls));
+const reuseCredits = (await Promise.all(['reuse/skeleton/LICENSE.txt','reuse/heavy-soldier/LICENSE.txt','reuse/vfx/NOTICE.md','reuse/vfx/CREDITS.txt'].map(name=>readFile(path.join(root,'assets',name),'utf8')))).join('\n\n');
+const escapeCredits=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+html=html.replace('</body>',`<template id="reuse-asset-credits"><pre>${escapeCredits(reuseCredits)}</pre></template></body>`);
 html = html.replace('<link rel="manifest" href="./manifest.webmanifest">','');
 html = html.replace('<link rel="stylesheet" href="./styles.css">',`<style>\n${css}\n</style>`);
 html = html.replace('<script type="module" src="./src/main.js"></script>',`<script>globalThis.__DACKY_EMBEDDED_ASSETS__=${embeddedSourceAssetMap};</script>\n<script>\n${bundle}\n</script>`);
