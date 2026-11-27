@@ -3,6 +3,7 @@ import { getPveEncounter, getMountainBattles, getEndgameBattles, pveAssaultProgr
 import { BUILDINGS, CONTENT_EVIDENCE, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_BUZHOU_EQUIPMENT_RULES, LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS, LEGACY_BUZHOU_REWARDS, LEGACY_BUZHOU_SOURCE, LEGACY_CITY_GARRISON_SOURCE, LEGACY_CITY_GARRISONS, LEGACY_ELFLAND_FLOORS, LEGACY_ELFLAND_FORMATIONS, LEGACY_ELFLAND_LOCATIONS, LEGACY_ELFLAND_REWARD_RULES, LEGACY_ELFLAND_SOURCE, LEGACY_QUESTS, LEGACY_QUEST_SOURCE, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, BUZHOU_FLOORS, TOWER_FLOORS } from './catalog.js';
 import { battleCommanderFrame, battleTroopFrame, BATTLE_EFFECT_FRAMES } from './visual-art-catalog.js';
 import { reuseNpcClip, reuseNpcMarkup, reuseVfxMarkup, presentationEvents, presentationTarget, REUSE_BACKGROUND_PATH } from './reuse-battle-art.js';
+import { hdArmyClip, hdArmyMarkup, compactRanks } from './hd-army-art.js';
 import { gameplayQuestList,questQuote,itemUseRule,strategicQuote,populationCapacity,buzhouPlan,equipmentSets } from './gameplay-p15.js';
 import { CITY_PLOT_TYPES, cityPlotZone, cityPlotRecord, cityPlotChoices, cityPrimarySite, canDemolishPlot, trainingSites, trainingQueue, trainingAvailable, allTrainingQueues, cityPlotUnlocked, outerLandCapacity, quoteCityPlot, activeQuest, armyCount, armyPower, formatDuration, formatNumber, heroPower, inspectManualBattle, marchTroopCapacity, productionPerHour, questProgress, quoteArtifactPurchase, quoteBuilding, quoteCityUpgrade, quoteGearEnhancement, quoteGearGemSocket, quoteItemPurchase, quoteItemSale, quoteResearch, quoteScouting, quoteTraining, storageCapacity, TAX_POLICIES, TUTORIAL_STEPS, unlockedChapter } from './engine.js';
 
@@ -629,13 +630,12 @@ function fidelityBattlefield({sides,events=[],wall=null,effects=true,enemyLabel=
    const ranged=/(?:xạ|cung|tiễn|nỏ|ranged|archer)/iu.test(String(troop.role||'')+' '+troop.name);
    const moving=attack&&!ranged;
    const clips={idle:'stand',action:phase,...(moving?{run:'run'}:{})};
-   const layerData=Object.entries(clips).map(([layer,state])=>({layer,frame:battleTroopFrame(troop,state),reused:reuseNpcClip(troop.id,state)}));
-   const images=layerData.map(({layer,frame,reused})=>`--sprite-${layer}:url('${esc(assetUrl(reused?.path||frame.path))}')`).join(';');
-   const layers=layerData.map(({layer,frame,reused})=>`<span class="fidelity-layer" data-layer="${layer}">${reused?reuseNpcMarkup(reused):sheet(frame,stacks.length===1?1.20:1.04)}</span>`).join('');
-   const n=Math.min(Math.max(1,Math.floor(number(t.count))),stacks.length===1?24:14,Math.max(1,Math.ceil(Math.log2(number(t.count)+1)*1.65)));
-   const cols=n>14?5:n>7?4:n>3?3:Math.min(n,2),rows=Math.ceil(n/cols);
+   const layerData=Object.entries(clips).map(([layer,state])=>({layer,frame:battleTroopFrame(troop,state),hd:hdArmyClip(troop,state)}));
+   const images=layerData.map(({layer,frame,hd})=>`--sprite-${layer}:url('${esc(assetUrl(hd?.path||frame.path))}')`).join(';');
+   const layers=layerData.map(({layer,frame,hd})=>`<span class="fidelity-layer" data-layer="${layer}">${hd?hdArmyMarkup(hd):sheet(frame,1)}</span>`).join('');
+   const ranks=compactRanks(number(t.count),i,stacks.length);
    const mode=attack?(moving?'charge':'ranged'):hit?'hit':'idle';
-   return `<div class="fidelity-formation" data-motion="${mode}" aria-label="${esc(troop.name)}" style="${images}"><div class="fidelity-ranks">${Array.from({length:n},(_,k)=>{const col=k%cols,r=Math.floor(k/cols),x=cols===1?50:12+col*76/(cols-1),y=rows===1?72:25+r*61/(rows-1);return `<span class="fidelity-soldier" style="left:${x+(r%2?2:0)}%;top:${y}%;z-index:${r+1};--rank-delay:${(k%5)*19}ms"><span class="fidelity-motion">${layers}</span></span>`;}).join('')}</div><span class="fidelity-unit-label">${esc(troop.name)} · ${fmt(number(t.count))}</span></div>`;
+   return `<div class="fidelity-formation" data-motion="${mode}" aria-label="${esc(troop.name)}" style="${images}"><div class="fidelity-ranks">${ranks.map(r=>`<span class="fidelity-soldier" style="left:${r.x}%;top:${r.y}%;z-index:${r.depth};--rank-delay:${r.delay}ms"><span class="fidelity-motion">${layers}</span></span>`).join('')}</div><span class="fidelity-unit-label">${esc(troop.name)} · ${fmt(number(t.count))}</span></div>`;
   }).join('')+(stacks.length>4?`<small class="fidelity-more">+${stacks.length-4} loại · xem danh sách</small>`:'');
  };
  const commander=(row,i)=>{

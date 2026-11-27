@@ -1,6 +1,6 @@
 {
   "schema": "dacky-asset-factory-v1",
-  "state": "r3-awaiting-ci",
+  "state": "r4-hd-army-review-awaiting-ci",
   "sourceRepository": "https://github.com/vuanhtuan161094-byte/Heoofgaia",
   "sourceRef": "feature/hog1-research-to-playable-20261102",
   "assets": [
@@ -86,5 +86,25 @@
     "npcMappings": "two legacy mappings unchanged",
     "formation": "grounded ranks and one-shot approach/attack/return",
     "acceptance": "R2 technical PASS; R3 pending visual/runtime"
+  },
+  "hdArmy": {
+    "source": "Heoofgaia original HG33 action atlases",
+    "sourceRef": "feature/hog1-research-to-playable-20261102",
+    "cell": [
+      192,
+      204
+    ],
+    "frameCount": 240,
+    "activeFamilies": 5,
+    "files": {
+      "human-1-atlas": "94a3d66b536370b8415aa76bd9d145c676114401",
+      "human-vanguard": "cd7483118fc41b8f76929577c0a2b995e28a3a6f",
+      "human-archer": "fbe712b8d6a73c15339d24d8882ca5ca9408b815",
+      "undead-7-atlas": "4a88e322cfb234e0ad84603716a2e420bb45962d",
+      "orc-3-atlas": "f2a90a9054a8e6593fd8cbda50bb558f991bb28b",
+      "orc-2-atlas": "7c85585208cd903e64cd6455c4825a855edbfed0"
+    },
+    "status": "experimental role mapping; Western fantasy art is not final Phong Than identity; orc axe thrower candidate only; ordinary cavalry retains native sprite",
+    "oldNpcArt": "disabled in shared battle renderer"
   }
 }

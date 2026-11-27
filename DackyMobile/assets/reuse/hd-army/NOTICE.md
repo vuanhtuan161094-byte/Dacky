@@ -1,0 +1,1 @@
+Project-owned original art, source: https://github.com/vuanhtuan161094-byte/Heoofgaia/tree/feature/hog1-research-to-playable-20261102/assets/generated/hg33/animation/runtime . Source manifest identifies original generated artwork. Source/destination Git blob hashes verified. Representative fantasy unit art, not original Dacky asset.
