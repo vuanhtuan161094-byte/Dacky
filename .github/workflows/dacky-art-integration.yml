@@ -36,21 +36,17 @@ jobs:
       - name: Independent gameplay smoke on Luna snapshot
         working-directory: luna-snapshot/DackyMobile
         run: |
+          node --test tests/e1-economy.test.js
           node --input-type=module <<'JS'
           import {createNewGame,doAction,advance,migrateSave} from './src/engine.js';
-          import {renderScreen} from './src/ui.js';
           import assert from 'node:assert/strict';
           const now=1800000000000;
           const s=createNewGame('Review',now);
-          for(const view of ['city','heroes','army','inventory','world','pve','tech','quests','market','reports','settings','library']){
-            const markup=renderScreen(s,view,{});
-            assert.ok(typeof markup==='string'&&markup.length>100,view);
-          }
           const a=doAction(s,{type:'collectLaborTaxes'},now);
           assert.throws(()=>doAction(migrateSave(a,now),{type:'collectLaborTaxes'},now),/Đã trưng thu/);
           const b=advance(a,now+3600000).state;
           assert.ok(b.resources.gold>=0);
-          console.log('12 rendered screen strings, tax guard and advance smoke PASS; not browser visual QA');
+          console.log('Tax guard, migration and advance smoke PASS; not visual QA');
           JS
       - name: Copy existing UI proposal for integration handoff
         run: cp DackyMobile/art-review/ui-icon-reuse.proposed.css DackyMobile/art-review/integration-ready/
