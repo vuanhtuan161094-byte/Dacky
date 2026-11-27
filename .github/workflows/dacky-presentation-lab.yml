@@ -1,0 +1,70 @@
+name: Dacky isolated presentation lab
+on:
+  push:
+    branches: [review/dacky-art-direction]
+    paths:
+      - 'DackyMobile/art-review/presentation-lab-*.py'
+      - '.github/workflows/dacky-presentation-lab.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: dacky-presentation-lab
+  cancel-in-progress: true
+jobs:
+  lab:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      LUNA_SHA: d0e424136f598e29df6e3447a954adbd61c593eb
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.LUNA_SHA }}
+          path: luna-lab
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install Pillow==11.3.0 playwright
+      - run: python -m playwright install chromium
+      - name: Apply presentation changes only to temporary checkout
+        run: |
+          python DackyMobile/art-review/presentation-lab-patch.py luna-lab/DackyMobile DackyMobile/art-review
+          git -C luna-lab diff --stat
+          git -C luna-lab diff --exit-code -- DackyMobile/src/engine.js DackyMobile/src/catalog.js DackyMobile/src/store.js
+      - name: Build actual game
+        working-directory: luna-lab/DackyMobile
+        run: npm run build
+      - name: Capture and record actual gameplay
+        run: |
+          export LAB_OUT="$GITHUB_WORKSPACE/DackyMobile/art-review/presentation-lab-output"
+          export CHROME_BIN="$(command -v google-chrome)"
+          python -m http.server 4173 --directory luna-lab/DackyMobile/dist > /tmp/dacky-lab-http.log 2>&1 &
+          trap 'kill $!' EXIT
+          sleep 2
+          python DackyMobile/art-review/presentation-lab-capture.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dacky-presentation-lab
+          path: |
+            DackyMobile/art-review/presentation-lab-output/*.jpg
+            DackyMobile/art-review/presentation-lab-output/*.json
+            DackyMobile/art-review/presentation-lab-output/*.mp4
+          if-no-files-found: warn
+      - name: Publish captured evidence only on review branch
+        if: always()
+        run: |
+          test "$(git ls-remote origin refs/heads/review/dacky-art-direction | cut -f1)" = "$GITHUB_SHA" || exit 0
+          d=DackyMobile/art-review/presentation-lab-output
+          test -d "$d" || exit 0
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          find "$d" -maxdepth 1 -type f \( -name '*.jpg' -o -name '*.json' -o -name '*.mp4' \) -exec git add -f {} +
+          git diff --cached --quiet || git commit -m "review: actual presentation lab runtime screenshots and gameplay video"
+          git push origin HEAD:review/dacky-art-direction
