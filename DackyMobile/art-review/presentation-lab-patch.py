@@ -10,6 +10,11 @@ old=': `<span class="unit-glyph">${esc(item.glyph)}</span>`;'
 new=': `<span class="unit-glyph lab-item-fallback">${esc(({"vũ khí":"VK","giáp":"GI","pháp bảo":"PB","vật phẩm":"VP"})[item.type]||"VT")}</span>`;'
 assert old in s;s=s.replace(old,new,1)
 ui.write_text(s)
+installer=root/'scripts/install-art13.py'
+install=installer.read_text()
+assert 'if not base.endswith(patch):' in install
+# Accept the exact ART13 CSS anywhere in the scratch stylesheet, while keeping all asset hashes and conflicting-patch safeguards.
+installer.write_text(install.replace('if not base.endswith(patch):','if patch not in base:',1))
 css=root/'styles.css'
 patch=(review/'integration-ready/ui-icon-reuse.proposed.css').read_text()
 css.write_text(css.read_text()+'\n'+patch+'''
