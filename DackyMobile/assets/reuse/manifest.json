@@ -1,0 +1,80 @@
+{
+  "schema": "dacky-asset-factory-v1",
+  "state": "candidate-not-game-integrated",
+  "sourceRepository": "https://github.com/vuanhtuan161094-byte/Heoofgaia",
+  "sourceRef": "feature/hog1-research-to-playable-20261102",
+  "assets": [
+    {
+      "id": "skeleton",
+      "license": "MIT",
+      "author": "Chong-U Lim",
+      "source": "https://github.com/chongdashu/ai-pixel-snapped-game-sprites",
+      "cell": 256,
+      "columns": 5,
+      "rows": 2,
+      "frames": {
+        "idle": 10,
+        "walk": 10,
+        "attack": 10,
+        "hit": 10,
+        "death": 10
+      },
+      "durationMs": {
+        "idle": 1200,
+        "walk": 850,
+        "attack": 700,
+        "hit": 550,
+        "death": 1150
+      },
+      "pivotStatus": "needs Dacky visual calibration",
+      "style": "pixel; candidate for summoned unit only"
+    },
+    {
+      "id": "heavy-soldier",
+      "license": "CC0-1.0",
+      "author": "Kay Lousberg",
+      "source": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+      "sourceCommit": "672074b73ba276876a19e8816ecdc5241817ab47",
+      "cell": 256,
+      "columns": 8,
+      "frames": {
+        "idle": 13,
+        "walk": 13,
+        "attack": 13,
+        "hit": 8,
+        "death": 10
+      },
+      "pivot": [
+        148,
+        216
+      ],
+      "style": "western knight; candidate only; baked PNG, no rig at runtime"
+    }
+  ],
+  "blobs": {
+    "skeleton/idle.png": "d043b2ec69b74b3fb2734e9b06ab1949d4fd47e0",
+    "skeleton/walk.png": "bd71635756397222887e6ea76b685635091b1f2d",
+    "skeleton/attack.png": "3453841ea83f7d208019b74e7dd011eea9f1be8f",
+    "skeleton/hit.png": "15f208ca8dbdfdc26d25a4def80d56ea80b7dd4d",
+    "skeleton/death.png": "f36b3c4089369ea0d564798dc37bf4e1378a4682",
+    "skeleton/LICENSE.txt": "7ef5fe0947ac318b412655c2d7f6260f8fec787d",
+    "heavy-soldier/idle.png": "cf8bb2b7613d2005bb441812f8c69dd350cf86e7",
+    "heavy-soldier/walk.png": "3921cf61beb51f0cebb2f8df8e12477c22471c8f",
+    "heavy-soldier/attack.png": "961a8be988377e16d1edd64acbb3db3818d136b3",
+    "heavy-soldier/hit.png": "d5d456875ff2fd2f0566d2aebb55893c07a8bcbb",
+    "heavy-soldier/death.png": "0a44e3207e23f3eceab0099079088c5be3951b80",
+    "heavy-soldier/LICENSE.txt": "877e44735b5869c10e17a59e3b757905aa390626"
+  },
+  "pending": [
+    {
+      "id": "open-field",
+      "sourcePath": "assets/generated/hg11/battlefield/open-field-v2-1176x550.png",
+      "blob": "5178fab8cb99a647f21477de747ce0488db3d384",
+      "status": "not copied; connector returned empty body for >1 MB file"
+    },
+    {
+      "id": "open-vfx-library",
+      "status": "not imported; verify per-pack license, retrieve actual files and inspect frames"
+    }
+  ]
+}
