@@ -1,5 +1,6 @@
-const CACHE = 'dacky-mobile-shell-v47-hd-army';
+const CACHE = 'dacky-mobile-shell-v48-fantasy-army';
 const SHELL = [
+  "./assets/reuse/hd-army/human-7-atlas.webp", "./assets/reuse/hd-army/elf-4-atlas.webp", "./assets/reuse/hd-army/elf-8-atlas.webp", "./assets/reuse/hd-army/undead-skeleton.webp", "./assets/reuse/hd-army/human-priest.webp", "./assets/reuse/hd-army/demonlord-samurai.webp",
   './src/hd-army-art.js', "./assets/reuse/hd-army/human-1-atlas.webp", "./assets/reuse/hd-army/human-vanguard.webp", "./assets/reuse/hd-army/human-archer.webp", "./assets/reuse/hd-army/undead-7-atlas.webp", "./assets/reuse/hd-army/orc-3-atlas.webp", "./assets/reuse/hd-army/orc-2-atlas.webp",
   "./assets/reuse/vfx/arrows.png", "./assets/reuse/vfx/dark_mist.png", "./assets/reuse/vfx/icicle.png", "./assets/reuse/vfx/immunity.png", "./assets/reuse/vfx/lightning.png", "./assets/reuse/vfx/channel.png", "./assets/reuse/vfx/runes.png", "./assets/reuse/vfx/rupture.png", "./assets/reuse/vfx/spark_green.png", "./assets/reuse/vfx/spikes.png",
   "./assets/reuse/vfx/shield.png", "./assets/reuse/vfx/heal.png", "./assets/reuse/vfx/freeze.png", "./assets/reuse/vfx/cleave.png", "./assets/reuse/battlefield/open-field.webp", "./assets/reuse/battlefield/NOTICE.md", "./assets/reuse/vfx/NOTICE.md", "./assets/reuse/vfx/CREDITS.txt", "./assets/reuse/skeleton/LICENSE.txt", "./assets/reuse/heavy-soldier/LICENSE.txt",

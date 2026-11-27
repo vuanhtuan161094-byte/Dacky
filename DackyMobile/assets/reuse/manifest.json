@@ -1,6 +1,6 @@
 {
   "schema": "dacky-asset-factory-v1",
-  "state": "r4-hd-army-review-awaiting-ci",
+  "state": "r4c-fantasy-army-review-awaiting-ci",
   "sourceRepository": "https://github.com/vuanhtuan161094-byte/Heoofgaia",
   "sourceRef": "feature/hog1-research-to-playable-20261102",
   "assets": [
@@ -94,17 +94,24 @@
       192,
       204
     ],
-    "frameCount": 240,
-    "activeFamilies": 5,
+    "frameCount": 480,
+    "activeFamilies": 12,
     "files": {
       "human-1-atlas": "94a3d66b536370b8415aa76bd9d145c676114401",
       "human-vanguard": "cd7483118fc41b8f76929577c0a2b995e28a3a6f",
       "human-archer": "fbe712b8d6a73c15339d24d8882ca5ca9408b815",
       "undead-7-atlas": "4a88e322cfb234e0ad84603716a2e420bb45962d",
       "orc-3-atlas": "f2a90a9054a8e6593fd8cbda50bb558f991bb28b",
-      "orc-2-atlas": "7c85585208cd903e64cd6455c4825a855edbfed0"
+      "orc-2-atlas": "7c85585208cd903e64cd6455c4825a855edbfed0",
+      "human-7-atlas": "d69c64622e421cbdc5ffbd21c45dbefe88ca6870",
+      "elf-4-atlas": "fb6eb0b43170a5eb6648e88a38d6ecd98a3ab50c",
+      "elf-8-atlas": "2a442b296b667ec0c5dfb266347ef4725d18628b",
+      "undead-skeleton": "75ab99db7d536a08d879202b915790291c0c25d0",
+      "human-priest": "e73c204c94d982528be0e2d47be7a5555d4906a0",
+      "demonlord-samurai": "a4f09320d4fa134acfea7e99d47af4f61ae64257"
     },
-    "status": "experimental role mapping; Western fantasy art is not final Phong Than identity; orc axe thrower candidate only; ordinary cavalry retains native sprite",
-    "oldNpcArt": "disabled in shared battle renderer"
+    "status": "Owner approved Western fantasy as working art; 12 representative HD families, weapon/role mapping, ordinary cavalry/siege retain native fallback. Not twelve unique Dacky troop identities.",
+    "oldNpcArt": "disabled in shared battle renderer",
+    "ownerDecision": "2026-11-27: accept Western fantasy assets; prioritize clarity and combat animation"
   }
 }
