@@ -1,0 +1,79 @@
+[
+  {
+    "viewport": 1280,
+    "screen": "heroes",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "army",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "inventory",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "world",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "pve",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "tech",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "quests",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "market",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "reports",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "settings",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  },
+  {
+    "viewport": 1280,
+    "screen": "library",
+    "documentWidth": 1280,
+    "sceneWidth": 1244,
+    "visibleBrokenImages": 0
+  }
+]

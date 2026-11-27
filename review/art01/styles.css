@@ -1166,6 +1166,21 @@ body.startup-mode #primary-nav.game-dock{display:none!important}
 .art09-city .art06-production .city-production{background:#1b3429bb;padding:3px}
 body.hud-hide-cityLabels.art01-city-mode .city-extra-plot::before{display:none!important}
 
+/* ART13-preserving E1: no repaint, no new geometric artwork.
+   Improve sprite contact and HUD legibility without moving hit boxes. */
+.art01-city.art09-city .city-building[data-building-state="built"]:not([data-building="citadel"]):not([data-building="wall"]) .city-building-art img{filter:drop-shadow(1px 2px 1px #17291c70)}
+.art01-city.art09-city .city-building:is(:focus-visible,[aria-pressed="true"]) .city-building-level{outline:2px solid #e4c97b;outline-offset:2px}
+.art01-city.art09-city .city-building:focus-visible{outline:none}
+.art01-city.art09-city .city-building-info{overflow-wrap:anywhere;line-height:1.2}
+.art01-city.art09-city .city-building:is(:hover,:focus-visible,[aria-pressed="true"]){z-index:1001}
+.inventory-item,.quest-card,.panel-body,.world-layout>*{min-width:0}
+.inventory-item small,.quest-card p,.quest-objective small{overflow-wrap:anywhere;line-height:1.35}
+.inventory-item .button{max-width:100%;white-space:normal}
+.inventory-item .field select{max-width:100%;min-width:0}
+.field-row>*{min-width:0}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #e5c77d;outline-offset:2px}
+@media(max-width:480px){.inventory-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,145px),1fr))}.inventory-item small{font-size:10px}.field-row .button{white-space:normal}}
+
 /* ART13 premium warm jade + gilt, layered terrain and stateful building sprites. */
 body.art01-city-mode{--ink:#fff0d0;background:#183732}.art01-city-mode .topbar,.art01-city-mode .art07-toolbar,#primary-nav.game-dock{background:linear-gradient(180deg,#385250,#193833 50%,#112a27);border-color:#c49d56;box-shadow:inset 0 1px #eed39b30,0 2px 8px #10282077}
 .art01-city-mode .resource-pill{background:linear-gradient(#2d4945,#142e2c);border:1px solid #b78e4a80;border-radius:3px;box-shadow:inset 0 1px #dfc48322}.art01-city-mode .resource-value{color:#fff0bc;text-shadow:0 1px 2px #112820;font-weight:700}.art01-city-mode .resource-label{color:#e2d8b6}

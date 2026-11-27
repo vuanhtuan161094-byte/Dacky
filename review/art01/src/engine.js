@@ -281,7 +281,7 @@ export function migrateSave(input, now = Date.now()) {
     if(archivedLevels)s.notifications=[`Đã lưu trữ ${archivedLevels} cấp khoa kỹ cũ chưa có ánh xạ Mobile an toàn; các cấp này không cộng chỉ số runtime.`,...s.notifications].slice(0,12);
   }
   normalizeGameplay(s);
-  s.gameplay.worldDays = Object.fromEntries(['daily', 'field', 'chat'].flatMap(kind => {
+  s.gameplay.worldDays = Object.fromEntries(['daily', 'field', 'chat', 'laborTax'].flatMap(kind => {
     const day = s.gameplay.worldDays?.[kind];
     return Number.isSafeInteger(day) ? [[kind, day]] : [];
   }));
@@ -1252,7 +1252,7 @@ export function doAction(state, action, now = Date.now()) {
     case 'repairGear': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h||s.queues.march)throw Error('Thần tiên đang bận');const ids=Object.values(h.equipment??{}).filter(Boolean),loss=ids.reduce((n,id)=>n+100-(h.combatDurability?.[id]??100),0);if(!loss)throw Error('Trang bị không cần sửa');debit(s,{gold:Math.ceil(loss*5),iron:Math.ceil(loss/2)});h.combatDurability=Object.fromEntries(ids.map(id=>[id,100]));break;}
     case 'switchMatrix': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h?.matrices?.includes(action.itemId)||s.queues.march)throw Error('Ma trận chưa mở');h.activeMatrix=action.itemId;break;}
     case 'claimSourceQuest': {credit(s,claimSourceQuest(s,action.questId,productionPerHour));note(s,'Đã nhận thưởng nhiệm vụ legacy (mô phỏng).');break;}
-    case 'redeemQuestVouchers': {const count=clamp(Math.floor(Number(action.count)||1),1,Math.floor((s.gameplay.questVouchers||0)/1000));if(count<1)throw Error('Cần 1.000 thẻ quà nhiệm vụ để đổi 1 linh ngọc.');s.gameplay.questVouchers-=count*1000;credit(s,{jade:count});note(s,`Đã đổi ${count*1000} thẻ quà nhiệm vụ thành ${count} linh ngọc (tỷ lệ mô phỏng).`);break;}
+    case 'redeemQuestVouchers': {const max=Math.floor(Math.max(0,Number(s.gameplay.questVouchers)||0)/1000);if(max<1)throw Error('Cần 1.000 thẻ quà nhiệm vụ để đổi 1 linh ngọc.');const count=Math.min(max,Math.max(1,Math.floor(Number(action.count)||1)));s.gameplay.questVouchers-=count*1000;credit(s,{jade:count});note(s,`Đã đổi ${count*1000} thẻ quà nhiệm vụ thành ${count} linh ngọc (tỷ lệ mô phỏng).`);break;}
     case 'setTaxRate': {s.gameplay.taxRate=clamp(Math.floor(Number(action.rate)||0),0,50);s.taxPolicy=s.gameplay.taxRate<=10?'relief':s.gameplay.taxRate>=35?'heavy':'balanced';break;}
     case 'setLaborRate': {s.gameplay.laborRate=clamp(Math.floor(Number(action.rate)||0),0,100);break;}
     case 'bless': {debit(s,{gold:30});s.morale=clamp(s.morale+5,0,100);break;}
@@ -1261,7 +1261,7 @@ export function doAction(state, action, now = Date.now()) {
     case 'worldChat': {const day=Math.floor(now/86400000);if(s.gameplay.worldDays.chat===day)throw Error('Hôm nay đã gửi thư truyền âm.');debit(s,{gold:5});s.gameplay.worldDays.chat=day;break;}
     case 'disciplineLabor': {debit(s,{gold:30});s.morale=clamp(s.morale-1,0,100);break;}
     case 'relieveLabor': {debit(s,{food:100,gold:50});s.population=Math.min(populationCapacity(s),s.population+10);s.morale=clamp(s.morale+1,0,100);break;}
-    case 'collectLaborTaxes': {credit(s,{gold:100+Math.floor(s.population*.02)});s.morale=clamp(s.morale-2,0,100);break;}
+    case 'collectLaborTaxes': {const day=Math.floor(now/86400000);if(s.gameplay.worldDays.laborTax===day)throw Error('Đã trưng thu hôm nay.');if(s.morale<2)throw Error('Dân tâm quá thấp để trưng thu.');s.gameplay.worldDays.laborTax=day;credit(s,{gold:100+Math.floor(s.population*.02)});s.morale=clamp(s.morale-2,0,100);note(s,'Trưng thu một lần mỗi ngày (SIMULATED).');break;}
     case 'leaveMountain': {if((s.gameplay.mountainRank||0)<1)throw Error('Cần hoàn thành một chuyến Tiên Sơn trước khi rời núi.');break;}
     case 'changeFlag': {s.gameplay.flag=String(action.flag||'周').slice(0,4);break;}
     case 'officialPromote': {const n=s.gameplay.official+1;if(n>19||s.fame<n*n*100)throw Error('Thiếu danh vọng');debit(s,{gold:n*100});s.gameplay.official=n;break;}
