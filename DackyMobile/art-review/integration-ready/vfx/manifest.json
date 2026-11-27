@@ -1,0 +1,50 @@
+[
+  {
+    "path": "assets/visual/assets/battle-fx/bang235.webp",
+    "status": "HOLD",
+    "size": [
+      362,
+      432
+    ],
+    "expected": [
+      7602,
+      432
+    ]
+  },
+  {
+    "path": "assets/visual/assets/battle-fx/fire225.webp",
+    "status": "HOLD",
+    "size": [
+      154,
+      130
+    ],
+    "expected": [
+      1232,
+      130
+    ]
+  },
+  {
+    "path": "assets/visual/assets/battle-fx/fire272.webp",
+    "status": "HOLD",
+    "size": [
+      78,
+      70
+    ],
+    "expected": [
+      468,
+      70
+    ]
+  },
+  {
+    "path": "assets/visual/assets/battle-fx/bang717r.webp",
+    "status": "HOLD",
+    "size": [
+      510,
+      512
+    ],
+    "expected": [
+      12240,
+      512
+    ]
+  }
+]

@@ -1,0 +1,57 @@
+{
+  "normal": {
+    "path": "./assets/visual/assets/battle-fx/bang235.webp",
+    "width": 362,
+    "height": 432,
+    "frames": 21,
+    "durationMs": 2100,
+    "sourceEffect": "eff010_11",
+    "sourcePhase": "fire",
+    "sha256": "6279337bb98e42727fe40d326eeaa12296e86d088492050d5dcdcb2f86a2fb3c",
+    "evidence": "EXISTING_GENERIC_EFFECT_MAPPING"
+  },
+  "critical": {
+    "path": "./assets/visual/assets/battle-fx/fire225.webp",
+    "width": 154,
+    "height": 130,
+    "frames": 8,
+    "durationMs": 443,
+    "sourceEffect": "eff160",
+    "sourcePhase": "fire",
+    "sha256": "508fd6f5edc886ad2818bb11ad49c1153bb177141bf2452e548dfc4972589635",
+    "evidence": "EXISTING_GENERIC_EFFECT_MAPPING"
+  },
+  "skill": {
+    "path": "./assets/visual/assets/battle-fx/fire272.webp",
+    "width": 78,
+    "height": 70,
+    "frames": 6,
+    "durationMs": 856,
+    "sourceEffect": "eff707a",
+    "sourcePhase": "hurt",
+    "sha256": "c750eb46ebf1f6a54fac2fdf18e95b23814de881281e449706d12c7cbd7cdb98",
+    "evidence": "EXISTING_GENERIC_EFFECT_MAPPING"
+  },
+  "magic": {
+    "path": "./assets/visual/assets/battle-fx/bang717r.webp",
+    "width": 510,
+    "height": 512,
+    "frames": 24,
+    "durationMs": 1999,
+    "sourceEffect": "eff717r",
+    "sourcePhase": "bang",
+    "sha256": "57a446723dee0f263ea5e0b437152a105ce95377107cc3ad8779907a0063ecec",
+    "evidence": "EXISTING_GENERIC_EFFECT_MAPPING"
+  },
+  "artifact": {
+    "path": "./assets/visual/assets/battle-fx/bang717r.webp",
+    "width": 510,
+    "height": 512,
+    "frames": 24,
+    "durationMs": 1999,
+    "sourceEffect": "eff717r",
+    "sourcePhase": "bang",
+    "sha256": "57a446723dee0f263ea5e0b437152a105ce95377107cc3ad8779907a0063ecec",
+    "evidence": "EXISTING_GENERIC_EFFECT_MAPPING"
+  }
+}

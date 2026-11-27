@@ -1,0 +1,347 @@
+{
+  "technology": [
+    {
+      "id": "tech-01",
+      "name": "Canh tác thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_31.jpg"
+    },
+    {
+      "id": "tech-02",
+      "name": "Đốn mộc thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_32.jpg"
+    },
+    {
+      "id": "tech-03",
+      "name": "Khai thạch thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_33.jpg"
+    },
+    {
+      "id": "tech-04",
+      "name": "Luyện kim thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_34.jpg"
+    },
+    {
+      "id": "tech-05",
+      "name": "Thuế khoá thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_35.jpg"
+    },
+    {
+      "id": "tech-08",
+      "name": "Kiến trúc thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_37.jpg"
+    },
+    {
+      "id": "tech-06",
+      "name": "Thương khố thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_38.jpg"
+    },
+    {
+      "id": "tech-07",
+      "name": "Vận chuyển thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_36.jpg"
+    },
+    {
+      "id": "tech-09",
+      "name": "Chinh binh thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_39.jpg"
+    },
+    {
+      "id": "tech-11",
+      "name": "Quân phòng thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_44.jpg"
+    },
+    {
+      "id": "tech-10",
+      "name": "Quân công thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_40.jpg"
+    },
+    {
+      "id": "tech-16",
+      "name": "Hành quân thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_49.jpg"
+    },
+    {
+      "id": "tech-12",
+      "name": "Sĩ khí thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_51.jpg"
+    },
+    {
+      "id": "tech-13",
+      "name": "Lĩnh binh thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_45.jpg"
+    },
+    {
+      "id": "tech-14",
+      "name": "Trinh sát tiên pháp",
+      "art": "./assets/mobile-source/assets/tech/n_tech_46.jpg"
+    },
+    {
+      "id": "tech-15",
+      "name": "Trinh sát tài nguyên",
+      "art": "./assets/mobile-source/assets/tech/n_tech_47.jpg"
+    },
+    {
+      "id": "tech-17",
+      "name": "Trinh sát quân đội",
+      "art": "./assets/mobile-source/assets/tech/n_tech_48.jpg"
+    },
+    {
+      "id": "tech-18",
+      "name": "Thần phòng thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_41.jpg"
+    },
+    {
+      "id": "tech-19",
+      "name": "Tiết pháp thuật",
+      "art": "./assets/mobile-source/assets/tech/n_tech_42.jpg"
+    }
+  ],
+  "buildings": [
+    {
+      "id": "citadel",
+      "name": "Tử Vi Thành",
+      "sourceArt": null,
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "barracks",
+      "name": "Trại lính",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_BARBACK_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "granary",
+      "name": "Linh Thương",
+      "sourceArt": null,
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "lumber",
+      "name": "Trại gỗ",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "quarry",
+      "name": "Mỏ đá",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_QUARRY_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "foundry",
+      "name": "Lò rèn",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "market",
+      "name": "Chợ",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_FSMARKET_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "academy",
+      "name": "Tu Tiên Viện",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_SCHOOL_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "altar",
+      "name": "Nhà chiêu mộ",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_CALLHERO_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "manor",
+      "name": "Tiên Gia Phủ",
+      "sourceArt": null,
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "training",
+      "name": "Diễn võ trường",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_GYMKHANA_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "clinic",
+      "name": "Bệnh viện",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_HOSPITAL_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "wall",
+      "name": "Tường thành",
+      "sourceArt": null,
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "watch",
+      "name": "Phong hỏa đài",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "storehouse",
+      "name": "Càn Khôn Khố",
+      "sourceArt": null,
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "farm",
+      "name": "Ruộng lúa",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_CROPLAND_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "grove",
+      "name": "Thanh Long Lâm",
+      "sourceArt": null,
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "mine",
+      "name": "Địa Mạch Khoáng",
+      "sourceArt": null,
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "foundryfield",
+      "name": "Mỏ đồng",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_IRONOREFIELD_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "embassy",
+      "name": "Miếu bang hội",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_HONGLUTEMPLE_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "caravan",
+      "name": "Trạm dịch",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_DAK_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "government",
+      "name": "Phủ quan",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_GOVERNMENT_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "housing",
+      "name": "Nhà dân",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_HOUSE_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "hostel",
+      "name": "Khách điếm",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_HOSTEL_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "workshop",
+      "name": "Xưởng chế tạo",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_ARTISANWORKSHOP_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "skirmisher",
+      "name": "Trại khinh binh",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_SkirmisherBarrack_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    },
+    {
+      "id": "stable",
+      "name": "Chuồng ngựa",
+      "sourceArt": "./assets/mobile-source/flash/city/RES_HORSESTALL_IMAGE.png",
+      "activeArtPolicy": "ART13_LOCK_NO_SUBSTITUTION"
+    }
+  ],
+  "resources": [
+    {
+      "id": "food",
+      "name": "Lương thực"
+    },
+    {
+      "id": "timber",
+      "name": "Gỗ"
+    },
+    {
+      "id": "stone",
+      "name": "Đá"
+    },
+    {
+      "id": "iron",
+      "name": "Sắt"
+    },
+    {
+      "id": "gold",
+      "name": "Đồng"
+    },
+    {
+      "id": "jade",
+      "name": "Linh ngọc"
+    }
+  ],
+  "sharedUI": [
+    {
+      "path": "./assets/visual/assets/blr-ui/khung.png",
+      "sha256": "6813475eb9721af63479a140024ba951cd60242c3e62893fdc4df544f1391dbc"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/nut-dong.png",
+      "sha256": "c37998dccb697502242c5c63f436088af7b244e9f434bc35f254ae36c129058f"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/nut-vang.png",
+      "sha256": "d187dc4bdcc872f82c13137f376f3fe01c962614a228be6631bf5fafd9ffa1b9"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/nut-xanh.png",
+      "sha256": "45b337429bad353681f2abc4941cdf6ef604cc0cf4f88fb23277922790a32d9c"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/nut-xam.png",
+      "sha256": "38728676c1b34d589201848d5c6e6a93daf2265929e65de082184c49368c50e6"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/tab-toi.png",
+      "sha256": "ee84886d9724e8a2d434526b2250542fed08d4abcf712ba05b853661f3a8cd44"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/tab-sang.png",
+      "sha256": "1a6c05616947be3030d63d243a6bafcdce8ff05e0c5dbb47de21f5f2aea8a78d"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/gach.png",
+      "sha256": "2093511278807d31b80aa16b31778619f1e4358e16e42add4e4b9a212cbe2654"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/nhan-xanh.png",
+      "sha256": "706e8a9314205a62de2e6541c4d676ad5ce4bc70c428881516fa9eb95086a2d7"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/than-tuong/nen-muc.webp",
+      "sha256": "b0a1a2183aa01f2d7248326a532089dd8accc76557eaa26a612e8b8a429ef0f3"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/than-tuong/hao-quang.png",
+      "sha256": "2e1da97098028e138ae415ff93a6064291f31a0aad7529f874ed3a44a34146e7"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/than-tuong/thanh-nen.png",
+      "sha256": "88aa8f7e7d140eb533b5892bd6cddb000f857882be90eaa92b7c590ca91f18ee"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/than-tuong/thanh-tu-vi.png",
+      "sha256": "753134d5fdea0385ca31758e4dd09b5a5225a5870a7cb2d463283672cee1e940"
+    },
+    {
+      "path": "./assets/visual/assets/blr-ui/than-tuong/vong-phep.png",
+      "sha256": "e3af9379aacd141f27c1752e09e3cc960c415c1483e9cf09676036a4859ab20d"
+    }
+  ]
+}

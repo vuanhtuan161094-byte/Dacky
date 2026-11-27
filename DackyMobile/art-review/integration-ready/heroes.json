@@ -1,0 +1,4322 @@
+[
+  {
+    "id": "hero-01",
+    "name": "Khương Tử Nha",
+    "sourceId": "khuong-tu-nha",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/221.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-02",
+    "name": "Na Tra",
+    "sourceId": "na-tra",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/123.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-03",
+    "name": "Dương Tiễn",
+    "sourceId": "duong-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/137.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-04",
+    "name": "Hoàng Phi Hổ",
+    "sourceId": "hoang-phi-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/109.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-05",
+    "name": "Lôi Chấn Tử",
+    "sourceId": "loi-chan-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/115.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-06",
+    "name": "Đặng Thiền Ngọc",
+    "sourceId": "dang-thien-ngoc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/102.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-07",
+    "name": "Long Cát Công Chúa",
+    "sourceId": "long-cat-cong-chua",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/224.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-08",
+    "name": "Vi Na",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-09",
+    "name": "Hàn Độc Long",
+    "sourceId": "han-doc-long",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-10",
+    "name": "Tô Hộ",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-11",
+    "name": "Bạch Hạc Đồng Tử",
+    "sourceId": "bach-hac-dong-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-12",
+    "name": "Ân Giao",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-13",
+    "name": "Tần Hoàn",
+    "sourceId": "tan-hoan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/995.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-14",
+    "name": "Triệu Công Minh",
+    "sourceId": "trieu-cong-minh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/219.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-15",
+    "name": "Văn Trọng",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-16",
+    "name": "Thân Công Báo",
+    "sourceId": "than-cong-bao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/222.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-17",
+    "name": "Cơ Phát",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-18",
+    "name": "Thạch Cơ",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-19",
+    "name": "Lê Sơn Lão Mẫu",
+    "sourceId": "le-son-lao-mau",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/803.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-20",
+    "name": "Nam Cực Tiên Ông",
+    "sourceId": "nam-cuc-tien-ong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/801.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-21",
+    "name": "Thiên Bồng Nguyên Soái",
+    "sourceId": "thien-bong-nguyen-soai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/802.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-22",
+    "name": "Biện Đại Tiên",
+    "sourceId": "bien-dai-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/65.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-23",
+    "name": "Điền Tiểu Tiên",
+    "sourceId": "dien-tieu-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/35.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-24",
+    "name": "Lý Thượng Tiên",
+    "sourceId": "ly-thuong-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-25",
+    "name": "Thái Thượng Lão Quân",
+    "sourceId": "thai-thuong-lao-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/800.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-26",
+    "name": "Thái Tiểu Tiên",
+    "sourceId": "thai-tieu-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/17.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-27",
+    "name": "Tiền Đại Tiên",
+    "sourceId": "tien-dai-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-28",
+    "name": "Bà Triệu",
+    "sourceId": "ba-trieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/3002.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-29",
+    "name": "Bà Trưng",
+    "sourceId": "ba-trung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/3001.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-30",
+    "name": "Bách Giám",
+    "sourceId": "bach-giam",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-31",
+    "name": "Câu Mang",
+    "sourceId": "cau-mang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/957.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-32",
+    "name": "Chúc Cửu Âm",
+    "sourceId": "chuc-cuu-am",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/938.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-33",
+    "name": "Chúc Dung",
+    "sourceId": "chuc-dung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/913.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-34",
+    "name": "Chung Quỳ",
+    "sourceId": "chung-quy",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/228.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-35",
+    "name": "Cộng Công",
+    "sourceId": "cong-cong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/959.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-36",
+    "name": "Cường Lương",
+    "sourceId": "cuong-luong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/990.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-37",
+    "name": "Đế Giang",
+    "sourceId": "de-giang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/972.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-38",
+    "name": "Hấp Tư",
+    "sourceId": "hap-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/922.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-39",
+    "name": "Hậu Thổ",
+    "sourceId": "hau-tho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/910.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-40",
+    "name": "Hồ Xuân Hương",
+    "sourceId": "ho-xuan-huong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/3003.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-41",
+    "name": "Huyền Minh",
+    "sourceId": "huyen-minh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/908.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-42",
+    "name": "Hưng Đạo Vương",
+    "sourceId": "hung-dao-vuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3004.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-43",
+    "name": "Khổng Tuyên",
+    "sourceId": "khong-tuyen",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/227.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-44",
+    "name": "Long Khanh",
+    "sourceId": "long-khanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/225.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-45",
+    "name": "Lữ Nhạc",
+    "sourceId": "lu-nhac",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/139.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-46",
+    "name": "Nhục Thu",
+    "sourceId": "nhuc-thu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/917.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-47",
+    "name": "Thánh Gióng",
+    "sourceId": "thanh-giong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3005.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-48",
+    "name": "Thiên Hạo",
+    "sourceId": "thien-hao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/965.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-49",
+    "name": "Vân Tiêu Tiên Tử",
+    "sourceId": "van-tieu-tien-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/111.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-50",
+    "name": "Viên Hồng",
+    "sourceId": "vien-hong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/226.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-51",
+    "name": "Xa Tỷ Thi",
+    "sourceId": "xa-ty-thi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/974.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-52",
+    "name": "Côn Bằng",
+    "sourceId": "con-bang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/956.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-53",
+    "name": "Đế Tuấn",
+    "sourceId": "de-tuan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/960.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-54",
+    "name": "Thái Nhất",
+    "sourceId": "thai-nhat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/942.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-55",
+    "name": "Biện Thành Vương Tất",
+    "sourceId": "bien-thanh-vuong-tat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/937.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-56",
+    "name": "Bình Đẳng Vương Lục",
+    "sourceId": "binh-dang-vuong-luc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/980.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-57",
+    "name": "Chuyển Luân Vương Tiết",
+    "sourceId": "chuyen-luan-vuong-tiet",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/986.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-58",
+    "name": "Cụ Lưu Tôn",
+    "sourceId": "cu-luu-ton",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/975.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-59",
+    "name": "Diêm La Thiên Tử Bao",
+    "sourceId": "diem-la-thien-tu-bao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/964.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-60",
+    "name": "Đạo Hạnh Thiên Tôn",
+    "sourceId": "dao-hanh-thien-ton",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/961.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-61",
+    "name": "Đô Thị Vương Hoàng",
+    "sourceId": "do-thi-vuong-hoang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/936.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-62",
+    "name": "Hạo Đình Tiêu Độ",
+    "sourceId": "hao-dinh-tieu-do",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/926.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-63",
+    "name": "Hoàng Long Chân Nhân",
+    "sourceId": "hoang-long-chan-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/994.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-64",
+    "name": "Linh Bảo Đại Pháp Sư",
+    "sourceId": "linh-bao-dai-phap-su",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/944.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-65",
+    "name": "Ngọc Đỉnh Chân Nhân",
+    "sourceId": "ngoc-dinh-chan-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/140.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-66",
+    "name": "Ngũ Quan Vương Lữ",
+    "sourceId": "ngu-quan-vuong-lu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/952.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-67",
+    "name": "Nguyên Tái Khổng Thăng",
+    "sourceId": "nguyen-tai-khong-thang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/939.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-68",
+    "name": "Phổ Hiền Chân Nhân",
+    "sourceId": "pho-hien-chan-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/21.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-69",
+    "name": "Quảng Thành Tử",
+    "sourceId": "quang-thanh-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/933.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-70",
+    "name": "Sở Giang Vương Lịch",
+    "sourceId": "so-giang-vuong-lich",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/984.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-71",
+    "name": "Tần Quảng Vương Tưởng",
+    "sourceId": "tan-quang-vuong-tuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/943.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-72",
+    "name": "Thái Ất Chân Nhân",
+    "sourceId": "thai-at-chan-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/131.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-73",
+    "name": "Thái Hoàng Hoàng Tăng",
+    "sourceId": "thai-hoang-hoang-tang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/977.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-74",
+    "name": "Thái Sơn Vương Đổng",
+    "sourceId": "thai-son-vuong-dong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/923.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-75",
+    "name": "Thanh Hư Đạo Đức Chân Quân",
+    "sourceId": "thanh-hu-dao-duc-chan-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/998.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-76",
+    "name": "Tống Đế Vương Dư",
+    "sourceId": "tong-de-vuong-du",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/966.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-77",
+    "name": "Từ Hàng Đạo Nhân",
+    "sourceId": "tu-hang-dao-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/948.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-78",
+    "name": "Văn Thù Quảng Pháp Thiên Tôn",
+    "sourceId": "van-thu-quang-phap-thien-ton",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/134.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-79",
+    "name": "Vi Hộ",
+    "sourceId": "vi-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/120.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-80",
+    "name": "Vô Đang Thánh Mẫu",
+    "sourceId": "vo-dang-thanh-mau",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/200.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-81",
+    "name": "Vũ Dực Tiên",
+    "sourceId": "vu-duc-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/203.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-82",
+    "name": "Xá Lợi Phất",
+    "sourceId": "xa-loi-phat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/979.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-83",
+    "name": "Xích Minh Hòa Dương",
+    "sourceId": "xich-minh-hoa-duong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/912.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-84",
+    "name": "Xích Tinh Tử",
+    "sourceId": "xich-tinh-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/928.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-85",
+    "name": "Bành Tổ Thọ",
+    "sourceId": "banh-to-tho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/207.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-86",
+    "name": "Diệu Minh Tông Phiêu",
+    "sourceId": "dieu-minh-tong-phieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/920.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-87",
+    "name": "Đại Minh Ngọc Hoàn",
+    "sourceId": "dai-minh-ngoc-hoan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/999.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-88",
+    "name": "Đát Kỷ",
+    "sourceId": "dat-ky",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/217.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-89",
+    "name": "Đặng Cửu Công",
+    "sourceId": "dang-cuu-cong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/106.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-90",
+    "name": "Địa Linh Thánh Mẫu",
+    "sourceId": "dia-linh-thanh-mau",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/201.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-91",
+    "name": "Hiển Định Cực Phong",
+    "sourceId": "hien-dinh-cuc-phong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/941.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-92",
+    "name": "Hoàng Thiên Hóa",
+    "sourceId": "hoang-thien-hoa",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/223.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-93",
+    "name": "Huyền Minh Cung Hoa",
+    "sourceId": "huyen-minh-cung-hoa",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/989.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-94",
+    "name": "Huyền Thai Bình Dục",
+    "sourceId": "huyen-thai-binh-duc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/914.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-95",
+    "name": "Ngô Long",
+    "sourceId": "ngo-long",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/213.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-96",
+    "name": "Phòng Cảnh Nguyên",
+    "sourceId": "phong-canh-nguyen",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/205.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-97",
+    "name": "Thái An Hoàng Nhai",
+    "sourceId": "thai-an-hoang-nhai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/953.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-98",
+    "name": "Thái Tố Tú Lạc",
+    "sourceId": "thai-to-tu-lac",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/987.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-99",
+    "name": "Thái Văn Hàn Sủng",
+    "sourceId": "thai-van-han-sung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/976.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-100",
+    "name": "Thanh Minh Hà Đồng",
+    "sourceId": "thanh-minh-ha-dong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/924.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-101",
+    "name": "Thủy Hoàng Hiếu Mang",
+    "sourceId": "thuy-hoang-hieu-mang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/978.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-102",
+    "name": "Thường Hạo",
+    "sourceId": "thuong-hao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/202.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-103",
+    "name": "Trúc Lạc Hoàng Già",
+    "sourceId": "truc-lac-hoang-gia",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/962.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-104",
+    "name": "Uyên Thông Viên Động",
+    "sourceId": "uyen-thong-vien-dong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/929.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-105",
+    "name": "Vương Biến",
+    "sourceId": "vuong-bien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/916.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-106",
+    "name": "Diêu Bân",
+    "sourceId": "dieu-ban",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/963.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-107",
+    "name": "Hoàng Thiên Tường",
+    "sourceId": "hoang-thien-tuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/958.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-108",
+    "name": "Hư Minh Linh Diệu",
+    "sourceId": "hu-minh-linh-dieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-109",
+    "name": "Hư Vô Ngọc Hành",
+    "sourceId": "hu-vo-ngoc-hanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-110",
+    "name": "Kim Quang Thánh Mẫu",
+    "sourceId": "kim-quang-thanh-mau",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/992.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-111",
+    "name": "Long Biến Phạm Độ",
+    "sourceId": "long-bien-pham-do",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-112",
+    "name": "Ma Lễ Hải",
+    "sourceId": "ma-le-hai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/210.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-113",
+    "name": "Ma Lễ Hồng",
+    "sourceId": "ma-le-hong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/209.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-114",
+    "name": "Ma Lễ Thanh",
+    "sourceId": "ma-le-thanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/208.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-115",
+    "name": "Ma Lễ Thọ",
+    "sourceId": "ma-le-tho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/211.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-116",
+    "name": "Nguyên Minh Văn Cử",
+    "sourceId": "nguyen-minh-van-cu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/951.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-117",
+    "name": "Nữ Mị",
+    "sourceId": "nu-mi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/967.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-118",
+    "name": "Pháp Giới",
+    "sourceId": "phap-gioi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/204.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-119",
+    "name": "Phong Bá",
+    "sourceId": "phong-ba",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/982.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-120",
+    "name": "Tát Dũng",
+    "sourceId": "tat-dung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/216.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-121",
+    "name": "Thái Cực Bình Dục",
+    "sourceId": "thai-cuc-binh-duc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-122",
+    "name": "Thái Cực Mông Ế",
+    "sourceId": "thai-cuc-mong-e",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-123",
+    "name": "Thái Hoán Cực Diêu",
+    "sourceId": "thai-hoan-cuc-dieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-124",
+    "name": "Thái Hoàng Ông Trọng",
+    "sourceId": "thai-hoang-ong-trong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-125",
+    "name": "Thái Hư Vô Thượng",
+    "sourceId": "thai-hu-vo-thuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-126",
+    "name": "Thái Thích Ngọc Long",
+    "sourceId": "thai-thich-ngoc-long",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-127",
+    "name": "Thất Diệu Ma Di",
+    "sourceId": "that-dieu-ma-di",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/954.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-128",
+    "name": "Thiên Minh Cung Khánh",
+    "sourceId": "thien-minh-cung-khanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-129",
+    "name": "Thuyết Minh Đoan Tĩnh",
+    "sourceId": "thuyet-minh-doan-tinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-130",
+    "name": "Thượng Điệp Viên Lạc",
+    "sourceId": "thuong-diep-vien-lac",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-131",
+    "name": "Tôn Lương",
+    "sourceId": "ton-luong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/931.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-132",
+    "name": "Vô Cực Uẩn Thệ",
+    "sourceId": "vo-cuc-uan-the",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-133",
+    "name": "Vô Tư Giang Du",
+    "sourceId": "vo-tu-giang-du",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-134",
+    "name": "A Na Luật",
+    "sourceId": "a-na-luat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-135",
+    "name": "A Nan Đà",
+    "sourceId": "a-nan-da",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-136",
+    "name": "Biến Thị",
+    "sourceId": "bien-thi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-137",
+    "name": "Ca Chiên Diên",
+    "sourceId": "ca-chien-dien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-138",
+    "name": "Diệu Nhãn",
+    "sourceId": "dieu-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-139",
+    "name": "Diệu Thán",
+    "sourceId": "dieu-than",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-140",
+    "name": "Đại Ca Diếp",
+    "sourceId": "dai-ca-diep",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-141",
+    "name": "Đổng Toàn",
+    "sourceId": "dong-toan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-142",
+    "name": "Hàn Biến",
+    "sourceId": "han-bien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/981.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-143",
+    "name": "Hàn Thăng",
+    "sourceId": "han-thang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/988.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-144",
+    "name": "Hỏa Linh Thánh Mẫu",
+    "sourceId": "hoa-linh-thanh-mau",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/108.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-145",
+    "name": "Kim Tra",
+    "sourceId": "kim-tra",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/907.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-146",
+    "name": "La Hầu La",
+    "sourceId": "la-hau-la",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-147",
+    "name": "Lôi Âm",
+    "sourceId": "loi-am",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-148",
+    "name": "Lưu Phủ",
+    "sourceId": "luu-phu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/969.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-149",
+    "name": "Lý Đức",
+    "sourceId": "ly-duc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-150",
+    "name": "Ma Diệu",
+    "sourceId": "ma-dieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-151",
+    "name": "Mộc Tra",
+    "sourceId": "moc-tra",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/122.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-152",
+    "name": "Mục Kiền Liên",
+    "sourceId": "muc-kien-lien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-153",
+    "name": "Mỹ Âm",
+    "sourceId": "my-am",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-154",
+    "name": "Ngao Nhuận",
+    "sourceId": "ngao-nhuan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/900.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-155",
+    "name": "Nhân Âm",
+    "sourceId": "nhan-am",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-156",
+    "name": "Phạm Âm",
+    "sourceId": "pham-am",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-157",
+    "name": "Phạm Hưởng",
+    "sourceId": "pham-huong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-158",
+    "name": "Phật Nô",
+    "sourceId": "phat-no",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-159",
+    "name": "Phú Lâu Na",
+    "sourceId": "phu-lau-na",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-160",
+    "name": "Quảng Mục",
+    "sourceId": "quang-muc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-161",
+    "name": "Quỳnh Tiêu Tiên Tử",
+    "sourceId": "quynh-tieu-tien-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/109.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-162",
+    "name": "Sùng Hắc Hổ",
+    "sourceId": "sung-hac-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/927.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-163",
+    "name": "Sư Tử",
+    "sourceId": "su-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-164",
+    "name": "Thán Diệu",
+    "sourceId": "than-dieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-165",
+    "name": "Thán Mỹ",
+    "sourceId": "than-my",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-166",
+    "name": "Thiên Cổ",
+    "sourceId": "thien-co",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-167",
+    "name": "Trần Kỳ",
+    "sourceId": "tran-ky",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-168",
+    "name": "Triệt Thị",
+    "sourceId": "triet-thi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-169",
+    "name": "Triệt Thính",
+    "sourceId": "triet-thinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-170",
+    "name": "Trịnh Luân",
+    "sourceId": "trinh-luan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/949.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-171",
+    "name": "Trương Thiệu",
+    "sourceId": "truong-thieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-172",
+    "name": "Tu Bồ Đề",
+    "sourceId": "tu-bo-de",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-173",
+    "name": "Tụng Đức",
+    "sourceId": "tung-duc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-174",
+    "name": "Ứng Long",
+    "sourceId": "ung-long",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-175",
+    "name": "Ưu Ba Ly",
+    "sourceId": "uu-ba-ly",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-176",
+    "name": "Viên Giác",
+    "sourceId": "vien-giac",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-177",
+    "name": "Vũ Cát",
+    "sourceId": "vu-cat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/206.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-178",
+    "name": "Vũ Sư",
+    "sourceId": "vu-su",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/2.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-179",
+    "name": "Bá Ấp Khảo",
+    "sourceId": "ba-ap-khao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/218.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-180",
+    "name": "Bách Lễ",
+    "sourceId": "bach-le",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-181",
+    "name": "Bàng Hồng",
+    "sourceId": "bang-hong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/955.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-182",
+    "name": "Cao Kế Năng",
+    "sourceId": "cao-ke-nang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/947.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-183",
+    "name": "Cát Lập",
+    "sourceId": "cat-lap",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/993.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-184",
+    "name": "Dư Hóa Long",
+    "sourceId": "du-hoa-long",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/940.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-185",
+    "name": "Dư Khánh",
+    "sourceId": "du-khanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/919.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-186",
+    "name": "Đái Lễ",
+    "sourceId": "dai-le",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-187",
+    "name": "Hoàng Canh",
+    "sourceId": "hoang-canh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-188",
+    "name": "Kim Đại Thăng",
+    "sourceId": "kim-dai-thang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-189",
+    "name": "Kim Tố",
+    "sourceId": "kim-to",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-190",
+    "name": "Long Thành",
+    "sourceId": "long-thanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-191",
+    "name": "Tát Cường",
+    "sourceId": "tat-cuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/215.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-192",
+    "name": "Thôi Anh",
+    "sourceId": "thoi-anh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/983.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-193",
+    "name": "Tưởng Hùng",
+    "sourceId": "tuong-hung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/932.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-194",
+    "name": "Văn Sính",
+    "sourceId": "van-sinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-195",
+    "name": "Cao Chấn",
+    "sourceId": "cao-chan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-196",
+    "name": "Cao Giác",
+    "sourceId": "cao-giac",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-197",
+    "name": "Cao Lan Anh",
+    "sourceId": "cao-lan-anh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/212.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-198",
+    "name": "Cao Thể Càn",
+    "sourceId": "cao-the-can",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/946.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-199",
+    "name": "Cố Tông",
+    "sourceId": "co-tong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-200",
+    "name": "Cơ Thúc Khôn",
+    "sourceId": "co-thuc-khon",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-201",
+    "name": "Dư Tri",
+    "sourceId": "du-tri",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-202",
+    "name": "Dương Sâm",
+    "sourceId": "duong-sam",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/973.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-203",
+    "name": "Đổng Trung",
+    "sourceId": "dong-trung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-204",
+    "name": "Khảo Cách",
+    "sourceId": "khao-cach",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-205",
+    "name": "Lỗ Tu Đức",
+    "sourceId": "lo-tu-duc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-206",
+    "name": "Lưu Hoàn",
+    "sourceId": "luu-hoan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-207",
+    "name": "Lý Hưng Bá",
+    "sourceId": "ly-hung-ba",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/925.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-208",
+    "name": "Lý Toại",
+    "sourceId": "ly-toai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-209",
+    "name": "Ngao Khâm",
+    "sourceId": "ngao-kham",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/904.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-210",
+    "name": "Ngao Quang",
+    "sourceId": "ngao-quang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/905.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-211",
+    "name": "Ngao Thuận",
+    "sourceId": "ngao-thuan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/902.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-212",
+    "name": "Quách Thần",
+    "sourceId": "quach-than",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/997.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-213",
+    "name": "Quan Bân",
+    "sourceId": "quan-ban",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-214",
+    "name": "Thổ Hành Tôn",
+    "sourceId": "tho-hanh-ton",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/133.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-215",
+    "name": "Triệt Địa Phu Nhân",
+    "sourceId": "triet-dia-phu-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/107.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-216",
+    "name": "Triệu Giang",
+    "sourceId": "trieu-giang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-217",
+    "name": "Vương Ma",
+    "sourceId": "vuong-ma",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/930.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-218",
+    "name": "Cách Cao",
+    "sourceId": "cach-cao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-219",
+    "name": "Chu Chiêu",
+    "sourceId": "chu-chieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-220",
+    "name": "Cung Thiến",
+    "sourceId": "cung-thien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-221",
+    "name": "Đồng Trinh",
+    "sourceId": "dong-trinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-222",
+    "name": "Hạm Chi Tiên",
+    "sourceId": "ham-chi-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/104.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-223",
+    "name": "Hoàng Ô",
+    "sourceId": "hoang-o",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-224",
+    "name": "Lam Hổ",
+    "sourceId": "lam-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-225",
+    "name": "Ngô Tứ Ngọc",
+    "sourceId": "ngo-tu-ngoc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-226",
+    "name": "Phương Quý",
+    "sourceId": "phuong-quy",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/935.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-227",
+    "name": "Tát Kiên",
+    "sourceId": "tat-kien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/214.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-228",
+    "name": "Tống Lộc",
+    "sourceId": "tong-loc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-229",
+    "name": "Trương Kỳ",
+    "sourceId": "truong-ky",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-230",
+    "name": "Vương Giao",
+    "sourceId": "vuong-giao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-231",
+    "name": "Bích Tiêu Tiên Tử",
+    "sourceId": "bich-tieu-tien-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/110.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-232",
+    "name": "Cao Minh",
+    "sourceId": "cao-minh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/911.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-233",
+    "name": "Cẩu Chương",
+    "sourceId": "cau-chuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/934.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-234",
+    "name": "Khổng Thiên Triệu",
+    "sourceId": "khong-thien-trieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-235",
+    "name": "Khuông Ngọc",
+    "sourceId": "khuong-ngoc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-236",
+    "name": "Lưu Hành",
+    "sourceId": "luu-hanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-237",
+    "name": "Ôn Lương",
+    "sourceId": "on-luong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/915.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-238",
+    "name": "Phàn Hoán",
+    "sourceId": "phan-hoan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-239",
+    "name": "Quách Tị",
+    "sourceId": "quach-ti",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-240",
+    "name": "Tang Thành Đạo",
+    "sourceId": "tang-thanh-dao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-241",
+    "name": "Tất Hoàn",
+    "sourceId": "tat-hoan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-242",
+    "name": "Thạch Cơ Nương Nương",
+    "sourceId": "thach-co-nuong-nuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/106.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-243",
+    "name": "Thái Công",
+    "sourceId": "thai-cong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-244",
+    "name": "Thái Vân Tiên Tử",
+    "sourceId": "thai-van-tien-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/6.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-245",
+    "name": "Trần Nguyên",
+    "sourceId": "tran-nguyen",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-246",
+    "name": "Từ Cát",
+    "sourceId": "tu-cat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-247",
+    "name": "Vương Bình",
+    "sourceId": "vuong-binh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-248",
+    "name": "Ân Phá Bại",
+    "sourceId": "an-pha-bai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-249",
+    "name": "Bách Hữu Hoạn",
+    "sourceId": "bach-huu-hoan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-250",
+    "name": "Bích Thủy Du",
+    "sourceId": "bich-thuy-du",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-251",
+    "name": "Cang Kim Long",
+    "sourceId": "cang-kim-long",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-252",
+    "name": "Chân Nhân Thiên Đình",
+    "sourceId": "chan-nhan-thien-dinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-253",
+    "name": "Chẩn Thủy Dẫn",
+    "sourceId": "chan-thuy-dan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-254",
+    "name": "Chu Ký",
+    "sourceId": "chu-ky-2",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-255",
+    "name": "Chủy Hỏa Hầu",
+    "sourceId": "chuy-hoa-hau",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-256",
+    "name": "Cơ Công Minh",
+    "sourceId": "co-cong-minh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-257",
+    "name": "Cơ Thúc Đức",
+    "sourceId": "co-thuc-duc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-258",
+    "name": "Cơ Thủy Báo",
+    "sourceId": "co-thuy-bao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-259",
+    "name": "Diêu Trung",
+    "sourceId": "dieu-trung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-260",
+    "name": "Dực Hỏa Xà",
+    "sourceId": "duc-hoa-xa",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-261",
+    "name": "Đạo Sĩ Thiên Đình",
+    "sourceId": "dao-si-thien-dinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-262",
+    "name": "Đẩu Kim Ngưu",
+    "sourceId": "dau-kim-nguu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-263",
+    "name": "Đẩu Mộc Giải",
+    "sourceId": "dau-moc-giai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-264",
+    "name": "Đê Thổ Lạc",
+    "sourceId": "de-tho-lac",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-265",
+    "name": "Giác Mộc Giao",
+    "sourceId": "giac-moc-giao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-266",
+    "name": "Giáp Sĩ Thiên Đình",
+    "sourceId": "giap-si-thien-dinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-267",
+    "name": "Hắc Mộc Lan",
+    "sourceId": "hac-moc-lan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/6.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-268",
+    "name": "Hồ Thăng",
+    "sourceId": "ho-thang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-269",
+    "name": "Hộ Vệ Thiên Đình",
+    "sourceId": "ho-ve-thien-dinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-270",
+    "name": "Hư Nhật Thử",
+    "sourceId": "hu-nhat-thu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-271",
+    "name": "Khuê Mộc Lang",
+    "sourceId": "khue-moc-lang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-272",
+    "name": "Khương Văn Hoán",
+    "sourceId": "khuong-van-hoan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-273",
+    "name": "Kiều Khôn",
+    "sourceId": "kieu-khon",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-274",
+    "name": "Lâu Kim Cẩu",
+    "sourceId": "lau-kim-cau",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-275",
+    "name": "Liễu Thổ Chương",
+    "sourceId": "lieu-tho-chuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-276",
+    "name": "Mã Thiện",
+    "sourceId": "ma-thien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-277",
+    "name": "Mã Trung",
+    "sourceId": "ma-trung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-278",
+    "name": "Mai Bá",
+    "sourceId": "mai-ba",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/991.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-279",
+    "name": "Mão Nhật Kê",
+    "sourceId": "mao-nhat-ke",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-280",
+    "name": "Ngao Bính",
+    "sourceId": "ngao-binh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/101.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-281",
+    "name": "Ngô Khiêm",
+    "sourceId": "ngo-khiem",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-282",
+    "name": "Ngụy Bí",
+    "sourceId": "nguy-bi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-283",
+    "name": "Nguy Nguyệt Yến",
+    "sourceId": "nguy-nguyet-yen",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-284",
+    "name": "Ninh Tam Ích",
+    "sourceId": "ninh-tam-ich",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-285",
+    "name": "Nữ Thổ Bức",
+    "sourceId": "nu-tho-buc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-286",
+    "name": "Phòng Nhật Thố",
+    "sourceId": "phong-nhat-tho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-287",
+    "name": "Phương Cát",
+    "sourceId": "phuong-cat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-288",
+    "name": "Quỷ Kim Dương",
+    "sourceId": "quy-kim-duong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-289",
+    "name": "Sâm Thủy Viên",
+    "sourceId": "sam-thuy-vien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-290",
+    "name": "Tâm Nguyệt Hồ",
+    "sourceId": "tam-nguyet-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-291",
+    "name": "Tất Nguyệt Ô",
+    "sourceId": "tat-nguyet-o",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-292",
+    "name": "Thẩm Tiêu",
+    "sourceId": "tham-tieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-293",
+    "name": "Thất Hỏa Trư",
+    "sourceId": "that-hoa-tru",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-294",
+    "name": "Thủy Quan",
+    "sourceId": "thuy-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-295",
+    "name": "Thượng Sinh Tinh Quân",
+    "sourceId": "thuong-sinh-tinh-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-296",
+    "name": "Tiết Phong",
+    "sourceId": "tiet-phong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-297",
+    "name": "Tiêu Điện",
+    "sourceId": "tieu-dien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-298",
+    "name": "Tỉnh Mộc Hãn",
+    "sourceId": "tinh-moc-han",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-299",
+    "name": "Tinh Nhật Mã",
+    "sourceId": "tinh-nhat-ma",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-300",
+    "name": "Tôn Bảo",
+    "sourceId": "ton-bao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-301",
+    "name": "Trác Công",
+    "sourceId": "trac-cong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-302",
+    "name": "Trần Ngô",
+    "sourceId": "tran-ngo",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-303",
+    "name": "Triển Tử Giang",
+    "sourceId": "trien-tu-giang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-304",
+    "name": "Triều Điền",
+    "sourceId": "trieu-dien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-305",
+    "name": "Triệu Thiên Quân",
+    "sourceId": "trieu-thien-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-306",
+    "name": "Trương Linh Nguyệt",
+    "sourceId": "truong-linh-nguyet",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/3.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-307",
+    "name": "Trương Nguyệt Lộc",
+    "sourceId": "truong-nguyet-loc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-308",
+    "name": "Trường Nhĩ Định Quang Tiên",
+    "sourceId": "truong-nhi-dinh-quang-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-309",
+    "name": "Trương Sơn",
+    "sourceId": "truong-son",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-310",
+    "name": "Tu Thành",
+    "sourceId": "tu-thanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-311",
+    "name": "Từ Khôn",
+    "sourceId": "tu-khon",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/921.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-312",
+    "name": "Tư Lộc Tinh Quân",
+    "sourceId": "tu-loc-tinh-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-313",
+    "name": "Tư Mệnh Tinh Quân",
+    "sourceId": "tu-menh-tinh-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-314",
+    "name": "Uông Tường",
+    "sourceId": "uong-tuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-315",
+    "name": "Vĩ Hỏa Hổ",
+    "sourceId": "vi-hoa-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-316",
+    "name": "Vị Thổ Trĩ",
+    "sourceId": "vi-tho-tri",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-317",
+    "name": "Vương Hổ",
+    "sourceId": "vuong-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-318",
+    "name": "Âu Dương Thuần",
+    "sourceId": "au-duong-thuan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-319",
+    "name": "Bạch Hổ Tinh Quân",
+    "sourceId": "bach-ho-tinh-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-320",
+    "name": "Bão Long",
+    "sourceId": "bao-long",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-321",
+    "name": "Biện Kim Long",
+    "sourceId": "bien-kim-long",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-322",
+    "name": "Chí Tôn Ngọc",
+    "sourceId": "chi-ton-ngoc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-323",
+    "name": "Công Tôn Đạc",
+    "sourceId": "cong-ton-dac",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-324",
+    "name": "Cưu Mỗ",
+    "sourceId": "cuu-mo",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/9.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-325",
+    "name": "Diêu Kim Tú",
+    "sourceId": "dieu-kim-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-326",
+    "name": "Đậu Vinh",
+    "sourceId": "dau-vinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/918.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-327",
+    "name": "Đoàn Thanh",
+    "sourceId": "doan-thanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-328",
+    "name": "Đỗ Nguyên Tiển",
+    "sourceId": "do-nguyen-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-329",
+    "name": "Đổng Thiên Quân",
+    "sourceId": "dong-thien-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-330",
+    "name": "Hoàng Bính Khánh",
+    "sourceId": "hoang-binh-khanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-331",
+    "name": "Hồ Thiên Bằng",
+    "sourceId": "ho-thien-bang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-332",
+    "name": "Hỗ Văn Trường",
+    "sourceId": "ho-van-truong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-333",
+    "name": "Ích Toán Tinh Quân",
+    "sourceId": "ich-toan-tinh-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-334",
+    "name": "Khổng Thành",
+    "sourceId": "khong-thanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-335",
+    "name": "Khương Văn Lễ",
+    "sourceId": "khuong-van-le",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-336",
+    "name": "Kim Quang Tiên",
+    "sourceId": "kim-quang-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-337",
+    "name": "Linh Bảo Pháp Sư",
+    "sourceId": "linh-bao-phap-su",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-338",
+    "name": "Lôi Bằng",
+    "sourceId": "loi-bang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-339",
+    "name": "Lôi Khai",
+    "sourceId": "loi-khai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-340",
+    "name": "Lý Xương",
+    "sourceId": "ly-xuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-341",
+    "name": "Minh Văn Chương",
+    "sourceId": "minh-van-chuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-342",
+    "name": "Mộc Thiên La",
+    "sourceId": "moc-thien-la",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-343",
+    "name": "Ngạc Sùng Vũ",
+    "sourceId": "ngac-sung-vu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-344",
+    "name": "Phương Nghĩa Chân",
+    "sourceId": "phuong-nghia-chan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-345",
+    "name": "Thạch Thục Thông",
+    "sourceId": "thach-thuc-thong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-346",
+    "name": "Thân Lễ",
+    "sourceId": "than-le",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-347",
+    "name": "Thôi Cự Khanh",
+    "sourceId": "thoi-cu-khanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-348",
+    "name": "Tiền Bảo",
+    "sourceId": "tien-bao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-349",
+    "name": "Trần Canh",
+    "sourceId": "tran-canh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-350",
+    "name": "Trần Kế Chân",
+    "sourceId": "tran-ke-chan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-351",
+    "name": "Trần Quý Trinh",
+    "sourceId": "tran-quy-trinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-352",
+    "name": "Triệu Khải",
+    "sourceId": "trieu-khai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-353",
+    "name": "Trịnh Xuân",
+    "sourceId": "trinh-xuan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-354",
+    "name": "Trương Thiên Quân",
+    "sourceId": "truong-thien-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-355",
+    "name": "Trương Tiết",
+    "sourceId": "truong-tiet",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/950.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-356",
+    "name": "Từ Cái",
+    "sourceId": "tu-cai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-357",
+    "name": "Bá Di",
+    "sourceId": "ba-di",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/985.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-358",
+    "name": "Bá Đạt",
+    "sourceId": "ba-dat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-359",
+    "name": "Cầu Thủ Tiên",
+    "sourceId": "cau-thu-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-360",
+    "name": "Cự Môn Tinh Quân",
+    "sourceId": "cu-mon-tinh-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-361",
+    "name": "Diệp Trung",
+    "sourceId": "diep-trung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-362",
+    "name": "Dư Thành",
+    "sourceId": "du-thanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-363",
+    "name": "Địa Quan",
+    "sourceId": "dia-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-364",
+    "name": "Hoàng Cảnh Nguyên",
+    "sourceId": "hoang-canh-nguyen",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-365",
+    "name": "Hoàng Nguyên Tế",
+    "sourceId": "hoang-nguyen-te",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-366",
+    "name": "Hoắc Chi Nguyên",
+    "sourceId": "hoac-chi-nguyen",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-367",
+    "name": "Hồ Lôi",
+    "sourceId": "ho-loi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-368",
+    "name": "Kim Thái",
+    "sourceId": "kim-thai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-369",
+    "name": "Lỗ Chi",
+    "sourceId": "lo-chi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-370",
+    "name": "Lộc Tồn Tinh Quân",
+    "sourceId": "loc-ton-tinh-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/968.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-371",
+    "name": "Lý Cấn",
+    "sourceId": "ly-can",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-372",
+    "name": "Mã Phương",
+    "sourceId": "ma-phuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-373",
+    "name": "Mạnh Phi Khanh",
+    "sourceId": "manh-phi-khanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-374",
+    "name": "Phá Quân Tinh Quân",
+    "sourceId": "pha-quan-tinh-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-375",
+    "name": "Phương Thanh",
+    "sourceId": "phuong-thanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-376",
+    "name": "Sùng Hầu Hổ",
+    "sourceId": "sung-hau-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-377",
+    "name": "Thẩm Khiêm",
+    "sourceId": "tham-khiem",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-378",
+    "name": "Thiệu Công",
+    "sourceId": "thieu-cong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-379",
+    "name": "Thúc Tề",
+    "sourceId": "thuc-te",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-380",
+    "name": "Tiêu Ngân",
+    "sourceId": "tieu-ngan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-381",
+    "name": "Tổ Lâm",
+    "sourceId": "to-lam",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-382",
+    "name": "Tôn Tường",
+    "sourceId": "ton-tuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-383",
+    "name": "Triệu Thăng",
+    "sourceId": "trieu-thang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-384",
+    "name": "Trọng Đột",
+    "sourceId": "trong-dot",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-385",
+    "name": "Tuyết Linh Lung",
+    "sourceId": "tuyet-linh-lung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/12.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-386",
+    "name": "Tư Mã Khanh",
+    "sourceId": "tu-ma-khanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-387",
+    "name": "Từ Phương",
+    "sourceId": "tu-phuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-388",
+    "name": "Từ Trung",
+    "sourceId": "tu-trung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-389",
+    "name": "Vệ Ngọc Khanh",
+    "sourceId": "ve-ngoc-khanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-390",
+    "name": "Viên Thiên Quân",
+    "sourceId": "vien-thien-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-391",
+    "name": "Vũ Vinh",
+    "sourceId": "vu-vinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-392",
+    "name": "Vương Văn Khanh",
+    "sourceId": "vuong-van-khanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-393",
+    "name": "Bá Quát",
+    "sourceId": "ba-quat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-394",
+    "name": "Bách Hiển Trung",
+    "sourceId": "bach-hien-trung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-395",
+    "name": "Bạch Văn Thái",
+    "sourceId": "bach-van-thai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-396",
+    "name": "Cảnh Nhan",
+    "sourceId": "canh-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-397",
+    "name": "Cầm Xảo Vân",
+    "sourceId": "cam-xao-van",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/6.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-398",
+    "name": "Chu Canh",
+    "sourceId": "chu-canh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-399",
+    "name": "Chu Kỷ",
+    "sourceId": "chu-ky",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-400",
+    "name": "Cơ Thúc Thăng",
+    "sourceId": "co-thuc-thang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-401",
+    "name": "Diêu Thứ Lương",
+    "sourceId": "dieu-thu-luong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-402",
+    "name": "Giả Thành",
+    "sourceId": "gia-thanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-403",
+    "name": "Hạ Tường",
+    "sourceId": "ha-tuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-404",
+    "name": "Khương Trung",
+    "sourceId": "khuong-trung",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-405",
+    "name": "Kim Cô Tiên",
+    "sourceId": "kim-co-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-406",
+    "name": "Kim Thành",
+    "sourceId": "kim-thanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-407",
+    "name": "Liêm Trinh Tinh Quân",
+    "sourceId": "liem-trinh-tinh-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/945.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-408",
+    "name": "Long Tu Hổ",
+    "sourceId": "long-tu-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/909.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-409",
+    "name": "Mao Công Toại",
+    "sourceId": "mao-cong-toai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-410",
+    "name": "Ngạc Thuận",
+    "sourceId": "ngac-thuan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/971.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-411",
+    "name": "Phương Bật",
+    "sourceId": "phuong-bat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-412",
+    "name": "Tần Phi",
+    "sourceId": "tan-phi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-413",
+    "name": "Thái Vân Đồng Tử",
+    "sourceId": "thai-van-dong-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/11.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-414",
+    "name": "Thủy Hỏa Đồng Nhi",
+    "sourceId": "thuy-hoa-dong-nhi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/8.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-415",
+    "name": "Thường Lễ",
+    "sourceId": "thuong-le",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-416",
+    "name": "Tôn Diễm Hồng",
+    "sourceId": "ton-diem-hong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-417",
+    "name": "Tôn Hợp",
+    "sourceId": "ton-hop",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-418",
+    "name": "Tống Dị Nhân",
+    "sourceId": "tong-di-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-419",
+    "name": "Trần Canh",
+    "sourceId": "tran-canh-2",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-420",
+    "name": "Trần Cửu Công",
+    "sourceId": "tran-cuu-cong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-421",
+    "name": "Trọng Hốt",
+    "sourceId": "trong-hot",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-422",
+    "name": "Trương Phượng",
+    "sourceId": "truong-phuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-423",
+    "name": "Từ Hành",
+    "sourceId": "tu-hanh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-424",
+    "name": "Viên Đỉnh Tương",
+    "sourceId": "vien-dinh-tuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-425",
+    "name": "Vương Tá",
+    "sourceId": "vuong-ta",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-426",
+    "name": "Xa Khôn",
+    "sourceId": "xa-khon",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-427",
+    "name": "Xích Vân Đồng Tử",
+    "sourceId": "xich-van-dong-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-428",
+    "name": "Bá Cầm",
+    "sourceId": "ba-cam",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-429",
+    "name": "Chu Thăng",
+    "sourceId": "chu-thang",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-430",
+    "name": "Cửu Đầu Trĩ Kê Tinh",
+    "sourceId": "cuu-dau-tri-ke-tinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/970.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-431",
+    "name": "Diêu Thiếu Ty",
+    "sourceId": "dieu-thieu-ty",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-432",
+    "name": "Dư Huệ",
+    "sourceId": "du-hue",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-433",
+    "name": "Dư Tiên",
+    "sourceId": "du-tien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-434",
+    "name": "Hình Tam Loan",
+    "sourceId": "hinh-tam-loan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-435",
+    "name": "Hô Bách Nhan",
+    "sourceId": "ho-bach-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-436",
+    "name": "Kim Nam Đạo",
+    "sourceId": "kim-nam-dao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-437",
+    "name": "Lâm Thiện",
+    "sourceId": "lam-thien",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-438",
+    "name": "Lý Bình",
+    "sourceId": "ly-binh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-439",
+    "name": "Lý Dược",
+    "sourceId": "ly-duoc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-440",
+    "name": "Mai Đức",
+    "sourceId": "mai-duc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-441",
+    "name": "Minh Nguyệt Đồng Tử",
+    "sourceId": "minh-nguyet-dong-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-442",
+    "name": "Môn Đạo Chính",
+    "sourceId": "mon-dao-chinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-443",
+    "name": "Nam Cung Quát",
+    "sourceId": "nam-cung-quat",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/9.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-444",
+    "name": "Nhất Khí Tiên Mã Nguyên",
+    "sourceId": "nhat-khi-tien-ma-nguyen",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/996.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-445",
+    "name": "Phương Tướng",
+    "sourceId": "phuong-tuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-446",
+    "name": "Tán Nghi Sinh",
+    "sourceId": "tan-nghi-sinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-447",
+    "name": "Tề Công",
+    "sourceId": "te-cong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/10.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-448",
+    "name": "Thiên Quan",
+    "sourceId": "thien-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-449",
+    "name": "Thu Ly",
+    "sourceId": "thu-ly",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-450",
+    "name": "Tì Bà Tinh",
+    "sourceId": "ti-ba-tinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/105.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-451",
+    "name": "Tiết Ác Hổ",
+    "sourceId": "tiet-ac-ho",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-452",
+    "name": "Vương Báo",
+    "sourceId": "vuong-bao",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-453",
+    "name": "Ác Lai",
+    "sourceId": "ac-lai",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-454",
+    "name": "Ân Thành Tú",
+    "sourceId": "an-thanh-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-455",
+    "name": "Bạch Tước Đồng Tử",
+    "sourceId": "bach-tuoc-dong-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/98.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-456",
+    "name": "Chân Nhân Nhà Chu",
+    "sourceId": "chan-nhan-nha-chu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-457",
+    "name": "Chân Nhân Nhà Thương",
+    "sourceId": "chan-nhan-nha-thuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-458",
+    "name": "Chân Nhân Yêu Tộc",
+    "sourceId": "chan-nhan-yeu-toc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/9.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-459",
+    "name": "Cửu Lê",
+    "sourceId": "cuu-le",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/7.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-460",
+    "name": "Đạo Sĩ Nhà Chu",
+    "sourceId": "dao-si-nha-chu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/12.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-461",
+    "name": "Đạo Sĩ Nhà Thương",
+    "sourceId": "dao-si-nha-thuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-462",
+    "name": "Đạo Sĩ Yêu Tộc",
+    "sourceId": "dao-si-yeu-toc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/12.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-463",
+    "name": "Giáp Sĩ Nhà Chu",
+    "sourceId": "giap-si-nha-chu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-464",
+    "name": "Giáp Sĩ Nhà Thương",
+    "sourceId": "giap-si-nha-thuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-465",
+    "name": "Giáp Sĩ Yêu Tộc",
+    "sourceId": "giap-si-yeu-toc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-466",
+    "name": "Hạ Chiêu",
+    "sourceId": "ha-chieu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-467",
+    "name": "Hộ Vệ Yêu Tộc",
+    "sourceId": "ho-ve-yeu-toc",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-468",
+    "name": "Kim Giác Đồng Tử",
+    "sourceId": "kim-giac-dong-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-469",
+    "name": "Kim Hà Đồng Nhi",
+    "sourceId": "kim-ha-dong-nhi",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/7.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-470",
+    "name": "Kim Tước Đồng Tử",
+    "sourceId": "kim-tuoc-dong-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/99.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-471",
+    "name": "Linh Tước Đồng Tử",
+    "sourceId": "linh-tuoc-dong-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/0/97.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-472",
+    "name": "Lý Cẩm",
+    "sourceId": "ly-cam",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-473",
+    "name": "Man Hoang Chân Nhân",
+    "sourceId": "man-hoang-chan-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-474",
+    "name": "Man Hoang Đạo Sĩ",
+    "sourceId": "man-hoang-dao-si",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-475",
+    "name": "Man Hoang Giáp Sĩ",
+    "sourceId": "man-hoang-giap-si",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-476",
+    "name": "Man Tộc Chân Nhân",
+    "sourceId": "man-toc-chan-nhan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/19.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-477",
+    "name": "Man Tộc Đạo Sĩ",
+    "sourceId": "man-toc-dao-si",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/23.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-478",
+    "name": "Man Tộc Giáp Sĩ",
+    "sourceId": "man-toc-giap-si",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/14.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-479",
+    "name": "Man Tộc Hộ Vệ",
+    "sourceId": "man-toc-ho-ve",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/7.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-480",
+    "name": "Man Tộc Tướng Quân",
+    "sourceId": "man-toc-tuong-quan",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/1.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-481",
+    "name": "Ngân Giác Đồng Tử",
+    "sourceId": "ngan-giac-dong-tu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/6.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-482",
+    "name": "Phi Liêm",
+    "sourceId": "phi-liem",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/8.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-483",
+    "name": "Phí Trọng",
+    "sourceId": "phi-trong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/5.webp",
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-484",
+    "name": "Tiểu Tài Thần",
+    "sourceId": "tieu-tai-than",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/220.webp",
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-485",
+    "name": "Tướng Quân Nhà Chu",
+    "sourceId": "tuong-quan-nha-chu",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/3.webp",
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-486",
+    "name": "Tướng Quân Nhà Thương",
+    "sourceId": "tuong-quan-nha-thuong",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/4.webp",
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-487",
+    "name": "Vưu Hồn",
+    "sourceId": "vuu-hon",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/2.webp",
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-488",
+    "name": "Lý Tịnh",
+    "sourceId": "ly-tinh",
+    "portrait": "./assets/mobile-source/assets/hero-hd/1/116.webp",
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-489",
+    "name": "Phùng Văn Lâm",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-490",
+    "name": "Phùng Thế Kiệt",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-491",
+    "name": "Phùng Tử Dương",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-492",
+    "name": "Phùng Huyền Đức",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-493",
+    "name": "Phùng Thanh Trúc",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-494",
+    "name": "Phùng Long Hổ",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-495",
+    "name": "Phùng Cảnh Hành",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-496",
+    "name": "Phùng Xuân San",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-497",
+    "name": "Phùng Trường Khanh",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-498",
+    "name": "Phùng Vĩnh An",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-499",
+    "name": "Phùng Mộc Lan",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-500",
+    "name": "Phùng Hạo Nhiên",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-501",
+    "name": "Phùng Đan Phong",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-502",
+    "name": "Phùng Tử Ngọ",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-503",
+    "name": "Phùng Chiêu Minh",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-504",
+    "name": "Phùng Thừa Ân",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-505",
+    "name": "Tạ Minh Uy",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-506",
+    "name": "Tạ Trọng Quang",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-507",
+    "name": "Tạ Văn Lâm",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-508",
+    "name": "Tạ Thế Kiệt",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-509",
+    "name": "Tạ Tử Dương",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-510",
+    "name": "Tạ Huyền Đức",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-511",
+    "name": "Tạ Thanh Trúc",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-512",
+    "name": "Tạ Long Hổ",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-513",
+    "name": "Tạ Cảnh Hành",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-514",
+    "name": "Tạ Xuân San",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-515",
+    "name": "Tạ Trường Khanh",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-516",
+    "name": "Tạ Vĩnh An",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-517",
+    "name": "Tạ Mộc Lan",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-518",
+    "name": "Tạ Hạo Nhiên",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-519",
+    "name": "Tạ Đan Phong",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-520",
+    "name": "Tạ Tử Ngọ",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-521",
+    "name": "Tạ Chiêu Minh",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-522",
+    "name": "Tạ Thừa Ân",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-523",
+    "name": "Tần Minh Uy",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-524",
+    "name": "Tần Trọng Quang",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-525",
+    "name": "Tần Văn Lâm",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-526",
+    "name": "Tần Thế Kiệt",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-527",
+    "name": "Tần Tử Dương",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-528",
+    "name": "Tần Huyền Đức",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-529",
+    "name": "Tần Thanh Trúc",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-530",
+    "name": "Tần Long Hổ",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-531",
+    "name": "Tần Cảnh Hành",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-532",
+    "name": "Tần Xuân San",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-533",
+    "name": "Tần Trường Khanh",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-534",
+    "name": "Tần Vĩnh An",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-535",
+    "name": "Tần Mộc Lan",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_01",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-536",
+    "name": "Tần Hạo Nhiên",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_02",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-537",
+    "name": "Tần Đan Phong",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_03",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-538",
+    "name": "Tần Tử Ngọ",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_04",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-539",
+    "name": "Tần Chiêu Minh",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_05",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  },
+  {
+    "id": "hero-540",
+    "name": "Tần Thừa Ân",
+    "sourceId": null,
+    "portrait": null,
+    "family": "hero_06",
+    "mappingEvidence": "SHARED_GENERIC_COMMANDER_NOT_IDENTITY"
+  }
+]

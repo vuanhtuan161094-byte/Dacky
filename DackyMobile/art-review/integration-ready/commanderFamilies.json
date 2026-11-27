@@ -1,0 +1,464 @@
+{
+  "hero_01": {
+    "stand": {
+      "family": "hero_01",
+      "state": "stand",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_01-stand.png",
+      "width": 80,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.5125,
+        "y": 0.8714285714285714
+      },
+      "sha256": "0b0811dd387cd911ade718328816cf1e640be0f10ac9adefedaa3b24645a8817"
+    },
+    "run": {
+      "family": "hero_01",
+      "state": "run",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_01-run.png",
+      "width": 94,
+      "height": 70,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.48936170212765956,
+        "y": 0.8714285714285714
+      },
+      "sha256": "43daa2e07f6222eb9e7657f4ccf4b41b7c6ddedfdbc67ffb71b7306ba03dbf8e"
+    },
+    "attack": {
+      "family": "hero_01",
+      "state": "attack",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_01-attack.png",
+      "width": 131,
+      "height": 73,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.37404580152671757,
+        "y": 0.8767123287671232
+      },
+      "sha256": "09952348f69f541250ddeb146af09ba569c61d17710d70e38429380872c4d5c5"
+    },
+    "dead1": {
+      "family": "hero_01",
+      "state": "dead1",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_01-dead1.png",
+      "width": 200,
+      "height": 29,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7249466950959489,
+        "y": 0.7499448569958092
+      },
+      "sha256": "54a3a511ea5aef4c6a4b3f95d52e69cb665ed8ff425e6e7f992d9df15ec8e4dd"
+    },
+    "cheer": {
+      "family": "hero_01",
+      "state": "cheer",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_01-cheer.png",
+      "width": 69,
+      "height": 117,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.463768115942029,
+        "y": 0.9230769230769231
+      },
+      "sha256": "169e18ea8f683da9afd3abef1c8646d3fe6388a4ee143fd1e665f271741ceb74"
+    }
+  },
+  "hero_02": {
+    "stand": {
+      "family": "hero_02",
+      "state": "stand",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_02-stand.png",
+      "width": 70,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.45714285714285713,
+        "y": 0.8714285714285714
+      },
+      "sha256": "57c1833faa26047fb96d2398d6c9b955a70e5253d4800feda6e757b862db73a9"
+    },
+    "run": {
+      "family": "hero_02",
+      "state": "run",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_02-run.png",
+      "width": 91,
+      "height": 70,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.4835164835164835,
+        "y": 0.8714285714285714
+      },
+      "sha256": "841e3b58c98382fffd4a2b53479371738c375279d44c633e98e06cdd577c3c3d"
+    },
+    "attack": {
+      "family": "hero_02",
+      "state": "attack",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_02-attack.png",
+      "width": 106,
+      "height": 72,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.330188679245283,
+        "y": 0.875
+      },
+      "sha256": "2f4e1adf117e3bff2a210ea9d3120009dc232e6f83eb264a170c7e83dcadc8b4"
+    },
+    "dead1": {
+      "family": "hero_02",
+      "state": "dead1",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_02-dead1.png",
+      "width": 200,
+      "height": 38,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7309782608695652,
+        "y": 0.7294050343249427
+      },
+      "sha256": "3ba14484fd2d5471d924adbcd0643b19ed76b0504d46c54df7580877a8acb13e"
+    },
+    "cheer": {
+      "family": "hero_02",
+      "state": "cheer",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_02-cheer.png",
+      "width": 69,
+      "height": 110,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.4782608695652174,
+        "y": 0.9181818181818182
+      },
+      "sha256": "f72e5814f6910e21048d028509327e441df382c4380119050474270a216765b6"
+    }
+  },
+  "hero_03": {
+    "stand": {
+      "family": "hero_03",
+      "state": "stand",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_03-stand.png",
+      "width": 77,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.5064935064935064,
+        "y": 0.8714285714285714
+      },
+      "sha256": "8a337165f1deccdaab09c09227bb07f387a26199d3d280ec2e1624964c0c7db1"
+    },
+    "run": {
+      "family": "hero_03",
+      "state": "run",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_03-run.png",
+      "width": 91,
+      "height": 70,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.4945054945054945,
+        "y": 0.8714285714285714
+      },
+      "sha256": "4696b383487f86cc7e0ef9fb76a57f8d97a0d6649826767fe70af6e58815e61b"
+    },
+    "attack": {
+      "family": "hero_03",
+      "state": "attack",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_03-attack.png",
+      "width": 128,
+      "height": 74,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.3828125,
+        "y": 0.8783783783783784
+      },
+      "sha256": "a190e35a2d50527e505aa6c37ea75a277f3be1fd7115f19c62e49e43a6a7d7d6"
+    },
+    "dead1": {
+      "family": "hero_03",
+      "state": "dead1",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_03-dead1.png",
+      "width": 200,
+      "height": 33,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.6642335766423357,
+        "y": 0.7520460075204601
+      },
+      "sha256": "7b106a713e28257807e658840ecf05ce56af375da3cb899a982f93cf7a00a587"
+    },
+    "cheer": {
+      "family": "hero_03",
+      "state": "cheer",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_03-cheer.png",
+      "width": 69,
+      "height": 120,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.463768115942029,
+        "y": 0.925
+      },
+      "sha256": "cfd554464eafae2ea3c0d8c508c58e7db7ee50aba71cf309a74404965231cc98"
+    }
+  },
+  "hero_04": {
+    "stand": {
+      "family": "hero_04",
+      "state": "stand",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_04-stand.png",
+      "width": 76,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8714285714285714
+      },
+      "sha256": "a12f70b7fa12137f7338cfc1d9520f86a5aec268b3f5f5ebb6e7ede9cf3c1684"
+    },
+    "run": {
+      "family": "hero_04",
+      "state": "run",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_04-run.png",
+      "width": 94,
+      "height": 71,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.46808510638297873,
+        "y": 0.8732394366197183
+      },
+      "sha256": "aa133ce8efd71dd21a58bb5e26336e22e80c7d8c3c29b7656006a6433685344c"
+    },
+    "attack": {
+      "family": "hero_04",
+      "state": "attack",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_04-attack.png",
+      "width": 128,
+      "height": 74,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.3984375,
+        "y": 0.8783783783783784
+      },
+      "sha256": "d4de37168771a1d944769f7e121d91fdc532bfdcf27650ff719351100c65f32b"
+    },
+    "dead1": {
+      "family": "hero_04",
+      "state": "dead1",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_04-dead1.png",
+      "width": 200,
+      "height": 34,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.6876574307304786,
+        "y": 0.7556675062972292
+      },
+      "sha256": "46ff90231ab0fb174826aaea781329c2331b6ad9a6295cf154418cb2c7bca3cc"
+    },
+    "cheer": {
+      "family": "hero_04",
+      "state": "cheer",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_04-cheer.png",
+      "width": 70,
+      "height": 117,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.4857142857142857,
+        "y": 0.9230769230769231
+      },
+      "sha256": "3f462f1f91e23cf8690dfa0ef8d03c735c39e1727a1f66d738e0e031252fde46"
+    }
+  },
+  "hero_05": {
+    "stand": {
+      "family": "hero_05",
+      "state": "stand",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_05-stand.png",
+      "width": 73,
+      "height": 70,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.4931506849315068,
+        "y": 0.8714285714285714
+      },
+      "sha256": "aee90450f0127aa077b9c4ddb3a0f0cf4868b19301365454ad97e7834709fe12"
+    },
+    "run": {
+      "family": "hero_05",
+      "state": "run",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_05-run.png",
+      "width": 89,
+      "height": 67,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.5168539325842697,
+        "y": 0.8656716417910447
+      },
+      "sha256": "a2f4158dca55517b7188789539d3e00f17806de511dade80c475413075f1d880"
+    },
+    "attack": {
+      "family": "hero_05",
+      "state": "attack",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_05-attack.png",
+      "width": 111,
+      "height": 71,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.4144144144144144,
+        "y": 0.8732394366197183
+      },
+      "sha256": "f033158b9156273e155eea573a598226242ceed1c1f7da4a5319b68f31c7e8b9"
+    },
+    "dead1": {
+      "family": "hero_05",
+      "state": "dead1",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_05-dead1.png",
+      "width": 200,
+      "height": 44,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7319034852546917,
+        "y": 0.6214964660004875
+      },
+      "sha256": "939d3250f708c8aaac6ca4f87734eef128111c173c4f58290ee3a0cf239a5036"
+    },
+    "cheer": {
+      "family": "hero_05",
+      "state": "cheer",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_05-cheer.png",
+      "width": 67,
+      "height": 110,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.47761194029850745,
+        "y": 0.9181818181818182
+      },
+      "sha256": "cc8b7e05808c20f2d6188c4bb21c11fef4e5fa61aec54c087eb74f747d6f07be"
+    }
+  },
+  "hero_06": {
+    "stand": {
+      "family": "hero_06",
+      "state": "stand",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_06-stand.png",
+      "width": 77,
+      "height": 72,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.4675324675324675,
+        "y": 0.875
+      },
+      "sha256": "5db3c21c3ade632ef471725b0078983932e32255895236a1fd34caea53a0d711"
+    },
+    "run": {
+      "family": "hero_06",
+      "state": "run",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_06-run.png",
+      "width": 92,
+      "height": 70,
+      "frames": 9,
+      "fps": 24,
+      "durationMs": 375,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8428571428571429
+      },
+      "sha256": "4d9429b34f8d1d7e6bd1740b94e898a40be136603383b4dc8dc1b18f4578d2e4"
+    },
+    "attack": {
+      "family": "hero_06",
+      "state": "attack",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_06-attack.png",
+      "width": 123,
+      "height": 73,
+      "frames": 9,
+      "fps": 12,
+      "durationMs": 750,
+      "anchor": {
+        "x": 0.3902439024390244,
+        "y": 0.8767123287671232
+      },
+      "sha256": "050626a8f6fb756f62ed800e60ce450c9a814adae02e967924c3d2fb921b5153"
+    },
+    "dead1": {
+      "family": "hero_06",
+      "state": "dead1",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_06-dead1.png",
+      "width": 200,
+      "height": 34,
+      "frames": 27,
+      "fps": 24,
+      "durationMs": 1125,
+      "anchor": {
+        "x": 0.7338709677419354,
+        "y": 0.8064516129032258
+      },
+      "sha256": "9e23d51e535f67e0a3f9b7c2a11ce62ee814e387233d7bdb5288f6ab42ac6793"
+    },
+    "cheer": {
+      "family": "hero_06",
+      "state": "cheer",
+      "path": "./assets/visual/assets/battle-ng/tuong/hero_06-cheer.png",
+      "width": 68,
+      "height": 114,
+      "frames": 10,
+      "fps": 12,
+      "durationMs": 833,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9210526315789473
+      },
+      "sha256": "7d6806380beae85caa384c7ca1af89dd82892d826858e29ac581bce048cd5808"
+    }
+  }
+}

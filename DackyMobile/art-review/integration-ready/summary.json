@@ -1,0 +1,21 @@
+{
+  "lunaSha": "9a66d637475d897d42cb660def07f05846086289",
+  "troops": 83,
+  "troopFamilies": 18,
+  "heroes": 540,
+  "heroPortraits": 482,
+  "items": 4290,
+  "itemKinds": {
+    "CATEGORY_SURROGATE_REQUIRES_VISUAL_REVIEW": 931,
+    "TEXT_FALLBACK": 1393,
+    "NAME_MATCH_VISUAL_ONLY": 7,
+    "EXISTING_RUNTIME_IMAGE": 1959
+  },
+  "tech": 19,
+  "techImages": 19,
+  "fxKeys": 5,
+  "fxUniqueFiles": 4,
+  "events": 6,
+  "verifiedReferencedFiles": 2343,
+  "missingExactMappingsAreNotSourceParity": true
+}

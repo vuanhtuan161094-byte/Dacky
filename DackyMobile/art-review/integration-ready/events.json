@@ -1,0 +1,8 @@
+{
+  "strikeLoss": "normal",
+  "wallHit": "normal",
+  "wallBreached": "critical",
+  "artifactCast": "artifact",
+  "commanderDuel": "skill",
+  "troopDelta": "magic"
+}
