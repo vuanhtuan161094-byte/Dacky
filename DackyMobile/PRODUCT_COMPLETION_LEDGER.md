@@ -1,6 +1,6 @@
 # Dacky product completion ledger
 
-Updated 2026-11-27 · active branch `feature/dacky-product-completion` · latest pushed parent `84a5196fad45cbc88165a8730dd8edf1c953c0b9`.
+Updated 2026-11-27 · active branch `feature/dacky-product-completion` · latest pushed parent `077ce29c03428af6f407d09633df7bd8b4ffe1cc`.
 
 This ledger describes playable behavior and evidence. Record counts, tests and imported rows do not establish source parity or product completion.
 
@@ -28,6 +28,15 @@ This ledger describes playable behavior and evidence. Record counts, tests and i
 - Fixed the ART13 installer’s idempotence check: it now leaves the already present, hash-verified CSS patch intact when later CSS follows it. No art asset or ART13 source pack was replaced.
 - The first production CI attempt reached browser capture and exposed a real selected-plot UI error (`plotQueue is not defined`). The inspector now resolves the selected plot’s queue in its own scope. Re-running the technical preview locally across desktop, landscape and portrait passed; this is interaction evidence, not visual approval.
 - This continuation is not V1.0 complete. 620 `PARTIAL_RUNTIME` identity records still need semantic review; 430 goods remain reference/material; 179 Tiên Sơn loot IDs lack Mobile joins; the three legacy tables remain HOLD. The completed 720-day clean-save run did not clear doors 4–5 and five quest claims were blocked by a full bag. No current client-reference A image, physical-device run, or completed test of the revised endgame policy is available.
+
+## Mass gameplay continuation: shared item handlers and loot joins
+
+- Added shared source-backed handlers for the 50,000-gold pack (8721), storage-capped random resource box (4511), immediate selected-plot demolition (4918), source root cultivation thresholds on 8955/8956, and a one-trade Xe Chỉ Nam token (4027). Invalid uses preserve the item; 4918 cannot refund materials. The UI now lets the player select a demolishable building and asks before consuming the demolition item.
+- Red-slot goods 7642/7671/7672/7673 can now be socketed into equipped gear through the existing upgrade path. Their described army/commander effects change combat input; the translation of source wording into local damage/stat formulas is explicitly a simulated combat adapter and survives save migration.
+- 4027's source effect is a 10× trade-time reduction, but this runtime's market exchange is instantaneous. Its current effect is an explicitly `SIMULATED` +10% next-trade throughput bridge; it does not claim source mechanic parity. 4511's resource and amount are seeded `SIMULATED` within the source's 100,000 ceiling and the live warehouse cap. 8955/8956 apply seeded +1–5 root growth only at source root thresholds 50/55; this is a simulated bridge for a cultivation cap mechanic not present in the save schema.
+- Tiên Sơn loot audit: 190 unique source IDs occur in the raw rules; 11 join Mobile goods, five join existing legacy quest-good records, and 174 still lack an item record. Loot now joins the five existing legacy goods through `SIMULATED_LEGACY_GOOD_BRIDGE`; IDs without a known item continue to convert to capped simulated resources, with join/fallback evidence recorded in the battle receipt.
+- Focused tests: 28/28 across source item families, Bất Chu/PvE settlement, red-gem combat effects, and source loot joins; dependency graph remains 1,567 nodes / 3,958 edges with no cycles, impossible conditions, or unknown unique references. Syntax checks and `git diff --check` passed. Full CI and release artifacts have not yet been rerun for this code increment. The 720-day corrected route is in progress; no result is claimed yet.
+- Remaining item/runtime gaps in this slice: 4805–4807's foreign-city faction training permits need city-local ownership on training sites before their scope can be represented honestly; red-slot combat gems, trade duration, and the 174 truly unlinked loot IDs still need gameplay adapters or bounded simulated conversion. The three legacy tables remain HOLD.
 
 ## Checks on this increment
 

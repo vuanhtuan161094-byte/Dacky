@@ -29,6 +29,10 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const now=state?.lastTickAt??0,flat=key=>state?itemBuff(state,key,now):0;
   const stats=createSourceDuelHero({...p,root:p.root+(save.rootBonus??0)+(save.sourceRootBonus??0)+Object.values(save.mobileRootBonuses||{}).reduce((n,v)=>n+(Number(v)||0),0),physical:p.physical+flat('heroFlatPhysical'),arcane:p.arcane+flat('heroFlatArcane'),strategy:p.strategy+flat('heroFlatStrategy')},{level:save.level}).stats;
   if(state){
+   const partyGems=new Set(state.heroes.filter(hero=>hero.assigned).flatMap(hero=>Object.values(hero.equipment??{}).filter(id=>id&&(hero.combatDurability?.[id]??100)>0).flatMap(id=>hero.gearEnhancements?.[id]?.gems??[]).map(gemId=>String(byItem.get(gemId)?.mobileSourceId??''))));
+   if(partyGems.has('7671'))stats.attack=Math.round((stats.attack+100)*1.08);
+   if(partyGems.has('7672'))stats.defense=Math.round((stats.defense+100)*1.10);
+   if(partyGems.has('7673'))stats.magic=Math.round((stats.magic+100)*1.08);
    const now=state.lastTickAt??0,bonus=key=>Math.max(itemBuff(state,key,now),itemBuff(state,'hero:'+save.id+':'+key,now));
    const physical=bonus('heroPhysical'),arcane=bonus('heroArcane'),strategy=bonus('heroStrategy'),vitality=bonus('heroVitality'),mana=bonus('heroMana');
    stats.attack=Math.round(stats.attack*(1+physical));stats.magic=Math.round(stats.magic*(1+arcane));

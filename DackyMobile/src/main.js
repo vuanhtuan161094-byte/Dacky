@@ -229,7 +229,10 @@ document.body.addEventListener('click', async event => {
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
     case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero});
-    case 'useItem': return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index),heroId:document.querySelector('[data-item-target="'+button.dataset.item+'"]')?.value});
+    case 'useItem': {
+      if(button.dataset.kind==='demolishPlot'&&!window.confirm('Phá dỡ công trình này ngay? Vật phẩm sẽ mất và không hoàn trả tài nguyên.'))return;
+      return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index),heroId:document.querySelector('[data-item-target="'+button.dataset.item+'"]')?.value,plotId:document.querySelector('[data-item-plot="'+button.dataset.item+'"]')?.value});
+    }
     case 'exchangeItem': return perform('exchangeItem',{itemId:button.dataset.item});
     case 'buyItem': return perform('buyItem',{itemId:button.dataset.item,count:button.dataset.count||document.querySelector(`[data-buy-count="${button.dataset.item}"]`)?.value||1});
     case 'buyArtifact': return perform('buyArtifact',{itemId:button.dataset.item});

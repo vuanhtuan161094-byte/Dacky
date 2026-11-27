@@ -2,6 +2,7 @@ import { LEGACY_ELFLAND_FLOORS, LEGACY_ELFLAND_FORMATIONS, LEGACY_ELFLAND_LOCATI
 import { LEGACY_ADVANCED_FIELDS, LEGACY_ADVANCED_FIELD_BOSSES, LEGACY_STRONGPOINTS, LEGACY_STRONGPOINT_FORMATIONS } from './legacy-endgame-catalog.js';
 import { LEGACY_PVE_TROOPS } from './legacy-pve-troops.js';
 import { LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS } from './legacy-buzhou-catalog.js';
+import { ITEMS } from './catalog.js';
 
 const legacyId = id => `legacy-npc-${id}`;
 export const PVE_TROOPS = [
@@ -42,6 +43,16 @@ export function rollPveLoot(node,seed=1){
   if(!hit)return {sourceTable:rule.sourceTable,sourceRowIndex:rule.sourceRowIndex,cfgClass:rule.cfgClass,roll,randBase:rule.randBase,itemSourceId:null,count:0,evidence:'SIMULATED_LEGACY_INTERVAL_INTERPRETATION'};
   const count=rule.openMin+Math.floor(random()*(Math.max(rule.openMin,rule.openMax)-rule.openMin+1));
   return {sourceTable:rule.sourceTable,sourceRowIndex:rule.sourceRowIndex,cfgClass:rule.cfgClass,roll,randBase:rule.randBase,itemSourceId:String(hit.sourceItemId),sourceField:hit.sourceField,count,evidence:'SIMULATED_LEGACY_INTERVAL_INTERPRETATION'};
+}
+
+export function resolvePveLootItem(sourceItemId){
+  if(sourceItemId===null||sourceItemId===undefined)return null;
+  const id=String(sourceItemId);
+  const mobile=ITEMS.find(item=>String(item.mobileSourceId??'')===id);
+  if(mobile)return {item:mobile,itemJoinEvidence:'VERIFIED_MOBILE_ID'};
+  const legacy=ITEMS.find(item=>String(item.legacySourceId??'')===id);
+  if(legacy)return {item:legacy,itemJoinEvidence:'SIMULATED_LEGACY_GOOD_BRIDGE'};
+  return null;
 }
 
 function fixedFormation(rows) {
