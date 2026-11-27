@@ -1,6 +1,6 @@
 # Remaining product release blockers — P50 baseline and product-completion branch
 
-Active work continues on `feature/dacky-product-completion`, based on the ART13-preserving review descendant `41455f6c1888b981a5a2351654fbc7c1e056cfd4`. P31–P50 findings remain the gameplay baseline in [P41–P50 gameplay ledger](qa/one-game/GAMEPLAY_LEDGER_P41_P50.md); current visual capture limitations are in [V2 comparison record](qa/visual-fidelity-v2/benchmark-sources.md). New decree-item effects 4503/4505/4506 are runtime-backed, but the capture-chance clause remains unsupported. Exact-head CI is pending push.
+Active work continues on `feature/dacky-product-completion`, based on the ART13-preserving review descendant `41455f6c1888b981a5a2351654fbc7c1e056cfd4`. P31–P50 findings remain the gameplay baseline in [P41–P50 gameplay ledger](qa/one-game/GAMEPLAY_LEDGER_P41_P50.md); current visual capture limitations are in [V2 comparison record](qa/visual-fidelity-v2/benchmark-sources.md). Twelve verified Mobile timed items now execute supported effects. Capture chance, VIP discounts/queues and quest exchange remain unsupported; CI for this expanded batch is pending.
 
 | Area | Current state | Remaining blocker |
 | --- | --- | --- |

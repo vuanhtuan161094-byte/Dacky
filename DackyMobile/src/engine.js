@@ -342,7 +342,8 @@ export function armyCount(state) { return Object.values(state.army).reduce((a, n
 export function marchTroopCapacity(state) {
   const leaders=state.heroes.filter(hero=>hero.assigned).length;
   const sourcedRate=technologyRate('tech-13',0.02);
-  return Math.floor(leaders*100_000*(1+(state.technologies?.['tech-13']||0)*sourcedRate));
+  const base=leaders*100_000*(1+(state.technologies?.['tech-13']||0)*sourcedRate);
+  return Math.floor(base*(1+(state.settings?.combatV13?itemBuff(state,'marchCapacity',state.lastTickAt??0):0)));
 }
 
 export function quoteScouting(state,nodeId) {
@@ -641,8 +642,9 @@ export function quoteTraining(state, troopId, count = 1,siteId=null) {
   if (!t) return null;
   count = clamp(Math.floor(Number(count) || 1), 1, 500);
   const requirements = evaluateTrainingRequirements(state, t,siteId);
+  const baseSeconds=Math.max(4,t.trainSeconds*count),trainingReduction=state.settings?.combatV13?itemBuff(state,'trainingTimeReduction',state.lastTickAt??0):0;
   return { count, cost: Object.fromEntries(Object.entries(t.cost).map(([key, value]) => [key, value * count])),
-    seconds: Math.max(4, t.trainSeconds * count), timeEvidence:t.trainTimeEvidence||'SIMULATED',
+    seconds: Math.max(4,baseSeconds*(1-Math.min(.8,trainingReduction))), timeEvidence:t.trainTimeEvidence||'SIMULATED',
     costEvidence:t.trainingCostEvidence||'SIMULATED',
     requirementEvidence:requirements.status,
     unmetRequirements:requirements.unmet,
@@ -1475,7 +1477,7 @@ export function doAction(state, action, now = Date.now()) {
       if (itemIndex < 0 || !item || item.type !== 'vật phẩm') throw new Error('Không thể sử dụng vật phẩm này.');
       const effect=item.useEffect??(s.settings.combatV13?itemUseRule(item):null);
       if(effect?.kind==='queueSpeedup'){const q=s.queues[effect.queue];if(!q||effect.building&&q.buildingId!==effect.building||effect.once&&q.sourceSpeedupUsed)throw Error('Không có hàng đợi phù hợp hoặc đã dùng tăng tốc');q.finishAt=Math.max(now,effect.once?now+(q.finishAt-now)*(1-effect.amount):q.finishAt-effect.amount*1000);if(effect.once)q.sourceSpeedupUsed=true;s.items.splice(itemIndex,1);completeQueue(s,effect.queue,now);break;}
-      if(effect?.kind==='timedBuffSet'){const list=s.gameplay.itemBuffs,sourceId=String(item.mobileSourceId??item.id);for(const buff of effect.effects){const previous=list.find(x=>x.key===buff.key&&x.sourceId===sourceId&&x.levelCap===buff.levelCap);if(previous){previous.expiresAt=Math.max(previous.expiresAt,now)+effect.seconds*1000;previous.ratio=Math.max(previous.ratio,buff.ratio);}else list.push({key:buff.key,ratio:buff.ratio,levelCap:buff.levelCap,expiresAt:now+effect.seconds*1000,sourceId,sourceTable:effect.sourceTable,sourceField:effect.sourceField,evidence:effect.evidence,stackingEvidence:effect.stackingEvidence,status:'VERIFIED_MOBILE'});}s.items.splice(itemIndex,1);const mapped=effect.effects.map(x=>({production:'sản lượng',storageCapacity:'sức chứa kho',heroXp:'kinh nghiệm thần tiên',marchSpeed:'tốc độ hành quân',attack:'công quân đội',defense:'thủ quân đội'}[x.key]||x.key)).join(', ');const unsupported=effect.unsupported?.length?` · chưa hỗ trợ: ${effect.unsupported.join(', ')} (PARTIAL_RUNTIME)`:'';note(s,`Đã kích hoạt ${item.name}: ${mapped} trong ${Math.floor(effect.seconds/86400)} ngày · cộng dồn thời hạn SIMULATED${unsupported}.`);break;}
+      if(effect?.kind==='timedBuffSet'){const list=s.gameplay.itemBuffs,sourceId=String(item.mobileSourceId??item.id);for(const buff of effect.effects){const previous=list.find(x=>x.key===buff.key&&x.sourceId===sourceId&&x.levelCap===buff.levelCap);if(previous){previous.expiresAt=Math.max(previous.expiresAt,now)+effect.seconds*1000;previous.ratio=Math.max(previous.ratio,buff.ratio);}else list.push({key:buff.key,ratio:buff.ratio,levelCap:buff.levelCap,expiresAt:now+effect.seconds*1000,sourceId,sourceTable:effect.sourceTable,sourceField:effect.sourceField,evidence:effect.evidence,stackingEvidence:effect.stackingEvidence,runtimeScopeEvidence:effect.runtimeScopeEvidence,status:'VERIFIED_MOBILE'});}s.items.splice(itemIndex,1);const mapped=effect.effects.map(x=>({production:'sản lượng',storageCapacity:'sức chứa kho',heroXp:'kinh nghiệm thần tiên',marchSpeed:'tốc độ hành quân',marchCapacity:'sức chỉ huy hành quân',trainingTimeReduction:'thời gian huấn luyện',attack:'công quân đội',defense:'thủ quân đội'}[x.key]||x.key)).join(', ');const unsupported=effect.unsupported?.length?` · chưa hỗ trợ: ${effect.unsupported.join(', ')} (PARTIAL_RUNTIME)`:'';const stacking=effect.stackingEvidence==='VERIFIED_MOBILE'?'cộng dồn thời hạn theo nguồn':'cộng dồn thời hạn SIMULATED';const scope=effect.runtimeScopeEvidence==='SIMULATED_ACCOUNT_CAPACITY'?' · phạm vi sức chứa SIMULATED':'';const duration=effect.seconds>=86400?`${Math.floor(effect.seconds/86400)} ngày`:`${Math.floor(effect.seconds/3600)} giờ`;note(s,`Đã kích hoạt ${item.name}: ${mapped} trong ${duration} · ${stacking}${scope}${unsupported}.`);break;}
       if(effect?.kind==='timedBuff'){const list=s.gameplay.itemBuffs,previous=list.find(x=>x.key===effect.key&&x.levelCap===effect.levelCap);if(previous)previous.expiresAt=Math.max(previous.expiresAt,now)+effect.seconds*1000;else list.push({key:effect.key,ratio:effect.ratio,levelCap:effect.levelCap,expiresAt:now+effect.seconds*1000});s.items.splice(itemIndex,1);break;}
       if(effect?.kind==='resourcePack'){credit(s,Object.fromEntries(['food','timber','stone','iron'].map(k=>[k,effect.amount])));s.items.splice(itemIndex,1);break;}
       if(effect?.kind==='matrix'){const h=s.heroes.find(x=>x.id===action.heroId)||s.heroes.find(x=>x.assigned);if(!h||s.queues.march)throw Error('Chọn thần tiên đang nghỉ');h.matrices=[...new Set(h.matrices??[])];if(h.matrices.includes(item.id))throw Error('Ma trận đã mở');h.matrices.push(item.id);h.activeMatrix=item.id;s.items.splice(itemIndex,1);note(s,'Đã mở Ma trận '+item.name);break;}
