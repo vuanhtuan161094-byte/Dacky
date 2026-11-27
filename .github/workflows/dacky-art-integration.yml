@@ -1,0 +1,70 @@
+name: Dacky integration-ready asset contract
+on:
+  push:
+    branches: [review/dacky-art-direction]
+    paths:
+      - 'DackyMobile/art-review/export-integration.mjs'
+      - 'DackyMobile/art-review/export-vfx.py'
+      - '.github/workflows/dacky-art-integration.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: dacky-review-integration
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: '9a66d637475d897d42cb660def07f05846086289'
+          path: luna-snapshot
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install Pillow
+      - name: Export exact catalog mappings and validate resolver
+        run: node DackyMobile/art-review/export-integration.mjs luna-snapshot/DackyMobile DackyMobile/art-review/integration-ready 9a66d637475d897d42cb660def07f05846086289
+      - name: Export source VFX GIFs
+        run: python DackyMobile/art-review/export-vfx.py luna-snapshot/DackyMobile DackyMobile/art-review/integration-ready/vfx
+      - name: Independent gameplay smoke on Luna snapshot
+        working-directory: luna-snapshot/DackyMobile
+        run: |
+          node --input-type=module <<'JS'
+          import {createNewGame,doAction,advance,migrateSave} from './src/engine.js';
+          import {renderScreen} from './src/ui.js';
+          import assert from 'node:assert/strict';
+          const now=1800000000000;
+          const s=createNewGame('Review',now);
+          for(const view of ['city','heroes','army','inventory','world','pve','tech','quests','market','reports','settings','library']){
+            const markup=renderScreen(s,view,{});
+            assert.ok(typeof markup==='string'&&markup.length>100,view);
+          }
+          const a=doAction(s,{type:'collectLaborTaxes'},now);
+          assert.throws(()=>doAction(migrateSave(a,now),{type:'collectLaborTaxes'},now),/Đã trưng thu/);
+          const b=advance(a,now+3600000).state;
+          assert.ok(b.resources.gold>=0);
+          console.log('12 rendered screen strings, tax guard and advance smoke PASS; not browser visual QA');
+          JS
+      - name: Copy existing UI proposal for integration handoff
+        run: cp DackyMobile/art-review/ui-icon-reuse.proposed.css DackyMobile/art-review/integration-ready/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dacky-integration-ready-contract
+          path: DackyMobile/art-review/integration-ready
+          if-no-files-found: error
+      - name: Commit verified contract to review branch
+        run: |
+          test "$(git ls-remote origin refs/heads/review/dacky-art-direction | cut -f1)" = "$GITHUB_SHA" || { echo 'Superseded review'; exit 0; }
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -f DackyMobile/art-review/integration-ready/*.json DackyMobile/art-review/integration-ready/*.mjs DackyMobile/art-review/integration-ready/*.css DackyMobile/art-review/integration-ready/vfx/manifest.json
+          find DackyMobile/art-review/integration-ready/vfx -name '*.gif' -exec git add -f {} +
+          git diff --cached --quiet || git commit -m "review: publish verified asset integration contracts and VFX previews"
+          git push origin HEAD:review/dacky-art-direction
