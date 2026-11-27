@@ -1278,8 +1278,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .fidelity-damage{position:absolute;top:57%;z-index:8;color:#ffdfb0;font:800 clamp(15px,2.3vw,30px) Georgia,serif;text-shadow:0 2px 3px #32130a,1px 0 #6a2015;pointer-events:none;animation:fidelity-damage-rise calc(900ms / var(--battle-speed,1)) ease-out calc(240ms / var(--battle-speed,1)) both}
 .fidelity-damage.ally{left:31%}.fidelity-damage.enemy{right:31%}
 @keyframes fidelity-damage-rise{0%{opacity:0;transform:translateY(8px)}15%{opacity:1}72%{opacity:1}100%{opacity:0;transform:translateY(-35px)}}
-body.battle-mode .hud-controller{top:8px;bottom:auto;right:110px}
-body.battle-mode .hud-menu{top:42px;bottom:auto}
+body.hud-ready.battle-mode:not(.startup-mode) .hud-controller{top:8px;bottom:auto;right:205px;width:max-content;pointer-events:none}
+body.hud-ready.battle-mode:not(.startup-mode) .hud-controller button,body.hud-ready.battle-mode:not(.startup-mode) .hud-menu{pointer-events:auto}
+body.hud-ready.battle-mode:not(.startup-mode) .hud-menu{top:42px;bottom:auto}
+@media(max-width:850px){body.hud-ready.battle-mode:not(.startup-mode) .hud-controller{top:3px;right:132px}.hud-controller button{min-height:29px;padding:4px 7px}}
 @media(max-width:850px){.battlefield-landscape.fidelity-field{grid-template-columns:minmax(88px,16%) minmax(0,1fr) minmax(88px,16%)}.fidelity-line{top:43%;bottom:12%;width:42%}.fidelity-line[data-groups="1"]{top:43%}.fidelity-ranks{transform:none}.fidelity-motion .fidelity-layer{transform:scale(.72);transform-origin:0 0}.fidelity-commander{display:none}.fidelity-soldier:before{width:19px;left:-9px}.fidelity-unit-label{font-size:8px}.reuse-vfx-anchor{transform:scale(calc(var(--reuse-scale)*.78))}}
 @media(max-height:480px){.fidelity-line{top:32%;bottom:14%}.fidelity-line[data-groups="1"]{top:32%;bottom:16%}.fidelity-motion .fidelity-layer{transform:scale(.62);transform-origin:0 0}.fidelity-battle-note{top:3px}.fidelity-key{bottom:3px}}
 .fidelity-static .fidelity-layer[data-layer="idle"]{opacity:1;animation:none}.fidelity-static .fidelity-motion{animation:none}

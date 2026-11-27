@@ -632,7 +632,7 @@ function fidelityBattlefield({sides,events=[],wall=null,effects=true,enemyLabel=
    const layerData=Object.entries(clips).map(([layer,state])=>({layer,frame:battleTroopFrame(troop,state),reused:reuseNpcClip(troop.id,state)}));
    const images=layerData.map(({layer,frame,reused})=>`--sprite-${layer}:url('${esc(assetUrl(reused?.path||frame.path))}')`).join(';');
    const layers=layerData.map(({layer,frame,reused})=>`<span class="fidelity-layer" data-layer="${layer}">${reused?reuseNpcMarkup(reused):sheet(frame,1.02)}</span>`).join('');
-   const n=Math.min(stacks.length===1?24:14,Math.max(1,Math.ceil(Math.log2(number(t.count)+1)*1.65)));
+   const n=Math.min(Math.max(1,Math.floor(number(t.count))),stacks.length===1?24:14,Math.max(1,Math.ceil(Math.log2(number(t.count)+1)*1.65)));
    const cols=n>14?5:n>7?4:n>3?3:Math.min(n,2),rows=Math.ceil(n/cols);
    const mode=attack?(moving?'charge':'ranged'):hit?'hit':'idle';
    return `<div class="fidelity-formation" data-motion="${mode}" aria-label="${esc(troop.name)}" style="${images}"><div class="fidelity-ranks">${Array.from({length:n},(_,k)=>{const col=k%cols,r=Math.floor(k/cols),x=cols===1?50:12+col*76/(cols-1),y=rows===1?72:25+r*61/(rows-1);return `<span class="fidelity-soldier" style="left:${x+(r%2?2:0)}%;top:${y}%;z-index:${r+1};--rank-delay:${(k%5)*19}ms"><span class="fidelity-motion">${layers}</span></span>`;}).join('')}</div><span class="fidelity-unit-label">${esc(troop.name)} · ${fmt(number(t.count))}</span></div>`;
