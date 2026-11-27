@@ -4,7 +4,7 @@ import { getPveEncounter, PVE_TROOPS } from '../pve-campaign.js';
 import { MOBILE_SOURCE_DATABASE,TROOPS,HEROES,ITEMS,TECHNOLOGIES,WORLD_NODES,IMMORTAL_MOUNTAINS,TOWER_FLOORS,BUZHOU_FLOORS } from '../catalog.js';
 import { createCombatRuntime } from './runtime-v7.js';
 import { createSourceDuelHero } from './hero-progression.js';
-import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff,itemUseRule } from '../gameplay-p15.js';
+import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff,pendingBattleBuff,itemUseRule } from '../gameplay-p15.js';
 import { canEquip } from './army-artifacts.js';
 // Three source artifacts omit an energy cost and two use a conversion effect.
 // The runtime applies a bounded, explicit fallback policy instead of silently
@@ -79,14 +79,18 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const party=q.commanderIds?q.commanderIds.map(id=>{const h=state.heroes.find(x=>x.id===id);if(!h)throw Error('COMMANDER_MISSING');return h}):assigned(state);
   const [a,...reserves]=party.map(h=>commander(h,state));
   if(a.vitality===0&&!reserves.some(x=>x.vitality>0))throw Error('EXHAUSTED');
-  const n=Number(node.id.split(/[-:]/).at(-1))||1,enemy=enemyCommander(n,node.commanderLevel,node.enemy.formation?.[0]?.commander,node.bossLoadout);
+  const n=Number(node.id.split(/[-:]/).at(-1))||1,enemy=enemyCommander(n,node.commanderLevel,node.enemy.formation?.[0]?.commander,node.bossLoadout),battleBuff=key=>pendingBattleBuff(state,key);
+  a.commandAttack=clamp(a.commandAttack*(1+battleBuff('artifactPower')),0,1);
+  enemy.commandAttack=clamp(enemy.commandAttack*(1-battleBuff('enemyArtifactPowerReduction')),0,1);
+  if(battleBuff('enemyArtifactBlock'))enemy.equippedArtifactIds=[];
   const rate=(id,fallback)=>{const row=TECHNOLOGIES.find(x=>x.id===id)?.mobileLevelCosts?.find(x=>Number(x.level)===1),m=String(row?.effect??'').match(/([+-]?\\d+(?:[.,]\\d+)?)\\s*%/);return m?Number(m[1].replace(',','.'))/100:fallback;};
   const research=(id,fallback)=>clamp((state.technologies?.[id]??0)*rate(id,fallback),0,1);
   const ownMagic=cityEffects(state,state.lastTickAt??0),enemyMagic=npcEffects(state,node.id,state.lastTickAt??0);
   // The captured wall level is a difficulty input. HP is the local siege curve.
   const cityWallHp = 8 + (node.mobileWallLevel ?? node.level ?? 1) * (1 + node.chapter / 2) + node.power * .025;
   const siege=node.kind==='Thành trì NPC'?{hp:Math.max(1,node.wallLevel*60),armor:12}:node.kind==='Danh thành'?{hp:Math.max(1,Math.round(cityWallHp)),armor:4+node.chapter}:null;
-  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks,armyAttack:research('tech-10',.012)+(ownMagic.attack??0),armyDefense:research('tech-11',.004)+(ownMagic.defense??0)+(ownMagic.wallDefense??0),armyLife:research('tech-12',.02),armyMorale:clamp((state.morale??80)/500,0,.2)},{...enemy,stance:'auto',armyAttack:state.world.treaties.includes(node.id)?-.12:0,armyDefense:enemyMagic.defense??0,stacks:[...e].map(([id,count])=>({id,count}))}],siege,policy:{...PRODUCT_POLICY}}};
+  const attritionAttack=Math.min(.35,battleBuff('enemyTroopLoss')*3);
+  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks,armyAttack:research('tech-10',.012)+(ownMagic.attack??0)+battleBuff('attack')+attritionAttack,armyDefense:research('tech-11',.004)+(ownMagic.defense??0)+(ownMagic.wallDefense??0)+battleBuff('defense'),armyLife:research('tech-12',.02),armyMorale:clamp((state.morale??80)/500,0,.2)},{...enemy,stance:'auto',armyAttack:(state.world.treaties.includes(node.id)?-.12:0)-battleBuff('enemyAttackReduction'),armyDefense:(enemyMagic.defense??0)-battleBuff('enemyDefenseReduction'),stacks:[...e].map(([id,count])=>({id,count}))}],siege,policy:{...PRODUCT_POLICY}}};
  }
  function credit(s,reward){const cap=storageCapacity(s);if(!Number.isFinite(cap)||cap<0)throw Error('INVALID_CAPACITY');const granted={};for(const [k,v] of Object.entries(reward)){if(!Object.hasOwn(s.resources,k)||!Number.isFinite(v)||v<0)continue;const before=s.resources[k];s.resources[k]=Math.min(k==='jade'?99999:cap,before+v);granted[k]=s.resources[k]-before}return granted;}
  function report(s,entry,now){s.reports.unshift({id:s.nextReportId++,at:now,...entry});s.reports=s.reports.slice(0,100);}
@@ -97,7 +101,8 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const q=state.queues?.march;if(!q)throw Error('NO_PENDING_MARCH');if(!Number.isFinite(now)||now<q.finishAt)throw Error('MARCH_NOT_ARRIVED');
   const {node,input}=marchInput(state,q);ensureNew(state,input.battleId);
   let battle;if(commands){const session=rt.session(input);for(const cmd of commands)session.step(cmd);const snap=session.snapshot();if(!snap.finished)throw Error('BATTLE_NOT_FINISHED');battle=snap.result;}else battle=rt.army(input);
-  const s=copy(state);s.queues.march=null;const settlement=battle.settlement[0];
+  const consumedBattleBuffs=(state.gameplay?.nextBattleBuffs??[]).map(({sourceId,key,ratio,evidence,simulated})=>({sourceId,key,ratio,evidence,simulated}));
+  const s=copy(state);s.queues.march=null;if(s.gameplay)s.gameplay.nextBattleBuffs=[];const settlement=battle.settlement[0];
   for(const [id,n] of Object.entries(q.troops)){const left=settlement.remaining[id],w=settlement.wounded[id],d=settlement.dead[id];if(left+w+d!==n)throw Error('CASUALTY_MISMATCH');s.army[id]=(s.army[id]??0)+left;s.wounded[id]=(s.wounded[id]??0)+w;}
   for(const c of battle.commanders?.[0]??[]){const h=s.heroes.find(x=>x.id===c.instanceId);if(!h)throw Error('COMMANDER_MISSING');h.combatMana=c.mana;h.combatVitality=c.vitality;h.combatUpdatedAt=now;h.affinity=clamp((h.affinity??0)+(battle.victory?2:1),0,100);}
   // Unmapped durability/loyalty must be acknowledged by caller; cannot silently discard.
@@ -120,7 +125,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
    }
   }
   let itemDrop=null;const rng=seeded(q.seed^0x9e3779b9);if(battle.victory&&rng()<.3){const pool=ITEMS.filter(i=>i.type!=='vật phẩm'&&i.tier<=Math.min(5,1+Math.floor(node.chapter/2)));const item=pool[Math.floor(rng()*pool.length)];if(item&&s.items.length<500){s.items.push(item.id);itemDrop=item.id;}}
-  s.morale=clamp(s.morale+(battle.victory?2:-5),0,100);receipt(s,input.battleId);report(s,{type:'army',target:node.name,targetKind:node.kind,victory:battle.victory,rounds:battle.rounds.map(r=>({...r,ownDamage:r.incoming[1],enemyDamage:r.incoming[0],ownMorale:s.morale,activeSkills:r.events.filter(e=>e.type==='artifactCast').map(e=>e.name)})),ownPower:Object.values(q.troops).reduce((n,v)=>n+v,0),enemyPower:input.sides[1].stacks.reduce((n,t)=>n+t.count,0),enemyCommander:input.sides[1].name||rt.index.heroes[input.sides[1].heroId].name,enemyFormation:input.sides[1].stacks.map(t=>({unitId:t.id,count:t.count})),bossLoadout:node.bossLoadout??null,enemyEquipmentSourceIds:input.sides[1].equipmentSourceIds??[],enemyCommandBonuses:{attack:input.sides[1].commandAttack??0,defense:input.sides[1].commandDefense??0},enemyLoadoutEvidence:input.sides[1].loadoutEvidence??'SIMULATED',battleCommands:q.battleCommands??commands??[],events:battle.events,dead:settlement.dead,wounded:settlement.wounded,loot,itemDrop,capturedHero,troopsSent:{...q.troops},combatBattleId:input.battleId,evidence:'SIMULATED'},now);note(s,node.name+(battle.victory?' · Thắng trận':' · Rút lui'));return {state:s,battle,loot};
+  s.morale=clamp(s.morale+(battle.victory?2:-5),0,100);receipt(s,input.battleId);report(s,{type:'army',target:node.name,targetKind:node.kind,victory:battle.victory,rounds:battle.rounds.map(r=>({...r,ownDamage:r.incoming[1],enemyDamage:r.incoming[0],ownMorale:s.morale,activeSkills:r.events.filter(e=>e.type==='artifactCast').map(e=>e.name)})),ownPower:Object.values(q.troops).reduce((n,v)=>n+v,0),enemyPower:input.sides[1].stacks.reduce((n,t)=>n+t.count,0),enemyCommander:input.sides[1].name||rt.index.heroes[input.sides[1].heroId].name,enemyFormation:input.sides[1].stacks.map(t=>({unitId:t.id,count:t.count})),bossLoadout:node.bossLoadout??null,enemyEquipmentSourceIds:input.sides[1].equipmentSourceIds??[],enemyCommandBonuses:{attack:input.sides[1].commandAttack??0,defense:input.sides[1].commandDefense??0},enemyLoadoutEvidence:input.sides[1].loadoutEvidence??'SIMULATED',battleCommands:q.battleCommands??commands??[],battleItems:consumedBattleBuffs,events:battle.events,dead:settlement.dead,wounded:settlement.wounded,loot,itemDrop,capturedHero,troopsSent:{...q.troops},combatBattleId:input.battleId,evidence:'SIMULATED'},now);note(s,node.name+(battle.victory?' · Thắng trận':' · Rút lui'));return {state:s,battle,loot};
  }
  function quoteDuel(state,mode,mountainId){
   if(!['mountain','tower','buzhou'].includes(mode))throw Error('UNKNOWN_MODE');

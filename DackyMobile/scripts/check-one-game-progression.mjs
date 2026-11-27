@@ -1,4 +1,4 @@
-import {advance,allConstructionQueues,armyCount,armyPower,cityPlotIds,cityPlotRecord,createNewGame,doAction,foodUpkeepPerHour,marchTroopCapacity,migrateSave,outerLandCapacity,productionPerHour,quoteBuilding,quoteCityPlot,quoteItemSale,quoteResearch,quoteTraining,storageCapacity,trainingQueue,trainingSites,unlockedChapter} from '../src/engine.js';
+import {advance,allConstructionQueues,armyCount,armyPower,cityPlotIds,cityPlotRecord,createNewGame,doAction,foodUpkeepPerHour,marchTroopCapacity,migrateSave,outerLandCapacity,productionPerHour,quoteBuilding,quoteCityPlot,quoteGearStar,quoteItemSale,quoteResearch,quoteTraining,storageCapacity,trainingQueue,trainingSites,unlockedChapter} from '../src/engine.js';
 import {BUILDINGS,HEROES,ITEMS,TECHNOLOGIES,TROOPS,WORLD_NODES} from '../src/catalog.js';
 import {gameplayQuestList,questQuote,itemBuff,itemUseRule} from '../src/gameplay-p15.js';
 import {getEndgameBattles,getMountainBattles,pveAssaultProgress,pveLock} from '../src/pve-campaign.js';
@@ -12,7 +12,7 @@ const basePolicies=[
   {id:'immortals',build:['altar','manor','hostel','academy','citadel','farm','grove','lumber','mine','quarry','storehouse','market','barracks','training'],tech:['tech-18','tech-17','tech-19','tech-08','tech-01','tech-05','tech-06','tech-09','tech-10','tech-11','tech-12','tech-13','tech-16','tech-02','tech-03','tech-04','tech-14','tech-15','tech-07'],marchEvery:10,trainTarget:6000,heroTarget:9},
   {id:'balanced',build:['citadel','farm','barracks','academy','grove','lumber','mine','quarry','foundryfield','training','altar','manor','storehouse','market','housing','hostel'],tech:['tech-01','tech-09','tech-10','tech-11','tech-12','tech-13','tech-08','tech-02','tech-03','tech-04','tech-05','tech-06','tech-16','tech-15','tech-18','tech-17','tech-14','tech-07','tech-19'],marchEvery:7,trainTarget:22000,heroTarget:6}
 ];
-const endgamePolicy={id:'endgame',build:['citadel','farm','barracks','academy','grove','lumber','mine','quarry','foundryfield','training','altar','manor','storehouse','market','housing','hostel','stable','skirmisher','workshop','caravan','granary'],tech:['tech-09','tech-10','tech-11','tech-12','tech-13','tech-16','tech-15','tech-08','tech-01','tech-02','tech-03','tech-04','tech-05','tech-06','tech-14','tech-17','tech-18','tech-07','tech-19'],marchEvery:7,trainTarget:160000,heroTarget:12};
+const endgamePolicy={id:'endgame',build:['citadel','farm','barracks','academy','grove','lumber','mine','quarry','foundryfield','training','altar','manor','storehouse','market','housing','hostel','stable','skirmisher','workshop','caravan','granary'],tech:['tech-09','tech-10','tech-11','tech-12','tech-13','tech-16','tech-15','tech-08','tech-01','tech-02','tech-03','tech-04','tech-05','tech-06','tech-14','tech-17','tech-18','tech-07','tech-19'],marchEvery:7,trainTarget:1_000_000,trainingSiteTarget:8,heroTarget:12};
 const policies=process.env.DACKY_ENDGAME_ONLY==='1'?[endgamePolicy]:basePolicies;
 const allQuests=gameplayQuestList(),sourceTroops=TROOPS.filter(x=>x.mobileSourceId),sourceHeroes=HEROES.filter(x=>x.mobileSourceId),gearCatalog=ITEMS.filter(x=>x.type!=='vật phẩm');
 const mountainBattles=LEGACY_ELFLAND_LOCATIONS.flatMap(place=>getMountainBattles(place.ElflandID));
@@ -92,6 +92,7 @@ function run(policy){
    const ownedGear=state.items.map(id=>ITEMS.find(x=>x.id===id)).filter(x=>x&&x.type!=='vật phẩm');
    for(const h of state.heroes.filter(x=>x.assigned)){
      const occupied=new Set(Object.values(h.equipment||{}).filter(Boolean));
+     for(const itemId of occupied){const star=quoteGearStar(state,h.id,itemId);if(star?.available&&act('starUpGear',{heroId:h.id,itemId}))return;}
      const item=ownedGear.find(x=>!occupied.has(x.id)&&!equipped.has(x.id)&&(x.mobileRequiredLevel||0)<=h.level&&(!x.mobileOccupation||x.mobileOccupation==='Mọi nghề'||x.mobileOccupation===HEROES.find(def=>def.id===h.id)?.mobileOccupation));
      if(item&&act('equip',{heroId:h.id,itemId:item.id})){equipped.add(item.id);return;}
    }
@@ -146,7 +147,7 @@ function run(policy){
    if(id)act('upgrade',{buildingId:id});
  };
  const addTrainingSite=()=>{
-   if(policy.id!=='endgame'||trainingSites(state).length>=3||allConstructionQueues(state).length)return;
+   if(policy.id!=='endgame'||trainingSites(state).length>=policy.trainingSiteTarget||allConstructionQueues(state).length)return;
    const site=cityPlotIds('inner').find(id=>{
      if(cityPlotRecord(state,id))return false;
      const quote=quoteCityPlot(state,id,'barracks');return quote&&!quote.locked&&!quote.maxed&&quote.requirementStatus!=='LOCKED'&&!quote.landLocked&&affordable(quote.cost);
@@ -194,10 +195,29 @@ function run(policy){
    const reserve={food:1000,timber:1000,stone:1000,iron:1000,gold:12000};
    const resourceRate={food:1,timber:1.15,stone:1.3,iron:1.55,gold:2.2,jade:16};
    let to=null,goal=0;
-   if(trainingSites(state).length<3&&(state.levels.training||0)>0){
+   // Reserve resources for real source progression gates before growing the
+   // army further. This is a player trade policy: every exchange still goes
+   // through quote/runtime rules and never injects resources.
+   for(const techId of ['tech-09','tech-10','tech-12','tech-13','tech-11','tech-16']){
+     const quote=quoteResearch(state,techId);if(!quote||quote.maxed)continue;
+     let target=quote.requirementSatisfied?quote.cost:null;
+     if(!target){
+       for(const requirement of quote.unmetRequirements){
+         const match=requirement.match(/^(.+?)\s+(\d+)$/),building=match&&BUILDINGS.find(row=>row.name===match[1]);
+         if(!building)continue;
+         const buildingQuote=quoteBuilding(state,building.id);
+         if(buildingQuote&&!buildingQuote.maxed&&!buildingQuote.locked&&!affordable(buildingQuote.cost)){target=buildingQuote.cost;break;}
+         if(buildingQuote&&!buildingQuote.maxed&&!buildingQuote.locked&&affordable(buildingQuote.cost)){target=null;break;}
+       }
+     }
+     if(!target)continue;
+     const shortage=Object.entries(target).filter(([key,value])=>(state.resources[key]||0)<value).sort((a,b)=>(b[1]-(state.resources[b[0]]||0))-(a[1]-(state.resources[a[0]]||0)))[0];
+     if(shortage){to=shortage[0];goal=shortage[1]+(shortage[0]==='gold'?500:250);break;}
+   }
+   if(trainingSites(state).length<policy.trainingSiteTarget&&(state.levels.training||0)>0){
      const site=cityPlotIds('inner').find(id=>!cityPlotRecord(state,id));
      const quote=site&&quoteCityPlot(state,site,'barracks');
-     if(quote&&!quote.locked&&!quote.maxed&&!quote.landLocked){
+     if(!to&&quote&&!quote.locked&&!quote.maxed&&!quote.landLocked){
        for(const key of ['food','timber','stone','iron','gold'])if(state.resources[key]<(quote.cost[key]||0)){to=key;goal=(quote.cost[key]||0)+100;break;}
      }
    }

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { advance, allConstructionQueues, constructionQueueCapacity, createNewGame, doAction, heroPower, marchTroopCapacity, migrateSave, productionPerHour, quoteBuilding, quoteGearStar, quoteItemPurchase, quoteTraining, storageCapacity } from '../src/engine.js';
 import { BUILDINGS, HEROES, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
-import { cityEffects, itemBuff, itemUseRule } from '../src/gameplay-p15.js';
+import { cityEffects, itemBuff, itemUseRule, pendingBattleBuff } from '../src/gameplay-p15.js';
 import { createProductCombat } from '../src/combat/product-v13.js';
 import { experienceForLevel } from '../src/simulated-world.js';
 
@@ -290,6 +290,52 @@ test('artifact and mount star-up use their dedicated source stones and affect eq
   const first=doAction(state,{type:'starUpGear',heroId:hero.id,itemId:artifact.id},now),second=doAction(first,{type:'starUpGear',heroId:hero.id,itemId:horse.id},now+1);
   assert.ok(!second.items.includes(artifactStone.id)&&!second.items.includes(horseStone.id));
   assert.ok(combat.commander(second.heroes[0],second).commandAttack>before,'artifact stars feed an explicitly simulated command-stat bridge');
+});
+
+test('outpost battle seals are prepared once, affect the real battle input, and settle into the report',()=>{
+  const combat=createProductCombat({storageCapacity}),attack=withItem('4822'),troop=TROOPS.find(row=>row.id==='troop-02'),node=WORLD_NODES.find(row=>row.id==='node-011');
+  attack.state.army[troop.id]=100_000;
+  const baseline=combat.marchInput(attack.state,{nodeId:node.id,troops:{[troop.id]:100_000},startAt:now,seed:71}).input;
+  const prepared=doAction(attack.state,{type:'useItem',itemId:attack.item.id},now);
+  assert.ok(!prepared.items.includes(attack.item.id));
+  assert.equal(pendingBattleBuff(prepared,'attack'),.05);
+  assert.equal(prepared.gameplay.nextBattleBuffs[0].sourceTable,'vat-pham');
+  const boosted=combat.marchInput(prepared,{nodeId:node.id,troops:{[troop.id]:100_000},startAt:now,seed:71}).input;
+  assert.ok(boosted.sides[0].armyAttack>baseline.sides[0].armyAttack);
+  const marching=doAction(prepared,{type:'march',nodeId:node.id,troops:{[troop.id]:100_000}},now);
+  const settled=advance(marching,marching.queues.march.finishAt+1).state;
+  assert.equal(settled.gameplay.nextBattleBuffs.length,0);
+  assert.equal(settled.reports[0].battleItems[0].sourceId,'4822');
+  assert.equal(settled.reports[0].battleItems[0].evidence,'VERIFIED_MOBILE');
+
+  const capacity=withItem('4821'),before=marchTroopCapacity(capacity.state),staged=doAction(capacity.state,{type:'useItem',itemId:capacity.item.id},now);
+  assert.equal(marchTroopCapacity(staged),Math.floor(before*1.10));
+  const disruption=withItem('4824'),debuffed=doAction(disruption.state,{type:'useItem',itemId:disruption.item.id},now);
+  const input=combat.marchInput(debuffed,{nodeId:node.id,troops:{[troop.id]:100_000},startAt:now,seed:72}).input;
+  assert.equal(input.sides[1].armyAttack,-.05);
+});
+
+test('Mobile strategic scrolls use the shared spell engine, saved cooldowns and selected NPC target',()=>{
+  const economy=withItem('4551'),hero=economy.state.heroes[0];hero.level=150;hero.combatMana=10_000;
+  const production=doAction(economy.state,{type:'useItem',itemId:economy.item.id,heroId:hero.id},now);
+  assert.ok(!production.items.includes(economy.item.id));
+  assert.ok(cityEffects(production,now).production>=.05);
+  assert.equal(production.gameplay.itemCooldowns['4551'],now+2*3600_000);
+  production.items.push(economy.item.id);
+  assert.throws(()=>doAction(production,{type:'useItem',itemId:economy.item.id,heroId:hero.id},now+1),/hồi chiêu/);
+  assert.ok(production.items.includes(economy.item.id),'cooldown rejection keeps the scroll');
+
+  const troopLoss=withItem('4557'),caster=troopLoss.state.heroes[0],node=WORLD_NODES.find(row=>row.id==='node-120');
+  caster.level=150;caster.combatMana=10_000;
+  const before=node.enemy.formation.reduce((sum,row)=>sum+row.count,0);
+  const debuffed=doAction(troopLoss.state,{type:'useItem',itemId:troopLoss.item.id,heroId:caster.id,nodeId:node.id},now);
+  const after=Object.values(debuffed.gameplay.strategic.npc[node.id].troops).reduce((sum,count)=>sum+count,0);
+  assert.ok(after<before,'the selected NPC garrison is changed by the source-described troop-loss spell');
+  assert.ok(!debuffed.items.includes(troopLoss.item.id));
+  assert.equal(debuffed.gameplay.itemCooldowns['4557'],undefined,'the Mobile description does not state a cooldown for this scroll');
+  const migrated=migrateSave(JSON.parse(JSON.stringify(debuffed)),now+2);
+  assert.equal(migrated.gameplay.strategic.npc[node.id].troops && Object.values(migrated.gameplay.strategic.npc[node.id].troops).reduce((sum,count)=>sum+count,0),after);
+  assert.equal(migrated.gameplay.itemCooldowns['4557'],undefined);
 });
 
 test('source hero recovery and respec items have bounded, consumable gameplay effects',()=>{

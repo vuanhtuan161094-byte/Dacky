@@ -2,7 +2,7 @@ import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulate
 import { getPveEncounter, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot, resolvePveLootItem } from './pve-campaign.js';
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
-import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,equipmentSlot } from './gameplay-p15.js';
+import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,pendingBattleBuff,equipmentSlot } from './gameplay-p15.js';
 import { createProductCombat } from './combat/product-v13.js';
 
 export const SAVE_VERSION = 4;
@@ -379,7 +379,7 @@ export function marchTroopCapacity(state) {
   const leaders=state.heroes.filter(hero=>hero.assigned).length;
   const sourcedRate=technologyRate('tech-13',0.02);
   const base=leaders*100_000*(1+(state.technologies?.['tech-13']||0)*sourcedRate);
-  return Math.floor(base*(1+(state.settings?.combatV13?itemBuff(state,'marchCapacity',state.lastTickAt??0):0)));
+  return Math.floor(base*(1+(state.settings?.combatV13?Math.max(itemBuff(state,'marchCapacity',state.lastTickAt??0),pendingBattleBuff(state,'marchCapacity')):0)));
 }
 
 export function quoteScouting(state,nodeId) {
@@ -1556,6 +1556,29 @@ export function doAction(state, action, now = Date.now()) {
       const item = ITEMS.find(i => i.id === action.itemId);
       if (itemIndex < 0 || !item || item.type !== 'vật phẩm') throw new Error('Không thể sử dụng vật phẩm này.');
       const effect=item.useEffect??(s.settings.combatV13?itemUseRule(item):null);
+      if(effect?.kind==='strategicScroll'){
+        if(!s.settings.combatV13)throw Error('Cần engine mới để thi triển phù chiến lược.');
+        if(s.queues.march)throw Error('Thần tiên đang hành quân; phù chưa bị tiêu hao.');
+        const hero=s.heroes.find(row=>row.id===action.heroId);if(!hero)throw Error('Chọn thần tiên thi triển; phù chưa bị tiêu hao.');
+        const sourceId=String(effect.spellId),readyAt=Number(s.gameplay.itemCooldowns[sourceId])||0;
+        if(readyAt>now)throw Error('Phù đang hồi chiêu '+formatDuration(Math.ceil((readyAt-now)/1000))+'; vật phẩm chưa bị tiêu hao.');
+        const node=effect.scope==='enemy'?WORLD_NODES.find(row=>row.id===action.nodeId):null;
+        if(effect.scope==='enemy'&&(!node||s.world.captures.includes(node.id)))throw Error('Chọn một thành NPC chưa chiếm; phù chưa bị tiêu hao.');
+        if(node&&!s.gameplay.strategic.npc[node.id])s.gameplay.strategic.npc[node.id]={morale:80,loyalty:100,troops:node.enemy.formation.reduce((out,row)=>(out[row.unitId]=(out[row.unitId]||0)+row.count,out),{}),effects:[]};
+        const events=castWorldSpell(s,{spellId:effect.spellId,heroId:hero.id,nodeId:node?.id,now,combat:combat()});
+        if(effect.cooldownSeconds)s.gameplay.itemCooldowns[sourceId]=now+effect.cooldownSeconds*1000;
+        s.items.splice(itemIndex,1);note(s,`${item.name} thi triển thành công · ${events.map(row=>row.type).join(', ')} · nguồn Mobile, phép toán theo adapter legacy SIMULATED.`);break;
+      }
+      if(effect?.kind==='nextBattleBuffSet'){
+        if(s.queues.march)throw Error('Đang có đạo quân hành quân; phù chiến đấu chưa bị tiêu hao.');
+        const sourceId=String(item.mobileSourceId??item.id);
+        if(s.gameplay.nextBattleBuffs.some(buff=>buff.sourceId===sourceId))throw Error('Phù này đã được chuẩn bị cho trận kế tiếp; vật phẩm chưa bị tiêu hao.');
+        for(const buff of effect.effects)s.gameplay.nextBattleBuffs.push({key:buff.key,ratio:buff.ratio,sourceId,evidence:'VERIFIED_MOBILE',sourceTable:effect.sourceTable,sourceField:effect.sourceField,simulated:effect.simulated??[],stackingEvidence:effect.stackingEvidence});
+        s.items.splice(itemIndex,1);
+        const mapped=effect.effects.map(buff=>({attack:'tấn công quân đội',defense:'phòng thủ quân đội',marchCapacity:'sức chỉ huy hành quân',enemyAttackReduction:'giảm công địch',enemyDefenseReduction:'giảm thủ địch',artifactPower:'hiệu quả pháp bảo đội hình',enemyArtifactPowerReduction:'giảm hiệu quả pháp bảo địch',enemyTroopLoss:'bào mòn quân địch',enemyArtifactBlock:'phong ấn pháp bảo địch'}[buff.key]||buff.key)).join(', ');
+        note(s,`${item.name} đã chuẩn bị cho trận hành quân kế tiếp: ${mapped} · VERIFIED_MOBILE, quy đổi runtime SIMULATED.`);
+        break;
+      }
       if(effect?.kind==='queueSpeedup'){
         const found=effect.queue==='construction'
           ?allConstructionQueues(s).filter(row=>!effect.building||row.queue.buildingId===effect.building).sort((a,b)=>a.queue.finishAt-b.queue.finishAt)[0]

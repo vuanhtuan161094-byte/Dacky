@@ -64,6 +64,7 @@ export function claimSourceQuest(s,id,production){
 const speedups={'4001':['construction',900],'4002':['construction',3600],'4003':['construction',9000],'4004':['construction',28800],'4005':['construction',108000],'4011':['research',900],'4012':['research',3600],'4013':['research',10800],'4014':['research',36000],'4015':['research',129600],'4021':['training',.30],'4022':['training',.50],'4024':['construction',.35,'wall'],'4933':['march',.35]};
 const prodItems={'4101':['food',86400],'4102':['food',604800],'4111':['timber',86400],'4112':['timber',604800],'4121':['stone',86400],'4122':['stone',604800],'4131':['iron',86400],'4132':['iron',604800],'4141':['gold',86400],'4142':['gold',604800]};
 export function itemBuff(s,key,now){return (s.gameplay?.itemBuffs??[]).filter(x=>x.key===key&&x.expiresAt>now).reduce((n,x)=>Math.max(n,x.ratio),0);}
+export function pendingBattleBuff(s,key){return (s.gameplay?.nextBattleBuffs??[]).filter(x=>x.key===key).reduce((n,x)=>Math.max(n,Number(x.ratio)||0),0);}
 export function equipmentSlot(item){const slots={'Mũ':'helmet','Giáp':'armor','Đai':'belt','Giày':'boots','Tay':'gloves','Vũ Khí':'weapon','Cổ Khí':'relic','Cấm Khí':'relic2','Ngựa':'mount'};return slots[item?.mobileEquipmentSlot]??(item?.type==='vũ khí'?'weapon':item?.type==='giáp'?'armor':'artifact');}
 const setBySource=new Map(MOBILE_SOURCE_DATABASE.categories['vat-pham'].filter(x=>x.details.some(d=>d.k==='kn'&&String(d.t).startsWith('Bộ '))).map(x=>{const b=x.details.find(d=>d.k==='kn'&&String(d.t).startsWith('Bộ '));return [String(x.id),{name:b.ds?.[0]?.t??b.t,thresholds:b.ds?.[0]?.n??[]}];}));
 export function equipmentSets(h){const counts=new Map();for(const id of new Set(Object.values(h.equipment??{}).filter(Boolean))){if((h.combatDurability?.[id]??100)<=0)continue;const it=ITEMS.find(x=>x.id===id),s=setBySource.get(String(it?.mobileSourceId));if(s){const v=counts.get(s.name)??{...s,count:0};v.count++;counts.set(s.name,v)}}return [...counts.values()].map(s=>({...s,active:s.thresholds.filter(x=>Number(String(x).match(/^\d+/)?.[0]??Infinity)<=s.count)}));}
@@ -111,6 +112,23 @@ const sourceTimedBuffs=new Map([
   ['8739',{seconds:7*86400,effects:[{key:'attack',ratio:.10},{key:'defense',ratio:.10},{key:'trainingTimeReduction',ratio:.25},{key:'memberDiscount:treasure',ratio:.20},{key:'memberDiscount:material',ratio:.20}],unsupported:[],simulated:['memberDiscount:20%']}],
   ['8931',{seconds:3600,effects:[{key:'heroVitality',ratio:.05},{key:'heroMana',ratio:.05},{key:'heroPhysical',ratio:.05},{key:'heroArcane',ratio:.05},{key:'heroStrategy',ratio:.05}],unsupported:[],stackingEvidence:'VERIFIED_MOBILE'}]
 ]);
+const sourceBattleBuffs=new Map([
+  ['4820',{effects:[{key:'attack',ratio:.15}],simulated:['PVP_ONLY_SOURCE_EFFECT_ADAPTED_TO_NEXT_ARMY_BATTLE']}],
+  ['4821',{effects:[{key:'marchCapacity',ratio:.10}],simulated:['OUTPOST_DEPLOYMENT_ADAPTED_TO_NEXT_MARCH_CAPACITY']}],
+  ['4822',{effects:[{key:'attack',ratio:.05}],simulated:['APPLIES_TO_NEXT_AVAILABLE_ARMY_BATTLE']}],
+  ['4823',{effects:[{key:'defense',ratio:.05}],simulated:['APPLIES_TO_NEXT_AVAILABLE_ARMY_BATTLE']}],
+  ['4824',{effects:[{key:'enemyAttackReduction',ratio:.05}],simulated:['APPLIES_TO_NEXT_AVAILABLE_ARMY_BATTLE']}],
+  ['4825',{effects:[{key:'enemyDefenseReduction',ratio:.05}],simulated:['APPLIES_TO_NEXT_AVAILABLE_ARMY_BATTLE']}],
+  ['4826',{effects:[{key:'artifactPower',ratio:.10}],simulated:['ARTIFACT_POWER_ADAPTED_TO_COMMANDER_BONUS']}],
+  ['4827',{effects:[{key:'enemyArtifactPowerReduction',ratio:.10}],simulated:['ENEMY_ARTIFACT_POWER_ADAPTED_TO_COMMANDER_BONUS']}],
+  ['4828',{effects:[{key:'enemyTroopLoss',ratio:.02}],simulated:['PER_ROUND_ATTRITION_ADAPTED_TO_BOUNDED_BATTLE_DAMAGE']}],
+  ['4829',{effects:[{key:'enemyArtifactBlock',ratio:1}],simulated:['ARTIFACT_SEAL_APPLIES_TO_NEXT_ARMY_BATTLE']}],
+  ['4830',{effects:[{key:'enemyTroopLoss',ratio:.10}],simulated:['PER_ROUND_ATTRITION_ADAPTED_TO_BOUNDED_BATTLE_DAMAGE']}],
+  ['4831',{effects:[{key:'attack',ratio:.10}],simulated:['APPLIES_TO_NEXT_AVAILABLE_ARMY_BATTLE']}],
+  ['4832',{effects:[{key:'defense',ratio:.10}],simulated:['APPLIES_TO_NEXT_AVAILABLE_ARMY_BATTLE']}],
+  ['4833',{effects:[{key:'enemyAttackReduction',ratio:.10}],simulated:['APPLIES_TO_NEXT_AVAILABLE_ARMY_BATTLE']}],
+  ['4834',{effects:[{key:'enemyDefenseReduction',ratio:.10}],simulated:['APPLIES_TO_NEXT_AVAILABLE_ARMY_BATTLE']}]
+]);
 const sourceHeroFlatBuffs=new Map([
   ['4812',{key:'heroFlatPhysical',amount:10,seconds:2*3600}],['4813',{key:'heroFlatArcane',amount:10,seconds:2*3600}],['4814',{key:'heroFlatStrategy',amount:10,seconds:2*3600}],
   ['4817',{key:'heroFlatPhysical',amount:30,seconds:8*3600}],['4818',{key:'heroFlatArcane',amount:30,seconds:8*3600}],['4819',{key:'heroFlatStrategy',amount:30,seconds:8*3600}]
@@ -144,6 +162,11 @@ const sourceTowerBooks=new Map([
 export function itemUseRule(item){
  if(!item||item.type!=='vật phẩm')return null;
  const name=norm(item.name),d=norm(item.mobileDescription??''),sid=String(item.mobileSourceId);
+ const legacySpell=Number(sid),spell=strategicCatalog().find(row=>row.row.ID===legacySpell&&row.rule&&item.mobileGroup==='Bảo vật');
+ if(spell&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE'){
+  const cooldown=norm(item.mobileDescription).match(/(\d+(?:[.,]\d+)?)\s*(?:gio|h)\s*(?:hoi chieu|cooldown)/);
+  return {kind:'strategicScroll',spellId:legacySpell,scope:spell.rule[0],cooldownSeconds:Math.max(0,Math.floor((Number(cooldown?.[1]?.replace(',','.'))||0)*3600)),evidence:'MIXED',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_LEGACY_THEURGY_ADAPTER'};
+ }
  if(sid==='4917')return {kind:'renameVoucher',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
  if(sid==='4916')return {kind:'flagVoucher',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
  if(sid==='4408')return {kind:'mountainRefresh',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeScopeEvidence:'SIMULATED_SELECTED_MOUNTAIN_DAILY_RESET'};
@@ -183,6 +206,8 @@ export function itemUseRule(item){
  if(sid==='4961'&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {kind:'heroRootBoost',targetHeroSourceId:'ly-tinh',amount:21,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',sourceRecordId:sid,stackingEvidence:'SIMULATED'};
  const sourcedBuff=sourceTimedBuffs.get(sid);
  if(sourcedBuff&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {...sourcedBuff,kind:'timedBuffSet',effects:sourcedBuff.effects.map(effect=>({...effect})),unsupported:[...(sourcedBuff.unsupported??[])],simulated:[...(sourcedBuff.simulated??[])],evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',stackingEvidence:sourcedBuff.stackingEvidence??'SIMULATED'};
+ const battleBuff=sourceBattleBuffs.get(sid);
+ if(battleBuff&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {...battleBuff,kind:'nextBattleBuffSet',effects:battleBuff.effects.map(effect=>({...effect})),evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',stackingEvidence:'SIMULATED_MAX_PER_EFFECT'};
  if(name.startsWith('ao hoa')&&d.includes('ma tran'))return {kind:'matrix',evidence:'MIXED'};
  if(/tang kinh nghiem|kinh nghiem than tien/.test(d)&&/\d/.test(d)){const n=d.match(/(?:tang|nhan)\s+([\d.,]+)\s+(?:diem\s+)?kinh nghiem/);if(n)return {kind:'heroXp',amount:num(n[1].replace(/[.,]/g,'')),evidence:'MIXED'};}
  if(item.mobileGroup==='Bảo rương'&&!item.mobileOpening?.rewards?.length)return {kind:'simulatedChest',evidence:'SIMULATED_MISSING_SOURCE_REWARD'};
@@ -190,7 +215,7 @@ export function itemUseRule(item){
 }
 export function buzhouPlan(floor){const row=LEGACY_BUZHOU_FLOORS.find(x=>x.floorId===floor);if(!row)return null;const formation=LEGACY_BUZHOU_FORMATIONS.filter(x=>Number(x.FloorID)===floor).map(x=>({name:x.GeneralName,troopSourceId:String(x.LeadSoldierID),count:x.LeadSoldierNum,troopId:byTroop.get(Number(x.LeadSoldierID))?.id??null}));return {floor,minLevel:row.generalMinLevel,maxLevel:row.generalMaxLevel,minCount:row.generalMinNum,maxCount:row.generalMaxNum,lead:row.generalLeadPopulation,formation,evidence:'VERIFIED_LEGACY_REFERENCE'};}
 function normalizeAssaults(value){return Object.fromEntries(Object.entries(value&&typeof value==='object'?value:{}).filter(([id,row])=>/^buzhou:[45]$/.test(id)&&row&&typeof row==='object'&&row.remaining&&typeof row.remaining==='object').map(([id,row])=>[id,{remaining:Object.fromEntries(Object.entries(row.remaining).filter(([unitId,count])=>/^legacy-npc-\d+$/.test(unitId)&&Number.isFinite(Number(count))&&Number(count)>0).map(([unitId,count])=>[unitId,Math.min(9_999_999,Math.floor(Number(count)))])),total:clamp(num(row.total),0,20_000_000)}]).filter(([,row])=>Object.keys(row.remaining).length));}
-export function normalizeGameplay(s){const g=s.gameplay&&typeof s.gameplay==='object'?s.gameplay:{};s.gameplay={...g,questClaims:[...new Set((Array.isArray(g.questClaims)?g.questClaims:[]).filter(x=>quests.has(x)))],questClaimDays:Object.fromEntries(Object.entries(g.questClaimDays||{}).filter(([id,day])=>quests.has(id)&&Number.isSafeInteger(day))),questVouchers:num(g.questVouchers),tradeVouchers:clamp(num(g.tradeVouchers),0,100),endgameAssaults:normalizeAssaults(g.endgameAssaults),actions:g.actions&&typeof g.actions==='object'?g.actions:{},official:clamp(num(g.official),0,19),guildDonation:num(g.guildDonation),scoutRank:num(g.scoutRank),fieldRank:num(g.fieldRank),fieldOccupationRank:num(g.fieldOccupationRank),mountainRank:num(g.mountainRank),taxRate:clamp(num(g.taxRate??20),0,50),laborRate:clamp(num(g.laborRate??100),0,100),flag:String(g.flag??'周').slice(0,4),itemBuffs:(Array.isArray(g.itemBuffs)?g.itemBuffs:[]).filter(x=>x&&typeof x.key==='string'&&Number.isFinite(x.expiresAt)&&Number.isFinite(x.ratio)),strategic:{effects:Array.isArray(g.strategic?.effects)?g.strategic.effects:[],npc:g.strategic?.npc&&typeof g.strategic.npc==='object'?g.strategic.npc:{},receipts:Array.isArray(g.strategic?.receipts)?g.strategic.receipts:[]}};return s.gameplay;}
+export function normalizeGameplay(s){const g=s.gameplay&&typeof s.gameplay==='object'?s.gameplay:{};s.gameplay={...g,questClaims:[...new Set((Array.isArray(g.questClaims)?g.questClaims:[]).filter(x=>quests.has(x)))],questClaimDays:Object.fromEntries(Object.entries(g.questClaimDays||{}).filter(([id,day])=>quests.has(id)&&Number.isSafeInteger(day))),questVouchers:num(g.questVouchers),tradeVouchers:clamp(num(g.tradeVouchers),0,100),endgameAssaults:normalizeAssaults(g.endgameAssaults),actions:g.actions&&typeof g.actions==='object'?g.actions:{},official:clamp(num(g.official),0,19),guildDonation:num(g.guildDonation),scoutRank:num(g.scoutRank),fieldRank:num(g.fieldRank),fieldOccupationRank:num(g.fieldOccupationRank),mountainRank:num(g.mountainRank),taxRate:clamp(num(g.taxRate??20),0,50),laborRate:clamp(num(g.laborRate??100),0,100),flag:String(g.flag??'周').slice(0,4),itemBuffs:(Array.isArray(g.itemBuffs)?g.itemBuffs:[]).filter(x=>x&&typeof x.key==='string'&&Number.isFinite(x.expiresAt)&&Number.isFinite(x.ratio)),nextBattleBuffs:(Array.isArray(g.nextBattleBuffs)?g.nextBattleBuffs:[]).filter(x=>x&&typeof x.key==='string'&&typeof x.sourceId==='string'&&Number.isFinite(x.ratio)).map(x=>({...x,ratio:clamp(x.ratio,0,1)})),itemCooldowns:Object.fromEntries(Object.entries(g.itemCooldowns||{}).filter(([id,until])=>/^\d+$/.test(id)&&Number.isFinite(until)&&until>0).map(([id,until])=>[id,Math.min(Number.MAX_SAFE_INTEGER,Math.floor(until))])),strategic:{effects:Array.isArray(g.strategic?.effects)?g.strategic.effects:[],npc:g.strategic?.npc&&typeof g.strategic.npc==='object'?g.strategic.npc:{},receipts:Array.isArray(g.strategic?.receipts)?g.strategic.receipts:[]}};return s.gameplay;}
 export function trackAction(s,action){const a=s.gameplay.actions;const inc=k=>a[k]=num(a[k])+1;inc(action.type);if(action.type==='useItem')inc('useItem:'+action.itemId);}
 export function gameplayQuestList(){return [...quests.values()];}
 export function strategicQuote(){return strategicCatalog();}

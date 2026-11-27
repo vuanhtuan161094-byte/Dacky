@@ -2,6 +2,15 @@
 
 Updated 2026-11-27 · Repository `vuanhtuan161094-byte/Dacky` · active branch `feature/dacky-product-completion`
 
+## Active continuation — shared item families and endgame route
+
+- Kept work on the existing product branch and preserved the user's untracked runtime exports, review materials, route JSON and screenshots.
+- Mobile outpost seals now prepare shared next-battle effects that alter the real army combat input, consume once, settle once and appear in battle reports. Source-linked strategic scrolls cast through the existing spell engine with a chosen hero/target, item consumption and save-persistent cooldown. Legacy spell calculations remain labeled simulated.
+- Inventory art fallbacks are labeled, hero recruitment uses bundled portraits, the active quest links to its next screen, and inventory actions explain prepared battle seals and scroll cooldowns.
+- The 720-day clean-save endgame policy now reserves traded resources for source progression gates, targets a larger earned army and uses owned star stones through the real star-up action. Run `v6` is still active, so no endgame clear is claimed yet.
+- Regression evidence: Node **167/167**, Python source tests **10/10**, dependency graph **1,567 nodes / 3,958 edges** with 0 cycles, impossible conditions or unknown unique references; syntax and diff checks pass. No new CI or artifact build has run for this increment yet.
+- Mobile permits 4805–4807 remain unsupported because this game's city model has no foreign faction barracks. Keep this as a stated gap instead of treating a generic exchange as source parity. Other source HOLDs and device QA remain as described below.
+
 ## Latest continuation — mass gameplay completion
 
 - Continued in the existing ONE GAME branch. Added runtime behavior for resuming partially cleared Bất Chu doors 4–5 after regrouping; focused Buzhou regression is 9/9.

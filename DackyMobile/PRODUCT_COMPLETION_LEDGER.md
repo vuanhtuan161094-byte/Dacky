@@ -1,8 +1,17 @@
 # Dacky product completion ledger
 
-Updated 2026-11-27 · active branch `feature/dacky-product-completion` · latest pushed parent `993a649f0df63e0cda0f0e385750f43fd94d2687`.
+Updated 2026-11-27 · active branch `feature/dacky-product-completion` · working increment based on `ed07bf408fe9ae89cfa29efe6615daff5dda96d4`.
 
 This ledger describes playable behavior and evidence. Record counts, tests and imported rows do not establish source parity or product completion.
+
+## Active continuation: shared item families, field UI and endgame route
+
+- Added one reusable `nextBattleBuffSet` path for verified outpost seals. It applies the mapped effects to the real Combat P20 march input, consumes each seal once, clears it on settlement, records the consumed effect in the report, and migrates the pending state. Formula conversions are marked SIMULATED.
+- Source-linked Mobile strategic scrolls now resolve through the shared strategic spell catalog and existing spell engine. The inventory UI selects a caster and enemy city where required; valid casts consume once, keep cooldowns across save/load, and initialize the real NPC roster. The source spell mechanics are a simulated legacy adapter.
+- Inventory gear and recruitment entries now show bundled source/category art with fallback labeling; the active quest has a next-screen action; use-item feedback explains strategic scroll and next-battle preparation state. This is a focused UI increment, not full screen or current-client visual approval.
+- The endgame simulation policy now trades toward the costs of legal research/building progression gates, targets a larger earned army and spends owned source star stones through the normal `starUpGear` action. A clean-save 720-day run is still running; do not treat the proposed policy as a successful route until its result is recorded.
+- Verification completed so far: `npm test` **167/167**, source parser **10/10**, dependency graph **1,567 nodes / 3,958 edges** with no cycle, impossible condition or unknown unique reference; `git diff --check` and syntax checks pass. CI/artifacts do not yet cover this worktree increment.
+- Known limitation: Mobile permits 4805–4807 require recruiting four faction troops from an opposing faction's local barracks. The runtime has no foreign-city building/training model, so their scope is still unsupported; it is not replaced with a fake one-item troop exchange. The three legacy source tables and unresolved source-versus-runtime semantics remain explicitly partial/HOLD.
 
 | System | Feature | Status | Runtime evidence | Remaining work | Next action |
 | --- | --- | --- | --- | --- | --- |
