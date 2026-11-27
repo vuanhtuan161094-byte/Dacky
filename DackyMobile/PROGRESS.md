@@ -12,7 +12,7 @@ Branch base: ART13-preserving commit `41455f6c1888b981a5a2351654fbc7c1e056cfd4`.
 - ART13 build verifier installed two terrain scenes and 27 source sprites with exact pack hashes. Hash lock: `docs/ART13_ASSET_LOCK.json`.
 - Actual Chromium capture: 55 PNGs in `qa/art01-review/`; 11 screen audit entries at 1280 px, zero visible broken images and zero document-width overflow. Current-client gameplay screenshots remain unavailable, so no A/B/C parity claim is made.
 - Current four-policy/endgame findings remain those recorded in `qa/one-game/GAMEPLAY_LEDGER_P41_P50.md`; this increment did not rerun unrelated long simulations. Bất Chu doors 2–5 and full endgame are still unproven. Three legacy tables remain HOLD; source-parity and device QA blockers remain.
-- Exact-head GitHub Actions, debug APK/AAB and artifact links are pending push of this branch. No Android device/emulator is attached. GitHub Pages is not configured for public serving; use the Web CI artifact until repository Pages is enabled.
+- First exact-head CI run `45938990112` passed both test suites then stopped because clean GitHub runners lacked Pillow, required by the ART13 verifier. The production workflow now installs pinned Pillow before build; the corrected run is pending. No Android device/emulator is attached. GitHub Pages is not configured for public serving; use the Web CI artifact until repository Pages is enabled.
 
 ## Review baseline — product visual fidelity V2
 
