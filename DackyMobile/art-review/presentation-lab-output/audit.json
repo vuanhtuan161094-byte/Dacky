@@ -1,0 +1,154 @@
+{
+  "lunaSha": "d0e424136f598e29df6e3447a954adbd61c593eb",
+  "captures": [
+    {
+      "screen": "01-city",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "02-outer",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "03-heroes",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "04-inventory",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "05-army",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "06-world",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "07-pve",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "08-tech",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "09-quests",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "10-market",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "11-library",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "12-settings",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "13-live-battle",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "14-battle-impact",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "battleEffects": 2,
+      "effectCSS": {
+        "size": "100% 100%",
+        "animation": "none"
+      }
+    },
+    {
+      "screen": "15-settled-report",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "16-replay",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "17-developed-inner",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "18-developed-outer",
+      "width": 1280,
+      "docWidth": 1280,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "19-mobile-city",
+      "width": 844,
+      "docWidth": 844,
+      "broken": 0,
+      "navIcon": true
+    },
+    {
+      "screen": "20-mobile-inventory",
+      "width": 844,
+      "docWidth": 844,
+      "broken": 0,
+      "navIcon": true
+    }
+  ],
+  "pageErrors": [],
+  "note": "actual runtime; developed city seeded QA fixture, not earned progression"
+}
