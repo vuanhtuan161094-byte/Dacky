@@ -4,14 +4,16 @@
     "mobileStatus": {
       "PARTIAL_RUNTIME": 620,
       "EXECUTABLE_SIMULATED_FORMULA": 151,
-      "USE_RUNTIME": 848,
-      "REFERENCE_OR_MATERIAL": 503,
-      "EQUIP_RUNTIME": 534
+      "USE_RUNTIME": 1068,
+      "REFERENCE_OR_MATERIAL": 26,
+      "QUEST_RUNTIME": 193,
+      "EQUIP_RUNTIME": 598
     },
     "sourceItems": {
-      "USE_RUNTIME": 848,
-      "REFERENCE_OR_MATERIAL": 503,
-      "EQUIP_RUNTIME": 534
+      "USE_RUNTIME": 1068,
+      "REFERENCE_OR_MATERIAL": 26,
+      "QUEST_RUNTIME": 193,
+      "EQUIP_RUNTIME": 598
     },
     "legacyTables": 70,
     "decodedTables": 67,
@@ -31,9 +33,16 @@
       "mountainLocations": 624,
       "mountainArmyStages": 8992,
       "mountainStagesWithFixedFormation": 7934,
-      "mountainRewardRulesHold": 1093,
+      "mountainRewardSourceRows": 1093,
       "sourceStrongpoints": 27,
       "sourceBossFights": 25,
+      "sourceArtifactAbilityMapping": {
+        "sourceRecords": 151,
+        "uniqueDescriptions": 88,
+        "mapped": 151,
+        "unmapped": 0,
+        "execution": "Existing source artifact ops run in army combat; no duplicate text adapter."
+      },
       "localRuleEvidence": {
         "recruitment": {
           "status": "SIMULATED",
@@ -47,7 +56,13 @@
           "status": "SIMULATED",
           "sourceHold": "fieldrandeventcfginfo"
         }
-      }
+      },
+      "mountainRewardRowsActive": 977,
+      "mountainRewardRowsWithoutPlayableFloor": 116,
+      "mountainUniqueRewardIds": 190,
+      "mountainRewardIdsJoined": 16,
+      "mountainRewardIdsUnlinked": 174,
+      "unlinkedRewardFallback": "SIMULATED_UNJOINED_SOURCE_ITEM_CONVERSION"
     }
   },
   "mobile": [
@@ -5248,8 +5263,8 @@
       "id": "4506",
       "name": "Lệnh Hiên Viên (Nguyệt)",
       "runtimeId": "mobile-good-4506",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -5264,24 +5279,24 @@
       "id": "4709",
       "name": "Thiên Đế Bảo Châu",
       "runtimeId": "mobile-good-4709",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4726",
       "name": "Côn Lôn Thần Ngọc",
       "runtimeId": "mobile-good-4726",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4961",
       "name": "Thánh Dược Nhiên Đăng",
       "runtimeId": "mobile-good-4961",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRootBoost"
     },
     {
       "category": "vat-pham",
@@ -5360,16 +5375,16 @@
       "id": "6205",
       "name": "Gân Rồng",
       "runtimeId": "mobile-good-6205",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6214",
       "name": "Tiên Đan Thái Ất",
       "runtimeId": "mobile-good-6214",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -5408,24 +5423,24 @@
       "id": "6380",
       "name": "Nhục Thân Tô Đát Kỷ",
       "runtimeId": "mobile-good-6380",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6381",
       "name": "Nguyên Hình Yêu Hồ",
       "runtimeId": "mobile-good-6381",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6382",
       "name": "Tiên Khí Biến Thân",
       "runtimeId": "mobile-good-6382",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -5528,8 +5543,8 @@
       "id": "6428",
       "name": "Dạ Minh Châu",
       "runtimeId": "mobile-good-6428",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -5616,24 +5631,24 @@
       "id": "6581",
       "name": "Chân Thân Bạch Viên",
       "runtimeId": "mobile-good-6581",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6585",
       "name": "Tinh Phượng Hoàng",
       "runtimeId": "mobile-good-6585",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6592",
       "name": "Lông Đuôi Ngũ Sắc",
       "runtimeId": "mobile-good-6592",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -5688,8 +5703,8 @@
       "id": "6616",
       "name": "Trận Phong Tiên Ngũ Hành",
       "runtimeId": "mobile-good-6616",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -5880,32 +5895,32 @@
       "id": "7642",
       "name": "Thần Thạch Vô Song",
       "runtimeId": "mobile-good-7642",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7671",
       "name": "Xi Vưu Thần Ngọc",
       "runtimeId": "mobile-good-7671",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7672",
       "name": "Hiên Viên Thần Ngọc",
       "runtimeId": "mobile-good-7672",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7673",
       "name": "Phong Hậu Thần Ngọc",
       "runtimeId": "mobile-good-7673",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
@@ -6272,24 +6287,24 @@
       "id": "8920",
       "name": "Thần Lệnh Đế Vương",
       "runtimeId": "mobile-good-8920",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8955",
       "name": "Bầu Luyện Tiên Cấp Tiên",
       "runtimeId": "mobile-good-8955",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "USE_RUNTIME",
+      "detail": "heroRootGift"
     },
     {
       "category": "vat-pham",
       "id": "8956",
       "name": "Bầu Luyện Tiên Thần Cấp",
       "runtimeId": "mobile-good-8956",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "USE_RUNTIME",
+      "detail": "heroRootGift"
     },
     {
       "category": "vat-pham",
@@ -7080,32 +7095,32 @@
       "id": "95603",
       "name": "Đá Tăng Sao Cao",
       "runtimeId": "mobile-good-95603",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "sourceGearStarStone"
     },
     {
       "category": "vat-pham",
       "id": "95604",
       "name": "Đá Huyền Quang",
       "runtimeId": "mobile-good-95604",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "sourceGearStarStone"
     },
     {
       "category": "vat-pham",
       "id": "95605",
       "name": "Đá Tinh Huy",
       "runtimeId": "mobile-good-95605",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "sourceGearStarStone"
     },
     {
       "category": "vat-pham",
       "id": "95702",
       "name": "Thẻ X3 Kinh Nghiệm 24H",
       "runtimeId": "mobile-good-95702",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -7272,8 +7287,8 @@
       "id": "95911",
       "name": "Hạnh Tiên Lạc Hồng",
       "runtimeId": "mobile-good-95911",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRootGift"
     },
     {
       "category": "vat-pham",
@@ -8152,264 +8167,264 @@
       "id": "98064",
       "name": "Khung Nhàn Vân Dã Hạc",
       "runtimeId": "mobile-good-98064",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98066",
       "name": "Khung Chí Tôn Vô Thượng",
       "runtimeId": "mobile-good-98066",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98068",
       "name": "Khung Lôi Đình Vạn Quân",
       "runtimeId": "mobile-good-98068",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98069",
       "name": "Khung Dương Danh Thiên Hạ",
       "runtimeId": "mobile-good-98069",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98070",
       "name": "Khung Thần Tiêu-Thiên Mệnh",
       "runtimeId": "mobile-good-98070",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98071",
       "name": "Khung Cửu Nhận-Chí Tôn",
       "runtimeId": "mobile-good-98071",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98072",
       "name": "Khung Thắng Thiên Bán Tử",
       "runtimeId": "mobile-good-98072",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98073",
       "name": "Khung Thiên Tuyển Chi Nhân",
       "runtimeId": "mobile-good-98073",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98080",
       "name": "Khung Anh Hùng Cái Thế",
       "runtimeId": "mobile-good-98080",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98081",
       "name": "Khung Phong Hoa Tuyệt Đại",
       "runtimeId": "mobile-good-98081",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98089",
       "name": "Khung Cổ Độc Thế Tổ",
       "runtimeId": "mobile-good-98089",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98090",
       "name": "Khung Kinh Thế Cổ Vương",
       "runtimeId": "mobile-good-98090",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98098",
       "name": "Khung Uy Chấn Bát Phương",
       "runtimeId": "mobile-good-98098",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98099",
       "name": "Khung Danh Động Mạc Bắc",
       "runtimeId": "mobile-good-98099",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98107",
       "name": "Khung Dũng Sĩ Vô Song",
       "runtimeId": "mobile-good-98107",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98108",
       "name": "Khung Tung Hoành Mạc Bắc",
       "runtimeId": "mobile-good-98108",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99002",
       "name": "Bong bóng Người dùng tôn quý",
       "runtimeId": "mobile-good-99002",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99003",
       "name": "Bong bóng Mùa hoa anh đào",
       "runtimeId": "mobile-good-99003",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99004",
       "name": "Bong bóng Manga đen trắng",
       "runtimeId": "mobile-good-99004",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99005",
       "name": "Bong bóng Thịnh điển băng tuyết",
       "runtimeId": "mobile-good-99005",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99006",
       "name": "Bong bóng Siêu cấp anh hùng",
       "runtimeId": "mobile-good-99006",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99007",
       "name": "Bong bóng Nhạc điện tử sắc màu",
       "runtimeId": "mobile-good-99007",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99008",
       "name": "Bong bóng Tiền không thành vấn đề",
       "runtimeId": "mobile-good-99008",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99009",
       "name": "Bong bóng Cẩm lý bay cao",
       "runtimeId": "mobile-good-99009",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99010",
       "name": "Bong bóng Corgi đáng yêu",
       "runtimeId": "mobile-good-99010",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99011",
       "name": "Bong bóng Bài ca Băng và Lửa",
       "runtimeId": "mobile-good-99011",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99012",
       "name": "Bong bóng Đây không phải con cừu",
       "runtimeId": "mobile-good-99012",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99013",
       "name": "Bong bóng Mùa hè mát mẻ",
       "runtimeId": "mobile-good-99013",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99014",
       "name": "Bong bóng Bay vào vũ trụ",
       "runtimeId": "mobile-good-99014",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99015",
       "name": "Bong bóng Ngắm mây bay",
       "runtimeId": "mobile-good-99015",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99016",
       "name": "Bong bóng Thiên lý tương tư",
       "runtimeId": "mobile-good-99016",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99017",
       "name": "Bong bóng Công nghệ lên mặt trăng",
       "runtimeId": "mobile-good-99017",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99018",
       "name": "Bong bóng Xuân ấm hoa nở",
       "runtimeId": "mobile-good-99018",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
@@ -8432,16 +8447,16 @@
       "id": "4503",
       "name": "Lệnh Hoàng Đế (Nguyệt)",
       "runtimeId": "mobile-good-4503",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4505",
       "name": "Lệnh Hiên Viên (Chu)",
       "runtimeId": "mobile-good-4505",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -8520,48 +8535,48 @@
       "id": "4707",
       "name": "Bổ Thiên Thạch",
       "runtimeId": "mobile-good-4707",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4708",
       "name": "Thâm Hải Long Châu",
       "runtimeId": "mobile-good-4708",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4717",
       "name": "Bầu Luyện Tiên Cao Cấp",
       "runtimeId": "mobile-good-4717",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4721",
       "name": "Đan Trùng Sinh Cao Cấp",
       "runtimeId": "mobile-good-4721",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4722",
       "name": "Quả Chúc Phúc Cao Cấp",
       "runtimeId": "mobile-good-4722",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4723",
       "name": "Bầu Luyện Tiên Cực Phẩm",
       "runtimeId": "mobile-good-4723",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -8576,16 +8591,16 @@
       "id": "4917",
       "name": "Thiếp Bái Danh",
       "runtimeId": "mobile-good-4917",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "renameVoucher"
     },
     {
       "category": "vat-pham",
       "id": "4955",
       "name": "Hạnh Tiên Kỳ Diệu",
       "runtimeId": "mobile-good-4955",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRootGift"
     },
     {
       "category": "vat-pham",
@@ -8848,32 +8863,32 @@
       "id": "6206",
       "name": "Lệnh Đông Hải Long Vương",
       "runtimeId": "mobile-good-6206",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6207",
       "name": "Lệnh Nam Hải Long Vương",
       "runtimeId": "mobile-good-6207",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6208",
       "name": "Lệnh Long Vương Tây Hải",
       "runtimeId": "mobile-good-6208",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6209",
       "name": "Lệnh Bắc Hải Long Vương",
       "runtimeId": "mobile-good-6209",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -8888,56 +8903,56 @@
       "id": "6218",
       "name": "Pháp Khí Lưu Quang",
       "runtimeId": "mobile-good-6218",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6220",
       "name": "Thạch Anh",
       "runtimeId": "mobile-good-6220",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6221",
       "name": "Lửa Huyền Băng",
       "runtimeId": "mobile-good-6221",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6222",
       "name": "Tinh Sắt",
       "runtimeId": "mobile-good-6222",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6223",
       "name": "Kim Anh",
       "runtimeId": "mobile-good-6223",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6235",
       "name": "Vòng Tay Vàng",
       "runtimeId": "mobile-good-6235",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6236",
       "name": "Lụa Đỏ",
       "runtimeId": "mobile-good-6236",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -8960,16 +8975,16 @@
       "id": "6257",
       "name": "Minh Chứng Thực Lực",
       "runtimeId": "mobile-good-6257",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6258",
       "name": "Tâm Linh Lung",
       "runtimeId": "mobile-good-6258",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -9048,24 +9063,24 @@
       "id": "6288",
       "name": "Tiên Linh Ngọc Châu",
       "runtimeId": "mobile-good-6288",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6290",
       "name": "Tử Hà Phỉ Thúy",
       "runtimeId": "mobile-good-6290",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6292",
       "name": "Phù Phá Phong Ấn",
       "runtimeId": "mobile-good-6292",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -9088,8 +9103,8 @@
       "id": "6303",
       "name": "Gà Tây Lễ Tạ Ơn",
       "runtimeId": "mobile-good-6303",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -9152,8 +9167,8 @@
       "id": "6344",
       "name": "Xá Lợi Ma Thần",
       "runtimeId": "mobile-good-6344",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -9432,16 +9447,16 @@
       "id": "6426",
       "name": "Mã Não Thạch",
       "runtimeId": "mobile-good-6426",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6427",
       "name": "Tử Thủy Tinh",
       "runtimeId": "mobile-good-6427",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -9560,16 +9575,16 @@
       "id": "6535",
       "name": "VIP Kinh Nghiệm (Tháng)",
       "runtimeId": "mobile-good-6535",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "6536",
       "name": "VIP Chiến Đấu (Tháng)",
       "runtimeId": "mobile-good-6536",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -9584,8 +9599,8 @@
       "id": "6551",
       "name": "Tinh Hồn Hoàng Thiên Hóa",
       "runtimeId": "mobile-good-6551",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -9712,8 +9727,8 @@
       "id": "6617",
       "name": "Khiên Vỡ Vụn",
       "runtimeId": "mobile-good-6617",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -9976,152 +9991,152 @@
       "id": "7638",
       "name": "Thần Thạch Dũng Vũ",
       "runtimeId": "mobile-good-7638",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "7639",
       "name": "Thần Thạch Đạo Pháp",
       "runtimeId": "mobile-good-7639",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "equipmentStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7640",
       "name": "Thần Thạch Mưu Lược",
       "runtimeId": "mobile-good-7640",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "7641",
       "name": "Thần Thạch Chỉ Số",
       "runtimeId": "mobile-good-7641",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "equipmentStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7643",
       "name": "Thần Thạch Tốc Độ",
       "runtimeId": "mobile-good-7643",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "mountSpeedGem"
     },
     {
       "category": "vat-pham",
       "id": "7648",
       "name": "Bảo Thạch Vô Song",
       "runtimeId": "mobile-good-7648",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "7652",
       "name": "Bàn Thạch Thần Ngọc",
       "runtimeId": "mobile-good-7652",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7655",
       "name": "Ứng Hùng Thần Ngọc",
       "runtimeId": "mobile-good-7655",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7658",
       "name": "Hình Thiên Thần Ngọc",
       "runtimeId": "mobile-good-7658",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7661",
       "name": "Tinh Vệ Thần Ngọc",
       "runtimeId": "mobile-good-7661",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7664",
       "name": "Hỗn Nguyên Thần Ngọc",
       "runtimeId": "mobile-good-7664",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7667",
       "name": "Khai Thiên Thần Ngọc",
       "runtimeId": "mobile-good-7667",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7670",
       "name": "Hỗn Độn Thần Ngọc",
       "runtimeId": "mobile-good-7670",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7674",
       "name": "Minh Hà Bạch Ngọc",
       "runtimeId": "mobile-good-7674",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7675",
       "name": "Minh Hà Thần Ngọc",
       "runtimeId": "mobile-good-7675",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "8011",
       "name": "Tinh Nguyên Tỳ Bà",
       "runtimeId": "mobile-good-8011",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRootGift"
     },
     {
       "category": "vat-pham",
       "id": "8012",
       "name": "Tinh Nguyên Trĩ Kê",
       "runtimeId": "mobile-good-8012",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRootGift"
     },
     {
       "category": "vat-pham",
       "id": "8723",
       "name": "Thần Phù Đúc Tạo",
       "runtimeId": "mobile-good-8723",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "8740",
       "name": "VIP Sản Xuất (Tuần)",
       "runtimeId": "mobile-good-8740",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -10264,8 +10279,8 @@
       "id": "8919",
       "name": "Hổ Phù Kim Cương",
       "runtimeId": "mobile-good-8919",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -10280,8 +10295,8 @@
       "id": "8931",
       "name": "Đan Ngũ Sắc",
       "runtimeId": "mobile-good-8931",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -10320,8 +10335,8 @@
       "id": "8954",
       "name": "Tiên Duyên",
       "runtimeId": "mobile-good-8954",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRootGift"
     },
     {
       "category": "vat-pham",
@@ -10656,8 +10671,8 @@
       "id": "95602",
       "name": "Đá Tăng Sao Trung",
       "runtimeId": "mobile-good-95602",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "sourceGearStarStone"
     },
     {
       "category": "vat-pham",
@@ -10952,240 +10967,240 @@
       "id": "98026",
       "name": "Khung Thiên Sư Minh Chương",
       "runtimeId": "mobile-good-98026",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98029",
       "name": "Khung Thanh Vân Bất Lạc",
       "runtimeId": "mobile-good-98029",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98030",
       "name": "Khung Tử Vi Trung Cung",
       "runtimeId": "mobile-good-98030",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98031",
       "name": "Khung Sinh Thần Cát Lạc",
       "runtimeId": "mobile-good-98031",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98032",
       "name": "Khung Chiếu Ảnh Phong Hoa",
       "runtimeId": "mobile-good-98032",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98033",
       "name": "Khung Độc Cô Cầu Bại",
       "runtimeId": "mobile-good-98033",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98034",
       "name": "Khung Nhật Phùng Trùng Ngũ",
       "runtimeId": "mobile-good-98034",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98036",
       "name": "Khung Tinh Phẩm Công Lược",
       "runtimeId": "mobile-good-98036",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98037",
       "name": "Khung Cửu U Vô Thường",
       "runtimeId": "mobile-good-98037",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98038",
       "name": "Khung Đúc Lại Long Tuyền",
       "runtimeId": "mobile-good-98038",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98039",
       "name": "Khung Nhớ Về Trung Nguyên",
       "runtimeId": "mobile-good-98039",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98040",
       "name": "Khung Đại Sư Đúc Kiếm",
       "runtimeId": "mobile-good-98040",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98041",
       "name": "Khung Khấp Huyết Trục Thi",
       "runtimeId": "mobile-good-98041",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98042",
       "name": "Khung Tế Tửu Thiên Sư",
       "runtimeId": "mobile-good-98042",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98043",
       "name": "Khung Xích Diệm Tinh Hỏa",
       "runtimeId": "mobile-good-98043",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98044",
       "name": "Khung Huyết Đồng Giáng Thế",
       "runtimeId": "mobile-good-98044",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98045",
       "name": "Khung Thợ Đúc Kiếm Giỏi",
       "runtimeId": "mobile-good-98045",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98046",
       "name": "Khung Ảo Ảnh Kiến Tuyết",
       "runtimeId": "mobile-good-98046",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98047",
       "name": "Khung Phá Vân Kình Thiên",
       "runtimeId": "mobile-good-98047",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98048",
       "name": "Khung Thiên Sư Kỳ Đàm",
       "runtimeId": "mobile-good-98048",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98049",
       "name": "Khung Quẻ Bói Kinh Ngạc",
       "runtimeId": "mobile-good-98049",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98063",
       "name": "Khung Tường Long Mừng Tuổi Mới",
       "runtimeId": "mobile-good-98063",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98074",
       "name": "Khung Tiên Phong",
       "runtimeId": "mobile-good-98074",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98082",
       "name": "Khung Nguyệt Ánh Kim Thu",
       "runtimeId": "mobile-good-98082",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98083",
       "name": "Khung Tiêu Diễm Điệp Mộng",
       "runtimeId": "mobile-good-98083",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98084",
       "name": "Khung U Dạ Kinh Hồn",
       "runtimeId": "mobile-good-98084",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98091",
       "name": "Khung Mùa Cuồng Hoan Mạc Bắc",
       "runtimeId": "mobile-good-98091",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98092",
       "name": "Khung Tuyết Dạ Thịnh Điển",
       "runtimeId": "mobile-good-98092",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98096",
       "name": "Khung Linh Xà Hiến Thụy",
       "runtimeId": "mobile-good-98096",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "99001",
       "name": "Bong bóng Nguyên Khí",
       "runtimeId": "mobile-good-99001",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
@@ -11288,40 +11303,40 @@
       "id": "4202",
       "name": "Thần Ấn Hình Thiên",
       "runtimeId": "mobile-good-4202",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4212",
       "name": "Phù Thần Hỏa Cửu Long",
       "runtimeId": "mobile-good-4212",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4222",
       "name": "Đan Tam Thánh",
       "runtimeId": "mobile-good-4222",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
       "id": "4224",
       "name": "Đan Hoàn Hồn Cửu Chuyển",
       "runtimeId": "mobile-good-4224",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
       "id": "4225",
       "name": "Bánh Trùng Dương",
       "runtimeId": "mobile-good-4225",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
@@ -11336,48 +11351,48 @@
       "id": "4401",
       "name": "Tiên Phù Đạo Pháp",
       "runtimeId": "mobile-good-4401",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroTimedBuff"
     },
     {
       "category": "vat-pham",
       "id": "4402",
       "name": "Phù Tiên Dũng Vũ",
       "runtimeId": "mobile-good-4402",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroTimedBuff"
     },
     {
       "category": "vat-pham",
       "id": "4403",
       "name": "Tiên Phù Mưu Lược",
       "runtimeId": "mobile-good-4403",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroTimedBuff"
     },
     {
       "category": "vat-pham",
       "id": "4405",
       "name": "Đan Kinh Nghiệm Treo Máy",
       "runtimeId": "mobile-good-4405",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4502",
       "name": "Lệnh Hoàng Đế (Chu)",
       "runtimeId": "mobile-good-4502",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4504",
       "name": "Lệnh Hiên Viên (Nhật)",
       "runtimeId": "mobile-good-4504",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -11400,128 +11415,128 @@
       "id": "4551",
       "name": "Thuật Tài Nguyên",
       "runtimeId": "mobile-good-4551",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4552",
       "name": "Thuật Dân Số",
       "runtimeId": "mobile-good-4552",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4553",
       "name": "Thuật Dân Oán",
       "runtimeId": "mobile-good-4553",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4554",
       "name": "Thuật Dân Tâm",
       "runtimeId": "mobile-good-4554",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4555",
       "name": "Thuật Tường Thành",
       "runtimeId": "mobile-good-4555",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4556",
       "name": "Thuật Trung Thành",
       "runtimeId": "mobile-good-4556",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4557",
       "name": "Thuật Giảm Binh",
       "runtimeId": "mobile-good-4557",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4558",
       "name": "Thuật Trì Hoãn",
       "runtimeId": "mobile-good-4558",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4559",
       "name": "Thuật Phản Trinh Sát",
       "runtimeId": "mobile-good-4559",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4560",
       "name": "Thuật Trinh Sát",
       "runtimeId": "mobile-good-4560",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4561",
       "name": "Thuật Tất Chiến",
       "runtimeId": "mobile-good-4561",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4562",
       "name": "Thuật Đầm Lầy",
       "runtimeId": "mobile-good-4562",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4563",
       "name": "Thuật Chống Dịch Chuyển",
       "runtimeId": "mobile-good-4563",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4564",
       "name": "Thuật Vô Binh",
       "runtimeId": "mobile-good-4564",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4565",
       "name": "Thuật Xuất Chinh",
       "runtimeId": "mobile-good-4565",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4566",
       "name": "Thuật Thiên Phạt",
       "runtimeId": "mobile-good-4566",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
@@ -11536,16 +11551,16 @@
       "id": "4568",
       "name": "Thuật Cấm Ma",
       "runtimeId": "mobile-good-4568",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "strategicScroll"
     },
     {
       "category": "vat-pham",
       "id": "4569",
       "name": "Thuật Phá Ma",
       "runtimeId": "mobile-good-4569",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "dispelStrategicCurse"
     },
     {
       "category": "vat-pham",
@@ -11664,40 +11679,40 @@
       "id": "4705",
       "name": "Thất Thái Lưu Ly",
       "runtimeId": "mobile-good-4705",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4706",
       "name": "Ngũ Sắc Thần Thạch",
       "runtimeId": "mobile-good-4706",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4716",
       "name": "Bầu Luyện Tiên Sơ Cấp",
       "runtimeId": "mobile-good-4716",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4718",
       "name": "Đan Trùng Sinh",
       "runtimeId": "mobile-good-4718",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4719",
       "name": "Quả Chúc Phúc",
       "runtimeId": "mobile-good-4719",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -11712,72 +11727,72 @@
       "id": "4725",
       "name": "Lệnh Phi Thăng Cao Cấp",
       "runtimeId": "mobile-good-4725",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4901",
       "name": "Cáo Thị Lao Dịch",
       "runtimeId": "mobile-good-4901",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4903",
       "name": "Cáo Thị Di Dân",
       "runtimeId": "mobile-good-4903",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "populationPack"
     },
     {
       "category": "vat-pham",
       "id": "4904",
       "name": "Cáo Thị An Bang",
       "runtimeId": "mobile-good-4904",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "moraleReset"
     },
     {
       "category": "vat-pham",
       "id": "4905",
       "name": "Khế Ước Đoàn Thương",
       "runtimeId": "mobile-good-4905",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4906",
       "name": "Bản Vẽ Xây Dựng",
       "runtimeId": "mobile-good-4906",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Sản xuất"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4909",
       "name": "Phù Dời Thành Cao Cấp",
       "runtimeId": "mobile-good-4909",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4913",
       "name": "Quân Kỳ",
       "runtimeId": "mobile-good-4913",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4922",
       "name": "Phù Tật Hành Cao Cấp",
       "runtimeId": "mobile-good-4922",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -11800,8 +11815,8 @@
       "id": "4954",
       "name": "Đan Kinh Nghiệm Dài Hạn",
       "runtimeId": "mobile-good-4954",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -12336,32 +12351,32 @@
       "id": "6203",
       "name": "Thiếp Bái Sư",
       "runtimeId": "mobile-good-6203",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6211",
       "name": "Hoa Sen",
       "runtimeId": "mobile-good-6211",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6212",
       "name": "Ngó Sen",
       "runtimeId": "mobile-good-6212",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6219",
       "name": "Tiên Lộ",
       "runtimeId": "mobile-good-6219",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -12592,8 +12607,8 @@
       "id": "6384",
       "name": "Hồn Ngọc Thỏ",
       "runtimeId": "mobile-good-6384",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -12792,8 +12807,8 @@
       "id": "6534",
       "name": "VIP Sản Xuất (Tháng)",
       "runtimeId": "mobile-good-6534",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -13472,104 +13487,104 @@
       "id": "7631",
       "name": "Bảo Thạch Cản Đòn +",
       "runtimeId": "mobile-good-7631",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7633",
       "name": "Bảo Thạch Tấn Công +",
       "runtimeId": "mobile-good-7633",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7634",
       "name": "Bảo Thạch Cường Công",
       "runtimeId": "mobile-good-7634",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7635",
       "name": "Bảo Thạch Cường Công +",
       "runtimeId": "mobile-good-7635",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7636",
       "name": "Thần Thạch Cản Đòn",
       "runtimeId": "mobile-good-7636",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7649",
       "name": "Bảo Thạch Tốc Độ",
       "runtimeId": "mobile-good-7649",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "mountSpeedGem"
     },
     {
       "category": "vat-pham",
       "id": "7651",
       "name": "Bàn Thạch Bạch Ngọc",
       "runtimeId": "mobile-good-7651",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7654",
       "name": "Ứng Hùng Bạch Ngọc",
       "runtimeId": "mobile-good-7654",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7657",
       "name": "Hình Thiên Bạch Ngọc",
       "runtimeId": "mobile-good-7657",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7660",
       "name": "Tinh Vệ Bạch Ngọc",
       "runtimeId": "mobile-good-7660",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7663",
       "name": "Hỗn Nguyên Bạch Ngọc",
       "runtimeId": "mobile-good-7663",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7666",
       "name": "Khai Thiên Bạch Ngọc",
       "runtimeId": "mobile-good-7666",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7669",
       "name": "Hỗn Độn Bạch Ngọc",
       "runtimeId": "mobile-good-7669",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
@@ -13584,160 +13599,160 @@
       "id": "8009",
       "name": "Lệnh Dũng Sĩ",
       "runtimeId": "mobile-good-8009",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "8700",
       "name": "Sách Hồi Thiên",
       "runtimeId": "mobile-good-8700",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8701",
       "name": "Sách Cường Công",
       "runtimeId": "mobile-good-8701",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8702",
       "name": "Sách Thạch Thuẫn",
       "runtimeId": "mobile-good-8702",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8703",
       "name": "Sách Đạo Công",
       "runtimeId": "mobile-good-8703",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8704",
       "name": "Sách Đạo Phòng",
       "runtimeId": "mobile-good-8704",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8705",
       "name": "Sách Hỗn Nguyên",
       "runtimeId": "mobile-good-8705",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8706",
       "name": "Sách Hồi Tị",
       "runtimeId": "mobile-good-8706",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8707",
       "name": "Sách Phòng Ngự",
       "runtimeId": "mobile-good-8707",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8708",
       "name": "Sách Phản Kích",
       "runtimeId": "mobile-good-8708",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8709",
       "name": "Sách Liên Kích",
       "runtimeId": "mobile-good-8709",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8710",
       "name": "Sách Thiên Đạo",
       "runtimeId": "mobile-good-8710",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8711",
       "name": "Sách Thiên Quân",
       "runtimeId": "mobile-good-8711",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8712",
       "name": "Sách Thiên Công",
       "runtimeId": "mobile-good-8712",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8713",
       "name": "Sách Thiên Nguyên",
       "runtimeId": "mobile-good-8713",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "towerBook"
     },
     {
       "category": "vat-pham",
       "id": "8721",
       "name": "Gói Quà Hoàng Kim",
       "runtimeId": "mobile-good-8721",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Sản xuất"
+      "status": "USE_RUNTIME",
+      "detail": "resourcePackFixed"
     },
     {
       "category": "vat-pham",
       "id": "8738",
       "name": "VIP Kinh Nghiệm (Tuần)",
       "runtimeId": "mobile-good-8738",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8739",
       "name": "VIP Chiến Đấu (Tuần)",
       "runtimeId": "mobile-good-8739",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8746",
       "name": "Lệnh Phong Thần",
       "runtimeId": "mobile-good-8746",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "lowRootPromotionMaterial"
     },
     {
       "category": "vat-pham",
       "id": "8747",
       "name": "Bảng Phong Thần",
       "runtimeId": "mobile-good-8747",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -13792,24 +13807,24 @@
       "id": "8912",
       "name": "Hoa Cẩm Chướng Xanh",
       "runtimeId": "mobile-good-8912",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
       "id": "8918",
       "name": "Hổ Phù Vàng",
       "runtimeId": "mobile-good-8918",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8922",
       "name": "Cờ Thiên Sư",
       "runtimeId": "mobile-good-8922",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -13864,8 +13879,8 @@
       "id": "8957",
       "name": "Thần Đan Bạo Phát",
       "runtimeId": "mobile-good-8957",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroPotentialGift"
     },
     {
       "category": "vat-pham",
@@ -14128,8 +14143,8 @@
       "id": "95701",
       "name": "Hộp Cơm",
       "runtimeId": "mobile-good-95701",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
@@ -14288,56 +14303,56 @@
       "id": "98901",
       "name": "Viền Đồng Cổ",
       "runtimeId": "mobile-good-98901",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98902",
       "name": "Viền Ngân Quang",
       "runtimeId": "mobile-good-98902",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98903",
       "name": "Viền Hoàng Kim",
       "runtimeId": "mobile-good-98903",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98904",
       "name": "Viền Bích Ngọc",
       "runtimeId": "mobile-good-98904",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98905",
       "name": "Viền Long Văn",
       "runtimeId": "mobile-good-98905",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98906",
       "name": "Viền Phượng Minh",
       "runtimeId": "mobile-good-98906",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
       "id": "98907",
       "name": "Viền Tiên Giới",
       "runtimeId": "mobile-good-98907",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "cosmeticUnlock"
     },
     {
       "category": "vat-pham",
@@ -14392,32 +14407,32 @@
       "id": "4201",
       "name": "Chiến Lệnh Hình Thiên",
       "runtimeId": "mobile-good-4201",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4211",
       "name": "Phù Thần Hỏa Tráo",
       "runtimeId": "mobile-good-4211",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4221",
       "name": "Cỏ Sài Hồ",
       "runtimeId": "mobile-good-4221",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
       "id": "4223",
       "name": "Tiên Đan",
       "runtimeId": "mobile-good-4223",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
@@ -14432,24 +14447,24 @@
       "id": "4404",
       "name": "Đan Hoãn Thời Gian",
       "runtimeId": "mobile-good-4404",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "fieldTripTicket"
     },
     {
       "category": "vat-pham",
       "id": "4408",
       "name": "Khóa Thời Gian",
       "runtimeId": "mobile-good-4408",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "mountainRefresh"
     },
     {
       "category": "vat-pham",
       "id": "4501",
       "name": "Lệnh Hoàng Đế (Nhật)",
       "runtimeId": "mobile-good-4501",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -14584,96 +14599,96 @@
       "id": "4703",
       "name": "Ngọc Bích Ngũ Sắc",
       "runtimeId": "mobile-good-4703",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4704",
       "name": "Tơ Thiên Tàm",
       "runtimeId": "mobile-good-4704",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4724",
       "name": "Lệnh Phi Thăng",
       "runtimeId": "mobile-good-4724",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4815",
       "name": "Phù Khai Thiên Cao Cấp",
       "runtimeId": "mobile-good-4815",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
       "id": "4816",
       "name": "Phù Vá Trời Cao Cấp",
       "runtimeId": "mobile-good-4816",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
       "id": "4817",
       "name": "Lệnh Võ Thần Cao Cấp",
       "runtimeId": "mobile-good-4817",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4818",
       "name": "Lệnh Đạo Quân Cao Cấp",
       "runtimeId": "mobile-good-4818",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4819",
       "name": "Lệnh Vu Độc Cao Cấp",
       "runtimeId": "mobile-good-4819",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4831",
       "name": "Phù Dũng Khí Cao Cấp",
       "runtimeId": "mobile-good-4831",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4832",
       "name": "Phù Trấn Định Cao Cấp",
       "runtimeId": "mobile-good-4832",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4833",
       "name": "Phù Nhiễu Loạn Cao Cấp",
       "runtimeId": "mobile-good-4833",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4834",
       "name": "Phù Hiến Tế Cao Cấp",
       "runtimeId": "mobile-good-4834",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
@@ -14688,24 +14703,24 @@
       "id": "4908",
       "name": "Phù Dời Thành",
       "runtimeId": "mobile-good-4908",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4918",
       "name": "Thần Phù Khoa Nga",
       "runtimeId": "mobile-good-4918",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Tăng tốc"
+      "status": "USE_RUNTIME",
+      "detail": "demolishPlot"
     },
     {
       "category": "vat-pham",
       "id": "4921",
       "name": "Phù Tật Hành",
       "runtimeId": "mobile-good-4921",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -14776,8 +14791,8 @@
       "id": "4951",
       "name": "Đan Quy Nguyên Cao Cấp",
       "runtimeId": "mobile-good-4951",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroLevelStepReset"
     },
     {
       "category": "vat-pham",
@@ -15000,8 +15015,8 @@
       "id": "6217",
       "name": "Pháp Khí Bạc",
       "runtimeId": "mobile-good-6217",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -15032,8 +15047,8 @@
       "id": "6302",
       "name": "Gà Tây",
       "runtimeId": "mobile-good-6302",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -15272,8 +15287,8 @@
       "id": "6420",
       "name": "Bánh Trái Tim",
       "runtimeId": "mobile-good-6420",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -16352,232 +16367,232 @@
       "id": "7614",
       "name": "Bảo Thạch Trường Kích",
       "runtimeId": "mobile-good-7614",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7615",
       "name": "Bảo Thạch Cung Tiễn",
       "runtimeId": "mobile-good-7615",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7616",
       "name": "Bảo Thạch Đao Thuẫn",
       "runtimeId": "mobile-good-7616",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7617",
       "name": "Bảo Thạch Kỵ Binh",
       "runtimeId": "mobile-good-7617",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7618",
       "name": "Bảo Thạch Trường Kích +",
       "runtimeId": "mobile-good-7618",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7619",
       "name": "Bảo Thạch Cung Tiễn +",
       "runtimeId": "mobile-good-7619",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7620",
       "name": "Bảo Thạch Đao Thuẫn +",
       "runtimeId": "mobile-good-7620",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7621",
       "name": "Bảo Thạch Kỵ Binh +",
       "runtimeId": "mobile-good-7621",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7622",
       "name": "Thần Thạch Trường Kích",
       "runtimeId": "mobile-good-7622",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7623",
       "name": "Thần Thạch Cung Tiễn",
       "runtimeId": "mobile-good-7623",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7624",
       "name": "Thần Thạch Đao Thuẫn",
       "runtimeId": "mobile-good-7624",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7625",
       "name": "Thần Thạch Kỵ Binh",
       "runtimeId": "mobile-good-7625",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7626",
       "name": "Thần Thạch Trường Kích +",
       "runtimeId": "mobile-good-7626",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7627",
       "name": "Thần Thạch Cung Tiễn +",
       "runtimeId": "mobile-good-7627",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7628",
       "name": "Thần Thạch Đao Thuẫn +",
       "runtimeId": "mobile-good-7628",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7629",
       "name": "Thần Thạch Kỵ Binh +",
       "runtimeId": "mobile-good-7629",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7630",
       "name": "Bảo Thạch Cản Đòn",
       "runtimeId": "mobile-good-7630",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7632",
       "name": "Bảo Thạch Tấn Công",
       "runtimeId": "mobile-good-7632",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "armyCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7644",
       "name": "Bảo Thạch Dũng Vũ",
       "runtimeId": "mobile-good-7644",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "7645",
       "name": "Bảo Thạch Đạo Pháp",
       "runtimeId": "mobile-good-7645",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "7646",
       "name": "Bảo Thạch Mưu Lược",
       "runtimeId": "mobile-good-7646",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "7647",
       "name": "Bảo Thạch Chỉ Số",
       "runtimeId": "mobile-good-7647",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "equipmentStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7650",
       "name": "Bàn Thạch Phác Ngọc",
       "runtimeId": "mobile-good-7650",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7653",
       "name": "Ứng Hùng Phác Ngọc",
       "runtimeId": "mobile-good-7653",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7656",
       "name": "Hình Thiên Phác Ngọc",
       "runtimeId": "mobile-good-7656",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7659",
       "name": "Tinh Vệ Phác Ngọc",
       "runtimeId": "mobile-good-7659",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroCombatGem"
     },
     {
       "category": "vat-pham",
       "id": "7662",
       "name": "Hỗn Nguyên Phác Ngọc",
       "runtimeId": "mobile-good-7662",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7665",
       "name": "Khai Thiên Phác Ngọc",
       "runtimeId": "mobile-good-7665",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
       "id": "7668",
       "name": "Hỗn Độn Phác Ngọc",
       "runtimeId": "mobile-good-7668",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "heroStatGem"
     },
     {
       "category": "vat-pham",
@@ -16680,16 +16695,16 @@
       "id": "8741",
       "name": "Đan Ngưng Thần",
       "runtimeId": "mobile-good-8741",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroLevelStepReset"
     },
     {
       "category": "vat-pham",
       "id": "8742",
       "name": "Sương Tẩy Khí",
       "runtimeId": "mobile-good-8742",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroFullReset"
     },
     {
       "category": "vat-pham",
@@ -17160,40 +17175,40 @@
       "id": "8911",
       "name": "Hoa Cẩm Chướng Vàng",
       "runtimeId": "mobile-good-8911",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8913",
       "name": "Bánh Trung Thu",
       "runtimeId": "mobile-good-8913",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8916",
       "name": "Hổ Phù Đồng Xanh",
       "runtimeId": "mobile-good-8916",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8917",
       "name": "Hổ Phù Lượng Ngân",
       "runtimeId": "mobile-good-8917",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8921",
       "name": "Lệnh Bài Thái Sư",
       "runtimeId": "mobile-good-8921",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -17248,8 +17263,8 @@
       "id": "8943",
       "name": "Thủy Tinh Tiên Thiên",
       "runtimeId": "mobile-good-8943",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -17304,24 +17319,24 @@
       "id": "8950",
       "name": "VIP Sản Xuất (Ngày)",
       "runtimeId": "mobile-good-8950",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8951",
       "name": "VIP Chiến Đấu (Ngày)",
       "runtimeId": "mobile-good-8951",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8952",
       "name": "VIP Kinh Nghiệm (Ngày)",
       "runtimeId": "mobile-good-8952",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -17352,8 +17367,8 @@
       "id": "8994",
       "name": "Quả Cầu Tuyết",
       "runtimeId": "mobile-good-8994",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroTimedBuff"
     },
     {
       "category": "vat-pham",
@@ -17600,8 +17615,8 @@
       "id": "95601",
       "name": "Đá Tăng Sao Sơ",
       "runtimeId": "mobile-good-95601",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "sourceGearStarStone"
     },
     {
       "category": "vat-pham",
@@ -17736,8 +17751,8 @@
       "id": "4027",
       "name": "Xe Chỉ Nam",
       "runtimeId": "mobile-good-4027",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Tăng tốc"
+      "status": "USE_RUNTIME",
+      "detail": "tradeVoucher"
     },
     {
       "category": "vat-pham",
@@ -17792,8 +17807,8 @@
       "id": "4407",
       "name": "Phù Bổ Binh",
       "runtimeId": "mobile-good-4407",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -17808,8 +17823,8 @@
       "id": "4511",
       "name": "Gói Tài Nguyên Kỳ Hộp",
       "runtimeId": "mobile-good-4511",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Sản xuất"
+      "status": "USE_RUNTIME",
+      "detail": "resourcePackChoice"
     },
     {
       "category": "vat-pham",
@@ -17840,64 +17855,64 @@
       "id": "4701",
       "name": "Kim Châu",
       "runtimeId": "mobile-good-4701",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4702",
       "name": "Bạch Ngọc",
       "runtimeId": "mobile-good-4702",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Châu báu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4710",
       "name": "Phù Thần Bảo Hộ",
       "runtimeId": "mobile-good-4710",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "gearProtection:enhance"
     },
     {
       "category": "vat-pham",
       "id": "4711",
       "name": "Phù Hộ Mệnh Tái Sinh",
       "runtimeId": "mobile-good-4711",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "gearProtection:enhance"
     },
     {
       "category": "vat-pham",
       "id": "4712",
       "name": "Tiên Thạch Sơ Cấp",
       "runtimeId": "mobile-good-4712",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4713",
       "name": "Tiên Thạch Cao Cấp",
       "runtimeId": "mobile-good-4713",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4714",
       "name": "Phù Văn Thiên Cơ",
       "runtimeId": "mobile-good-4714",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "gearProtection:socket"
     },
     {
       "category": "vat-pham",
       "id": "4715",
       "name": "Phù Văn Nghịch Chuyển",
       "runtimeId": "mobile-good-4715",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "gearProtection:socket"
     },
     {
       "category": "vat-pham",
@@ -17928,184 +17943,184 @@
       "id": "4810",
       "name": "Phù Khai Thiên",
       "runtimeId": "mobile-good-4810",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
       "id": "4811",
       "name": "Phù Bổ Thiên",
       "runtimeId": "mobile-good-4811",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
       "id": "4812",
       "name": "Lệnh Võ Thần",
       "runtimeId": "mobile-good-4812",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4813",
       "name": "Lệnh Đạo Quân",
       "runtimeId": "mobile-good-4813",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4814",
       "name": "Lệnh Vu Độc",
       "runtimeId": "mobile-good-4814",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4820",
       "name": "Cự Nỏ",
       "runtimeId": "mobile-good-4820",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4821",
       "name": "Phù Tàng Binh",
       "runtimeId": "mobile-good-4821",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4822",
       "name": "Phù Dũng Khí",
       "runtimeId": "mobile-good-4822",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4823",
       "name": "Phù Trấn Định",
       "runtimeId": "mobile-good-4823",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4824",
       "name": "Phù Nhiễu Loạn",
       "runtimeId": "mobile-good-4824",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4825",
       "name": "Phù Hiến Tế",
       "runtimeId": "mobile-good-4825",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4826",
       "name": "Phù Cao Hiệu",
       "runtimeId": "mobile-good-4826",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4827",
       "name": "Phù Giảm Hiệu Suất",
       "runtimeId": "mobile-good-4827",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4828",
       "name": "Phù Địa Mệnh",
       "runtimeId": "mobile-good-4828",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4829",
       "name": "Phù Phong Ấn",
       "runtimeId": "mobile-good-4829",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4830",
       "name": "Phù Thiên Mệnh",
       "runtimeId": "mobile-good-4830",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "nextBattleBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4910",
       "name": "Phan Dẫn Tiên",
       "runtimeId": "mobile-good-4910",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "recruitmentRefresh"
     },
     {
       "category": "vat-pham",
       "id": "4911",
       "name": "Đan Tẩy Tủy",
       "runtimeId": "mobile-good-4911",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroPotentialReset"
     },
     {
       "category": "vat-pham",
       "id": "4912",
       "name": "Túi Gấm",
       "runtimeId": "mobile-good-4912",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "QUEST_RUNTIME",
+      "detail": "strategicSpellMaterial"
     },
     {
       "category": "vat-pham",
       "id": "4914",
       "name": "Thiên Lý Truyền Âm",
       "runtimeId": "mobile-good-4914",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4916",
       "name": "Cờ Rồng",
       "runtimeId": "mobile-good-4916",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "flagVoucher"
     },
     {
       "category": "vat-pham",
       "id": "4919",
       "name": "Khế Ước Chuộc Thân",
       "runtimeId": "mobile-good-4919",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4920",
       "name": "Đan Quy Nguyên",
       "runtimeId": "mobile-good-4920",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroFullReset"
     },
     {
       "category": "vat-pham",
@@ -18152,8 +18167,8 @@
       "id": "4933",
       "name": "Phù Thần Hành",
       "runtimeId": "mobile-good-4933",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "queueSpeedup"
     },
     {
       "category": "vat-pham",
@@ -18184,112 +18199,112 @@
       "id": "4952",
       "name": "Phù Thiên Lý Nhãn",
       "runtimeId": "mobile-good-4952",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "4953",
       "name": "Đan Song Bội Kinh Nghiệm",
       "runtimeId": "mobile-good-4953",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "4960",
       "name": "Dây Cương",
       "runtimeId": "mobile-good-4960",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6001",
       "name": "Ngoại Quái Phục Hy",
       "runtimeId": "mobile-good-6001",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6002",
       "name": "Nội Quái Phục Hy",
       "runtimeId": "mobile-good-6002",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6003",
       "name": "Mảnh Vẫn Thạch Lưu Tinh",
       "runtimeId": "mobile-good-6003",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6004",
       "name": "Vẫn Thạch Lớn",
       "runtimeId": "mobile-good-6004",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6005",
       "name": "Vẫn Thạch Nhỏ",
       "runtimeId": "mobile-good-6005",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6006",
       "name": "Quẻ Càn",
       "runtimeId": "mobile-good-6006",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6007",
       "name": "Quẻ Khôn",
       "runtimeId": "mobile-good-6007",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6008",
       "name": "Quẻ Chấn",
       "runtimeId": "mobile-good-6008",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6009",
       "name": "Thiên Tướng",
       "runtimeId": "mobile-good-6009",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6010",
       "name": "Địa Tướng",
       "runtimeId": "mobile-good-6010",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6011",
       "name": "Lôi Tướng",
       "runtimeId": "mobile-good-6011",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -18312,40 +18327,40 @@
       "id": "6033",
       "name": "Thuyền Rồng Cỡ Nhỏ",
       "runtimeId": "mobile-good-6033",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6034",
       "name": "Thuyền Rồng Cỡ Vừa",
       "runtimeId": "mobile-good-6034",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6035",
       "name": "Thuyền Rồng Cỡ Lớn",
       "runtimeId": "mobile-good-6035",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6036",
       "name": "\"Đoan\"",
       "runtimeId": "mobile-good-6036",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "eventExchange"
     },
     {
       "category": "vat-pham",
       "id": "6037",
       "name": "\"Ngọ\"",
       "runtimeId": "mobile-good-6037",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "eventExchangeIngredient"
     },
     {
       "category": "vat-pham",
@@ -18376,16 +18391,16 @@
       "id": "6043",
       "name": "Lá Trúc",
       "runtimeId": "mobile-good-6043",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "eventExchangeIngredient"
     },
     {
       "category": "vat-pham",
       "id": "6044",
       "name": "Viên Cơm Nếp",
       "runtimeId": "mobile-good-6044",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "eventExchangeIngredient"
     },
     {
       "category": "vat-pham",
@@ -18408,64 +18423,64 @@
       "id": "6075",
       "name": "Lệnh Khang An Dụ",
       "runtimeId": "mobile-good-6075",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6076",
       "name": "Lệnh Trương Bá Thời",
       "runtimeId": "mobile-good-6076",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6077",
       "name": "Lệnh Lý Hoán Chương",
       "runtimeId": "mobile-good-6077",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6078",
       "name": "Lệnh Diêu Công Lân",
       "runtimeId": "mobile-good-6078",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6079",
       "name": "Lệnh Quách Thân",
       "runtimeId": "mobile-good-6079",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6086",
       "name": "Lệnh Trực Kiện",
       "runtimeId": "mobile-good-6086",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6087",
       "name": "Lệnh Hao Thiên Khuyển",
       "runtimeId": "mobile-good-6087",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6088",
       "name": "Bầu Linh",
       "runtimeId": "mobile-good-6088",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -18576,56 +18591,56 @@
       "id": "6129",
       "name": "Hoàng Phi Hổ",
       "runtimeId": "mobile-good-6129",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6130",
       "name": "Lệnh Thông Hành Xuyên Vân Quan",
       "runtimeId": "mobile-good-6130",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6131",
       "name": "Lệnh Thông Hành Giới Bài Quan",
       "runtimeId": "mobile-good-6131",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6132",
       "name": "Lệnh Thông Hành Tỵ Thủy Quan",
       "runtimeId": "mobile-good-6132",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6133",
       "name": "Lệnh Thông Hành Lâm Đồng Quan",
       "runtimeId": "mobile-good-6133",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6134",
       "name": "Lệnh Thông Hành Đồng Quan",
       "runtimeId": "mobile-good-6134",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6136",
       "name": "Hoa Hồng Thiên Đình",
       "runtimeId": "mobile-good-6136",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -18640,16 +18655,16 @@
       "id": "6146",
       "name": "Bầu Bí Ẩn Cổ Xưa",
       "runtimeId": "mobile-good-6146",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6147",
       "name": "Tù Binh",
       "runtimeId": "mobile-good-6147",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -18672,256 +18687,256 @@
       "id": "6200",
       "name": "Quả Bóng Thịt",
       "runtimeId": "mobile-good-6200",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6201",
       "name": "Kiếm Thanh Phong",
       "runtimeId": "mobile-good-6201",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6202",
       "name": "Na Tra",
       "runtimeId": "mobile-good-6202",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6210",
       "name": "Tinh Phách Na Tra",
       "runtimeId": "mobile-good-6210",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6213",
       "name": "Nhục Thân Na Tra",
       "runtimeId": "mobile-good-6213",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6216",
       "name": "Tiên Khí Bạc",
       "runtimeId": "mobile-good-6216",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6224",
       "name": "Can Tương",
       "runtimeId": "mobile-good-6224",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6225",
       "name": "Quyển Thần Bí 1",
       "runtimeId": "mobile-good-6225",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "officialSeal"
     },
     {
       "category": "vat-pham",
       "id": "6226",
       "name": "Quyển Thần Bí 2",
       "runtimeId": "mobile-good-6226",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "officialSeal"
     },
     {
       "category": "vat-pham",
       "id": "6227",
       "name": "Quyển Thần Bí 3",
       "runtimeId": "mobile-good-6227",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "officialSeal"
     },
     {
       "category": "vat-pham",
       "id": "6228",
       "name": "Quyển Thần Bí 4",
       "runtimeId": "mobile-good-6228",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "officialSeal"
     },
     {
       "category": "vat-pham",
       "id": "6229",
       "name": "Quyển Thần Bí 5",
       "runtimeId": "mobile-good-6229",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "officialSeal"
     },
     {
       "category": "vat-pham",
       "id": "6230",
       "name": "Quyển Thần Bí 6",
       "runtimeId": "mobile-good-6230",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "officialSeal"
     },
     {
       "category": "vat-pham",
       "id": "6231",
       "name": "Quyển Thần Bí 7",
       "runtimeId": "mobile-good-6231",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "officialSeal"
     },
     {
       "category": "vat-pham",
       "id": "6232",
       "name": "Quyển Thần Bí 8",
       "runtimeId": "mobile-good-6232",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "officialSeal"
     },
     {
       "category": "vat-pham",
       "id": "6233",
       "name": "Quyển Thần Bí 9",
       "runtimeId": "mobile-good-6233",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "USE_RUNTIME",
+      "detail": "officialSeal"
     },
     {
       "category": "vat-pham",
       "id": "6238",
       "name": "Móng Vuốt Thiên Cẩu",
       "runtimeId": "mobile-good-6238",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6239",
       "name": "Hồn Phách Cửu Vĩ",
       "runtimeId": "mobile-good-6239",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6240",
       "name": "Nanh Độc Bát Kỳ",
       "runtimeId": "mobile-good-6240",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6242",
       "name": "Quốc",
       "runtimeId": "mobile-good-6242",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6243",
       "name": "Khánh",
       "runtimeId": "mobile-good-6243",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6244",
       "name": "Khoái",
       "runtimeId": "mobile-good-6244",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6245",
       "name": "Lạc",
       "runtimeId": "mobile-good-6245",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6246",
       "name": "Trung",
       "runtimeId": "mobile-good-6246",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6247",
       "name": "Thu",
       "runtimeId": "mobile-good-6247",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6248",
       "name": "Giai",
       "runtimeId": "mobile-good-6248",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6249",
       "name": "Phù Tiết",
       "runtimeId": "mobile-good-6249",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6250",
       "name": "Khăn Quấn Em Bé",
       "runtimeId": "mobile-good-6250",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6251",
       "name": "Lệnh Cả Nước Hoan Hỷ",
       "runtimeId": "mobile-good-6251",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6253",
       "name": "Giấy Nhắn Đồng Tử",
       "runtimeId": "mobile-good-6253",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6254",
       "name": "Tiên Linh Châu",
       "runtimeId": "mobile-good-6254",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6255",
       "name": "Sách Lĩnh Ngộ",
       "runtimeId": "mobile-good-6255",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -18936,72 +18951,72 @@
       "id": "6259",
       "name": "Quyển Tam Sơn Ngũ Nhạc",
       "runtimeId": "mobile-good-6259",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6260",
       "name": "Chí Danh Tiên",
       "runtimeId": "mobile-good-6260",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6261",
       "name": "Chứng Nhận Môn Đồ",
       "runtimeId": "mobile-good-6261",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6262",
       "name": "Chứng Nhận Xuất Sư",
       "runtimeId": "mobile-good-6262",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6285",
       "name": "Khăn Lụa Bích Tiêu",
       "runtimeId": "mobile-good-6285",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6286",
       "name": "Thủ Dụ Quỳnh Tiêu",
       "runtimeId": "mobile-good-6286",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6287",
       "name": "Hoa Tai Quỳnh Tiêu",
       "runtimeId": "mobile-good-6287",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6289",
       "name": "Hóa Thân Vân Tiêu",
       "runtimeId": "mobile-good-6289",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6291",
       "name": "Áo Choàng Ráng Mây Vân Tiêu",
       "runtimeId": "mobile-good-6291",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -19032,120 +19047,120 @@
       "id": "6330",
       "name": "Họa Quyển Khương Tử Nha",
       "runtimeId": "mobile-good-6330",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6331",
       "name": "Họa Quyển Thân Công Báo",
       "runtimeId": "mobile-good-6331",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6332",
       "name": "Bức Họa Văn Trọng",
       "runtimeId": "mobile-good-6332",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6333",
       "name": "Họa Quyển Tỷ Can",
       "runtimeId": "mobile-good-6333",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6334",
       "name": "Họa Quyển Tứ Thiên Vương",
       "runtimeId": "mobile-good-6334",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6335",
       "name": "Họa Quyển Văn Vương",
       "runtimeId": "mobile-good-6335",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6336",
       "name": "Họa Quyển Vũ Vương",
       "runtimeId": "mobile-good-6336",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6337",
       "name": "Họa Quyển Tranh Bá",
       "runtimeId": "mobile-good-6337",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6338",
       "name": "Họa Quyển Trung Trinh",
       "runtimeId": "mobile-good-6338",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6339",
       "name": "Họa Quyển Giao Tranh",
       "runtimeId": "mobile-good-6339",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6340",
       "name": "Sách Văn Võ Song Toàn",
       "runtimeId": "mobile-good-6340",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6421",
       "name": "Hồng Đậu Tương Tư",
       "runtimeId": "mobile-good-6421",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "6422",
       "name": "Sô-Cô-La Nồng Tình",
       "runtimeId": "mobile-good-6422",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroRestore"
     },
     {
       "category": "vat-pham",
       "id": "6425",
       "name": "Xu Vàng",
       "runtimeId": "mobile-good-6425",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6429",
       "name": "Tượng Thần Tài",
       "runtimeId": "mobile-good-6429",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -19160,8 +19175,8 @@
       "id": "6440",
       "name": "Bánh Trôi Nguyên Tiêu",
       "runtimeId": "mobile-good-6440",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -19232,136 +19247,136 @@
       "id": "6489",
       "name": "Ngu",
       "runtimeId": "mobile-good-6489",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6490",
       "name": "Nhân",
       "runtimeId": "mobile-good-6490",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6491",
       "name": "Phù Tiết",
       "runtimeId": "mobile-good-6491",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6492",
       "name": "Khoái",
       "runtimeId": "mobile-good-6492",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6493",
       "name": "Lạc",
       "runtimeId": "mobile-good-6493",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6515",
       "name": "Thần Đăng Thanh Minh",
       "runtimeId": "mobile-good-6515",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6522",
       "name": "Thần Quyển Khương Tử Nha",
       "runtimeId": "mobile-good-6522",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6523",
       "name": "Thần Quyển Thân Công Báo",
       "runtimeId": "mobile-good-6523",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6537",
       "name": "Cam Lộ",
       "runtimeId": "mobile-good-6537",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6538",
       "name": "Thủy Tinh",
       "runtimeId": "mobile-good-6538",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6557",
       "name": "Lệnh Hạo Thiên",
       "runtimeId": "mobile-good-6557",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6558",
       "name": "Lệnh Kim Mẫu",
       "runtimeId": "mobile-good-6558",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6559",
       "name": "Lệnh Núi Côn Lôn",
       "runtimeId": "mobile-good-6559",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6560",
       "name": "Lệnh Núi Phượng Hoàng",
       "runtimeId": "mobile-good-6560",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6561",
       "name": "Lệnh Nguyệt Lão",
       "runtimeId": "mobile-good-6561",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6562",
       "name": "Lệnh Thanh Loan",
       "runtimeId": "mobile-good-6562",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6563",
       "name": "Lệnh Kiếm Nhị Long",
       "runtimeId": "mobile-good-6563",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -19376,104 +19391,104 @@
       "id": "6575",
       "name": "Phong Thần Châu",
       "runtimeId": "mobile-good-6575",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6578",
       "name": "Lá Cờ Tung Bay",
       "runtimeId": "mobile-good-6578",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6579",
       "name": "Cúp Đại Lực Thần",
       "runtimeId": "mobile-good-6579",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6583",
       "name": "Thuyền Rồng",
       "runtimeId": "mobile-good-6583",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6586",
       "name": "Nguyên Hình Khổng Tước",
       "runtimeId": "mobile-good-6586",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6595",
       "name": "Lông Chim Khách",
       "runtimeId": "mobile-good-6595",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6596",
       "name": "Phù Phá Phong Thất Tịch",
       "runtimeId": "mobile-good-6596",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6610",
       "name": "Thổ Linh Châu",
       "runtimeId": "mobile-good-6610",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6611",
       "name": "Thủy Linh Châu",
       "runtimeId": "mobile-good-6611",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6612",
       "name": "Hỏa Linh Châu",
       "runtimeId": "mobile-good-6612",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6613",
       "name": "Mộc Linh Châu",
       "runtimeId": "mobile-good-6613",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6614",
       "name": "Kim Linh Châu",
       "runtimeId": "mobile-good-6614",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "6623",
       "name": "Bánh Thanh Đoàn",
       "runtimeId": "mobile-good-6623",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
@@ -19800,8 +19815,8 @@
       "id": "7637",
       "name": "Tiên Linh Thạch",
       "runtimeId": "mobile-good-7637",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
@@ -19856,56 +19871,56 @@
       "id": "8766",
       "name": "Kim Tinh Tiên Thiên",
       "runtimeId": "mobile-good-8766",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "8767",
       "name": "Tiên Thiên Ngũ Hành Thạch",
       "runtimeId": "mobile-good-8767",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "8914",
       "name": "Hổ Phù (Giả)",
       "runtimeId": "mobile-good-8914",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8915",
       "name": "Hổ Phù Bạch Thiết",
       "runtimeId": "mobile-good-8915",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "timedBuffSet"
     },
     {
       "category": "vat-pham",
       "id": "8941",
       "name": "Hỏa Tinh Tiên Thiên",
       "runtimeId": "mobile-good-8941",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "8942",
       "name": "Mộc Tinh Tiên Thiên",
       "runtimeId": "mobile-good-8942",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
       "id": "8992",
       "name": "Lệnh Bài Đấu Liên Server",
       "runtimeId": "mobile-good-8992",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nhiệm vụ"
+      "status": "QUEST_RUNTIME",
+      "detail": "SIMULATED_LEGACY_QUEST_CONDITION_OR_REWARD"
     },
     {
       "category": "vat-pham",
