@@ -4,6 +4,7 @@ import { advance, allConstructionQueues, constructionQueueCapacity, createNewGam
 import { BUILDINGS, HEROES, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
 import { cityEffects, itemBuff, itemUseRule } from '../src/gameplay-p15.js';
 import { createProductCombat } from '../src/combat/product-v13.js';
+import { experienceForLevel } from '../src/simulated-world.js';
 
 const now=1_800_000_000_000,day=86_400_000,daySeconds=86_400;
 const sourceItem=id=>ITEMS.find(item=>String(item.mobileSourceId)===String(id));
@@ -277,4 +278,20 @@ test('verified Mobile star stones are consumed in their source tier and stars ra
   assert.throws(()=>doAction(invalid,{type:'starUpGear',heroId:hero.id,itemId:weapon.id},now),/đá tăng sao/);
   const migrated=migrateSave(JSON.parse(JSON.stringify(starred)),now+1);
   assert.equal(migrated.heroes[0].gearEnhancements[weapon.id].stars,1);
+});
+
+test('source hero recovery and respec items have bounded, consumable gameplay effects',()=>{
+  const meal=sourceItem('95701'),mealState=createNewGame('Triều Ca',now);mealState.items.push(meal.id);mealState.heroes[0].combatVitality=1;
+  const rested=doAction(mealState,{type:'useItem',itemId:meal.id,heroId:mealState.heroes[0].id},now);
+  assert.equal(rested.heroes[0].combatVitality,createProductCombat({storageCapacity}).commander(mealState.heroes[0],mealState).maxVitality);
+  const wash=sourceItem('4911'),washState=createNewGame('Triều Ca',now),washHero=washState.heroes[0];washHero.level=12;washHero.potential={attack:8,magic:4,defense:2};washState.items.push(wash.id,wash.id);
+  const reset=doAction(washState,{type:'useItem',itemId:wash.id,heroId:washHero.id},now);
+  assert.deepEqual(reset.heroes[0].potential,{attack:0,magic:0,defense:0});assert.equal(reset.items.filter(id=>id===wash.id).length,0);
+  const insufficient=structuredClone(washState);insufficient.items.pop();assert.throws(()=>doAction(insufficient,{type:'useItem',itemId:wash.id,heroId:washHero.id},now+1),/Cần 2/);
+  const full=sourceItem('4920'),fullState=createNewGame('Triều Ca',now),fullHero=fullState.heroes[0];fullHero.level=21;fullHero.xp=45;fullState.items.push(full.id,full.id,full.id);
+  const expectedXp=45+Array.from({length:20},(_,i)=>experienceForLevel(i+1)).reduce((a,b)=>a+b,0),rewound=doAction(fullState,{type:'useItem',itemId:full.id,heroId:fullHero.id},now);
+  assert.equal(rewound.heroes[0].level,1);assert.equal(rewound.heroes[0].xp,expectedXp);assert.equal(rewound.heroes[0].skillLevel,1);assert.equal(rewound.items.filter(id=>id===full.id).length,0);
+  const step=sourceItem('8741'),stepState=createNewGame('Triều Ca',now),stepHero=stepState.heroes[0];stepHero.level=4;stepHero.xp=12;stepHero.skillLevel=2;stepState.items.push(step.id);
+  const lowered=doAction(stepState,{type:'useItem',itemId:step.id,heroId:stepHero.id},now);
+  assert.equal(lowered.heroes[0].level,3);assert.equal(lowered.heroes[0].xp,12+experienceForLevel(3));assert.equal(lowered.heroes[0].skillLevel,1);
 });

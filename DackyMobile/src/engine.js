@@ -1569,6 +1569,26 @@ export function doAction(state, action, now = Date.now()) {
         }
         s.gameplay.actions[useKey]=useCount+1;s.items.splice(itemIndex,1);break;
       }
+      if(['heroPotentialReset','heroFullReset','heroLevelStepReset'].includes(effect?.kind)){
+        const hero=s.heroes.find(row=>row.id===action.heroId);
+        if(!hero)throw Error('Chọn thần tiên cần điều chỉnh; vật phẩm chưa bị tiêu hao.');
+        if(s.queues.march)throw Error('Không điều chỉnh thần tiên đang hành quân; vật phẩm chưa bị tiêu hao.');
+        if(effect.kind==='heroLevelStepReset'&&hero.level<=1)throw Error('Thần tiên đã ở cấp thấp nhất; vật phẩm chưa bị tiêu hao.');
+        if(effect.kind==='heroPotentialReset'&&!Object.values(hero.potential||{}).some(value=>value>0))throw Error('Chưa có tiềm năng đã phân bổ để đặt lại.');
+        const required=effect.itemsPerTenLevels?Math.max(1,Math.ceil(hero.level/10)):1,owned=s.items.filter(id=>id===item.id).length;
+        if(owned<required)throw Error(`Cần ${required} ${item.name} theo cấp thần tiên ${hero.level}; vật phẩm chưa bị tiêu hao.`);
+        if(effect.kind==='heroPotentialReset'||effect.kind==='heroLevelStepReset'&&effect.clear==='potential')hero.potential={attack:0,magic:0,defense:0};
+        if(effect.kind==='heroFullReset'){
+          let totalXp=Math.max(0,Number(hero.xp)||0);for(let level=1;level<hero.level;level++)totalXp+=experienceForLevel(level);
+          hero.level=1;hero.xp=totalXp;hero.skillLevel=1;delete hero.combatMana;delete hero.combatVitality;hero.combatUpdatedAt=now;
+        }else if(effect.kind==='heroLevelStepReset'){
+          const priorLevel=hero.level;hero.level--;hero.xp=(Number(hero.xp)||0)+experienceForLevel(hero.level);
+          if(effect.clear==='skill'&&priorLevel%4===0)hero.skillLevel=Math.max(1,(hero.skillLevel||1)-1);
+        }
+        for(let i=0;i<required;i++)s.items.splice(s.items.indexOf(item.id),1);
+        const outcome=effect.kind==='heroPotentialReset'?'đặt lại điểm tiềm năng':effect.kind==='heroFullReset'?'trở về cấp 1 và giữ lại tổng kinh nghiệm':`giảm một cấp, giữ kinh nghiệm và ${effect.clear==='skill'?'điều chỉnh kỹ năng':'đặt lại tiềm năng'}`;
+        note(s,`${HEROES.find(row=>row.id===hero.id)?.name} ${outcome} · yêu cầu vật phẩm tăng theo mỗi 10 cấp (SIMULATED).`);break;
+      }
       if(effect?.kind==='heroTimedBuff'){
         const hero=s.heroes.find(row=>row.id===action.heroId);
         if(!hero)throw Error('Chọn thần tiên nhận vật phẩm này; vật phẩm chưa bị tiêu hao.');

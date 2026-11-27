@@ -122,8 +122,12 @@ const sourceRootGifts=new Map([
   ['95911',{targetHeroSourceIds:['ba-trung','ba-trieu','hung-dao-vuong','thanh-giong','ho-xuan-huong'],minimum:0,maximum:2,rootCap:50}]
 ]);
 const sourceHeroRestores=new Map([
-  ['4810',{resource:'vitality',amount:20}],['4815',{resource:'vitality',amount:100}],['4811',{resource:'mana',amount:20}],['4816',{resource:'mana',amount:100}],
+  ['4810',{resource:'vitality',amount:20}],['4815',{resource:'vitality',amount:100}],['4811',{resource:'mana',amount:20}],['4816',{resource:'mana',amount:100}],['95701',{resource:'vitality',full:true}],
   ['8912',{resource:'mana',amount:200}],['6422',{resource:'mana',full:true}]
+]);
+const sourceHeroResetItems=new Map([
+  ['4911',{kind:'heroPotentialReset',itemsPerTenLevels:true}],['4920',{kind:'heroFullReset',itemsPerTenLevels:true}],
+  ['4951',{kind:'heroLevelStepReset',clear:'potential'}],['8741',{kind:'heroLevelStepReset',clear:'skill'}]
 ]);
 export function itemUseRule(item){
  if(!item||item.type!=='vật phẩm')return null;
@@ -140,6 +144,8 @@ export function itemUseRule(item){
  if(flatBuff&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {kind:'timedBuffSet',effects:[{...flatBuff}],seconds:flatBuff.seconds,unsupported:[],evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',stackingEvidence:'VERIFIED_MOBILE'};
  const restore=sourceHeroRestores.get(sid);
  if(restore&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {kind:'heroRestore',...restore,evidence:'VERIFIED_MOBILE',sourceId:sid};
+ const reset=sourceHeroResetItems.get(sid);
+ if(reset&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {...reset,evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',consumptionFormula:reset.itemsPerTenLevels?'SIMULATED_CEILING_LEVEL_PER_TEN':'VERIFIED_ONE_STEP'};
  const rootGift=sourceRootGifts.get(sid);
  if(rootGift&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {kind:'heroRootGift',...rootGift,evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_SEEDED_RANGE'};
  if(sid==='8957'&&item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE')return {kind:'heroPotentialGift',minimum:1,maximum:3,evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_SEEDED_RANGE'};
