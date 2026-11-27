@@ -842,7 +842,7 @@ export function inspectManualBattle(state) {
   if(!q||q.combatMode!=='manual'||!q.combatV13||!q.arrivedAt)return null;
   const input=combat().marchInput(state,q).input,session=combat().runtime.session(input);
   for(const command of q.battleCommands??[])session.step(command);
-  return session.snapshot();
+  return {...session.snapshot(),initialSides:input.sides};
 }
 
 function completeQueue(state, key, now) {
@@ -1568,9 +1568,9 @@ export function doAction(state, action, now = Date.now()) {
         + (s.technologies['tech-16'] || 0) * technologyRate('tech-16',0.02)
         + (s.levels.watch || 0) * 0.015;
       const seed=Object.entries(troops).reduce((value,[id,n])=>value^n^Number(id.slice(-2)),(now^node.power)>>>0);
-      if(action.combatMode!==undefined&&!['auto','manual'].includes(action.combatMode))throw new Error('Không nhận diện được chế độ giao chiến.');
+      if(action.combatMode!==undefined&&!['auto','manual','squad'].includes(action.combatMode))throw new Error('Không nhận diện được chế độ giao chiến.');
       s.queues.march = { nodeId: node.id, troops, startAt: now, finishAt: now + Math.max(2000, (7 + node.chapter * 1.7) * 1000 / marchSpeed), seed:seed>>>0,...(pveAssault?{pveAssault}:{}) };
-      if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.combatMode=action.combatMode==='manual'?'manual':'auto';s.queues.march.battleCommands=[];s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=s.heroes.filter(h=>h.assigned).slice(0,3).map(h=>h.id);}
+      if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.combatMode=['manual','squad'].includes(action.combatMode)?'manual':'auto';s.queues.march.squadMode=action.combatMode==='squad';s.queues.march.battleCommands=[];s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=s.heroes.filter(h=>h.assigned).slice(0,s.queues.march.squadMode?5:3).map(h=>h.id);if(s.queues.march.squadMode){const p=combat().marchInput(s,s.queues.march).input;s.queues.march.squadAllocation=p.sides[0].squadStacks;}}
       note(s, `Đội quân rời thành hướng ${node.name}.`);
       break;
     }
