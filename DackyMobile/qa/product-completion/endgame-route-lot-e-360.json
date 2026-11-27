@@ -1,0 +1,1584 @@
+{
+  "milestones": [
+    180,
+    360
+  ],
+  "strategies": [
+    {
+      "strategy": "endgame",
+      "history": [
+        {
+          "day": 180,
+          "chapter": 8,
+          "population": 11741,
+          "populationCapacity": 21530,
+          "foodUpkeepPerDay": 24062,
+          "foodProductionPerDay": 42981,
+          "buildings": 179,
+          "research": 86,
+          "researchMax": 570,
+          "researchEligible": 17,
+          "researchAffordable": 0,
+          "researchRows": [
+            {
+              "id": "tech-01",
+              "level": 6,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  5880,
+                  4
+                ],
+                [
+                  "stone",
+                  1960,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-02",
+              "level": 5,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  2160,
+                  4
+                ],
+                [
+                  "stone",
+                  1440,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-03",
+              "level": 3,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  640,
+                  4
+                ],
+                [
+                  "stone",
+                  1920,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-04",
+              "level": 4,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  1000,
+                  4
+                ],
+                [
+                  "stone",
+                  1500,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-05",
+              "level": 4,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  1000,
+                  4
+                ],
+                [
+                  "stone",
+                  1000,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-08",
+              "level": 4,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  1000,
+                  4
+                ],
+                [
+                  "stone",
+                  3000,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-06",
+              "level": 3,
+              "maxed": false,
+              "status": "SIMULATED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  640,
+                  4
+                ],
+                [
+                  "stone",
+                  1600,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-07",
+              "level": 3,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  1280,
+                  4
+                ],
+                [
+                  "stone",
+                  1280,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-09",
+              "level": 7,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  3840,
+                  4
+                ],
+                [
+                  "stone",
+                  3840,
+                  488
+                ],
+                [
+                  "gold",
+                  12864,
+                  6083
+                ]
+              ]
+            },
+            {
+              "id": "tech-11",
+              "level": 6,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  2940,
+                  4
+                ],
+                [
+                  "stone",
+                  3920,
+                  488
+                ],
+                [
+                  "gold",
+                  10508,
+                  6083
+                ]
+              ]
+            },
+            {
+              "id": "tech-10",
+              "level": 7,
+              "maxed": false,
+              "status": "LOCKED",
+              "unmet": [
+                "Chinh binh thuật 8"
+              ],
+              "shortfall": [
+                [
+                  "food",
+                  2560,
+                  4
+                ],
+                [
+                  "timber",
+                  6400,
+                  5774
+                ],
+                [
+                  "stone",
+                  3840,
+                  488
+                ],
+                [
+                  "gold",
+                  12864,
+                  6083
+                ]
+              ]
+            },
+            {
+              "id": "tech-16",
+              "level": 5,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  2160,
+                  4
+                ],
+                [
+                  "stone",
+                  2160,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-12",
+              "level": 6,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  4900,
+                  4
+                ],
+                [
+                  "stone",
+                  2940,
+                  488
+                ],
+                [
+                  "gold",
+                  10258,
+                  6083
+                ]
+              ]
+            },
+            {
+              "id": "tech-13",
+              "level": 5,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  2520,
+                  4
+                ],
+                [
+                  "stone",
+                  2520,
+                  488
+                ],
+                [
+                  "gold",
+                  8938,
+                  6083
+                ]
+              ]
+            },
+            {
+              "id": "tech-14",
+              "level": 3,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  1600,
+                  4
+                ],
+                [
+                  "stone",
+                  1600,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-15",
+              "level": 4,
+              "maxed": false,
+              "status": "LOCKED",
+              "unmet": [
+                "Trại khinh binh 5"
+              ],
+              "shortfall": [
+                [
+                  "food",
+                  2500,
+                  4
+                ],
+                [
+                  "stone",
+                  2500,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-17",
+              "level": 3,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  1600,
+                  4
+                ],
+                [
+                  "stone",
+                  1600,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-18",
+              "level": 4,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  1000,
+                  4
+                ],
+                [
+                  "stone",
+                  1000,
+                  488
+                ]
+              ]
+            },
+            {
+              "id": "tech-19",
+              "level": 4,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  1000,
+                  4
+                ],
+                [
+                  "stone",
+                  1000,
+                  488
+                ]
+              ]
+            }
+          ],
+          "researchBuildings": {
+            "government": 5,
+            "manor": 2,
+            "altar": 1,
+            "academy": 9,
+            "farm": 18,
+            "grove": 26,
+            "mine": 10,
+            "foundryfield": 5,
+            "barracks": 8,
+            "training": 2,
+            "skirmisher": 4,
+            "stable": 4,
+            "caravan": 6,
+            "storehouse": 1,
+            "market": 10,
+            "granary": 30,
+            "housing": 2
+          },
+          "resources": {
+            "food": 4,
+            "timber": 5774,
+            "stone": 488,
+            "iron": 6869.959999999999,
+            "gold": 6083,
+            "jade": 1185.1800000000042
+          },
+          "troopUnlocks": [
+            {
+              "id": "troop-02",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-03",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-04",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 10",
+                "Chinh binh thuật cấp 10",
+                "Xưởng chế tạo cấp 10 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-05",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-06",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 10"
+              ]
+            },
+            {
+              "id": "troop-07",
+              "locked": true,
+              "unmet": [
+                "Xưởng chế tạo cấp 5 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-08",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-09",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 15",
+                "Chinh binh thuật cấp 20",
+                "Xưởng chế tạo cấp 15 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-10",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 15",
+                "Chinh binh thuật cấp 10",
+                "Xưởng chế tạo cấp 5 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-11",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-12",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 20",
+                "Chinh binh thuật cấp 25",
+                "Xưởng chế tạo cấp 20 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-13",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-14",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-16",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 10",
+                "Chinh binh thuật cấp 10",
+                "Xưởng chế tạo cấp 10 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-17",
+              "locked": true,
+              "unmet": [
+                "Xưởng chế tạo cấp 5 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-18",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 15",
+                "Chinh binh thuật cấp 20",
+                "Xưởng chế tạo cấp 15 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-19",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 20",
+                "Chinh binh thuật cấp 25",
+                "Xưởng chế tạo cấp 20 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-20",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 10",
+                "Chinh binh thuật cấp 10",
+                "Xưởng chế tạo cấp 10 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-21",
+              "locked": true,
+              "unmet": [
+                "Xưởng chế tạo cấp 5 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-22",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 15",
+                "Chinh binh thuật cấp 20",
+                "Xưởng chế tạo cấp 15 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-23",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 20",
+                "Chinh binh thuật cấp 25",
+                "Xưởng chế tạo cấp 20 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-24",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-25",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-26",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-27",
+              "locked": false,
+              "unmet": []
+            }
+          ],
+          "trained": 33449,
+          "trainedTypes": 4,
+          "trainingSites": 8,
+          "pendingTraining": [
+            {
+              "id": "primary",
+              "troopId": "troop-05",
+              "count": 500,
+              "finishInHours": 1
+            },
+            {
+              "id": "b-altar",
+              "troopId": "troop-13",
+              "count": 6,
+              "finishInHours": 0
+            }
+          ],
+          "tradeCount": 532,
+          "armyLanes": {
+            "front": 15932,
+            "mid": 0,
+            "rear": 16010,
+            "siege": 0
+          },
+          "armyTypes": 5,
+          "armyRoster": {
+            "troop-11": 16010,
+            "troop-05": 15498,
+            "troop-13": 322,
+            "troop-03": 109,
+            "troop-08": 3
+          },
+          "readyArmy": 31942,
+          "marchingArmy": 0,
+          "marchingNode": null,
+          "marchingRoster": {},
+          "armyCommitted": 31942,
+          "woundedArmy": 0,
+          "marchCapacity": 330000,
+          "armyPower": 3762893,
+          "heroes": 7,
+          "activeHeroes": 3,
+          "maxHeroLevel": 40,
+          "recruits": 6,
+          "itemsEquipped": 10,
+          "sourceArtifacts": [],
+          "uniqueGear": 10,
+          "battles": 23,
+          "wins": 23,
+          "cities": 7,
+          "tower": 11,
+          "buzhou": 1,
+          "pveWins": 1,
+          "assaults": {
+            "buzhou:4": null,
+            "buzhou:5": null
+          },
+          "sourceQuests": 117,
+          "campaignComplete": true,
+          "lastBattle": {
+            "target": "Bất Chu Sơn · Cửa 1",
+            "victory": true,
+            "ownPower": 25752,
+            "enemyPower": 38500,
+            "dead": {
+              "troop-05": 781,
+              "troop-11": 772,
+              "troop-13": 9,
+              "troop-03": 8,
+              "troop-08": 0
+            },
+            "wounded": {
+              "troop-05": 420,
+              "troop-11": 415,
+              "troop-13": 4,
+              "troop-03": 3,
+              "troop-08": 0
+            },
+            "troopsSent": {
+              "troop-05": 12835,
+              "troop-11": 12667,
+              "troop-13": 132,
+              "troop-03": 117,
+              "troop-08": 1
+            },
+            "enemyEquipmentSourceIds": []
+          },
+          "itemsInBag": 200,
+          "itemsSold": 0,
+          "buffsUsed": 9,
+          "receipts": 35,
+          "mixedMarches": 23
+        },
+        {
+          "day": 360,
+          "chapter": 8,
+          "population": 27671,
+          "populationCapacity": 30630,
+          "foodUpkeepPerDay": 0,
+          "foodProductionPerDay": 76209,
+          "buildings": 359,
+          "research": 149,
+          "researchMax": 570,
+          "researchEligible": 18,
+          "researchAffordable": 0,
+          "researchRows": [
+            {
+              "id": "tech-01",
+              "level": 9,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  12000,
+                  6
+                ],
+                [
+                  "stone",
+                  4000,
+                  1209
+                ],
+                [
+                  "gold",
+                  15762,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-02",
+              "level": 9,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  6000,
+                  6
+                ],
+                [
+                  "stone",
+                  4000,
+                  1209
+                ],
+                [
+                  "gold",
+                  15762,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-03",
+              "level": 8,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  3240,
+                  6
+                ],
+                [
+                  "stone",
+                  9720,
+                  1209
+                ],
+                [
+                  "gold",
+                  12162,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-04",
+              "level": 8,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  3240,
+                  6
+                ],
+                [
+                  "stone",
+                  4860,
+                  1209
+                ],
+                [
+                  "gold",
+                  12162,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-05",
+              "level": 7,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  2560,
+                  6
+                ],
+                [
+                  "stone",
+                  2560,
+                  1209
+                ],
+                [
+                  "gold",
+                  27120,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-08",
+              "level": 8,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  3240,
+                  6
+                ],
+                [
+                  "stone",
+                  9720,
+                  1209
+                ],
+                [
+                  "gold",
+                  12162,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-06",
+              "level": 6,
+              "maxed": false,
+              "status": "SIMULATED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  1960,
+                  6
+                ],
+                [
+                  "stone",
+                  4900,
+                  1209
+                ]
+              ]
+            },
+            {
+              "id": "tech-07",
+              "level": 6,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  3920,
+                  6
+                ],
+                [
+                  "stone",
+                  3920,
+                  1209
+                ]
+              ]
+            },
+            {
+              "id": "tech-09",
+              "level": 10,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  7260,
+                  6
+                ],
+                [
+                  "stone",
+                  7260,
+                  1209
+                ],
+                [
+                  "gold",
+                  24582,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-11",
+              "level": 9,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  6000,
+                  6
+                ],
+                [
+                  "stone",
+                  8000,
+                  1209
+                ],
+                [
+                  "gold",
+                  24624,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-10",
+              "level": 10,
+              "maxed": false,
+              "status": "LOCKED",
+              "unmet": [
+                "Chinh binh thuật 11"
+              ],
+              "shortfall": [
+                [
+                  "food",
+                  4840,
+                  6
+                ],
+                [
+                  "stone",
+                  7260,
+                  1209
+                ],
+                [
+                  "gold",
+                  24582,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-16",
+              "level": 10,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  7260,
+                  6
+                ],
+                [
+                  "timber",
+                  14520,
+                  14507
+                ],
+                [
+                  "stone",
+                  7260,
+                  1209
+                ],
+                [
+                  "gold",
+                  13538,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-12",
+              "level": 9,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  10000,
+                  6
+                ],
+                [
+                  "stone",
+                  6000,
+                  1209
+                ],
+                [
+                  "gold",
+                  24374,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-13",
+              "level": 7,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  4480,
+                  6
+                ],
+                [
+                  "stone",
+                  4480,
+                  1209
+                ],
+                [
+                  "gold",
+                  24528,
+                  11064
+                ]
+              ]
+            },
+            {
+              "id": "tech-14",
+              "level": 5,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  3600,
+                  6
+                ],
+                [
+                  "stone",
+                  3600,
+                  1209
+                ]
+              ]
+            },
+            {
+              "id": "tech-15",
+              "level": 6,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  4900,
+                  6
+                ],
+                [
+                  "stone",
+                  4900,
+                  1209
+                ]
+              ]
+            },
+            {
+              "id": "tech-17",
+              "level": 5,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  3600,
+                  6
+                ],
+                [
+                  "stone",
+                  3600,
+                  1209
+                ]
+              ]
+            },
+            {
+              "id": "tech-18",
+              "level": 9,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  4000,
+                  6
+                ],
+                [
+                  "stone",
+                  4000,
+                  1209
+                ]
+              ]
+            },
+            {
+              "id": "tech-19",
+              "level": 8,
+              "maxed": false,
+              "status": "SATISFIED",
+              "unmet": [],
+              "shortfall": [
+                [
+                  "food",
+                  3240,
+                  6
+                ],
+                [
+                  "stone",
+                  3240,
+                  1209
+                ]
+              ]
+            }
+          ],
+          "researchBuildings": {
+            "government": 9,
+            "manor": 7,
+            "altar": 7,
+            "academy": 16,
+            "farm": 20,
+            "grove": 30,
+            "mine": 30,
+            "foundryfield": 19,
+            "barracks": 12,
+            "training": 14,
+            "skirmisher": 7,
+            "stable": 7,
+            "caravan": 11,
+            "storehouse": 6,
+            "market": 10,
+            "granary": 30,
+            "housing": 5
+          },
+          "resources": {
+            "food": 6,
+            "timber": 14507,
+            "stone": 1209,
+            "iron": 10900,
+            "gold": 11064,
+            "jade": 3314.3199999999615
+          },
+          "troopUnlocks": [
+            {
+              "id": "troop-02",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-03",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-04",
+              "locked": true,
+              "unmet": [
+                "Xưởng chế tạo cấp 10 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-05",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-06",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-07",
+              "locked": true,
+              "unmet": [
+                "Xưởng chế tạo cấp 5 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-08",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-09",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 15",
+                "Chinh binh thuật cấp 20",
+                "Xưởng chế tạo cấp 15 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-10",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 15",
+                "Xưởng chế tạo cấp 5 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-11",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-12",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 20",
+                "Chinh binh thuật cấp 25",
+                "Xưởng chế tạo cấp 20 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-13",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-14",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-16",
+              "locked": true,
+              "unmet": [
+                "Xưởng chế tạo cấp 10 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-17",
+              "locked": true,
+              "unmet": [
+                "Xưởng chế tạo cấp 5 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-18",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 15",
+                "Chinh binh thuật cấp 20",
+                "Xưởng chế tạo cấp 15 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-19",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 20",
+                "Chinh binh thuật cấp 25",
+                "Xưởng chế tạo cấp 20 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-20",
+              "locked": true,
+              "unmet": [
+                "Xưởng chế tạo cấp 10 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-21",
+              "locked": true,
+              "unmet": [
+                "Xưởng chế tạo cấp 5 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-22",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 15",
+                "Chinh binh thuật cấp 20",
+                "Xưởng chế tạo cấp 15 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-23",
+              "locked": true,
+              "unmet": [
+                "Trại lính cấp 20",
+                "Chinh binh thuật cấp 25",
+                "Xưởng chế tạo cấp 20 · SIMULATED_CROSS_VERSION_BRIDGE"
+              ]
+            },
+            {
+              "id": "troop-24",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-25",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-26",
+              "locked": false,
+              "unmet": []
+            },
+            {
+              "id": "troop-27",
+              "locked": false,
+              "unmet": []
+            }
+          ],
+          "trained": 92696,
+          "trainedTypes": 5,
+          "trainingSites": 8,
+          "pendingTraining": [
+            {
+              "id": "primary",
+              "troopId": "troop-11",
+              "count": 410,
+              "finishInHours": 6
+            },
+            {
+              "id": "b-altar",
+              "troopId": "troop-05",
+              "count": 1,
+              "finishInHours": 0
+            }
+          ],
+          "tradeCount": 1064,
+          "armyLanes": {
+            "front": 0,
+            "mid": 0,
+            "rear": 0,
+            "siege": 0
+          },
+          "armyTypes": 0,
+          "armyRoster": {},
+          "readyArmy": 0,
+          "marchingArmy": 50171,
+          "marchingNode": "buzhou:4",
+          "marchingRoster": {
+            "troop-11": 24965,
+            "troop-05": 23490,
+            "troop-13": 1601,
+            "troop-26": 64,
+            "troop-03": 41,
+            "troop-08": 10
+          },
+          "armyCommitted": 50171,
+          "woundedArmy": 0,
+          "marchCapacity": 342000,
+          "armyPower": 614,
+          "heroes": 12,
+          "activeHeroes": 3,
+          "maxHeroLevel": 40,
+          "recruits": 11,
+          "itemsEquipped": 15,
+          "sourceArtifacts": [],
+          "uniqueGear": 15,
+          "battles": 29,
+          "wins": 29,
+          "cities": 7,
+          "tower": 24,
+          "buzhou": 3,
+          "pveWins": 3,
+          "assaults": {
+            "buzhou:4": {
+              "total": 3450000,
+              "remaining": 3249003
+            },
+            "buzhou:5": null
+          },
+          "sourceQuests": 131,
+          "campaignComplete": true,
+          "lastBattle": {
+            "target": "Bất Chu Sơn · Cửa 4",
+            "victory": true,
+            "ownPower": 50030,
+            "enemyPower": 50030,
+            "dead": {
+              "troop-11": 4287,
+              "troop-05": 4064,
+              "troop-13": 229,
+              "troop-03": 10,
+              "troop-08": 2
+            },
+            "wounded": {
+              "troop-11": 2307,
+              "troop-05": 2187,
+              "troop-13": 123,
+              "troop-03": 4,
+              "troop-08": 0
+            },
+            "troopsSent": {
+              "troop-11": 24971,
+              "troop-05": 23667,
+              "troop-13": 1332,
+              "troop-03": 51,
+              "troop-08": 9
+            },
+            "enemyEquipmentSourceIds": [],
+            "assault": {
+              "evidence": "SIMULATED_MULTI_SORTIE_SOURCE_ROSTER",
+              "total": 3450000,
+              "cleared": 200997,
+              "remaining": 3249003,
+              "sortieVictory": true
+            }
+          },
+          "itemsInBag": 437,
+          "itemsSold": 0,
+          "buffsUsed": 13,
+          "receipts": 54,
+          "mixedMarches": 30
+        }
+      ],
+      "attempted": {
+        "node-011": 1,
+        "node-026": 1,
+        "node-001": 1,
+        "node-041": 1,
+        "node-055": 1,
+        "node-002": 1,
+        "node-070": 1,
+        "node-085": 1,
+        "node-003": 1,
+        "node-100": 1,
+        "node-115": 1,
+        "node-004": 1,
+        "node-116": 1,
+        "node-117": 1,
+        "node-005": 1,
+        "node-118": 1,
+        "node-119": 1,
+        "node-006": 1,
+        "node-012": 1,
+        "node-013": 1,
+        "node-007": 1,
+        "node-120": 1,
+        "buzhou:1": 1,
+        "buzhou:2": 1,
+        "buzhou:3": 1,
+        "buzhou:4": 5
+      },
+      "failures": {},
+      "troopTypes": [
+        "troop-05",
+        "troop-11",
+        "troop-13",
+        "troop-08",
+        "troop-26"
+      ],
+      "recruited": [
+        "hero-02",
+        "hero-05",
+        "hero-03",
+        "hero-04",
+        "hero-06",
+        "hero-07",
+        "hero-09",
+        "hero-11",
+        "hero-13",
+        "hero-14",
+        "hero-16"
+      ],
+      "mixedBattles": {
+        "mixed": 30,
+        "single": 0
+      },
+      "itemsSold": 0,
+      "buffsUsed": [
+        {
+          "day": 155,
+          "sourceId": "4501",
+          "key": "production"
+        },
+        {
+          "day": 155,
+          "sourceId": "4504",
+          "key": "attack"
+        },
+        {
+          "day": 156,
+          "sourceId": "4953",
+          "key": "heroXp"
+        },
+        {
+          "day": 157,
+          "sourceId": "4953",
+          "key": "heroXp"
+        },
+        {
+          "day": 158,
+          "sourceId": "4953",
+          "key": "heroXp"
+        },
+        {
+          "day": 159,
+          "sourceId": "4953",
+          "key": "heroXp"
+        },
+        {
+          "day": 160,
+          "sourceId": "4953",
+          "key": "heroXp"
+        },
+        {
+          "day": 161,
+          "sourceId": "4954",
+          "key": "heroXp"
+        },
+        {
+          "day": 162,
+          "sourceId": "4953",
+          "key": "heroXp"
+        },
+        {
+          "day": 252,
+          "sourceId": "4501",
+          "key": "production"
+        },
+        {
+          "day": 252,
+          "sourceId": "4504",
+          "key": "attack"
+        },
+        {
+          "day": 253,
+          "sourceId": "4954",
+          "key": "heroXp"
+        },
+        {
+          "day": 255,
+          "sourceId": "4953",
+          "key": "heroXp"
+        }
+      ]
+    }
+  ],
+  "failures": {},
+  "limits": {
+    "sourceTroops": 25,
+    "mobileHeroes": 482,
+    "sourceTechnologies": 570,
+    "quests": 1158
+  }
+}

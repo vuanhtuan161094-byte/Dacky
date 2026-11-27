@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -6,11 +6,18 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 execFileSync('python3', [path.join(root,'scripts/install-art13.py'),path.join(root,'assets/art01-city-ground.svg')],{cwd:root,stdio:'inherit'});
 const { exportDatabase } = await import('./export-database.mjs');
-await exportDatabase();
 const dist = process.env.DACKY_BUILD_OUT
   ? path.resolve(root, process.env.DACKY_BUILD_OUT)
   : path.join(root, 'dist');
 await mkdir(dist, { recursive: true });
+// Keep the source checkout's ignored data outputs untouched. The compact
+// runtime catalog is a build artifact and belongs with the selected dist.
+const runtimeCatalog=path.join(dist,'data','dacky-game-data.runtime.compact.v2.json');
+await exportDatabase(runtimeCatalog);
+// Android's asset merger treats *.json.gz as a compressed form of *.json,
+// which collides with the explicit compact catalog. Runtime loads JSON; web
+// servers can apply transport compression independently.
+await rm(`${runtimeCatalog}.gz`,{force:true});
 for (const name of ['index.html','styles.css','manifest.webmanifest','sw.js','src','assets','docs']) {
   await cp(path.join(root, name), path.join(dist, name), { recursive: true });
 }

@@ -345,6 +345,17 @@ test('outpost battle seals are prepared once, affect the real battle input, and 
   assert.equal(input.sides[1].armyAttack,-.05);
 });
 
+test('timed NPC strategic attack effects reach the enemy army combat input and expire',()=>{
+  const combat=createProductCombat({storageCapacity}),state=createNewGame('Triều Ca',now),node=WORLD_NODES.find(row=>row.kind==='Dã địa'),troop=TROOPS.find(row=>row.mobileSourceId);
+  const quote={nodeId:node.id,troops:{[troop.id]:10},startAt:now,seed:73};
+  const baseline=combat.marchInput(state,quote).input.sides[1].armyAttack;
+  state.gameplay.strategic.npc[node.id]={effects:[{spellId:9999,kind:'buff',key:'attack',value:.25,expiresAt:Math.floor((now+3600_000)/1000)}]};
+  const active=combat.marchInput(state,quote).input.sides[1].armyAttack;
+  assert.equal(active-baseline,.25,'timed NPC buffs must affect the same real army input used by combat resolution');
+  state.gameplay.strategic.npc[node.id].effects[0].expiresAt=Math.floor((now-1)/1000);
+  assert.equal(combat.marchInput(state,quote).input.sides[1].armyAttack,baseline,'expired NPC buffs must not leak into combat');
+});
+
 test('Mobile strategic scrolls use the shared spell engine, saved cooldowns and selected NPC target',()=>{
   const economy=withItem('4551'),hero=economy.state.heroes[0];hero.level=150;hero.combatMana=10_000;
   const pouch=sourceItem('4912');assert.ok(pouch);economy.state.items.push(pouch.id);
@@ -396,6 +407,15 @@ test('idle cultivation medicine and merchant contract affect shared XP and trade
   assert.ok(increased.resources.timber>normal.resources.timber);
   assert.match(increased.notifications[0],/SIMULATED/);
   assert.equal(itemBuff(migrateSave(JSON.parse(JSON.stringify(active)),now+1),'tradeThroughput',now+1),.05);
+});
+
+test('Mobile Field Time Pellet grants one additional real field outing and survives save/load',()=>{
+  const pellet=sourceItem('4404'),state=createNewGame('Dã ngoại',now);state.world.storyStage=3;state.items.push(pellet.id);
+  const prepared=doAction(state,{type:'useItem',itemId:pellet.id},now);assert.equal(prepared.gameplay.fieldTripBonus,1);assert.ok(!prepared.items.includes(pellet.id));
+  const loaded=migrateSave(JSON.parse(JSON.stringify(prepared)),now+1);assert.equal(loaded.gameplay.fieldTripBonus,1);
+  const first=doAction(loaded,{type:'fieldEvent'},now+2);assert.deepEqual(first.gameplay.fieldTrips,{day:Math.floor((now+2)/day),used:1});assert.equal(first.gameplay.fieldTripBonus,1);
+  const second=doAction(first,{type:'fieldEvent'},now+3);assert.deepEqual(second.gameplay.fieldTrips,{day:Math.floor((now+3)/day),used:2});assert.equal(second.gameplay.fieldTripBonus,0);
+  assert.throws(()=>doAction(second,{type:'fieldEvent'},now+4),/Hôm nay đã hoàn thành/);
 });
 
 test('source hero recovery and respec items have bounded, consumable gameplay effects',()=>{

@@ -1,0 +1,156 @@
+[
+  {
+    "viewport": 1280,
+    "screen": "heroes",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 3,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 3,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "army",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 3,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 0,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "inventory",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 15,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 0,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "world",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 12,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 0,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "pve",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 1,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 3,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "tech",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 11,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 0,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "quests",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 1,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 0,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "market",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 1,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 1,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "reports",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 1,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 0,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "settings",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 1,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 0,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  },
+  {
+    "viewport": 1280,
+    "screen": "library",
+    "artReadiness": {
+      "fonts": "loaded",
+      "visibleImages": 3,
+      "brokenImages": [],
+      "pendingImages": [],
+      "checkedBackgrounds": 0,
+      "brokenBackgrounds": []
+    },
+    "documentWidth": 1280,
+    "sceneWidth": 1244
+  }
+]

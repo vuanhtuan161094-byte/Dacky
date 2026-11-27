@@ -9,7 +9,8 @@ const fileOnly=process.argv.includes('--file-only');
 const output=path.resolve(process.env.DACKY_SCREENSHOT_DIR||'qa/screenshots');
 await mkdir(output,{recursive:true});
 const singleFileUrl=process.env.DACKY_SINGLE_FILE_URL||pathToFileURL(path.resolve('dist/offline.html')).href;
-const initialUrl=fileOnly?singleFileUrl:'http://127.0.0.1:4173/';
+const pwaBaseUrl=process.env.DACKY_PWA_BASE_URL||'http://127.0.0.1:4173/';
+const initialUrl=fileOnly?singleFileUrl:pwaBaseUrl;
 const browser=spawn('/usr/bin/chromium',[
   '--headless=new','--no-sandbox','--disable-dev-shm-usage','--disable-gpu','--disable-background-networking',
   '--disable-extensions','--disable-default-apps','--no-first-run','--remote-debugging-port=0',
@@ -70,11 +71,11 @@ try {
     const serviceWorkerState=await value('(async function(){var r=await navigator.serviceWorker.getRegistrations();return {url:location.href,controller:!!navigator.serviceWorker.controller,registrations:r.map(function(x){return {scope:x.scope,active:x.active&&x.active.state,waiting:x.waiting&&x.waiting.state}}),caches:await caches.keys()}})()');
     console.log('Service worker diagnostic:',JSON.stringify(serviceWorkerState));
     await call('Network.setBypassServiceWorker',{bypass:false});
-    await call('Page.navigate',{url:'http://127.0.0.1:4173/index.html'});
+    await call('Page.navigate',{url:new URL('index.html',pwaBaseUrl).href});
     await pause(500);
     await until('document.readyState==="complete"&&location.pathname==="/index.html"');
     await until('navigator.serviceWorker.controller!==null');
-    console.log('Cached entrypoint:',await value('caches.match(location.origin+"/index.html").then(x=>!!x)'));
+    console.log('Cached entrypoint:',await value('caches.match(location.href).then(x=>!!x)'));
     await call('Network.emulateNetworkConditions',{offline:true,latency:0,downloadThroughput:0,uploadThroughput:0});
     await call('Page.reload',{ignoreCache:false});
     await pause(1200);

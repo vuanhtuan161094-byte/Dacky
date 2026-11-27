@@ -38,6 +38,13 @@ test('source-linked quest goods are consumed once through the ordinary quest cla
   assert.throws(()=>claimSourceQuest(state,quest.id,()=>({})),/Nhiệm vụ chưa đủ điều kiện hoặc đang HOLD/);
 });
 
+test('the source Anti-Demon seal removes only an active Cấm Ma effect and is preserved otherwise',()=>{
+  const seal=sourceItem('4569'),state=createNewGame('Giải Cấm Ma',now);state.items.push(seal.id);
+  assert.throws(()=>doAction(state,{type:'useItem',itemId:seal.id},now),/không bị Cấm Ma/);assert.ok(state.items.includes(seal.id));
+  state.gameplay.strategic.effects=[{spellId:4568,kind:'flag',key:'blockMagic',value:1,expiresAt:Math.floor((now+60_000)/1000)}];
+  const cleared=doAction(state,{type:'useItem',itemId:seal.id},now);assert.deepEqual(cleared.gameplay.strategic.effects,[]);assert.ok(!cleared.items.includes(seal.id));
+});
+
 test('nine source Secret Scroll tiers advance matching official seals and preserve valid-use costs',()=>{
   for(let index=0;index<9;index++){
     const rank=index*2+1,state=createNewGame('Thử Quan Ấn nguồn',now),book=sourceItem(6225+index);state.items.push(book.id);state.gameplay.official=rank-1;state.fame=rank*rank*100;state.resources.gold=rank*100;
@@ -278,12 +285,12 @@ test('nine Mobile duel-trait gems change real expected attack or incoming damage
 
 test('23 Mobile troop counter, critical and first-round gems affect composition-weighted army battle input',()=>{
   const combat=createProductCombat({storageCapacity}),gear=sourceItem('7232'),node=WORLD_NODES.find(row=>row.enemy?.formation?.length),sourceByClass={spear:'1000',shield:'1001',archer:'1002',cavalry:'1003'},troopClass=troop=>{const id=String(troop.mobileSourceId);if(['1000','1010','1020','1030','1040','1050'].includes(id))return 'spear';if(['1001','1011','1021','1031','1041','1051'].includes(id))return 'shield';if(['1002','1012','1022','1032','1042','1052'].includes(id))return 'archer';if(['1003','1013','1023','1033','1043','1053','1063'].includes(id))return 'cavalry';return null;};
-  const cases=[7614,7615,7616,7617,7618,7619,7620,7621,7622,7623,7624,7625,7626,7627,7628,7629,7630,7631,7632,7633,7634,7635,7636];
+  const safeguard=sourceItem('4714'),cases=[7614,7615,7616,7617,7618,7619,7620,7621,7622,7623,7624,7625,7626,7627,7628,7629,7630,7631,7632,7633,7634,7635,7636];
   for(const sourceId of cases){
     const state=createNewGame('Thử ngọc binh chủng',now),hero=state.heroes[0],gem=sourceItem(sourceId),rule=sourceGearGemRule(gem),ownTroop=TROOPS.find(row=>String(row.mobileSourceId)===sourceByClass[rule.sourceClass]),targetTroop=TROOPS.find(row=>troopClass(row)===rule.targetClass)||TROOPS.find(row=>String(row.mobileSourceId)==='1001');
     assert.equal(rule?.kind,'armyCombatGem',String(sourceId));assert.ok(ownTroop&&targetTroop,`${sourceId} resolves the sourced troop classes`);
-    state.levels.foundry=1;hero.assigned=true;hero.equipment.helmet=gear.id;state.items.push(gear.id,gem.id);state.gameplay.strategic.npc[node.id]={morale:80,loyalty:100,troops:{[targetTroop.id]:100},effects:[]};
-    const base=combat.marchInput(state,{nodeId:node.id,troops:{[ownTroop.id]:100},startAt:now,seed:812}).input,socketed=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),after=combat.marchInput(socketed,{nodeId:node.id,troops:{[ownTroop.id]:100},startAt:now,seed:812}).input;
+    state.levels.foundry=1;hero.assigned=true;hero.equipment.helmet=gear.id;state.items.push(gear.id,gem.id,safeguard.id);state.gameplay.strategic.npc[node.id]={morale:80,loyalty:100,troops:{[targetTroop.id]:100},effects:[]};
+    const base=combat.marchInput(state,{nodeId:node.id,troops:{[ownTroop.id]:100},startAt:now,seed:812}).input,socketed=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id,protectionItemId:safeguard.id},now),after=combat.marchInput(socketed,{nodeId:node.id,troops:{[ownTroop.id]:100},startAt:now,seed:812}).input;
     const channel=rule.effect==='firstRoundGuard'?'armyDefense':'armyAttack';assert.ok(after.sides[0][channel]>base.sides[0][channel],`${sourceId} changes ${channel} using the corresponding troop class`);
     assert.ok(!socketed.items.includes(gem.id),`${sourceId} is consumed once on a successful socket`);
   }
@@ -298,8 +305,8 @@ test('equipment stat and life-steal gem families alter duel inputs, healing and 
   }
   const healedBySource={};
   for(const sourceId of [7674,7675]){
-    const state=createNewGame('Thử hút máu',now),hero=state.heroes[0],gem=sourceItem(sourceId);hero.assigned=true;hero.equipment.helmet=gear.id;state.levels.foundry=1;state.items.push(gear.id,gem.id);
-    const socketed=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),maxHp=combat.commander(socketed.heroes[0],socketed).maxVitality;
+    const state=createNewGame('Thử hút máu',now),hero=state.heroes[0],gem=sourceItem(sourceId),safeguard=sourceItem('4714');hero.assigned=true;hero.equipment.helmet=gear.id;state.levels.foundry=1;state.items.push(gear.id,gem.id,safeguard.id);
+    const socketed=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id,protectionItemId:safeguard.id},now),maxHp=combat.commander(socketed.heroes[0],socketed).maxVitality;
     socketed.heroes[0].combatVitality=Math.floor(maxHp*.5);
     const result=combat.runDuel(socketed,{battleId:'leech-family:'+sourceId,mode:'tower',seed:1,now}),event=result.battle.events.find(row=>row.type==='lifeSteal'&&row.amount>0);
     assert.ok(event,`${sourceId} normal hits produce a real duel healing event`);assert.ok(result.state.reports[0].rounds.flatMap(round=>round.events??[]).some(row=>row.type==='lifeSteal'&&row.amount>0),'the one-time battle report preserves the actual healing');healedBySource[sourceId]=event.amount;

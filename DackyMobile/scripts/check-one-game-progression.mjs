@@ -12,7 +12,7 @@ const basePolicies=[
   {id:'immortals',build:['altar','manor','hostel','academy','citadel','farm','grove','lumber','mine','quarry','storehouse','market','barracks','training'],tech:['tech-18','tech-17','tech-19','tech-08','tech-01','tech-05','tech-06','tech-09','tech-10','tech-11','tech-12','tech-13','tech-16','tech-02','tech-03','tech-04','tech-14','tech-15','tech-07'],marchEvery:10,trainTarget:6000,heroTarget:9},
   {id:'balanced',build:['citadel','farm','barracks','academy','grove','lumber','mine','quarry','foundryfield','training','altar','manor','storehouse','market','housing','hostel'],tech:['tech-01','tech-09','tech-10','tech-11','tech-12','tech-13','tech-08','tech-02','tech-03','tech-04','tech-05','tech-06','tech-16','tech-15','tech-18','tech-17','tech-14','tech-07','tech-19'],marchEvery:7,trainTarget:22000,heroTarget:6}
 ];
-const endgamePolicy={id:'endgame',build:['citadel','farm','barracks','academy','grove','lumber','mine','quarry','foundryfield','training','altar','manor','storehouse','market','housing','hostel','stable','skirmisher','workshop','caravan','granary'],tech:['tech-09','tech-10','tech-11','tech-12','tech-13','tech-16','tech-15','tech-08','tech-01','tech-02','tech-03','tech-04','tech-05','tech-06','tech-14','tech-17','tech-18','tech-07','tech-19'],marchEvery:7,trainTarget:1_000_000,trainingSiteTarget:8,heroTarget:12};
+const endgamePolicy={id:'endgame',build:['citadel','farm','barracks','academy','grove','lumber','mine','quarry','foundryfield','training','clinic','altar','manor','storehouse','market','housing','hostel','stable','skirmisher','workshop','caravan','granary'],tech:['tech-09','tech-10','tech-11','tech-12','tech-13','tech-16','tech-15','tech-08','tech-01','tech-02','tech-03','tech-04','tech-05','tech-06','tech-14','tech-17','tech-18','tech-07','tech-19'],marchEvery:7,trainTarget:1_000_000,trainingSiteTarget:8,heroTarget:12};
 const policies=process.env.DACKY_ENDGAME_ONLY==='1'?[endgamePolicy]:basePolicies;
 const allQuests=gameplayQuestList(),sourceTroops=TROOPS.filter(x=>x.mobileSourceId),sourceHeroes=HEROES.filter(x=>x.mobileSourceId),gearCatalog=ITEMS.filter(x=>x.type!=='vật phẩm');
 const mountainBattles=LEGACY_ELFLAND_LOCATIONS.flatMap(place=>getMountainBattles(place.ElflandID));
@@ -190,8 +190,8 @@ function run(policy){
      if(count&&act('train',{troopId:candidate.id,count,barracksId:site.id}))troopTypes.add(candidate.id);
    }
  };
- const balanceForTraining=()=>{
-   if(policy.id!=='endgame')return;
+ const balanceForTrainingOnce=()=>{
+   if(policy.id!=='endgame')return false;
    const reserve={food:1000,timber:1000,stone:1000,iron:1000,gold:12000};
    const resourceRate={food:1,timber:1.15,stone:1.3,iron:1.55,gold:2.2,jade:16};
    let to=null,goal=0;
@@ -224,7 +224,7 @@ function run(policy){
    if(!to&&state.resources.food<Math.min(storageCapacity(state),Math.max(8000,foodUpkeepPerHour(state)*12))){to='food';goal=Math.min(storageCapacity(state),Math.max(8000,foodUpkeepPerHour(state)*12));}
    if(!to&&state.resources.iron<5000){to='iron';goal=5000;}
    if(!to&&state.resources.gold<12000){to='gold';goal=12000;}
-   if(!to)return;
+   if(!to)return false;
    const fee=Math.max(.02,.22-(state.levels.caravan||0)*.012-(state.levels.embassy||0)*.006-(state.world.guildLevel||0)*.005);
    const deficit=Math.max(0,goal-state.resources[to]);
    for(const from of ['gold','stone','timber','food','iron','jade']){
@@ -233,9 +233,14 @@ function run(policy){
      const wanted=Math.ceil(deficit*resourceRate[to]/(resourceRate[from]*(1-fee)));
      const amount=Math.min(50000,surplus,Math.max(100,wanted));
      if(amount<100)continue;
-     if(act('trade',{from,to,amount}))return;
+     if(act('trade',{from,to,amount}))return true;
    }
+   return false;
  };
+ // A human may make several independent trades while advancing a developed
+ // realm. Let this policy finish three legal quotes per day so cheap troop
+ // queues cannot starve the real high-tier technology prerequisites.
+ const balanceForTraining=()=>{for(let trade=0;trade<3;trade++)if(!balanceForTrainingOnce())break;};
  const chooseArmy=()=>{
    const counts=Object.entries(state.army).filter(([,n])=>n>0).sort((a,b)=>b[1]-a[1]);
    const cap=marchTroopCapacity(state);let left=cap;const selected={};

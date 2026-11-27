@@ -4,16 +4,16 @@
     "mobileStatus": {
       "PARTIAL_RUNTIME": 620,
       "EXECUTABLE_SIMULATED_FORMULA": 151,
-      "USE_RUNTIME": 1065,
-      "REFERENCE_OR_MATERIAL": 33,
+      "USE_RUNTIME": 1068,
+      "REFERENCE_OR_MATERIAL": 26,
       "QUEST_RUNTIME": 193,
-      "EQUIP_RUNTIME": 594
+      "EQUIP_RUNTIME": 598
     },
     "sourceItems": {
-      "USE_RUNTIME": 1065,
-      "REFERENCE_OR_MATERIAL": 33,
+      "USE_RUNTIME": 1068,
+      "REFERENCE_OR_MATERIAL": 26,
       "QUEST_RUNTIME": 193,
-      "EQUIP_RUNTIME": 594
+      "EQUIP_RUNTIME": 598
     },
     "legacyTables": 70,
     "decodedTables": 67,
@@ -36,6 +36,13 @@
       "mountainRewardSourceRows": 1093,
       "sourceStrongpoints": 27,
       "sourceBossFights": 25,
+      "sourceArtifactAbilityMapping": {
+        "sourceRecords": 151,
+        "uniqueDescriptions": 88,
+        "mapped": 151,
+        "unmapped": 0,
+        "execution": "Existing source artifact ops run in army combat; no duplicate text adapter."
+      },
       "localRuleEvidence": {
         "recruitment": {
           "status": "SIMULATED",
@@ -11552,8 +11559,8 @@
       "id": "4569",
       "name": "Thuật Phá Ma",
       "runtimeId": "mobile-good-4569",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "dispelStrategicCurse"
     },
     {
       "category": "vat-pham",
@@ -14440,8 +14447,8 @@
       "id": "4404",
       "name": "Đan Hoãn Thời Gian",
       "runtimeId": "mobile-good-4404",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "fieldTripTicket"
     },
     {
       "category": "vat-pham",
@@ -16696,8 +16703,8 @@
       "id": "8742",
       "name": "Sương Tẩy Khí",
       "runtimeId": "mobile-good-8742",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Bảo vật"
+      "status": "USE_RUNTIME",
+      "detail": "heroFullReset"
     },
     {
       "category": "vat-pham",
@@ -17864,16 +17871,16 @@
       "id": "4710",
       "name": "Phù Thần Bảo Hộ",
       "runtimeId": "mobile-good-4710",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "gearProtection:enhance"
     },
     {
       "category": "vat-pham",
       "id": "4711",
       "name": "Phù Hộ Mệnh Tái Sinh",
       "runtimeId": "mobile-good-4711",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "gearProtection:enhance"
     },
     {
       "category": "vat-pham",
@@ -17896,16 +17903,16 @@
       "id": "4714",
       "name": "Phù Văn Thiên Cơ",
       "runtimeId": "mobile-good-4714",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "gearProtection:socket"
     },
     {
       "category": "vat-pham",
       "id": "4715",
       "name": "Phù Văn Nghịch Chuyển",
       "runtimeId": "mobile-good-4715",
-      "status": "REFERENCE_OR_MATERIAL",
-      "detail": "Nguyên liệu"
+      "status": "EQUIP_RUNTIME",
+      "detail": "gearProtection:socket"
     },
     {
       "category": "vat-pham",

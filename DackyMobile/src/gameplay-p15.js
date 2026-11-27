@@ -153,8 +153,22 @@ const sourceHeroRestores=new Map([
 ]);
 const sourceHeroResetItems=new Map([
   ['4911',{kind:'heroPotentialReset',itemsPerTenLevels:true}],['4920',{kind:'heroFullReset',itemsPerTenLevels:true}],
+  ['8742',{kind:'heroFullReset',itemsPerTenLevels:true,requiresRebirth:true}],
   ['4951',{kind:'heroLevelStepReset',clear:'potential'}],['8741',{kind:'heroLevelStepReset',clear:'skill'}]
 ]);
+const sourceGearProtections=new Map([
+  ['4710',{operation:'enhance',failure:'downgradeOne',minimumRank:1,maximumRank:7}],
+  ['4711',{operation:'enhance',failure:'preventDestroy',minimumRank:8}],
+  ['4714',{operation:'socket',failure:'guarantee'}],
+  ['4715',{operation:'socket',failure:'retainGem'}]
+]);
+export function gearProtectionRule(item){
+ const sourceId=String(item?.mobileSourceId??'');
+ const rule=sourceGearProtections.get(sourceId);
+ return rule&&item?.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE'
+  ?{...rule,kind:'gearProtection',sourceId,evidence:'VERIFIED_MOBILE',runtimeFormula:'SIMULATED_GEAR_FAILURE_POLICY'}
+  :null;
+}
 const sourceRootCultivation=new Map([
  ['8955',{minimumRoot:50,minimum:1,maximum:5}],['8956',{minimumRoot:55,minimum:1,maximum:5}]
 ]);
@@ -216,11 +230,13 @@ export function itemUseRule(item){
  }
  if(sid==='4917')return {kind:'renameVoucher',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
  if(sid==='4916')return {kind:'flagVoucher',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
+ if(sid==='4569')return {kind:'dispelStrategicCurse',spellId:4568,evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_LOCAL_CURSE_DISPEL'};
  if(sourceOfficialSeals.has(sid))return {kind:'officialSeal',...sourceOfficialSeals.get(sid),evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_OFFICIAL_SEAL_PROMOTION'};
  if(sid==='6036')return {kind:'eventExchange',ingredients:[{sourceId:'6036',count:1},{sourceId:'6037',count:1},{sourceId:'6043',count:1},{sourceId:'6044',count:1}],rewardSourceId:'6039',evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_EVENT_EXCHANGE_QUANTITY'};
  if(sid==='4408')return {kind:'mountainRefresh',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeScopeEvidence:'SIMULATED_SELECTED_MOUNTAIN_DAILY_RESET'};
  if(sid==='4910')return {kind:'recruitmentRefresh',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
  if(sid==='4904')return {kind:'moraleReset',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',unsupported:['city unrest has no runtime field']};
+ if(sid==='4404')return {kind:'fieldTripTicket',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_EXTRA_FIELD_VISIT'};
  if(sourceTowerBooks.has(sid))return {kind:'towerBook',sourceId:sid,towerEffects:{...sourceTowerBooks.get(sid)},evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description'};
  if(item.fieldEvidence?.mobileDescription==='VERIFIED_MOBILE'&&d.includes('mo khoa')&&d.includes('hinh dai dien')){
   if(d.includes('khung'))return {kind:'cosmeticUnlock',slot:'frame',evidence:'VERIFIED_MOBILE',sourceId:sid,sourceTable:'vat-pham',sourceField:'Description'};
@@ -264,7 +280,7 @@ export function itemUseRule(item){
 }
 export function buzhouPlan(floor){const row=LEGACY_BUZHOU_FLOORS.find(x=>x.floorId===floor);if(!row)return null;const formation=LEGACY_BUZHOU_FORMATIONS.filter(x=>Number(x.FloorID)===floor).map(x=>({name:x.GeneralName,troopSourceId:String(x.LeadSoldierID),count:x.LeadSoldierNum,troopId:byTroop.get(Number(x.LeadSoldierID))?.id??null}));return {floor,minLevel:row.generalMinLevel,maxLevel:row.generalMaxLevel,minCount:row.generalMinNum,maxCount:row.generalMaxNum,lead:row.generalLeadPopulation,formation,evidence:'VERIFIED_LEGACY_REFERENCE'};}
 function normalizeAssaults(value){return Object.fromEntries(Object.entries(value&&typeof value==='object'?value:{}).filter(([id,row])=>/^buzhou:[45]$/.test(id)&&row&&typeof row==='object'&&row.remaining&&typeof row.remaining==='object').map(([id,row])=>[id,{remaining:Object.fromEntries(Object.entries(row.remaining).filter(([unitId,count])=>/^legacy-npc-\d+$/.test(unitId)&&Number.isFinite(Number(count))&&Number(count)>0).map(([unitId,count])=>[unitId,Math.min(9_999_999,Math.floor(Number(count)))])),total:clamp(num(row.total),0,20_000_000)}]).filter(([,row])=>Object.keys(row.remaining).length));}
-export function normalizeGameplay(s){const g=s.gameplay&&typeof s.gameplay==='object'?s.gameplay:{};s.gameplay={...g,questClaims:[...new Set((Array.isArray(g.questClaims)?g.questClaims:[]).filter(x=>quests.has(x)))],questClaimDays:Object.fromEntries(Object.entries(g.questClaimDays||{}).filter(([id,day])=>quests.has(id)&&Number.isSafeInteger(day))),questVouchers:num(g.questVouchers),tradeVouchers:clamp(num(g.tradeVouchers),0,100),endgameAssaults:normalizeAssaults(g.endgameAssaults),actions:g.actions&&typeof g.actions==='object'?g.actions:{},official:clamp(num(g.official),0,19),guildDonation:num(g.guildDonation),scoutRank:num(g.scoutRank),fieldRank:num(g.fieldRank),fieldOccupationRank:num(g.fieldOccupationRank),mountainRank:num(g.mountainRank),taxRate:clamp(num(g.taxRate??20),0,50),laborRate:clamp(num(g.laborRate??100),0,100),flag:String(g.flag??'周').slice(0,4),itemBuffs:(Array.isArray(g.itemBuffs)?g.itemBuffs:[]).filter(x=>x&&typeof x.key==='string'&&Number.isFinite(x.expiresAt)&&Number.isFinite(x.ratio)),nextBattleBuffs:(Array.isArray(g.nextBattleBuffs)?g.nextBattleBuffs:[]).filter(x=>x&&typeof x.key==='string'&&typeof x.sourceId==='string'&&Number.isFinite(x.ratio)).map(x=>({...x,ratio:clamp(x.ratio,0,1)})),itemCooldowns:Object.fromEntries(Object.entries(g.itemCooldowns||{}).filter(([id,until])=>/^\d+$/.test(id)&&Number.isFinite(until)&&until>0).map(([id,until])=>[id,Math.min(Number.MAX_SAFE_INTEGER,Math.floor(until))])),strategic:{effects:Array.isArray(g.strategic?.effects)?g.strategic.effects:[],npc:g.strategic?.npc&&typeof g.strategic.npc==='object'?g.strategic.npc:{},receipts:Array.isArray(g.strategic?.receipts)?g.strategic.receipts:[]}};return s.gameplay;}
+export function normalizeGameplay(s){const g=s.gameplay&&typeof s.gameplay==='object'?s.gameplay:{};s.gameplay={...g,questClaims:[...new Set((Array.isArray(g.questClaims)?g.questClaims:[]).filter(x=>quests.has(x)))],questClaimDays:Object.fromEntries(Object.entries(g.questClaimDays||{}).filter(([id,day])=>quests.has(id)&&Number.isSafeInteger(day))),questVouchers:num(g.questVouchers),tradeVouchers:clamp(num(g.tradeVouchers),0,100),fieldTripBonus:clamp(Math.floor(num(g.fieldTripBonus)),0,99),fieldTrips:g.fieldTrips&&Number.isSafeInteger(g.fieldTrips.day)&&Number.isSafeInteger(g.fieldTrips.used)?{day:clamp(g.fieldTrips.day,0,Number.MAX_SAFE_INTEGER),used:clamp(g.fieldTrips.used,0,100)}:null,endgameAssaults:normalizeAssaults(g.endgameAssaults),actions:g.actions&&typeof g.actions==='object'?g.actions:{},official:clamp(num(g.official),0,19),guildDonation:num(g.guildDonation),scoutRank:num(g.scoutRank),fieldRank:num(g.fieldRank),fieldOccupationRank:num(g.fieldOccupationRank),mountainRank:num(g.mountainRank),taxRate:clamp(num(g.taxRate??20),0,50),laborRate:clamp(num(g.laborRate??100),0,100),flag:String(g.flag??'周').slice(0,4),itemBuffs:(Array.isArray(g.itemBuffs)?g.itemBuffs:[]).filter(x=>x&&typeof x.key==='string'&&Number.isFinite(x.expiresAt)&&Number.isFinite(x.ratio)),nextBattleBuffs:(Array.isArray(g.nextBattleBuffs)?g.nextBattleBuffs:[]).filter(x=>x&&typeof x.key==='string'&&typeof x.sourceId==='string'&&Number.isFinite(x.ratio)).map(x=>({...x,ratio:clamp(x.ratio,0,1)})),itemCooldowns:Object.fromEntries(Object.entries(g.itemCooldowns||{}).filter(([id,until])=>/^\d+$/.test(id)&&Number.isFinite(until)&&until>0).map(([id,until])=>[id,Math.min(Number.MAX_SAFE_INTEGER,Math.floor(until))])),strategic:{effects:Array.isArray(g.strategic?.effects)?g.strategic.effects:[],npc:g.strategic?.npc&&typeof g.strategic.npc==='object'?g.strategic.npc:{},receipts:Array.isArray(g.strategic?.receipts)?g.strategic.receipts:[]}};return s.gameplay;}
 export function trackAction(s,action){const a=s.gameplay.actions;const inc=k=>a[k]=num(a[k])+1;inc(action.type);if(action.type==='useItem')inc('useItem:'+action.itemId);}
 export function gameplayQuestList(){return [...quests.values()];}
 export function strategicQuote(){return strategicCatalog();}

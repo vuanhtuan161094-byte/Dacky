@@ -3,7 +3,7 @@ import { getEndgameBattles, getMountainBattles, resolvePveLootItem } from '../sr
 import { WORLD_RULE_EVIDENCE } from '../src/simulated-world.js';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {MOBILE_SOURCE_DATABASE,BUILDINGS,TECHNOLOGIES,HEROES,ITEMS,TROOPS,WORLD_NODES} from '../src/catalog.js';
-import {gameplayQuestList,sourceQuestObjectives,sourceQuestReward,itemUseRule,sourceGearGemRule,buzhouPlan} from '../src/gameplay-p15.js';
+import {gameplayQuestList,sourceQuestObjectives,sourceQuestReward,itemUseRule,sourceGearGemRule,gearProtectionRule,buzhouPlan} from '../src/gameplay-p15.js';
 import {createCombatRuntime} from '../src/combat/runtime-v7.js';
 import {PRODUCT_POLICY} from '../src/combat/product-v13.js';
 const meta=JSON.parse(await readFile('DATA_COVERAGE.json','utf8')),rt=createCombatRuntime({database:MOBILE_SOURCE_DATABASE,troopRows:TROOPS,allowSimulatedLife:true});
@@ -13,8 +13,9 @@ const mobile=[];for(const [category,rows] of Object.entries(MOBILE_SOURCE_DATABA
 const exchangeIngredientIds=new Set(ITEMS.flatMap(item=>{const rule=itemUseRule(item);return rule?.kind==='eventExchange'?rule.ingredients.map(row=>String(row.sourceId)):[]}));
 for(const row of mobile){
   if(row.category!=='vat-pham'||row.status!=='REFERENCE_OR_MATERIAL')continue;
-  const item=ITEMS.find(candidate=>String(candidate.mobileSourceId)===String(row.id)),gem=sourceGearGemRule(item);
+  const item=ITEMS.find(candidate=>String(candidate.mobileSourceId)===String(row.id)),gem=sourceGearGemRule(item),protection=gearProtectionRule(item);
   if(gem){row.status='EQUIP_RUNTIME';row.detail=gem.kind;}
+  else if(protection){row.status='EQUIP_RUNTIME';row.detail=protection.kind+':'+protection.operation;}
   else if(exchangeIngredientIds.has(String(row.id))){row.status='QUEST_RUNTIME';row.detail='eventExchangeIngredient';}
   else if(String(row.id)==='4912'){row.status='QUEST_RUNTIME';row.detail='strategicSpellMaterial';}
   else if(String(row.id)==='8746'){row.status='QUEST_RUNTIME';row.detail='lowRootPromotionMaterial';}
@@ -38,6 +39,7 @@ summary.product = {
   mountainRewardSourceRows: LEGACY_ELFLAND_REWARD_RULES.length,
   sourceStrongpoints: endgame.filter(row => row.kind === 'Thành trì NPC').length,
   sourceBossFights: endgame.filter(row => row.kind === 'Boss').length,
+  sourceArtifactAbilityMapping:{sourceRecords:ITEMS.filter(row=>row.fieldEvidence?.mobileAbilityText==='VERIFIED_MOBILE'&&row.mobileAbilityText).length,uniqueDescriptions:new Set(ITEMS.filter(row=>row.fieldEvidence?.mobileAbilityText==='VERIFIED_MOBILE'&&row.mobileAbilityText).map(row=>row.mobileAbilityText)).size,mapped:ITEMS.filter(row=>row.fieldEvidence?.mobileAbilityText==='VERIFIED_MOBILE'&&row.mobileAbilityText&&rt.index.artifacts[String(row.mobileSourceId)]?.status==='MAPPED').length,unmapped:ITEMS.filter(row=>row.fieldEvidence?.mobileAbilityText==='VERIFIED_MOBILE'&&row.mobileAbilityText&&rt.index.artifacts[String(row.mobileSourceId)]?.status!=='MAPPED').length,execution:'Existing source artifact ops run in army combat; no duplicate text adapter.'},
   localRuleEvidence: WORLD_RULE_EVIDENCE
 };
 const activeLootRows=new Set(floors.flatMap(row=>row.lootRuleCandidates.map(rule=>rule.sourceRowIndex)));

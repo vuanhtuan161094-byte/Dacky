@@ -238,9 +238,9 @@ document.body.addEventListener('click', async event => {
     case 'buyItem': return perform('buyItem',{itemId:button.dataset.item,count:button.dataset.count||document.querySelector(`[data-buy-count="${button.dataset.item}"]`)?.value||1});
     case 'buyArtifact': return perform('buyArtifact',{itemId:button.dataset.item});
     case 'forge': return perform('forge',{itemId:button.dataset.item});
-    case 'enhanceGear': return perform('enhanceGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
+    case 'enhanceGear': return perform('enhanceGear',{heroId:button.dataset.hero,itemId:button.dataset.item,protectionItemId:document.querySelector('[data-gear-enhance-protection="'+button.dataset.hero+':'+button.dataset.item+'"]')?.value||null});
     case 'starUpGear': return perform('starUpGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
-    case 'socketGearGem': return perform('socketGearGem',{heroId:button.dataset.hero,itemId:button.dataset.item,gemId:document.querySelector('[data-gem-select="'+button.dataset.hero+':'+button.dataset.item+'"]')?.value||button.dataset.gem});
+    case 'socketGearGem': return perform('socketGearGem',{heroId:button.dataset.hero,itemId:button.dataset.item,gemId:document.querySelector('[data-gem-select="'+button.dataset.hero+':'+button.dataset.item+'"]')?.value||button.dataset.gem,protectionItemId:document.querySelector('[data-gear-socket-protection="'+button.dataset.hero+':'+button.dataset.item+'"]')?.value||null});
     case 'sellItem': return perform('sellItem',{itemId:button.dataset.item});
     case 'research': return perform('research',{techId:button.dataset.tech});
     case 'scout': return perform('scout',{nodeId:button.dataset.node||uiState.nodeId});
