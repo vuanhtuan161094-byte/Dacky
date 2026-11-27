@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewGame, doAction, migrateSave, quoteGearGemSocket, storageCapacity } from '../src/engine.js';
 import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
-import { cityEffects, itemBuff, itemUseRule } from '../src/gameplay-p15.js';
+import { cityEffects, itemBuff, itemUseRule, sourceGearGemRule } from '../src/gameplay-p15.js';
 import { getMountainBattles, pveLock, resolvePveLootItem } from '../src/pve-campaign.js';
 import { createProductCombat } from '../src/combat/product-v13.js';
 import { recruitmentPromotion } from '../src/simulated-world.js';
@@ -161,6 +161,25 @@ test('source red-slot gems socket through the hero UI adapter and affect army or
   const buffed=combat.marchInput(socketed,{nodeId:node.id,troops:{[troop.id]:10},startAt:now,seed:13}).input;
   assert.ok(Math.abs(cityEffects(socketed,now).attack-.1)<1e-8);
   assert.ok(Math.abs(buffed.sides[0].armyAttack-base.sides[0].armyAttack-.1)<1e-8,'expected value of the source 10% double-damage proc reaches army combat');
+});
+
+test('12 Mobile stat-gem materials socket, modify their described hero attribute and survive migration',()=>{
+  const combat=createProductCombat({storageCapacity}),gear=sourceItem('7232');
+  assert.ok(gear&&gear.mobileEquipmentSlot==='Mũ');
+  const cases=[['7650','defense',.03],['7651','defense',.09],['7652','defense',.20],['7662','resistance',.03],['7663','resistance',.09],['7664','resistance',.20],['7665','attack',.03],['7666','attack',.09],['7667','attack',.20],['7668','magic',.03],['7669','magic',.09],['7670','magic',.20]];
+  for(const [sourceId,stat,ratio] of cases){
+    const state=createNewGame('Thử ngọc chỉ số',now),hero=state.heroes[0],gem=sourceItem(sourceId);
+    state.levels.foundry=1;hero.assigned=true;hero.equipment.helmet=gear.id;state.items.push(gear.id,gem.id);
+    const baseline=combat.runDuel(state,{battleId:`gem-baseline-${sourceId}`,mode:'tower',seed:615,now}),rule=sourceGearGemRule(gem);
+    assert.equal(rule?.kind,'heroStatGem',sourceId);assert.equal(rule.stat,stat);assert.equal(rule.ratio,ratio);
+    assert.ok(quoteGearGemSocket(state,hero.id,gear.id,gem.id)?.available,`${sourceId} can be socketed through the normal forge path`);
+    const enhanced=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),after=combat.runDuel(enhanced,{battleId:`gem-enhanced-${sourceId}`,mode:'tower',seed:615,now});
+    assert.ok(!enhanced.items.includes(gem.id),`${sourceId} is consumed once`);
+    const damage=(battle,side,target)=>battle.events.filter(event=>event.type==='damage'&&event.side===side&&event.target===target).reduce((sum,event)=>sum+event.amount,0);
+    const changesCombat=stat==='attack'||stat==='magic'?damage(after.battle,0,1)>damage(baseline.battle,0,1):damage(after.battle,1,0)<damage(baseline.battle,1,0);
+    assert.ok(changesCombat,`${sourceId} changes actual ${stat} used by combat`);
+    assert.deepEqual(migrateSave(JSON.parse(JSON.stringify(enhanced)),now+1).heroes[0].gearEnhancements[gear.id].gems,[gem.id],`${sourceId} remains equipped after reload`);
+  }
 });
 
 test('70 verified frame and chat-bubble goods unlock once, equip by slot and persist through migration',()=>{

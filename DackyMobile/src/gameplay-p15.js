@@ -164,6 +164,17 @@ const sourceTowerBooks=new Map([
  ['8708',{stats:{attack:.15},runtimeEffect:'SIMULATED_TOWER_COUNTER_AS_ATTACK'}],['8709',{stats:{attack:.15},runtimeEffect:'SIMULATED_TOWER_CHAIN_AS_ATTACK'}],
  ['8710',{stats:{attack:.10,defense:.10}}],['8711',{stats:{magic:.10,resistance:.10}}],['8712',{stats:{attack:.10,resistance:.10}}],['8713',{stats:{magic:.10,defense:.10}}]
 ]);
+const sourceHeroStatGems=new Map([
+ ['7650',{stat:'defense',ratio:.03}],['7651',{stat:'defense',ratio:.09}],['7652',{stat:'defense',ratio:.20}],
+ ['7662',{stat:'resistance',ratio:.03}],['7663',{stat:'resistance',ratio:.09}],['7664',{stat:'resistance',ratio:.20}],
+ ['7665',{stat:'attack',ratio:.03}],['7666',{stat:'attack',ratio:.09}],['7667',{stat:'attack',ratio:.20}],
+ ['7668',{stat:'magic',ratio:.03}],['7669',{stat:'magic',ratio:.09}],['7670',{stat:'magic',ratio:.20}]
+]);
+export function sourceGearGemRule(item){
+ if(!item||String(item.mobileGroup||'')!=='Nguyên liệu')return null;
+ const rule=sourceHeroStatGems.get(String(item.mobileSourceId));
+ return rule?{kind:'heroStatGem',...rule,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_HERO_STAT_GEM_ADAPTER'}:null;
+}
 export function itemUseRule(item){
  if(!item||item.type!=='vật phẩm')return null;
  const name=norm(item.name),d=norm(item.mobileDescription??''),sid=String(item.mobileSourceId);

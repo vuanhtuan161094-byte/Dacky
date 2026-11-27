@@ -4,7 +4,7 @@ import { getPveEncounter, PVE_TROOPS } from '../pve-campaign.js';
 import { MOBILE_SOURCE_DATABASE,TROOPS,HEROES,ITEMS,TECHNOLOGIES,WORLD_NODES,IMMORTAL_MOUNTAINS,TOWER_FLOORS,BUZHOU_FLOORS } from '../catalog.js';
 import { createCombatRuntime } from './runtime-v7.js';
 import { createSourceDuelHero } from './hero-progression.js';
-import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff,pendingBattleBuff,itemUseRule } from '../gameplay-p15.js';
+import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff,pendingBattleBuff,itemUseRule,sourceGearGemRule } from '../gameplay-p15.js';
 import { canEquip } from './army-artifacts.js';
 // Three source artifacts omit an energy cost and two use a conversion effect.
 // The runtime applies a bounded, explicit fallback policy instead of silently
@@ -48,6 +48,9 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const out={...stats,attack:Math.round((stats.attack+weapon+(save.potential?.attack??0))*mastery*matrix),magic:Math.round((stats.magic+weapon*.4+(save.potential?.magic??0))*mastery*matrix),defense:Math.round((stats.defense+armor+(save.potential?.defense??0))*matrix),resistance:stats.resistance+Math.round(armor*.6)};
   const book=tower&&itemUseRule(bySourceItem.get(String(save.towerBookSourceId||'')))?.towerEffects;
   for(const [key,ratio] of Object.entries(book?.stats||{}))if(Number.isFinite(out[key])&&Number.isFinite(ratio))out[key]=Math.round(out[key]*(1+ratio));
+  // Keep the source percentage visible after the runtime's integer stat
+  // rounding so small but valid gems also affect real duel and commander input.
+  if(state){const gems=Object.values(save.equipment??{}).filter(Boolean).flatMap(id=>save.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(byItem.get(id))).filter(Boolean);for(const gem of gems)if(Number.isFinite(out[gem.stat]))out[gem.stat]*=1+gem.ratio;}
   return out;
  }
  function commander(save,state){

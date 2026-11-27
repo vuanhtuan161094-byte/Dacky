@@ -2,7 +2,7 @@ import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulate
 import { getPveEncounter, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot, resolvePveLootItem } from './pve-campaign.js';
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
-import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,pendingBattleBuff,equipmentSlot } from './gameplay-p15.js';
+import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,sourceGearGemRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,pendingBattleBuff,equipmentSlot } from './gameplay-p15.js';
 import { createProductCombat } from './combat/product-v13.js';
 
 export const SAVE_VERSION = 4;
@@ -215,7 +215,12 @@ export function migrateSave(input, now = Date.now()) {
     const towerBook=ITEMS.find(item=>String(item.mobileSourceId)===String(h.towerBookSourceId||'')&&itemUseRule(item)?.kind==='towerBook');
     h.towerBookSourceId=towerBook?String(towerBook.mobileSourceId):null;
     for(const slot of ['helmet','belt','boots','gloves','relic','relic2','mount'])if(gear[slot]&&ITEMS.some(i=>i.id===gear[slot]&&equipmentSlot(i)===slot))h.equipment[slot]=gear[slot];
-    h.gearEnhancements=Object.fromEntries(Object.entries(h.gearEnhancements||{}).filter(([itemId,value])=>Object.values(h.equipment).includes(itemId)&&value&&typeof value==='object').map(([itemId,value])=>[itemId,{rank:clamp(Math.floor(Number(value.rank)||0),0,5),stars:clamp(Math.floor(Number(value.stars)||0),0,15),gems:[...new Set((Array.isArray(value.gems)?value.gems:[]).filter(id=>ITEMS.some(item=>item.id===id&&(item.mobileGroup==='Châu báu'||SOURCE_RED_GEMS.has(String(item.mobileSourceId))))))].slice(0,2)}]));
+    h.gearEnhancements=Object.fromEntries(Object.entries(h.gearEnhancements||{})
+      .filter(([itemId,value])=>Object.values(h.equipment).includes(itemId)&&value&&typeof value==='object')
+      .map(([itemId,value])=>{
+        const gems=(Array.isArray(value.gems)?value.gems:[]).filter(id=>ITEMS.some(item=>item.id===id&&(item.mobileGroup==='Châu báu'||SOURCE_RED_GEMS.has(String(item.mobileSourceId))||sourceGearGemRule(item))));
+        return [itemId,{rank:clamp(Math.floor(Number(value.rank)||0),0,5),stars:clamp(Math.floor(Number(value.stars)||0),0,15),gems:[...new Set(gems)].slice(0,2)}];
+      }));
     return h;
   });
   s.items = Array.isArray(s.items) ? s.items.filter(id => ITEMS.some(item => item.id === id)).slice(0, 500) : [];
@@ -780,7 +785,7 @@ export function quoteGearEnhancement(state,heroId,itemId){
 
 export function quoteGearGemSocket(state,heroId,itemId,gemId){
   const hero=state.heroes.find(row=>row.id===heroId),gear=ITEMS.find(row=>row.id===itemId),gem=ITEMS.find(row=>row.id===gemId);
-  if(!hero||!gear||!Object.values(hero.equipment||{}).includes(itemId)||!gem||!(gem.mobileGroup==='Châu báu'||SOURCE_RED_GEMS.has(String(gem.mobileSourceId)))||!state.items.includes(gemId))return null;
+  if(!hero||!gear||!Object.values(hero.equipment||{}).includes(itemId)||!gem||!(gem.mobileGroup==='Châu báu'||SOURCE_RED_GEMS.has(String(gem.mobileSourceId))||sourceGearGemRule(gem))||!state.items.includes(gemId))return null;
   const gems=hero.gearEnhancements?.[itemId]?.gems||[];
   return {gems:gems.length,maxed:gems.length>=2,cost:{},available:(state.levels.foundry||0)>=1&&gems.length<2,evidence:'SIMULATED_GEM_SOCKET'};
 }
@@ -1514,8 +1519,8 @@ export function doAction(state, action, now = Date.now()) {
       if(s.queues.march)throw Error('Không khảm ngọc khi đang hành quân.');
       if(!quote.available)throw Error((s.levels.foundry||0)<1?'Cần Huyền Thiết Lò cấp 1 để khảm ngọc.':'Không còn lỗ ngọc.');
       const hero=s.heroes.find(row=>row.id===action.heroId),index=s.items.indexOf(action.gemId);hero.gearEnhancements??={};hero.gearEnhancements[action.itemId]??={rank:0,gems:[]};hero.gearEnhancements[action.itemId].gems.push(action.gemId);s.items.splice(index,1);
-      const gem=ITEMS.find(row=>row.id===action.gemId),red=SOURCE_RED_GEMS.has(String(gem?.mobileSourceId));
-      note(s,`Đã khảm ${gem?.name} vào ${ITEMS.find(row=>row.id===action.itemId)?.name} · ${red?'hiệu ứng mô tả Mobile nối vào chiến đấu bằng adapter SIMULATED':'hiệu quả chiến đấu SIMULATED'}.`);break;
+      const gem=ITEMS.find(row=>row.id===action.gemId),red=SOURCE_RED_GEMS.has(String(gem?.mobileSourceId)),statRule=sourceGearGemRule(gem);
+      note(s,`Đã khảm ${gem?.name} vào ${ITEMS.find(row=>row.id===action.itemId)?.name} · ${statRule?'chỉ số '+({attack:'công kích',magic:'đạo pháp',defense:'phòng thủ',resistance:'kháng phép'}[statRule.stat]||statRule.stat)+' tăng '+Math.round(statRule.ratio*100)+'% theo adapter SIMULATED':red?'hiệu ứng ngọc đội hình nối vào chiến đấu bằng adapter SIMULATED':'hiệu quả chiến đấu SIMULATED'}.`);break;
     }
     case 'buyItem': {
       const item=ITEMS.find(i=>i.id===action.itemId&&i.type==='vật phẩm');
