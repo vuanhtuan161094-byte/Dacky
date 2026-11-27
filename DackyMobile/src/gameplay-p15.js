@@ -92,6 +92,11 @@ const sourceTimedBuffs=new Map([
   ['4954',{seconds:8*3600,effects:[{key:'heroXp',ratio:1}],unsupported:[],stackingEvidence:'VERIFIED_MOBILE'}],
   ['4953',{seconds:3600,effects:[{key:'heroXp',ratio:1}],unsupported:[],stackingEvidence:'VERIFIED_MOBILE'}],
   ['95702',{seconds:24*3600,effects:[{key:'heroXp',ratio:2}],unsupported:[],stackingEvidence:'VERIFIED_MOBILE'}],
+  // Mobile describes three additional concurrent construction queues for
+  // every owned city (five total in the UI) for 72 hours. The source specifies
+  // that consecutive uses extend time; the runtime exposes the same five-slot
+  // account limit through constructionQueueCapacity.
+  ['4901',{seconds:3*86400,effects:[{key:'constructionQueueCapacity',ratio:5}],unsupported:[],stackingEvidence:'VERIFIED_MOBILE'}],
   ['6534',{seconds:30*86400,effects:[{key:'production',ratio:.25},{key:'storageCapacity',ratio:1},{key:'constructionQueueCapacity',ratio:5},{key:'memberDiscount:acceleration',ratio:.20},{key:'memberDiscount:production',ratio:.20}],unsupported:[],simulated:['memberDiscount:20%']}],
   ['6535',{seconds:30*86400,effects:[{key:'heroXp',ratio:.25},{key:'marchSpeed',ratio:.25},{key:'captureChance',ratio:.05},{key:'memberDiscount:chest',ratio:.20},{key:'memberDiscount:quest',ratio:.20}],unsupported:[],simulated:['memberDiscount:20%']}],
   ['6536',{seconds:30*86400,effects:[{key:'attack',ratio:.10},{key:'defense',ratio:.10},{key:'trainingTimeReduction',ratio:.25},{key:'memberDiscount:treasure',ratio:.20},{key:'memberDiscount:material',ratio:.20}],unsupported:[],simulated:['memberDiscount:20%']}],

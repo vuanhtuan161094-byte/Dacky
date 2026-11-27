@@ -138,6 +138,36 @@ test('VIP production packages add concurrent build queues and verified purchase 
   assert.ok(after.cost.gold<before.cost.gold&&after.cost.food<before.cost.food);
 });
 
+test('Mobile labor notice unlocks five construction queues for 72 hours and stacks duration once per use',()=>{
+  const {item,state}=withItem('4901');
+  state.resources={food:1_000_000,timber:1_000_000,stone:1_000_000,iron:1_000_000,gold:1_000_000,jade:100};
+  assert.equal(constructionQueueCapacity(state,now),1);
+  const first=doAction(state,{type:'useItem',itemId:item.id},now);
+  assert.ok(!first.items.includes(item.id));
+  assert.equal(constructionQueueCapacity(first,now),5);
+  const buff=first.gameplay.itemBuffs.find(row=>row.key==='constructionQueueCapacity');
+  assert.equal(buff.expiresAt,now+3*day);
+  assert.equal(buff.evidence,'VERIFIED_MOBILE');
+  assert.equal(buff.stackingEvidence,'VERIFIED_MOBILE');
+  const buildable=BUILDINGS.filter(building=>{
+    const quote=quoteBuilding(first,building.id);
+    return quote&&!quote.locked&&!quote.maxed&&!quote.uniqueLocked&&quote.requirementStatus!=='LOCKED';
+  });
+  assert.ok(buildable.length>=6,'a clean capital has enough distinct starting build options');
+  let queued=first;
+  for(const building of buildable.slice(0,5))queued=doAction(queued,{type:'upgrade',buildingId:building.id},now);
+  assert.equal(allConstructionQueues(queued).length,5,'the source item opens and fills five real construction queues');
+  assert.throws(()=>doAction(queued,{type:'upgrade',buildingId:buildable[5].id},now),/hết hàng đợi xây dựng/i);
+  const loaded=migrateSave(JSON.parse(JSON.stringify(first)),now+day);
+  assert.equal(constructionQueueCapacity(loaded,now+day),5);
+  loaded.items.push(item.id);
+  const repeated=doAction(loaded,{type:'useItem',itemId:item.id},now+day);
+  assert.equal(constructionQueueCapacity(repeated,now+day),5);
+  assert.equal(repeated.gameplay.itemBuffs.find(row=>row.key==='constructionQueueCapacity').expiresAt,now+6*day);
+  const expired={...repeated,lastTickAt:now+7*day};
+  assert.equal(constructionQueueCapacity(expired,now+7*day),1);
+});
+
 test('Thần Lệnh Đế Vương has both source-described choices and Quân Kỳ cannot waste a duplicate while active',()=>{
   const token=withItem('8920');token.state.items.push(token.item.id);
   let state=doAction(token.state,{type:'useItem',itemId:token.item.id},now);
