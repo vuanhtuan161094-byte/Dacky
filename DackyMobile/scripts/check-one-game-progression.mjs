@@ -1,4 +1,4 @@
-import {advance,allConstructionQueues,armyCount,armyPower,cityPlotIds,cityPlotRecord,createNewGame,doAction,foodUpkeepPerHour,marchTroopCapacity,migrateSave,outerLandCapacity,productionPerHour,quoteBuilding,quoteCityPlot,quoteResearch,quoteTraining,storageCapacity,trainingQueue,trainingSites,unlockedChapter} from '../src/engine.js';
+import {advance,allConstructionQueues,armyCount,armyPower,cityPlotIds,cityPlotRecord,createNewGame,doAction,foodUpkeepPerHour,marchTroopCapacity,migrateSave,outerLandCapacity,productionPerHour,quoteBuilding,quoteCityPlot,quoteItemSale,quoteResearch,quoteTraining,storageCapacity,trainingQueue,trainingSites,unlockedChapter} from '../src/engine.js';
 import {BUILDINGS,HEROES,ITEMS,TECHNOLOGIES,TROOPS,WORLD_NODES} from '../src/catalog.js';
 import {gameplayQuestList,questQuote,itemUseRule} from '../src/gameplay-p15.js';
 import {getEndgameBattles,getMountainBattles,pveAssaultProgress,pveLock} from '../src/pve-campaign.js';
@@ -93,6 +93,14 @@ function run(policy){
  const questSweep=()=>{
    // Sweep eight unique quest records per simulated day. Each 180-day policy
    // visits the full 1,158-row catalog once while keeping the economy run lean.
+   // Use the live NPC buyback to clear surplus duplicate rewards before claims;
+   // the quote protects quest-reserved items and equipped gear.
+   gearOne();
+   for(let released=0;state.items.length>400&&released<100;released++){
+     const counts=new Map();for(const id of state.items)counts.set(id,(counts.get(id)||0)+1);
+     const candidate=[...counts].filter(([id,count])=>count>1&&quoteItemSale(state,id)).map(([id])=>ITEMS.find(item=>item.id===id)).filter(Boolean).sort((a,b)=>(a.tier||1)-(b.tier||1))[0];
+     if(!candidate||!act('sellItem',{itemId:candidate.id}))break;
+   }
    for(let i=0;i<8&&allQuests.length;i++){
      const q=allQuests[questCursor];questCursor=(questCursor+1)%allQuests.length;
      const quote=questQuote(state,q.id,productionPerHour);if(quote?.ready&&!quote.claimed)act('claimSourceQuest',{questId:q.id});
