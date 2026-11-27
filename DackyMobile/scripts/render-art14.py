@@ -28,7 +28,11 @@ def grain(size,color,seed):
     r=random.Random(seed)
     lo=Image.new('L',(60,34));lo.putdata([r.randrange(55,200) for _ in range(60*34)])
     lo=lo.resize(size,Image.Resampling.BICUBIC).filter(ImageFilter.GaussianBlur(5))
-    hi=Image.effect_noise(size,13)
+    # Seeded noise: byte-identical for a given input and Pillow version.
+    tile=Image.new('L',(256,256));tile.putdata([max(0,min(255,round(r.gauss(128,13)))) for _ in range(256*256)])
+    hi=Image.new('L',size)
+    for y in range(0,size[1],256):
+        for x in range(0,size[0],256):hi.paste(tile,(x,y))
     noise=Image.blend(lo,hi,.39)
     chans=[noise.point(lambda v,c=c:max(0,min(255,round(c+(v-128)*.55)))) for c in color]
     return Image.merge('RGB',chans)
@@ -137,7 +141,9 @@ def outer_scene(old):
     for p in paths:
         line(d,p,(82,98,58),22);line(d,p,(142,128,84),17);line(d,p,(167,150,105),11)
         for x,y in p:
-            if q.random()<.7:ell(d,(x+q.uniform(-4,4),y+q.uniform(-4,4),x+2,y+1),(111,105,72))
+            if q.random()<.7:
+                gx=x+q.uniform(-4,4);gy=y+q.uniform(-4,4)
+                ell(d,(gx,gy,gx+q.uniform(.6,2.1),gy+q.uniform(.5,1.3)),(111,105,72))
     # Plant clusters, not uniform icon trees. No scenery sits in the plot anchors.
     for i,y in enumerate(range(82,730,77)):
         for side,x in enumerate((105,1337)):
