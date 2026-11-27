@@ -1,0 +1,166 @@
+{
+  "lunaSha": "721956bda9b616872e137273a1e260fe05c539ae",
+  "run": 45941590451,
+  "captures": [
+    {
+      "source": "luna-captures/normal-heroes.png",
+      "reviewFile": "normal-heroes.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/landscape-initial-city.png",
+      "reviewFile": "landscape-initial-city.jpg",
+      "reviewSize": [
+        844,
+        390
+      ]
+    },
+    {
+      "source": "luna-captures/normal-market.png",
+      "reviewFile": "normal-market.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/normal-quests.png",
+      "reviewFile": "normal-quests.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/desktop-developed-outer.png",
+      "reviewFile": "desktop-developed-outer.jpg",
+      "reviewSize": [
+        1279,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/normal-army.png",
+      "reviewFile": "normal-army.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/focus-tech.png",
+      "reviewFile": "focus-tech.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/normal-library.png",
+      "reviewFile": "normal-library.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/normal-settings.png",
+      "reviewFile": "normal-settings.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/desktop-initial-outer.png",
+      "reviewFile": "desktop-initial-outer.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/normal-world.png",
+      "reviewFile": "normal-world.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/desktop-developed-city.png",
+      "reviewFile": "desktop-developed-city.jpg",
+      "reviewSize": [
+        1279,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/focus-world.png",
+      "reviewFile": "focus-world.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/normal-inventory.png",
+      "reviewFile": "normal-inventory.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/desktop-initial-city.png",
+      "reviewFile": "desktop-initial-city.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/landscape-initial-outer.png",
+      "reviewFile": "landscape-initial-outer.jpg",
+      "reviewSize": [
+        844,
+        390
+      ]
+    },
+    {
+      "source": "luna-captures/focus-inventory.png",
+      "reviewFile": "focus-inventory.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/normal-pve.png",
+      "reviewFile": "normal-pve.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/normal-tech.png",
+      "reviewFile": "normal-tech.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    },
+    {
+      "source": "luna-captures/normal-reports.png",
+      "reviewFile": "normal-reports.jpg",
+      "reviewSize": [
+        1280,
+        720
+      ]
+    }
+  ]
+}

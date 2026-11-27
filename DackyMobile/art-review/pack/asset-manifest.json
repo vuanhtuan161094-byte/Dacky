@@ -1,0 +1,821 @@
+[
+  {
+    "source": "assets/art09-buildings/academy.webp",
+    "output": "city/art13/academy.webp",
+    "sourceSha256": "148eb512abe92c01728fc2c5ced9c861be9f6ae20e1e518d36e53d7b4eae0b7b",
+    "outputSha256": "148eb512abe92c01728fc2c5ced9c861be9f6ae20e1e518d36e53d7b4eae0b7b",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/altar.webp",
+    "output": "city/art13/altar.webp",
+    "sourceSha256": "a17ff5c2ca26cf2d422b4339a96c3e40b9f2d632904af1aada276458a1d8d111",
+    "outputSha256": "a17ff5c2ca26cf2d422b4339a96c3e40b9f2d632904af1aada276458a1d8d111",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/barracks.webp",
+    "output": "city/art13/barracks.webp",
+    "sourceSha256": "8e7e51e5b51e83cec9074f0fee71db5bf1582783f6542b90418853881994f42f",
+    "outputSha256": "8e7e51e5b51e83cec9074f0fee71db5bf1582783f6542b90418853881994f42f",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/caravan.webp",
+    "output": "city/art13/caravan.webp",
+    "sourceSha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
+    "outputSha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/citadel.webp",
+    "output": "city/art13/citadel.webp",
+    "sourceSha256": "00883b15a06616ad70ae18b28ff51c40eda1d25e33a82c70421af4fa8c622ee3",
+    "outputSha256": "00883b15a06616ad70ae18b28ff51c40eda1d25e33a82c70421af4fa8c622ee3",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/clinic.webp",
+    "output": "city/art13/clinic.webp",
+    "sourceSha256": "44e196545d3beb273d23dc6f6be82debd648c72ffe7c3fcce9d62714c634ac24",
+    "outputSha256": "44e196545d3beb273d23dc6f6be82debd648c72ffe7c3fcce9d62714c634ac24",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/embassy.webp",
+    "output": "city/art13/embassy.webp",
+    "sourceSha256": "c97fb324b827ab862eb89ca27a12d7a773630b1fd2244b4c6e8e6c0cc91c8c8a",
+    "outputSha256": "c97fb324b827ab862eb89ca27a12d7a773630b1fd2244b4c6e8e6c0cc91c8c8a",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/farm.webp",
+    "output": "city/art13/farm.webp",
+    "sourceSha256": "67ff90e68821cc72297840eb04cf9bb6cb10bc06ffb1d29ddfae146db50c8b6c",
+    "outputSha256": "67ff90e68821cc72297840eb04cf9bb6cb10bc06ffb1d29ddfae146db50c8b6c",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/foundry.webp",
+    "output": "city/art13/foundry.webp",
+    "sourceSha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
+    "outputSha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/foundryfield.webp",
+    "output": "city/art13/foundryfield.webp",
+    "sourceSha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
+    "outputSha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/government.webp",
+    "output": "city/art13/government.webp",
+    "sourceSha256": "5504426395a1d039ede710dbc41280c3f4671dc6675a47a09b171d71c0048486",
+    "outputSha256": "5504426395a1d039ede710dbc41280c3f4671dc6675a47a09b171d71c0048486",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/granary.webp",
+    "output": "city/art13/granary.webp",
+    "sourceSha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
+    "outputSha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/grove.webp",
+    "output": "city/art13/grove.webp",
+    "sourceSha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
+    "outputSha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/hostel.webp",
+    "output": "city/art13/hostel.webp",
+    "sourceSha256": "273286330b26f856d4e7277de980e229060ff497628b31b255667c45754ef35c",
+    "outputSha256": "273286330b26f856d4e7277de980e229060ff497628b31b255667c45754ef35c",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/housing.webp",
+    "output": "city/art13/housing.webp",
+    "sourceSha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
+    "outputSha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/lumber.webp",
+    "output": "city/art13/lumber.webp",
+    "sourceSha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
+    "outputSha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/manor.webp",
+    "output": "city/art13/manor.webp",
+    "sourceSha256": "1554dc7ca7eb995156519801e2edf0944c5244fd95beb1d0701a0d040dd339e8",
+    "outputSha256": "1554dc7ca7eb995156519801e2edf0944c5244fd95beb1d0701a0d040dd339e8",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/market.webp",
+    "output": "city/art13/market.webp",
+    "sourceSha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
+    "outputSha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/mine.webp",
+    "output": "city/art13/mine.webp",
+    "sourceSha256": "3dfb285b4066b19eb7373ffd2caccab9ed79deba63247adec779af2eda3de778",
+    "outputSha256": "3dfb285b4066b19eb7373ffd2caccab9ed79deba63247adec779af2eda3de778",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/quarry.webp",
+    "output": "city/art13/quarry.webp",
+    "sourceSha256": "f70c0b707059bf06a37f5c5d4af0f3849ab61f2131d92a82318ecf9a8c6f3d71",
+    "outputSha256": "f70c0b707059bf06a37f5c5d4af0f3849ab61f2131d92a82318ecf9a8c6f3d71",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/skirmisher.webp",
+    "output": "city/art13/skirmisher.webp",
+    "sourceSha256": "e331943ce07b8a81cbf32708235d91efd3dccc20a15d9743fd6c61996866579b",
+    "outputSha256": "e331943ce07b8a81cbf32708235d91efd3dccc20a15d9743fd6c61996866579b",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/stable.webp",
+    "output": "city/art13/stable.webp",
+    "sourceSha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
+    "outputSha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/storehouse.webp",
+    "output": "city/art13/storehouse.webp",
+    "sourceSha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
+    "outputSha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/training.webp",
+    "output": "city/art13/training.webp",
+    "sourceSha256": "3312824e6aafd1e8dae284c12d4658af672cdd27972c1299f95cc79985a487c8",
+    "outputSha256": "3312824e6aafd1e8dae284c12d4658af672cdd27972c1299f95cc79985a487c8",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/wall.webp",
+    "output": "city/art13/wall.webp",
+    "sourceSha256": "a9855b575eaf9fbb12cbce257d1f309267bb0767e8346714e2a2ef8fb7310d73",
+    "outputSha256": "a9855b575eaf9fbb12cbce257d1f309267bb0767e8346714e2a2ef8fb7310d73",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/watch.webp",
+    "output": "city/art13/watch.webp",
+    "sourceSha256": "649433eedbee0facf2e2f6499f1bd9c409c471fd82ed22ab450179915b891c3c",
+    "outputSha256": "649433eedbee0facf2e2f6499f1bd9c409c471fd82ed22ab450179915b891c3c",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/workshop.webp",
+    "output": "city/art13/workshop.webp",
+    "sourceSha256": "fcf45c7f049cfb7d958d9e3d3ccb93887cca33a0a2a66117ba85e83e5e346e41",
+    "outputSha256": "fcf45c7f049cfb7d958d9e3d3ccb93887cca33a0a2a66117ba85e83e5e346e41",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art01-city-ground.svg",
+    "output": "city/art13/art01-city-ground.svg",
+    "sourceSha256": "b9f5fc0935a9100acc752d86641eb0572eeb44f2207e2d372d03d7ca36677d9c",
+    "outputSha256": "b9f5fc0935a9100acc752d86641eb0572eeb44f2207e2d372d03d7ca36677d9c",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art01-outer-ground.svg",
+    "output": "city/art13/art01-outer-ground.svg",
+    "sourceSha256": "282540790c06f4f4622adf72e5a9162a5c8eb13b0859b1f0d1b1a4be8a7f2037",
+    "outputSha256": "282540790c06f4f4622adf72e5a9162a5c8eb13b0859b1f0d1b1a4be8a7f2037",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/art09-buildings/manifest.json",
+    "output": "city/art13/manifest.json",
+    "sourceSha256": "ea6bb33b3f9d3a3811937ddff8589ab523f429748d5e91320e0bad4d07ad20f3",
+    "outputSha256": "ea6bb33b3f9d3a3811937ddff8589ab523f429748d5e91320e0bad4d07ad20f3",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_ARTISANWORKSHOP_IMAGE.png",
+    "output": "city/legacy-clean/RES_ARTISANWORKSHOP_IMAGE.png",
+    "sourceSha256": "6ec4ab0ffa9e557d4cf5daf50621c382aab5367494fd666ae3ee7601545a50ee",
+    "outputSha256": "32343ac73dc50df0f7f7129e2dbcdac5a7f3dd46952f474524af24a063733f4b",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_BARBACK_IMAGE.png",
+    "output": "city/legacy-clean/RES_BARBACK_IMAGE.png",
+    "sourceSha256": "582a38f82eae08cf3e96d3a2c2ddbcd521c68cdd45837a394d713a0206f4be39",
+    "outputSha256": "98a4e02a38fd52fcf37c48559aa1d8a292b8f09521d563dd5aa987129f20d7f9",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_CALLHERO_IMAGE.png",
+    "output": "city/legacy-clean/RES_CALLHERO_IMAGE.png",
+    "sourceSha256": "436df06f870a8067a0e5d0d2899ef968dd13dc8bcb7075325346a3e0d1a66603",
+    "outputSha256": "0b14910cb18e8a189bdcb909aea865f5dec76f94014f106c3f95ffe86c6b3294",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_CROPLAND_IMAGE.png",
+    "output": "city/legacy-clean/RES_CROPLAND_IMAGE.png",
+    "sourceSha256": "c116bd7f47fc13e49403dad42234fd28a6d7801bdc9516c105ab9ab4a41a2e2b",
+    "outputSha256": "6ea0d8979fe53a0d657aa54fe33d72ebf4e4e88e2792c167e82777c3a0590ebc",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_DAK_IMAGE.png",
+    "output": "city/legacy-clean/RES_DAK_IMAGE.png",
+    "sourceSha256": "da17cf108388e2cce4b3c8429fb1340d92051849a698e1f36103e703bdd3bea2",
+    "outputSha256": "6bfac3c46f56528891daac6676a78c256d961c53bfd7a3de8f93278e23e14ba3",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_FSMARKET_IMAGE.png",
+    "output": "city/legacy-clean/RES_FSMARKET_IMAGE.png",
+    "sourceSha256": "48716079823fe14bb93b1fbce43ef28947e06fccd47f19fd4c5b71f4e493e5b2",
+    "outputSha256": "15d16187bf01059109558fe80476dfc98a2cf4cf27d2ba23fedd70e4dae98cdd",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_GOVERNMENT_IMAGE.png",
+    "output": "city/legacy-clean/RES_GOVERNMENT_IMAGE.png",
+    "sourceSha256": "6de1854b6d632a47e7716cf75e8d3f0e93df4258b3d3ae6ca1f2f7727e72cebb",
+    "outputSha256": "bf1dcc88e7592f976ad702b3d9c74358b14e6cf2ce0c8160e16e57423db5da7f",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_GYMKHANA_IMAGE.png",
+    "output": "city/legacy-clean/RES_GYMKHANA_IMAGE.png",
+    "sourceSha256": "c6d7d6939eb76041408ae4138eda11b5c7ee1f982c38179a1b1b109110d75e36",
+    "outputSha256": "ace2d3e9744d42878ef9ebef13df8bb4a861ae38579a7362d734e24967c27942",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_HONGLUTEMPLE_IMAGE.png",
+    "output": "city/legacy-clean/RES_HONGLUTEMPLE_IMAGE.png",
+    "sourceSha256": "8d98b904e4103d75fc57aa129cbc004c136a94fb5b5724434ce4c4baef79736e",
+    "outputSha256": "ab55854fb6ffd631811d10d2d4964436a998f6c727fe6fd9a2cfe8ee78b1d6aa",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_HORSESTALL_IMAGE.png",
+    "output": "city/legacy-clean/RES_HORSESTALL_IMAGE.png",
+    "sourceSha256": "d4d5efe19142590b11ecbd68c6ac9ecaee3c24ad6c99dcc0a21fd4a394a2d020",
+    "outputSha256": "7a4ed736a001cf4f358d5d9fe1debeeb825e19c9e3052e8c14bd1c04e76d8d67",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_HOSPITAL_IMAGE.png",
+    "output": "city/legacy-clean/RES_HOSPITAL_IMAGE.png",
+    "sourceSha256": "feaf6e95fb077e7346b453e4aae9227b3019d37abf04a47719215d01051b761b",
+    "outputSha256": "2b4947fb072e18886bd9f63f275d224d3b7781f1d518f4f77596d5bc588a2545",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_HOSTEL_IMAGE.png",
+    "output": "city/legacy-clean/RES_HOSTEL_IMAGE.png",
+    "sourceSha256": "be6ace7525e55585349a9adcb7a22b8f4665946e4af707309c79a3abf1af2a27",
+    "outputSha256": "3d87c05a4b5380be6b2a0ce6a4d86609bf7a2ae3a59a136016e7dd2b8e25e840",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_HOUSE_IMAGE.png",
+    "output": "city/legacy-clean/RES_HOUSE_IMAGE.png",
+    "sourceSha256": "55a65913bdbc71478d2464eb9ce23d28c20bfdfe790b8e53cf7bd5c3c065e126",
+    "outputSha256": "b7db2f1a6dcecf93c8f4a47234a55f28a56cbff526b27a6c398a1a0e123bd6e8",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_IRONOREFIELD_IMAGE.png",
+    "output": "city/legacy-clean/RES_IRONOREFIELD_IMAGE.png",
+    "sourceSha256": "22e6aa9f0302a044259e14c5f6bffe0d557e8d0c66e9d95e98e98842210e75fa",
+    "outputSha256": "351464fb89ffb01e294a70ab71b35d85a29f793decbe38323ac8c78299ef9838",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
+    "output": "city/legacy-clean/RES_IRONSMITH_IMAGE.png",
+    "sourceSha256": "3f65a4b3a8670ebb259e5fc85b016abe0e18a39a5fd5f80ceea8fcc6f6f5083f",
+    "outputSha256": "db2530902aa7d625c8421faba554f69c71b723e3f6c5ef69c83d1381e6383f1c",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png",
+    "output": "city/legacy-clean/RES_LUMBERYARD_IMAGE.png",
+    "sourceSha256": "cca04a23a677ac28bd5e5fb8c18f636a719e84d2e7e9ab7d55fbe5a63950b5df",
+    "outputSha256": "3c116ae8e8a60823a8cb8a697af60d7b7efb61c7616d4f4a98ad89805b5af592",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_QUARRY_IMAGE.png",
+    "output": "city/legacy-clean/RES_QUARRY_IMAGE.png",
+    "sourceSha256": "59767cd0e75c9b54e10c8df4e5c61268825cf50b8cacb633f67c14491d09b08b",
+    "outputSha256": "ae94b6fb14667c7a29098383543bdde7fb669eb882790a46c5dc25c3d54526b2",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_SCHOOL_IMAGE.png",
+    "output": "city/legacy-clean/RES_SCHOOL_IMAGE.png",
+    "sourceSha256": "1e28593a85437e4231ea4abc71baa89946610b1b35a4072a5f2a203cdec7675f",
+    "outputSha256": "167596f4e4d9c12d2b6490a3827ed7b81eab638ec03b86d9fa9a222c2dd76b1d",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_SkirmisherBarrack_IMAGE.png",
+    "output": "city/legacy-clean/RES_SkirmisherBarrack_IMAGE.png",
+    "sourceSha256": "0f1caf6c05716a114a58aadb6c6618b1606baf4d5b32eda53f9f7abb32ac55a2",
+    "outputSha256": "88f4489a7d336f9b5f52276cc4aeab003ec9ff451934272555a1a4274eedb6ee",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png",
+    "output": "city/legacy-clean/RES_WARFLAMESTAGE_IMAGE.png",
+    "sourceSha256": "85a0cd05a5cc40d6853a2b9da2a0c210fb85c97b7354856a782b36eecb2959e6",
+    "outputSha256": "feaceae4f9f9cf2a057ec7e317359ab49542f8eeba67fb721d40bf5b03af2cf9",
+    "transform": "zero-alpha RGB only"
+  },
+  {
+    "source": "assets/mobile-source/assets/map-ng/thanh/map005.webp",
+    "output": "reuse/mobile-source/assets/map-ng/thanh/map005.webp",
+    "sourceSha256": "1200c33b88f3e00f6efd43d843b6f29130a143c55af761968b3098dc4d76a92c",
+    "outputSha256": "1200c33b88f3e00f6efd43d843b6f29130a143c55af761968b3098dc4d76a92c",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/map-ng/thanh/map00901.webp",
+    "output": "reuse/mobile-source/assets/map-ng/thanh/map00901.webp",
+    "sourceSha256": "970189a91ddf5bdadf21859eb406d1bcdfe14f213a695bf105e01cd8986c51a9",
+    "outputSha256": "970189a91ddf5bdadf21859eb406d1bcdfe14f213a695bf105e01cd8986c51a9",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/map-ng/thanh/map008.webp",
+    "output": "reuse/mobile-source/assets/map-ng/thanh/map008.webp",
+    "sourceSha256": "965b6661d7e63914085e2a47cbcec93bab1bab1f5fa928416b3e5415b2f5d107",
+    "outputSha256": "965b6661d7e63914085e2a47cbcec93bab1bab1f5fa928416b3e5415b2f5d107",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/map-ng/thanh/map00401.webp",
+    "output": "reuse/mobile-source/assets/map-ng/thanh/map00401.webp",
+    "sourceSha256": "6606778b93b554a7ac46a1bfd5c340db26196b2fd52a2f45e5e0647fcc6c83b9",
+    "outputSha256": "6606778b93b554a7ac46a1bfd5c340db26196b2fd52a2f45e5e0647fcc6c83b9",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1043.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1043.png",
+    "sourceSha256": "8766862e51ca90d61b280ac02424ad453a47bf8a5ae8a955b59124de9ad8cf54",
+    "outputSha256": "8766862e51ca90d61b280ac02424ad453a47bf8a5ae8a955b59124de9ad8cf54",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1042.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1042.png",
+    "sourceSha256": "4af2c348786fc01e08b8f44a44afd6665e20e0b236ea15433a3a8ea1ac8ab046",
+    "outputSha256": "4af2c348786fc01e08b8f44a44afd6665e20e0b236ea15433a3a8ea1ac8ab046",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-cls1.png",
+    "output": "reuse/mobile-source/assets/barback/icon-cls1.png",
+    "sourceSha256": "dda20ba82ee8cd8d60b7793b865245c6ca06ab7330eba3d61bc51833c6eeb0b4",
+    "outputSha256": "dda20ba82ee8cd8d60b7793b865245c6ca06ab7330eba3d61bc51833c6eeb0b4",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1032.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1032.png",
+    "sourceSha256": "ab7bb115273ec691d82119a6171932deb26284fcb5b541730f427023617e4a84",
+    "outputSha256": "ab7bb115273ec691d82119a6171932deb26284fcb5b541730f427023617e4a84",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1033.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1033.png",
+    "sourceSha256": "680b732bae363a3cd07a626651c5edacc7521ea105a93633dc7c36a2d79c70b8",
+    "outputSha256": "680b732bae363a3cd07a626651c5edacc7521ea105a93633dc7c36a2d79c70b8",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1013.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1013.png",
+    "sourceSha256": "76f1c111402c29f424bafae023eebc23b3915a30b13206b7c23b3ab4c77ca235",
+    "outputSha256": "76f1c111402c29f424bafae023eebc23b3915a30b13206b7c23b3ab4c77ca235",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1012.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1012.png",
+    "sourceSha256": "3738a7ad1884edb133deea887cf4d215288b6408640c6aa9e25610896b65d8e9",
+    "outputSha256": "3738a7ad1884edb133deea887cf4d215288b6408640c6aa9e25610896b65d8e9",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1030.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1030.png",
+    "sourceSha256": "31f0a301fb2ff3034f6b177801b2ee8e73ac733ccb563df3175ae20a758ca86e",
+    "outputSha256": "31f0a301fb2ff3034f6b177801b2ee8e73ac733ccb563df3175ae20a758ca86e",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1031.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1031.png",
+    "sourceSha256": "f686d4b82dc9efc6ccc9473741e6d577fc0215f9480266a052d9ab560eb9a715",
+    "outputSha256": "f686d4b82dc9efc6ccc9473741e6d577fc0215f9480266a052d9ab560eb9a715",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-cls2.png",
+    "output": "reuse/mobile-source/assets/barback/icon-cls2.png",
+    "sourceSha256": "2f89c670f1337437f99727fb153460f3f28a3370009b19e517bee52ffdb64082",
+    "outputSha256": "2f89c670f1337437f99727fb153460f3f28a3370009b19e517bee52ffdb64082",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-cls3.png",
+    "output": "reuse/mobile-source/assets/barback/icon-cls3.png",
+    "sourceSha256": "3f4ac5eb92a2ab4936aa29ef1d8813ac42fbebd584af0c9d57960c17893599e5",
+    "outputSha256": "3f4ac5eb92a2ab4936aa29ef1d8813ac42fbebd584af0c9d57960c17893599e5",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-cls4.png",
+    "output": "reuse/mobile-source/assets/barback/icon-cls4.png",
+    "sourceSha256": "e2c36047022a3d3c00841ffb830522adcdc5dbce485971c1482a3c80f140f3f9",
+    "outputSha256": "e2c36047022a3d3c00841ffb830522adcdc5dbce485971c1482a3c80f140f3f9",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1011.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1011.png",
+    "sourceSha256": "4b92baa9a200c404b67471992ef67c6656b0a418f25f9006d670e179385eb390",
+    "outputSha256": "4b92baa9a200c404b67471992ef67c6656b0a418f25f9006d670e179385eb390",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1051.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1051.png",
+    "sourceSha256": "e45d074aecc6f0bcecf48f674d80d736b8c8dcf85910985bb8728ee2ab406fa8",
+    "outputSha256": "e45d074aecc6f0bcecf48f674d80d736b8c8dcf85910985bb8728ee2ab406fa8",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1010.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1010.png",
+    "sourceSha256": "4fcc42bba8c852e5c8072f70c2e11a13abdcd9a51f03858b908b8cbeae21c780",
+    "outputSha256": "4fcc42bba8c852e5c8072f70c2e11a13abdcd9a51f03858b908b8cbeae21c780",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1050.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1050.png",
+    "sourceSha256": "11b2f248619a86ab6f16ba581b29d6991dd9c2acba712e5ab239daa0069d736c",
+    "outputSha256": "11b2f248619a86ab6f16ba581b29d6991dd9c2acba712e5ab239daa0069d736c",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1052.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1052.png",
+    "sourceSha256": "66b66239012b6fa679cb78df5aaddf41d1287b1fa5965741d66a5f24415e2eae",
+    "outputSha256": "66b66239012b6fa679cb78df5aaddf41d1287b1fa5965741d66a5f24415e2eae",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1053.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1053.png",
+    "sourceSha256": "90e5648a2ba19ec8d462f2b4fefe0517f6a3783b652aad23039e003b1019e34b",
+    "outputSha256": "90e5648a2ba19ec8d462f2b4fefe0517f6a3783b652aad23039e003b1019e34b",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1041.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1041.png",
+    "sourceSha256": "50db633d9f1b70317a8e5aef7d47ccdb80d346509b1e763da6dfe9d71d805995",
+    "outputSha256": "50db633d9f1b70317a8e5aef7d47ccdb80d346509b1e763da6dfe9d71d805995",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/barback/icon-soldier-1040.png",
+    "output": "reuse/mobile-source/assets/barback/icon-soldier-1040.png",
+    "sourceSha256": "4e7aa0712e67a1496eb2388da3b1d65159925ae9be746e1d5510cb373204d004",
+    "outputSha256": "4e7aa0712e67a1496eb2388da3b1d65159925ae9be746e1d5510cb373204d004",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_31.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_31.jpg",
+    "sourceSha256": "234d0ecc6541683591cd62ed626b8ffa30e118168ca917b38c6d1dbc1ad10b65",
+    "outputSha256": "234d0ecc6541683591cd62ed626b8ffa30e118168ca917b38c6d1dbc1ad10b65",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_32.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_32.jpg",
+    "sourceSha256": "8c3a7b00636eb89b798e8c4ddc8bfa6d9cca61da58c81b8ba834266513ee75be",
+    "outputSha256": "8c3a7b00636eb89b798e8c4ddc8bfa6d9cca61da58c81b8ba834266513ee75be",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_33.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_33.jpg",
+    "sourceSha256": "908caaf07149fc27f17024129c4dc25f0767d8420612fb00d19dff4e1ef0df8e",
+    "outputSha256": "908caaf07149fc27f17024129c4dc25f0767d8420612fb00d19dff4e1ef0df8e",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_34.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_34.jpg",
+    "sourceSha256": "07bc6d7601515cbe4d0caa16efe22908c46202b915f5c23d49545bd4491d8f00",
+    "outputSha256": "07bc6d7601515cbe4d0caa16efe22908c46202b915f5c23d49545bd4491d8f00",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_35.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_35.jpg",
+    "sourceSha256": "fe9a239de8bd0dcbe5896d93f0a4232f8551992b4a637c65f104e2c6f679d004",
+    "outputSha256": "fe9a239de8bd0dcbe5896d93f0a4232f8551992b4a637c65f104e2c6f679d004",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_37.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_37.jpg",
+    "sourceSha256": "e0b88b54930fd9124b8af2dcddba6d6fe70e80bcd9e2bcd49890ae702fb74812",
+    "outputSha256": "e0b88b54930fd9124b8af2dcddba6d6fe70e80bcd9e2bcd49890ae702fb74812",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_38.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_38.jpg",
+    "sourceSha256": "ffc1995e9c12361d61d50cb473c0d3f5af416a161a1820cbba10b58c1b3155eb",
+    "outputSha256": "ffc1995e9c12361d61d50cb473c0d3f5af416a161a1820cbba10b58c1b3155eb",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_36.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_36.jpg",
+    "sourceSha256": "55a1bc61b88a7e53cabcf58be2256b45ae7351be675db55f5ccdb6dd31149b0f",
+    "outputSha256": "55a1bc61b88a7e53cabcf58be2256b45ae7351be675db55f5ccdb6dd31149b0f",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_39.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_39.jpg",
+    "sourceSha256": "18988200a40b8db3716ac7c16e5933f885f54aec510606a80576b52072ce7313",
+    "outputSha256": "18988200a40b8db3716ac7c16e5933f885f54aec510606a80576b52072ce7313",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_44.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_44.jpg",
+    "sourceSha256": "ae2c90a397b82eb3ed38d55c9606321fd1ae273f2cb6bda5a9086ed96f378ede",
+    "outputSha256": "ae2c90a397b82eb3ed38d55c9606321fd1ae273f2cb6bda5a9086ed96f378ede",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_40.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_40.jpg",
+    "sourceSha256": "3e83820da72350f185dd4816d653ce866fdada69b5f8419035a9a786e96b7949",
+    "outputSha256": "3e83820da72350f185dd4816d653ce866fdada69b5f8419035a9a786e96b7949",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_49.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_49.jpg",
+    "sourceSha256": "ec9e44d118df358485651e35cb4d8f0d0a277a80b74f94c23a897081022d5536",
+    "outputSha256": "ec9e44d118df358485651e35cb4d8f0d0a277a80b74f94c23a897081022d5536",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_51.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_51.jpg",
+    "sourceSha256": "e255318894e2a033437beb8d979f37a348019954db1e1fb0da7f37b2af164240",
+    "outputSha256": "e255318894e2a033437beb8d979f37a348019954db1e1fb0da7f37b2af164240",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_45.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_45.jpg",
+    "sourceSha256": "0b659229460a1bd25b71f30bcafae15f3a5878f0e3ce8112679c9fc4b14069f5",
+    "outputSha256": "0b659229460a1bd25b71f30bcafae15f3a5878f0e3ce8112679c9fc4b14069f5",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_46.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_46.jpg",
+    "sourceSha256": "e6c6334c9dcadf0f1a000b091c0e049207446cc6e5864c43aeaf8fa8406c7062",
+    "outputSha256": "e6c6334c9dcadf0f1a000b091c0e049207446cc6e5864c43aeaf8fa8406c7062",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_47.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_47.jpg",
+    "sourceSha256": "81a46d6d30a6b52db1690af7566568f384182d1b1eb7dc25d54df264e338e1fc",
+    "outputSha256": "81a46d6d30a6b52db1690af7566568f384182d1b1eb7dc25d54df264e338e1fc",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_48.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_48.jpg",
+    "sourceSha256": "2c287a997ab793dc67d3edae00cd7a52103f1c68a35b1e57d94af865cc348e10",
+    "outputSha256": "2c287a997ab793dc67d3edae00cd7a52103f1c68a35b1e57d94af865cc348e10",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_41.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_41.jpg",
+    "sourceSha256": "114c4c9be37ccb0cb9b5b0b781517a603aac286747ea74e02318452d9157dce3",
+    "outputSha256": "114c4c9be37ccb0cb9b5b0b781517a603aac286747ea74e02318452d9157dce3",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/mobile-source/assets/tech/n_tech_42.jpg",
+    "output": "reuse/mobile-source/assets/tech/n_tech_42.jpg",
+    "sourceSha256": "1b9a35044cc93546651b6f6d264edd1df487e0f27d82f85455da11dab55ce788",
+    "outputSha256": "1b9a35044cc93546651b6f6d264edd1df487e0f27d82f85455da11dab55ce788",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/battle-fx/bang235.webp",
+    "output": "reuse/visual/assets/battle-fx/bang235.webp",
+    "sourceSha256": "6279337bb98e42727fe40d326eeaa12296e86d088492050d5dcdcb2f86a2fb3c",
+    "outputSha256": "6279337bb98e42727fe40d326eeaa12296e86d088492050d5dcdcb2f86a2fb3c",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/battle-fx/fire225.webp",
+    "output": "reuse/visual/assets/battle-fx/fire225.webp",
+    "sourceSha256": "508fd6f5edc886ad2818bb11ad49c1153bb177141bf2452e548dfc4972589635",
+    "outputSha256": "508fd6f5edc886ad2818bb11ad49c1153bb177141bf2452e548dfc4972589635",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/battle-fx/fire272.webp",
+    "output": "reuse/visual/assets/battle-fx/fire272.webp",
+    "sourceSha256": "c750eb46ebf1f6a54fac2fdf18e95b23814de881281e449706d12c7cbd7cdb98",
+    "outputSha256": "c750eb46ebf1f6a54fac2fdf18e95b23814de881281e449706d12c7cbd7cdb98",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/battle-fx/bang717r.webp",
+    "output": "reuse/visual/assets/battle-fx/bang717r.webp",
+    "sourceSha256": "57a446723dee0f263ea5e0b437152a105ce95377107cc3ad8779907a0063ecec",
+    "outputSha256": "57a446723dee0f263ea5e0b437152a105ce95377107cc3ad8779907a0063ecec",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/flash/worldmap/allmap-bg.webp",
+    "output": "reuse/visual/flash/worldmap/allmap-bg.webp",
+    "sourceSha256": "246fc4616155e89d07381975eb356532cc1ae0e88b3b833cdc425d5f0638efcb",
+    "outputSha256": "246fc4616155e89d07381975eb356532cc1ae0e88b3b833cdc425d5f0638efcb",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/battle/nen-troi.jpg",
+    "output": "reuse/visual/assets/battle/nen-troi.jpg",
+    "sourceSha256": "e7d227de7c5f82affe5692da6d178612686c4d8d9b85ff64828e2566b110c56b",
+    "outputSha256": "e7d227de7c5f82affe5692da6d178612686c4d8d9b85ff64828e2566b110c56b",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/battle/nen-thung-lung.jpg",
+    "output": "reuse/visual/assets/battle/nen-thung-lung.jpg",
+    "sourceSha256": "ec44af4e75047cdb34680119119cf408cade080e5d32be1b098f652c59b88d44",
+    "outputSha256": "ec44af4e75047cdb34680119119cf408cade080e5d32be1b098f652c59b88d44",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/khung.png",
+    "output": "reuse/visual/assets/blr-ui/khung.png",
+    "sourceSha256": "6813475eb9721af63479a140024ba951cd60242c3e62893fdc4df544f1391dbc",
+    "outputSha256": "6813475eb9721af63479a140024ba951cd60242c3e62893fdc4df544f1391dbc",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/nut-dong.png",
+    "output": "reuse/visual/assets/blr-ui/nut-dong.png",
+    "sourceSha256": "c37998dccb697502242c5c63f436088af7b244e9f434bc35f254ae36c129058f",
+    "outputSha256": "c37998dccb697502242c5c63f436088af7b244e9f434bc35f254ae36c129058f",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/nut-vang.png",
+    "output": "reuse/visual/assets/blr-ui/nut-vang.png",
+    "sourceSha256": "d187dc4bdcc872f82c13137f376f3fe01c962614a228be6631bf5fafd9ffa1b9",
+    "outputSha256": "d187dc4bdcc872f82c13137f376f3fe01c962614a228be6631bf5fafd9ffa1b9",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/nut-xanh.png",
+    "output": "reuse/visual/assets/blr-ui/nut-xanh.png",
+    "sourceSha256": "45b337429bad353681f2abc4941cdf6ef604cc0cf4f88fb23277922790a32d9c",
+    "outputSha256": "45b337429bad353681f2abc4941cdf6ef604cc0cf4f88fb23277922790a32d9c",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/nut-xam.png",
+    "output": "reuse/visual/assets/blr-ui/nut-xam.png",
+    "sourceSha256": "38728676c1b34d589201848d5c6e6a93daf2265929e65de082184c49368c50e6",
+    "outputSha256": "38728676c1b34d589201848d5c6e6a93daf2265929e65de082184c49368c50e6",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/tab-toi.png",
+    "output": "reuse/visual/assets/blr-ui/tab-toi.png",
+    "sourceSha256": "ee84886d9724e8a2d434526b2250542fed08d4abcf712ba05b853661f3a8cd44",
+    "outputSha256": "ee84886d9724e8a2d434526b2250542fed08d4abcf712ba05b853661f3a8cd44",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/tab-sang.png",
+    "output": "reuse/visual/assets/blr-ui/tab-sang.png",
+    "sourceSha256": "1a6c05616947be3030d63d243a6bafcdce8ff05e0c5dbb47de21f5f2aea8a78d",
+    "outputSha256": "1a6c05616947be3030d63d243a6bafcdce8ff05e0c5dbb47de21f5f2aea8a78d",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/gach.png",
+    "output": "reuse/visual/assets/blr-ui/gach.png",
+    "sourceSha256": "2093511278807d31b80aa16b31778619f1e4358e16e42add4e4b9a212cbe2654",
+    "outputSha256": "2093511278807d31b80aa16b31778619f1e4358e16e42add4e4b9a212cbe2654",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/nhan-xanh.png",
+    "output": "reuse/visual/assets/blr-ui/nhan-xanh.png",
+    "sourceSha256": "706e8a9314205a62de2e6541c4d676ad5ce4bc70c428881516fa9eb95086a2d7",
+    "outputSha256": "706e8a9314205a62de2e6541c4d676ad5ce4bc70c428881516fa9eb95086a2d7",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/than-tuong/nen-muc.webp",
+    "output": "reuse/visual/assets/blr-ui/than-tuong/nen-muc.webp",
+    "sourceSha256": "b0a1a2183aa01f2d7248326a532089dd8accc76557eaa26a612e8b8a429ef0f3",
+    "outputSha256": "b0a1a2183aa01f2d7248326a532089dd8accc76557eaa26a612e8b8a429ef0f3",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/than-tuong/hao-quang.png",
+    "output": "reuse/visual/assets/blr-ui/than-tuong/hao-quang.png",
+    "sourceSha256": "2e1da97098028e138ae415ff93a6064291f31a0aad7529f874ed3a44a34146e7",
+    "outputSha256": "2e1da97098028e138ae415ff93a6064291f31a0aad7529f874ed3a44a34146e7",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/than-tuong/thanh-nen.png",
+    "output": "reuse/visual/assets/blr-ui/than-tuong/thanh-nen.png",
+    "sourceSha256": "88aa8f7e7d140eb533b5892bd6cddb000f857882be90eaa92b7c590ca91f18ee",
+    "outputSha256": "88aa8f7e7d140eb533b5892bd6cddb000f857882be90eaa92b7c590ca91f18ee",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/than-tuong/thanh-tu-vi.png",
+    "output": "reuse/visual/assets/blr-ui/than-tuong/thanh-tu-vi.png",
+    "sourceSha256": "753134d5fdea0385ca31758e4dd09b5a5225a5870a7cb2d463283672cee1e940",
+    "outputSha256": "753134d5fdea0385ca31758e4dd09b5a5225a5870a7cb2d463283672cee1e940",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/blr-ui/than-tuong/vong-phep.png",
+    "output": "reuse/visual/assets/blr-ui/than-tuong/vong-phep.png",
+    "sourceSha256": "e3af9379aacd141f27c1752e09e3cc960c415c1483e9cf09676036a4859ab20d",
+    "outputSha256": "e3af9379aacd141f27c1752e09e3cc960c415c1483e9cf09676036a4859ab20d",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/am-thanh/tieng/bam.mp3",
+    "output": "reuse/visual/assets/am-thanh/tieng/bam.mp3",
+    "sourceSha256": "c8379e3f138a91ea7b2b61383d2ec37326488fde0d16c5b0caec29036c9ecb0a",
+    "outputSha256": "c8379e3f138a91ea7b2b61383d2ec37326488fde0d16c5b0caec29036c9ecb0a",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/am-thanh/tieng/hanh-quan.mp3",
+    "output": "reuse/visual/assets/am-thanh/tieng/hanh-quan.mp3",
+    "sourceSha256": "de9ad26e6dbb55a55809d539941b66bd7f1cd95ba9f7cb2b817509164e17d7fe",
+    "outputSha256": "de9ad26e6dbb55a55809d539941b66bd7f1cd95ba9f7cb2b817509164e17d7fe",
+    "transform": "exact copy"
+  },
+  {
+    "source": "assets/visual/assets/am-thanh/nhac/tran.mp3",
+    "output": "reuse/visual/assets/am-thanh/nhac/tran.mp3",
+    "sourceSha256": "089f2f8fa343dfe68136c033650a2bc7ddbc52f69ee3331b112f334244883794",
+    "outputSha256": "089f2f8fa343dfe68136c033650a2bc7ddbc52f69ee3331b112f334244883794",
+    "transform": "exact copy"
+  }
+]

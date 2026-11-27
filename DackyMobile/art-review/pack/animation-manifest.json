@@ -1,0 +1,2525 @@
+{
+  "clips": [
+    {
+      "family": "army00",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army00-stand.png",
+      "sourceSha256": "4c0cf0235d83a3c98f410bb6b77284e5c73b09b940a74d73dc04c852d56939c4",
+      "frames": 13,
+      "encodedGifFrames": 4,
+      "fps": 24,
+      "anchor": {
+        "x": 0.3508771929824561,
+        "y": 0.7857142857142857
+      },
+      "size": [
+        57,
+        42
+      ],
+      "gif": "combat/gifs/army00/stand.gif",
+      "framesDirectory": "combat/frames/army00/stand",
+      "previewDurationMs": 540,
+      "gifSha256": "1be2498a2bf4ba5234b8c55da16bb7eb427015b3784f76f60cec5229e58f45c6"
+    },
+    {
+      "family": "army00",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army00-run.png",
+      "sourceSha256": "7f564fb9ddef5e21a1adae8b44788786fb864ed6e33a088276cff48f92a73019",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.265625,
+        "y": 0.7692307692307693
+      },
+      "size": [
+        64,
+        39
+      ],
+      "gif": "combat/gifs/army00/run.gif",
+      "framesDirectory": "combat/frames/army00/run",
+      "previewDurationMs": 670,
+      "gifSha256": "dc58697a405f9c03dc712e137a855c0d158046a3c9d007264a83395f6d907645"
+    },
+    {
+      "family": "army00",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army00-attack.png",
+      "sourceSha256": "fff97ccfb89f987d159f48afa80dff7dc4b92a1d971f67dabceae70ba292ff8c",
+      "frames": 8,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.35714285714285715,
+        "y": 0.7804878048780488
+      },
+      "size": [
+        84,
+        41
+      ],
+      "gif": "combat/gifs/army00/attack.gif",
+      "framesDirectory": "combat/frames/army00/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "f8cb365f091356a57b9b6ac4c6c41bd2d4a592a7f093ea8d396534fa1a62dc25"
+    },
+    {
+      "family": "army00",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army00-injured1.png",
+      "sourceSha256": "85183609b386225f5d1b8f93284b97b2f750acd1d1a22a819aa6761bc54e5cdd",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4358974358974359,
+        "y": 0.8214285714285714
+      },
+      "size": [
+        39,
+        56
+      ],
+      "gif": "combat/gifs/army00/injured1.gif",
+      "framesDirectory": "combat/frames/army00/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "e59464232de8b88fb4d4ef6d1b448757f297ee23fdd792c54408c663c9894b6c"
+    },
+    {
+      "family": "army00",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army00-dead1.png",
+      "sourceSha256": "01c38e1892d5fc785f944d52952424602937df1182f8c94450ee26558a4f3837",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.3181818181818182,
+        "y": 0.3870967741935484
+      },
+      "size": [
+        66,
+        31
+      ],
+      "gif": "combat/gifs/army00/dead1.gif",
+      "framesDirectory": "combat/frames/army00/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "b0fc7dd790b690c486b17b4d8078fa1d40d1ec21c3bb7fe8d863b2902f48f5c0"
+    },
+    {
+      "family": "army01",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army01-stand.png",
+      "sourceSha256": "a58e9856f32750dbcfa72848a70f05f97bd954cb324aeb1da6a24705f3e0c5eb",
+      "frames": 8,
+      "encodedGifFrames": 3,
+      "fps": 12,
+      "anchor": {
+        "x": 0.48717948717948717,
+        "y": 0.7368421052631579
+      },
+      "size": [
+        39,
+        38
+      ],
+      "gif": "combat/gifs/army01/stand.gif",
+      "framesDirectory": "combat/frames/army01/stand",
+      "previewDurationMs": 670,
+      "gifSha256": "5555a73160353bc2948d3e71f6dcab5a5e9aebadf653774f8a8206ccf7dccc61"
+    },
+    {
+      "family": "army01",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army01-run.png",
+      "sourceSha256": "a15888daad8abf755b3863f64f41e202b3ddc9e7b5fa2d20cf1d2800bb6968b5",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5238095238095238,
+        "y": 0.7435897435897436
+      },
+      "size": [
+        42,
+        39
+      ],
+      "gif": "combat/gifs/army01/run.gif",
+      "framesDirectory": "combat/frames/army01/run",
+      "previewDurationMs": 670,
+      "gifSha256": "c3b25169aac782501d6546d78faa0b03f3406374fdee9203fd0aff20e43120d8"
+    },
+    {
+      "family": "army01",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army01-attack.png",
+      "sourceSha256": "e4019e2d65f03aa88345c789606aa228fd2c49438d88e505918b0a763a6e9989",
+      "frames": 11,
+      "encodedGifFrames": 5,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4626865671641791,
+        "y": 0.8113207547169812
+      },
+      "size": [
+        67,
+        53
+      ],
+      "gif": "combat/gifs/army01/attack.gif",
+      "framesDirectory": "combat/frames/army01/attack",
+      "previewDurationMs": 460,
+      "gifSha256": "f7c435bd386097433e330bb7d6e1c26166eb6e69caab6250917daa7b355ae0e7"
+    },
+    {
+      "family": "army01",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army01-injured1.png",
+      "sourceSha256": "5591448815acf449c4f1b9fbb3beb37f14c92bf7fb02258a39e48fdc3ac88f18",
+      "frames": 9,
+      "encodedGifFrames": 2,
+      "fps": 24,
+      "anchor": {
+        "x": 0.48717948717948717,
+        "y": 0.7142857142857143
+      },
+      "size": [
+        39,
+        35
+      ],
+      "gif": "combat/gifs/army01/injured1.gif",
+      "framesDirectory": "combat/frames/army01/injured1",
+      "previewDurationMs": 380,
+      "gifSha256": "b228ad1239a9ed675191eed07b6c9f2527663246b8d83f67af84da28e90a18dc"
+    },
+    {
+      "family": "army01",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army01-dead1.png",
+      "sourceSha256": "94906df568594005e2e574f0cf5e7240d6d00f102522d1d3be11f83e3bec78cf",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.45454545454545453,
+        "y": 0.6176470588235294
+      },
+      "size": [
+        44,
+        34
+      ],
+      "gif": "combat/gifs/army01/dead1.gif",
+      "framesDirectory": "combat/frames/army01/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "6b6fd9943b54cdc7b5c591654d2f5e2c7d5b242a5e9862577f74bdada8fe50e5"
+    },
+    {
+      "family": "army04",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army04-stand.png",
+      "sourceSha256": "839fe18846e7923a0059d736fe4533433fe0d3973e7f1d7acb74a323cd1b6375",
+      "frames": 8,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.3898305084745763,
+        "y": 0.7906976744186046
+      },
+      "size": [
+        59,
+        43
+      ],
+      "gif": "combat/gifs/army04/stand.gif",
+      "framesDirectory": "combat/frames/army04/stand",
+      "previewDurationMs": 670,
+      "gifSha256": "338fe3147f7d2127097af28027786a4dcabb3fe4bb66e2d7de34a6c914875309"
+    },
+    {
+      "family": "army04",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army04-run.png",
+      "sourceSha256": "62b83a2248db2b39a08f748b5fce07e48dfe719ed46d10cab2da8de82a5db286",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.3,
+        "y": 0.7954545454545454
+      },
+      "size": [
+        60,
+        44
+      ],
+      "gif": "combat/gifs/army04/run.gif",
+      "framesDirectory": "combat/frames/army04/run",
+      "previewDurationMs": 670,
+      "gifSha256": "71316768ebb699582820ad9203a571c34610f938263527c3cea5ec67734ec7e4"
+    },
+    {
+      "family": "army04",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army04-attack.png",
+      "sourceSha256": "2d92fc67113af05570c6aebad5bacaf17d20aba03a699e2c5230630261fc5dbd",
+      "frames": 8,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.38095238095238093,
+        "y": 0.7804878048780488
+      },
+      "size": [
+        84,
+        41
+      ],
+      "gif": "combat/gifs/army04/attack.gif",
+      "framesDirectory": "combat/frames/army04/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "9a16157f1847562456f8560038d019902c2da45dfcc02e14894739d0975b4567"
+    },
+    {
+      "family": "army04",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army04-injured1.png",
+      "sourceSha256": "f69124f41804cbb6a04573e5a2ac8f759a35578a4e526aed31096c8f272e77bd",
+      "frames": 12,
+      "encodedGifFrames": 4,
+      "fps": 24,
+      "anchor": {
+        "x": 0.45,
+        "y": 0.8363636363636363
+      },
+      "size": [
+        40,
+        55
+      ],
+      "gif": "combat/gifs/army04/injured1.gif",
+      "framesDirectory": "combat/frames/army04/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "fbc24e6d6b56ae51a915fd767b6a27431dc27a354fcb7fa5d1be4e3208fd1327"
+    },
+    {
+      "family": "army04",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army04-dead1.png",
+      "sourceSha256": "5d6d253b3ea94087a4ea1c13e4a59b78feb6cd7be0c2812aaf963ed44dbff940",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.3442622950819672,
+        "y": 0.4
+      },
+      "size": [
+        61,
+        30
+      ],
+      "gif": "combat/gifs/army04/dead1.gif",
+      "framesDirectory": "combat/frames/army04/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "74c425e9c8097db3aa965fdf2d310b54c9a8e066c12a2cc053b5ba1533f89a81"
+    },
+    {
+      "family": "army05",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army05-stand.png",
+      "sourceSha256": "8c629cab84f1b01f839406a43fe4b27a14923b2761fda55e83b347d50a08cab7",
+      "frames": 10,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5961538461538461,
+        "y": 0.7674418604651163
+      },
+      "size": [
+        52,
+        43
+      ],
+      "gif": "combat/gifs/army05/stand.gif",
+      "framesDirectory": "combat/frames/army05/stand",
+      "previewDurationMs": 830,
+      "gifSha256": "0da11d48109fb7a4f205909662e52563542efe16ab13aa7adf917433a339cb9c"
+    },
+    {
+      "family": "army05",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army05-run.png",
+      "sourceSha256": "62b52c4fa2b09b9f24fc41ad79045dc78a3c5600c351e1919d2d5b5ed24d6555",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5306122448979592,
+        "y": 0.7555555555555555
+      },
+      "size": [
+        49,
+        45
+      ],
+      "gif": "combat/gifs/army05/run.gif",
+      "framesDirectory": "combat/frames/army05/run",
+      "previewDurationMs": 670,
+      "gifSha256": "6bad94b358a0e4e7ea942dc2556c9240984f5afaef25d0b21da08468d89787a9"
+    },
+    {
+      "family": "army05",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army05-attack.png",
+      "sourceSha256": "f112a30f34e99e8ee89f7b908b4553bd15bb1369bb3be22ee961913ba6b7b40e",
+      "frames": 8,
+      "encodedGifFrames": 6,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4666666666666667,
+        "y": 0.8181818181818182
+      },
+      "size": [
+        105,
+        66
+      ],
+      "gif": "combat/gifs/army05/attack.gif",
+      "framesDirectory": "combat/frames/army05/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "bd5db8009bca7a098c8615cb503244f876a0b8c64fb3cadf0386a85ed65295b8"
+    },
+    {
+      "family": "army05",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army05-injured1.png",
+      "sourceSha256": "9ac7e7d15c19d77ddb42a1d5faae93db2d7fb61584028a9d33fc1c070c578afe",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5961538461538461,
+        "y": 0.7272727272727273
+      },
+      "size": [
+        52,
+        44
+      ],
+      "gif": "combat/gifs/army05/injured1.gif",
+      "framesDirectory": "combat/frames/army05/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "de99aafe58a9357331c3282792ec363bcafc56a5f886c3590b8d1f1d2ed8ce52"
+    },
+    {
+      "family": "army05",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army05-dead1.png",
+      "sourceSha256": "c18e3cc07bea12b82638cf2f6c9b81e5669fc26031d3763a4ca082ec124a741e",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.3387096774193548,
+        "y": 0.3870967741935484
+      },
+      "size": [
+        62,
+        31
+      ],
+      "gif": "combat/gifs/army05/dead1.gif",
+      "framesDirectory": "combat/frames/army05/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "07694e4d979be9b13d3aa568cf50f437f43d5d2b77d05e72547f945ab0ec342d"
+    },
+    {
+      "family": "army02",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army02-stand.png",
+      "sourceSha256": "339c87196dd1e3456194572d7603b42c002c895b5ce7a689fd3a8517a110cea3",
+      "frames": 13,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.7567567567567568
+      },
+      "size": [
+        38,
+        37
+      ],
+      "gif": "combat/gifs/army02/stand.gif",
+      "framesDirectory": "combat/frames/army02/stand",
+      "previewDurationMs": 1080,
+      "gifSha256": "220f3137b88cb648fd35185afcfe57f2c61d348a2046244335872d3b5fef3028"
+    },
+    {
+      "family": "army02",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army02-run.png",
+      "sourceSha256": "9bcef74c17849559eb0f8f7a47cfccdbf6ccb99a8b7d87b6367cb37a2341907a",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4634146341463415,
+        "y": 0.7692307692307693
+      },
+      "size": [
+        41,
+        39
+      ],
+      "gif": "combat/gifs/army02/run.gif",
+      "framesDirectory": "combat/frames/army02/run",
+      "previewDurationMs": 670,
+      "gifSha256": "98282fd9b389c7c3f9f4b940f5927e3a3820c06f496440ccd350b00e7700a024"
+    },
+    {
+      "family": "army02",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army02-attack.png",
+      "sourceSha256": "26ebcae857e8b0f8dc7e3bf9e62ce28329031bc586221c3903aa4b252cc9f050",
+      "frames": 8,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4411764705882353,
+        "y": 0.6037735849056604
+      },
+      "size": [
+        68,
+        53
+      ],
+      "gif": "combat/gifs/army02/attack.gif",
+      "framesDirectory": "combat/frames/army02/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "3350b641e5064f39daf0a85e19ef20c55f7803ebecc626b220291827a9080fca"
+    },
+    {
+      "family": "army02",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army02-injured1.png",
+      "sourceSha256": "b6c39db68a300e5e80d00891d3e825946327a93c8adf5fea10cfffd6709398be",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.47368421052631576,
+        "y": 0.7567567567567568
+      },
+      "size": [
+        38,
+        37
+      ],
+      "gif": "combat/gifs/army02/injured1.gif",
+      "framesDirectory": "combat/frames/army02/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "ff69ee20a03d184783c8fa03a203d1780b2f9b11436850f03413fbd11bca5fa5"
+    },
+    {
+      "family": "army02",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army02-dead1.png",
+      "sourceSha256": "7508de2715a358fda21ce3c61d512487c71af99ce7272490f80eb965de37fe5b",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5121951219512195,
+        "y": 0.6333333333333333
+      },
+      "size": [
+        41,
+        30
+      ],
+      "gif": "combat/gifs/army02/dead1.gif",
+      "framesDirectory": "combat/frames/army02/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "e3fc156960a6b03447643fbd7a96c090882d96c98fdf54502a4ffd14dd0b47d1"
+    },
+    {
+      "family": "army03",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army03-stand.png",
+      "sourceSha256": "ac1473949b2afa0c31cd2aa90d4c6e0e4463267099a9a434a6dc719e5e45326a",
+      "frames": 13,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.46153846153846156,
+        "y": 0.775
+      },
+      "size": [
+        39,
+        40
+      ],
+      "gif": "combat/gifs/army03/stand.gif",
+      "framesDirectory": "combat/frames/army03/stand",
+      "previewDurationMs": 1080,
+      "gifSha256": "390d2a1e4b9bfdb5e7fe8118957d6184380c74c79277f905eb2511a22ebcde17"
+    },
+    {
+      "family": "army03",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army03-run.png",
+      "sourceSha256": "766070a550401bc4d0aad14f47b0e2a7dd9b84e365aae15dca5e73ed9e02fa8c",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.425531914893617,
+        "y": 0.7619047619047619
+      },
+      "size": [
+        47,
+        42
+      ],
+      "gif": "combat/gifs/army03/run.gif",
+      "framesDirectory": "combat/frames/army03/run",
+      "previewDurationMs": 670,
+      "gifSha256": "8fc01541f1eefb58c86f1e63e83af90ff628d128a393b08a5a1b1b863d8cff59"
+    },
+    {
+      "family": "army03",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army03-attack.png",
+      "sourceSha256": "2922b812efaf3d797e16606e1535abb068635127c8d1798841c8a5318a23f55a",
+      "frames": 8,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.46987951807228917,
+        "y": 0.85
+      },
+      "size": [
+        83,
+        60
+      ],
+      "gif": "combat/gifs/army03/attack.gif",
+      "framesDirectory": "combat/frames/army03/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "b4d1e4e62aca407a14e05a30ab06a1037e5632568c3877707be33ccc1b90a57d"
+    },
+    {
+      "family": "army03",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army03-injured1.png",
+      "sourceSha256": "6521b69e6316d6017ef0e98343634be823eb77da9bfe044074940710baabd5b2",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4594594594594595,
+        "y": 0.7567567567567568
+      },
+      "size": [
+        37,
+        37
+      ],
+      "gif": "combat/gifs/army03/injured1.gif",
+      "framesDirectory": "combat/frames/army03/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "13b68e0277a78b815b07f2dce9922bff9baf1a91a7689c2cc3f47386291df4ea"
+    },
+    {
+      "family": "army03",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army03-dead1.png",
+      "sourceSha256": "8ac900a1320061ab40fed67fe01cfff7a511259bec0c857854dc513708806534",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.6206896551724138
+      },
+      "size": [
+        42,
+        29
+      ],
+      "gif": "combat/gifs/army03/dead1.gif",
+      "framesDirectory": "combat/frames/army03/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "12224a93e0c1360e5e1d7b330cd9af44443ae2aed5fdf8453cd45d26a03111ed"
+    },
+    {
+      "family": "army20",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army20-stand.png",
+      "sourceSha256": "a5d9d0f3435df5bc189d4179d986b4c0479bbf187fc8b7f04315699bb3a78702",
+      "frames": 7,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.48717948717948717,
+        "y": 0.7435897435897436
+      },
+      "size": [
+        39,
+        39
+      ],
+      "gif": "combat/gifs/army20/stand.gif",
+      "framesDirectory": "combat/frames/army20/stand",
+      "previewDurationMs": 580,
+      "gifSha256": "9da372ff053b033b547f097998bb817c2075f2dfa17926040c97fdcb0626e231"
+    },
+    {
+      "family": "army20",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army20-run.png",
+      "sourceSha256": "e4903950c1ddfa5dc85b434f294bb0f632b32267d66c5b546142ca1561e1cb5a",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4583333333333333,
+        "y": 0.75
+      },
+      "size": [
+        48,
+        40
+      ],
+      "gif": "combat/gifs/army20/run.gif",
+      "framesDirectory": "combat/frames/army20/run",
+      "previewDurationMs": 670,
+      "gifSha256": "76b0473bccdbc38729cf898d0e8bb8b176ae9a22e9879ef7133ea48578efd924"
+    },
+    {
+      "family": "army20",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army20-attack.png",
+      "sourceSha256": "d22309ab1d3e52953700e7710c81f19a9680800d04267a70ae6baca51f5b7b06",
+      "frames": 10,
+      "encodedGifFrames": 5,
+      "fps": 24,
+      "anchor": {
+        "x": 0.41304347826086957,
+        "y": 0.7916666666666666
+      },
+      "size": [
+        46,
+        48
+      ],
+      "gif": "combat/gifs/army20/attack.gif",
+      "framesDirectory": "combat/frames/army20/attack",
+      "previewDurationMs": 420,
+      "gifSha256": "5eef519854026df4d35ba220a0039c1ab63da91931ec95159e35521de952d534"
+    },
+    {
+      "family": "army20",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army20-injured1.png",
+      "sourceSha256": "9624d51fbfc521b2598476ff3c1dc619f1a15f46de705770e5153955a5d51e5e",
+      "frames": 9,
+      "encodedGifFrames": 2,
+      "fps": 24,
+      "anchor": {
+        "x": 0.48717948717948717,
+        "y": 0.7297297297297297
+      },
+      "size": [
+        39,
+        37
+      ],
+      "gif": "combat/gifs/army20/injured1.gif",
+      "framesDirectory": "combat/frames/army20/injured1",
+      "previewDurationMs": 380,
+      "gifSha256": "6c1297eb44364262ff9062a7ab012696640570392ff0b024dc12ee0381a4a57d"
+    },
+    {
+      "family": "army20",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army20-dead1.png",
+      "sourceSha256": "ff55a05907b580f3f6ab7c3588f1cf5b578004d8bc822eca877cd810c688fc54",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.45454545454545453,
+        "y": 0.5769230769230769
+      },
+      "size": [
+        55,
+        26
+      ],
+      "gif": "combat/gifs/army20/dead1.gif",
+      "framesDirectory": "combat/frames/army20/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "3c6e2780da405abfeb4fbb08a88f9e905071a21a7d1cefb7d436577e80d21bba"
+    },
+    {
+      "family": "army21",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army21-stand.png",
+      "sourceSha256": "4c464ce454da44447a6639234dadf0cb80c440638bff29047c5ef23bc0fa551c",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4418604651162791,
+        "y": 0.7435897435897436
+      },
+      "size": [
+        43,
+        39
+      ],
+      "gif": "combat/gifs/army21/stand.gif",
+      "framesDirectory": "combat/frames/army21/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "794100d7779ea03960554d4994d0366cb2f3254ebdbfc86f6ee68f2a63eb5ffd"
+    },
+    {
+      "family": "army21",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army21-run.png",
+      "sourceSha256": "def6266bd5587e5c52b613ab7d258b6c909d9699b0464ba06e72ff8c53047d49",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.40816326530612246,
+        "y": 0.7435897435897436
+      },
+      "size": [
+        49,
+        39
+      ],
+      "gif": "combat/gifs/army21/run.gif",
+      "framesDirectory": "combat/frames/army21/run",
+      "previewDurationMs": 670,
+      "gifSha256": "0d568b1a83557ec163e846d7b23190b34b44161019d5e721e064b4c8719309cf"
+    },
+    {
+      "family": "army21",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army21-attack.png",
+      "sourceSha256": "6e159a93a4c7edc64642f569121e9f0921c68524a309f83864440523d9b6d1fb",
+      "frames": 10,
+      "encodedGifFrames": 5,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4166666666666667,
+        "y": 0.803921568627451
+      },
+      "size": [
+        48,
+        51
+      ],
+      "gif": "combat/gifs/army21/attack.gif",
+      "framesDirectory": "combat/frames/army21/attack",
+      "previewDurationMs": 420,
+      "gifSha256": "9412f4e1cc81122463d6e2e063a4fe5f996778840fb65b15d6361e618fe355ca"
+    },
+    {
+      "family": "army21",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army21-injured1.png",
+      "sourceSha256": "6876aa8a1035617217e669aa179e63c221cec4892c944b390403604199123f65",
+      "frames": 9,
+      "encodedGifFrames": 2,
+      "fps": 24,
+      "anchor": {
+        "x": 0.475,
+        "y": 0.7368421052631579
+      },
+      "size": [
+        40,
+        38
+      ],
+      "gif": "combat/gifs/army21/injured1.gif",
+      "framesDirectory": "combat/frames/army21/injured1",
+      "previewDurationMs": 380,
+      "gifSha256": "a63b0af7dbf9116243499b78f7978490982b00c8cea1d70ab8ba3dca3bd494e0"
+    },
+    {
+      "family": "army21",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army21-dead1.png",
+      "sourceSha256": "01af8a11b7ccca9fb14eedb66284f72300c85158d02ac4e16932f2ae69cb0217",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4339622641509434,
+        "y": 0.5
+      },
+      "size": [
+        53,
+        26
+      ],
+      "gif": "combat/gifs/army21/dead1.gif",
+      "framesDirectory": "combat/frames/army21/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "b071efe19276ef35be5a2249a7836509c818db2881d14acffec91058d2b1ac89"
+    },
+    {
+      "family": "army22",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army22-stand.png",
+      "sourceSha256": "56f2532ad0d5ba04731c6bd91f90f5c18dfc8ba73f1530980e86fe1114a01248",
+      "frames": 16,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4634146341463415,
+        "y": 0.7954545454545454
+      },
+      "size": [
+        41,
+        44
+      ],
+      "gif": "combat/gifs/army22/stand.gif",
+      "framesDirectory": "combat/frames/army22/stand",
+      "previewDurationMs": 1330,
+      "gifSha256": "f59900c5da3de24119c1ef6729af8d70521dc9e93e4a4691655008f1aa39b0cf"
+    },
+    {
+      "family": "army22",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army22-run.png",
+      "sourceSha256": "ed44da306a63254047c23ba7ed78cbe544805e40910662ae7b693bb0cdf3f4b3",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.37254901960784315,
+        "y": 0.7804878048780488
+      },
+      "size": [
+        51,
+        41
+      ],
+      "gif": "combat/gifs/army22/run.gif",
+      "framesDirectory": "combat/frames/army22/run",
+      "previewDurationMs": 670,
+      "gifSha256": "81a782740a04ed62c2a78b1b0276c35f9848edd69904581b328ceb9080ae340d"
+    },
+    {
+      "family": "army22",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army22-attack.png",
+      "sourceSha256": "0d2c487b273d235c5d195fff394b6fe201c6c89154f55df5f1e3c0f240b79bd4",
+      "frames": 8,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.425531914893617,
+        "y": 0.82
+      },
+      "size": [
+        47,
+        50
+      ],
+      "gif": "combat/gifs/army22/attack.gif",
+      "framesDirectory": "combat/frames/army22/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "2c907922269a910a6c36a3aaf5be606a9aa2c44f8813321510c89e3075e342c8"
+    },
+    {
+      "family": "army22",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army22-injured1.png",
+      "sourceSha256": "3e9b609afb8697c2bff54f1310165d934e815a3c0d36e60c1c4334b9db85be8e",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4634146341463415,
+        "y": 0.7631578947368421
+      },
+      "size": [
+        41,
+        38
+      ],
+      "gif": "combat/gifs/army22/injured1.gif",
+      "framesDirectory": "combat/frames/army22/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "98cc26cf2dc836250f74f4bd147017eefebde662cab9786a4ae0acee918e55db"
+    },
+    {
+      "family": "army22",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army22-dead1.png",
+      "sourceSha256": "dad9c2e3a837e88602e3b781d99676365b2532b38fd40ee3a974e57e335d1722",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4444444444444444,
+        "y": 0.5357142857142857
+      },
+      "size": [
+        54,
+        28
+      ],
+      "gif": "combat/gifs/army22/dead1.gif",
+      "framesDirectory": "combat/frames/army22/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "f0fadd01627bb8aac5edce39542950d1d080e96a49a59a5afeb47e2ea50a2e08"
+    },
+    {
+      "family": "army23",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army23-stand.png",
+      "sourceSha256": "8c138a0e0e4a2c62d2991ddc162a0df071e193919143764a4b19724f4bb5d5a1",
+      "frames": 16,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.43902439024390244,
+        "y": 0.7777777777777778
+      },
+      "size": [
+        41,
+        45
+      ],
+      "gif": "combat/gifs/army23/stand.gif",
+      "framesDirectory": "combat/frames/army23/stand",
+      "previewDurationMs": 1330,
+      "gifSha256": "d9f76c6baa40be1ad71f0a0b00f4aea81ba7982c284c35afde574b57a428c109"
+    },
+    {
+      "family": "army23",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army23-run.png",
+      "sourceSha256": "08c4d787a65d8773a6cea588b5104ce154733926a9f87e1d4989de526a704369",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.37037037037037035,
+        "y": 0.7857142857142857
+      },
+      "size": [
+        54,
+        42
+      ],
+      "gif": "combat/gifs/army23/run.gif",
+      "framesDirectory": "combat/frames/army23/run",
+      "previewDurationMs": 670,
+      "gifSha256": "2f9f8a03cee7043f97ca88dcbb7de8cd8749bcab03ac226c9cb71d325f425162"
+    },
+    {
+      "family": "army23",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army23-attack.png",
+      "sourceSha256": "272da74e236bcd09f30fa846df2f704f8ab3eab02e02ca59831c9da88cf6bafc",
+      "frames": 8,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.3673469387755102,
+        "y": 0.8113207547169812
+      },
+      "size": [
+        49,
+        53
+      ],
+      "gif": "combat/gifs/army23/attack.gif",
+      "framesDirectory": "combat/frames/army23/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "8c79b3a65c7485fe76a6004fde50b6d9baf578f0d1403a038575abf9d44575be"
+    },
+    {
+      "family": "army23",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army23-injured1.png",
+      "sourceSha256": "834b7ec11a62afd247d95a736be8e7118062385a63761bc423f718c7f812478a",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.46153846153846156,
+        "y": 0.7435897435897436
+      },
+      "size": [
+        39,
+        39
+      ],
+      "gif": "combat/gifs/army23/injured1.gif",
+      "framesDirectory": "combat/frames/army23/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "1772bdf418c6ad8b59b68c3e8b4e4ba249861da15cd81b40fbed9800e98d6496"
+    },
+    {
+      "family": "army23",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army23-dead1.png",
+      "sourceSha256": "5a842ccefab6905013c6c74900fa0c1087eb1bcb683e7993263d28f7c1685474",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.45454545454545453,
+        "y": 0.5185185185185185
+      },
+      "size": [
+        55,
+        27
+      ],
+      "gif": "combat/gifs/army23/dead1.gif",
+      "framesDirectory": "combat/frames/army23/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "86395725f18654157ccd5cd0c4eeaf7f3cbda0abb7dda4271dce1aa355987b8b"
+    },
+    {
+      "family": "army24",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army24-stand.png",
+      "sourceSha256": "34294ab700473107b3572aa8e82ef0158bfc83ac1a7f369340a7b3bf1c24f1a2",
+      "frames": 9,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4186046511627907,
+        "y": 0.8
+      },
+      "size": [
+        43,
+        45
+      ],
+      "gif": "combat/gifs/army24/stand.gif",
+      "framesDirectory": "combat/frames/army24/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "09385d02219435a61844f948c378d3edccb24751f7eefe92ce0be43472f0bf4f"
+    },
+    {
+      "family": "army24",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army24-run.png",
+      "sourceSha256": "fea2b704a1b433bad968b513b1bb2dc808f34a44f08c9d2cc77f120986c22f60",
+      "frames": 8,
+      "encodedGifFrames": 8,
+      "fps": 12,
+      "anchor": {
+        "x": 0.34615384615384615,
+        "y": 0.7954545454545454
+      },
+      "size": [
+        52,
+        44
+      ],
+      "gif": "combat/gifs/army24/run.gif",
+      "framesDirectory": "combat/frames/army24/run",
+      "previewDurationMs": 670,
+      "gifSha256": "3869753e2cbc84a4916c85a74e299c9af0e89157f197220f205c7068a2cf2b21"
+    },
+    {
+      "family": "army24",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army24-attack.png",
+      "sourceSha256": "c686e1953216f681941b61a33334aacfd8bf3d353cc0d97e122ce6c8cb491d4f",
+      "frames": 8,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.38461538461538464,
+        "y": 0.8214285714285714
+      },
+      "size": [
+        52,
+        56
+      ],
+      "gif": "combat/gifs/army24/attack.gif",
+      "framesDirectory": "combat/frames/army24/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "62c9939f7be8a80f8f12ebe5b32aca52a08a669d11046e6498b126797ff0667c"
+    },
+    {
+      "family": "army24",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army24-injured1.png",
+      "sourceSha256": "881652223759876e43599c5096357a94864359f34cef05c4fecb2b9e9247c0a9",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5121951219512195,
+        "y": 0.7804878048780488
+      },
+      "size": [
+        41,
+        41
+      ],
+      "gif": "combat/gifs/army24/injured1.gif",
+      "framesDirectory": "combat/frames/army24/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "2838f5b7e9be021920a4b398eb07b06194a41b454a88579d719d8e3104df5449"
+    },
+    {
+      "family": "army24",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army24-dead1.png",
+      "sourceSha256": "b9cb00a630cd8e78a46df0353b82462918f905c68acdaf02bcae963cae186049",
+      "frames": 1,
+      "encodedGifFrames": 1,
+      "fps": 24,
+      "anchor": {
+        "x": 0.46296296296296297,
+        "y": 0.5333333333333333
+      },
+      "size": [
+        54,
+        30
+      ],
+      "gif": "combat/gifs/army24/dead1.gif",
+      "framesDirectory": "combat/frames/army24/dead1",
+      "previewDurationMs": 600,
+      "gifSha256": "6c43ba58048ef5b7d8924ebf3edc963c9ff606937f6335740e15ef0f8e42c49a"
+    },
+    {
+      "family": "army25",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army25-stand.png",
+      "sourceSha256": "19db30e813db08949c7f2ff39844152130043e3a7b6c43124e63327f97d37d09",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.46938775510204084,
+        "y": 0.82
+      },
+      "size": [
+        49,
+        50
+      ],
+      "gif": "combat/gifs/army25/stand.gif",
+      "framesDirectory": "combat/frames/army25/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "9d42c432941ed196dd47cfcf9cb4f30de1c53595d03c271c6f4780411acda8e8"
+    },
+    {
+      "family": "army25",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army25-run.png",
+      "sourceSha256": "29dce9c6028f5a4b5d3a8082453a0bc5b8a6063a04de8c9df05dc163aa2a9a11",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 12,
+      "anchor": {
+        "x": 0.47619047619047616,
+        "y": 0.8
+      },
+      "size": [
+        63,
+        45
+      ],
+      "gif": "combat/gifs/army25/run.gif",
+      "framesDirectory": "combat/frames/army25/run",
+      "previewDurationMs": 750,
+      "gifSha256": "13354738508db1b52e8ae2a49542b2d2d6d7bb6131fb6b5c17e0563196a8632c"
+    },
+    {
+      "family": "army25",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army25-attack.png",
+      "sourceSha256": "478906e1ff5fd11bff948eeb0e7ef17f50f51aea16cc7bae1b1ef6b725bf390b",
+      "frames": 10,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4489795918367347,
+        "y": 0.8333333333333334
+      },
+      "size": [
+        49,
+        54
+      ],
+      "gif": "combat/gifs/army25/attack.gif",
+      "framesDirectory": "combat/frames/army25/attack",
+      "previewDurationMs": 830,
+      "gifSha256": "5de7ec015f0ac05b07134ffa9267f28556288b3d0baa912d766afd4854f7681a"
+    },
+    {
+      "family": "army25",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army25-injured1.png",
+      "sourceSha256": "f453194177460795b2a37246c3f8ca100219573210c16f1065a944f95a66750d",
+      "frames": 9,
+      "encodedGifFrames": 2,
+      "fps": 24,
+      "anchor": {
+        "x": 0.46,
+        "y": 0.82
+      },
+      "size": [
+        50,
+        50
+      ],
+      "gif": "combat/gifs/army25/injured1.gif",
+      "framesDirectory": "combat/frames/army25/injured1",
+      "previewDurationMs": 380,
+      "gifSha256": "60914c5c5444e380c74e1a88c0a36bce214a0ebaddeafa36d7ad746f4a0b818f"
+    },
+    {
+      "family": "army25",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army25-dead1.png",
+      "sourceSha256": "b11ef6114b648b09035ec841c52ab061bec2449dd0068a6c61742c91b33fafd9",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.7372881355932204,
+        "y": 0.6919929865575687
+      },
+      "size": [
+        128,
+        29
+      ],
+      "gif": "combat/gifs/army25/dead1.gif",
+      "framesDirectory": "combat/frames/army25/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "1cb9dcf5a859ad7105db6e7f590af6d0be70c5f57e7b22756257e6d672ed8a71"
+    },
+    {
+      "family": "army10",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army10-stand.png",
+      "sourceSha256": "80be7a9bd51eec0867a6020aff4365acebd4d750b34dd72803ab7c02db18577f",
+      "frames": 13,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4489795918367347,
+        "y": 0.8085106382978723
+      },
+      "size": [
+        49,
+        47
+      ],
+      "gif": "combat/gifs/army10/stand.gif",
+      "framesDirectory": "combat/frames/army10/stand",
+      "previewDurationMs": 1080,
+      "gifSha256": "bd8e03a52b9179892e39e580976f8d14a1d6858bb41bdfeffb06331edc77713d"
+    },
+    {
+      "family": "army10",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army10-run.png",
+      "sourceSha256": "8adfb5be30e55d59fe0cc5f92d653c7feba675418bc587517288cb985fa9eac1",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4461538461538462,
+        "y": 0.8
+      },
+      "size": [
+        65,
+        45
+      ],
+      "gif": "combat/gifs/army10/run.gif",
+      "framesDirectory": "combat/frames/army10/run",
+      "previewDurationMs": 380,
+      "gifSha256": "cfecaa5b812162af45d771c8bfc0ed5c5088bb00fadd97c809ece00bf2dfe96a"
+    },
+    {
+      "family": "army10",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army10-attack.png",
+      "sourceSha256": "96e28f224e4c4f4d4d28d434ad5c07d0e682db930a8920fdfb55fe08b98aab20",
+      "frames": 9,
+      "encodedGifFrames": 4,
+      "fps": 20,
+      "anchor": {
+        "x": 0.3333333333333333,
+        "y": 0.82
+      },
+      "size": [
+        78,
+        50
+      ],
+      "gif": "combat/gifs/army10/attack.gif",
+      "framesDirectory": "combat/frames/army10/attack",
+      "previewDurationMs": 450,
+      "gifSha256": "5b3fb55bcfc421554b7d6ca8c1cfbce5e698d3c9be68807c2d7cf5d4bb3b5c5f"
+    },
+    {
+      "family": "army10",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army10-injured1.png",
+      "sourceSha256": "46008895adde25e8310353ad43407164a1bcb902b0757e68fb7dd402b91dca43",
+      "frames": 9,
+      "encodedGifFrames": 2,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8333333333333334
+      },
+      "size": [
+        50,
+        54
+      ],
+      "gif": "combat/gifs/army10/injured1.gif",
+      "framesDirectory": "combat/frames/army10/injured1",
+      "previewDurationMs": 380,
+      "gifSha256": "f3047254ad24400e081441096a5679ec64f6eb0a5a2849d4b5be0ff12424f68e"
+    },
+    {
+      "family": "army10",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army10-dead1.png",
+      "sourceSha256": "26741fcfbf4a13c4f109127b58acacc5014124ef82f5e6b950647f2e89bad292",
+      "frames": 26,
+      "encodedGifFrames": 26,
+      "fps": 24,
+      "anchor": {
+        "x": 0.6271186440677966,
+        "y": 0.7231638418079096
+      },
+      "size": [
+        128,
+        33
+      ],
+      "gif": "combat/gifs/army10/dead1.gif",
+      "framesDirectory": "combat/frames/army10/dead1",
+      "previewDurationMs": 1080,
+      "gifSha256": "e1de8b04d40629b0602645d616fc383cb8b614acb46c1150736d9eb48e426633"
+    },
+    {
+      "family": "army11",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army11-stand.png",
+      "sourceSha256": "5dcaca6dd93c28f79a7218133ef24f6cfdff3299b8baacb17b852cbfba4173f8",
+      "frames": 13,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4489795918367347,
+        "y": 0.8085106382978723
+      },
+      "size": [
+        49,
+        47
+      ],
+      "gif": "combat/gifs/army11/stand.gif",
+      "framesDirectory": "combat/frames/army11/stand",
+      "previewDurationMs": 1080,
+      "gifSha256": "47797e93549acd0fb2e4da1aba2695438d9ce41c51b9a2ee37313ffe0145ef2d"
+    },
+    {
+      "family": "army11",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army11-run.png",
+      "sourceSha256": "70944b8c1b643a15920b87c17d177558835bb8d1549db890e2f62088be3b66bd",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.45454545454545453,
+        "y": 0.8043478260869565
+      },
+      "size": [
+        66,
+        46
+      ],
+      "gif": "combat/gifs/army11/run.gif",
+      "framesDirectory": "combat/frames/army11/run",
+      "previewDurationMs": 380,
+      "gifSha256": "ca84d4351864334a22ee584221377fd4b8f68eb08dfb0172eece32f3a7add3d2"
+    },
+    {
+      "family": "army11",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army11-attack.png",
+      "sourceSha256": "7d000e2210e9ba9bcbe3b0959da068e00d6698fce38fa47f13e7b11727221a97",
+      "frames": 9,
+      "encodedGifFrames": 4,
+      "fps": 24,
+      "anchor": {
+        "x": 0.32051282051282054,
+        "y": 0.8163265306122449
+      },
+      "size": [
+        78,
+        49
+      ],
+      "gif": "combat/gifs/army11/attack.gif",
+      "framesDirectory": "combat/frames/army11/attack",
+      "previewDurationMs": 380,
+      "gifSha256": "980ae41ec9f3c8d68379104d97330b6811d21c8e3acdb3e78496ce4b8591e609"
+    },
+    {
+      "family": "army11",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army11-injured1.png",
+      "sourceSha256": "32c9811d9687ce8019bb949c21fc4c72d100604c85465635bd7d416ca5a6f1a8",
+      "frames": 9,
+      "encodedGifFrames": 2,
+      "fps": 24,
+      "anchor": {
+        "x": 0.46938775510204084,
+        "y": 0.8333333333333334
+      },
+      "size": [
+        49,
+        54
+      ],
+      "gif": "combat/gifs/army11/injured1.gif",
+      "framesDirectory": "combat/frames/army11/injured1",
+      "previewDurationMs": 380,
+      "gifSha256": "d659829d2893694b8c2a90b0cf395d46e71be0f625558a5536a4634fdc1e182c"
+    },
+    {
+      "family": "army11",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army11-dead1.png",
+      "sourceSha256": "07bc60cfc64d28cc4485e8cd2770e92c197d8a99105cd165a5ad5b12cb7526ba",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.6902654867256637,
+        "y": 0.7079646017699115
+      },
+      "size": [
+        128,
+        28
+      ],
+      "gif": "combat/gifs/army11/dead1.gif",
+      "framesDirectory": "combat/frames/army11/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "8f56d572656b0613cfc7af9b58c98e4ba4a76133db2930544517acc579ac59bd"
+    },
+    {
+      "family": "army12",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army12-stand.png",
+      "sourceSha256": "928849f47adca395b410adf151ac4e1b47611b13c580709d8e299f7666425c46",
+      "frames": 13,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5094339622641509,
+        "y": 0.8163265306122449
+      },
+      "size": [
+        53,
+        49
+      ],
+      "gif": "combat/gifs/army12/stand.gif",
+      "framesDirectory": "combat/frames/army12/stand",
+      "previewDurationMs": 1080,
+      "gifSha256": "b0d4f839673540ff313d6e62fc3da716246048c9da24d62276e7bc7852d82342"
+    },
+    {
+      "family": "army12",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army12-run.png",
+      "sourceSha256": "2cf8d0c6d7d05c05d032083c8d247b24d782b466468e67d68ee786e24b88335f",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4444444444444444,
+        "y": 0.8163265306122449
+      },
+      "size": [
+        63,
+        49
+      ],
+      "gif": "combat/gifs/army12/run.gif",
+      "framesDirectory": "combat/frames/army12/run",
+      "previewDurationMs": 750,
+      "gifSha256": "93186e12e3d54a22b6a6a7fb26e69ab7928db61742cd7e37ebb835a603f01bad"
+    },
+    {
+      "family": "army12",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army12-attack.png",
+      "sourceSha256": "5f0c67f5486736a52b00065ed5c9aeea0bfe302491b843d2e94f7f3b453c9f4e",
+      "frames": 8,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.39285714285714285,
+        "y": 0.8269230769230769
+      },
+      "size": [
+        84,
+        52
+      ],
+      "gif": "combat/gifs/army12/attack.gif",
+      "framesDirectory": "combat/frames/army12/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "81470342a7f638e113dbfaee68e51374c2d563efdffcb1e87a5e9445bd47e453"
+    },
+    {
+      "family": "army12",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army12-injured1.png",
+      "sourceSha256": "6b81473e247c6c234c1f07d80756f155d46c7cd6c9b730ae752dd5e0c1b95d0b",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5306122448979592,
+        "y": 0.8363636363636363
+      },
+      "size": [
+        49,
+        55
+      ],
+      "gif": "combat/gifs/army12/injured1.gif",
+      "framesDirectory": "combat/frames/army12/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "b33df70bc7ffa70833ae6563ec9bbdc182edfa81744ae6f0f0d5375784d90d74"
+    },
+    {
+      "family": "army12",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army12-dead1.png",
+      "sourceSha256": "e132876a6060c233f63e87933fa02ba781fcaddc69a573720b4f45cac7100ddb",
+      "frames": 28,
+      "encodedGifFrames": 28,
+      "fps": 24,
+      "anchor": {
+        "x": 0.7130044843049327,
+        "y": 0.6843739220420834
+      },
+      "size": [
+        128,
+        26
+      ],
+      "gif": "combat/gifs/army12/dead1.gif",
+      "framesDirectory": "combat/frames/army12/dead1",
+      "previewDurationMs": 1170,
+      "gifSha256": "f19cdf41ccc479f8944f303e33fd560318c35cba05457bd88db544092ac60b43"
+    },
+    {
+      "family": "army13",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army13-stand.png",
+      "sourceSha256": "49f01cb1efaa7a33b67d5e08ceb863dea1bf4f49a4e3e4530be3693433024c17",
+      "frames": 17,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.46938775510204084,
+        "y": 0.8367346938775511
+      },
+      "size": [
+        49,
+        49
+      ],
+      "gif": "combat/gifs/army13/stand.gif",
+      "framesDirectory": "combat/frames/army13/stand",
+      "previewDurationMs": 1420,
+      "gifSha256": "02f3ffecbc11c823d903bccc3e9b472e5fa860fe9eabfc16327396bb9004f4d5"
+    },
+    {
+      "family": "army13",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army13-run.png",
+      "sourceSha256": "b582d14f6f87b51efc17ccfd308c803bff8e40ab0178809d55a47d32034d9b6e",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 12,
+      "anchor": {
+        "x": 0.453125,
+        "y": 0.82
+      },
+      "size": [
+        64,
+        50
+      ],
+      "gif": "combat/gifs/army13/run.gif",
+      "framesDirectory": "combat/frames/army13/run",
+      "previewDurationMs": 750,
+      "gifSha256": "9a70cb82b818d3349b6f1506e0e5c7ae70eac043748462c81f005cf15bffd8af"
+    },
+    {
+      "family": "army13",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army13-attack.png",
+      "sourceSha256": "c758f554fbc88d4adcaeae58870dce075a47be2693de5609e534af2ae438f188",
+      "frames": 8,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.3780487804878049,
+        "y": 0.8461538461538461
+      },
+      "size": [
+        82,
+        52
+      ],
+      "gif": "combat/gifs/army13/attack.gif",
+      "framesDirectory": "combat/frames/army13/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "3a11688360af45da428b11e656b8d0e418f22399b0066016760f0ad976109f63"
+    },
+    {
+      "family": "army13",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army13-injured1.png",
+      "sourceSha256": "7f11ca8633a6212b94814eaa61c33712d3574f615b4a2b2bdb859667e708da11",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.52,
+        "y": 0.8518518518518519
+      },
+      "size": [
+        50,
+        54
+      ],
+      "gif": "combat/gifs/army13/injured1.gif",
+      "framesDirectory": "combat/frames/army13/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "b1a4d51af4db47d6f94052b7546012966bd21a5607b8396de1530e18f0add802"
+    },
+    {
+      "family": "army13",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army13-dead1.png",
+      "sourceSha256": "7a80b8b8bc07662c6c6962856dcf5d6d1964a59958991074a91269d4eba1c983",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.7203389830508474,
+        "y": 0.7159322033898304
+      },
+      "size": [
+        128,
+        25
+      ],
+      "gif": "combat/gifs/army13/dead1.gif",
+      "framesDirectory": "combat/frames/army13/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "350e3011df44d4994498dc4f99b5c3af53a2fd1dd72c42468b8d067b02f9b15d"
+    },
+    {
+      "family": "army14",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army14-stand.png",
+      "sourceSha256": "3de4e9ae039fb9a888bbfe7e40481f50b4bebac6890ab235c8de62dfa523428a",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.84
+      },
+      "size": [
+        54,
+        50
+      ],
+      "gif": "combat/gifs/army14/stand.gif",
+      "framesDirectory": "combat/frames/army14/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "9a8fbc288de0bbdf13a22d24d5adfb53be728d514f1c211c0760bffb7e783926"
+    },
+    {
+      "family": "army14",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army14-run.png",
+      "sourceSha256": "ea601621ad23d5560a23d5dd85c7be63dbabd762dd77d2494a3fe77a28394048",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.44776119402985076,
+        "y": 0.8333333333333334
+      },
+      "size": [
+        67,
+        48
+      ],
+      "gif": "combat/gifs/army14/run.gif",
+      "framesDirectory": "combat/frames/army14/run",
+      "previewDurationMs": 380,
+      "gifSha256": "a0a1580e2a4967341bd795ab58fd563ff784cdc24b5395ed1a89b16281b36ec5"
+    },
+    {
+      "family": "army14",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army14-attack.png",
+      "sourceSha256": "89815ff1f85b3da8c6b3132d4f9263f22d8e23cb08fc8f5789c2fafc08a1b29c",
+      "frames": 8,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.39080459770114945,
+        "y": 0.8431372549019608
+      },
+      "size": [
+        87,
+        51
+      ],
+      "gif": "combat/gifs/army14/attack.gif",
+      "framesDirectory": "combat/frames/army14/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "c59b4239ea0eb9ddf65951180270b07aac3bc66b9e187f016a2fefd61d25edbb"
+    },
+    {
+      "family": "army14",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army14-injured1.png",
+      "sourceSha256": "7f0693b07dddcad5b5fd6f59cc35e49b1df2f209b51c4b9df349f1592eb800f6",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8571428571428571
+      },
+      "size": [
+        52,
+        56
+      ],
+      "gif": "combat/gifs/army14/injured1.gif",
+      "framesDirectory": "combat/frames/army14/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "b2443e692d99f3706c0af611d9eacea148ac3c10f06fe359b2e0699ffe6ae439"
+    },
+    {
+      "family": "army14",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army14-dead1.png",
+      "sourceSha256": "a644e55dce74f7d76e38275a2f742deded3c6121824d78b6b177abbe9a72ec3e",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.7865168539325842,
+        "y": 0.7191011235955056
+      },
+      "size": [
+        128,
+        18
+      ],
+      "gif": "combat/gifs/army14/dead1.gif",
+      "framesDirectory": "combat/frames/army14/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "9cee4a3072eb039a709515285b87532fcd419539a3438ad9e85fc7c42bcc79b2"
+    },
+    {
+      "family": "army15",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/quan/army15-stand.png",
+      "sourceSha256": "8ecff2ba2dc5767042aabd5e8e7b36cbc4a7434723453044ae3eab01ae4f43cd",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.84
+      },
+      "size": [
+        54,
+        50
+      ],
+      "gif": "combat/gifs/army15/stand.gif",
+      "framesDirectory": "combat/frames/army15/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "6e4254464aefd557fc18e72e58576c6fa81a78d5cbc6bfd73de462805b16e177"
+    },
+    {
+      "family": "army15",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/quan/army15-run.png",
+      "sourceSha256": "72d5e13dd42be12770a1f2d862e0642ea95d59b2ab7697927f73096e26070ad0",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.46153846153846156,
+        "y": 0.8333333333333334
+      },
+      "size": [
+        65,
+        48
+      ],
+      "gif": "combat/gifs/army15/run.gif",
+      "framesDirectory": "combat/frames/army15/run",
+      "previewDurationMs": 380,
+      "gifSha256": "22ff3c3c8e2e0a1bb45473588ec01fcade3b856d96d362476bfc8313f78c7c57"
+    },
+    {
+      "family": "army15",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/quan/army15-attack.png",
+      "sourceSha256": "69ed39d7bd0981cfc9725c7232e94a10d34f1b1acd85ecd6e4a3f887e243f1df",
+      "frames": 8,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.40229885057471265,
+        "y": 0.8461538461538461
+      },
+      "size": [
+        87,
+        52
+      ],
+      "gif": "combat/gifs/army15/attack.gif",
+      "framesDirectory": "combat/frames/army15/attack",
+      "previewDurationMs": 670,
+      "gifSha256": "1108dae1a2c1f39ea27f672e73c498c3cb307f7929eb6af371b16ceadfe6589f"
+    },
+    {
+      "family": "army15",
+      "state": "injured1",
+      "source": "assets/visual/assets/battle-ng/quan/army15-injured1.png",
+      "sourceSha256": "c3db3db41f47418b7329ace4b89bb3621e2f5cdb492c55f3203c23c296cff91c",
+      "frames": 12,
+      "encodedGifFrames": 3,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5098039215686274,
+        "y": 0.8545454545454545
+      },
+      "size": [
+        51,
+        55
+      ],
+      "gif": "combat/gifs/army15/injured1.gif",
+      "framesDirectory": "combat/frames/army15/injured1",
+      "previewDurationMs": 500,
+      "gifSha256": "56305b0a050058eb893f44a2c41b948ceda5ea1af496afa4ce5fad7b9d40e212"
+    },
+    {
+      "family": "army15",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/quan/army15-dead1.png",
+      "sourceSha256": "d839fe2d4d59bd349c024336cd8c11dafd4ac94f74d09b18890d97403a699079",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.8005865102639296,
+        "y": 0.750733137829912
+      },
+      "size": [
+        128,
+        18
+      ],
+      "gif": "combat/gifs/army15/dead1.gif",
+      "framesDirectory": "combat/frames/army15/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "5a071352fb32dd0b27b09ba3be0090690316d1b9b20b737cf39d4cebbbb03276"
+    },
+    {
+      "family": "hero_01",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_01-stand.png",
+      "sourceSha256": "0b0811dd387cd911ade718328816cf1e640be0f10ac9adefedaa3b24645a8817",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5125,
+        "y": 0.8714285714285714
+      },
+      "size": [
+        80,
+        70
+      ],
+      "gif": "combat/gifs/hero_01/stand.gif",
+      "framesDirectory": "combat/frames/hero_01/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "bfe4abc83e7f669f51f80c37bf1e12147a25a1358bc44ea4b0a756ed2703773e"
+    },
+    {
+      "family": "hero_01",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_01-run.png",
+      "sourceSha256": "43daa2e07f6222eb9e7657f4ccf4b41b7c6ddedfdbc67ffb71b7306ba03dbf8e",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.48936170212765956,
+        "y": 0.8714285714285714
+      },
+      "size": [
+        94,
+        70
+      ],
+      "gif": "combat/gifs/hero_01/run.gif",
+      "framesDirectory": "combat/frames/hero_01/run",
+      "previewDurationMs": 380,
+      "gifSha256": "e0d299f78e333e72047011740ff58d4b76f7c98e76de7c214f0a74295d578110"
+    },
+    {
+      "family": "hero_01",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_01-attack.png",
+      "sourceSha256": "09952348f69f541250ddeb146af09ba569c61d17710d70e38429380872c4d5c5",
+      "frames": 9,
+      "encodedGifFrames": 4,
+      "fps": 12,
+      "anchor": {
+        "x": 0.37404580152671757,
+        "y": 0.8767123287671232
+      },
+      "size": [
+        131,
+        73
+      ],
+      "gif": "combat/gifs/hero_01/attack.gif",
+      "framesDirectory": "combat/frames/hero_01/attack",
+      "previewDurationMs": 750,
+      "gifSha256": "8d5d7d1110676d28fb791ecd8f858a3e0be959e981fc16bf290870f866dc8e02"
+    },
+    {
+      "family": "hero_01",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_01-dead1.png",
+      "sourceSha256": "54a3a511ea5aef4c6a4b3f95d52e69cb665ed8ff425e6e7f992d9df15ec8e4dd",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.7249466950959489,
+        "y": 0.7499448569958092
+      },
+      "size": [
+        200,
+        29
+      ],
+      "gif": "combat/gifs/hero_01/dead1.gif",
+      "framesDirectory": "combat/frames/hero_01/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "b637c38cac74764b1ac911f19b0f8343cb48dec04178b487790f4880da984692"
+    },
+    {
+      "family": "hero_01",
+      "state": "cheer",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_01-cheer.png",
+      "sourceSha256": "169e18ea8f683da9afd3abef1c8646d3fe6388a4ee143fd1e665f271741ceb74",
+      "frames": 10,
+      "encodedGifFrames": 6,
+      "fps": 12,
+      "anchor": {
+        "x": 0.463768115942029,
+        "y": 0.9230769230769231
+      },
+      "size": [
+        69,
+        117
+      ],
+      "gif": "combat/gifs/hero_01/cheer.gif",
+      "framesDirectory": "combat/frames/hero_01/cheer",
+      "previewDurationMs": 830,
+      "gifSha256": "61ceeef89f066e743ea961d1848a2a36705af4e59d8a66b2e5fbe0f53f742135"
+    },
+    {
+      "family": "hero_02",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_02-stand.png",
+      "sourceSha256": "57c1833faa26047fb96d2398d6c9b955a70e5253d4800feda6e757b862db73a9",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.45714285714285713,
+        "y": 0.8714285714285714
+      },
+      "size": [
+        70,
+        70
+      ],
+      "gif": "combat/gifs/hero_02/stand.gif",
+      "framesDirectory": "combat/frames/hero_02/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "5b2dc43beb9bf478cd87882ca525a8de40b9d934edf55429c350450c6e814353"
+    },
+    {
+      "family": "hero_02",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_02-run.png",
+      "sourceSha256": "841e3b58c98382fffd4a2b53479371738c375279d44c633e98e06cdd577c3c3d",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4835164835164835,
+        "y": 0.8714285714285714
+      },
+      "size": [
+        91,
+        70
+      ],
+      "gif": "combat/gifs/hero_02/run.gif",
+      "framesDirectory": "combat/frames/hero_02/run",
+      "previewDurationMs": 380,
+      "gifSha256": "77e6ea2e75e897a2d62e3775e9f4496de8d792213e68589ab3969c06eb8c384e"
+    },
+    {
+      "family": "hero_02",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_02-attack.png",
+      "sourceSha256": "2f4e1adf117e3bff2a210ea9d3120009dc232e6f83eb264a170c7e83dcadc8b4",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.330188679245283,
+        "y": 0.875
+      },
+      "size": [
+        106,
+        72
+      ],
+      "gif": "combat/gifs/hero_02/attack.gif",
+      "framesDirectory": "combat/frames/hero_02/attack",
+      "previewDurationMs": 750,
+      "gifSha256": "57ed973d44e42a650d6c404b6837885a7f345cda3ec010e2f4c65d72f6f27cb0"
+    },
+    {
+      "family": "hero_02",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_02-dead1.png",
+      "sourceSha256": "3ba14484fd2d5471d924adbcd0643b19ed76b0504d46c54df7580877a8acb13e",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.7309782608695652,
+        "y": 0.7294050343249427
+      },
+      "size": [
+        200,
+        38
+      ],
+      "gif": "combat/gifs/hero_02/dead1.gif",
+      "framesDirectory": "combat/frames/hero_02/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "ac53b95e8cf13a70dc085fd845386741d6300a1565fcd92cf5f55433723fd325"
+    },
+    {
+      "family": "hero_02",
+      "state": "cheer",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_02-cheer.png",
+      "sourceSha256": "f72e5814f6910e21048d028509327e441df382c4380119050474270a216765b6",
+      "frames": 10,
+      "encodedGifFrames": 6,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4782608695652174,
+        "y": 0.9181818181818182
+      },
+      "size": [
+        69,
+        110
+      ],
+      "gif": "combat/gifs/hero_02/cheer.gif",
+      "framesDirectory": "combat/frames/hero_02/cheer",
+      "previewDurationMs": 830,
+      "gifSha256": "6f762bb4c154a6fe60fa3a985d152bb0a3ec3cde1cdbaca9a8af5fc3c8f7ab7e"
+    },
+    {
+      "family": "hero_03",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_03-stand.png",
+      "sourceSha256": "8a337165f1deccdaab09c09227bb07f387a26199d3d280ec2e1624964c0c7db1",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5064935064935064,
+        "y": 0.8714285714285714
+      },
+      "size": [
+        77,
+        70
+      ],
+      "gif": "combat/gifs/hero_03/stand.gif",
+      "framesDirectory": "combat/frames/hero_03/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "db35e57c92cab41a7f560d70480e4b8097de927590f525b1be670a6a977cc89c"
+    },
+    {
+      "family": "hero_03",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_03-run.png",
+      "sourceSha256": "4696b383487f86cc7e0ef9fb76a57f8d97a0d6649826767fe70af6e58815e61b",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.4945054945054945,
+        "y": 0.8714285714285714
+      },
+      "size": [
+        91,
+        70
+      ],
+      "gif": "combat/gifs/hero_03/run.gif",
+      "framesDirectory": "combat/frames/hero_03/run",
+      "previewDurationMs": 380,
+      "gifSha256": "b4bd073a00a4c4f170660643bcfc49970df13362e1704ac878785549d063d61a"
+    },
+    {
+      "family": "hero_03",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_03-attack.png",
+      "sourceSha256": "a190e35a2d50527e505aa6c37ea75a277f3be1fd7115f19c62e49e43a6a7d7d6",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.3828125,
+        "y": 0.8783783783783784
+      },
+      "size": [
+        128,
+        74
+      ],
+      "gif": "combat/gifs/hero_03/attack.gif",
+      "framesDirectory": "combat/frames/hero_03/attack",
+      "previewDurationMs": 750,
+      "gifSha256": "e86b64addbb1738af90dd9fa9bd315c1816b80a73fd3ee6db41b4b5649ce175e"
+    },
+    {
+      "family": "hero_03",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_03-dead1.png",
+      "sourceSha256": "7b106a713e28257807e658840ecf05ce56af375da3cb899a982f93cf7a00a587",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.6642335766423357,
+        "y": 0.7520460075204601
+      },
+      "size": [
+        200,
+        33
+      ],
+      "gif": "combat/gifs/hero_03/dead1.gif",
+      "framesDirectory": "combat/frames/hero_03/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "a4a793e8a3d9421dcb7e25d7545366b02cf3f022d97ecebad67c8844f0f407b7"
+    },
+    {
+      "family": "hero_03",
+      "state": "cheer",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_03-cheer.png",
+      "sourceSha256": "cfd554464eafae2ea3c0d8c508c58e7db7ee50aba71cf309a74404965231cc98",
+      "frames": 10,
+      "encodedGifFrames": 6,
+      "fps": 12,
+      "anchor": {
+        "x": 0.463768115942029,
+        "y": 0.925
+      },
+      "size": [
+        69,
+        120
+      ],
+      "gif": "combat/gifs/hero_03/cheer.gif",
+      "framesDirectory": "combat/frames/hero_03/cheer",
+      "previewDurationMs": 830,
+      "gifSha256": "62d6d5074c8823fb6a4ee850d51d11247e6ff9332a85225faad0d2fb1bf0ad1c"
+    },
+    {
+      "family": "hero_04",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_04-stand.png",
+      "sourceSha256": "a12f70b7fa12137f7338cfc1d9520f86a5aec268b3f5f5ebb6e7ede9cf3c1684",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8714285714285714
+      },
+      "size": [
+        76,
+        70
+      ],
+      "gif": "combat/gifs/hero_04/stand.gif",
+      "framesDirectory": "combat/frames/hero_04/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "d1a34822f88d371ad7bf72f49329f39fb33e9a92ee1ce40e00dac0af735309cd"
+    },
+    {
+      "family": "hero_04",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_04-run.png",
+      "sourceSha256": "aa133ce8efd71dd21a58bb5e26336e22e80c7d8c3c29b7656006a6433685344c",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.46808510638297873,
+        "y": 0.8732394366197183
+      },
+      "size": [
+        94,
+        71
+      ],
+      "gif": "combat/gifs/hero_04/run.gif",
+      "framesDirectory": "combat/frames/hero_04/run",
+      "previewDurationMs": 380,
+      "gifSha256": "2d43c4489c4d1382397b271d87c47cdf14fb5864c8242495721dcaac56f74860"
+    },
+    {
+      "family": "hero_04",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_04-attack.png",
+      "sourceSha256": "d4de37168771a1d944769f7e121d91fdc532bfdcf27650ff719351100c65f32b",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.3984375,
+        "y": 0.8783783783783784
+      },
+      "size": [
+        128,
+        74
+      ],
+      "gif": "combat/gifs/hero_04/attack.gif",
+      "framesDirectory": "combat/frames/hero_04/attack",
+      "previewDurationMs": 750,
+      "gifSha256": "3260c250a2f3efeaae29d21b7c83f74ffe43228f78c42e3d7347b8532271d4e1"
+    },
+    {
+      "family": "hero_04",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_04-dead1.png",
+      "sourceSha256": "46ff90231ab0fb174826aaea781329c2331b6ad9a6295cf154418cb2c7bca3cc",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.6876574307304786,
+        "y": 0.7556675062972292
+      },
+      "size": [
+        200,
+        34
+      ],
+      "gif": "combat/gifs/hero_04/dead1.gif",
+      "framesDirectory": "combat/frames/hero_04/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "e7fed88d16ebe740997fc9a13cadbb7680ea2713b15d9cc5badd386d3d1090c8"
+    },
+    {
+      "family": "hero_04",
+      "state": "cheer",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_04-cheer.png",
+      "sourceSha256": "3f462f1f91e23cf8690dfa0ef8d03c735c39e1727a1f66d738e0e031252fde46",
+      "frames": 10,
+      "encodedGifFrames": 6,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4857142857142857,
+        "y": 0.9230769230769231
+      },
+      "size": [
+        70,
+        117
+      ],
+      "gif": "combat/gifs/hero_04/cheer.gif",
+      "framesDirectory": "combat/frames/hero_04/cheer",
+      "previewDurationMs": 830,
+      "gifSha256": "53564767682a64b90dc14a09e7bbbecdcf6465a1a205fe7c8431ae58fdefbf6a"
+    },
+    {
+      "family": "hero_05",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_05-stand.png",
+      "sourceSha256": "aee90450f0127aa077b9c4ddb3a0f0cf4868b19301365454ad97e7834709fe12",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4931506849315068,
+        "y": 0.8714285714285714
+      },
+      "size": [
+        73,
+        70
+      ],
+      "gif": "combat/gifs/hero_05/stand.gif",
+      "framesDirectory": "combat/frames/hero_05/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "15b4f627d1cebddbdef0b6d485b3581d04f24c6f876d5659470b37358bd8dcc0"
+    },
+    {
+      "family": "hero_05",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_05-run.png",
+      "sourceSha256": "a2f4158dca55517b7188789539d3e00f17806de511dade80c475413075f1d880",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5168539325842697,
+        "y": 0.8656716417910447
+      },
+      "size": [
+        89,
+        67
+      ],
+      "gif": "combat/gifs/hero_05/run.gif",
+      "framesDirectory": "combat/frames/hero_05/run",
+      "previewDurationMs": 380,
+      "gifSha256": "e9a2efd8e6a7d4d0af7ec0fd59dad418bf5324030020ce31ecc47d4382d961f6"
+    },
+    {
+      "family": "hero_05",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_05-attack.png",
+      "sourceSha256": "f033158b9156273e155eea573a598226242ceed1c1f7da4a5319b68f31c7e8b9",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4144144144144144,
+        "y": 0.8732394366197183
+      },
+      "size": [
+        111,
+        71
+      ],
+      "gif": "combat/gifs/hero_05/attack.gif",
+      "framesDirectory": "combat/frames/hero_05/attack",
+      "previewDurationMs": 750,
+      "gifSha256": "57552f17680207c829964ec2cf11921abcccdc4a299547cf423a22bbc83165f0"
+    },
+    {
+      "family": "hero_05",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_05-dead1.png",
+      "sourceSha256": "939d3250f708c8aaac6ca4f87734eef128111c173c4f58290ee3a0cf239a5036",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.7319034852546917,
+        "y": 0.6214964660004875
+      },
+      "size": [
+        200,
+        44
+      ],
+      "gif": "combat/gifs/hero_05/dead1.gif",
+      "framesDirectory": "combat/frames/hero_05/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "0ccc47d75fb4d5d95b24411378b508630e473f3646cf38dab8c953822c41b606"
+    },
+    {
+      "family": "hero_05",
+      "state": "cheer",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_05-cheer.png",
+      "sourceSha256": "cc8b7e05808c20f2d6188c4bb21c11fef4e5fa61aec54c087eb74f747d6f07be",
+      "frames": 10,
+      "encodedGifFrames": 6,
+      "fps": 12,
+      "anchor": {
+        "x": 0.47761194029850745,
+        "y": 0.9181818181818182
+      },
+      "size": [
+        67,
+        110
+      ],
+      "gif": "combat/gifs/hero_05/cheer.gif",
+      "framesDirectory": "combat/frames/hero_05/cheer",
+      "previewDurationMs": 830,
+      "gifSha256": "1074a600e2c24f9147437d56168eb4e913d4cdb2fc943c3639595e475db3ea6b"
+    },
+    {
+      "family": "hero_06",
+      "state": "stand",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_06-stand.png",
+      "sourceSha256": "5db3c21c3ade632ef471725b0078983932e32255895236a1fd34caea53a0d711",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.4675324675324675,
+        "y": 0.875
+      },
+      "size": [
+        77,
+        72
+      ],
+      "gif": "combat/gifs/hero_06/stand.gif",
+      "framesDirectory": "combat/frames/hero_06/stand",
+      "previewDurationMs": 750,
+      "gifSha256": "d7cf5123c003d5ac02534edad91ed8f954ec7d1d28f7ac8fa54fd4a0d94702c4"
+    },
+    {
+      "family": "hero_06",
+      "state": "run",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_06-run.png",
+      "sourceSha256": "4d9429b34f8d1d7e6bd1740b94e898a40be136603383b4dc8dc1b18f4578d2e4",
+      "frames": 9,
+      "encodedGifFrames": 9,
+      "fps": 24,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.8428571428571429
+      },
+      "size": [
+        92,
+        70
+      ],
+      "gif": "combat/gifs/hero_06/run.gif",
+      "framesDirectory": "combat/frames/hero_06/run",
+      "previewDurationMs": 380,
+      "gifSha256": "8b2342496e1e86f394dae0cb90e4f43e073b8bec20449307c1083d1d5766cb60"
+    },
+    {
+      "family": "hero_06",
+      "state": "attack",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_06-attack.png",
+      "sourceSha256": "050626a8f6fb756f62ed800e60ce450c9a814adae02e967924c3d2fb921b5153",
+      "frames": 9,
+      "encodedGifFrames": 5,
+      "fps": 12,
+      "anchor": {
+        "x": 0.3902439024390244,
+        "y": 0.8767123287671232
+      },
+      "size": [
+        123,
+        73
+      ],
+      "gif": "combat/gifs/hero_06/attack.gif",
+      "framesDirectory": "combat/frames/hero_06/attack",
+      "previewDurationMs": 750,
+      "gifSha256": "41f2640c4ef6ce150bdde116d18e15e74df977be5b8af3acbd6a5603e4f1da3b"
+    },
+    {
+      "family": "hero_06",
+      "state": "dead1",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_06-dead1.png",
+      "sourceSha256": "9e23d51e535f67e0a3f9b7c2a11ce62ee814e387233d7bdb5288f6ab42ac6793",
+      "frames": 27,
+      "encodedGifFrames": 27,
+      "fps": 24,
+      "anchor": {
+        "x": 0.7338709677419354,
+        "y": 0.8064516129032258
+      },
+      "size": [
+        200,
+        34
+      ],
+      "gif": "combat/gifs/hero_06/dead1.gif",
+      "framesDirectory": "combat/frames/hero_06/dead1",
+      "previewDurationMs": 1120,
+      "gifSha256": "32358228e40848f6f75b8aa4d3f8fa35759c9383445699fd531cafb265f4b30a"
+    },
+    {
+      "family": "hero_06",
+      "state": "cheer",
+      "source": "assets/visual/assets/battle-ng/tuong/hero_06-cheer.png",
+      "sourceSha256": "7d6806380beae85caa384c7ca1af89dd82892d826858e29ac581bce048cd5808",
+      "frames": 10,
+      "encodedGifFrames": 6,
+      "fps": 12,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9210526315789473
+      },
+      "size": [
+        68,
+        114
+      ],
+      "gif": "combat/gifs/hero_06/cheer.gif",
+      "framesDirectory": "combat/frames/hero_06/cheer",
+      "previewDurationMs": 830,
+      "gifSha256": "ae26e0be5b3ff8ca308dc4a2ef3b42b6719f6f2f6eb6b122b284a8d86567cc48"
+    }
+  ],
+  "holds": []
+}
