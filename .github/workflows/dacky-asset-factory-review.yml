@@ -73,21 +73,21 @@ jobs:
               const { showBattleReplay }=await import('/src/ui.js');
               const { REUSE_ASSET_PATHS,REUSE_BACKGROUND_PATH }=await import('/src/reuse-battle-art.js');
               await Promise.all([...REUSE_ASSET_PATHS,REUSE_BACKGROUND_PATH].map(src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve();img.onerror=()=>reject(Error('Unable to decode '+src));img.src=src;})));
-              const names=['Hỏa Long','Thiên Lôi','Địa Chấn','Hộ Thuẫn','Hồi phục','Hàn Băng','Kiếm khí'];
+              const names=['Hỏa Long','Thiên Lôi','Địa Chấn','Hộ Thuẫn','Hồi phục','Hàn Băng','Kiếm khí','Vạn Tiễn','Độc vụ','Băng Tiễn','Miễn nhiễm','Lôi cầu','Tụ lực','Phù trận','Địa liệt','Độc','Địa thứ'];
               const sides=[{heroId:'dev-art-01',heroName:'Chỉ huy thử nghiệm',stacks:[{id:'legacy-npc-1021',count:180}],totalTroops:180},{heroId:'dev-art-02',heroName:'NPC thử nghiệm',stacks:[{id:'legacy-npc-1101',count:160}],totalTroops:160}];
               const rounds=names.map(name=>({sides,events:[{type:'artifactCast',side:0,name},{type:'strikeLoss',side:1,actual:13},{type:'strikeLoss',side:0,actual:5}],wall:null,incoming:[5,13]}));
               showBattleReplay({target:'QA · kiểm tra atlas / không phải chiến báo thật',rounds},true);
             });
             result.fixtureEffects=[];
-            const ids=['fireball','thunderstrike','quake','shield','heal','freeze','cleave'];
+            const ids=['fireball','thunderstrike','quake','shield','heal','freeze','cleave','arrows','dark_mist','icicle','immunity','lightning','channel','runes','rupture','spark_green','spikes'];
             for(let i=0;i<ids.length;i++){
               const id=ids[i];
               await fixture.locator('[data-reuse-effect="'+id+'"]').waitFor({state:'attached'});
               if(await fixture.locator('[data-reuse-npc="skeleton"]').count()===0||await fixture.locator('[data-reuse-npc="heavy-soldier"]').count()===0)throw Error('Legacy NPC renderer missing');
-              await fixture.waitForTimeout(260);
+              await fixture.waitForTimeout(350);
               await fixture.screenshot({path:'qa/asset-factory/fixture-'+id+'.png'});
               result.fixtureEffects.push(id);
-              await fixture.waitForTimeout(700);
+              await fixture.waitForTimeout(800);
               if(i<ids.length-1)await fixture.locator('[data-replay-next]').click();
             }
             await fixture.setViewportSize({width:844,height:390});
