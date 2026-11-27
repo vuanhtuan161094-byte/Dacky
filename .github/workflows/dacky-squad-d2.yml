@@ -1,0 +1,43 @@
+name: Dacky D2 squad acceptance
+on:
+  push:
+    branches: [review/dacky-combat-fidelity]
+  pull_request:
+    branches: [review/dacky-art01-city]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  squad:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: DackyMobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Squad and pooled regression
+        run: |
+          node --check src/ui.js
+          node --check src/main.js
+          node --test tests/combat-squad-d2.test.js
+          npm test
+      - name: Build actual runtime
+        run: DACKY_COMBAT_PREVIEW=1 npm run build
+      - name: Capture actual squad runtime and verify DOM
+        run: |
+          mkdir -p qa/d2-runtime
+          google-chrome --headless --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --dump-dom "file://$PWD/dist/combat-product.html?squadSmoke=1" > qa/d2-runtime/dom.html
+          grep -q 'data-squad-smoke="PASS"' qa/d2-runtime/dom.html
+          google-chrome --headless --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --screenshot="$PWD/qa/d2-runtime/battle.png" "file://$PWD/dist/combat-product.html?squadSmoke=1"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dacky-d2-runtime
+          path: DackyMobile/qa/d2-runtime/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dacky-d2-web
+          path: DackyMobile/dist/offline.html
