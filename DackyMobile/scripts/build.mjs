@@ -63,6 +63,8 @@ for (const [name,url] of inlineImages) bundle = bundle.replaceAll(`./assets/${na
 for (const [name,url] of inlineImages) html = html.replaceAll(`./assets/${name}`,url);
 const sourceAssetManifests = await Promise.all(['mobile-source-manifest.json','visual-art-manifest.json'].map(async file=>JSON.parse(await readFile(path.join(root,'assets',file),'utf8'))));
 const sourceAssetUrls = new Map();
+const reusePaths = ["./assets/reuse/skeleton/idle.png","./assets/reuse/skeleton/walk.png","./assets/reuse/skeleton/attack.png","./assets/reuse/skeleton/hit.png","./assets/reuse/skeleton/death.png","./assets/reuse/heavy-soldier/idle.png","./assets/reuse/heavy-soldier/walk.png","./assets/reuse/heavy-soldier/attack.png","./assets/reuse/heavy-soldier/hit.png","./assets/reuse/heavy-soldier/death.png","./assets/reuse/vfx/fireball.png","./assets/reuse/vfx/quake.png","./assets/reuse/vfx/thunderstrike.png"];
+for (const name of reusePaths) sourceAssetUrls.set(name,await dataUrl(name.slice('./assets/'.length)));
 const art09=JSON.parse(await readFile(path.join(root,'assets/art09-buildings/manifest.json'),'utf8'));
 for(const id of Object.keys(art09)){const name='art09-buildings/'+id+'.webp';sourceAssetUrls.set('./assets/'+name,await dataUrl(name));}
 for (const asset of sourceAssetManifests.flatMap(manifest=>manifest.assets)) {

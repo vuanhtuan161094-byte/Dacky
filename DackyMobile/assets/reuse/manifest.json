@@ -1,6 +1,6 @@
 {
   "schema": "dacky-asset-factory-v1",
-  "state": "candidate-not-game-integrated",
+  "state": "wired-to-shared-battle-renderer-not-runtime-accepted",
   "sourceRepository": "https://github.com/vuanhtuan161094-byte/Heoofgaia",
   "sourceRef": "feature/hog1-research-to-playable-20261102",
   "assets": [
@@ -27,7 +27,8 @@
         "death": 1150
       },
       "pivotStatus": "needs Dacky visual calibration",
-      "style": "pixel; candidate for summoned unit only"
+      "style": "pixel; candidate for summoned unit only",
+      "runtimeMapping": "legacy-npc-1101 only (representative art)"
     },
     {
       "id": "heavy-soldier",
@@ -48,7 +49,8 @@
         148,
         216
       ],
-      "style": "western knight; candidate only; baked PNG, no rig at runtime"
+      "style": "western knight; candidate only; baked PNG, no rig at runtime",
+      "runtimeMapping": "legacy-npc-1021 only (representative art)"
     }
   ],
   "blobs": {
@@ -78,7 +80,7 @@
     "atlases": 3,
     "nonemptyFrameEntries": 50,
     "license": "CC-BY-SA 3.0 or later per distribution; original thunderstrike CC0",
-    "status": "imported; preview not browser-tested"
+    "status": "event-driven integration in fidelityBattlefield; unknown artifact names use original FX"
   },
   "preview": "preview.html"
 }

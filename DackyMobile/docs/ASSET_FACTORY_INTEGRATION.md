@@ -1,0 +1,5 @@
+# Asset Factory integration
+- Shared fidelityBattlefield renders selected FLARE VFX for explicitly named fire/lightning/earth spells, and quake on wall breach. Unknown events retain existing Dacky effects. Event mapping is a presentation approximation, not verified original-game spell art.
+- Two existing legacy NPC IDs use representative baked PNG animation only: Ma Quân Đại Đao Binh (1101) and Man Tộc Đao Khiên Binh (1021). Original trainable Mobile units unchanged. No rig runtime, no combat/save modifications.
+- All 13 atlases included in single-file asset map and PWA precache. Third-party notices in assets/reuse; original FLARE configuration preserved. 
+- Pending: focused tests, full build, actual screenshots/replay review, source art pivot tuning, background transfer and current-game integration branch coordination. Do not claim release acceptance until CI passes.
