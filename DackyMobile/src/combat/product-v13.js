@@ -14,6 +14,8 @@ const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const copy=x=>structuredClone(x);
 const integer=(n,k,min=0)=>{if(!Number.isSafeInteger(n)||n<min)throw Error('Invalid '+k);return n};
 const seeded=seed=>{let x=Number(seed)>>>0;return()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296}};
+const troopClassFor=id=>{const source=Number(TROOPS.find(row=>row.id===id)?.mobileSourceId);if([1000,1010,1020,1030,1040,1050].includes(source))return 'spear';if([1001,1011,1021,1031,1041,1051].includes(source))return 'shield';if([1002,1012,1022,1032,1042,1052].includes(source))return 'archer';if([1003,1013,1023,1033,1043,1053,1063].includes(source))return 'cavalry';return null;};
+const formationAttackPower=(troops,formation,klass=null)=>formation.reduce((sum,row)=>{const id=row.id??row.unitId;if(klass&&troopClassFor(id)!==klass)return sum;return sum+(troops[id]?.attack??0)*row.count;},0);
 export function createProductCombat({storageCapacity, runtime=null}={}){
  if(typeof storageCapacity!=='function')throw Error('Production storageCapacity callback required');
  const rt=runtime??createCombatRuntime({database:MOBILE_SOURCE_DATABASE,troopRows:[...TROOPS, ...PVE_TROOPS],allowSimulatedLife:true});
@@ -51,8 +53,9 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   // Keep the source percentage visible after the runtime's integer stat
   // rounding so small but valid gems also affect real duel and commander input.
   if(state){
-   const gems=Object.values(save.equipment??{}).filter(Boolean).flatMap(id=>save.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(byItem.get(id))).filter(Boolean);
+   const gems=Object.values(save.equipment??{}).filter(id=>id&&(save.combatDurability?.[id]??100)>0).flatMap(id=>save.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(byItem.get(id))).filter(Boolean);
    for(const gem of gems)if(gem.kind==='heroStatGem'&&Number.isFinite(out[gem.stat]))out[gem.stat]*=1+gem.ratio;
+   for(const gem of gems)if(gem.kind==='equipmentStatGem')for(const [key,ratio] of Object.entries(gem.stats??{}))if(Number.isFinite(out[key]))out[key]*=1+ratio;
    const expectedExtra=gems.filter(gem=>gem.kind==='heroCombatGem'&&['followUpAttack','counterAttack'].includes(gem.trait)).reduce((sum,gem)=>sum+gem.chance,0),dodge=gems.filter(gem=>gem.kind==='heroCombatGem'&&gem.trait==='dodge').reduce((sum,gem)=>sum+gem.chance,0);
    if(expectedExtra)out.attack*=1+Math.min(.5,expectedExtra);
    if(dodge){const reduction=Math.min(.35,dodge);for(const key of ['defense','resistance'])out[key]=(100+out[key])/(1-reduction)-100;}
@@ -94,12 +97,15 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   if(battleBuff('enemyArtifactBlock'))enemy.equippedArtifactIds=[];
   const rate=(id,fallback)=>{const row=TECHNOLOGIES.find(x=>x.id===id)?.mobileLevelCosts?.find(x=>Number(x.level)===1),m=String(row?.effect??'').match(/([+-]?\\d+(?:[.,]\\d+)?)\\s*%/);return m?Number(m[1].replace(',','.'))/100:fallback;};
   const research=(id,fallback)=>clamp((state.technologies?.[id]??0)*rate(id,fallback),0,1);
-  const ownMagic=cityEffects(state,state.lastTickAt??0),enemyMagic=npcEffects(state,node.id,state.lastTickAt??0);
+  const ownMagic=cityEffects(state,state.lastTickAt??0),enemyMagic=npcEffects(state,node.id,state.lastTickAt??0),enemyStacks=[...e].map(([id,count])=>({id,count})),ownPower=formationAttackPower(rt.troops,stacks),enemyPower=formationAttackPower(rt.troops,enemyStacks),armyGems=party.flatMap(hero=>Object.values(hero.equipment??{}).filter(id=>id&&(hero.combatDurability?.[id]??100)>0).flatMap(id=>hero.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(byItem.get(id)))).filter(gem=>gem?.kind==='armyCombatGem');
+  // Army core has no per-stack colored-socket events. Keep troop-class effects
+  // in this product adapter; first-round effects use a simulated six-round mean.
+  let armyGemAttack=0,armyGemDefense=0;for(const gem of armyGems){const sourceShare=ownPower?formationAttackPower(rt.troops,stacks,gem.sourceClass)/ownPower:0;if(!sourceShare)continue;if(gem.effect==='firstRoundGuard')armyGemDefense+=gem.ratio*sourceShare/6;else if(gem.effect==='firstRoundAttack')armyGemAttack+=gem.ratio*sourceShare/6;else {const targetShare=gem.targetClass&&enemyPower?formationAttackPower(rt.troops,enemyStacks,gem.targetClass)/enemyPower:gem.targetClass?0:1;armyGemAttack+=gem.ratio*sourceShare*targetShare;}}
   // The captured wall level is a difficulty input. HP is the local siege curve.
   const cityWallHp = 8 + (node.mobileWallLevel ?? node.level ?? 1) * (1 + node.chapter / 2) + node.power * .025;
   const siege=node.kind==='Thành trì NPC'?{hp:Math.max(1,node.wallLevel*60),armor:12}:node.kind==='Danh thành'?{hp:Math.max(1,Math.round(cityWallHp)),armor:4+node.chapter}:null;
   const attritionAttack=Math.min(.35,battleBuff('enemyTroopLoss')*3);
-  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks,armyAttack:research('tech-10',.012)+(ownMagic.attack??0)+battleBuff('attack')+attritionAttack,armyDefense:research('tech-11',.004)+(ownMagic.defense??0)+(ownMagic.wallDefense??0)+battleBuff('defense'),armyLife:research('tech-12',.02),armyMorale:clamp((state.morale??80)/500,0,.2)},{...enemy,stance:'auto',armyAttack:(state.world.treaties.includes(node.id)?-.12:0)-battleBuff('enemyAttackReduction'),armyDefense:(enemyMagic.defense??0)-battleBuff('enemyDefenseReduction'),stacks:[...e].map(([id,count])=>({id,count}))}],siege,policy:{...PRODUCT_POLICY}}};
+  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks,armyAttack:research('tech-10',.012)+(ownMagic.attack??0)+battleBuff('attack')+attritionAttack+armyGemAttack,armyDefense:research('tech-11',.004)+(ownMagic.defense??0)+(ownMagic.wallDefense??0)+battleBuff('defense')+armyGemDefense,armyLife:research('tech-12',.02),armyMorale:clamp((state.morale??80)/500,0,.2)},{...enemy,stance:'auto',armyAttack:(state.world.treaties.includes(node.id)?-.12:0)-battleBuff('enemyAttackReduction'),armyDefense:(enemyMagic.defense??0)-battleBuff('enemyDefenseReduction'),stacks:enemyStacks}],siege,policy:{...PRODUCT_POLICY}}};
  }
  function credit(s,reward){const cap=storageCapacity(s);if(!Number.isFinite(cap)||cap<0)throw Error('INVALID_CAPACITY');const granted={};for(const [k,v] of Object.entries(reward)){if(!Object.hasOwn(s.resources,k)||!Number.isFinite(v)||v<0)continue;const before=s.resources[k];s.resources[k]=Math.min(k==='jade'?99999:cap,before+v);granted[k]=s.resources[k]-before}return granted;}
  function report(s,entry,now){s.reports.unshift({id:s.nextReportId++,at:now,...entry});s.reports=s.reports.slice(0,100);}
@@ -152,7 +158,13 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const d=q.difficulty,enemyStats={attack:Math.max(1,d*.65),magic:Math.max(1,d*.65),defense:d*.3,resistance:d*.3,speed:10+Math.sqrt(d),maxHp:Math.max(1,d*3),maxMana:Math.max(0,d*2)};
   let enemy={id:'npc',stats:enemyStats,hp:enemyStats.maxHp,mana:enemyStats.maxMana},rounds=[],events=[],victory=false;
   for(let i=0;i<party.length;i++){const h=party[i],c=commander(h,s);if(!c.vitality)continue;const p=rt.index.heroes[c.heroId],stats=duelStats(p,h,s,mode==='tower'),towerBook=mode==='tower'?itemUseRule(bySourceItem.get(String(h.towerBookSourceId||'')))?.towerEffects:null;
-   const hpRatio=c.maxVitality?c.vitality/c.maxVitality:0,r=rt.duel({fighters:[{id:h.id,stats,hp:Math.min(stats.maxHp,Math.round(stats.maxHp*hpRatio)),mana:c.mana},enemy],seed:(Number(seed)+i*7919)>>>0,maxRounds:12,enableManaBurst:true});
+   const leechGems=Object.values(h.equipment??{}).filter(id=>id&&(h.combatDurability?.[id]??100)>0).flatMap(id=>h.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(byItem.get(id))).filter(gem=>gem?.kind==='heroCombatGem'&&gem.trait==='lifeSteal');
+   const hpRatio=c.maxVitality?c.vitality/c.maxVitality:0,duelInput={fighters:[{id:h.id,stats,hp:Math.min(stats.maxHp,Math.round(stats.maxHp*hpRatio)),mana:c.mana},enemy],seed:(Number(seed)+i*7919)>>>0,maxRounds:12,enableManaBurst:true};
+   // The legacy fallback can loop on a zero-cost mana-drain cast. An equipped
+   // leech gem uses the normal-hit policy so its described trigger can occur.
+   if(leechGems.length)duelInput.activeSkillIds=[2,4,5,6,7,8,9,10,93];
+   const r=rt.duel(duelInput);
+   if(leechGems.length){const ordinaryHits=r.rounds.reduce((sum,turn)=>{let castByHero=false,damage=0;for(const event of turn.events){if(event.side===0&&event.type==='cast')castByHero=true;else if(event.side===0&&event.type==='damage'&&!castByHero)damage+=event.amount??0;}return sum+damage;},0),ratio=Math.min(.32,leechGems.reduce((sum,gem)=>sum+gem.ratio,0)),healed=Math.min(stats.maxHp-r.fighters[0].hp,Math.floor(ordinaryHits*ratio));if(healed>0){r.fighters[0].hp+=healed;const event={type:'lifeSteal',side:0,amount:healed,sourceId:leechGems[0].sourceId,evidence:'VERIFIED_MOBILE_RATIO+SIMULATED_DUEL_DAMAGE_BRIDGE'};r.events.push(event);if(r.rounds.length){const turn=r.rounds.at(-1);turn.events.push(event);turn.fighters[0].hp=r.fighters[0].hp;}}}
    if(r.fighters[0].hp<=0&&towerBook?.reviveChance&&seeded((Number(seed)^Math.imul(i+1,0x9e3779b1))>>>0)()<towerBook.reviveChance){r.fighters[0].hp=Math.max(1,Math.floor(stats.maxHp*towerBook.reviveHp));r.events.push({type:'towerBookRevive',heroId:h.id,sourceId:h.towerBookSourceId,hp:r.fighters[0].hp,evidence:towerBook.runtimeEffect||'SIMULATED'});}
    h.combatVitality=Math.max(0,Math.ceil(r.fighters[0].hp));h.combatMana=Math.max(0,Math.floor(r.fighters[0].mana));h.combatUpdatedAt=now;enemy={...enemy,hp:r.fighters[1].hp,mana:r.fighters[1].mana};
    rounds.push(...r.rounds.map(x=>({...x,commanderId:h.id})));events.push(...r.events.map((x,j)=>({...x,commanderId:h.id,seq:events.length+j+1})));h.affinity=clamp((h.affinity??0)+1,0,100);

@@ -173,14 +173,33 @@ const sourceHeroStatGems=new Map([
 const sourceHeroCombatGems=new Map([
  ['7653',{trait:'followUpAttack',chance:.01}],['7654',{trait:'followUpAttack',chance:.03}],['7655',{trait:'followUpAttack',chance:.05}],
  ['7656',{trait:'counterAttack',chance:.01}],['7657',{trait:'counterAttack',chance:.03}],['7658',{trait:'counterAttack',chance:.05}],
- ['7659',{trait:'dodge',chance:.01}],['7660',{trait:'dodge',chance:.03}],['7661',{trait:'dodge',chance:.05}]
+ ['7659',{trait:'dodge',chance:.01}],['7660',{trait:'dodge',chance:.03}],['7661',{trait:'dodge',chance:.05}],
+ ['7674',{trait:'lifeSteal',ratio:.08}]
+]);
+const sourceEquipmentGems=new Map([
+ ['7639',{kind:'equipmentStatGem',stats:{magic:.50}}],
+ ['7641',{kind:'equipmentStatGem',stats:{attack:.15,magic:.15,defense:.15,resistance:.15}}],
+ ['7643',{kind:'mountSpeedGem',ratio:.25,requiredSlot:'mount',socketColor:'blue'}],
+ ['7647',{kind:'equipmentStatGem',stats:{attack:.03,magic:.03,defense:.03,resistance:.03}}],
+ ['7649',{kind:'mountSpeedGem',ratio:.25,requiredSlot:'mount',socketColor:'blue'}]
+]);
+const sourceArmyCombatGems=new Map([
+ ['7614',{effect:'counterBonus',sourceClass:'spear',targetClass:'cavalry',ratio:.05}],['7615',{effect:'counterBonus',sourceClass:'archer',targetClass:'spear',ratio:.05}],['7616',{effect:'counterBonus',sourceClass:'shield',targetClass:'archer',ratio:.05}],['7617',{effect:'counterBonus',sourceClass:'cavalry',targetClass:'shield',ratio:.05}],
+ ['7618',{effect:'counterBonus',sourceClass:'spear',targetClass:'cavalry',ratio:.10}],['7619',{effect:'counterBonus',sourceClass:'archer',targetClass:'spear',ratio:.10}],['7620',{effect:'counterBonus',sourceClass:'shield',targetClass:'archer',ratio:.10}],['7621',{effect:'counterBonus',sourceClass:'cavalry',targetClass:'shield',ratio:.10}],
+ ['7622',{effect:'criticalBonus',sourceClass:'spear',targetClass:'cavalry',ratio:.05}],['7623',{effect:'criticalBonus',sourceClass:'archer',targetClass:'spear',ratio:.05}],['7624',{effect:'criticalBonus',sourceClass:'shield',targetClass:'archer',ratio:.05}],['7625',{effect:'criticalBonus',sourceClass:'cavalry',targetClass:'shield',ratio:.05}],
+ ['7626',{effect:'criticalBonus',sourceClass:'spear',targetClass:'cavalry',ratio:.10}],['7627',{effect:'criticalBonus',sourceClass:'archer',targetClass:'spear',ratio:.10}],['7628',{effect:'criticalBonus',sourceClass:'shield',targetClass:'archer',ratio:.10}],['7629',{effect:'criticalBonus',sourceClass:'cavalry',targetClass:'shield',ratio:.10}],
+ ['7630',{effect:'firstRoundGuard',sourceClass:'shield',ratio:.05}],['7631',{effect:'firstRoundGuard',sourceClass:'shield',ratio:.10}],['7632',{effect:'firstRoundAttack',sourceClass:'archer',ratio:.05}],['7633',{effect:'firstRoundAttack',sourceClass:'archer',ratio:.10}],['7634',{effect:'classAttack',sourceClass:'cavalry',ratio:.05}],['7635',{effect:'classAttack',sourceClass:'cavalry',ratio:.10}],['7636',{effect:'firstRoundGuard',sourceClass:'shield',ratio:.25}]
 ]);
 export function sourceGearGemRule(item){
  if(!item||String(item.mobileGroup||'')!=='Nguyên liệu')return null;
  const rule=sourceHeroStatGems.get(String(item.mobileSourceId));
  if(rule)return {kind:'heroStatGem',...rule,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_HERO_STAT_GEM_ADAPTER'};
  const combat=sourceHeroCombatGems.get(String(item.mobileSourceId));
- return combat?{kind:'heroCombatGem',...combat,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_EXPECTED_DUEL_TRAIT_ADAPTER'}:null;
+ if(combat)return {kind:'heroCombatGem',...combat,sourceId:String(item.mobileSourceId),evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:combat.trait==='lifeSteal'?'SIMULATED_NORMAL_HIT_LIFESTEAL_ADAPTER':'SIMULATED_EXPECTED_DUEL_TRAIT_ADAPTER',socketColorEvidence:String(item.mobileSourceId)==='7674'?'VERIFIED_BLUE_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'};
+ const equipment=sourceEquipmentGems.get(String(item.mobileSourceId));
+ if(equipment)return {...equipment,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:equipment.kind==='mountSpeedGem'?'SIMULATED_MOUNT_GEM_MARCH_SPEED':'SIMULATED_EQUIPMENT_STAT_GEM',socketColorEvidence:equipment.socketColor?'VERIFIED_'+equipment.socketColor.toUpperCase()+'_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'};
+ const army=sourceArmyCombatGems.get(String(item.mobileSourceId));
+ return army?{kind:'armyCombatGem',...army,evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:'SIMULATED_WEIGHTED_ARMY_GEM_ADAPTER',socketColorEvidence:'UNKNOWN_COLORLESS_RUNTIME_SOCKET'}:null;
 }
 export function itemUseRule(item){
  if(!item||item.type!=='vật phẩm')return null;

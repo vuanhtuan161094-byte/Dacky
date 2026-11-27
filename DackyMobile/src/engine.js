@@ -786,6 +786,8 @@ export function quoteGearEnhancement(state,heroId,itemId){
 export function quoteGearGemSocket(state,heroId,itemId,gemId){
   const hero=state.heroes.find(row=>row.id===heroId),gear=ITEMS.find(row=>row.id===itemId),gem=ITEMS.find(row=>row.id===gemId);
   if(!hero||!gear||!Object.values(hero.equipment||{}).includes(itemId)||!gem||!(gem.mobileGroup==='Châu báu'||SOURCE_RED_GEMS.has(String(gem.mobileSourceId))||sourceGearGemRule(gem))||!state.items.includes(gemId))return null;
+  const gemRule=sourceGearGemRule(gem),gearSlot=Object.entries(hero.equipment||{}).find(([,id])=>id===itemId)?.[0];
+  if(gemRule?.requiredSlot&&gearSlot!==gemRule.requiredSlot)return {gems:hero.gearEnhancements?.[itemId]?.gems?.length??0,maxed:false,cost:{},available:false,evidence:'VERIFIED_MOBILE_SLOT_REQUIREMENT',requiredSlot:gemRule.requiredSlot};
   const gems=hero.gearEnhancements?.[itemId]?.gems||[];
   return {gems:gems.length,maxed:gems.length>=2,cost:{},available:(state.levels.foundry||0)>=1&&gems.length<2,evidence:'SIMULATED_GEM_SOCKET'};
 }
@@ -1517,10 +1519,10 @@ export function doAction(state, action, now = Date.now()) {
       const quote=quoteGearGemSocket(s,action.heroId,action.itemId,action.gemId);
       if(!quote||quote.maxed)throw Error('Trang bị hoặc ngọc không hợp lệ; mỗi món có tối đa hai lỗ ngọc.');
       if(s.queues.march)throw Error('Không khảm ngọc khi đang hành quân.');
-      if(!quote.available)throw Error((s.levels.foundry||0)<1?'Cần Huyền Thiết Lò cấp 1 để khảm ngọc.':'Không còn lỗ ngọc.');
+      if(!quote.available)throw Error(quote.evidence==='VERIFIED_MOBILE_SLOT_REQUIREMENT'?`Ngọc này chỉ khảm vào ô ${quote.requiredSlot}; chưa tiêu hao vật phẩm.`:(s.levels.foundry||0)<1?'Cần Huyền Thiết Lò cấp 1 để khảm ngọc.':'Không còn lỗ ngọc.');
       const hero=s.heroes.find(row=>row.id===action.heroId),index=s.items.indexOf(action.gemId);hero.gearEnhancements??={};hero.gearEnhancements[action.itemId]??={rank:0,gems:[]};hero.gearEnhancements[action.itemId].gems.push(action.gemId);s.items.splice(index,1);
-      const gem=ITEMS.find(row=>row.id===action.gemId),red=SOURCE_RED_GEMS.has(String(gem?.mobileSourceId)),statRule=sourceGearGemRule(gem),combatGemLabels={followUpAttack:'liên kích',counterAttack:'phản kích',dodge:'né tránh'},statLabel={attack:'công kích',magic:'đạo pháp',defense:'phòng thủ',resistance:'kháng phép'}[statRule?.stat]||statRule?.stat;
-      const effectText=statRule?.kind==='heroStatGem'?'chỉ số '+statLabel+' tăng '+Math.round(statRule.ratio*100)+'% theo adapter SIMULATED':statRule?.kind==='heroCombatGem'?combatGemLabels[statRule.trait]+' theo adapter SIMULATED':red?'hiệu ứng ngọc đội hình nối vào chiến đấu bằng adapter SIMULATED':'hiệu quả chiến đấu SIMULATED';
+      const gem=ITEMS.find(row=>row.id===action.gemId),red=SOURCE_RED_GEMS.has(String(gem?.mobileSourceId)),statRule=sourceGearGemRule(gem),combatGemLabels={followUpAttack:'liên kích',counterAttack:'phản kích',dodge:'né tránh',lifeSteal:'hút máu đòn thường'},armyEffectLabels={counterBonus:'khắc chế quân',criticalBonus:'bạo kích khắc chế',firstRoundGuard:'đỡ đòn lượt đầu',firstRoundAttack:'cường kích lượt đầu',classAttack:'tấn công binh chủng'},troopLabels={spear:'trường kích',shield:'đao thuẫn',archer:'cung binh',cavalry:'kỵ binh'},statLabel={attack:'công kích',magic:'đạo pháp',defense:'phòng thủ',resistance:'kháng phép'}[statRule?.stat]||statRule?.stat;
+      const effectText=statRule?.kind==='heroStatGem'?'chỉ số '+statLabel+' tăng '+Math.round(statRule.ratio*100)+'% theo adapter SIMULATED':statRule?.kind==='equipmentStatGem'?'chỉ số trang bị tăng theo adapter SIMULATED':statRule?.kind==='mountSpeedGem'?'tốc độ hành quân tăng '+Math.round(statRule.ratio*100)+'% theo adapter SIMULATED':statRule?.kind==='heroCombatGem'?combatGemLabels[statRule.trait]+' theo adapter SIMULATED':statRule?.kind==='armyCombatGem'?armyEffectLabels[statRule.effect]+' cho '+troopLabels[statRule.sourceClass]+' · hiệu ứng đội quân SIMULATED':red?'hiệu ứng ngọc đội hình nối vào chiến đấu bằng adapter SIMULATED':'hiệu quả chiến đấu SIMULATED';
       note(s,`Đã khảm ${gem?.name} vào ${ITEMS.find(row=>row.id===action.itemId)?.name} · ${effectText}.`);break;
     }
     case 'buyItem': {
@@ -1832,7 +1834,8 @@ export function doAction(state, action, now = Date.now()) {
       }
       for(const [id,n] of Object.entries(troops)){s.army[id]-=n;if(!s.army[id])delete s.army[id];}
       const averageSpeed=Object.entries(troops).reduce((sum,[id,n])=>sum+(TROOPS.find(t=>t.id===id)?.speed||0)*n,0)/count;
-      const marchSpeed = 1 + (s.settings.combatV13?(cityEffects(s,now).marchSpeed??0):0) + averageSpeed*.012
+      const mountGemSpeed=s.heroes.filter(h=>h.assigned).slice(0,3).reduce((sum,h)=>sum+Object.entries(h.equipment||{}).filter(([slot,id])=>slot==='mount'&&id&&(h.combatDurability?.[id]??100)>0).flatMap(([,id])=>h.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(ITEMS.find(item=>item.id===id))).filter(gem=>gem?.kind==='mountSpeedGem').reduce((n,gem)=>n+gem.ratio,0),0);
+      const marchSpeed = 1 + (s.settings.combatV13?(cityEffects(s,now).marchSpeed??0):0) + Math.min(.75,mountGemSpeed) + averageSpeed*.012
         + (s.technologies['tech-07'] || 0) * technologyRate('tech-07',0.02)
         + (s.technologies['tech-16'] || 0) * technologyRate('tech-16',0.02)
         + (s.levels.watch || 0) * 0.015;

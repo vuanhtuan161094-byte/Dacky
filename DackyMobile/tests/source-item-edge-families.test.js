@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createNewGame, doAction, migrateSave, quoteGearGemSocket, storageCapacity } from '../src/engine.js';
 import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
-import { cityEffects, itemBuff, itemUseRule, sourceGearGemRule } from '../src/gameplay-p15.js';
+import { cityEffects, claimSourceQuest, gameplayQuestList, itemBuff, itemUseRule, sourceGearGemRule } from '../src/gameplay-p15.js';
 import { getMountainBattles, pveLock, resolvePveLootItem } from '../src/pve-campaign.js';
 import { createProductCombat } from '../src/combat/product-v13.js';
 import { recruitmentPromotion } from '../src/simulated-world.js';
@@ -28,6 +28,13 @@ test('source resource bundles and boxes have bounded, non-wasteful shared handle
   assert.deepEqual(a.resources,b.resources,'the simulated outcome is deterministic for a given save and use count');
   assert.ok(!a.items.includes(box.id));
   assert.equal(itemUseRule(box).runtimeFormula,'SIMULATED_SEEDED_RESOURCE_AND_AMOUNT');
+});
+
+test('source-linked quest goods are consumed once through the ordinary quest claim flow',()=>{
+  const quest=gameplayQuestList().find(row=>row.id==='legacy-quest-51026'),state=createNewGame('Thử vật phẩm nhiệm vụ',now),item=sourceItem('7087');
+  assert.ok(quest&&item);assert.ok(quest.conditions.some(row=>row.typeCode===1));state.items.push(item.id);
+  const q=claimSourceQuest(state,quest.id,()=>({}));assert.ok(q);assert.ok(!state.items.includes(item.id));assert.ok(state.gameplay.questClaims.includes(quest.id));
+  assert.throws(()=>claimSourceQuest(state,quest.id,()=>({})),/Nhiệm vụ chưa đủ điều kiện hoặc đang HOLD/);
 });
 
 test('Thần Phù Khoa Nga demolishes a selected built plot immediately and consumes only on success',()=>{
@@ -193,6 +200,44 @@ test('nine Mobile duel-trait gems change real expected attack or incoming damage
     assert.ok(trait==='dodge'?damage(after.battle,1,0)<damage(baseline.battle,1,0):damage(after.battle,0,1)>damage(baseline.battle,0,1),`${sourceId} changes duel results through the product adapter`);
     assert.deepEqual(migrateSave(JSON.parse(JSON.stringify(enhanced)),now+1).heroes[0].gearEnhancements[gear.id].gems,[gem.id],`${sourceId} survives save reload`);
   }
+});
+
+test('23 Mobile troop counter, critical and first-round gems affect composition-weighted army battle input',()=>{
+  const combat=createProductCombat({storageCapacity}),gear=sourceItem('7232'),node=WORLD_NODES.find(row=>row.enemy?.formation?.length),sourceByClass={spear:'1000',shield:'1001',archer:'1002',cavalry:'1003'},troopClass=troop=>{const id=String(troop.mobileSourceId);if(['1000','1010','1020','1030','1040','1050'].includes(id))return 'spear';if(['1001','1011','1021','1031','1041','1051'].includes(id))return 'shield';if(['1002','1012','1022','1032','1042','1052'].includes(id))return 'archer';if(['1003','1013','1023','1033','1043','1053','1063'].includes(id))return 'cavalry';return null;};
+  const cases=[7614,7615,7616,7617,7618,7619,7620,7621,7622,7623,7624,7625,7626,7627,7628,7629,7630,7631,7632,7633,7634,7635,7636];
+  for(const sourceId of cases){
+    const state=createNewGame('Thử ngọc binh chủng',now),hero=state.heroes[0],gem=sourceItem(sourceId),rule=sourceGearGemRule(gem),ownTroop=TROOPS.find(row=>String(row.mobileSourceId)===sourceByClass[rule.sourceClass]),targetTroop=TROOPS.find(row=>troopClass(row)===rule.targetClass)||TROOPS.find(row=>String(row.mobileSourceId)==='1001');
+    assert.equal(rule?.kind,'armyCombatGem',String(sourceId));assert.ok(ownTroop&&targetTroop,`${sourceId} resolves the sourced troop classes`);
+    state.levels.foundry=1;hero.assigned=true;hero.equipment.helmet=gear.id;state.items.push(gear.id,gem.id);state.gameplay.strategic.npc[node.id]={morale:80,loyalty:100,troops:{[targetTroop.id]:100},effects:[]};
+    const base=combat.marchInput(state,{nodeId:node.id,troops:{[ownTroop.id]:100},startAt:now,seed:812}).input,socketed=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),after=combat.marchInput(socketed,{nodeId:node.id,troops:{[ownTroop.id]:100},startAt:now,seed:812}).input;
+    const channel=rule.effect==='firstRoundGuard'?'armyDefense':'armyAttack';assert.ok(after.sides[0][channel]>base.sides[0][channel],`${sourceId} changes ${channel} using the corresponding troop class`);
+    assert.ok(!socketed.items.includes(gem.id),`${sourceId} is consumed once on a successful socket`);
+  }
+});
+
+test('equipment stat and life-steal gem families alter duel inputs, healing and inventory state',()=>{
+  const combat=createProductCombat({storageCapacity}),gear=sourceItem('7232');
+  for(const sourceId of [7639,7641,7647]){
+    const state=createNewGame('Thử ngọc trang bị',now),hero=state.heroes[0],gem=sourceItem(sourceId);hero.assigned=true;hero.equipment.helmet=gear.id;state.levels.foundry=1;state.items.push(gear.id,gem.id);
+    const before=combat.commander(hero,state).commandAttack,after=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),command=combat.commander(after.heroes[0],after).commandAttack;
+    assert.ok(command>before,`${sourceId} increases the commander input`);assert.ok(!after.items.includes(gem.id));
+  }
+  const state=createNewGame('Thử hút máu',now),hero=state.heroes[0],gem=sourceItem('7674');hero.assigned=true;hero.equipment.helmet=gear.id;state.levels.foundry=1;state.items.push(gear.id,gem.id);
+  const socketed=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:gear.id,gemId:gem.id},now),maxHp=combat.commander(socketed.heroes[0],socketed).maxVitality;
+  socketed.heroes[0].combatVitality=Math.floor(maxHp*.5);
+  const result=combat.runDuel(socketed,{battleId:'leech-family',mode:'tower',seed:1,now});
+  assert.ok(result.battle.events.some(event=>event.type==='lifeSteal'&&event.amount>0),'a normal hit produces a real duel healing event');
+  assert.ok(result.state.reports[0].rounds.flatMap(round=>round.events??[]).some(event=>event.type==='lifeSteal'&&event.amount>0),'the one-time battle report preserves the actual healing');
+});
+
+test('blue mount-speed gems only socket to a mount and shorten actual march time',()=>{
+  const mount=sourceItem('7513'),gem=sourceItem('7643'),node=WORLD_NODES.find(row=>row.kind==='Dã địa'&&row.chapter===1);
+  const state=createNewGame('Thử ngọc tọa kỵ',now),hero=state.heroes[0];hero.assigned=true;hero.equipment.mount=mount.id;hero.equipment.helmet=sourceItem('7232').id;state.levels.foundry=1;state.items.push(mount.id,gem.id);
+  assert.equal(quoteGearGemSocket(state,hero.id,hero.equipment.helmet,gem.id).available,false);
+  assert.throws(()=>doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:hero.equipment.helmet,gemId:gem.id},now),/chỉ khảm vào ô mount/);
+  assert.ok(state.items.includes(gem.id),'an invalid socket keeps the material');
+  const socketed=doAction(state,{type:'socketGearGem',heroId:hero.id,itemId:mount.id,gemId:gem.id},now),plainMarch=doAction(state,{type:'march',nodeId:node.id,count:1},now),gemMarch=doAction(socketed,{type:'march',nodeId:node.id,count:1},now);
+  assert.ok(gemMarch.queues.march.finishAt<plainMarch.queues.march.finishAt);
 });
 
 test('70 verified frame and chat-bubble goods unlock once, equip by slot and persist through migration',()=>{
