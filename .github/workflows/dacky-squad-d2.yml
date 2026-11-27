@@ -24,6 +24,11 @@ jobs:
           node --check src/main.js
           node --test tests/combat-squad-d2.test.js
           npm test
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install art pack dependency
+        run: python3 -m pip install Pillow
       - name: Build actual runtime
         run: DACKY_COMBAT_PREVIEW=1 npm run build
       - name: Capture actual squad runtime and verify DOM
