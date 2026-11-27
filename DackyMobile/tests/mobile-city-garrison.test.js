@@ -4,6 +4,9 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { WORLD_NODES } from '../src/catalog.js';
+import { createNewGame, storageCapacity } from '../src/engine.js';
+import { createProductCombat } from '../src/combat/product-v13.js';
+import { TROOPS } from '../src/catalog.js';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 
@@ -42,4 +45,20 @@ test('73 Mobile city records expose five source NPC identities and troop roles w
     }
   }
   assert.equal(guards,365);
+});
+
+test('all 73 Mobile city garrisons provide their verified troop identities to real battle inputs',()=>{
+  const cities=WORLD_NODES.filter(city=>city.mobileCityId),state=createNewGame('Kiểm tra đồn trú Mobile',1_810_000_000_000),combat=createProductCombat({storageCapacity});
+  const ownTroop=TROOPS.find(row=>row.mobileSourceId==='1000');assert.ok(ownTroop);
+  for(const city of cities){
+    assert.equal(city.enemy.formationEvidence,'VERIFIED_MOBILE_IDENTITIES_SIMULATED_COUNTS',city.mobileCityId);
+    assert.equal(city.enemy.commander,city.mobileGarrison[0].name,city.mobileCityId);
+    assert.equal(city.enemy.formation.length,5,city.mobileCityId);
+    const expected=new Set(city.mobileGarrison.map(guard=>TROOPS.find(row=>row.name===guard.troopText)?.id));
+    assert.ok(!expected.has(undefined),city.mobileCityId);
+    const result=combat.marchInput(state,{nodeId:city.id,troops:{[ownTroop.id]:10},startAt:state.lastTickAt,seed:city.mobileCityId});
+    assert.equal(result.input.sides[1].name,city.mobileGarrison[0].name,city.mobileCityId);
+    assert.deepEqual(new Set(result.input.sides[1].stacks.map(stack=>stack.id)),expected,city.mobileCityId);
+    assert.ok(result.input.sides[1].stacks.every(stack=>stack.count>=1),city.mobileCityId);
+  }
 });

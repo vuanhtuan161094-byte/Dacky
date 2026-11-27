@@ -91,7 +91,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const party=q.commanderIds?q.commanderIds.map(id=>{const h=state.heroes.find(x=>x.id===id);if(!h)throw Error('COMMANDER_MISSING');return h}):assigned(state);
   const [a,...reserves]=party.map(h=>commander(h,state));
   if(a.vitality===0&&!reserves.some(x=>x.vitality>0))throw Error('EXHAUSTED');
-  const n=Number(node.id.split(/[-:]/).at(-1))||1,enemy=enemyCommander(n,node.commanderLevel,node.enemy.formation?.[0]?.commander,node.bossLoadout),battleBuff=key=>pendingBattleBuff(state,key);
+  const n=Number(node.id.split(/[-:]/).at(-1))||1,enemy=enemyCommander(n,node.commanderLevel,node.enemy.commander??node.enemy.formation?.[0]?.commander,node.bossLoadout),battleBuff=key=>pendingBattleBuff(state,key);
   a.commandAttack=clamp(a.commandAttack*(1+battleBuff('artifactPower')),0,1);
   enemy.commandAttack=clamp(enemy.commandAttack*(1-battleBuff('enemyArtifactPowerReduction')),0,1);
   if(battleBuff('enemyArtifactBlock'))enemy.equippedArtifactIds=[];

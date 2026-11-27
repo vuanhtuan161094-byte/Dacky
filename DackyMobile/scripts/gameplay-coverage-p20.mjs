@@ -1,5 +1,5 @@
 import { LEGACY_ELFLAND_LOCATIONS, LEGACY_ELFLAND_REWARD_RULES } from '../src/legacy-elfland-catalog.js';
-import { getEndgameBattles, getMountainBattles } from '../src/pve-campaign.js';
+import { getEndgameBattles, getMountainBattles, resolvePveLootItem } from '../src/pve-campaign.js';
 import { WORLD_RULE_EVIDENCE } from '../src/simulated-world.js';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {MOBILE_SOURCE_DATABASE,BUILDINGS,TECHNOLOGIES,HEROES,ITEMS,TROOPS,WORLD_NODES} from '../src/catalog.js';
@@ -26,10 +26,18 @@ summary.product = {
   mountainLocations: LEGACY_ELFLAND_LOCATIONS.length,
   mountainArmyStages: floors.length,
   mountainStagesWithFixedFormation: floors.filter(row => row.formationEvidence === 'VERIFIED_LEGACY').length,
-  mountainRewardRulesHold: LEGACY_ELFLAND_REWARD_RULES.length,
+  mountainRewardSourceRows: LEGACY_ELFLAND_REWARD_RULES.length,
   sourceStrongpoints: endgame.filter(row => row.kind === 'Thành trì NPC').length,
   sourceBossFights: endgame.filter(row => row.kind === 'Boss').length,
   localRuleEvidence: WORLD_RULE_EVIDENCE
 };
+const activeLootRows=new Set(floors.flatMap(row=>row.lootRuleCandidates.map(rule=>rule.sourceRowIndex)));
+const lootIds=new Set(floors.flatMap(row=>row.lootRuleCandidates.flatMap(rule=>rule.entries.map(entry=>String(entry.sourceItemId)))));
+summary.product.mountainRewardRowsActive=activeLootRows.size;
+summary.product.mountainRewardRowsWithoutPlayableFloor=LEGACY_ELFLAND_REWARD_RULES.length-activeLootRows.size;
+summary.product.mountainUniqueRewardIds=lootIds.size;
+summary.product.mountainRewardIdsJoined=[...lootIds].filter(id=>resolvePveLootItem(id)).length;
+summary.product.mountainRewardIdsUnlinked=[...lootIds].filter(id=>!resolvePveLootItem(id)).length;
+summary.product.unlinkedRewardFallback='SIMULATED_UNJOINED_SOURCE_ITEM_CONVERSION';
 const outputDir = process.argv[2] || 'qa/one-game';
 await mkdir(outputDir,{recursive:true});await writeFile(outputDir + '/gameplay-ledger-p31.json',JSON.stringify({summary,mobile,legacy,quests},null,2));console.log('P31_COVERAGE '+JSON.stringify(summary));if(summary.mobileRecords!==2656||summary.decodedTables!==67||summary.questConditions!==5745)process.exitCode=1;

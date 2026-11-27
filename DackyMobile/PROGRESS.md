@@ -2,6 +2,14 @@
 
 Updated 2026-11-27 · Repository `vuanhtuan161094-byte/Dacky` · active branch `feature/dacky-product-completion`
 
+## Active continuation — loot resolution and Mobile runtime identities
+
+- Every Tiên Sơn drop now resolves once: joined goods enter inventory; unknown-ID drops and joined goods blocked by a full bag convert to bounded simulated food/gold with the original source ID and provenance in the battle receipt. Current playable catalog count is 174 unlinked IDs (190 unique, 16 joined), correcting the older 179 estimate.
+- The 73 verified Mobile city garrisons now supply their source commander and five source troop identities to actual combat formations. Troop counts remain `SIMULATED` because the Mobile source notes they vary by server.
+- Runtime regression covers 482 commander profiles, 21 building quotes, 19 technology quotes across 570 levels, 25 training quotes and all 73 city battle formations. These checks establish live integration hooks; the 620 `PARTIAL_RUNTIME` labels remain until source formula and balance parity are reconciled.
+- The loot table has 1,093 raw rows: 977 attach to playable floor candidates and 116 have no matching playable level/floor in this catalog version. The active interval interpretation remains `SIMULATED_LEGACY_INTERVAL_INTERPRETATION`.
+- Focused current-worktree regression: **33/33** across the touched city, identity, item and PvE modules. Exact HEAD `51189c2` CI remains in progress; this worktree increment is not committed or covered by CI yet. Door 4 is partial and door 5 is not reached.
+
 ## Latest continuation checkpoint
 
 - Latest pushed commit `8c9d72a`; exact-head CI [46025836746](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/46025836746) passed. The current worktree also adds all nine Secret Scroll/Quan Ấn ranks and the Tết Đoan Ngọ set exchange.

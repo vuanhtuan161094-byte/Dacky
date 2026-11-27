@@ -1,5 +1,5 @@
 import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulated-world.js';
-import { getPveEncounter, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot, resolvePveLootItem } from './pve-campaign.js';
+import { getPveEncounter, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot, resolvePveLootAward } from './pve-campaign.js';
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
 import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,sourceGearGemRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,pendingBattleBuff,equipmentSlot } from './gameplay-p15.js';
@@ -873,13 +873,10 @@ function finishProductMarch(state,now,commands=null){
     }
     const drop=rollPveLoot(node,q.seed);
     if(drop){
-      const join=resolvePveLootItem(drop.itemSourceId),item=join?.item??null;
-      let granted=0,reason=null,fallbackResources=null;
-      if(item&&result.state.items.length+drop.count<=500){for(let i=0;i<drop.count;i++)result.state.items.push(item.id);granted=drop.count;}
-      else if(!item&&drop.itemSourceId)reason='SOURCE_ITEM_NOT_IN_MOBILE_CATALOG';
-      else if(item)reason='INVENTORY_FULL';
-      if(reason&&drop.count>0){const tier=Math.max(1,Math.floor((node.level||1)/10)+1);fallbackResources={food:drop.count*40*tier,gold:drop.count*25*tier};credit(result.state,fallbackResources);}
-      if(report)report.sourceLoot={...drop,itemId:item?.id??null,itemJoinEvidence:join?.itemJoinEvidence??'UNLINKED_SIMULATED_FALLBACK',granted,skippedReason:reason,fallbackResources,fallbackEvidence:fallbackResources?'SIMULATED_UNJOINED_SOURCE_ITEM_CONVERSION':null};
+      const award=resolvePveLootAward(drop,node,{inventoryCount:result.state.items.length,inventoryCapacity:500});
+      if(award?.kind==='item')for(let i=0;i<award.granted;i++)result.state.items.push(award.item.id);
+      if(award?.fallbackResources)credit(result.state,award.fallbackResources);
+      if(report)report.sourceLoot={...drop,itemId:award?.item?.id??null,itemJoinEvidence:award?.join?.itemJoinEvidence??'UNLINKED_SIMULATED_FALLBACK',granted:award?.granted??0,skippedReason:award?.reason??null,fallbackResources:award?.fallbackResources??null,fallbackEvidence:award?.fallbackEvidence??null};
     }
   }
   return result;

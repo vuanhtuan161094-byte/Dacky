@@ -55,6 +55,24 @@ export function resolvePveLootItem(sourceItemId){
   return null;
 }
 
+// Every successful source-rule roll must resolve to a concrete gameplay award.
+// Unknown legacy IDs and a full bag use an explicitly simulated resource bridge;
+// source identity and the original count stay in the receipt for provenance.
+export function resolvePveLootAward(drop,node,{inventoryCount=0,inventoryCapacity=500}={}){
+  if(!drop||!drop.itemSourceId)return null;
+  const count=Math.max(0,Math.floor(Number(drop.count)||0));
+  if(!count)return {kind:'none',granted:0,reason:'ZERO_SOURCE_COUNT',fallbackResources:null,fallbackEvidence:null};
+  const join=resolvePveLootItem(drop.itemSourceId),item=join?.item??null;
+  if(item&&Math.max(0,Number(inventoryCount)||0)+count<=Math.max(0,Number(inventoryCapacity)||0)){
+    return {kind:'item',item,join,granted:count,reason:null,fallbackResources:null,fallbackEvidence:null};
+  }
+  const reason=item?'INVENTORY_FULL':'SOURCE_ITEM_NOT_IN_MOBILE_CATALOG';
+  const tier=Math.max(1,Math.floor((Number(node?.level)||1)/10)+1);
+  return {kind:'resources',item:null,join,granted:0,reason,
+    fallbackResources:{food:count*40*tier,gold:count*25*tier},
+    fallbackEvidence:'SIMULATED_UNJOINED_SOURCE_ITEM_CONVERSION'};
+}
+
 function fixedFormation(rows) {
   return rows.filter(row => row.LeadSoldierNum > 0).map(row => {
     const unitId = legacyId(row.LeadSoldierID);

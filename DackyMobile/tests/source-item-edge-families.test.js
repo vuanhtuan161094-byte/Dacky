@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { createNewGame, doAction, migrateSave, quoteGearGemSocket, storageCapacity } from '../src/engine.js';
 import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, TROOPS, WORLD_NODES } from '../src/catalog.js';
 import { cityEffects, claimSourceQuest, gameplayQuestList, itemBuff, itemUseRule, reservedQuestItemCount, sourceGearGemRule } from '../src/gameplay-p15.js';
-import { getMountainBattles, pveLock, resolvePveLootItem } from '../src/pve-campaign.js';
+import { getMountainBattles, pveLock, resolvePveLootAward, resolvePveLootItem } from '../src/pve-campaign.js';
+import { LEGACY_ELFLAND_REWARD_RULES } from '../src/legacy-elfland-catalog.js';
 import { createProductCombat } from '../src/combat/product-v13.js';
 import { recruitmentPromotion } from '../src/simulated-world.js';
 
@@ -172,6 +173,29 @@ test('Tiên Sơn loot joins verified Mobile goods first and known legacy quest g
     assert.equal(String(joined.item.legacySourceId),id);
   }
   assert.equal(resolvePveLootItem('unmapped-drop'),null);
+});
+
+test('all unlinked Tiên Sơn loot IDs settle through a bounded, provenance-marked resource award',()=>{
+  const ids=new Set();
+  for(const row of LEGACY_ELFLAND_REWARD_RULES)for(let slot=1;slot<=10;slot++){
+    const match=String(row[`RdmInfo${slot}`]??'').match(/^(\d+)=/);
+    if(match)ids.add(match[1]);
+  }
+  const unlinked=[...ids].filter(id=>!resolvePveLootItem(id));
+  assert.equal(ids.size,190,'current playable source catalog has 190 unique reward IDs');
+  assert.equal(unlinked.length,174,'current catalog has 174 unique IDs without a Mobile or explicit legacy-good join');
+  for(const id of unlinked){
+    const award=resolvePveLootAward({itemSourceId:id,count:2},{level:30},{inventoryCount:0,inventoryCapacity:500});
+    assert.equal(award.kind,'resources',id);
+    assert.equal(award.reason,'SOURCE_ITEM_NOT_IN_MOBILE_CATALOG',id);
+    assert.equal(award.fallbackEvidence,'SIMULATED_UNJOINED_SOURCE_ITEM_CONVERSION',id);
+    assert.deepEqual(award.fallbackResources,{food:320,gold:200},id);
+  }
+  const joined=resolvePveLootAward({itemSourceId:'4501',count:2},{level:30},{inventoryCount:499,inventoryCapacity:500});
+  assert.equal(joined.kind,'resources');assert.equal(joined.reason,'INVENTORY_FULL');
+  assert.equal(joined.fallbackEvidence,'SIMULATED_UNJOINED_SOURCE_ITEM_CONVERSION');
+  assert.equal(resolvePveLootAward({itemSourceId:null,count:2},{level:30}),null);
+  assert.equal(resolvePveLootAward({itemSourceId:'4501',count:0},{level:30}).kind,'none');
 });
 
 test('source red-slot gems socket through the hero UI adapter and affect army or commander combat',()=>{
