@@ -1,0 +1,117 @@
+{
+  "schema": "dacky-asset-factory-v1",
+  "state": "r4c-fantasy-army-review-awaiting-ci",
+  "sourceRepository": "https://github.com/vuanhtuan161094-byte/Heoofgaia",
+  "sourceRef": "feature/hog1-research-to-playable-20261102",
+  "assets": [
+    {
+      "id": "skeleton",
+      "license": "MIT",
+      "author": "Chong-U Lim",
+      "source": "https://github.com/chongdashu/ai-pixel-snapped-game-sprites",
+      "cell": 256,
+      "columns": 5,
+      "rows": 2,
+      "frames": {
+        "idle": 10,
+        "walk": 10,
+        "attack": 10,
+        "hit": 10,
+        "death": 10
+      },
+      "durationMs": {
+        "idle": 1200,
+        "walk": 850,
+        "attack": 700,
+        "hit": 550,
+        "death": 1150
+      },
+      "pivotStatus": "needs Dacky visual calibration",
+      "style": "pixel; candidate for summoned unit only",
+      "runtimeMapping": "legacy-npc-1101 only (representative art)"
+    },
+    {
+      "id": "heavy-soldier",
+      "license": "CC0-1.0",
+      "author": "Kay Lousberg",
+      "source": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+      "sourceCommit": "672074b73ba276876a19e8816ecdc5241817ab47",
+      "cell": 256,
+      "columns": 8,
+      "frames": {
+        "idle": 13,
+        "walk": 13,
+        "attack": 13,
+        "hit": 8,
+        "death": 10
+      },
+      "pivot": [
+        148,
+        216
+      ],
+      "style": "western knight; candidate only; baked PNG, no rig at runtime",
+      "runtimeMapping": "legacy-npc-1021 only (representative art)"
+    }
+  ],
+  "blobs": {
+    "skeleton/idle.png": "d043b2ec69b74b3fb2734e9b06ab1949d4fd47e0",
+    "skeleton/walk.png": "bd71635756397222887e6ea76b685635091b1f2d",
+    "skeleton/attack.png": "3453841ea83f7d208019b74e7dd011eea9f1be8f",
+    "skeleton/hit.png": "15f208ca8dbdfdc26d25a4def80d56ea80b7dd4d",
+    "skeleton/death.png": "f36b3c4089369ea0d564798dc37bf4e1378a4682",
+    "skeleton/LICENSE.txt": "7ef5fe0947ac318b412655c2d7f6260f8fec787d",
+    "heavy-soldier/idle.png": "cf8bb2b7613d2005bb441812f8c69dd350cf86e7",
+    "heavy-soldier/walk.png": "3921cf61beb51f0cebb2f8df8e12477c22471c8f",
+    "heavy-soldier/attack.png": "961a8be988377e16d1edd64acbb3db3818d136b3",
+    "heavy-soldier/hit.png": "d5d456875ff2fd2f0566d2aebb55893c07a8bcbb",
+    "heavy-soldier/death.png": "0a44e3207e23f3eceab0099079088c5be3951b80",
+    "heavy-soldier/LICENSE.txt": "877e44735b5869c10e17a59e3b757905aa390626"
+  },
+  "pending": [
+    {
+      "id": "open-field",
+      "status": "R2 CI 46017685646 verified pinned background transfer and webp receipt"
+    }
+  ],
+  "vfx": {
+    "manifest": "vfx/manifest.json",
+    "atlases": 17,
+    "nonemptyFrameEntries": 286,
+    "license": "CC-BY-SA 3.0 or later per distribution; original thunderstrike CC0",
+    "status": "17 imported atlases; descriptive event mapping and strike-derived ranged visual only; no gameplay changes"
+  },
+  "preview": "preview.html",
+  "presentation": {
+    "source": "independent renderer based on existing Dacky events",
+    "npcMappings": "two legacy mappings unchanged",
+    "formation": "grounded ranks and one-shot approach/attack/return",
+    "acceptance": "R2 technical PASS; R3 pending visual/runtime"
+  },
+  "hdArmy": {
+    "source": "Heoofgaia original HG33 action atlases",
+    "sourceRef": "feature/hog1-research-to-playable-20261102",
+    "cell": [
+      192,
+      204
+    ],
+    "frameCount": 480,
+    "activeFamilies": 12,
+    "files": {
+      "human-1-atlas": "94a3d66b536370b8415aa76bd9d145c676114401",
+      "human-vanguard": "cd7483118fc41b8f76929577c0a2b995e28a3a6f",
+      "human-archer": "fbe712b8d6a73c15339d24d8882ca5ca9408b815",
+      "undead-7-atlas": "4a88e322cfb234e0ad84603716a2e420bb45962d",
+      "orc-3-atlas": "f2a90a9054a8e6593fd8cbda50bb558f991bb28b",
+      "orc-2-atlas": "7c85585208cd903e64cd6455c4825a855edbfed0",
+      "human-7-atlas": "d69c64622e421cbdc5ffbd21c45dbefe88ca6870",
+      "elf-4-atlas": "fb6eb0b43170a5eb6648e88a38d6ecd98a3ab50c",
+      "elf-8-atlas": "2a442b296b667ec0c5dfb266347ef4725d18628b",
+      "undead-skeleton": "75ab99db7d536a08d879202b915790291c0c25d0",
+      "human-priest": "e73c204c94d982528be0e2d47be7a5555d4906a0",
+      "demonlord-samurai": "a4f09320d4fa134acfea7e99d47af4f61ae64257"
+    },
+    "status": "Owner approved Western fantasy as working art; 12 representative HD families, weapon/role mapping, ordinary cavalry/siege retain native fallback. Not twelve unique Dacky troop identities.",
+    "oldNpcArt": "disabled in shared battle renderer",
+    "ownerDecision": "2026-11-27: accept Western fantasy assets; prioritize clarity and combat animation"
+  }
+}

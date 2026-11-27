@@ -1221,3 +1221,119 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .fidelity-squad-card small{font-size:10px;color:#c5c4ac;overflow-wrap:anywhere}
 .fidelity-squad-card[data-squad-status="active"]{border-color:#e7c573;background:#4a482b9c}
 .fidelity-squad-card[data-squad-status="defeated"]{border-color:#a35e51;opacity:.7}
+
+/* Asset Factory: packed atlas rectangles; battle events remain engine-owned. */
+.reuse-vfx{position:absolute;z-index:6;width:0;height:0;pointer-events:none;overflow:visible}.reuse-vfx-anchor{position:absolute;left:0;top:0;transform:scale(var(--reuse-scale));transform-origin:0 0}.reuse-vfx-anchor>i{position:absolute;display:block;background-image:var(--reuse-image);background-repeat:no-repeat;opacity:0;animation:reuse-frame calc(var(--reuse-frame)/var(--battle-speed,1)) steps(1,end) calc(var(--reuse-delay)/var(--battle-speed,1)) 1;pointer-events:none}@keyframes reuse-frame{0%{opacity:1}100%{opacity:0}}
+.reuse-npc{display:block;position:relative;width:66px;height:57px;overflow:visible}.reuse-npc-atlas{display:block;position:absolute;left:0;top:0;width:256px;height:256px;background-image:var(--reuse-unit-image);background-repeat:no-repeat;transform:scale(.29);transform-origin:0 0;animation:var(--reuse-key) calc(var(--reuse-clip)/var(--battle-speed,1)) steps(1,end) infinite}.reuse-npc{transform:translate(0,0)}.fidelity-line.enemy .reuse-npc{transform:scaleX(-1)}.fidelity-static .reuse-npc-atlas{animation:none}@media(prefers-reduced-motion:reduce){.reuse-vfx{display:none}.reuse-npc-atlas{animation:none!important}}
+@keyframes reuse-5-10{0.00000%{background-position:0px 0px}10.00000%{background-position:-256px 0px}20.00000%{background-position:-512px 0px}30.00000%{background-position:-768px 0px}40.00000%{background-position:-1024px 0px}50.00000%{background-position:0px -256px}60.00000%{background-position:-256px -256px}70.00000%{background-position:-512px -256px}80.00000%{background-position:-768px -256px}90.00000%{background-position:-1024px -256px}100%{background-position:-1024px -256px}}
+@keyframes reuse-8-13{0.00000%{background-position:0px 0px}7.69231%{background-position:-256px 0px}15.38462%{background-position:-512px 0px}23.07692%{background-position:-768px 0px}30.76923%{background-position:-1024px 0px}38.46154%{background-position:-1280px 0px}46.15385%{background-position:-1536px 0px}53.84615%{background-position:-1792px 0px}61.53846%{background-position:0px -256px}69.23077%{background-position:-256px -256px}76.92308%{background-position:-512px -256px}84.61538%{background-position:-768px -256px}92.30769%{background-position:-1024px -256px}100%{background-position:-1024px -256px}}
+@keyframes reuse-8-8{0.00000%{background-position:0px 0px}12.50000%{background-position:-256px 0px}25.00000%{background-position:-512px 0px}37.50000%{background-position:-768px 0px}50.00000%{background-position:-1024px 0px}62.50000%{background-position:-1280px 0px}75.00000%{background-position:-1536px 0px}87.50000%{background-position:-1792px 0px}100%{background-position:-1792px 0px}}
+@keyframes reuse-8-10{0.00000%{background-position:0px 0px}10.00000%{background-position:-256px 0px}20.00000%{background-position:-512px 0px}30.00000%{background-position:-768px 0px}40.00000%{background-position:-1024px 0px}50.00000%{background-position:-1280px 0px}60.00000%{background-position:-1536px 0px}70.00000%{background-position:-1792px 0px}80.00000%{background-position:0px -256px}90.00000%{background-position:-256px -256px}100%{background-position:-256px -256px}}
+
+.fidelity-ranks .reuse-npc-atlas{filter:none;z-index:auto}
+
+.reuse-credits{position:absolute;right:5px;bottom:3px;z-index:9;font:9px system-ui;color:#f5e9cc;background:#172019bd;padding:3px;max-width:90%}.reuse-credits[open]{max-height:75%;overflow:auto;background:#172019f5;padding:8px}.reuse-credits pre{white-space:pre-wrap;font:10px system-ui;max-width:360px}.reuse-credits a{color:#f5e9cc}
+
+/* ASSET FACTORY R2 — ground plane, dense ranks, event-only animation. */
+.fidelity-arena>.fidelity-ground{position:absolute;inset:0;background-size:cover;background-position:center 58%;background-repeat:no-repeat}
+.fidelity-arena:after{background:linear-gradient(180deg,#0d17152b,transparent 32%,transparent 80%,#101a1657)}
+.battlefield-landscape.fidelity-field{grid-template-columns:minmax(128px,15%) minmax(0,1fr) minmax(128px,15%)}
+.fidelity-line{top:39%;bottom:9%;width:38%;gap:10px 4px;grid-auto-rows:minmax(0,1fr)}
+.fidelity-line.ally{left:6%;--advance:clamp(16px,5.5vw,78px)}.fidelity-line.enemy{right:6%;--advance:calc(-1 * clamp(16px,5.5vw,78px))}
+.fidelity-line[data-groups="1"]{grid-template-columns:minmax(0,1fr);top:39%;bottom:12%}
+.fidelity-formation{min-height:0;align-items:end;justify-content:center}
+.fidelity-ranks{left:2%;right:2%;top:2%;bottom:16%;overflow:visible;transform:none}
+.fidelity-soldier{position:absolute;display:block;width:0;height:0;filter:drop-shadow(1px 3px 2px #1216098c)}
+.fidelity-motion{position:absolute;left:0;top:0;width:0;height:0}
+.fidelity-layer{position:absolute;bottom:0;left:0;width:0;height:0;display:block}
+.fidelity-layer[data-layer="idle"]{--sprite-image:var(--sprite-idle);--reuse-unit-image:var(--sprite-idle)}
+.fidelity-layer[data-layer="action"]{--sprite-image:var(--sprite-action);--reuse-unit-image:var(--sprite-action);opacity:0}
+.fidelity-layer[data-layer="run"]{--sprite-image:var(--sprite-run);--reuse-unit-image:var(--sprite-run);opacity:0}
+.fidelity-sprite{position:absolute;bottom:0;left:0;background-image:var(--sprite-image);background-repeat:no-repeat;transform:translateX(-50%);animation:fixed-strip calc(var(--sprite-duration) / var(--battle-speed,1)) steps(var(--sprite-frames),end) infinite}
+.fidelity-line.enemy .fidelity-sprite,.fidelity-commander.enemy .fidelity-sprite{transform:translateX(-50%) scaleX(-1)}
+@keyframes fixed-strip{from{background-position:0 0}to{background-position:var(--sprite-end) 0}}
+.fidelity-layer .reuse-npc{position:absolute;bottom:-5px;left:-33px}
+.fidelity-layer .reuse-npc-atlas{position:absolute;filter:none;z-index:auto}
+.fidelity-soldier:before{content:'';position:absolute;width:25px;height:9px;left:-12px;top:-4px;border-radius:50%;background:#131a1266;filter:blur(2px)}
+.fidelity-unit-label{bottom:1px;font-weight:600;border:1px solid #d3b48144;max-width:95%;line-height:1.2}
+.fidelity-formation[data-motion="charge"] .fidelity-motion{animation:fidelity-charge calc(1050ms / var(--battle-speed,1)) ease-in-out calc(var(--rank-delay) / var(--battle-speed,1)) both}
+.fidelity-formation[data-motion="charge"] [data-layer="idle"]{animation:fidelity-idle calc(1050ms / var(--battle-speed,1)) steps(1,end) calc(var(--rank-delay) / var(--battle-speed,1)) both}
+.fidelity-formation[data-motion="charge"] [data-layer="run"]{animation:fidelity-run calc(1050ms / var(--battle-speed,1)) steps(1,end) calc(var(--rank-delay) / var(--battle-speed,1)) both}
+.fidelity-formation[data-motion="charge"] [data-layer="action"]{animation:fidelity-action calc(1050ms / var(--battle-speed,1)) steps(1,end) calc(var(--rank-delay) / var(--battle-speed,1)) both}
+.fidelity-formation:is([data-motion="ranged"],[data-motion="hit"]) [data-layer="idle"]{animation:fidelity-idle calc(760ms / var(--battle-speed,1)) steps(1,end) calc(var(--rank-delay) / var(--battle-speed,1)) both}
+.fidelity-formation:is([data-motion="ranged"],[data-motion="hit"]) [data-layer="action"]{animation:fidelity-short-action calc(760ms / var(--battle-speed,1)) steps(1,end) calc(var(--rank-delay) / var(--battle-speed,1)) both}
+.fidelity-formation[data-motion="hit"] .fidelity-motion{animation:fidelity-recoil calc(760ms / var(--battle-speed,1)) ease-out both}
+@keyframes fidelity-charge{0%{transform:translateX(0)}29%,67%{transform:translateX(var(--advance))}100%{transform:translateX(0)}}
+@keyframes fidelity-idle{0%,99%{opacity:0}100%{opacity:1}}
+@keyframes fidelity-run{0%{opacity:1}29%{opacity:0}67%{opacity:1}100%{opacity:0}}
+@keyframes fidelity-action{0%{opacity:0}29%{opacity:1}67%,100%{opacity:0}}
+@keyframes fidelity-short-action{0%{opacity:1}85%,100%{opacity:0}}
+@keyframes fidelity-recoil{0%,100%{transform:translateX(0)}27%{transform:translateX(calc(-.16 * var(--advance)))}}
+.fidelity-commander{position:absolute;top:88%;z-index:4;width:0;height:0;filter:drop-shadow(1px 4px 2px #0a130ca0)}
+.fidelity-commander.ally{left:5%}.fidelity-commander.enemy{right:5%}
+.fidelity-commander>span:last-child:not(.fidelity-sprite){position:absolute;left:50%;top:1px;transform:translateX(-50%);font-size:9px;line-height:1.2;white-space:nowrap;background:#182218de;color:#f2d999;padding:2px 4px;border:1px solid #c3a56a66}
+.fidelity-more{position:absolute;bottom:-10px;left:0;color:#efdfb3;font-size:9px;background:#182218b0}
+.fidelity-impact{transform:translate(-50%,-65%);animation:fixed-strip calc(var(--sprite-duration) / var(--battle-speed,1)) steps(var(--sprite-frames),end) calc(var(--impact-delay)/var(--battle-speed,1)) 1 both,fidelity-impact-visibility calc(var(--sprite-duration) / var(--battle-speed,1)) steps(1,end) calc(var(--impact-delay)/var(--battle-speed,1)) 1 both}
+@keyframes fidelity-impact-visibility{0%,99%{opacity:1}100%{opacity:0}}
+.fidelity-damage{position:absolute;top:57%;z-index:8;color:#ffdfb0;font:800 clamp(15px,2.3vw,30px) Georgia,serif;text-shadow:0 2px 3px #32130a,1px 0 #6a2015;pointer-events:none;animation:fidelity-damage-rise calc(900ms / var(--battle-speed,1)) ease-out calc(240ms / var(--battle-speed,1)) both}
+.fidelity-damage.ally{left:31%}.fidelity-damage.enemy{right:31%}
+@keyframes fidelity-damage-rise{0%{opacity:0;transform:translateY(8px)}15%{opacity:1}72%{opacity:1}100%{opacity:0;transform:translateY(-35px)}}
+body.hud-ready.battle-mode:not(.startup-mode) .hud-controller{top:8px;bottom:auto;right:205px;width:max-content;pointer-events:none}
+body.hud-ready.battle-mode:not(.startup-mode) .hud-controller button,body.hud-ready.battle-mode:not(.startup-mode) .hud-menu{pointer-events:auto}
+body.hud-ready.battle-mode:not(.startup-mode) .hud-menu{top:42px;bottom:auto}
+@media(max-width:850px){body.hud-ready.battle-mode:not(.startup-mode) .hud-controller{top:3px;right:132px}.hud-controller button{min-height:29px;padding:4px 7px}}
+@media(max-width:850px){.battlefield-landscape.fidelity-field{grid-template-columns:minmax(88px,16%) minmax(0,1fr) minmax(88px,16%)}.fidelity-line{top:43%;bottom:12%;width:42%}.fidelity-line[data-groups="1"]{top:43%}.fidelity-ranks{transform:none}.fidelity-motion .fidelity-layer{transform:scale(.72);transform-origin:0 0}.fidelity-commander{display:none}.fidelity-soldier:before{width:19px;left:-9px}.fidelity-unit-label{font-size:8px}.reuse-vfx-anchor{transform:scale(calc(var(--reuse-scale)*.78))}}
+@media(max-height:480px){.fidelity-line{top:32%;bottom:14%}.fidelity-line[data-groups="1"]{top:32%;bottom:16%}.fidelity-motion .fidelity-layer{transform:scale(.62);transform-origin:0 0}.fidelity-battle-note{top:3px}.fidelity-key{bottom:3px}}
+.fidelity-static .fidelity-layer[data-layer="idle"]{opacity:1;animation:none}.fidelity-static .fidelity-motion{animation:none}
+@media(prefers-reduced-motion:reduce){.fidelity-motion,.fidelity-layer{animation:none!important}.fidelity-layer[data-layer="idle"]{opacity:1}.fidelity-layer:not([data-layer="idle"]),.fidelity-damage,.fidelity-impact{display:none}}
+
+/* R3 combat presentation polish: more arena and larger real sprite effects. */
+.replay-theater{grid-template-rows:48px minmax(0,1fr) 34px 54px}
+.replay-controls{align-items:center;gap:10px;padding:5px 12px;min-height:0}
+.replay-controls>.button{min-height:34px;height:34px;min-width:88px;width:auto;padding:5px 14px}
+.fidelity-battle-note{background:#192b219c;border:1px solid #b9a2754f;letter-spacing:.10em;font-size:10px}
+.fidelity-key{font-size:9px;background:#17201991}
+.fidelity-hero img{width:58px;height:70px}
+.fidelity-side-title{font-size:13px;letter-spacing:.15em}
+.fidelity-line[data-groups="1"]{top:36%;bottom:14%;width:37%}
+.fidelity-ranks{bottom:17%}
+.fidelity-commander{top:90%}
+.fidelity-commander.ally{left:5.5%}.fidelity-commander.enemy{right:5.5%}
+.fidelity-unit-label{background:linear-gradient(#243326dc,#111c16eb);color:#f3dfad;border-color:#bd9d5b8c;font-size:10px;padding:3px 7px}
+.fidelity-damage{color:#ffe1a4;text-shadow:0 2px 2px #4d1309,0 0 4px #592418}
+.reuse-vfx-anchor{transform:scale(var(--reuse-scale)) scaleX(var(--reuse-flip,1))}
+.reuse-vfx[data-projectile="true"]{animation:reuse-flight calc(var(--reuse-travel)/var(--battle-speed,1)) linear calc(var(--reuse-cast-delay)/var(--battle-speed,1)) both}
+@keyframes reuse-flight{0%{left:var(--reuse-origin)}100%{left:var(--reuse-target)}}
+.reuse-vfx-anchor>i{filter:drop-shadow(0 1px 2px #15181955)}
+@media(max-width:850px){.replay-theater{grid-template-rows:36px minmax(0,1fr) 29px 44px}.replay-controls{gap:5px;padding:3px}.replay-controls>.button{height:30px;min-height:30px;min-width:60px;padding:3px 7px;font-size:9px}.fidelity-hero img{width:35px;height:43px}.fidelity-line[data-groups="1"]{width:42%;top:41%;bottom:14%}.reuse-vfx-anchor{transform:scale(calc(var(--reuse-scale)*.65)) scaleX(var(--reuse-flip,1))}.fidelity-unit-label{font-size:8px;padding:2px 4px}}
+@media(max-height:480px){.replay-theater{grid-template-rows:34px minmax(0,1fr) 25px 42px}.fidelity-line[data-groups="1"]{top:31%;bottom:15%}.fidelity-battle-note{font-size:8px}.reuse-vfx-anchor{transform:scale(calc(var(--reuse-scale)*.58)) scaleX(var(--reuse-flip,1))}}
+@media(prefers-reduced-motion:reduce){.reuse-vfx[data-projectile="true"]{animation:none!important}}
+
+/* R4: original 192x204 source cels drawn at 96x102; no low-resolution enlargement. */
+.fidelity-hd-sprite{position:absolute;left:-48px;bottom:0;width:96px;height:102px;background-image:var(--sprite-image);background-repeat:no-repeat;background-size:768px 512px;background-position:0 var(--hd-y);animation:hd-army-strip calc(var(--hd-ms)/var(--battle-speed,1)) steps(8,end) infinite;image-rendering:auto}
+@keyframes hd-army-strip{from{background-position:0 var(--hd-y)}to{background-position:-768px var(--hd-y)}}
+.fidelity-line.enemy .fidelity-hd-sprite{transform:scaleX(-1)}
+.fidelity-line{width:42%;top:36%;bottom:10%;gap:4px;align-items:end}
+.fidelity-line.ally{left:6%;--advance:clamp(14px,2.2vw,34px)}.fidelity-line.enemy{right:6%;--advance:calc(-1 * clamp(14px,2.2vw,34px))}
+.fidelity-line[data-groups="1"]{width:42%;top:35%;bottom:11%}
+.fidelity-line[data-groups="2"]{grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr));top:20%;bottom:12%}
+.fidelity-ranks{left:0;right:0;top:0;bottom:13%}
+.fidelity-soldier{filter:drop-shadow(1px 2px 1px #131b1470)}
+.fidelity-soldier:before{width:33px;height:8px;left:-16px;top:-3px;filter:blur(1.5px)}
+.fidelity-commander.ally{left:14%}.fidelity-commander.enemy{right:14%}
+.fidelity-unit-label{padding:2px 5px;bottom:0}
+.fidelity-sprite{image-rendering:auto}
+.fidelity-static .fidelity-hd-sprite{animation:none}
+@media(max-width:850px){.fidelity-line,.fidelity-line[data-groups="1"]{width:43%;top:38%}.fidelity-line.ally{left:5%}.fidelity-line.enemy{right:5%}.fidelity-motion .fidelity-layer{transform:scale(.72);transform-origin:0 0}.fidelity-line[data-groups="2"]{top:17%}}
+@media(max-height:480px){.fidelity-line,.fidelity-line[data-groups="1"]{top:29%;bottom:12%}.fidelity-line[data-groups="2"]{top:15%}.fidelity-motion .fidelity-layer{transform:scale(.60);transform-origin:0 0}}
+@media(prefers-reduced-motion:reduce){.fidelity-hd-sprite{animation:none!important}}
+
+/* R4B: shared melee frontage and rear ranged support, not separate top/bottom battle rows. */
+.fidelity-line,.fidelity-line[data-groups="1"],.fidelity-line[data-groups="2"]{display:block;top:32%;bottom:12%;width:42%}
+.fidelity-line .fidelity-formation{position:absolute;inset:0;display:block;height:auto;min-height:0;pointer-events:none}
+.fidelity-line .fidelity-ranks{inset:0;overflow:visible}
+.fidelity-formation>.fidelity-unit-label{position:absolute;left:var(--label-x);top:var(--label-y);bottom:auto;transform:translateX(-50%);white-space:nowrap;z-index:90;font-size:9px;line-height:1.15}
+.fidelity-more{bottom:0;z-index:91}
+.fidelity-soldier{z-index:var(--rank-depth)}
+@media(max-width:850px){.fidelity-line,.fidelity-line[data-groups="1"],.fidelity-line[data-groups="2"]{top:35%;width:43%;bottom:12%}.fidelity-formation>.fidelity-unit-label{font-size:7px}}
+@media(max-height:480px){.fidelity-line,.fidelity-line[data-groups="1"],.fidelity-line[data-groups="2"]{top:25%;bottom:14%}}
