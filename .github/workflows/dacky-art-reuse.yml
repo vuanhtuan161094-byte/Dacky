@@ -1,0 +1,61 @@
+name: Dacky independent source asset reuse
+on:
+  push:
+    branches: [review/dacky-art-direction]
+    paths:
+      - 'DackyMobile/scripts/export-art-reuse.py'
+      - '.github/workflows/dacky-art-reuse.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: dacky-independent-art-reuse
+  cancel-in-progress: true
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install Pillow
+      - name: Export source art and animation
+        run: python DackyMobile/scripts/export-art-reuse.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: dacky-product-runtime-captures-721956bda9b616872e137273a1e260fe05c539ae
+          run-id: 45941590451
+          github-token: ${{ github.token }}
+          path: luna-captures
+        continue-on-error: true
+      - name: Prepare smaller copies of existing Luna runtime screenshots
+        run: |
+          python - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          import json
+          src=Path('luna-captures');dst=Path('DackyMobile/art-review/pack/luna-runtime');dst.mkdir(exist_ok=True)
+          rows=[]
+          for p in src.rglob('*.png'):
+              if not p.name.startswith(('normal-','desktop-developed-','desktop-initial-','focus-world','focus-inventory','focus-tech','landscape-initial-')):continue
+              im=Image.open(p).convert('RGB');im.thumbnail((1280,720))
+              name=p.stem+'.jpg';im.save(dst/name,quality=84,optimize=True)
+              rows.append({'source':str(p),'reviewFile':name,'reviewSize':list(im.size)})
+          (dst/'evidence.json').write_text(json.dumps({'lunaSha':'721956bda9b616872e137273a1e260fe05c539ae','run':45941590451,'captures':rows},indent=2))
+          print('Luna screenshots prepared:',len(rows))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dacky-source-art-reuse-pack
+          path: DackyMobile/art-review/pack/
+          if-no-files-found: error
+      - name: Commit actual GIF previews and runtime evidence to review branch only
+        run: |
+          test "$(git ls-remote origin refs/heads/review/dacky-art-direction | cut -f1)" = "$GITHUB_SHA" || { echo 'Superseded review'; exit 0; }
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -f DackyMobile/art-review/pack/combat/gifs DackyMobile/art-review/pack/summary.json DackyMobile/art-review/pack/animation-manifest.json DackyMobile/art-review/pack/asset-manifest.json DackyMobile/art-review/pack/luna-runtime
+          git diff --cached --quiet || git commit -m "review: export actual source animation GIFs and Luna runtime evidence"
+          git push origin HEAD:review/dacky-art-direction
