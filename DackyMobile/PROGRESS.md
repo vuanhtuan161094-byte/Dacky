@@ -2,14 +2,20 @@
 
 Updated 2026-11-27 · Repository `vuanhtuan161094-byte/Dacky` · active branch `feature/dacky-product-completion`
 
+## Latest continuation since `9d6fd22`
+
+- The clean-save day-720 v6 policy finished with no failed actions but did not prove a complete endgame route: doors 1–3 cleared, door 4 still has 1,834,309 source troops, door 5 not reached. See `qa/product-completion/endgame-route-720-policy-v6.json`.
+- Fixed two runtime defects found during an actual new-save flow: the floating “Giao diện” control covered the battle round button, and city construction rendering referenced its queue before initialization. Chromium now completes the 12-second Phong Thần Đàn build, recruits a second hero at normal cost, delivers manual battle orders by ordinary click and reaches the settled report with no page errors. CI browser capture now includes the build/recruit regression. The corrected real-browser gameplay recording is complete: 227 seconds at the captured 3-fps cadence, with clean save, construction, recruitment, item purchase/equip, troop training, manual artifact command, victory and report. A focused browser check reloaded the save and verified the completed altar and second hero persisted. The clip is at `qa/product-completion/gameplay-real-v1.mp4`; key screenshots are adjacent. Exact-HEAD CI is pending.
+- Preserved all pre-existing untracked compact runtime, review and screenshot files. No Combat Core or engine rewrite.
+
 ## Active continuation — shared item families and endgame route
 
 - Kept work on the existing product branch and preserved the user's untracked runtime exports, review materials, route JSON and screenshots.
 - Mobile outpost seals now prepare shared next-battle effects that alter the real army combat input, consume once, settle once and appear in battle reports. Source-linked strategic scrolls cast through the existing spell engine with a chosen hero/target, item consumption and save-persistent cooldown. Legacy spell calculations remain labeled simulated.
 - Inventory art fallbacks are labeled, hero recruitment uses bundled portraits, the active quest links to its next screen, and inventory actions explain prepared battle seals and scroll cooldowns.
 - Empty hero equipment sockets now render the bundled game frame instead of a black square.
-- The 720-day clean-save endgame policy now reserves traded resources for source progression gates, targets a larger earned army and uses owned star stones through the real star-up action. Run `v6` is still active, so no endgame clear is claimed yet.
-- Regression evidence: Node **167/167**, Python source tests **10/10**, dependency graph **1,567 nodes / 3,958 edges** with 0 cycles, impossible conditions or unknown unique references; syntax and diff checks pass. No new CI or artifact build has run for this increment yet.
+- The 720-day clean-save policy v6 is complete: no action failures, campaign and Bất Chu doors 1–3 cleared, 57 wins/57 battles, 274,504 troops trained, six troop types, eight training sites, 12 heroes, 35 distinct gear equipped and 366 technology levels. Door 4 retains 1,834,309/3,450,000 source troops; door 5 was not reached. Evidence: `qa/product-completion/endgame-route-720-policy-v6.json`. Do not claim full endgame completion.
+- Regression evidence at `9d6fd22`: Node **167/167**, Python source tests **10/10**, dependency graph **1,567 nodes / 3,958 edges** with 0 cycles, impossible conditions or unknown unique references. CI [46008465270](https://github.com/vuanhtuan161094-byte/Dacky/actions/runs/46008465270) PASS with Web/PWA/offline HTML, APK, AAB and 227 runtime screenshots. A real browser flow reached and settled manual combat with one-time rewards; follow-up changes hide the floating HUD controller during battle and need a new exact-HEAD CI run.
 - Mobile permits 4805–4807 remain unsupported because this game's city model has no foreign faction barracks. Keep this as a stated gap instead of treating a generic exchange as source parity. Other source HOLDs and device QA remain as described below.
 
 ## Latest continuation — mass gameplay completion

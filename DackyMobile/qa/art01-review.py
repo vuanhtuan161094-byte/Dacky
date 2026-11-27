@@ -131,6 +131,40 @@ with sync_playwright() as p:
                 assert page.locator('#primary-nav').is_visible()
         assert not errors,errors
         ctx.close()
+    flow=browser.new_context(viewport={"width":1280,"height":720})
+    fp=flow.new_page()
+    flow_errors=[]
+    fp.on("pageerror",lambda error: flow_errors.append(str(error)))
+    fp.goto("http://127.0.0.1:4173/",wait_until="domcontentloaded",timeout=60000)
+    fp.locator('[data-form="new-game"] button').click()
+    fp.locator(".art01-camera").wait_for()
+    fp.screenshot(path=str(out/"new-save-before-building.png"))
+    fp.locator('.city-extra-plot[data-plot="b-altar"]').click()
+    build=fp.locator('[data-action="upgradePlot"][data-plot="b-altar"][data-building="altar"]')
+    assert build.is_enabled()
+    build.click()
+    fp.wait_for_function("document.querySelector('.city-extra-plot[data-plot=\"b-altar\"]')?.dataset.buildingState==='building'",timeout=5000)
+    assert not any("Cannot access" in toast for toast in fp.locator("#toast-stack .toast").all_text_contents())
+    fp.wait_for_function("document.querySelector('.city-extra-plot[data-plot=\"b-altar\"]')?.dataset.buildingState==='built'",timeout=30000)
+    assert not flow_errors,flow_errors
+    fp.screenshot(path=str(out/"new-save-building-complete.png"))
+    fp.locator('#primary-nav [data-view="heroes"]').click()
+    fp.locator('[data-open-hero-support]').click()
+    recruit=fp.locator('[data-action="recruit"]:visible:not([disabled])').first
+    assert recruit.count()==1, "finished source-cost building should unlock ordinary hero recruitment"
+    before=fp.evaluate("async()=>{const {loadGame}=await import('./src/store.js');return (await loadGame()).heroes.length}")
+    recruit.click()
+    fp.wait_for_function("async()=>{const {loadGame}=await import('./src/store.js');return (await loadGame()).heroes.length>1}",timeout=10000)
+    assert not flow_errors,flow_errors
+    fp.screenshot(path=str(out/"new-save-hero-recruited.png"))
+    assert fp.evaluate("async()=>{const {loadGame}=await import('./src/store.js');return (await loadGame()).heroes.length}")>before
+    fp.reload(wait_until="domcontentloaded",timeout=60000)
+    fp.locator('#primary-nav [data-view="heroes"]').wait_for()
+    restored=fp.evaluate("async()=>{const {loadGame}=await import('./src/store.js');const s=await loadGame();return {heroes:s.heroes.length,altar:s.levels.altar}}")
+    assert restored["heroes"]>before and restored["altar"]>=1,restored
+    assert not flow_errors,flow_errors
+    fp.screenshot(path=str(out/"new-save-after-reload.png"))
+    flow.close()
     browser.close()
 (out/"ui-audit.json").write_text(json.dumps(ui_audit,indent=2))
 print("ART01 technical preview PASS; visual approval remains OWNER HOLD")
