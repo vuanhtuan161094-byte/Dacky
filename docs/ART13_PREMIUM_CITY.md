@@ -1,0 +1,3 @@
+# ART13 premium city
+
+Integrates exact previously delivered local ART13 assets using verified SHA-256 manifest chunks. Two layered scenery images, 27 independent runtime sprites (two extracted architecture sprites and 25 tonal treatments), jade/gilt CSS. Same free-planning 28/37 parcels and R11 engine/save. No baked UI/gameplay screenshot. Source art uses generated text-free illustrations and prior ART12 assets. Native sprite angles and texture variation still require visual review. Browser CI captures actual developed city at 1648x928 and existing desktop/mobile tests. No merge. Owner visual acceptance pending.

@@ -2,6 +2,7 @@ import { LEGACY_ELFLAND_FLOORS, LEGACY_ELFLAND_FORMATIONS, LEGACY_ELFLAND_LOCATI
 import { LEGACY_ADVANCED_FIELDS, LEGACY_ADVANCED_FIELD_BOSSES, LEGACY_STRONGPOINTS, LEGACY_STRONGPOINT_FORMATIONS } from './legacy-endgame-catalog.js';
 import { LEGACY_PVE_TROOPS } from './legacy-pve-troops.js';
 import { LEGACY_BUZHOU_FLOORS, LEGACY_BUZHOU_FORMATIONS } from './legacy-buzhou-catalog.js';
+import { ITEMS } from './catalog.js';
 
 const legacyId = id => `legacy-npc-${id}`;
 export const PVE_TROOPS = [
@@ -42,6 +43,34 @@ export function rollPveLoot(node,seed=1){
   if(!hit)return {sourceTable:rule.sourceTable,sourceRowIndex:rule.sourceRowIndex,cfgClass:rule.cfgClass,roll,randBase:rule.randBase,itemSourceId:null,count:0,evidence:'SIMULATED_LEGACY_INTERVAL_INTERPRETATION'};
   const count=rule.openMin+Math.floor(random()*(Math.max(rule.openMin,rule.openMax)-rule.openMin+1));
   return {sourceTable:rule.sourceTable,sourceRowIndex:rule.sourceRowIndex,cfgClass:rule.cfgClass,roll,randBase:rule.randBase,itemSourceId:String(hit.sourceItemId),sourceField:hit.sourceField,count,evidence:'SIMULATED_LEGACY_INTERVAL_INTERPRETATION'};
+}
+
+export function resolvePveLootItem(sourceItemId){
+  if(sourceItemId===null||sourceItemId===undefined)return null;
+  const id=String(sourceItemId);
+  const mobile=ITEMS.find(item=>String(item.mobileSourceId??'')===id);
+  if(mobile)return {item:mobile,itemJoinEvidence:'VERIFIED_MOBILE_ID'};
+  const legacy=ITEMS.find(item=>String(item.legacySourceId??'')===id);
+  if(legacy)return {item:legacy,itemJoinEvidence:'SIMULATED_LEGACY_GOOD_BRIDGE'};
+  return null;
+}
+
+// Every successful source-rule roll must resolve to a concrete gameplay award.
+// Unknown legacy IDs and a full bag use an explicitly simulated resource bridge;
+// source identity and the original count stay in the receipt for provenance.
+export function resolvePveLootAward(drop,node,{inventoryCount=0,inventoryCapacity=500}={}){
+  if(!drop||!drop.itemSourceId)return null;
+  const count=Math.max(0,Math.floor(Number(drop.count)||0));
+  if(!count)return {kind:'none',granted:0,reason:'ZERO_SOURCE_COUNT',fallbackResources:null,fallbackEvidence:null};
+  const join=resolvePveLootItem(drop.itemSourceId),item=join?.item??null;
+  if(item&&Math.max(0,Number(inventoryCount)||0)+count<=Math.max(0,Number(inventoryCapacity)||0)){
+    return {kind:'item',item,join,granted:count,reason:null,fallbackResources:null,fallbackEvidence:null};
+  }
+  const reason=item?'INVENTORY_FULL':'SOURCE_ITEM_NOT_IN_MOBILE_CATALOG';
+  const tier=Math.max(1,Math.floor((Number(node?.level)||1)/10)+1);
+  return {kind:'resources',item:null,join,granted:0,reason,
+    fallbackResources:{food:count*40*tier,gold:count*25*tier},
+    fallbackEvidence:'SIMULATED_UNJOINED_SOURCE_ITEM_CONVERSION'};
 }
 
 function fixedFormation(rows) {
@@ -179,7 +208,12 @@ export function pveLock(state, node, chapter) {
   }
   if (chapter < node.chapter) return `Cần mở chương ${node.chapter}`;
   if (node.previousId && !state.world.pveWins?.[node.previousId]) return 'Cần thắng trận trước';
-  if(node.buzhouFloor===4){const ready=countArmy(state);if(ready<25_000)return `Cần ít nhất 25.000 quân sẵn sàng · hiện có ${ready.toLocaleString('vi-VN')}`;}
-  if(node.buzhouFloor===5){const ready=countArmy(state);if(ready<100_000)return `Cần ít nhất 100.000 quân sẵn sàng · hiện có ${ready.toLocaleString('vi-VN')}`;}
+  // The roster threshold gates the first sortie. Once a source-sized siege has
+  // made real progress, let the player regroup and resume with the recovered
+  // force instead of requiring the original entry strength for every sortie.
+  const assault=node.buzhouFloor>=4?pveAssaultProgress(state,node):null;
+  const resuming=!!assault&&assault.cleared>0&&assault.remaining>0;
+  if(node.buzhouFloor===4&&!resuming){const ready=countArmy(state);if(ready<25_000)return `Cần ít nhất 25.000 quân sẵn sàng · hiện có ${ready.toLocaleString('vi-VN')}`;}
+  if(node.buzhouFloor===5&&!resuming){const ready=countArmy(state);if(ready<100_000)return `Cần ít nhất 100.000 quân sẵn sàng · hiện có ${ready.toLocaleString('vi-VN')}`;}
   return '';
 }

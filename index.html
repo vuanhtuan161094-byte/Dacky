@@ -33,6 +33,27 @@
       </main>
     </div>
     <nav class="game-dock" id="primary-nav" aria-label="Điều hướng màn hình"></nav>
+    <div class="hud-controller" id="hud-controller" aria-label="Tùy chỉnh giao diện">
+      <button type="button" class="hud-open" data-hud-action="menu" aria-label="Ẩn hiện các thanh giao diện" aria-controls="hud-menu" aria-expanded="false" title="Ẩn/hiện giao diện">☰ <span>Giao diện</span></button>
+      <button type="button" class="hud-restore" data-hud-action="focus" title="F2 · Khôi phục giao diện" aria-label="Khôi phục giao diện">◫ <span>Hiện giao diện</span></button>
+      <section class="hud-menu" id="hud-menu" hidden aria-label="Tùy chỉnh thanh giao diện">
+        <header><b>Không gian chơi</b><button type="button" data-hud-action="menu" aria-label="Đóng">×</button></header>
+        <button type="button" class="hud-focus-button" data-hud-action="focus">Toàn cảnh · F2</button>
+        <div class="hud-options">
+          <button type="button" data-hud-key="top" aria-pressed="true">Tài nguyên và thông tin</button>
+          <button type="button" data-hud-key="nav" aria-pressed="true">Menu chức năng</button>
+          <button type="button" data-hud-key="heading" aria-pressed="true">Tiêu đề màn hình</button>
+          <button type="button" data-hud-key="status" aria-pressed="true">Trạng thái và lưu game</button>
+          <button type="button" data-hud-key="cityToolbar" data-hud-scope="city" aria-pressed="true">Thanh nội / ngoại thành</button>
+          <button type="button" data-hud-key="cityCommands" data-hud-scope="city" aria-pressed="true">Điều lệnh và nhiệm vụ</button>
+          <button type="button" data-hud-key="cityTools" data-hud-scope="city" aria-pressed="true">Điều khiển bản đồ</button>
+          <button type="button" data-hud-key="cityLabels" data-hud-scope="city" aria-pressed="true">Tên và cấp công trình</button>
+          <button type="button" data-hud-key="battleHeader" data-hud-scope="battle" aria-pressed="true">Thông tin chiến trận</button>
+          <button type="button" data-hud-key="battleControls" data-hud-scope="battle" aria-pressed="true">Lệnh chiến đấu</button>
+        </div>
+        <button type="button" data-hud-action="reset" class="hud-reset">Hiện lại tất cả</button>
+      </section>
+    </div>
     <div class="toast-stack" id="toast-stack" aria-live="assertive"></div>
     <div class="modal-root" id="modal-root"></div>
     <footer class="app-footer"><span>Đắc Kỷ · Mưu Định Phong Thần</span><span>V1.0 · Offline · Dữ liệu mô phỏng minh bạch</span></footer>

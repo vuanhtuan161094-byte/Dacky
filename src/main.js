@@ -1,13 +1,37 @@
-import { activeQuest, advance, createNewGame, doAction } from './engine.js';
+import { cityPlotZone, cityPrimarySite, activeQuest, advance, createNewGame, doAction, TUTORIAL_STEPS } from './engine.js';
 import { QUESTS } from './catalog.js';
 import { exportSave, importSaveFile, loadGame, saveGame } from './store.js';
-import { NAV, renderScreen, renderShell, renderStartup, showBattleReplay, showDialog, showToast, updateClock } from './ui.js';
+import { CITY_OUTER_IDS, NAV, renderScreen, renderShell, renderStartup, showBattleReplay, showDialog, showToast, updateClock } from './ui.js';
 
 let game = null;
 let activeView = 'city';
 let dirty = false;
 let busy = false;
-const uiState = { chapter: 1, nodeId: 'node-001', combatMode: 'auto' };
+const uiState = { chapter: 1, nodeId: 'node-001', combatMode: 'auto', cityOverview:true };
+const HUD_KEYS=['top','nav','heading','status','cityToolbar','cityCommands','cityTools','cityLabels','battleHeader','battleControls'];
+const HUD_STORAGE='dacky-hud-v1:'+location.pathname.replace(/index\.html$/,'').replace(/offline\.html$/,'');
+let hudPrefs=Object.fromEntries(HUD_KEYS.map(k=>[k,true])),hudFocus=false,hudMenuOpen=false;
+try{const saved=JSON.parse(localStorage.getItem(HUD_STORAGE)||'{}');for(const k of HUD_KEYS)if(typeof saved[k]==='boolean')hudPrefs[k]=saved[k];}catch{}
+function applyHud(){
+  document.body.classList.toggle('hud-ready',Boolean(game));
+  document.body.classList.toggle('hud-focus',hudFocus);
+  for(const k of HUD_KEYS)document.body.classList.toggle('hud-hide-'+k,hudFocus||!hudPrefs[k]);
+  const panel=document.querySelector('#hud-menu'),trigger=document.querySelector('.hud-open');
+  if(panel)panel.hidden=!hudMenuOpen;
+  trigger?.setAttribute('aria-expanded',String(hudMenuOpen));
+  document.querySelectorAll('[data-hud-key]').forEach(el=>el.setAttribute('aria-pressed',String(hudPrefs[el.dataset.hudKey]&&!hudFocus)));
+  const focusButton=document.querySelector('.hud-focus-button');
+  if(focusButton)focusButton.textContent=hudFocus?'Thoát toàn cảnh · F2':'Toàn cảnh · F2';
+}
+function setHud(action,key){
+  if(action==='menu')hudMenuOpen=!hudMenuOpen;
+  else if(action==='focus'){hudFocus=!hudFocus;hudMenuOpen=false;}
+  else if(action==='reset'){for(const k of HUD_KEYS)hudPrefs[k]=true;hudFocus=false;hudMenuOpen=false;}
+  else if(action==='toggle'&&HUD_KEYS.includes(key)){hudFocus=false;hudPrefs[key]=!hudPrefs[key];}
+  try{localStorage.setItem(HUD_STORAGE,JSON.stringify(hudPrefs));}catch{}
+  applyHud();
+}
+
 const validViews = new Set(NAV.map(x=>x[0]));
 const fmtFileDate = () => new Date().toISOString().slice(0,10);
 const soundAsset = path => globalThis.__DACKY_EMBEDDED_ASSETS__?.[path] || path;
@@ -64,12 +88,14 @@ function setView(view, updateHash=true) {
   activeView = view;
   document.body.classList.remove('startup-mode');
   if (updateHash) history.replaceState(null,'',`#${view}`);
+  applyHud();
   renderScreen(game, activeView, uiState);
+  applyHud();
 }
 
 function renderCurrent() {
-  if (game) { renderScreen(game, activeView, uiState); syncBattleMusic(); }
-  else renderStartup();
+  if (game) { applyHud();renderScreen(game, activeView, uiState);applyHud();syncBattleMusic(); }
+  else {renderStartup();applyHud();}
 }
 
 function markChanged(message) {
@@ -131,6 +157,11 @@ async function initialize() {
 }
 
 document.body.addEventListener('click', async event => {
+  const hudButton=event.target.closest('[data-hud-action],[data-hud-key]');
+  if(hudButton){setHud(hudButton.dataset.hudAction||'toggle',hudButton.dataset.hudKey);return;}
+  if(hudMenuOpen&&!event.target.closest('#hud-controller')){hudMenuOpen=false;applyHud();}
+  if(cityDragSuppress&&event.target.closest('.art01-camera')){event.preventDefault();return;}
+  if(event.target.closest('.art01-camera')&&!event.target.closest('button')&&(uiState.cityBuildingId||uiState.cityPlotId)){uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;}
   const heroSupportSummary=event.target.closest('.hero-support-drawer > summary');
   if(heroSupportSummary)uiState.heroSupportOpen=!heroSupportSummary.parentElement.open;
   const heroChoice=event.target.closest('[data-select-hero]');
@@ -166,21 +197,50 @@ document.body.addEventListener('click', async event => {
     case 'mapZoomIn': uiState.mapZoom=Math.min(2,(Number(uiState.mapZoom)||1)+.15);renderCurrent();return;
     case 'mapZoomOut': uiState.mapZoom=Math.max(.82,(Number(uiState.mapZoom)||1)-.15);renderCurrent();return;
     case 'mapReset': uiState.mapZoom=1;uiState.mapPanX=0;uiState.mapPanY=0;renderCurrent();return;
+    case 'cityPlotSelect': {const id=button.dataset.plot,zone=cityPlotZone(id);if(!zone)return;if((uiState.cityZone||'inner')!==zone){uiState.cityZone=zone;uiState.cityResetCamera=true;}uiState.cityBuildingId=null;uiState.cityPlotId=id;uiState.cityDirectoryOpen=false;renderCurrent();return;}
+    case 'citySelect': uiState.cityPlotId=null;uiState.cityBuildingId=button.dataset.building;uiState.cityDirectoryOpen=false;renderCurrent();return;
+    case 'cityZone': {const zone=button.dataset.zone==='outer'?'outer':'inner';if(uiState.cityZone===zone)return;uiState.cityZone=zone;uiState.cityBuildingId=null;uiState.cityPlotId=null;uiState.cityDirectoryOpen=false;uiState.cityResetCamera=true;renderCurrent();return;}
+    case 'cityLocate': {
+      const zone=CITY_OUTER_IDS.includes(button.dataset.building)?'outer':'inner';if((uiState.cityZone||'inner')!==zone){uiState.cityZone=zone;uiState.cityResetCamera=true;}
+      const id=button.dataset.building,site=cityPrimarySite(game,id);
+      if(!site&&!['citadel','wall'].includes(id)){showToast('Không còn ô đất trống phù hợp.','warning');return;}
+      uiState.cityPlotId=site;uiState.cityBuildingId=site?null:id;uiState.cityDirectoryOpen=false;renderCurrent();
+      const camera=document.querySelector('.art01-camera'),marker=Array.from(camera?.querySelectorAll('.city-building')||[]).find(el=>site?el.dataset.plot===site:el.dataset.building===id);
+      if(camera&&marker){const a=camera.getBoundingClientRect(),b=marker.getBoundingClientRect();camera.scrollLeft+=b.left+b.width/2-a.left-a.width/2;camera.scrollTop+=b.top+b.height/2-a.top-a.height/2;}
+      return;
+    }
+    case 'cityDirectory': uiState.cityDirectoryOpen=!uiState.cityDirectoryOpen;uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;
+    case 'cityGuide': {
+      const guide=TUTORIAL_STEPS[game.tutorialStep],view={research:'tech',recruit:'heroes',equip:'inventory',train:'army',march:'world'}[guide?.action]||'quests';
+      if(guide?.action==='march')uiState.nodeId=guide.data.nodeId;
+      setView(view);return;
+    }
+    case 'cityClose': uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;
+    case 'cityZoom': uiState.cityOverview=!uiState.cityOverview;renderCurrent();{const camera=document.querySelector('.art01-camera');if(camera){camera.scrollLeft=(camera.scrollWidth-camera.clientWidth)/2;camera.scrollTop=(camera.scrollHeight-camera.clientHeight)/2;}}return;
+    case 'cityCenter': {const camera=document.querySelector('.art01-camera');if(camera){camera.scrollLeft=(camera.scrollWidth-camera.clientWidth)/2;camera.scrollTop=(camera.scrollHeight-camera.clientHeight)/2;}}return;
+    case 'demolishPlot': if(window.confirm('Phá dỡ công trình này? Không hoàn trả tài nguyên; sức chứa và sản lượng có thể giảm.'))return perform('demolishPlot',{plotId:button.dataset.plot});return;
+    case 'upgradePlot': return perform('upgradePlot',{plotId:button.dataset.plot,buildingId:button.dataset.building});
     case 'upgrade': return perform('upgrade',{buildingId:button.dataset.building});
     case 'upgradeCity': return perform('upgradeCity',{cityId:button.dataset.city});
     case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
     case 'redeemQuestVouchers': return perform('redeemQuestVouchers',{count:button.dataset.count||1});
-    case 'train': return perform('train',{troopId:document.querySelector('#train-unit')?.value||button.dataset.troop,count:document.querySelector('#train-count')?.value||button.dataset.count});
+    case 'setCosmetic': return perform('setCosmetic',{slot:button.dataset.slot,itemId:document.querySelector('[data-cosmetic="'+button.dataset.slot+'"]')?.value||null});
+    case 'train': return perform('train',{troopId:document.querySelector('#train-unit')?.value||button.dataset.troop,count:document.querySelector('#train-count')?.value||button.dataset.count,barracksId:document.querySelector('#train-barracks')?.value||undefined});
     case 'trainHero': return perform('trainHero',{heroId:button.dataset.hero});
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
     case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero});
-    case 'useItem': return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index)});
+    case 'useItem': {
+      if(button.dataset.kind==='demolishPlot'&&!window.confirm('Phá dỡ công trình này ngay? Vật phẩm sẽ mất và không hoàn trả tài nguyên.'))return;
+      return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index),heroId:document.querySelector('[data-item-target="'+button.dataset.item+'"]')?.value,plotId:document.querySelector('[data-item-plot="'+button.dataset.item+'"]')?.value,name:document.querySelector('[data-item-name="'+button.dataset.item+'"]')?.value,flag:document.querySelector('[data-item-flag="'+button.dataset.item+'"]')?.value,mountainId:document.querySelector('[data-item-mountain="'+button.dataset.item+'"]')?.value,nodeId:document.querySelector('[data-item-node="'+button.dataset.item+'"]')?.value});
+    }
+    case 'exchangeItem': return perform('exchangeItem',{itemId:button.dataset.item});
     case 'buyItem': return perform('buyItem',{itemId:button.dataset.item,count:button.dataset.count||document.querySelector(`[data-buy-count="${button.dataset.item}"]`)?.value||1});
     case 'buyArtifact': return perform('buyArtifact',{itemId:button.dataset.item});
     case 'forge': return perform('forge',{itemId:button.dataset.item});
-    case 'enhanceGear': return perform('enhanceGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
-    case 'socketGearGem': return perform('socketGearGem',{heroId:button.dataset.hero,itemId:button.dataset.item,gemId:button.dataset.gem});
+    case 'enhanceGear': return perform('enhanceGear',{heroId:button.dataset.hero,itemId:button.dataset.item,protectionItemId:document.querySelector('[data-gear-enhance-protection="'+button.dataset.hero+':'+button.dataset.item+'"]')?.value||null});
+    case 'starUpGear': return perform('starUpGear',{heroId:button.dataset.hero,itemId:button.dataset.item});
+    case 'socketGearGem': return perform('socketGearGem',{heroId:button.dataset.hero,itemId:button.dataset.item,gemId:document.querySelector('[data-gem-select="'+button.dataset.hero+':'+button.dataset.item+'"]')?.value||button.dataset.gem,protectionItemId:document.querySelector('[data-gear-socket-protection="'+button.dataset.hero+':'+button.dataset.item+'"]')?.value||null});
     case 'sellItem': return perform('sellItem',{itemId:button.dataset.item});
     case 'research': return perform('research',{techId:button.dataset.tech});
     case 'scout': return perform('scout',{nodeId:button.dataset.node||uiState.nodeId});
@@ -242,6 +302,33 @@ document.body.addEventListener('click', async event => {
   }
 });
 
+let cityDrag=null,cityDragSuppress=false;
+document.body.addEventListener('pointerdown',event=>{
+  const camera=event.target.closest('.art01-camera');
+  if(!camera||event.pointerType!=='mouse'||event.button!==0)return;
+  cityDragSuppress=false;
+  cityDrag={id:event.pointerId,camera,x:event.clientX,y:event.clientY,left:camera.scrollLeft,top:camera.scrollTop,moved:false};
+});
+document.body.addEventListener('pointermove',event=>{
+  if(!cityDrag||cityDrag.id!==event.pointerId)return;
+  if(!cityDrag.camera.isConnected){cityDrag=null;return;}
+  const dx=event.clientX-cityDrag.x,dy=event.clientY-cityDrag.y;
+  if(!cityDrag.moved&&Math.hypot(dx,dy)<6)return;
+  if(!cityDrag.moved){cityDrag.moved=true;cityDrag.camera.classList.add('is-panning');try{cityDrag.camera.setPointerCapture(event.pointerId);}catch{}}
+  event.preventDefault();cityDrag.camera.scrollLeft=cityDrag.left-dx;cityDrag.camera.scrollTop=cityDrag.top-dy;
+});
+const endCityDrag=event=>{if(!cityDrag||cityDrag.id!==event.pointerId)return;cityDrag.camera.classList.remove('is-panning');if(cityDrag.moved){cityDragSuppress=true;setTimeout(()=>{cityDragSuppress=false;},150);}cityDrag=null;};
+document.body.addEventListener('pointerup',endCityDrag);document.body.addEventListener('pointercancel',endCityDrag);
+document.body.addEventListener('keydown',event=>{
+ if(!game)return;
+ if(event.key==='F2'&&!event.repeat){event.preventDefault();setHud('focus');return;}
+ if(event.key==='Escape'&&hudMenuOpen){hudMenuOpen=false;applyHud();return;}
+ if(event.key==='Escape'&&hudFocus){setHud('focus');return;}
+ if(event.key!=='Escape'||activeView!=='city')return;
+ const drawer=document.querySelector('.city-management-drawer');
+ if(drawer?.open){drawer.open=false;uiState.cityManagementOpen=false;return;}
+ if(uiState.cityBuildingId||uiState.cityPlotId||uiState.cityDirectoryOpen){uiState.cityBuildingId=null;uiState.cityPlotId=null;uiState.cityDirectoryOpen=false;renderCurrent();}
+});
 let worldDrag=null;
 document.body.addEventListener('pointerdown',event=>{
   const viewport=event.target.closest('[data-world-map]');

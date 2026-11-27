@@ -1,0 +1,3 @@
+# ART01 R9B — exact runtime regression repair
+
+R9A CI 45847124030 exact SHA bdf66dc7: 129/129 Node tests PASS, build PASS (27 normalized sprites, two terrain scenes, offline HTML), browser FAIL at qa/art01-review.py:27: nav remains visible when hidden. Root cause: legacy #primary-nav.game-dock{display:flex!important} overrides lower-specificity body.hud-hide-nav .game-dock{display:none!important}. Fixed exact selector and startup nav visibility. Preserve approved R9A art/layout. Capture both city scenes before HUD checks to retain actual screenshots even if subsequent interaction assertions fail. No other screen redesign, no engine/save changes, no merge. Await exact-SHA CI before next art change.

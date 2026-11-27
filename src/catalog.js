@@ -360,6 +360,23 @@ function generatedNpcForce(index,chapter,kind,power){
   const element=kind==='Boss chiến dịch'?'fire':npcElements[(index+chapter)%npcElements.length];
   return {commander,element,tactic:{id:tacticId,name:npcTactics[tacticId]},formation};
 }
+function applyMobileCityGarrison(node){
+  const guards=node.mobileGarrison??[];
+  if(!node.mobileCityId||guards.length!==5)return node;
+  const sourceUnits=guards.map(guard=>({guard,unit:TROOPS.find(row=>row.mobileSourceId&&row.name===guard.troopText)}));
+  if(sourceUnits.some(row=>!row.unit))return node;
+  const oldTotal=(node.enemy?.formation??[]).reduce((sum,row)=>sum+Math.max(0,Number(row.count)||0),0);
+  const total=Math.max(sourceUnits.length,oldTotal),extra=total-sourceUnits.length;
+  const weights=sourceUnits.map(({guard})=>Math.max(1,Number(guard.rank)||1)),weightTotal=weights.reduce((sum,row)=>sum+row,0);
+  const allocations=sourceUnits.map((entry,index)=>{
+    const exact=extra*weights[index]/weightTotal,whole=Math.floor(exact);
+    return {...entry,count:1+whole,remainder:exact-whole};
+  });
+  let left=total-allocations.reduce((sum,row)=>sum+row.count,0);
+  for(const row of [...allocations].sort((a,b)=>b.remainder-a.remainder))if(left-->0)row.count++;
+  return {...node,enemy:{...node.enemy,commander:guards[0].name,formationEvidence:'VERIFIED_MOBILE_IDENTITIES_SIMULATED_COUNTS',
+    formation:allocations.map(({guard,unit,count})=>({unitId:unit.id,count,commander:guard.name,sourceTroopText:guard.troopText,sourceRank:guard.rank,evidence:'MIXED'}))}};
+}
 export const WORLD_NODES = Object.freeze(adaptSourceFacts('worldNodes', Array.from({ length: 120 }, (_, i) => {
   const chapterIndex=Math.floor(i/15);
   const localIndex=i%15;
@@ -380,7 +397,7 @@ export const WORLD_NODES = Object.freeze(adaptSourceFacts('worldNodes', Array.fr
     mobileImage: '', mobileWallLevel: null, mobileOfficialLevel: null, mobileCoordinates: null, mobileGarrison: [], mobileGarrisonNote: null, sourceFieldStatus: 'UNKNOWN' };
 })).map(node=>{
   const reference=legacyCityGarrisonByMobileId.get(node.mobileCityId);
-  return {...node,legacyGarrison:reference?.guards||[],legacyGarrisonCoordinateKey:reference?.coordinateKey||null};
+  return applyMobileCityGarrison({...node,legacyGarrison:reference?.guards||[],legacyGarrisonCoordinateKey:reference?.coordinateKey||null});
 }));
 
 const mountainPrefixes=['Thanh Vân','Tử Tiêu','Huyền Đô','Thái Hư','Bồng Lai','Phương Trượng','Doanh Châu','Côn Lôn','Ngọc Hư','Linh Đài','Vạn Thọ','Tụ Tiên','Thục Sơn','Nga Mi','Thái Hành','Kinh Hoa','Lạc Già','Bắc Minh','Nam Hoa','Bạch Vân','Thanh Thành','La Phù','Chung Nam','Tiểu Hàn'];

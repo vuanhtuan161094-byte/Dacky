@@ -1,0 +1,207 @@
+{
+  "sourceCommit": "81d2bc596ffc07f04d02f8fd0212953494378c72",
+  "rightsBasis": "OWNER_ATTESTED; see docs/PRODUCTION_POLICY.md; not independent license verification",
+  "trackedFiles": 2363,
+  "groups": {
+    "art01-city-ground.svg": {
+      "files": 1,
+      "bytes": 70753
+    },
+    "buildings/tuvithanh.webp": {
+      "files": 1,
+      "bytes": 69712
+    },
+    "city-panorama.jpg": {
+      "files": 1,
+      "bytes": 210824
+    },
+    "city-panorama.svg": {
+      "files": 1,
+      "bytes": 4258
+    },
+    "crest.svg": {
+      "files": 1,
+      "bytes": 1081
+    },
+    "heroes-atlas.svg": {
+      "files": 1,
+      "bytes": 4713
+    },
+    "mobile-source-manifest.json": {
+      "files": 1,
+      "bytes": 615036
+    },
+    "mobile-source/assets": {
+      "files": 2189,
+      "bytes": 11777076
+    },
+    "mobile-source/flash": {
+      "files": 20,
+      "bytes": 1396673
+    },
+    "portraits/jiang-zia.webp": {
+      "files": 1,
+      "bytes": 184080
+    },
+    "portraits/na-tra.webp": {
+      "files": 1,
+      "bytes": 173900
+    },
+    "visual-art-manifest.json": {
+      "files": 1,
+      "bytes": 74675
+    },
+    "visual/assets": {
+      "files": 143,
+      "bytes": 5799212
+    },
+    "visual/flash": {
+      "files": 1,
+      "bytes": 247232
+    }
+  },
+  "cityCandidates": [
+    {
+      "path": "assets/art01-city-ground.svg",
+      "bytes": 70753,
+      "gitBlob": "506e31dc327c7da1a8673f1fb955d6b64bd91021"
+    },
+    {
+      "path": "assets/buildings/tuvithanh.webp",
+      "bytes": 69712,
+      "gitBlob": "ef72ca241b7f7d85ea15b93b3eaf079ed2cf6451"
+    },
+    {
+      "path": "assets/city-panorama.jpg",
+      "bytes": 210824,
+      "gitBlob": "7d8f02054524108549ab5559f702e326743af230"
+    },
+    {
+      "path": "assets/city-panorama.svg",
+      "bytes": 4258,
+      "gitBlob": "58b0966ce2e61ed66340af51f57797b48740f0a0"
+    },
+    {
+      "path": "assets/mobile-source/assets/map-ng/thanh/map00401.webp",
+      "bytes": 62798,
+      "gitBlob": "8417a83efebf71e40e3f3c18ca7d281e8ce02e0c"
+    },
+    {
+      "path": "assets/mobile-source/assets/map-ng/thanh/map005.webp",
+      "bytes": 62180,
+      "gitBlob": "5a4fb133ca452c7ff27fee9d1f693c9984890aef"
+    },
+    {
+      "path": "assets/mobile-source/assets/map-ng/thanh/map008.webp",
+      "bytes": 117654,
+      "gitBlob": "ed0d9972477fb72885afce15c5c3bb879a819f57"
+    },
+    {
+      "path": "assets/mobile-source/assets/map-ng/thanh/map00901.webp",
+      "bytes": 194446,
+      "gitBlob": "5b4b00a01075ae73318dda4d1101c8f54e8a56dd"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_ARTISANWORKSHOP_IMAGE.png",
+      "bytes": 68654,
+      "gitBlob": "c12f049a291ccdb7ade489445da149d9b27d4af2"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_BARBACK_IMAGE.png",
+      "bytes": 80892,
+      "gitBlob": "ccb3efdb260e575ed85e4f6fb77334e0b287caa8"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_CALLHERO_IMAGE.png",
+      "bytes": 77202,
+      "gitBlob": "f5956fd6f7d4643b2a43f11ef482a014e3a35da8"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_CROPLAND_IMAGE.png",
+      "bytes": 35686,
+      "gitBlob": "88358d3196f45b0361fbfd595c886011ae808cc7"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_DAK_IMAGE.png",
+      "bytes": 64569,
+      "gitBlob": "aa2e09347b654200255292143c1334dfa96b5284"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_FSMARKET_IMAGE.png",
+      "bytes": 68564,
+      "gitBlob": "846c6140b1a1b0b51a4deaa92d5365e4d3af7ca1"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_GOVERNMENT_IMAGE.png",
+      "bytes": 200535,
+      "gitBlob": "9996698ba669d4515a966c804bc3ee4b9f026b42"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_GYMKHANA_IMAGE.png",
+      "bytes": 65863,
+      "gitBlob": "720930d488ddbbbc770801b62e55c5dcf7426661"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_HONGLUTEMPLE_IMAGE.png",
+      "bytes": 61738,
+      "gitBlob": "6a9b9f57ed243ac82c53f36a99e1c30f0f5eb7ed"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_HORSESTALL_IMAGE.png",
+      "bytes": 73328,
+      "gitBlob": "4b914a40b254cd01bdbb5f36a5161a2f33540970"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_HOSPITAL_IMAGE.png",
+      "bytes": 48384,
+      "gitBlob": "79b978a30a82ece204c736f557cca0f01d6d3697"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_HOSTEL_IMAGE.png",
+      "bytes": 80194,
+      "gitBlob": "8d36de4f7bdcd54c597a3409af15f41a6d1c1d5f"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_HOUSE_IMAGE.png",
+      "bytes": 64663,
+      "gitBlob": "db5b0682344b136279ec768a9374ed35f131cdbb"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_IRONOREFIELD_IMAGE.png",
+      "bytes": 35481,
+      "gitBlob": "6dc52957c76d9867240e7eed7a5e32a7d2539fa9"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_IRONSMITH_IMAGE.png",
+      "bytes": 67041,
+      "gitBlob": "e6d93bb397cb0a69af29bbee3472c1e0cd80835c"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_LUMBERYARD_IMAGE.png",
+      "bytes": 44800,
+      "gitBlob": "a98f4e521c27b49605f77dc38d436a4c20b2b232"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_QUARRY_IMAGE.png",
+      "bytes": 42828,
+      "gitBlob": "d90c95207426e85cd122fd21493c18d8b2746b30"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_SCHOOL_IMAGE.png",
+      "bytes": 76163,
+      "gitBlob": "bc0e0ce192abbded5080b906bd448cedec282515"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_SkirmisherBarrack_IMAGE.png",
+      "bytes": 70157,
+      "gitBlob": "11ab6191fb39d4c3ba7209a5530817d1bf3421ee"
+    },
+    {
+      "path": "assets/mobile-source/flash/city/RES_WARFLAMESTAGE_IMAGE.png",
+      "bytes": 69931,
+      "gitBlob": "1c9168c9055aa9c4ac4c303473294809774ba179"
+    }
+  ],
+  "art13Pack": "art-source/art13/part-01.txt through part-08.txt: build-time installer verifies exact hashes",
+  "selectionPolicy": "Retain exact ART13 art; candidate files require actual visual comparison before use. No procedural replacement."
+}

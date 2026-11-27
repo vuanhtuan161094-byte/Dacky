@@ -1,4 +1,7 @@
 {
-  "sourceCommit": "af6034b0252264e6103f20bb7dc92a801d260f0d",
-  "integrationBranch": "integration/dacky-one-game-v1"
+  "sourceCommit": "60fb7ecae64e5b792d6b357bde505b74f30a1c39",
+  "sourceBranch": "feature/dacky-product-completion",
+  "ciRun": 46043637368,
+  "product": "Dacky ONE GAME",
+  "release": "V1.0 candidate"
 }

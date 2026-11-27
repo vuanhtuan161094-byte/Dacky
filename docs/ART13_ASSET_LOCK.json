@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "assetLock": "ART13",
+  "baselineCommit": "41455f6c1888b981a5a2351654fbc7c1e056cfd4",
+  "rightsBasis": "OWNER_ATTESTED; see docs/PRODUCTION_POLICY.md; not independent license verification",
+  "sourcePack": {
+    "format": "DACKY_ART13_ASSET_PACK_V1",
+    "decodedRecordCount": 30,
+    "textBytes": 3118531,
+    "textSha256": "7cc2f212e2fc8df3f776ded3e019aded1f6d17dd70ff095bf0b91c890839d3a1",
+    "parts": [
+      {
+        "path": "art-source/art13/part-01.txt",
+        "bytes": 405834,
+        "sha256": "5a2f3f2c3b86e51dadc95226c48cbbcfb76be6d9a02420528f37953ef63073c8"
+      },
+      {
+        "path": "art-source/art13/part-02.txt",
+        "bytes": 409800,
+        "sha256": "ad7cbb86e1ee7cc267b00bc140f686258765bc6e500a3cdc993fdba031bc8cb5"
+      },
+      {
+        "path": "art-source/art13/part-03.txt",
+        "bytes": 407831,
+        "sha256": "bb9f09768acc833381a855cce3789b3ecd8215b8178bb35bd6fbc17dddce6f4b"
+      },
+      {
+        "path": "art-source/art13/part-04.txt",
+        "bytes": 409800,
+        "sha256": "874480564668af5cc7bd391ed770b86d6788e5ee5e8cd4d7559af2513623dfe9"
+      },
+      {
+        "path": "art-source/art13/part-05.txt",
+        "bytes": 409800,
+        "sha256": "a3b9a76b06ae58da7f9c8fd19d8bf273acd719b74228ac35df352c5a20729ebb"
+      },
+      {
+        "path": "art-source/art13/part-06.txt",
+        "bytes": 409800,
+        "sha256": "03f3acbe0a18385a3ee964be2f4da7c45a7fb32735851d7c2ed9d7c452d9b374"
+      },
+      {
+        "path": "art-source/art13/part-07.txt",
+        "bytes": 367138,
+        "sha256": "c45be992eefc33517af19bf83bbeb3c6536c74ea07c30e7821e7c4cbd3868aae"
+      },
+      {
+        "path": "art-source/art13/part-08.txt",
+        "bytes": 298528,
+        "sha256": "bc8d3d9895b2980a07545acc672a9942288e864026c7b97a1ccfb2f30c68f3e2"
+      }
+    ]
+  },
+  "assets": [
+    {
+      "sourcePath": "assets/art01-city-ground.svg",
+      "runtimePath": "assets/art01-city-ground.svg",
+      "bytes": 804843,
+      "sha256": "b9f5fc0935a9100acc752d86641eb0572eeb44f2207e2d372d03d7ca36677d9c",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art01-outer-ground.svg",
+      "runtimePath": "assets/art01-outer-ground.svg",
+      "bytes": 1046491,
+      "sha256": "282540790c06f4f4622adf72e5a9162a5c8eb13b0859b1f0d1b1a4be8a7f2037",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/academy.webp",
+      "runtimePath": "assets/art09-buildings/academy.webp",
+      "bytes": 19572,
+      "sha256": "148eb512abe92c01728fc2c5ced9c861be9f6ae20e1e518d36e53d7b4eae0b7b",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/altar.webp",
+      "runtimePath": "assets/art09-buildings/altar.webp",
+      "bytes": 17830,
+      "sha256": "a17ff5c2ca26cf2d422b4339a96c3e40b9f2d632904af1aada276458a1d8d111",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/barracks.webp",
+      "runtimePath": "assets/art09-buildings/barracks.webp",
+      "bytes": 15620,
+      "sha256": "8e7e51e5b51e83cec9074f0fee71db5bf1582783f6542b90418853881994f42f",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/caravan.webp",
+      "runtimePath": "assets/art09-buildings/caravan.webp",
+      "bytes": 15230,
+      "sha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/citadel.webp",
+      "runtimePath": "assets/art09-buildings/citadel.webp",
+      "bytes": 34600,
+      "sha256": "00883b15a06616ad70ae18b28ff51c40eda1d25e33a82c70421af4fa8c622ee3",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/clinic.webp",
+      "runtimePath": "assets/art09-buildings/clinic.webp",
+      "bytes": 16120,
+      "sha256": "44e196545d3beb273d23dc6f6be82debd648c72ffe7c3fcce9d62714c634ac24",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/embassy.webp",
+      "runtimePath": "assets/art09-buildings/embassy.webp",
+      "bytes": 13602,
+      "sha256": "c97fb324b827ab862eb89ca27a12d7a773630b1fd2244b4c6e8e6c0cc91c8c8a",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/farm.webp",
+      "runtimePath": "assets/art09-buildings/farm.webp",
+      "bytes": 26232,
+      "sha256": "67ff90e68821cc72297840eb04cf9bb6cb10bc06ffb1d29ddfae146db50c8b6c",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/foundry.webp",
+      "runtimePath": "assets/art09-buildings/foundry.webp",
+      "bytes": 12346,
+      "sha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/foundryfield.webp",
+      "runtimePath": "assets/art09-buildings/foundryfield.webp",
+      "bytes": 12346,
+      "sha256": "48174ea47ff20b60eed2d06adc31bef262c80489dbf0ae193c399bdb599dbd65",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/government.webp",
+      "runtimePath": "assets/art09-buildings/government.webp",
+      "bytes": 42684,
+      "sha256": "5504426395a1d039ede710dbc41280c3f4671dc6675a47a09b171d71c0048486",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/granary.webp",
+      "runtimePath": "assets/art09-buildings/granary.webp",
+      "bytes": 15048,
+      "sha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/grove.webp",
+      "runtimePath": "assets/art09-buildings/grove.webp",
+      "bytes": 12350,
+      "sha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/hostel.webp",
+      "runtimePath": "assets/art09-buildings/hostel.webp",
+      "bytes": 19124,
+      "sha256": "273286330b26f856d4e7277de980e229060ff497628b31b255667c45754ef35c",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/housing.webp",
+      "runtimePath": "assets/art09-buildings/housing.webp",
+      "bytes": 14280,
+      "sha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/lumber.webp",
+      "runtimePath": "assets/art09-buildings/lumber.webp",
+      "bytes": 12350,
+      "sha256": "0278df539b203d8f6ce21cd00e2214cbe6af9c72b7547a7ff47c44910615c1e1",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/manor.webp",
+      "runtimePath": "assets/art09-buildings/manor.webp",
+      "bytes": 12622,
+      "sha256": "1554dc7ca7eb995156519801e2edf0944c5244fd95beb1d0701a0d040dd339e8",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/market.webp",
+      "runtimePath": "assets/art09-buildings/market.webp",
+      "bytes": 15048,
+      "sha256": "559b2cc3c7e19fd17a7d29357d53243ab1d69d3f4d5f1c46e1fb17637a303190",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/mine.webp",
+      "runtimePath": "assets/art09-buildings/mine.webp",
+      "bytes": 9262,
+      "sha256": "3dfb285b4066b19eb7373ffd2caccab9ed79deba63247adec779af2eda3de778",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/quarry.webp",
+      "runtimePath": "assets/art09-buildings/quarry.webp",
+      "bytes": 9744,
+      "sha256": "f70c0b707059bf06a37f5c5d4af0f3849ab61f2131d92a82318ecf9a8c6f3d71",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/skirmisher.webp",
+      "runtimePath": "assets/art09-buildings/skirmisher.webp",
+      "bytes": 15918,
+      "sha256": "e331943ce07b8a81cbf32708235d91efd3dccc20a15d9743fd6c61996866579b",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/stable.webp",
+      "runtimePath": "assets/art09-buildings/stable.webp",
+      "bytes": 15230,
+      "sha256": "c7465368d1e417ace946306bdd514b49fe5089082d6e774bbbf9901a8f4a4b83",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/storehouse.webp",
+      "runtimePath": "assets/art09-buildings/storehouse.webp",
+      "bytes": 14280,
+      "sha256": "ce0486b016cdff63d45b2e0dddbca1ca2f3ff47257c104a5cd3b9226da581fba",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/training.webp",
+      "runtimePath": "assets/art09-buildings/training.webp",
+      "bytes": 14012,
+      "sha256": "3312824e6aafd1e8dae284c12d4658af672cdd27972c1299f95cc79985a487c8",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/wall.webp",
+      "runtimePath": "assets/art09-buildings/wall.webp",
+      "bytes": 43412,
+      "sha256": "a9855b575eaf9fbb12cbce257d1f309267bb0767e8346714e2a2ef8fb7310d73",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/watch.webp",
+      "runtimePath": "assets/art09-buildings/watch.webp",
+      "bytes": 14362,
+      "sha256": "649433eedbee0facf2e2f6499f1bd9c409c471fd82ed22ab450179915b891c3c",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "assets/art09-buildings/workshop.webp",
+      "runtimePath": "assets/art09-buildings/workshop.webp",
+      "bytes": 17190,
+      "sha256": "fcf45c7f049cfb7d958d9e3d3ccb93887cca33a0a2a66117ba85e83e5e346e41",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    },
+    {
+      "sourcePath": "art13.css",
+      "runtimePath": "styles.css#ART13-patch",
+      "bytes": 3463,
+      "sha256": "cb1557ad644268920ff4cbccfee0447fcb9887fbadb605afb0ee13a6521226eb",
+      "verification": "PACK_AND_RUNTIME_MATCH"
+    }
+  ],
+  "buildVerifier": "scripts/install-art13.py validates each asset byte length and SHA-256 before installation."
+}
