@@ -2,12 +2,12 @@
 export function distributeSquads(stacks,commanders){
  if(!Array.isArray(commanders)||!commanders.length||commanders.length>5)throw Error('Invalid squad commanders');
  const ids=new Set(commanders.map(c=>String(c.instanceId??c.heroId)));if(ids.size!==commanders.length)throw Error('Duplicate commander');
- const out=commanders.map(()=>[]);let cursor=0;
+ const out=commanders.map(()=>[]),ready=commanders.map((c,i)=>({c,i})).filter(x=>x.c.vitality!==0).map(x=>x.i);if(!ready.length)throw Error('No viable squad commander');let cursor=0;
  for(const t of stacks){
   if(!Number.isSafeInteger(t.count)||t.count<=0)throw Error('Invalid squad troop count');
-  const q=Math.floor(t.count/out.length),r=t.count%out.length;
-  for(let i=0;i<out.length;i++){const n=q+((i-cursor+out.length)%out.length<r?1:0);if(n)out[i].push({id:t.id,count:n});}
-  cursor=(cursor+r)%out.length;
+  const q=Math.floor(t.count/ready.length),r=t.count%ready.length;
+  for(let i=0;i<ready.length;i++){const n=q+((i-cursor+ready.length)%ready.length<r?1:0);if(n)out[ready[i]].push({id:t.id,count:n});}
+  cursor=(cursor+r)%ready.length;
  }
  return out;
 }
