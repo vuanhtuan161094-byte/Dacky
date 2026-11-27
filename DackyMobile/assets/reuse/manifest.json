@@ -71,10 +71,14 @@
       "sourcePath": "assets/generated/hg11/battlefield/open-field-v2-1176x550.png",
       "blob": "5178fab8cb99a647f21477de747ce0488db3d384",
       "status": "not copied; connector returned empty body for >1 MB file"
-    },
-    {
-      "id": "open-vfx-library",
-      "status": "not imported; verify per-pack license, retrieve actual files and inspect frames"
     }
-  ]
+  ],
+  "vfx": {
+    "manifest": "vfx/manifest.json",
+    "atlases": 3,
+    "nonemptyFrameEntries": 50,
+    "license": "CC-BY-SA 3.0 or later per distribution; original thunderstrike CC0",
+    "status": "imported; preview not browser-tested"
+  },
+  "preview": "preview.html"
 }
