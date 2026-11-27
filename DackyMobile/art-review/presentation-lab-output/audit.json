@@ -50,7 +50,7 @@
             {
               "id": "troop-03",
               "side": "0",
-              "x": 449.38262939453125,
+              "x": 451.54010009765625,
               "advance": true,
               "visible": [
                 "combat-source-sprite phase-run"
@@ -59,7 +59,7 @@
             {
               "id": "troop-12",
               "side": "1",
-              "x": 830.6017456054688,
+              "x": 828.4442749023438,
               "advance": true,
               "visible": [
                 "combat-source-sprite phase-run"
@@ -68,7 +68,7 @@
             {
               "id": "troop-10",
               "side": "1",
-              "x": 925.5609130859375,
+              "x": 939.5592651367188,
               "advance": true,
               "visible": [
                 "combat-source-sprite phase-run"
@@ -77,10 +77,10 @@
             {
               "id": "troop-06",
               "side": "1",
-              "x": 853.0950927734375,
+              "x": 1024,
               "advance": true,
               "visible": [
-                "combat-source-sprite phase-run"
+                "combat-source-sprite phase-idle"
               ]
             }
           ]
@@ -91,37 +91,31 @@
             {
               "id": "troop-03",
               "side": "0",
-              "x": 575.9906005859375,
+              "x": 588.600341796875,
               "advance": true,
-              "visible": [
-                "combat-source-sprite phase-attack"
-              ]
+              "visible": []
             },
             {
               "id": "troop-12",
               "side": "1",
-              "x": 703.9937744140625,
+              "x": 691.384033203125,
               "advance": true,
-              "visible": [
-                "combat-source-sprite phase-attack"
-              ]
+              "visible": []
             },
             {
               "id": "troop-10",
               "side": "1",
-              "x": 703.9968872070312,
+              "x": 768.23388671875,
               "advance": true,
-              "visible": [
-                "combat-source-sprite phase-attack"
-              ]
+              "visible": []
             },
             {
               "id": "troop-06",
               "side": "1",
-              "x": 831.9937744140625,
+              "x": 1024,
               "advance": true,
               "visible": [
-                "combat-source-sprite phase-attack"
+                "combat-source-sprite phase-idle"
               ]
             }
           ]
@@ -132,40 +126,36 @@
             {
               "id": "troop-03",
               "side": "0",
-              "x": 575.9906005859375,
+              "x": 588.7874755859375,
               "advance": true,
               "visible": [
-                "combat-source-sprite phase-attack",
                 "combat-source-sprite phase-hit"
               ]
             },
             {
               "id": "troop-12",
               "side": "1",
-              "x": 703.9937744140625,
+              "x": 691.1968994140625,
               "advance": true,
               "visible": [
-                "combat-source-sprite phase-attack",
                 "combat-source-sprite phase-hit"
               ]
             },
             {
               "id": "troop-10",
               "side": "1",
-              "x": 703.9968872070312,
+              "x": 768,
               "advance": true,
               "visible": [
-                "combat-source-sprite phase-attack",
                 "combat-source-sprite phase-hit"
               ]
             },
             {
               "id": "troop-06",
               "side": "1",
-              "x": 831.9937744140625,
+              "x": 1024,
               "advance": true,
               "visible": [
-                "combat-source-sprite phase-attack",
                 "combat-source-sprite phase-hit"
               ]
             }
@@ -177,7 +167,7 @@
             {
               "id": "troop-03",
               "side": "0",
-              "x": 422.390625,
+              "x": 435.1875,
               "advance": true,
               "visible": [
                 "combat-source-sprite phase-idle"
@@ -186,7 +176,7 @@
             {
               "id": "troop-12",
               "side": "1",
-              "x": 857.59375,
+              "x": 844.796875,
               "advance": true,
               "visible": [
                 "combat-source-sprite phase-idle"
@@ -195,7 +185,7 @@
             {
               "id": "troop-10",
               "side": "1",
-              "x": 972.796875,
+              "x": 960,
               "advance": true,
               "visible": [
                 "combat-source-sprite phase-idle"
@@ -204,7 +194,7 @@
             {
               "id": "troop-06",
               "side": "1",
-              "x": 857.59375,
+              "x": 1024,
               "advance": true,
               "visible": [
                 "combat-source-sprite phase-idle"
@@ -264,11 +254,11 @@
   "videoMarks": [
     {
       "scene": "live-exchange",
-      "seconds": 7.473775301000003
+      "seconds": 8.335322341999998
     },
     {
       "scene": "replay",
-      "seconds": 9.674414595000002
+      "seconds": 10.509604490000001
     }
   ],
   "note": "Real new-save combat; replay uses the same renderer, recorded stack counts and events. No simulated battle fixture."
