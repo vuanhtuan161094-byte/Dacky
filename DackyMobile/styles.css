@@ -1215,3 +1215,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .fidelity-static .fidelity-sprite{animation:none}
 @media(max-width:850px){.battlefield-landscape.fidelity-field{grid-template-columns:minmax(88px,19%) minmax(0,1fr) minmax(88px,19%)}.fidelity-roster{padding:5px}.fidelity-hero{flex-direction:column;align-items:start;padding:5px 0}.fidelity-hero img{width:34px;height:42px}.fidelity-side-title{font-size:10px;letter-spacing:0;padding:5px}.fidelity-roster li,.fidelity-hero b{font-size:9px}.fidelity-line{top:28%;width:46%}.fidelity-ranks{transform:scale(.66);transform-origin:left top}.fidelity-formation>span{font-size:8px}.fidelity-key,.fidelity-battle-note{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.fidelity-sprite{animation:none!important}}
+
+.fidelity-squad-card{display:grid;gap:3px;padding:7px;margin:5px 0;background:#101d19a8;border-left:3px solid #7b8270;border-bottom:1px solid #a5966d40;font-size:10px}
+.fidelity-squad-card b{font-size:12px;color:#f5deaa}
+.fidelity-squad-card small{font-size:10px;color:#c5c4ac;overflow-wrap:anywhere}
+.fidelity-squad-card[data-squad-status="active"]{border-color:#e7c573;background:#4a482b9c}
+.fidelity-squad-card[data-squad-status="defeated"]{border-color:#a35e51;opacity:.7}
