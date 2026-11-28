@@ -51,7 +51,9 @@ export function createArmyArtifactEngine(){
     if(o.condition==='equippedCompanion'&&(own.heroId!==o.heroId||!own.equippedArtifactIds.includes(o.artifactId)||!canEquip(index.artifacts[o.artifactId],index.heroes[own.heroId],{level:own.level,ownedArtifactIds:own.ownedArtifactIds}).ok))continue;
     if(o.kind==='modifier'){target.modifiers[o.stat]+=o.ratio;event('modifier',i,{targetSide:target.side,stat:o.stat,ratio:o.ratio,artifactId:plan.id})}
     else if(o.kind==='troopLoss'||o.kind==='troopRecover'){
-     const amount=Math.floor(initial[target.side].troops*o.ratio+1e-9);
+     const suppression=o.kind==='troopRecover'?Math.min(.30,Math.max(0,Number(sides[1-target.side].troopRecoverySuppression)||0)):0;
+     const amount=Math.floor(initial[target.side].troops*o.ratio*(1-suppression)+1e-9);
+     if(suppression)event('combatSkillRecoverySuppression',1-target.side,{targetSide:target.side,ratio:suppression,skill:'Truy kích',evidence:'LIVE_UI_RATIO_SIMULATED_ARTIFACT_RECOVERY_BRIDGE'});
      troopDelta[target.side]+=(o.kind==='troopLoss'?-amount:amount);event('troopEffect',i,{targetSide:target.side,requested:o.kind==='troopLoss'?-amount:amount,ratio:o.ratio,artifactId:plan.id});
     }else if(o.kind==='cancelArtifact')event('cancelArtifactIntent',i,{targetSide:enemy.side});
     else if(o.kind==='cancelSpell'||o.kind==='silenceSpell'){enemy.flags.spellSuppressed=true;event(o.kind,i,{targetSide:enemy.side})}
