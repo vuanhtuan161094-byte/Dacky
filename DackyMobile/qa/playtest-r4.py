@@ -22,6 +22,7 @@ def wait_pred(p,predicate,timeout):
         p.wait_for_timeout(65)
     raise AssertionError('Persisted result not observed; UI: '+p.locator('body').inner_text()[-450:])
 def nav(p,v):
+    if p.locator('[data-replay-close]').count():p.locator('[data-replay-close]').click()
     p.locator('#primary-nav [data-view="'+v+'"]').click(timeout=3500)
 def click(p,selector,pred=None):
     loc=p.locator(selector).filter(visible=True).first
@@ -110,6 +111,9 @@ def replay(p):
     nav(p,'reports')
     action(p,'battleReplay')
     assert p.locator('.fidelity-arena').filter(visible=True).count()>0 or p.locator('dialog[open]').count()>0
+    if p.locator('[data-replay-next]:not([disabled])').count():p.locator('[data-replay-next]').click()
+    p.locator('[data-replay-speed]').click()
+    p.locator('[data-replay-close]').click()
 def event_tab(p,key):
     nav(p,'events');tab(p,'data-event-tab',key)
 def gift(p):
@@ -144,6 +148,8 @@ def skills(p):
 def matrix(p):
     hero_tab(p,'skills')
     old=len(state(p)['heroes'][0]['matrices'])
+    for d in p.locator('.live-growth details').all():
+        if d.locator('[data-action="useMatrix"]:not([disabled])').count():d.locator('summary').click();break
     action(p,'useMatrix',lambda s:len(s['heroes'][0]['matrices'])>old)
     assert state(p)['heroes'][0]['activeMatrix']
 def settings(p):
@@ -151,8 +157,8 @@ def settings(p):
     p.locator('#rename-city').fill('QA renamed')
     tracked(p,'rename')
     assert state(p)['profile']['name']=='QA renamed'
-    p.locator('[data-setting="sound"]').uncheck()
-    wait_state(p,lambda s:not s['settings']['sound'])
+    p.locator('[data-setting="effects"]').uncheck()
+    wait_state(p,lambda s:not s['settings']['effects'])
     with p.expect_download(timeout=5000) as d:action(p,'export')
     data=json.loads(pathlib.Path(d.value.path()).read_text())
     assert data['format']=='dacky-mobile-save' and data['save']['profile']['name']=='QA renamed'
@@ -169,7 +175,7 @@ def claim_event(p,id):
 def pve(p,id):
     nav(p,'pve')
     p.locator('#combat-mode').select_option('squad-auto')
-    p.locator('#pve-count').fill('100000')
+    p.locator('#pve-count').fill(str(min(100000,state(p)['army'][p.locator('#pve-unit').input_value()])))
     n=state(p)['stats']['battles']
     action(p,'pveMarch',lambda s:bool(s['queues']['march']),'[data-node="'+id+'"]')
     finish(p,'march',lambda s:s['stats']['battles']==n+1 and not s['queues']['march'])
