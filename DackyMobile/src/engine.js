@@ -2001,9 +2001,9 @@ export function doAction(state, action, now = Date.now()) {
         + (s.technologies['tech-16'] || 0) * technologyRate('tech-16',0.02)
         + (s.levels.watch || 0) * 0.015;
       const seed=Object.entries(troops).reduce((value,[id,n])=>value^n^Number(id.slice(-2)),(now^node.power)>>>0);
-      if(action.combatMode!==undefined&&!['auto','manual','squad'].includes(action.combatMode))throw new Error('Không nhận diện được chế độ giao chiến.');
+      if(action.combatMode!==undefined&&!['auto','manual','squad','squad-auto'].includes(action.combatMode))throw new Error('Không nhận diện được chế độ giao chiến.');
       s.queues.march = { nodeId: node.id, troops, startAt: now, finishAt: now + Math.max(2000, (7 + node.chapter * 1.7) * 1000 / marchSpeed), seed:seed>>>0,...(pveAssault?{pveAssault}:{}) };
-      if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.combatMode=['manual','squad'].includes(action.combatMode)?'manual':'auto';s.queues.march.squadMode=action.combatMode==='squad';s.queues.march.battleCommands=[];s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=s.heroes.filter(h=>h.assigned).slice(0,s.queues.march.squadMode?5:3).map(h=>h.id);if(s.queues.march.squadMode){const p=combat().marchInput(s,s.queues.march).input;s.queues.march.squadAllocation=p.sides[0].squadStacks;}}
+      if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.combatMode=['manual','squad'].includes(action.combatMode)?'manual':'auto';s.queues.march.squadMode=['squad','squad-auto'].includes(action.combatMode);s.queues.march.battleCommands=[];s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=s.heroes.filter(h=>h.assigned).slice(0,s.queues.march.squadMode?5:3).map(h=>h.id);if(s.queues.march.squadMode){s.queues.march.squadCap=Math.ceil(leadLimit/s.queues.march.commanderIds.length);const p=combat().marchInput(s,s.queues.march).input;s.queues.march.squadAllocation=p.sides[0].squadStacks;}}
       note(s, `Đội quân rời thành hướng ${node.name}.`);
       break;
     }
@@ -2157,12 +2157,13 @@ export function doAction(state, action, now = Date.now()) {
       note(s, `Đã nhận thưởng nhiệm vụ: ${q.title}.`);
       break;
     }
+    case 'setSquadWeight': {const h=s.heroes.find(x=>x.id===action.heroId),w=Number(action.weight);if(!h||s.queues.march||!Number.isInteger(w)||w<1||w>100)throw Error('Tỷ lệ phối binh cần từ 1–100, tướng rảnh');h.squadWeight=w;break;}
     case 'assignHero': {
       if(s.queues.march?.combatV13)throw new Error('Đội hình đang hành quân.');
       const h = s.heroes.find(x => x.id === action.heroId);
       if (!h) throw new Error('Không tìm thấy thần tiên.');
       const assigned = s.heroes.filter(x => x.assigned).length;
-      if (!h.assigned && assigned >= Math.min(3, 1 + Math.floor((s.levels.citadel || 0) / 4))) throw new Error('Tử Vi Thành chưa mở thêm vị trí đội hình.');
+      if (!h.assigned && assigned >= Math.min(s.settings.combatV13?5:3, 1 + Math.floor((s.levels.citadel || 0) / 4))) throw new Error('Tử Vi Thành chưa mở thêm vị trí đội hình.');
       h.assigned = !h.assigned;
       note(s, `${HEROES.find(x => x.id === h.id)?.name} ${h.assigned ? 'đã vào đội hình' : 'đã nghỉ tại Tiên Gia Phủ'}.`);
       break;
