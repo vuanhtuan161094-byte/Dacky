@@ -7,6 +7,7 @@ import { createSourceDuelHero } from './hero-progression.js';
 import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff,pendingBattleBuff,itemUseRule,sourceGearGemRule } from '../gameplay-p15.js';
 import { canEquip } from './army-artifacts.js';
 import { distributeSquads, validateSquadAllocation } from './squad-ownership.js';
+import { matrixStats,isHoanHi,dropBonusForHeroes } from '../live-source-p1.js';
 // Three source artifacts omit an energy cost and two use a conversion effect.
 // The runtime applies a bounded, explicit fallback policy instead of silently
 // leaving those five records inert. Source effect operations remain intact.
@@ -30,7 +31,8 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
  function gearBonus(save,slot){const id=save.equipment?.[slot],item=byItem.get(id);if(!item||(save.combatDurability?.[id]??100)<=0)return 0;const key=slot==='weapon'?['công','dũng']:['phòng','thể'];const sourced=(item.mobileStats??[]).filter(r=>key.some(k=>String(r[0]).toLowerCase().includes(k))).reduce((n,r)=>n+(Number(String(r[1]).replace(/[^0-9.]/g,''))||0),0),base=clamp(Math.max(Number(item.bonus)||0,sourced),0,300),upgrade=save.gearEnhancements?.[id];return clamp(base*(1+(upgrade?.rank||0)*.04+(upgrade?.stars||0)*.025+(upgrade?.gems?.length||0)*.03),0,300);}
  function duelStats(p,save,state=null,tower=false){
   const now=state?.lastTickAt??0,flat=key=>state?itemBuff(state,key,now):0;
-  const stats=createSourceDuelHero({...p,root:p.root+(save.rootBonus??0)+(save.sourceRootBonus??0)+Object.values(save.mobileRootBonuses||{}).reduce((n,v)=>n+(Number(v)||0),0),physical:p.physical+flat('heroFlatPhysical'),arcane:p.arcane+flat('heroFlatArcane'),strategy:p.strategy+flat('heroFlatStrategy')},{level:save.level}).stats;
+  const matrix=matrixStats(save,ITEMS),retained=save.ascended?save.ascensionRetained??{}:{};
+  const stats=createSourceDuelHero({...p,...(save.ascended?{baseLevel:1}:{}),root:p.root+(save.rootBonus??0)+(save.sourceRootBonus??0)+Object.values(save.mobileRootBonuses||{}).reduce((n,v)=>n+(Number(v)||0),0),physical:(retained.physical??p.physical)+flat('heroFlatPhysical')+matrix.physical,arcane:(retained.arcane??p.arcane)+flat('heroFlatArcane')+matrix.arcane,strategy:(retained.strategy??p.strategy)+flat('heroFlatStrategy')+matrix.strategy},{level:save.level}).stats;
   if(state){
    const partyGems=new Set(state.heroes.filter(hero=>hero.assigned).flatMap(hero=>Object.values(hero.equipment??{}).filter(id=>id&&(hero.combatDurability?.[id]??100)>0).flatMap(id=>hero.gearEnhancements?.[id]?.gems??[]).map(gemId=>String(byItem.get(gemId)?.mobileSourceId??''))));
    if(partyGems.has('7671'))stats.attack=Math.round((stats.attack+100)*1.08);
@@ -47,8 +49,8 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   // scale. Apply a capped, state-local combat-stat bridge; never alter the shared
   // Combat Engine's source artifact operations.
   if(artifactStars){const scale=1+artifactStars*.02;for(const key of ['attack','magic','defense','resistance'])stats[key]=Math.round(stats[key]*scale);}
-  const weapon=gearBonus(save,'weapon')+gearBonus(save,'relic')+gearBonus(save,'relic2'),armor=['armor','helmet','belt','boots','gloves','mount'].reduce((n,k)=>n+gearBonus(save,k),0),mastery=1+clamp(Number(save.skillLevel)||1,1,10)*.025+clamp(Number(save.affinity)||0,0,100)*.001,activeSets=equipmentSets(save).reduce((n,s)=>n+s.active.length,0),matrix=1+Math.min(.35,(save.matrices?.length??0)*.015)+Math.min(.20,activeSets*.03);
-  const out={...stats,attack:Math.round((stats.attack+weapon+(save.potential?.attack??0))*mastery*matrix),magic:Math.round((stats.magic+weapon*.4+(save.potential?.magic??0))*mastery*matrix),defense:Math.round((stats.defense+armor+(save.potential?.defense??0))*matrix),resistance:stats.resistance+Math.round(armor*.6)};
+  const weapon=gearBonus(save,'weapon')+gearBonus(save,'relic')+gearBonus(save,'relic2'),armor=['armor','helmet','belt','boots','gloves','mount'].reduce((n,k)=>n+gearBonus(save,k),0),mastery=1+clamp(Number(save.skillLevel)||1,1,10)*.025+clamp(Number(save.affinity)||0,0,100)*.001,activeSets=equipmentSets(save).filter(s=>!isHoanHi(s.name)).reduce((n,s)=>n+s.active.length,0),setScale=1+Math.min(.20,activeSets*.03);
+  const out={...stats,attack:Math.round((stats.attack+weapon+(save.potential?.attack??0))*mastery*setScale),magic:Math.round((stats.magic+weapon*.4+(save.potential?.magic??0))*mastery*setScale),defense:Math.round((stats.defense+armor+(save.potential?.defense??0))*setScale),resistance:stats.resistance+Math.round(armor*.6)};
   const book=tower&&itemUseRule(bySourceItem.get(String(save.towerBookSourceId||'')))?.towerEffects;
   for(const [key,ratio] of Object.entries(book?.stats||{}))if(Number.isFinite(out[key])&&Number.isFinite(ratio))out[key]=Math.round(out[key]*(1+ratio));
   // Keep the source percentage visible after the runtime's integer stat
@@ -149,7 +151,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
      if (hero) xp(hero, Math.floor((30 + node.level * 5) * (1 + itemBuff(s, 'heroXp', now))));
    }
   }
-  let itemDrop=null;const rng=seeded(q.seed^0x9e3779b9);if(battle.victory&&rng()<.3){const pool=ITEMS.filter(i=>i.type!=='vật phẩm'&&i.tier<=Math.min(5,1+Math.floor(node.chapter/2)));const item=pool[Math.floor(rng()*pool.length)];if(item&&s.items.length<500){s.items.push(item.id);itemDrop=item.id;}}
+  let itemDrop=null;const rng=seeded(q.seed^0x9e3779b9);const dropBonus=dropBonusForHeroes(s.heroes.filter(h=>(battle.commanders?.[0]??[]).some(c=>c.instanceId===h.id)),equipmentSets,node.kind);if(battle.victory&&rng()<Math.min(1,.3*(1+dropBonus))){const pool=ITEMS.filter(i=>i.type!=='vật phẩm'&&i.tier<=Math.min(5,1+Math.floor(node.chapter/2)));const item=pool[Math.floor(rng()*pool.length)];if(item&&s.items.length<500){s.items.push(item.id);itemDrop=item.id;}}
   s.morale=clamp(s.morale+(battle.victory?2:-5),0,100);receipt(s,input.battleId);report(s,{type:'army',target:node.name,targetKind:node.kind,victory:battle.victory,rounds:battle.rounds.map(r=>({...r,ownDamage:r.incoming[1],enemyDamage:r.incoming[0],ownMorale:s.morale,activeSkills:r.events.filter(e=>e.type==='artifactCast').map(e=>e.name)})),ownPower:Object.values(q.troops).reduce((n,v)=>n+v,0),enemyPower:input.sides[1].stacks.reduce((n,t)=>n+t.count,0),enemyCommander:input.sides[1].name||rt.index.heroes[input.sides[1].heroId].name,enemyFormation:input.sides[1].stacks.map(t=>({unitId:t.id,count:t.count})),bossLoadout:node.bossLoadout??null,enemyEquipmentSourceIds:input.sides[1].equipmentSourceIds??[],enemyCommandBonuses:{attack:input.sides[1].commandAttack??0,defense:input.sides[1].commandDefense??0},enemyLoadoutEvidence:input.sides[1].loadoutEvidence??'SIMULATED',battleCommands:q.battleCommands??commands??[],battleItems:consumedBattleBuffs,events:battle.events,dead:settlement.dead,wounded:settlement.wounded,loot,itemDrop,capturedHero,troopsSent:{...q.troops},combatBattleId:input.battleId,evidence:'SIMULATED'},now);note(s,node.name+(battle.victory?' · Thắng trận':' · Rút lui'));return {state:s,battle,loot};
  }
  function quoteDuel(state,mode,mountainId){
