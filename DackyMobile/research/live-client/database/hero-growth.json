@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "evidence": "LIVE_UI unless noted",
+  "heroPanels": [
+    "Thuộc tính",
+    "Tu luyện",
+    "Kỹ năng",
+    "Phối binh"
+  ],
+  "equipmentSlots": [
+    "Mũ",
+    "Giáp",
+    "Đai",
+    "Giày",
+    "Ngựa",
+    "Pháp bảo",
+    "Vũ Khí",
+    "Cổ Khí",
+    "Cấm Khí"
+  ],
+  "stages": [
+    {
+      "key": "phi_thang",
+      "label": "Phi thăng",
+      "requirements": {
+        "heroLevelAtLeast": 80,
+        "itemName": "Lệnh Phi Thăng",
+        "gold": 100000,
+        "idle": true
+      },
+      "result": [
+        "Cấp về 1",
+        "Giữ một nửa chỉ số theo nghề"
+      ],
+      "evidenceFile": "evidence/hero-growth.png"
+    },
+    {
+      "key": "phong_than",
+      "label": "Phong thần",
+      "requirements": [
+        "Đã Phi thăng"
+      ],
+      "unlocks": [
+        "Phép thần thông"
+      ],
+      "evidenceFile": "evidence/hero-growth.png"
+    },
+    {
+      "key": "rebirth_root",
+      "label": "Chuyển sinh — luyện Căn cốt",
+      "requirements": {
+        "hasAscended": true,
+        "heroLevelAtLeast": 59,
+        "idle": true,
+        "hasFurnace": true
+      },
+      "cost": null,
+      "result": null,
+      "unknown": [
+        "Công thức tăng căn cốt và chi phí chưa được làm rõ trong màn hình đã xem."
+      ],
+      "evidenceFile": "evidence/hero-growth.png"
+    },
+    {
+      "key": "root_pill",
+      "label": "Đan đổi Căn cốt",
+      "requirements": null,
+      "result": "Đổi Căn cốt bằng đan",
+      "cost": null,
+      "evidenceFile": "evidence/hero-growth.png"
+    },
+    {
+      "key": "potential_reset",
+      "label": "Tẩy tủy — hoàn điểm tư chất",
+      "requirements": {
+        "itemName": "Tẩy Tủy Đan"
+      },
+      "result": "Hoàn điểm tư chất",
+      "evidenceFile": "evidence/hero-growth.png"
+    }
+  ],
+  "matrix": {
+    "total": 37,
+    "auraScope": "one_hero",
+    "tiers": [
+      {
+        "name": "Sử Thi",
+        "count": 12,
+        "perTypeStats": {
+          "Dũng võ": 2,
+          "Mưu trí": 2,
+          "Đạo pháp": 2
+        }
+      },
+      {
+        "name": "Truyền Thuyết",
+        "count": 12,
+        "perTypeStats": {
+          "Dũng võ": 4,
+          "Mưu trí": 4,
+          "Đạo pháp": 4
+        }
+      },
+      {
+        "name": "Thần Thánh",
+        "count": 13,
+        "perTypeStats": {
+          "Dũng võ": 8,
+          "Mưu trí": 8,
+          "Đạo pháp": 8
+        }
+      }
+    ],
+    "activation": {
+      "oncePerTypePerHero": true,
+      "consumable": "Ảo Hóa cùng loại",
+      "allActivatedMatricesStack": true,
+      "visibleAuraCount": 1,
+      "auraSwitchCost": 0
+    },
+    "battleVisual": "Vòng hiện dưới chân thần tiên hai phe",
+    "source": "LIVE_UI",
+    "evidenceFiles": [
+      "evidence/hero-matrix.png",
+      "evidence/hero-matrix-help.png"
+    ]
+  },
+  "combatSkills": {
+    "categories": [
+      "Truy kích",
+      "Tử chiến",
+      "Mưu lược",
+      "Ban phúc",
+      "Trùng sinh",
+      "Né chiêu"
+    ],
+    "simultaneousActiveLimit": 1,
+    "examples": [
+      {
+        "name": "Truy kích",
+        "triggerText": "Quân đối diện dưới 75% binh lực; đấu tướng xét thể lực.",
+        "learnPoints": 15000,
+        "advancedUnlockPoints": 25500,
+        "advancedLevel": 17,
+        "advancedEffect": "Giảm 30% tạo và hồi quân đối phương; có hiệu lực trong mọi trận.",
+        "evidenceFiles": [
+          "evidence/hero-combat-skills.png",
+          "evidence/hero-skill-advanced.png"
+        ]
+      }
+    ],
+    "evidence": "LIVE_UI"
+  },
+  "dackyComparison": {
+    "phiThang": "MISSING as a distinct stage",
+    "rebirth": "INCORRECT; local gate/cost/result differ and engine/progression policy disagree",
+    "matrix": "INCORRECT; local count-based multiplier differs from flat source stats",
+    "skills": "PARTIAL; source skill tree/cost/cap not represented with verified parity"
+  }
+}

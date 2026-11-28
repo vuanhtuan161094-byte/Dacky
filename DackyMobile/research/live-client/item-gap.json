@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "items": [
+    {
+      "key": "hoan_hi_six_piece_set",
+      "evidence": "LIVE_UI",
+      "visibleItemIds": null,
+      "itemSlots": [
+        "Mũ",
+        "Kiếm",
+        "Áo",
+        "Hộ Uyển",
+        "Đai",
+        "Hài"
+      ],
+      "sourceEffect": {
+        "dropRateThresholds": {
+          "2": 10,
+          "4": 15,
+          "6": 30
+        },
+        "stacking": "non_stacking",
+        "scopes": [
+          "ô đất",
+          "thăm dò",
+          "tìm kiếm",
+          "Tiên Sơn"
+        ]
+      },
+      "dackyStatus": "INCORRECT",
+      "dackyEvidence": "gameplay-p15.js equipmentSets; combat/product-v13.js applies active-set count to combat multiplier; no sourced drop-rate scope for this offer."
+    },
+    {
+      "key": "matrix_illusion_item",
+      "evidence": "LIVE_UI",
+      "visibleItemIds": null,
+      "sourceEffect": "One matching Ảo Hóa consumed per matrix type and hero activation.",
+      "dackyStatus": "INCORRECT",
+      "dackyEvidence": "engine.js matrix activation stores item id; combat/product-v13.js uses count-based multiplier rather than source flat stats."
+    },
+    {
+      "key": "matrix_illusion_acquisition",
+      "evidence": "LIVE_UI",
+      "visibleItemIds": null,
+      "sourceEffect": "Help names mail, events and gift codes as sources.",
+      "dackyStatus": "PARTIAL",
+      "dackyEvidence": "Mobile item catalog contains matrix-related use rules; event distribution is not modeled as live schedule."
+    },
+    {
+      "key": "event_exchange_6036",
+      "evidence": "DACKY_CODE",
+      "sourceItemIds": [
+        "6036",
+        "6037",
+        "6043",
+        "6044"
+      ],
+      "rewardSourceItemId": "6039",
+      "sourceTable": "vat-pham",
+      "sourceField": "Description",
+      "liveTooltipObserved": false,
+      "runtimeQuantityEvidence": "SIMULATED_EVENT_EXCHANGE_QUANTITY",
+      "dackyStatus": "PARTIAL",
+      "dackyEvidence": "gameplay-p15.js mapping and ui.js warning preserve unknown source quantity."
+    },
+    {
+      "key": "timed_item_buffs",
+      "evidence": "DACKY_CODE",
+      "sourceItemIdsObservedLive": false,
+      "dackyStatus": "PARTIAL",
+      "dackyEvidence": "gameplay-p15.js contains sourceTimedBuffs/itemBuff adapters; DATA_COVERAGE.json marks mixed, simulated and unsupported effects.",
+      "liveValidation": "UNKNOWN"
+    },
+    {
+      "key": "topup_reward_icons",
+      "evidence": "LIVE_UI",
+      "visibleItemIds": null,
+      "dackyStatus": "MISSING",
+      "unknown": [
+        "Icon names and IDs were not opened with tooltip."
+      ],
+      "actionTaken": "none"
+    }
+  ]
+}

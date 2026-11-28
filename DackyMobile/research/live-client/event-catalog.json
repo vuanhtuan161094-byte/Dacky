@@ -1,0 +1,331 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "game": "Dacky live client",
+  "evidenceStatus": [
+    "LIVE_UI",
+    "PUBLIC_CLIENT",
+    "DACKY_CODE",
+    "UNKNOWN"
+  ],
+  "events": [
+    {
+      "key": "loan_chien",
+      "title": "Loạn Chiến",
+      "evidence": "LIVE_UI",
+      "availability": "scheduled_registration_visible",
+      "schedule": {
+        "start": "2026-11-29T01:00",
+        "end": "2026-11-29T15:00",
+        "durationHours": 14,
+        "timezone": "UNKNOWN"
+      },
+      "rules": [
+        "Đăng ký tham gia trước giờ khai chiến.",
+        "Panel ghi thành chính người tham gia chuyển vào bản đồ Loạn Chiến lúc khai chiến.",
+        "Có xếp hạng trong máy chủ và liên máy chủ."
+      ],
+      "visibleServerRankRewardQuantities": {
+        "1": [
+          100,
+          50,
+          1,
+          1,
+          3,
+          3,
+          1
+        ],
+        "2": [
+          80,
+          40,
+          1,
+          1,
+          2,
+          1
+        ],
+        "3": [
+          50,
+          30,
+          1,
+          1,
+          1,
+          1
+        ],
+        "4-10": [
+          40,
+          20,
+          1,
+          1,
+          1
+        ],
+        "11-20": [
+          20,
+          10,
+          1
+        ]
+      },
+      "participationVisibleIconQuantities": [
+        50,
+        1
+      ],
+      "itemIds": null,
+      "unknown": [
+        "Tên/ID icon reward chưa có tooltip.",
+        "Bảng thưởng liên máy chủ chỉ nhìn thấy một phần."
+      ],
+      "actionTaken": "none",
+      "evidenceFiles": [
+        "evidence/event-loan-chien.png"
+      ]
+    },
+    {
+      "key": "sale_11_11",
+      "title": "Tướng Việt huyền thoại — 11.11",
+      "evidence": "LIVE_UI",
+      "availability": "offer_visible",
+      "countdownAtCapture": "about 1 day 12 hours",
+      "endDate": null,
+      "offers": [
+        {
+          "hero": "Hồ Xuân Hương",
+          "bundlePriceVnd": 999000,
+          "originalPriceVnd": 3999000,
+          "discountPercent": 75,
+          "companionName": "Bút Lưu Hương"
+        },
+        {
+          "hero": "Bà Trưng",
+          "bundlePriceVnd": 1599000,
+          "originalPriceVnd": 3999000,
+          "discountPercent": 60,
+          "companionName": "Trống Đồng Mê Linh"
+        },
+        {
+          "hero": "Bà Triệu",
+          "bundlePriceVnd": 999000,
+          "originalPriceVnd": 2999000,
+          "discountPercent": 67,
+          "companionName": "Trầm Kinh Song Kiếm"
+        },
+        {
+          "hero": "Thánh Gióng",
+          "bundlePriceVnd": 999000,
+          "originalPriceVnd": 2999000,
+          "discountPercent": 67,
+          "companionName": "Tre Đằng Ngà"
+        }
+      ],
+      "purchaseLimit": "one_per_offer_per_character",
+      "itemIds": null,
+      "actionTaken": "none",
+      "evidenceFiles": [
+        "evidence/event-sale-11-11.png"
+      ]
+    },
+    {
+      "key": "black_friday",
+      "title": "Black Friday — Nạp 1 tặng 1",
+      "evidence": "LIVE_UI",
+      "availability": "offer_visible",
+      "bonusPercent": 100,
+      "tiers": [
+        {
+          "depositVnd": 50000,
+          "walletCreditVnd": 100000
+        },
+        {
+          "depositVnd": 200000,
+          "walletCreditVnd": 400000
+        },
+        {
+          "depositVnd": 1000000,
+          "walletCreditVnd": 2000000
+        }
+      ],
+      "methods": [
+        "ngân hàng",
+        "thẻ cào"
+      ],
+      "serverScope": "all_servers",
+      "purchaseLimit": "unlimited_times",
+      "bonusCountsTowardOtherEventTopupMilestones": false,
+      "endDate": "2026-11-30",
+      "endTime": "16:59",
+      "timezone": "UNKNOWN",
+      "actionTaken": "none",
+      "evidenceFiles": [
+        "evidence/event-black-friday.png"
+      ]
+    },
+    {
+      "key": "first_topup",
+      "title": "Quà Lớn Nạp Đầu",
+      "evidence": "LIVE_UI",
+      "availability": "offer_visible",
+      "priceOptionsVnd": [
+        20000,
+        50000,
+        100000
+      ],
+      "rewardCadenceDays": 3,
+      "featuredHero": "Lôi Chấn Tử",
+      "featuredHeroRoot": 30,
+      "itemIds": null,
+      "unknown": [
+        "ID và tên các phần thưởng chỉ hiện bằng icon chưa mở tooltip."
+      ],
+      "actionTaken": "none",
+      "evidenceFiles": [
+        "evidence/event-first-topup.png"
+      ]
+    },
+    {
+      "key": "hoan_hi_set",
+      "title": "Gói Hoan Hỉ",
+      "evidence": "LIVE_UI",
+      "availability": "offer_visible",
+      "pieceCount": 6,
+      "slots": [
+        "Mũ",
+        "Kiếm",
+        "Áo",
+        "Hộ Uyển",
+        "Đai",
+        "Hài"
+      ],
+      "minimumHeroLevel": 5,
+      "purchaseLimit": "one_per_character",
+      "priceVnd": 333000,
+      "originalPriceVnd": 540000,
+      "thresholds": [
+        {
+          "pieces": 2,
+          "dropRateBonusPercent": 10
+        },
+        {
+          "pieces": 4,
+          "dropRateBonusPercent": 15
+        },
+        {
+          "pieces": 6,
+          "dropRateBonusPercent": 30
+        }
+      ],
+      "thresholdsStack": false,
+      "dropScope": [
+        "ô đất",
+        "thăm dò",
+        "tìm kiếm",
+        "Tiên Sơn"
+      ],
+      "itemIds": null,
+      "actionTaken": "none",
+      "evidenceFiles": [
+        "evidence/event-hoan-hi.png"
+      ]
+    },
+    {
+      "key": "loc_dai_mat_tang",
+      "title": "Lộc Đài Mật Tàng",
+      "evidence": "PUBLIC_CLIENT",
+      "availability": "unknown",
+      "mechanics": [
+        "Chọn kho thưởng trong ba nhóm.",
+        "Một lượt miễn phí mỗi ngày.",
+        "Quay tích lũy để nhận quà mốc.",
+        "Kho thưởng khóa sau lượt quay đầu ngày."
+      ],
+      "unknown": [
+        "Tình trạng server và reward cụ thể chưa được thấy trong phiên."
+      ],
+      "module": "/mods/events.js + /mods/su-kien-tnl.js"
+    },
+    {
+      "key": "tuan_du_than_linh",
+      "title": "Tuần Du Thần Linh",
+      "evidence": "PUBLIC_CLIENT",
+      "availability": "unknown",
+      "mechanics": [
+        "Tung xúc xắc để ghé thành.",
+        "Thành thường nhận thưởng ngay.",
+        "Thành lớn cần phái Đắc Kỷ và chờ 10 phút."
+      ],
+      "unknown": [
+        "Điều kiện tham gia, quà và lịch reset chưa xác minh."
+      ],
+      "module": "/mods/events.js + /mods/su-kien-tnl.js"
+    },
+    {
+      "key": "diem_danh_8",
+      "title": "Điểm Danh 8 Ngày",
+      "evidence": "PUBLIC_CLIENT",
+      "availability": "unknown",
+      "mechanics": [
+        "Chuỗi quà ngày 1–8.",
+        "UI nêu hộp chọn thần tiên ngày 7 và rương bảo vật tự chọn ngày 8.",
+        "Rương mở trong Túi đồ; cần Tụ Tiên Các còn chỗ."
+      ],
+      "unknown": [
+        "Quà theo từng ngày và thời hạn chuỗi chưa được mở live."
+      ],
+      "module": "/mods/diem-danh-8.js"
+    },
+    {
+      "key": "qua_moi_ngay",
+      "title": "Quà Tặng Mỗi Ngày",
+      "evidence": "PUBLIC_CLIENT",
+      "availability": "unknown",
+      "mechanics": [
+        "Quà theo mốc nạp; client có nút nhận và đi nạp."
+      ],
+      "unknown": [
+        "Ngưỡng và giá trị quà không được xác minh."
+      ],
+      "module": "/mods/qua-moi-ngay.js"
+    },
+    {
+      "key": "mieu_hoi",
+      "title": "Miếu Hội",
+      "evidence": "PUBLIC_CLIENT",
+      "availability": "unknown",
+      "mechanics": [
+        "Client có nhãn Cầu Nguyện, Đào Ba Tấc Đất, Vũ Khí Tuyệt Thế, Tỉ Thí, Chiến Lệnh, Tiệm Tầm Bảo, Điểm Danh, Quà Tích Nạp."
+      ],
+      "unknown": [
+        "Lịch mùa và cách chơi chưa xác minh."
+      ],
+      "module": "/mods/mieu-hoi.js"
+    },
+    {
+      "key": "dua_top",
+      "title": "Đua Top",
+      "evidence": "PUBLIC_CLIENT",
+      "availability": "unknown",
+      "mechanics": [
+        "Client có các nhánh Đua Chiến Lực, Đua Quan Chức, Đua Thần Tiên."
+      ],
+      "unknown": [
+        "Bảng động và reward chưa ghi nhận."
+      ],
+      "module": "/mods/dua-top.js"
+    },
+    {
+      "key": "bao_long",
+      "title": "Bảo Long Doanh Tài",
+      "evidence": "PUBLIC_CLIENT",
+      "availability": "unknown",
+      "mechanics": [
+        "Client mô tả gói theo mùa và nút Mở Ma Trận."
+      ],
+      "unknown": [
+        "Gói trả phí, điều kiện và phần thưởng chưa xác minh."
+      ],
+      "module": "/mods/bao-long.js"
+    }
+  ],
+  "dackyComparison": {
+    "dailyReward": "Generic local reward from simulated-world.js; not an event scheduler.",
+    "fieldEvent": "Seeded local daily patrol with simulated source evidence.",
+    "status": "MISSING for scheduled server events; PARTIAL for item-level adapters."
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "status": "UNKNOWN",
+  "liveEvidence": [
+    "Event reward panels and an equipment set were visible.",
+    "No permanent collection/album screen with stat bonuses was identified in accessible menus."
+  ],
+  "candidateSystems": [
+    {
+      "key": "permanent_collection",
+      "evidence": "UNKNOWN",
+      "rules": null,
+      "itemIds": null,
+      "notes": "Need open collection UI and verify collection slots, thresholds, stat stacking, and acquisition."
+    },
+    {
+      "key": "loc_dai_reward_pool",
+      "evidence": "PUBLIC_CLIENT",
+      "rules": "Selectable event prize groups and accumulated milestones.",
+      "itemIds": null,
+      "notes": "Event reward selection; permanent collection effect not established."
+    },
+    {
+      "key": "hoan_hi_equipment_set",
+      "evidence": "LIVE_UI",
+      "rules": "Six-piece gear set with non-stacking 2/4/6 piece drop-rate thresholds.",
+      "itemIds": null,
+      "notes": "Equipment set evidence, not a collection-book mechanic."
+    }
+  ],
+  "dackyComparison": {
+    "collectionAlbum": "No dedicated collection album found in accessible Dacky gameplay UI/code search.",
+    "status": "MISSING in Dacky implementation; original mechanic remains UNKNOWN."
+  }
+}

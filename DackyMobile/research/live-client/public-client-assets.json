@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "source": "https://dackytruvuong.com",
+  "method": "Same-origin GET of selected public JavaScript modules referenced by public /play HTML; no query parameters, APIs, admin paths, or player data",
+  "rawCodeCommitted": false,
+  "assets": [
+    {
+      "path": "/mods/bao-long.js",
+      "bytes": 21477,
+      "sha256": "da8352c4753c24a1fd0c64913836c048249286192380aacc3be670ba344e4a38",
+      "role": "Seasonal Bảo Long offer"
+    },
+    {
+      "path": "/mods/bao-online.js",
+      "bytes": 41153,
+      "sha256": "3c6c80e139461e7faee538c2962bca687347f16d043f8ea7e9811bd884eb0012",
+      "role": "Online / VIP notification UI"
+    },
+    {
+      "path": "/mods/battle-fx-catalog.js",
+      "bytes": 39444,
+      "sha256": "a79b9a9418c362139882bd335f7cfcdc39546293d1865f06b329c4feef636b7c",
+      "role": "Battle visual-effect asset catalog"
+    },
+    {
+      "path": "/mods/battle-hit-fx.js",
+      "bytes": 13466,
+      "sha256": "1f16627fa8df7e4bedd64ebe34c5bb5ab3093602a5f8b57a15d7d2fac5c32e28",
+      "role": "Battle hit effect animation"
+    },
+    {
+      "path": "/mods/battle-live.js",
+      "bytes": 46210,
+      "sha256": "f5d1f395db233b604a892f7bff03f7d8ba2bbd493022a87522e80bb8647e0611",
+      "role": "Live battle connection and command UI"
+    },
+    {
+      "path": "/mods/battle-tnl.js",
+      "bytes": 70702,
+      "sha256": "1817df18082e3e1994f48a9df5a71019aacb8d6e248256fd009a3f6a9b660049",
+      "role": "Battle animation bindings"
+    },
+    {
+      "path": "/mods/buzhou.js",
+      "bytes": 38727,
+      "sha256": "31c1632f83abd3b197433ec191eaa1caaf68173e8fb92fe85a234ad852fdb47a",
+      "role": "Bất Chu tower challenge UI"
+    },
+    {
+      "path": "/mods/college.js",
+      "bytes": 37148,
+      "sha256": "784f595d25d0cfe54ceed06dd9d4c77b13b1fdd675c149ccfbaa7da600ff79ed",
+      "role": "Academy / research UI"
+    },
+    {
+      "path": "/mods/cung-dien.js",
+      "bytes": 50057,
+      "sha256": "bd67e524378f2c394b1de5f962086a881bb85567a32fb3f7a5a0c135bddb0c0d",
+      "role": "Palace / city administration UI"
+    },
+    {
+      "path": "/mods/danh-hieu.js",
+      "bytes": 22924,
+      "sha256": "5fed675d97437ad88c9d8044e891954b00a54ec9f7ca60f550fb4abd488f2435",
+      "role": "Title inventory and duration UI"
+    },
+    {
+      "path": "/mods/diem-danh-8.js",
+      "bytes": 13240,
+      "sha256": "31fd44e475234585da5e809c2ad4144251faafbd28eedbfe3ab5c910dd6e78fe",
+      "role": "Eight-day login reward UI"
+    },
+    {
+      "path": "/mods/dua-top.js",
+      "bytes": 19263,
+      "sha256": "db48e09b1881b8cff35890e9f23eb62a8fa87ba9ea101f4d57fb60af7936dc00",
+      "role": "Power / rank race event categories"
+    },
+    {
+      "path": "/mods/events.js",
+      "bytes": 29355,
+      "sha256": "86622541f7a0e9ac951aea5ad292570fd34300d22d3f58c9e4a0140b2300927f",
+      "role": "Event wheel, city visit and reward labels"
+    },
+    {
+      "path": "/mods/goi-hoan-hi.js",
+      "bytes": 13863,
+      "sha256": "250dbd0262a4530ff1a88e71981c85c33f9e4329d0b2d189470b2d49413b1490",
+      "role": "Six-piece Hoan Hỉ set offer"
+    },
+    {
+      "path": "/mods/hospital.js",
+      "bytes": 43105,
+      "sha256": "58873cb04840a303e0fc61b3b082584c4dd5124dafe25d2facfe8aba2711b71e",
+      "role": "Hospital and wounded troop recovery UI"
+    },
+    {
+      "path": "/mods/item-supplement.js",
+      "bytes": 14658,
+      "sha256": "6391f2247d1f5eab063694785a898e01a700c7ea4667bfc4e1d932a060336b1f",
+      "role": "Item supplement panels"
+    },
+    {
+      "path": "/mods/ky-lenh.js",
+      "bytes": 1993,
+      "sha256": "a3bf1c6cfb53efbc336796934faa034f4fe17f70df0ac2c4d540a00c05095d87",
+      "role": "Tactical command UI"
+    },
+    {
+      "path": "/mods/loan-chien.js",
+      "bytes": 30253,
+      "sha256": "add24ae8e748a7f0b49feb14ef2bccafad20a31d131d7cbe6a85e972e0e9584b",
+      "role": "Loạn Chiến registration and schedule UI"
+    },
+    {
+      "path": "/mods/ma-tran.js",
+      "bytes": 37334,
+      "sha256": "a6b2ae93298f02dc8ae027e1a75390c02bc06e7a116a3bdd4d609652318effb7",
+      "role": "Matrix aura UI"
+    },
+    {
+      "path": "/mods/mieu-hoi.js",
+      "bytes": 46262,
+      "sha256": "511aac0e3910401ebcb881054e9cc18b48c41cfe290a3b89423724fd39fb9ab8",
+      "role": "Shrine activities, digging and reward milestones"
+    },
+    {
+      "path": "/mods/nap-dau.js",
+      "bytes": 19722,
+      "sha256": "0587b4febd45cd057bbd237761c8e52b102ea6e3ab4a80bf957b6a043513b0dc",
+      "role": "First top-up offer"
+    },
+    {
+      "path": "/mods/ngoai-giao.js",
+      "bytes": 76338,
+      "sha256": "386f43beefecb26172ddf2b0608bdba1ac2ecffd1502a0ceed6b88f15344b68a",
+      "role": "Guild and friend UI"
+    },
+    {
+      "path": "/mods/official.js",
+      "bytes": 20775,
+      "sha256": "480f411e4947b68f93c852cc1e9fb33c917dcc2804a1cf8324f16530e048f08e",
+      "role": "Official rank progression UI"
+    },
+    {
+      "path": "/mods/phap-bao-tich.js",
+      "bytes": 25452,
+      "sha256": "f9f2b5e3c437ca6d0d95c9dcb24e9e8185e59d7c3f0d89793d3e18d3e803531f",
+      "role": "Artifact/tradition panels"
+    },
+    {
+      "path": "/mods/qua-moi-ngay.js",
+      "bytes": 11212,
+      "sha256": "2edd651f0b77f332c220fcb34ab92e03ec8539a8f8a3db839a26e0088e7c84f0",
+      "role": "Daily top-up gift UI"
+    },
+    {
+      "path": "/mods/qua-tan-thu.js",
+      "bytes": 7999,
+      "sha256": "5d69a3350af98c438b76c4ec87bf4ea3a0de9be0e753a1f67622369714f4ae7a",
+      "role": "New player gift flow"
+    },
+    {
+      "path": "/mods/quan-tinh.js",
+      "bytes": 24466,
+      "sha256": "90085bca6f428207a5b36ac45de1399a2a5e0341f9e5fb683fc4a26ee25a8716",
+      "role": "March, scout, garrison and alliance lists"
+    },
+    {
+      "path": "/mods/quests.js",
+      "bytes": 30331,
+      "sha256": "ec985806e6fb5957fd22aa07cc2329b3c437d0f329c1f3500afa25394b84866a",
+      "role": "Quest states and classifications"
+    },
+    {
+      "path": "/mods/shop-phuc-loi.js",
+      "bytes": 24016,
+      "sha256": "c952b7a440e25621fbabdc5ac577c2ec8ac0dc1cdafcd7236e0055bfdcf105bb",
+      "role": "Daily / weekly / monthly benefit shop"
+    },
+    {
+      "path": "/mods/strongpoint.js",
+      "bytes": 88320,
+      "sha256": "449984d168483c55b3aa180353de463762197690041e6098569fbd0427fd1555",
+      "role": "Strongpoint battle UI"
+    },
+    {
+      "path": "/mods/su-kien-tnl.js",
+      "bytes": 22298,
+      "sha256": "3580ce29a7de3cfd5ad522a32f58c55856536c698cce351469e074c328f970d9",
+      "role": "TNL event panel adapters, free spin, prize pool and milestones"
+    },
+    {
+      "path": "/mods/than-tuong.js",
+      "bytes": 82790,
+      "sha256": "df84d2c8255b7b2e8bbb157f5d3e013a78f66cda7740d7e6663f982b53aacd7c",
+      "role": "Hero roster and hero profile UI"
+    },
+    {
+      "path": "/mods/tien-son.js",
+      "bytes": 33456,
+      "sha256": "a7f9c5e5f61ea1106e1f3614bde3cd415b64938802cc919e3ff847af515ec063",
+      "role": "Tiên Sơn expedition interface"
+    },
+    {
+      "path": "/mods/tower.js",
+      "bytes": 85481,
+      "sha256": "a34d4d25e89f5ceac542931a1d466d6301ca5b17253a362f203aa1d9c4a3de6e",
+      "role": "Tower challenge UI"
+    },
+    {
+      "path": "/mods/tro-giup.js",
+      "bytes": 17671,
+      "sha256": "e13fbe54f1d6f19bdc86a9ebf9d2d35528e561a965bae8f2bb7700c0d5e6bde6",
+      "role": "Help / onboarding UI"
+    },
+    {
+      "path": "/mods/tu-phat.js",
+      "bytes": 52802,
+      "sha256": "02cb5324a4e6d5bfe3c98fa71e5578b1158f6be171ac695e62eac47966df734b",
+      "role": "Meditation / cultivation UI"
+    },
+    {
+      "path": "/mods/ty-vo.js",
+      "bytes": 56703,
+      "sha256": "7f26b3763c1ba4b90eb31ddf63b278b7e97be851c540b366cd7f171eb8b32e1e",
+      "role": "Tỷ Võ competition UI"
+    }
+  ]
+}

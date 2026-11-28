@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "screens": [
+    {
+      "key": "resources",
+      "tabs": [
+        "Tài nguyên"
+      ],
+      "facts": [
+        "Hourly production and storage are shown.",
+        "Gold per hour UI formula uses tax and subtracts hero salary."
+      ],
+      "evidence": "LIVE_UI",
+      "file": "../evidence/city-resources.png"
+    },
+    {
+      "key": "governance",
+      "tabs": [
+        "Trị thành"
+      ],
+      "facts": [
+        "Tax, citizen relief, labor allocation and city governor concepts appear.",
+        "A button opens Cung Điện."
+      ],
+      "evidence": "LIVE_UI",
+      "file": "../evidence/city-governance.png"
+    },
+    {
+      "key": "technique",
+      "tabs": [
+        "Tiên thuật"
+      ],
+      "facts": [
+        "Route directs to Tu Tiên Viện."
+      ],
+      "evidence": "LIVE_UI",
+      "file": "../evidence/city-techniques.png"
+    },
+    {
+      "key": "territory",
+      "tabs": [
+        "Lãnh thổ"
+      ],
+      "facts": [
+        "Territory panel is accessible.",
+        "Exact unlocks, map ownership and expansion cost not recorded."
+      ],
+      "evidence": "LIVE_UI",
+      "file": "../evidence/city-territory.png"
+    }
+  ],
+  "publicHelp": [
+    "Build on an empty inner-city plot.",
+    "Select an existing building to inspect/upgrade.",
+    "Outer city resource buildings named: Ruộng, Trại gỗ, Mỏ đá, Mỏ đồng.",
+    "Map supports drag/select.",
+    "Cung Điện handles tax/citizen relief/labor/governor."
+  ],
+  "helpEvidence": "PUBLIC_CLIENT /mods/tro-giup.js",
+  "dackyCoverage": {
+    "buildingProfiles": 21,
+    "mobileCostTables": 15,
+    "simulatedProfiles": 6,
+    "source": "DATA_COVERAGE.json",
+    "status": "PARTIAL"
+  },
+  "unknown": [
+    "Exact per-building open conditions not reviewed in live UI.",
+    "Ngoại thành destination was not verified.",
+    "Multi-city source formulas not established."
+  ]
+}

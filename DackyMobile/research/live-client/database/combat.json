@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "verifiedLiveRules": [
+    {
+      "key": "troop_types",
+      "values": [
+        "Trường Kích",
+        "Đao Thuẫn",
+        "Cung Tiễn",
+        "Kỵ Binh"
+      ],
+      "evidence": "LIVE_UI",
+      "file": "../evidence/hero-formation.png"
+    },
+    {
+      "key": "troop_allocation",
+      "formulaText": "thống suất ÷ dân số lính (440)",
+      "zeroAssignment": "returns all troops",
+      "autoReplenishAfterBattle": true,
+      "evidence": "LIVE_UI",
+      "file": "../evidence/hero-formation.png"
+    },
+    {
+      "key": "army_lists",
+      "values": [
+        "Xuất chinh",
+        "Cảnh giới",
+        "Đóng quân",
+        "Liên minh"
+      ],
+      "evidence": "LIVE_UI",
+      "files": [
+        "../evidence/army-overview.png",
+        "../evidence/army-scout.png",
+        "../evidence/army-garrison.png",
+        "../evidence/army-alliance.png"
+      ]
+    },
+    {
+      "key": "matrix_aura",
+      "scope": "one hero; all activated matrix stats stack; one displayed aura; switch free",
+      "evidence": "LIVE_UI"
+    }
+  ],
+  "battleExecution": {
+    "liveBattleObserved": false,
+    "replayObserved": false,
+    "videoSaved": false,
+    "reason": "No battle was started because it can consume troops/resources; the preview card was not played.",
+    "status": "UNKNOWN"
+  },
+  "publicClientModules": [
+    "/mods/battle-live.js",
+    "/mods/battle-tnl.js",
+    "/mods/battle-fx-catalog.js",
+    "/mods/battle-hit-fx.js"
+  ],
+  "dackyComparison": {
+    "commands": [
+      "battleCommand",
+      "battleAuto"
+    ],
+    "status": "UNKNOWN for parity",
+    "note": "Dacky provides a local simulated battle and report path; no live result was available for formula comparison."
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "menus": {
+    "main": [
+      "Địa đồ",
+      "Ngoại thành",
+      "Nội chính",
+      "Thần tướng",
+      "Quân tình",
+      "Ngoại giao",
+      "Báo cáo",
+      "Thư",
+      "Trợ giúp"
+    ],
+    "diplomacy": [
+      "Tổng quan",
+      "Trợ giúp",
+      "Quà tặng",
+      "Thành viên",
+      "Ngoại giao",
+      "Nội vụ",
+      "Dụng cụ",
+      "Cung phụng",
+      "Nhật ký"
+    ],
+    "hero": [
+      "Thuộc tính",
+      "Tu luyện",
+      "Kỹ năng",
+      "Phối binh"
+    ],
+    "city": [
+      "Tài nguyên",
+      "Trị thành",
+      "Tiên thuật",
+      "Lãnh thổ"
+    ]
+  },
+  "visualEvidence": [
+    "Isometric city scene.",
+    "Fullscreen overlay panels with left roster/list and right-side details.",
+    "Matrix tier grid and aura illustration.",
+    "Client modules contain combat FX/UI strings, but runtime combat animation was not viewed."
+  ],
+  "privatePanelsOmitted": [
+    "Chat",
+    "Leaderboard rows",
+    "Guild/friend lists",
+    "Mail/reports",
+    "Account resources and hero roster values"
+  ],
+  "screenshotCount": 22,
+  "viewport": "1600x900",
+  "mobileTouchValidation": "UNKNOWN"
+}
