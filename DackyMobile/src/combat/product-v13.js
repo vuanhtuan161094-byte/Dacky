@@ -1,3 +1,4 @@
+import {ARTIFACT_SLOTS} from '../source-v4.js';
 import {titleBonus} from '../completion-r4.js';
 import { collectionBonus } from '../live-product-p2.js';
 import { experienceForLevel } from '../simulated-world.js';
@@ -71,8 +72,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
  }
  function commander(save,state){
   const p=profileFor(save),level=integer(save.level,'hero level',1),stats=duelStats(p,save,state);
-  const gear=byItem.get(save.equipment?.artifact),aid=gear?.mobileSourceId==null?null:String(gear.mobileSourceId),artifact=rt.index.artifacts[aid];
-  const ids=artifact&&(save.combatDurability?.[gear.id]??100)>0&&canEquip(artifact,p,{level}).ok?[aid]:[];
+  const ids=[...new Set(ARTIFACT_SLOTS.flatMap(slot=>{const gear=byItem.get(save.equipment?.[slot]),aid=gear?.mobileSourceId==null?null:String(gear.mobileSourceId),artifact=rt.index.artifacts[aid];return artifact&&(save.combatDurability?.[gear.id]??100)>0&&canEquip(artifact,p,{level}).ok?[aid]:[];}))];
   return {heroId:p.id,instanceId:save.id,activeMatrix:save.activeMatrix??null,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,commandAttack:clamp((stats.attack+stats.magic*.3)*.0005,0,1),commandDefense:clamp(gearBonus(save,'armor')*.001,0,.3),activeCombatSkill:skillBattlePolicy(save).name,activeCombatSkillLevel:skillBattlePolicy(save).level,troopRecoverySuppression:save.activeCombatSkill==='Truy kích'&&save.combatSkills?.['Truy kích']?.advanced&&save.combatSkills['Truy kích'].level>=17?.30:0,evidence:p.evidence};
  }
  function recover(state,now){if(!Number.isFinite(now))throw Error('INVALID_TIME');const s=copy(state);for(const h of s.heroes){const last=h.combatUpdatedAt;if(!Number.isFinite(last)||now<=last)continue;const c=commander(h,s),ticks=Math.floor((now-last)/60000);if(ticks<=0)continue;h.combatMana=Math.min(c.maxMana,c.mana+Math.ceil(c.maxMana*.05)*ticks);h.combatVitality=Math.min(c.maxVitality,c.vitality+Math.ceil(c.maxVitality*.05)*ticks);h.combatUpdatedAt=last+ticks*60000;}return s;}
