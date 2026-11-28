@@ -25,7 +25,7 @@ jobs:
       - run: python -m pip install Pillow playwright imageio-ffmpeg
       - run: node --test tests/combat-squad-d2.test.js
       - run: npm test
-      - run: DACKY_COMBAT_PREVIEW=1 npm run build
+      - run: DACKY_SOURCE_V3_INTERNAL=1 DACKY_COMBAT_PREVIEW=1 npm run build
       - name: Verify actual D2 presentation and capture
         run: |
           mkdir -p qa/total-finalization
