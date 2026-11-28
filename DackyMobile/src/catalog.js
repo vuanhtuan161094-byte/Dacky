@@ -261,7 +261,8 @@ const simulatedQuestGoods=[...legacyQuestGoods.values()].map(row=>({
 }));
 export const ITEMS = Object.freeze([
   ...adaptedItemRows.map(item => item.mobileSourceId ? { ...item, bonus: 0, bonusEvidence: 'SIMULATED' } : item),
-  ...simulatedQuestGoods
+  ...simulatedQuestGoods,
+  ...(!adaptedItemRows.some(i=>i.mobileSourceId!=null&&i.name.trim().toLowerCase()==='lệnh phi thăng')?[{id:'offline-ascension-order',name:'Lệnh Phi Thăng',type:'vật phẩm',glyph:'令',tier:4,bonus:0,effect:'Dùng để Phi thăng thần tiên cấp 80',mobileSourceId:null,mobileGroup:'Nhiệm vụ',mobileQuality:'Tím',mobileStats:[],mobileDescription:'Lệnh Phi Thăng · vật phẩm thay thế offline khi danh mục nguồn chưa có',evidence:'SIMULATED_LOCAL_POLICY'}]:[])
 ]);
 
 const techNames = [
