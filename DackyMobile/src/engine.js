@@ -5,7 +5,7 @@ import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUN
 import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,sourceGearGemRule,gearProtectionRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,pendingBattleBuff,equipmentSlot,equipmentSets } from './gameplay-p15.js';
 import { createProductCombat } from './combat/product-v13.js';
 import { sourceGrowth } from './combat/hero-progression.js';
-import { matrixRule,ascensionQuote,normalizeLiveHero,normalizeLiveEvents,COMBAT_SKILLS,LIVE_EVENTS,claimLiveEvent,dropBonusForHeroes,LOCAL_GROWTH,growthQuote,skillQuote,matrixStats,isHoanHi } from './live-source-p1.js';
+import { matrixRule,ascensionQuote,normalizeLiveHero,normalizeLiveEvents,COMBAT_SKILLS,LIVE_EVENTS,claimLiveEvent,dropBonusForHeroes,LOCAL_GROWTH,growthQuote,skillQuote,matrixStats,isHoanHi,ascensionItem } from './live-source-p1.js';
 
 export const SAVE_VERSION = 4;
 const HERO_LEVEL_CAP = 150;
@@ -1387,7 +1387,8 @@ export function doAction(state, action, now = Date.now()) {
       const def=LIVE_EVENTS.find(e=>e.id===action.eventId);if(!def)throw Error('Sự kiện không tồn tại');
       claimLiveEvent(s,def,now,rewards=>{
         const grants=[];
-        if(def.special==='matrix'){
+        if(def.special==='ascension'){const order=ascensionItem(ITEMS);if(order)grants.push(order.id);}
+        else if(def.special==='matrix'){
           const pool=ITEMS.filter(i=>matrixRule(i)?.points);
           if(!pool.length)throw Error('Chưa có Ảo Hóa trong catalog');
           const owned=new Set(s.heroes.flatMap(h=>h.matrices||[]));
