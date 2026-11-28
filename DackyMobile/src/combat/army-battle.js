@@ -57,7 +57,7 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={},siege=nul
  if(squadMode)for(let i=0;i<2;i++){const j=rosters[i].findIndex((_,k)=>viable(i,k));selectSquad(i,j<0?0:j);}
  const allStacks=i=>squadMode?aggregateSquadStacks(groups[i]):army[i].stacks;
  const total=i=>sum(allStacks(i));
- const challengeUsed=[false,false];
+ const challengeUsed=[false,false],revived=new Set();
  const passiveNames=sides.map(s=>s.legacyPassiveName??null);
  const initial=army.map((s,i)=>total(i)),random=rngFor(seed),rounds=[],events=[];
  const summary=s=>({...s,troops:sum(s.stacks),initialTroops:s.stacks.reduce((n,t)=>n+t.initialCount,0)});
@@ -100,10 +100,18 @@ export function resolveArmyBattle({index,troops,sides,seed=1,policy={},siege=nul
   const stances=army.map((s,i)=>advanced?chooseStance({requested:commands[i].stance??sides[i].stance??'auto',own:sum(s.stacks),enemy:sum(army[1-i].stacks),tactical:tactical[i],wall,side:i}):'balanced');
   if(advanced)for(let i=0;i<2;i++)log('stance',i,{stance:stances[i]});
   const incoming=[power(army[1],army[0],[prep.sides[1].modifiers,prep.sides[0].modifiers],tactical[1],passives[1],passives[0],[stances[1],stances[0]]),power(army[0],army[1],[prep.sides[0].modifiers,prep.sides[1].modifiers],tactical[0],passives[0],passives[1],stances)];
+  for(let i=0;i<2;i++){const a=army[i],name=a.activeCombatSkill,lv=Math.min(25,Number(a.activeCombatSkillLevel)||0),own=sum(a.stacks),enemy=sum(army[1-i].stacks),base=a.stacks.reduce((n,t)=>n+t.initialCount,0),enemyBase=army[1-i].stacks.reduce((n,t)=>n+t.initialCount,0);if(!lv||!own||!a.vitality)continue;let attack=1,defense=1;
+   if(name==='Truy kích'&&enemy<enemyBase*.75)attack+=.04+lv*.008;
+   if(name==='Tử chiến'&&own<base*.35)attack+=.06+lv*.012;
+   if(name==='Mưu lược'){attack+=lv*.004;defense-=lv*.003;}
+   if(name==='Né chiêu'&&random()<.04+lv*.006)defense=.35;
+   if(attack!==1||defense!==1){incoming[1-i]=Math.floor(incoming[1-i]*attack);incoming[i]=Math.floor(incoming[i]*defense);log('combatSkill',i,{name,level:lv,attack,defense,evidence:'SIMULATED_LOCAL_POLICY'});}
+  }
   if(wall?.hp>0){const damage=prep.sides[0].flags.skipAttack||!army[0].vitality?0:hitWall(wall,army[0].stacks,troops,stances[0]);wall.hp-=damage;incoming[1]=0;log('wallHit',0,{amount:damage,hp:wall.hp,maxHp:wall.maxHp});if(!wall.hp)log('wallBreached',0);}
   if(advanced)for(let i=0;i<2;i++)if(!army[i].vitality){incoming[1-i]=0;log('commanderExhausted',i);}
   const settled=resolveArtifactStrikes(prep,incoming);
   army=army.map((s,i)=>({...s,...settled.sides[i],stacks:allocateTroopDelta(s.stacks,settled.sides[i].troops-sum(s.stacks))}));
+  for(let i=0;i<2;i++){const a=army[i],lv=Math.min(25,Number(a.activeCombatSkillLevel)||0),name=a.activeCombatSkill,base=a.stacks.reduce((n,t)=>n+t.initialCount,0),n=sum(a.stacks),key=a.instanceId??i;if(!lv||!a.vitality)continue;let recovery=0;if(name==='Ban phúc'&&n>0)recovery=Math.floor(base*(.005+lv*.0006));if(name==='Trùng sinh'&&n===0&&!revived.has(key)){revived.add(key);recovery=Math.floor(base*(.04+lv*.003));}recovery=Math.min(base-n,Math.floor(recovery*(1-(army[1-i].troopRecoverySuppression||0))));if(recovery>0){a.stacks=allocateTroopDelta(a.stacks,recovery);log('combatSkill',i,{name,level:lv,recovery,evidence:'SIMULATED_LOCAL_POLICY'});}}
   if(advanced)for(let i=0;i<2;i++){
    const c={...rosters[i][active[i]],...commanderSnapshot(army[i])},f=applyCommanderFatigue(c,Math.max(0,before[i]-sum(army[i].stacks)),(squadMode?army[i].stacks.reduce((n,t)=>n+t.initialCount,0):initial[i]));
    const {damage,...snapshot}=f;rosters[i][active[i]]=snapshot;army[i].vitality=snapshot.vitality;if(damage)log('commanderFatigue',i,{amount:damage,vitality:snapshot.vitality});
