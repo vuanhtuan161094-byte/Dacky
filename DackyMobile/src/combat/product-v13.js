@@ -1,3 +1,4 @@
+import { collectionBonus } from '../live-product-p2.js';
 import { experienceForLevel } from '../simulated-world.js';
 import { getPveEncounter, PVE_TROOPS } from '../pve-campaign.js';
 // Product-facing pure adapter. Caller owns persistence and dispatch, never runs legacy settlement in parallel.
@@ -51,6 +52,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   if(artifactStars){const scale=1+artifactStars*.02;for(const key of ['attack','magic','defense','resistance'])stats[key]=Math.round(stats[key]*scale);}
   const weapon=gearBonus(save,'weapon')+gearBonus(save,'relic')+gearBonus(save,'relic2'),armor=['armor','helmet','belt','boots','gloves','mount'].reduce((n,k)=>n+gearBonus(save,k),0),mastery=1+clamp(Number(save.skillLevel)||1,1,10)*.025+clamp(Number(save.affinity)||0,0,100)*.001,activeSets=equipmentSets(save).filter(s=>!isHoanHi(s.name)).reduce((n,s)=>n+s.active.length,0),setScale=1+Math.min(.20,activeSets*.03);
   const out={...stats,attack:Math.round((stats.attack+weapon+(save.potential?.attack??0))*mastery*setScale),magic:Math.round((stats.magic+weapon*.4+(save.potential?.magic??0))*mastery*setScale),defense:Math.round((stats.defense+armor+(save.potential?.defense??0))*setScale),resistance:stats.resistance+Math.round(armor*.6)};
+  if(state){const c=collectionBonus(state);out.attack+=c.attack;out.magic+=c.magic;out.defense+=c.defense;}
   if(save.deified){const scale=1+.03*(save.divineLevel||1);for(const k of ['attack','magic','defense','resistance','maxHp','maxMana'])out[k]=Math.round(out[k]*scale);}
   const book=tower&&itemUseRule(bySourceItem.get(String(save.towerBookSourceId||'')))?.towerEffects;
   for(const [key,ratio] of Object.entries(book?.stats||{}))if(Number.isFinite(out[key])&&Number.isFinite(ratio))out[key]=Math.round(out[key]*(1+ratio));
@@ -70,7 +72,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const p=profileFor(save),level=integer(save.level,'hero level',1),stats=duelStats(p,save,state);
   const gear=byItem.get(save.equipment?.artifact),aid=gear?.mobileSourceId==null?null:String(gear.mobileSourceId),artifact=rt.index.artifacts[aid];
   const ids=artifact&&(save.combatDurability?.[gear.id]??100)>0&&canEquip(artifact,p,{level}).ok?[aid]:[];
-  return {heroId:p.id,instanceId:save.id,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,commandAttack:clamp((stats.attack+stats.magic*.3)*.0005,0,1),commandDefense:clamp(gearBonus(save,'armor')*.001,0,.3),activeCombatSkill:skillBattlePolicy(save).name,activeCombatSkillLevel:skillBattlePolicy(save).level,troopRecoverySuppression:save.combatSkills?.['Truy kích']?.advanced&&save.combatSkills['Truy kích'].level>=17?.30:0,evidence:p.evidence};
+  return {heroId:p.id,instanceId:save.id,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,commandAttack:clamp((stats.attack+stats.magic*.3)*.0005,0,1),commandDefense:clamp(gearBonus(save,'armor')*.001,0,.3),activeCombatSkill:skillBattlePolicy(save).name,activeCombatSkillLevel:skillBattlePolicy(save).level,troopRecoverySuppression:save.activeCombatSkill==='Truy kích'&&save.combatSkills?.['Truy kích']?.advanced&&save.combatSkills['Truy kích'].level>=17?.30:0,evidence:p.evidence};
  }
  function recover(state,now){if(!Number.isFinite(now))throw Error('INVALID_TIME');const s=copy(state);for(const h of s.heroes){const last=h.combatUpdatedAt;if(!Number.isFinite(last)||now<=last)continue;const c=commander(h,s),ticks=Math.floor((now-last)/60000);if(ticks<=0)continue;h.combatMana=Math.min(c.maxMana,c.mana+Math.ceil(c.maxMana*.05)*ticks);h.combatVitality=Math.min(c.maxVitality,c.vitality+Math.ceil(c.maxVitality*.05)*ticks);h.combatUpdatedAt=last+ticks*60000;}return s;}
  function enemyCommander(n, requestedLevel, name, bossLoadout=null){
