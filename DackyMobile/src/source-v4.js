@@ -91,3 +91,26 @@ export function bagGroup(i){
  }
  export function claimHeroTitle(s,h,id,now){const t=HERO_TITLES.find(x=>x.id===id);if(!h||s.queues.march||h.sourceTitle||!t||s.gameplay.v4.titleReceipts.includes(id)||titleProgress(s,t)<t.goal)throw Error('Chưa đủ điều kiện hoặc đang đeo danh hiệu');h.sourceTitle={id,until:now+t.durationMs};s.gameplay.v4.titleReceipts.push(id);}
  export function heroTitleBonus(h,now){const t=h.sourceTitle&&h.sourceTitle.until>now?HERO_TITLES.find(x=>x.id===h.sourceTitle.id):null;return Object.fromEntries(['attack','magic','defense'].map(k=>[k,t&&(t.kind===k||t.kind==='all')?t.bonus:0]));}
+
+ export const BUZHOU_ROUTES=Object.freeze(['Tầm bảo','Chiêu hiền','Đoạt khí']);
+ export function refreshV4Activities(s,now){
+  const x=s.gameplay.v4??(s.gameplay.v4={}),day=Math.floor(now/86400000),week=Math.floor((day+3)/7);
+  if(x.war?.day!==day)x.war={day,gate:null,secured:[],score:0,claimed:false};
+  if(x.stronghold?.week!==week)x.stronghold={week,registered:false,secured:[],claimed:false};
+  if(x.buzhou?.day!==day)x.buzhou={day,entries:0,route:x.buzhou?.route||BUZHOU_ROUTES[0]};
+  if(!BUZHOU_ROUTES.includes(x.buzhou.route))x.buzhou.route=BUZHOU_ROUTES[0];
+  return x;
+ }
+ export function eventTargets(nodes,kind){return nodes.filter(n=>kind==='war'?n.kind==='Dã địa':n.kind==='Danh thành'&&!n.isBoss).slice(0,kind==='war'?12:27);}
+ export function eventAvailable(s,kind,index,nodes){
+  const x=s.gameplay.v4,n=eventTargets(nodes,kind)[index];if(!n||s.queues.march||!Number.isInteger(index))return false;
+  if(kind==='war')return x.war.gate!==null&&Math.floor(index/3)===x.war.gate&&!x.war.secured.includes(index);
+  if(kind==='stronghold')return x.stronghold.registered&&!x.stronghold.secured.includes(index)&&!s.world.captures.includes(n.id);
+  return false;
+ }
+ export function settleV4Event(s,q,battle){
+  const e=q.sourceEvent;if(!e||!battle.victory)return;
+  const x=s.gameplay.v4;
+  if(e.kind==='war'&&x.war.day===e.period&&!x.war.secured.includes(e.index)){x.war.secured.push(e.index);x.war.score+=500+Math.max(0,Math.floor(battle.losses?.[1]||0));}
+  if(e.kind==='stronghold'&&x.stronghold.week===e.period&&!x.stronghold.secured.includes(e.index))x.stronghold.secured.push(e.index);
+ }
