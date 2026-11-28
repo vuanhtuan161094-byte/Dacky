@@ -241,14 +241,16 @@ test('all four red Mobile gems expose their verified stat or army effect and req
   }
 });
 
-test('Lệnh Phong Thần is consumed only when a low-root hero completes rebirth',()=>{
+test('Live source rebirth gate rejects pre-ascension heroes and does not consume legacy order while cost is unknown',()=>{
   const definition=HEROES.find(row=>Number(String(row.mobileBaseStats?.find(stat=>stat.label==='Căn cốt')?.value||'').match(/\d+/)?.[0]||0)<45),state=createNewGame('Thử phong thần',now),hero=state.heroes[0],order=sourceItem('8746');
   assert.ok(definition&&order);hero.id=definition.id;hero.level=60;hero.assigned=false;state.levels.storehouse=18;state.resources.gold=30_000;
-  assert.throws(()=>doAction(state,{type:'rebirthHero',heroId:hero.id},now),/Lệnh Phong Thần/);
-  assert.equal(state.resources.gold,30_000,'rejected promotion spends nothing');
+  assert.throws(()=>doAction(state,{type:'rebirthHero',heroId:hero.id},now),/Phi thăng/);
+  assert.equal(state.resources.gold,30_000);
   const quote=quoteItemPurchase(state,order.id);assert.equal(quote.costEvidence,'SIMULATED_SOURCE_FENGSHEN_ORDER_PRICE');assert.ok(quote.available);
-  const prepared=doAction(state,{type:'buyItem',itemId:order.id},now),promoted=doAction(prepared,{type:'rebirthHero',heroId:hero.id},now);
-  assert.ok(!promoted.items.includes(order.id));assert.equal(promoted.heroes[0].rebirths,1);
+  const prepared=doAction(state,{type:'buyItem',itemId:order.id},now);prepared.heroes[0].ascended=true;
+  const snapshot=structuredClone(prepared);
+  assert.throws(()=>doAction(prepared,{type:'rebirthHero',heroId:hero.id},now),/lò luyện/);
+  assert.deepEqual(prepared,snapshot);assert.ok(prepared.items.includes(order.id));
 });
 
 test('12 Mobile stat-gem materials socket, modify their described hero attribute and survive migration',()=>{
