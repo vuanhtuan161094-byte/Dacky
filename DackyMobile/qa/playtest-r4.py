@@ -414,7 +414,50 @@ def run_p2():
         print('P2_VISIBLE_ACTIONS='+json.dumps(sorted(seen)),flush=True)
         ctx.close();browser.close()
 
-try:run();run_p2()
+
+def run_v4():
+    with sync_playwright() as pw:
+        browser=pw.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
+        ctx,p,err=boot(browser,True)
+        def hero():return state(p)['heroes'][0]
+        def source_unit():return next(k for k,v in state(p)['army'].items() if v>30)
+        def assign(n):
+            hero_tab(p,'formation');id=hero()['id'];unit=source_unit()
+            p.locator('[data-source-troop="'+id+':'+unit+'"]').fill(str(n))
+            action(p,'setSourceTroops',lambda s:s['heroes'][0].get('sourceSquad',{}).get(unit,0)==n,'[data-troop="'+unit+'"][data-hero="'+id+'"]')
+        def owned_march():
+            hero_tab(p,'formation')
+            if not hero()['assigned']:action(p,'assignHero',lambda s:s['heroes'][0]['assigned'])
+            n=state(p)['stats']['battles']
+            nav(p,'world');click(p,'[data-action="selectNode"][data-node="node-001"]')
+            action(p,'marchOwned',lambda s:bool(s['queues']['march']) and s['queues']['march'].get('sourceOwned'))
+            finish(p,'march',lambda s:s['stats']['battles']==n+1 and not s['queues']['march'])
+        def title():
+            event_tab(p,'honors')
+            assert p.locator('.v4-title-list>div').count()==55
+            action(p,'claimHeroTitle',lambda s:bool(s['heroes'][0].get('sourceTitle')))
+        def war():
+            event_tab(p,'war');assert p.locator('.v4-war-grid').count()==2
+            assert p.locator('.v4-war-grid article').count()==39
+            action(p,'selectWarGate',lambda s:s['gameplay']['v4']['war']['gate']==0,'[data-gate="0"]')
+            action(p,'registerStronghold',lambda s:s['gameplay']['v4']['stronghold']['registered'])
+        def route():
+            nav(p,'pve');action(p,'selectBuzhouRoute',lambda s:s['gameplay']['v4']['buzhou']['route']=='Chiêu hiền','[data-route="Chiêu hiền"]')
+        for name,fn in [
+            ('four artifact slots',lambda:(hero_tab(p,'stats'),assert_slots(p))),
+            ('eight inventory categories',lambda:(nav(p,'inventory'),assert_bag(p))),
+            ('assign actual reserve',lambda:assign(8)),('return actual reserve',lambda:assign(0)),
+            ('assign for march',lambda:assign(18)),('owned squad combat settlement',owned_march),
+            ('hero title timed claim',title),('war atlas registration',war),('Buzhou route',route)
+        ]:case(p,'V4 '+name,fn)
+        rec('V4 browser errors','PASS' if not err else 'FAIL',err)
+        ctx.close();browser.close()
+def assert_slots(p):
+    assert p.locator('.v4-artifact-dock article').count()==4
+def assert_bag(p):
+    assert p.locator('[data-bag-filter]').count()==9
+
+try:run();run_p2();run_v4()
 except Exception as e:rec('test harness','FAIL',traceback.format_exc())
 (out/'results.json').write_text(json.dumps(records,ensure_ascii=False,indent=2))
 print('PLAYTEST_RESULT='+json.dumps(records,ensure_ascii=False),flush=True)
