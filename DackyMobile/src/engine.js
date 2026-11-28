@@ -1,3 +1,4 @@
+import {refreshR4,r4Action,R4_ACTIONS,titleBonus} from './completion-r4.js';
 import { refreshProduct,productAction,PRODUCT_ACTIONS,collectionBonus } from './live-product-p2.js';
 import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulated-world.js';
 import { getPveEncounter, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot, resolvePveLootAward } from './pve-campaign.js';
@@ -171,7 +172,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   };
   normalizeCityPlots(state);
   normalizeGameplay(state);
-  state.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(state);refreshProduct(state,now,ITEMS);
+  state.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(state);refreshProduct(state,now,ITEMS);refreshR4(state,now,TROOPS);
   return state;
 }
 
@@ -336,7 +337,7 @@ export function migrateSave(input, now = Date.now()) {
   s.combatReceipts=Array.isArray(s.combatReceipts)?[...new Set(s.combatReceipts.filter(x=>typeof x==='string'&&x.length<=200))]:[];
   s.combatSequence=Math.max(0,Math.floor(Number(s.combatSequence)||0));
   for(const h of s.heroes){h.rebirths=clamp(Math.floor(Number(h.rebirths)||0),0,5);h.rootBonus=clamp(Math.floor(Number(h.rootBonus)||0),0,5);h.sourceRootBonus=clamp(Math.floor(Number(h.sourceRootBonus)||0),0,21);h.potential=Object.fromEntries(['attack','magic','defense'].map(k=>[k,clamp(Math.floor(Number(h.potential?.[k])||0),0,350)]));h.mobileRootBonuses=Object.fromEntries(Object.entries(h.mobileRootBonuses&&typeof h.mobileRootBonuses==='object'?h.mobileRootBonuses:{}).filter(([id])=>['4955','8011','8012','8954','8955','8956','95911'].includes(id)).map(([id,n])=>[id,clamp(Math.floor(Number(n)||0),0,({4955:45,8011:41,8012:41,8954:45,8955:150,8956:150,95911:50})[id])]));h.mobilePotentialBonuses=(Array.isArray(h.mobilePotentialBonuses)?h.mobilePotentialBonuses:[]).filter(row=>row&&row.sourceId==='8957'&&Number.isFinite(row.points)&&row.points>0).slice(0,200).map(row=>({sourceId:'8957',points:clamp(Math.floor(row.points),1,3),evidence:'VERIFIED_MOBILE',runtimeFormula:'SIMULATED_SEEDED_RANGE'}));h.matrices=[...new Set((Array.isArray(h.matrices)?h.matrices:[]).filter(id=>ITEMS.some(i=>i.id===id)))];for(const k of ['combatMana','combatVitality','combatUpdatedAt','combatLoyalty'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
-  s.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(s);refreshProduct(s,now,ITEMS);
+  s.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(s);refreshProduct(s,now,ITEMS);refreshR4(s,now,TROOPS);
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   if (sourceVersion < 3) s.settings.combatV13 = true;
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
@@ -451,8 +452,8 @@ export function heroPower(hero, state) {
     return sum+base*(1+(upgrade?.rank||0)*0.08+(upgrade?.gems?.length||0)*0.06+(upgrade?.stars||0)*0.025);
   }, 0);
   const affinity=1+clamp(Number(hero.affinity)||0,0,100)*0.0015;
-  const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1,c=collectionBonus(state);
-  return Math.round((heroBaseRating(def) + gear + c.attack+c.magic+c.defense + matrixStats(hero,ITEMS).physical*3 + (hero.divineLevel||0)*12) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * affinity);
+  const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1,c=collectionBonus(state),t=titleBonus(state);
+  return Math.round((heroBaseRating(def) + gear + c.attack+c.magic+c.defense+t.attack+t.magic+t.defense + matrixStats(hero,ITEMS).physical*3 + (hero.divineLevel||0)*12) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * affinity);
 }
 
 function awardHeroXp(hero, amount) {
@@ -1351,6 +1352,7 @@ export function advance(state, now = Date.now()) {
 
 export function doAction(state, action, now = Date.now()) {
   let s = advance(state, now).state;
+  if(R4_ACTIONS.includes(action.type)){r4Action(s,action,now,{troops:TROOPS,credit:r=>credit(s,r),debit:r=>debit(s,r)});trackAction(s,action);return migrateSave(s,now);}
   if(PRODUCT_ACTIONS.includes(action.type)){
     productAction(s,action,now,{items:ITEMS,debit:cost=>debit(s,cost),grant:reward=>{
       const {token,treasure,...resources}=reward;credit(s,resources);
@@ -1976,6 +1978,7 @@ export function doAction(state, action, now = Date.now()) {
         const troopId = action.troopId || Object.keys(s.army).find(id => s.army[id] > 0);
         if (troopId && s.army[troopId]) troops[troopId]=Math.min(requested,s.army[troopId]);
       }
+      if(action.replenish===true){const ids=s.heroes.filter(h=>h.assigned&&s.gameplay.r4.replenish[h.id]).map(h=>h.id);for(const id of ids){const plan=s.gameplay.r4.lastSquads?.[id]||{};for(const [unit,n] of Object.entries(plan)){const room=marchTroopCapacity(s)-Object.values(troops).reduce((a,b)=>a+b,0);const extra=Math.min(Math.max(0,n-(troops[unit]||0)),Math.max(0,(s.army[unit]||0)-(troops[unit]||0)),Math.max(0,room));if(extra>0)troops[unit]=(troops[unit]||0)+extra;}}}
       const count=Object.values(troops).reduce((sum,n)=>sum+n,0);
       if(!count)throw new Error('Chưa có binh sĩ sẵn sàng hành quân.');
       const leadLimit=marchTroopCapacity(s);
@@ -2003,7 +2006,7 @@ export function doAction(state, action, now = Date.now()) {
       const seed=Object.entries(troops).reduce((value,[id,n])=>value^n^Number(id.slice(-2)),(now^node.power)>>>0);
       if(action.combatMode!==undefined&&!['auto','manual','squad','squad-auto'].includes(action.combatMode))throw new Error('Không nhận diện được chế độ giao chiến.');
       s.queues.march = { nodeId: node.id, troops, startAt: now, finishAt: now + Math.max(2000, (7 + node.chapter * 1.7) * 1000 / marchSpeed), seed:seed>>>0,...(pveAssault?{pveAssault}:{}) };
-      if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.combatMode=['manual','squad'].includes(action.combatMode)?'manual':'auto';s.queues.march.squadMode=['squad','squad-auto'].includes(action.combatMode);s.queues.march.battleCommands=[];s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=s.heroes.filter(h=>h.assigned).slice(0,s.queues.march.squadMode?5:3).map(h=>h.id);if(s.queues.march.squadMode){s.queues.march.squadCap=Math.ceil(leadLimit/s.queues.march.commanderIds.length);const p=combat().marchInput(s,s.queues.march).input;s.queues.march.squadAllocation=p.sides[0].squadStacks;}}
+      if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.combatMode=['manual','squad'].includes(action.combatMode)?'manual':'auto';s.queues.march.squadMode=['squad','squad-auto'].includes(action.combatMode);s.queues.march.battleCommands=[];s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=s.heroes.filter(h=>h.assigned).slice(0,s.queues.march.squadMode?5:3).map(h=>h.id);if(s.queues.march.squadMode){s.queues.march.squadCap=Math.ceil(leadLimit/s.queues.march.commanderIds.length);const p=combat().marchInput(s,s.queues.march).input;s.queues.march.squadAllocation=p.sides[0].squadStacks;s.gameplay.r4.lastSquads=Object.fromEntries(s.queues.march.commanderIds.map((id,i)=>[id,Object.fromEntries((p.sides[0].squadStacks[i]||[]).map(t=>[t.id,t.count]))]));}}
       note(s, `Đội quân rời thành hướng ${node.name}.`);
       break;
     }
