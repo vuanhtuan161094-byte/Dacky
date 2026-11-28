@@ -79,3 +79,15 @@ export function bagGroup(i){
  if(/bao vat/.test(group))return 'artifact';
  return 'material';
 }
+
+ // 55 entries: count and per-hero slot from public client; names/thresholds/stat/expiry are local.
+ const titleFamilies=[['Võ Hội','duels','attack'],['Quốc Chiến','victories','defense'],['Phú Hào','tradeCount','magic'],['Phong Thần','bossesDefeated','all'],['Lộc Đài','spins','all']];
+ const titleRanks=['Sơ','I','II','III','IV','V','VI','VII','VIII','IX','Đại'];
+ export const HERO_TITLES=Object.freeze(titleFamilies.flatMap(([name,stat,kind],family)=>titleRanks.map((rank,i)=>({id:'v4-title-'+family+'-'+i,name:name+' · '+rank,stat,goal:stat==='bossesDefeated'?i+1:(i+1)*5,kind,bonus:i+1,durationMs:(i+1)*86400000,evidence:'SIMULATED_LOCAL_POLICY'}))));
+ export function titleProgress(s,t){return t.stat==='spins'?s.gameplay?.liveProduct?.totalSpins||0:t.stat==='bossesDefeated'?Math.max(s.stats?.bossesDefeated||0,s.world?.towerFloor||0):s.stats?.[t.stat]||0;}
+ export function normalizeHeroTitles(s,now){
+  const x=s.gameplay.v4??(s.gameplay.v4={});x.titleReceipts=Array.isArray(x.titleReceipts)?[...new Set(x.titleReceipts.filter(id=>HERO_TITLES.some(t=>t.id===id)))]:[];
+  for(const h of s.heroes){const t=h.sourceTitle;if(!t||!HERO_TITLES.some(x=>x.id===t.id)||!Number.isFinite(t.until)||t.until<=now)delete h.sourceTitle;}
+ }
+ export function claimHeroTitle(s,h,id,now){const t=HERO_TITLES.find(x=>x.id===id);if(!h||s.queues.march||h.sourceTitle||!t||s.gameplay.v4.titleReceipts.includes(id)||titleProgress(s,t)<t.goal)throw Error('Chưa đủ điều kiện hoặc đang đeo danh hiệu');h.sourceTitle={id,until:now+t.durationMs};s.gameplay.v4.titleReceipts.push(id);}
+ export function heroTitleBonus(h,now){const t=h.sourceTitle&&h.sourceTitle.until>now?HERO_TITLES.find(x=>x.id===h.sourceTitle.id):null;return Object.fromEntries(['attack','magic','defense'].map(k=>[k,t&&(t.kind===k||t.kind==='all')?t.bonus:0]));}
