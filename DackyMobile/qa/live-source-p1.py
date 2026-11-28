@@ -29,8 +29,12 @@ with sync_playwright() as p:
         page.screenshot(path=str(out/(label+'-offers.png')))
         page.locator('[data-event-tab="honors"]').click()
         assert page.locator('.r4-honor-grid article').count()==7
+        assert page.locator('.v4-title-list > div').count()==55
         assert page.locator('[data-action="claimOnlineGift"]').count()==4
         page.screenshot(path=str(out/(label+'-honors.png')))
+        page.locator('[data-event-tab="war"]').click()
+        assert page.locator('.v4-war-grid article').count()==39
+        page.screenshot(path=str(out/(label+'-war-v4.png')))
         page.locator('[data-event-tab="ranking"]').click()
         page.screenshot(path=str(out/(label+'-ranking.png')))
         for view in ('city','army','inventory','world','pve','tech','quests','market','reports','settings','library'):
@@ -98,7 +102,7 @@ with sync_playwright() as p:
 # Visual evidence small enough for text-only CI inspection (actual runtime, not a mockup).
 from PIL import Image, ImageOps, ImageDraw
 import base64, io
-names=['desktop-honors.png','mobile-landscape-honors.png','desktop-hero-formation.png','desktop-quests.png','desktop-world.png','desktop-army.png','battle.png','battle-round-00.png']
+names=['desktop-honors.png','desktop-war-v4.png','desktop-hero-formation.png','desktop-hero-stats.png','desktop-inventory.png','mobile-landscape-hero-formation.png','battle.png','battle-round-00.png']
 sheet=Image.new('RGB',(1000,4*300),'#1c2622');draw=ImageDraw.Draw(sheet)
 for i,name in enumerate(names):
     file=out/name
