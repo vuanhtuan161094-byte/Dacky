@@ -883,14 +883,16 @@ test('mixed source and simulated catalogs expose the requested runtime coverage'
     assert.equal(rows.length,count);
     assert.equal(new Set(rows.map(row=>row.id)).size,count);
   }
-  assert.equal(ITEMS.length,4040+ITEMS.filter(row=>row.legacySourceId).length);
+  assert.equal(ITEMS.length,4040+ITEMS.filter(row=>row.legacySourceId).length+ITEMS.filter(row=>row.evidence==='SIMULATED_LOCAL_POLICY'&&row.id.startsWith('offline-')).length);
+  assert.equal(ITEMS.filter(row=>row.localMatrix).length,37);
+  assert.equal(ITEMS.filter(row=>row.localSet==='Hoan Hỉ').length,6);
   assert.equal(new Set(ITEMS.map(row=>row.id)).size,ITEMS.length);
   const sourcedHeroes=HEROES.filter(row=>row.mobileSourceId);
   assert.equal(sourcedHeroes.length,482);
   assert.equal(HEROES.filter(row=>row.evidence==='SIMULATED').length,58);
   assert.ok(sourcedHeroes.every(row=>row.evidence==='MIXED'&&row.fieldEvidence.mobileImage==='VERIFIED_MOBILE'));
   assert.equal(ITEMS.filter(row=>row.mobileSourceId).length,2036);
-  assert.ok(ITEMS.filter(row=>!row.mobileSourceId).every(row=>row.evidence==='SIMULATED'));
+  assert.ok(ITEMS.filter(row=>!row.mobileSourceId).every(row=>row.evidence==='SIMULATED'||row.evidence==='SIMULATED_LOCAL_POLICY'&&row.id.startsWith('offline-')));
   assert.ok(ITEMS.filter(row=>row.simulationKey==='SIMULATED_LEGACY_QUEST_GOOD').every(row=>row.sourceFieldStatus==='SIMULATED'&&row.legacySourceRecords?.length));
   assert.ok(QUESTS.every(row=>row.evidence==='SIMULATED'));
   assert.ok(IMMORTAL_MOUNTAINS.every(row=>row.evidence==='MIXED'
