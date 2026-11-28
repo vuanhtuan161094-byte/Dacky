@@ -1481,3 +1481,26 @@ body:not(.art01-city-mode) .game-dock{background:linear-gradient(#34372e,#1b2723
  .r3-inventory .r3-bag-detail .inventory-item>img{width:54px;height:54px}
  .r3-inventory .r3-bag-detail .inventory-item small{font-size:10px}
 }
+
+
+/* R4: shared military/honor UI and event-driven movement. */
+.r4-honor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.r4-honor-grid article,.r4-garrison{display:grid;gap:5px;min-width:0;padding:9px;background:#f1e6c9;border:1px solid #cbb88b;color:#543c22;border-radius:4px}
+.r4-honor-grid article b,.r4-garrison b{color:#67471f;font-weight:700}.r4-honor-grid progress,.p2-event-card>progress{width:100%;accent-color:#ac843c}
+.r4-line{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ccb88b80;padding:5px 0;gap:8px}
+.r4-garrison{grid-template-columns:1fr 70px;align-items:center;margin:6px 0}.r4-garrison>b,.r4-garrison>small{grid-column:1/-1}.r4-garrison .input{min-width:0;width:100%}
+.p4-paper-mode .main-stage .scene>.panel,.p4-paper-mode .main-stage .scene>.settings-grid>.panel{background:#f6eedb;color:#453522;border:1px solid #c2a778}
+.p4-paper-mode .main-stage .scene>.panel>.panel-title,.p4-paper-mode .main-stage .scene>.settings-grid>.panel>.panel-title{background:#d8c49c;color:#5b3d1b}
+.p4-paper-mode .main-stage .scene>.panel .hint,.p4-paper-mode .main-stage .scene>.panel .tiny.muted{color:#675336}
+.fidelity-formation.r4-attack .fidelity-ranks i{animation:r4-lunge .8s ease-in-out var(--rank-delay) both}
+.fidelity-line.enemy .fidelity-formation.r4-attack .fidelity-ranks i{animation-name:r4-lunge-enemy}
+.fidelity-formation.r4-hit .fidelity-ranks i{animation:r4-hit .55s ease-out var(--rank-delay) both}
+@keyframes r4-lunge{0%,100%{translate:0 0}42%{translate:18px 0}60%{translate:11px 0}}
+@keyframes r4-lunge-enemy{0%,100%{translate:0 0}42%{translate:-18px 0}60%{translate:-11px 0}}
+@keyframes r4-hit{0%,100%{opacity:1}40%{opacity:.55;translate:0 -4px}}
+.r3-impact{animation-delay:var(--r4-vfx-delay,0ms)}
+.r4-cast-banner{position:absolute;top:6%;left:15%;z-index:10;max-width:70%;padding:8px 18px;background:linear-gradient(90deg,#302415a8,#5e4626f0,#302415a8);color:#ffe2a0;border-block:1px solid #e7c67e;font-size:15px;pointer-events:none;text-align:center;animation:r4-banner 1.5s ease-out both}
+.r4-cast-banner.enemy{left:auto;right:15%;background:linear-gradient(90deg,#522821ae,#632b24f0,#522821ae)}
+@keyframes r4-banner{0%{opacity:0;translate:0 -8px}15%,80%{opacity:1;translate:0 0}100%{opacity:0}}
+.effects-off .fidelity-ranks i,.reduce-motion .fidelity-ranks i,.effects-off .r4-cast-banner,.reduce-motion .r4-cast-banner{animation:none!important}
+@media(max-height:480px) and (orientation:landscape){.r4-honor-grid article,.r4-garrison{padding:5px;font-size:10px}.r4-cast-banner{font-size:11px;padding:4px 10px}}
