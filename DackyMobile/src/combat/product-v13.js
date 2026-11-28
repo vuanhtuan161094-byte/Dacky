@@ -1,4 +1,4 @@
-import {ARTIFACT_SLOTS} from '../source-v4.js';
+import {ARTIFACT_SLOTS,heroTitleBonus} from '../source-v4.js';
 import {titleBonus} from '../completion-r4.js';
 import { collectionBonus } from '../live-product-p2.js';
 import { experienceForLevel } from '../simulated-world.js';
@@ -54,7 +54,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   if(artifactStars){const scale=1+artifactStars*.02;for(const key of ['attack','magic','defense','resistance'])stats[key]=Math.round(stats[key]*scale);}
   const weapon=gearBonus(save,'weapon')+gearBonus(save,'relic')+gearBonus(save,'relic2'),armor=['armor','helmet','belt','boots','gloves','mount'].reduce((n,k)=>n+gearBonus(save,k),0),mastery=1+clamp(Number(save.skillLevel)||1,1,10)*.025+clamp(Number(save.affinity)||0,0,100)*.001,activeSets=equipmentSets(save).filter(s=>!isHoanHi(s.name)).reduce((n,s)=>n+s.active.length,0),setScale=1+Math.min(.20,activeSets*.03);
   const out={...stats,attack:Math.round((stats.attack+weapon+(save.potential?.attack??0))*mastery*setScale),magic:Math.round((stats.magic+weapon*.4+(save.potential?.magic??0))*mastery*setScale),defense:Math.round((stats.defense+armor+(save.potential?.defense??0))*setScale),resistance:stats.resistance+Math.round(armor*.6)};
-  if(state){const c=collectionBonus(state),t=titleBonus(state);out.attack+=c.attack+t.attack;out.magic+=c.magic+t.magic;out.defense+=c.defense+t.defense;}
+  if(state){const c=collectionBonus(state),t=titleBonus(state),ht=heroTitleBonus(save,state.lastTickAt??0);out.attack+=c.attack+t.attack+ht.attack;out.magic+=c.magic+t.magic+ht.magic;out.defense+=c.defense+t.defense+ht.defense;}
   if(save.deified){const scale=1+.03*(save.divineLevel||1);for(const k of ['attack','magic','defense','resistance','maxHp','maxMana'])out[k]=Math.round(out[k]*scale);}
   const book=tower&&itemUseRule(bySourceItem.get(String(save.towerBookSourceId||'')))?.towerEffects;
   for(const [key,ratio] of Object.entries(book?.stats||{}))if(Number.isFinite(out[key])&&Number.isFinite(ratio))out[key]=Math.round(out[key]*(1+ratio));
