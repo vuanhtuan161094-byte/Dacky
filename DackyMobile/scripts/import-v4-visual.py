@@ -24,6 +24,8 @@ def add(row,kind):
     elif im.size==(w*n,h):frames=[im.crop((i*w,0,(i+1)*w,h)).convert('RGBA') for i in range(n)]
     elif im.size==(w,h*n):frames=[im.crop((0,i*h,w,(i+1)*h)).convert('RGBA') for i in range(n)]
     elif im.size==(w,h) and n==1:frames=[im.convert('RGBA')]
+    elif im.width%w==0 and im.height%h==0 and im.width//w* (im.height//h)==n:
+        cols=im.width//w;frames=[im.crop(((i%cols)*w,(i//cols)*h,(i%cols+1)*w,(i//cols+1)*h)).convert('RGBA') for i in range(n)]
     else:
         print('Unsupported sheet geometry',row['path'],im.size,w,h,n);return None
     # Downscale large effects only for WebP dimension limits, preserving transparency and sequence.
@@ -35,6 +37,10 @@ def add(row,kind):
     name=pathlib.Path(row['path']).stem+'.webp';dest=out/name;strip.save(dest,format='WEBP',quality=87,method=4)
     files.append({'path':'assets/v4-internal/'+name,'sourceSha256':a['sha256']})
     return {'path':'./assets/v4-internal/'+name,'width':nw,'height':nh,'frames':n,'durationMs':max(42,row['durationMs']),'anchor':row.get('anchor',{'x':.5,'y':.8})}
+for a in acquired.values():
+    raw=(research/a['storedPath']).read_bytes()
+    if len(raw)!=a['bytes'] or hashlib.sha256(raw).hexdigest()!=a['sha256']:raise ValueError('Hash mismatch '+a['sourcePath'])
+print('V3 source inventory verified:',len(acquired))
 for row in catalog['combatVfxCatalog']['records']:
     kind=wanted.get(row['id'])
     if kind:
