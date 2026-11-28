@@ -1,3 +1,4 @@
+import {addForegroundTime} from './completion-r4.js';
 import { cityPlotZone, cityPrimarySite, activeQuest, advance, createNewGame, doAction, TUTORIAL_STEPS } from './engine.js';
 import { QUESTS, HEROES } from './catalog.js';
 import { exportSave, importSaveFile, loadGame, saveGame } from './store.js';
@@ -278,7 +279,7 @@ document.body.addEventListener('click', async event => {
         const amount=Math.max(0,Number(input.value)||0);
         if(input.dataset.marchSupport!==troopId&&amount>0)troops[input.dataset.marchSupport]=amount;
       });
-      return perform('march',{nodeId:button.dataset.node||uiState.nodeId,troopId,count,troops,combatMode:document.querySelector('#combat-mode')?.value||'auto'});
+      return perform('march',{nodeId:button.dataset.node||uiState.nodeId,troopId,count,troops,replenish:true,combatMode:document.querySelector('#combat-mode')?.value||'auto'});
     }
     case 'guild': return perform('guild',{});
     case 'diplomacy': return perform('diplomacy',{nodeId:button.dataset.node||uiState.nodeId});
@@ -291,6 +292,13 @@ document.body.addEventListener('click', async event => {
     case 'useMatrix':return perform('useItem',{heroId:button.dataset.hero,itemId:button.dataset.item});
     case 'setSquadWeight':return perform(action,{heroId:button.dataset.hero,weight:Number(document.querySelector('[data-squad-weight="'+button.dataset.hero+'"]')?.value)});
     case 'exchangeFestivalItem':return perform(action,{});
+    case 'claimTitle':case 'equipTitle':return perform(action,{titleId:button.dataset.title});
+    case 'claimOnlineGift':return perform(action,{minutes:Number(button.dataset.minutes)});
+    case 'claimVipGift':case 'claimMonthly':case 'claimGuildMission':return perform(action,{});
+    case 'claimWeekly':return perform(action,{mission:button.dataset.mission});
+    case 'setGarrison':return perform(action,{cityId:button.dataset.city,troopId:document.querySelector('[data-garrison-unit="'+button.dataset.city+'"]')?.value,count:Number(document.querySelector('[data-garrison-count="'+button.dataset.city+'"]')?.value)});
+    case 'recallGarrison':return perform(action,{cityId:button.dataset.city});
+    case 'setReplenish':return perform(action,{heroId:button.dataset.hero,value:button.dataset.value==='true'});
     case 'claimLiveEvent':return perform(action,{eventId:button.dataset.event});
     case 'selectPrizePool':return perform(action,{pool:button.dataset.pool});
     case 'spinPrize':case 'travelDice':case 'claimTravel':case 'registerWar':case 'claimWar':case 'claimStarterDay':return perform(action,{});
@@ -438,11 +446,12 @@ document.addEventListener('visibilitychange',()=>{
   if (result.offlineCapped) showToast('Tiến trình offline đã tính tối đa 8 giờ.');
 });
 
-let lastHud=0, lastSave=0;
+let lastHud=0, lastSave=0,lastForeground=Date.now();
 setInterval(()=>{
   if (!game) return;
-  const before=JSON.stringify(game.queues);
-  const result=advance(game,Date.now()); game=result.state;
+  const before=JSON.stringify(game.queues),now=Date.now(),seconds=Math.floor((now-lastForeground)/1000);lastForeground=now;
+  const result=advance(game,now); game=result.state;
+  if(document.visibilityState==='visible'&&seconds>0&&seconds<=5){const prior=game.gameplay.r4.onlineSeconds;addForegroundTime(game,seconds);dirty=true;if(activeView==='events'&&uiState.eventTab==='honors'&&Math.floor(prior/60)!==Math.floor(game.gameplay.r4.onlineSeconds/60))renderCurrent();}
   const queueChanged=JSON.stringify(game.queues)!==before;
   updateClock(game,Date.now());
   if (queueChanged) {
