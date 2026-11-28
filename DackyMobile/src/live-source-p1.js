@@ -18,7 +18,7 @@ export function matrixStats(hero,items){
  counts[tier.name]=(counts[tier.name]??0)+1;points+=tier.points;}
  return {physical:points,arcane:points,strategy:points,counts,unknown};
 }
-export function ascensionItem(items){return items.find(i=>norm(i.name)==='lenh phi thang'&&i.mobileSourceId!=null);}
+export function ascensionItem(items){return items.find(i=>norm(i.name)==='lenh phi thang'&&i.mobileSourceId!=null)??items.find(i=>i.id==='offline-ascension-order');}
 export function ascensionQuote(state,hero,items){const item=ascensionItem(items);return {itemId:item?.id??null,gold:100000,available:!!hero&&!hero.ascended&&hero.level>=80&&!hero.assigned&&!state.queues?.march&&state.resources.gold>=100000&&!!item&&state.items.includes(item.id)};}
 export function normalizeLiveHero(h){
  h.ascended=h.ascended===true;h.deified=h.ascended&&h.deified===true;h.divineLevel=h.deified?Math.min(10,Math.max(1,Math.floor(Number(h.divineLevel)||1))):0;
@@ -50,8 +50,8 @@ export function skillQuote(h,name,kind){const row=h?.combatSkills?.[name],level=
 export function skillBattlePolicy(h){const name=h?.activeCombatSkill,row=h?.combatSkills?.[name];return {name:row?name:null,level:row?.level||0,evidence:'SIMULATED_LOCAL_POLICY'};}
 const resource=(key,count)=>({resource:key,count});
 const LOCAL_EVENT_RULES=Object.freeze({
- loan_chien:{daily:true,action:'Đạt 3 chiến thắng',stat:'victories',goal:3,rewardTable:[resource('jade',3),resource('gold',1500)]},
- first_topup:{action:'Quà khởi đầu offline',rewardTable:[resource('jade',5),resource('gold',1200)]},
+ loan_chien:{action:'Đạt 3 chiến thắng',stat:'victories',goal:3,rewardTable:[resource('jade',3),resource('gold',1500)]},
+ first_topup:{action:'Quà khởi đầu offline + Lệnh Phi Thăng',special:'ascension',rewardTable:[resource('jade',5),resource('gold',1200)]},
  sale_11_11:{action:'Đổi quà bằng linh ngọc',cost:{jade:8},rewardTable:[resource('gold',5000),resource('food',3000)]},
  black_friday:{daily:true,action:'Gói tiếp tế offline',cost:{jade:2},rewardTable:[resource('gold',1200),resource('iron',600)]},
  hoan_hi_set:{action:'Đổi bộ Hoan Hỉ',cost:{jade:20},special:'hoan_hi',rewardTable:[]},
@@ -60,7 +60,7 @@ const LOCAL_EVENT_RULES=Object.freeze({
  diem_danh_8:{daily:true,action:'Điểm danh',streak:true,rewardTable:[resource('gold',500),resource('jade',1)]},
  qua_moi_ngay:{daily:true,action:'Nhận quà ngày',rewardTable:[resource('food',800),resource('gold',300)]},
  mieu_hoi:{daily:true,action:'Tham gia 1 trận',stat:'battles',goal:1,rewardTable:[resource('jade',1),resource('gold',700)]},
- dua_top:{daily:true,action:'Đạt 5 chiến thắng',stat:'victories',goal:5,rewardTable:[resource('jade',5)]},
+ dua_top:{action:'Đạt 5 chiến thắng',stat:'victories',goal:5,rewardTable:[resource('jade',5)]},
  bao_long:{daily:true,action:'Đổi Ảo Hóa',cost:{jade:3},special:'matrix',rewardTable:[]}
 });
 export const LIVE_EVENTS=Object.freeze([
