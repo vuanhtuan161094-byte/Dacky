@@ -1334,3 +1334,63 @@ body:not(.art01-city-mode) .game-dock{background:linear-gradient(#34372e,#1b2723
 .fidelity-field .fidelity-squad-card[data-squad-status="active"]{border-color:#dbbf75;background:#655536a0}
 @media(max-width:800px){.p2-event-grid{grid-template-columns:1fr}.p2-event-card{padding:10px}.p2-event-tabs button{font-size:12px;padding:6px}.p2-choices,.p2-festival{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-height:480px) and (orientation:landscape){.p2-event-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.p2-event-screen{padding:5px}.p2-event-card{padding:8px}.p2-event-card h3{font-size:14px}.p2-event-card .button{min-height:28px;font-size:11px}.p2-event-tabs button{min-height:28px;font-size:11px}}
+
+/* P4 R2: source dossier - parchment interface, prominent character and equipment rail. */
+.p4-paper-mode{--paper:#f5efdf;--gold-hi:#e8bb63;--line:#a992614d}
+.p4-paper-mode .main-stage{background:linear-gradient(135deg,#332d24,#1e2522);padding:8px 12px}
+.p4-paper-mode .heading-copy h1{color:#f3e6c4}
+.p4-paper-mode .hero-command-view{min-height:0;height:100%;grid-template-rows:minmax(0,1fr) auto;gap:5px}
+.p4-paper-mode .hero-roster-window{height:100%;min-height:0;grid-template-columns:minmax(155px,19%) minmax(0,1fr);border:2px solid #d5bb7c;border-radius:6px;background:#ede5d1}
+.p4-paper-mode .hero-roster-panel{display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:#e5dbc5;color:#3d3324}
+.p4-paper-mode .hero-roster-panel>header,.p4-paper-mode .hero-stage-header{background:linear-gradient(#595044,#302b25);color:#f7e9c7}
+.p4-paper-mode .hero-roster-list{background:#e5dbc5;min-height:0}
+.p4-paper-mode .hero-roster-choice{background:#f8f2e4;color:#3d3324;border-color:#c7b895}
+.p4-paper-mode .hero-roster-choice b{color:#3b2d1b;font-size:13px}
+.p4-paper-mode .hero-roster-choice small{color:#6b5a3f;font-size:11px}
+.p4-paper-mode .hero-roster-choice.active{background:#ead29a;border-color:#b28b43}
+.p4-paper-mode .hero-detailed-stage{grid-template-rows:auto minmax(0,1fr);background:#eee6d4}
+.p4-paper-mode .hero-portrait-stage{min-height:0;align-items:stretch;padding:6px;background:none}
+.p4-paper-mode .hero-portrait-stage:before,.p4-paper-mode .hero-scene-mark{display:none}
+.p4-paper-mode .hero-portrait-stage>.hero-card{grid-template-columns:minmax(0,46%) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;min-height:0;padding:0;gap:8px;height:100%}
+.p4-hero-portrait{grid-column:1;grid-row:1/-1;position:relative;min-width:0;min-height:0;overflow:hidden;border:2px solid #c9ad71;border-radius:5px;background:#262a25}
+.p4-hero-portrait>.portrait{position:absolute;inset:0;width:100%!important;height:100%!important;border:0;border-radius:0;box-shadow:none;margin:0}
+.p4-hero-portrait>.portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.p4-hero-portrait:after{content:"";position:absolute;inset:60% 0 0;pointer-events:none;background:linear-gradient(transparent,#16130ec7)}
+.p4-hero-portrait .hero-equipment-dock{position:absolute;inset:0;display:block;margin:0;z-index:2;pointer-events:none}
+.p4-hero-portrait .hero-equipment-slot{position:absolute;width:clamp(42px,6vw,75px);height:clamp(50px,9vh,82px);display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:3px;background:#211d17b8;pointer-events:auto;border:1px solid #c5aa6c;border-radius:4px}
+.p4-hero-portrait .hero-equipment-slot>small,.p4-hero-portrait .hero-equipment-slot>b{font-size:10px;color:#f5e4be}
+.p4-hero-portrait .hero-equipment-slot>img,.p4-hero-portrait .empty-gear-glyph{max-width:100%;max-height:100%;object-fit:contain}
+.p4-hero-portrait [data-gear-slot=helmet]{left:3%;top:10%}.p4-hero-portrait [data-gear-slot=armor]{left:3%;top:26%}.p4-hero-portrait [data-gear-slot=belt]{left:3%;top:42%}.p4-hero-portrait [data-gear-slot=relic]{left:3%;top:58%}
+.p4-hero-portrait [data-gear-slot=boots]{right:3%;top:10%}.p4-hero-portrait [data-gear-slot=gloves]{right:3%;top:26%}.p4-hero-portrait [data-gear-slot=weapon]{right:3%;top:42%}.p4-hero-portrait [data-gear-slot=relic2]{right:3%;top:58%}
+.p4-hero-portrait [data-gear-slot=mount]{left:26%;bottom:3%}.p4-hero-portrait [data-gear-slot=artifact]{right:26%;bottom:3%}
+.p4-portrait-caption{position:absolute;z-index:3;left:20%;right:20%;bottom:20%;text-align:center;color:#fff1cf;text-shadow:0 2px 5px #000;display:grid;gap:4px}.p4-portrait-caption b{font-size:clamp(16px,2.2vw,30px)}.p4-portrait-caption small{font-size:12px}
+.p4-paper-mode .hero-dossier>.hero-card-info{align-self:stretch;overflow:auto;min-height:0;padding:12px;background:#faf4e7;color:#493a26;border:1px solid #cbbb98;box-shadow:none}
+.p4-paper-mode .hero-dossier .hero-name{color:#513721;text-shadow:none}
+.p4-paper-mode .hero-dossier .hero-subtitle,.p4-paper-mode .hero-dossier .hero-affinity small{color:#695739}
+.p4-paper-mode .live-hero-tabs{position:sticky;top:0;background:#faf4e7;z-index:3}
+.p4-paper-mode .live-hero-tab{background:#e7dfce;color:#503d26;border:1px solid #b6a586;font-size:13px}.p4-paper-mode .live-hero-tab.active{background:#d7ae59;color:#2f2519}
+.p4-paper-mode .hero-dossier .hero-stats,.p4-paper-mode .hero-source-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.p4-paper-mode .hero-dossier .hero-stat,.p4-paper-mode .hero-source-stats>span{background:#f1e7d2;color:#4b3a24;border:1px solid #c4b28c;padding:10px}
+.p4-paper-mode .hero-dossier .hero-stat b,.p4-paper-mode .hero-source-stats b{color:#6b471b;font-size:18px}
+.p4-paper-mode .hero-dossier .hero-stat small,.p4-paper-mode .hero-source-stats small{color:#685b45;font-size:12px}
+.p4-paper-mode .live-growth,.p4-paper-mode .hero-skill-panel,.p4-paper-mode .hero-artifact-affinity,.p4-paper-mode .hero-set-summary{background:#f3ead6;color:#4c3c28;border:1px solid #c6b28c}
+.p4-paper-mode .live-growth h4,.p4-paper-mode .hero-skill-panel b,.p4-paper-mode .hero-artifact-affinity b{color:#694820;font-size:16px}
+.p4-paper-mode .live-growth small,.p4-paper-mode .hero-skill-panel small,.p4-paper-mode .hero-skill-panel span,.p4-paper-mode .hero-artifact-affinity span{color:#65533b}
+.p4-paper-mode .live-skill-grid>div,.p4-paper-mode .live-matrix-card{background:#faf5e8;color:#493a26;border-color:#cbb997}
+.p4-paper-mode .live-matrix-card b,.p4-paper-mode .live-skill-grid b,.p4-paper-mode .live-growth summary,.p4-paper-mode .live-stat-row{color:#65451f}
+.p4-paper-mode .hero-dossier .hero-footer{grid-column:2;background:#e5d6b9;padding:6px;border:1px solid #cbbb98;border-radius:4px}
+.p4-paper-mode .p2-event-screen{max-width:none;min-height:100%;background:#efe7d6;padding:12px;border:1px solid #c6a76a;border-radius:5px}
+.p4-paper-mode .p2-event-tabs{background:#e8ddc6}.p4-paper-mode .p2-event-tabs button{background:#d9cfb9;color:#493824}.p4-paper-mode .p2-event-tabs button.active{background:#bd974a;color:#2f2314}
+.p4-paper-mode .p2-event-card{background:#fbf6e9;color:#493b29;border:1px solid #cbbb98;box-shadow:0 2px 6px #38291020}
+.p4-paper-mode .p2-event-card h3{color:#64451f;font-size:19px}.p4-paper-mode .p2-event-card p,.p4-paper-mode .p2-event-card small{color:#69583e}
+.p4-paper-mode .p2-tab-collection{grid-template-columns:1fr}.p4-paper-mode .p2-tab-collection .p2-event-card{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.p4-paper-mode .p2-tab-collection .p2-event-card h3,.p4-paper-mode .p2-summary{grid-column:1/-1}
+.p4-paper-mode .p2-summary{background:#e8d7b0;color:#62451f}.p4-paper-mode .p2-collection-row{padding:16px;border:1px solid #d4c29b;border-radius:4px;background:#f4ebd7}
+.p4-paper-mode .p2-festival>div,.p4-paper-mode .p2-choices>div{background:#efe3c9;color:#4f3e27}
+.p4-paper-mode .p2-board{background:#e7dac0}.p4-paper-mode .p2-board span{background:#f9f2df;color:#5c4c32;border-color:#b8a47a}.p4-paper-mode .p2-board span.current{background:#cfaa58;color:#332719}
+.fidelity-line{top:25%;bottom:5%;width:45%;align-items:center;grid-template-columns:repeat(2,minmax(0,1fr))}
+.fidelity-line:has(>.fidelity-formation:only-child){grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr)}
+.fidelity-line .fidelity-formation:only-child .fidelity-ranks{left:3%;right:14%;top:16%;bottom:15%}
+.fidelity-arena>.battle-scenery{object-position:center 78%;filter:saturate(.83)}
+.fidelity-line.enemy .fidelity-ranks{transform-origin:right top}
+@media(max-height:480px) and (orientation:landscape){.p4-paper-mode .hero-roster-window{grid-template-columns:95px minmax(0,1fr)}.p4-paper-mode .hero-portrait-stage>.hero-card{grid-template-columns:42% minmax(0,1fr)}.p4-hero-portrait .hero-equipment-slot{width:34px;height:38px;padding:1px}.p4-hero-portrait .hero-equipment-slot>small,.p4-hero-portrait .hero-equipment-slot>b{font-size:7px}.p4-portrait-caption small{font-size:9px}.p4-paper-mode .hero-dossier>.hero-card-info{padding:5px}.p4-paper-mode .live-hero-tab{font-size:10px;padding:5px}.p4-paper-mode .hero-dossier .hero-stat,.p4-paper-mode .hero-source-stats>span{padding:4px}.p4-paper-mode .hero-dossier .hero-stat b,.p4-paper-mode .hero-source-stats b{font-size:12px}.p4-paper-mode .hero-dossier .hero-stat small,.p4-paper-mode .hero-source-stats small{font-size:9px}.p4-paper-mode .hero-roster-choice b{font-size:10px}.fidelity-ranks{transform:scale(.57);transform-origin:left top}}
+@media(max-width:650px) and (orientation:portrait){.p4-paper-mode .hero-roster-window{grid-template-columns:65px minmax(0,1fr)}.p4-paper-mode .hero-portrait-stage>.hero-card{grid-template-columns:1fr;grid-template-rows:230px auto auto;height:auto}.p4-hero-portrait{grid-row:1;grid-column:1}.p4-paper-mode .hero-dossier>.hero-card-info,.p4-paper-mode .hero-dossier .hero-footer{grid-column:1}.p4-paper-mode .hero-detailed-stage{overflow:auto}.p4-paper-mode .p2-tab-collection .p2-event-card{grid-template-columns:1fr}}
