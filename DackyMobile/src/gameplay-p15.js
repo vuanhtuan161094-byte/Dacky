@@ -65,9 +65,9 @@ const speedups={'4001':['construction',900],'4002':['construction',3600],'4003':
 const prodItems={'4101':['food',86400],'4102':['food',604800],'4111':['timber',86400],'4112':['timber',604800],'4121':['stone',86400],'4122':['stone',604800],'4131':['iron',86400],'4132':['iron',604800],'4141':['gold',86400],'4142':['gold',604800]};
 export function itemBuff(s,key,now){return (s.gameplay?.itemBuffs??[]).filter(x=>x.key===key&&x.expiresAt>now).reduce((n,x)=>Math.max(n,x.ratio),0);}
 export function pendingBattleBuff(s,key){return (s.gameplay?.nextBattleBuffs??[]).filter(x=>x.key===key).reduce((n,x)=>Math.max(n,Number(x.ratio)||0),0);}
-export function equipmentSlot(item){const slots={'Mũ':'helmet','Giáp':'armor','Đai':'belt','Giày':'boots','Tay':'gloves','Vũ Khí':'weapon','Cổ Khí':'relic','Cấm Khí':'relic2','Ngựa':'mount'};return slots[item?.mobileEquipmentSlot]??(item?.type==='vũ khí'?'weapon':item?.type==='giáp'?'armor':'artifact');}
+export function equipmentSlot(item){const slots={'Mũ':'helmet','Giáp':'armor','Đai':'belt','Giày':'boots','Tay':'gloves','Vũ Khí':'weapon','Cổ Khí':'relic','Cấm Khí':'relic2','Ngựa':'mount','Kiếm':'weapon','Áo':'armor','Hộ Uyển':'gloves','Hài':'boots'};return slots[item?.mobileEquipmentSlot]??(item?.type==='vũ khí'?'weapon':item?.type==='giáp'?'armor':'artifact');}
 const setBySource=new Map(MOBILE_SOURCE_DATABASE.categories['vat-pham'].filter(x=>x.details.some(d=>d.k==='kn'&&String(d.t).startsWith('Bộ '))).map(x=>{const b=x.details.find(d=>d.k==='kn'&&String(d.t).startsWith('Bộ '));return [String(x.id),{name:b.ds?.[0]?.t??b.t,thresholds:b.ds?.[0]?.n??[]}];}));
-export function equipmentSets(h){const counts=new Map();for(const id of new Set(Object.values(h.equipment??{}).filter(Boolean))){if((h.combatDurability?.[id]??100)<=0)continue;const it=ITEMS.find(x=>x.id===id),s=setBySource.get(String(it?.mobileSourceId));if(s){const v=counts.get(s.name)??{...s,count:0};v.count++;counts.set(s.name,v)}}return [...counts.values()].map(s=>({...s,active:s.thresholds.filter(x=>Number(String(x).match(/^\d+/)?.[0]??Infinity)<=s.count)}));}
+export function equipmentSets(h){const counts=new Map();for(const id of new Set(Object.values(h.equipment??{}).filter(Boolean))){if((h.combatDurability?.[id]??100)<=0)continue;const it=ITEMS.find(x=>x.id===id),s=it?.localSet?{name:it.localSet,thresholds:['2 món +10% rơi đồ','4 món +15% rơi đồ','6 món +30% rơi đồ']}:setBySource.get(String(it?.mobileSourceId));if(s){const v=counts.get(s.name)??{...s,count:0};v.count++;counts.set(s.name,v)}}return [...counts.values()].map(s=>({...s,active:s.thresholds.filter(x=>Number(String(x).match(/^\d+/)?.[0]??Infinity)<=s.count)}));}
 const sourceTimedBuffs=new Map([
   ['4405',{seconds:86400,effects:[{key:'heroXp',ratio:.25}],unsupported:[],simulated:['SIMULATED_IDLE_CULTIVATION_TO_HERO_XP_BOOST']}],
   ['4905',{seconds:72*3600,effects:[{key:'tradeThroughput',ratio:.05}],unsupported:[],simulated:['SIMULATED_SCHEDULED_CONVOY_TO_LOCAL_MARKET_THROUGHPUT']}],
@@ -221,6 +221,7 @@ export function sourceGearGemRule(item){
  return army?{kind:'armyCombatGem',...army,sourceId:String(item.mobileSourceId),evidence:'VERIFIED_MOBILE',sourceTable:'vat-pham',sourceField:'Description',runtimeFormula:army.effect==='doubleDamageProc'?'SIMULATED_EXPECTED_ARMY_DOUBLE_DAMAGE_ADAPTER':'SIMULATED_WEIGHTED_ARMY_GEM_ADAPTER',socketColorEvidence:army.socketColor?'VERIFIED_'+army.socketColor.toUpperCase()+'_SOCKET':'UNKNOWN_COLORLESS_RUNTIME_SOCKET'}:null;
 }
 export function itemUseRule(item){
+ if(item?.localMatrix)return {kind:'matrix',evidence:'SIMULATED_LOCAL_POLICY'};
  if(!item||item.type!=='vật phẩm')return null;
  const name=norm(item.name),d=norm(item.mobileDescription??''),sid=String(item.mobileSourceId);
  const legacySpell=Number(sid),spell=strategicCatalog().find(row=>row.row.ID===legacySpell&&row.rule&&item.mobileGroup==='Bảo vật');
