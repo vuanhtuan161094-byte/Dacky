@@ -241,18 +241,14 @@ test('all four red Mobile gems expose their verified stat or army effect and req
   }
 });
 
-test('Live source rebirth gate rejects pre-ascension heroes and does not consume legacy order while cost is unknown',()=>{
-  const definition=HEROES.find(row=>Number(String(row.mobileBaseStats?.find(stat=>stat.label==='Căn cốt')?.value||'').match(/\d+/)?.[0]||0)<45),state=createNewGame('Thử phong thần',now),hero=state.heroes[0],order=sourceItem('8746');
-  assert.ok(definition&&order);hero.id=definition.id;hero.level=60;hero.assigned=false;state.levels.storehouse=18;state.resources.gold=30_000;
-  assert.throws(()=>doAction(state,{type:'rebirthHero',heroId:hero.id},now),/Phi thăng/);
-  assert.equal(state.resources.gold,30_000);
-  const quote=quoteItemPurchase(state,order.id);assert.equal(quote.costEvidence,'SIMULATED_SOURCE_FENGSHEN_ORDER_PRICE');assert.ok(quote.available);
-  const prepared=doAction(state,{type:'buyItem',itemId:order.id},now);prepared.heroes[0].ascended=true;
-  const snapshot=structuredClone(prepared);
-  assert.throws(()=>doAction(prepared,{type:'rebirthHero',heroId:hero.id},now),/lò luyện/);
-  assert.deepEqual(prepared,snapshot);assert.ok(prepared.items.includes(order.id));
+test('Live source rebirth requires ascension and furnace, preserves old order, and is playable',()=>{
+ const state=createNewGame('Thử chuyển sinh',now),hero=state.heroes[0],order=sourceItem('8746');
+ hero.level=59;hero.assigned=false;state.levels.storehouse=30;state.resources.gold=200000;state.items.push(order.id);
+ assert.throws(()=>doAction(state,{type:'rebirthHero',heroId:hero.id},now),/Phi thăng/);
+ hero.ascended=true;assert.throws(()=>doAction(state,{type:'rebirthHero',heroId:hero.id},now),/lò luyện/);
+ state.levels.foundry=1;const next=doAction(state,{type:'rebirthHero',heroId:hero.id},now);
+ assert.equal(next.heroes[0].rebirths,1);assert.equal(next.heroes[0].level,1);assert.equal(next.heroes[0].rootBonus,1);assert.ok(next.items.includes(order.id));assert.equal(next.resources.gold,120000);
 });
-
 test('12 Mobile stat-gem materials socket, modify their described hero attribute and survive migration',()=>{
   const combat=createProductCombat({storageCapacity}),gear=sourceItem('7232');
   assert.ok(gear&&gear.mobileEquipmentSlot==='Mũ');
