@@ -1286,3 +1286,51 @@ body.hud-ready:not(.startup-mode) .resource-pill:nth-child(6) .resource-glyph{ba
 @media(max-width:650px){.live-matrix-grid,.live-skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-equipment-dock{grid-template-columns:repeat(3,minmax(0,1fr))}.live-stage-grid{grid-template-columns:1fr}}
 
 .live-hero-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:10px 0;border-bottom:1px solid #ad925a66;padding-bottom:7px}.live-hero-tab{padding:9px 5px;background:#19352f;color:#d9d6ba;border:1px solid #a78a544d;border-radius:4px;font-size:12px;cursor:pointer}.live-hero-tab.active{background:linear-gradient(#8c713c,#5e4828);color:#fff1be;border-color:#dbbf78}.hero-dossier [data-live-hero-panel][hidden]{display:none!important}.hero-dossier [data-live-hero-panel]{min-width:0}.live-hero-tabs .live-hero-tab:focus-visible{outline:2px solid #e4c97e;outline-offset:2px}
+
+
+/* P4 — shared source-inspired visual hierarchy; existing city art stays intact. */
+:root{--paper:#f5ecd9;--gold-hi:#f2d49b;--muted:#c4c0ae;--line:#ae905b50;font-family:"Noto Sans","Segoe UI",Arial,sans-serif}
+body:not(.startup-mode){color:#f4ecdb}
+body:not(.art01-city-mode) .topbar{background:linear-gradient(180deg,#2c2925,#191d1c);gap:12px;border-bottom:1px solid #b9a16c}
+body:not(.art01-city-mode) .panel{background:linear-gradient(145deg,#303931,#222b28);border:1px solid #8e805b65;box-shadow:0 4px 14px #0005;border-radius:5px}
+body:not(.art01-city-mode) .panel-title{font-family:inherit;font-weight:700;color:#f3dfae;font-size:15px;min-height:37px;background:#151b192b}
+body:not(.art01-city-mode) .heading-copy h1{font-family:inherit;font-weight:700;color:#f2dfb3;letter-spacing:.015em}
+body:not(.art01-city-mode) .heading-copy p{color:#c7c5b7;font-size:12px}
+body:not(.art01-city-mode) .button{border-radius:4px;font-size:12px;background:linear-gradient(#997a43,#70512b);color:#fff5de}
+body:not(.art01-city-mode) .button.ghost{background:#29342f;color:#e3d6b5;border-color:#82734e}
+body:not(.art01-city-mode) .button:disabled{opacity:.5;filter:none}
+body:not(.art01-city-mode) .input{background:#19231f;border-color:#82734e;color:#f0e5ca;border-radius:3px}
+body:not(.art01-city-mode) .game-dock{background:linear-gradient(#34372e,#1b2723);border-color:#b9a16c}
+.game-dock .nav-item[data-view="events"]{color:#f3d58c}.art01-city-mode .game-dock [data-view="events"] .nav-glyph{font-size:21px;color:#f2cf7a;background:#76552f;border-radius:50%;border:1px solid #d7bc78}
+.p2-event-screen{padding:8px;display:grid;gap:12px;max-width:1440px;margin:auto}
+.p2-event-tabs{display:flex;gap:8px;border-bottom:1px solid #c8ad735c;padding:0 0 8px;position:sticky;top:0;z-index:2;background:#26312a}
+.p2-event-tabs button{font:600 14px inherit;min-height:36px;flex:1;padding:8px 12px;border:0;border-bottom:2px solid transparent;background:#1a2520;color:#d5c6a4;border-radius:4px;cursor:pointer}
+.p2-event-tabs button.active{background:#635331;color:#fff0be;border-bottom-color:#e6bd65}
+.p2-event-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.p2-event-card{min-width:0;background:linear-gradient(135deg,#344137,#222b24);padding:15px;border:1px solid #a88a525e;border-radius:6px;color:#f2e6c8;box-shadow:0 4px 14px #101a1560}
+.p2-event-card h3{margin:0 0 12px;font-size:17px;color:#f6d592;font-weight:700;border-bottom:1px solid #b394514d;padding-bottom:9px}
+.p2-event-card p{margin:8px 0;font-size:13px;line-height:1.45;color:#e6dec8}
+.p2-event-card small{display:block;font-size:11px;line-height:1.5;color:#c1c3ae}
+.p2-event-card .button{margin:4px 4px 4px 0;min-height:34px;padding:6px 10px;white-space:normal}
+.p2-pools,.p2-milestones{display:flex;flex-wrap:wrap;gap:5px}
+.p2-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:8px;background:#18241f;border-radius:4px}
+.p2-board span{display:grid;place-items:center;min-height:36px;background:#394638;color:#dddfbd;border:1px solid #657b53;font-size:11px;text-align:center}
+.p2-board span.current{background:#b08b45;color:#18241f;font-weight:800;box-shadow:0 0 0 2px #e8cf92}
+.p2-festival,.p2-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.p2-festival>div,.p2-choices>div{background:#1e2c25;padding:8px;border-radius:4px;display:grid;gap:5px;align-content:start;min-width:0;font-size:12px}
+.p2-choices>div img{max-width:100%;height:70px;object-fit:contain}
+.p2-collection-row{padding:10px 0;border-bottom:1px solid #b3945130;display:grid;gap:6px;grid-template-columns:1fr auto}
+.p2-collection-row progress,.p2-collection-row .p2-milestones{grid-column:1/-1;width:100%;accent-color:#bda061}
+.p2-summary{background:#182820;padding:10px;border-radius:4px;color:#eed19b;font-weight:700;font-size:13px}
+.hero-dossier>.hero-card-info{border:0;border-radius:5px;background:#26322bef;box-shadow:0 2px 12px #0004}
+.hero-dossier .hero-name{font-family:inherit;font-size:clamp(20px,2.4vw,30px);font-weight:750}
+.hero-dossier .hero-subtitle,.hero-dossier .hero-affinity small{font-size:11px}
+.hero-dossier .hero-stat small{font-size:11px}.hero-dossier .hero-stat b{font-family:inherit;font-weight:750}
+.hero-dossier .gear-upgrade-row>small{font-size:11px;white-space:normal}.hero-dossier .gear-upgrade-row .button{font-size:11px;min-height:30px}
+.hero-formation-strip{display:flex!important;flex-wrap:wrap;gap:5px}.hero-formation-strip .formation-slot{flex:1 1 105px;min-width:0}
+.p3-weight{display:flex;align-items:center;gap:8px;font-size:13px}.p3-weight input{width:88px!important}
+.matrix-active .portrait,.fidelity-formation.matrix-active .fidelity-ranks{filter:drop-shadow(0 0 9px #e4b96d);box-shadow:0 0 18px #d3ac6270}
+.fidelity-field .fidelity-roster{background:linear-gradient(135deg,#26362de8,#182620ef);border-color:#b5a16c}
+.fidelity-field .fidelity-squad-card[data-squad-status="active"]{border-color:#dbbf75;background:#655536a0}
+@media(max-width:800px){.p2-event-grid{grid-template-columns:1fr}.p2-event-card{padding:10px}.p2-event-tabs button{font-size:12px;padding:6px}.p2-choices,.p2-festival{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-height:480px) and (orientation:landscape){.p2-event-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.p2-event-screen{padding:5px}.p2-event-card{padding:8px}.p2-event-card h3{font-size:14px}.p2-event-card .button{min-height:28px;font-size:11px}.p2-event-tabs button{min-height:28px;font-size:11px}}
