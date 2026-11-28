@@ -238,7 +238,10 @@ document.body.addEventListener('click', async event => {
     case 'trainHero': return perform('trainHero',{heroId:button.dataset.hero});
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
-    case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero});
+    case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero,slot:document.querySelector(`[data-artifact-slot="${button.dataset.item}"]`)?.value});
+    case 'unequipArtifact':return perform(action,{heroId:button.dataset.hero,slot:button.dataset.slot});
+    case 'setSourceTroops':return perform(action,{heroId:button.dataset.hero,troopId:button.dataset.troop,count:Number(document.querySelector('[data-source-troop="'+button.dataset.hero+':'+button.dataset.troop+'"]')?.value)});
+    case 'marchOwned':return perform('march',{nodeId:button.dataset.node,sourceOwned:true,combatMode:document.querySelector('#combat-mode')?.value==='squad'?'squad':'squad-auto'});
     case 'useItem': {
       if(button.dataset.kind==='demolishPlot'&&!window.confirm('Phá dỡ công trình này ngay? Vật phẩm sẽ mất và không hoàn trả tài nguyên.'))return;
       return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index),heroId:document.querySelector('[data-item-target="'+button.dataset.item+'"]')?.value,plotId:document.querySelector('[data-item-plot="'+button.dataset.item+'"]')?.value,name:document.querySelector('[data-item-name="'+button.dataset.item+'"]')?.value,flag:document.querySelector('[data-item-flag="'+button.dataset.item+'"]')?.value,mountainId:document.querySelector('[data-item-mountain="'+button.dataset.item+'"]')?.value,nodeId:document.querySelector('[data-item-node="'+button.dataset.item+'"]')?.value});
