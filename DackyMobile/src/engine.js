@@ -1,3 +1,4 @@
+import {ARTIFACT_SLOTS,normalizeSourceSquads,sourcePlan,setSourceTroops,releaseForMarch,settleSourceSquads} from './source-v4.js';
 import {refreshR4,r4Action,R4_ACTIONS,titleBonus} from './completion-r4.js';
 import { refreshProduct,productAction,PRODUCT_ACTIONS,collectionBonus } from './live-product-p2.js';
 import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulated-world.js';
@@ -172,7 +173,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   };
   normalizeCityPlots(state);
   normalizeGameplay(state);
-  state.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(state);refreshProduct(state,now,ITEMS);refreshR4(state,now,TROOPS);
+  state.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(state);refreshProduct(state,now,ITEMS);refreshR4(state,now,TROOPS);normalizeSourceSquads(state,TROOPS);
   return state;
 }
 
@@ -217,6 +218,7 @@ export function migrateSave(input, now = Date.now()) {
       armor: ITEMS.some(i=>i.id===gear.armor&&i.type==='giáp')?gear.armor:null,
       artifact: ITEMS.some(i=>i.id===gear.artifact&&i.type==='pháp bảo')?gear.artifact:null
     };
+    for(const slot of ARTIFACT_SLOTS.slice(1))if(gear[slot]&&ITEMS.some(i=>i.id===gear[slot]&&i.type==='pháp bảo'))h.equipment[slot]=gear[slot];
     const towerBook=ITEMS.find(item=>String(item.mobileSourceId)===String(h.towerBookSourceId||'')&&itemUseRule(item)?.kind==='towerBook');
     h.towerBookSourceId=towerBook?String(towerBook.mobileSourceId):null;
     for(const slot of ['helmet','belt','boots','gloves','relic','relic2','mount'])if(gear[slot]&&ITEMS.some(i=>i.id===gear[slot]&&equipmentSlot(i)===slot))h.equipment[slot]=gear[slot];
@@ -337,7 +339,7 @@ export function migrateSave(input, now = Date.now()) {
   s.combatReceipts=Array.isArray(s.combatReceipts)?[...new Set(s.combatReceipts.filter(x=>typeof x==='string'&&x.length<=200))]:[];
   s.combatSequence=Math.max(0,Math.floor(Number(s.combatSequence)||0));
   for(const h of s.heroes){h.rebirths=clamp(Math.floor(Number(h.rebirths)||0),0,5);h.rootBonus=clamp(Math.floor(Number(h.rootBonus)||0),0,5);h.sourceRootBonus=clamp(Math.floor(Number(h.sourceRootBonus)||0),0,21);h.potential=Object.fromEntries(['attack','magic','defense'].map(k=>[k,clamp(Math.floor(Number(h.potential?.[k])||0),0,350)]));h.mobileRootBonuses=Object.fromEntries(Object.entries(h.mobileRootBonuses&&typeof h.mobileRootBonuses==='object'?h.mobileRootBonuses:{}).filter(([id])=>['4955','8011','8012','8954','8955','8956','95911'].includes(id)).map(([id,n])=>[id,clamp(Math.floor(Number(n)||0),0,({4955:45,8011:41,8012:41,8954:45,8955:150,8956:150,95911:50})[id])]));h.mobilePotentialBonuses=(Array.isArray(h.mobilePotentialBonuses)?h.mobilePotentialBonuses:[]).filter(row=>row&&row.sourceId==='8957'&&Number.isFinite(row.points)&&row.points>0).slice(0,200).map(row=>({sourceId:'8957',points:clamp(Math.floor(row.points),1,3),evidence:'VERIFIED_MOBILE',runtimeFormula:'SIMULATED_SEEDED_RANGE'}));h.matrices=[...new Set((Array.isArray(h.matrices)?h.matrices:[]).filter(id=>ITEMS.some(i=>i.id===id)))];for(const k of ['combatMana','combatVitality','combatUpdatedAt','combatLoyalty'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
-  s.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(s);refreshProduct(s,now,ITEMS);refreshR4(s,now,TROOPS);
+  s.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(s);refreshProduct(s,now,ITEMS);refreshR4(s,now,TROOPS);normalizeSourceSquads(s,TROOPS);
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   if (sourceVersion < 3) s.settings.combatV13 = true;
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
@@ -377,7 +379,7 @@ export function storageCapacity(state) {
 // factor; treating it as literal food per troop per day made endgame armies
 // impossible to sustain under the documented farm/storage caps.
 export function foodUpkeepPerHour(state) {
-  return [state.army||{},...Object.values(state.gameplay?.r4?.garrisons||{})].flatMap(rows=>Object.entries(rows)).reduce((sum,[id,count])=>{
+  return [state.army||{},...state.heroes.map(h=>h.sourceSquad||{}),...Object.values(state.gameplay?.r4?.garrisons||{})].flatMap(rows=>Object.entries(rows)).reduce((sum,[id,count])=>{
     const troop=TROOPS.find(row=>row.id===id),sourceRate=Number(troop?.mobileUpkeep);
     const daily=Number.isFinite(sourceRate)&&sourceRate>0?sourceRate*MOBILE_UPKEEP_RUNTIME_SCALE:2;
     return sum+Math.max(0,Number(count)||0)*daily/24;
@@ -854,6 +856,7 @@ function finishProductMarch(state,now,commands=null){
   const node=q?.nodeId?getPveEncounter(q.nodeId):null;
   const priorClear=!!state.world.pveWins?.[node?.id];
   const result=combat().finishMarch(state,{now,commands});
+  settleSourceSquads(result.state,q,result.battle,TROOPS,HEROES);
   let finalEncounterClear=!!result.battle.victory;
   if(node?.buzhouFloor>=4&&q?.pveAssault){
     const assault=q.pveAssault,remaining={...assault.remainingBefore};
@@ -1576,7 +1579,9 @@ export function doAction(state, action, now = Date.now()) {
         const occupation=HEROES.find(def=>def.id===hero.id)?.mobileOccupation;
         if(!occupation||occupation!==item.mobileOccupation)throw new Error(`Trang bị này dành cho nghề ${item.mobileOccupation}; nghề thần tiên hiện tại ${occupation||'UNKNOWN'}.`);
       }
-      const slot = s.settings.combatV13?equipmentSlot(item):item.type === 'vũ khí' ? 'weapon' : item.type === 'giáp' ? 'armor' : 'artifact';
+      const baseSlot = s.settings.combatV13?equipmentSlot(item):item.type === 'vũ khí' ? 'weapon' : item.type === 'giáp' ? 'armor' : 'artifact';
+      const slot=baseSlot==='artifact'&&s.settings.combatV13?(ARTIFACT_SLOTS.includes(action.slot)?action.slot:ARTIFACT_SLOTS.find(k=>!hero.equipment[k])||'artifact'):baseSlot;
+      if(baseSlot==='artifact'&&Object.values(hero.equipment).includes(item.id)&&hero.equipment[slot]!==item.id)throw Error('Pháp bảo này đã trang bị cho thần tiên.');
       if (hero.equipment[slot]) s.items.push(hero.equipment[slot]);
       hero.equipment[slot] = item.id;
       s.items.splice(itemIndex, 1);
@@ -1966,8 +1971,11 @@ export function doAction(state, action, now = Date.now()) {
       if (lock) throw new Error(lock);
       if (node.isBoss && !s.world.campaignComplete && (s.stats.victories < 20 || s.stats.citiesCaptured < 7)) throw new Error('Cần ít nhất 20 trận thắng và 7 danh thành để mở chiến dịch cuối tại Triều Ca.');
       if(node.chapter>unlockedChapter(s))throw new Error(`Cần chiến thắng tại dã địa hoặc Tiên Sơn ở chương ${unlockedChapter(s)} để mở chương ${node.chapter}.`);
+      const plan=action.sourceOwned===true?sourcePlan(s):null;
+      if(plan){if(!s.settings.combatV13||!plan.ids.length)throw Error('Cần phối binh và đưa thần tiên vào đội hình');releaseForMarch(s,plan);}
       const troops = {};
-      if(action.troops&&typeof action.troops==='object'){
+      if(plan)Object.assign(troops,plan.total);
+      else if(action.troops&&typeof action.troops==='object'){
         for(const [id,amount] of Object.entries(action.troops)){
           if(!TROOPS.some(t=>t.id===id)||!s.army[id])continue;
           const count=Math.min(s.army[id],clamp(Math.floor(Number(amount)||0),0,9_999_999));
@@ -1978,11 +1986,11 @@ export function doAction(state, action, now = Date.now()) {
         const troopId = action.troopId || Object.keys(s.army).find(id => s.army[id] > 0);
         if (troopId && s.army[troopId]) troops[troopId]=Math.min(requested,s.army[troopId]);
       }
-      if(action.replenish===true){const desired={};for(const h of s.heroes.filter(h=>h.assigned&&s.gameplay.r4.replenish[h.id]))for(const [id,n] of Object.entries(s.gameplay.r4.lastSquads?.[h.id]||{}))desired[id]=(desired[id]||0)+n;for(const [id,n] of Object.entries(desired)){const room=marchTroopCapacity(s)-Object.values(troops).reduce((a,b)=>a+b,0);const extra=Math.min(Math.max(0,n-(troops[id]||0)),Math.max(0,(s.army[id]||0)-(troops[id]||0)),Math.max(0,room));if(extra>0)troops[id]=(troops[id]||0)+extra;}}
+      if(!plan&&action.replenish===true){const desired={};for(const h of s.heroes.filter(h=>h.assigned&&s.gameplay.r4.replenish[h.id]))for(const [id,n] of Object.entries(s.gameplay.r4.lastSquads?.[h.id]||{}))desired[id]=(desired[id]||0)+n;for(const [id,n] of Object.entries(desired)){const room=marchTroopCapacity(s)-Object.values(troops).reduce((a,b)=>a+b,0);const extra=Math.min(Math.max(0,n-(troops[id]||0)),Math.max(0,(s.army[id]||0)-(troops[id]||0)),Math.max(0,room));if(extra>0)troops[id]=(troops[id]||0)+extra;}}
 
       const count=Object.values(troops).reduce((sum,n)=>sum+n,0);
       if(!count)throw new Error('Chưa có binh sĩ sẵn sàng hành quân.');
-      const leadLimit=marchTroopCapacity(s);
+      const leadLimit=plan?count:marchTroopCapacity(s);
       if(count>leadLimit)throw new Error(`Đội quân vượt giới hạn lĩnh binh ${leadLimit.toLocaleString('vi-VN')}; nâng Lĩnh binh thuật hoặc phân công thêm thần tiên.`);
       let pveAssault=null;
       if(s.settings.combatV13){
@@ -1995,7 +2003,7 @@ export function doAction(state, action, now = Date.now()) {
           const wave=Object.fromEntries(progress.wave.map(row=>[row.unitId,row.count]));pveAssault={remainingBefore:{...prior.remaining},wave,total:prior.total};
           const npc=s.gameplay.strategic.npc[node.id]||{morale:80,loyalty:100,troops:{},effects:[]};npc.troops=wave;s.gameplay.strategic.npc[node.id]=npc;
         }
-        combat().marchInput(s,{nodeId:node.id,troops,startAt:now,seed:1});
+        combat().marchInput(s,{nodeId:node.id,troops,startAt:now,seed:1,...(plan?{commanderIds:plan.ids,squadMode:true,squadAllocation:plan.stacks}:{})});
       }
       for(const [id,n] of Object.entries(troops)){s.army[id]-=n;if(!s.army[id])delete s.army[id];}
       const averageSpeed=Object.entries(troops).reduce((sum,[id,n])=>sum+(TROOPS.find(t=>t.id===id)?.speed||0)*n,0)/count;
@@ -2007,7 +2015,7 @@ export function doAction(state, action, now = Date.now()) {
       const seed=Object.entries(troops).reduce((value,[id,n])=>value^n^Number(id.slice(-2)),(now^node.power)>>>0);
       if(action.combatMode!==undefined&&!['auto','manual','squad','squad-auto'].includes(action.combatMode))throw new Error('Không nhận diện được chế độ giao chiến.');
       s.queues.march = { nodeId: node.id, troops, startAt: now, finishAt: now + Math.max(2000, (7 + node.chapter * 1.7) * 1000 / marchSpeed), seed:seed>>>0,...(pveAssault?{pveAssault}:{}) };
-      if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.combatMode=['manual','squad'].includes(action.combatMode)?'manual':'auto';s.queues.march.squadMode=['squad','squad-auto'].includes(action.combatMode);s.queues.march.battleCommands=[];s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=s.heroes.filter(h=>h.assigned).slice(0,s.queues.march.squadMode?5:3).map(h=>h.id);if(s.queues.march.squadMode){s.queues.march.squadCap=Math.ceil(leadLimit/s.queues.march.commanderIds.length);const p=combat().marchInput(s,s.queues.march).input;s.queues.march.squadAllocation=p.sides[0].squadStacks;s.gameplay.r4.lastSquads=Object.fromEntries(s.queues.march.commanderIds.map((id,i)=>[id,Object.fromEntries((p.sides[0].squadStacks[i]||[]).map(t=>[t.id,t.count]))]));}}
+      if(s.settings.combatV13){s.queues.march.combatV13=true;s.queues.march.combatMode=['manual','squad'].includes(action.combatMode)?'manual':'auto';s.queues.march.squadMode=!!plan||['squad','squad-auto'].includes(action.combatMode);s.queues.march.battleCommands=[];s.queues.march.battleId='march:'+s.profile.createdAt+':'+(++s.combatSequence);s.queues.march.commanderIds=plan?plan.ids:s.heroes.filter(h=>h.assigned).slice(0,s.queues.march.squadMode?5:3).map(h=>h.id);if(plan){s.queues.march.sourceOwned=true;s.queues.march.squadAllocation=plan.stacks;}if(s.queues.march.squadMode){s.queues.march.squadCap=Math.ceil(leadLimit/s.queues.march.commanderIds.length);const p=combat().marchInput(s,s.queues.march).input;s.queues.march.squadAllocation=p.sides[0].squadStacks;s.gameplay.r4.lastSquads=Object.fromEntries(s.queues.march.commanderIds.map((id,i)=>[id,Object.fromEntries((p.sides[0].squadStacks[i]||[]).map(t=>[t.id,t.count]))]));}}
       note(s, `Đội quân rời thành hướng ${node.name}.`);
       break;
     }
@@ -2161,6 +2169,8 @@ export function doAction(state, action, now = Date.now()) {
       note(s, `Đã nhận thưởng nhiệm vụ: ${q.title}.`);
       break;
     }
+    case 'setSourceTroops':setSourceTroops(s,action.heroId,action.troopId,Number(action.count),TROOPS,HEROES);break;
+    case 'unequipArtifact': {if(s.queues.march)throw Error('Đang hành quân');const h=s.heroes.find(x=>x.id===action.heroId),slot=action.slot;if(!h||!ARTIFACT_SLOTS.includes(slot)||!h.equipment[slot]||s.items.length>=500)throw Error('Không thể tháo pháp bảo');s.items.push(h.equipment[slot]);h.equipment[slot]=null;break;}
     case 'setSquadWeight': {const h=s.heroes.find(x=>x.id===action.heroId),w=Number(action.weight);if(!h||s.queues.march||!Number.isInteger(w)||w<1||w>100)throw Error('Tỷ lệ phối binh cần từ 1–100, tướng rảnh');h.squadWeight=w;break;}
     case 'assignHero': {
       if(s.queues.march?.combatV13)throw new Error('Đội hình đang hành quân.');
