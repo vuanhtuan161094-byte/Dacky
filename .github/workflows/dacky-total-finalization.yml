@@ -3,6 +3,9 @@ on:
   push:
     branches: [integration/dacky-total-finalization]
   workflow_dispatch:
+concurrency:
+  group: dacky-total-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -19,7 +22,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install Pillow
+      - run: python -m pip install Pillow playwright
       - run: node --test tests/combat-squad-d2.test.js
       - run: npm test
       - run: DACKY_COMBAT_PREVIEW=1 npm run build
@@ -29,6 +32,11 @@ jobs:
           google-chrome --headless --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --dump-dom "file://$PWD/dist/combat-product.html?squadSmoke=1" > qa/total-finalization/dom.html
           grep -q 'data-squad-smoke="PASS"' qa/total-finalization/dom.html
           google-chrome --headless --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --screenshot="$PWD/qa/total-finalization/battle.png" "file://$PWD/dist/combat-product.html?squadSmoke=1"
+      - name: Verify P1 hero and event UI
+        run: |
+          npm run serve > /tmp/dacky-p1-serve.log 2>&1 &
+          for i in {1..30}; do curl -fsS http://127.0.0.1:4173/ > /dev/null && break; sleep 1; done
+          python qa/live-source-p1.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
