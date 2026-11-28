@@ -377,7 +377,7 @@ export function storageCapacity(state) {
 // factor; treating it as literal food per troop per day made endgame armies
 // impossible to sustain under the documented farm/storage caps.
 export function foodUpkeepPerHour(state) {
-  return Object.entries(state.army||{}).reduce((sum,[id,count])=>{
+  return [state.army||{},...Object.values(state.gameplay?.r4?.garrisons||{})].flatMap(rows=>Object.entries(rows)).reduce((sum,[id,count])=>{
     const troop=TROOPS.find(row=>row.id===id),sourceRate=Number(troop?.mobileUpkeep);
     const daily=Number.isFinite(sourceRate)&&sourceRate>0?sourceRate*MOBILE_UPKEEP_RUNTIME_SCALE:2;
     return sum+Math.max(0,Number(count)||0)*daily/24;
