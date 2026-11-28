@@ -6,7 +6,7 @@ import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUN
 import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,sourceGearGemRule,gearProtectionRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,pendingBattleBuff,equipmentSlot,equipmentSets } from './gameplay-p15.js';
 import { createProductCombat } from './combat/product-v13.js';
 import { sourceGrowth } from './combat/hero-progression.js';
-import { matrixRule,ascensionQuote,normalizeLiveHero,normalizeLiveEvents,COMBAT_SKILLS,LIVE_EVENTS,claimLiveEvent,dropBonusForHeroes,LOCAL_GROWTH,growthQuote,skillQuote,matrixStats,isHoanHi,ascensionItem } from './live-source-p1.js';
+import { matrixRule,ascensionQuote,normalizeLiveHero,normalizeLiveEvents,COMBAT_SKILLS,LIVE_EVENTS,claimLiveEvent,dropBonusForHeroes,LOCAL_GROWTH,growthQuote,skillQuote,matrixStats,isHoanHi,ascensionItem,matrixCatalog,MATRIX_TIERS } from './live-source-p1.js';
 
 export const SAVE_VERSION = 4;
 const HERO_LEVEL_CAP = 150;
@@ -1401,7 +1401,7 @@ export function doAction(state, action, now = Date.now()) {
         const grants=[];
         if(def.special==='ascension'){const order=ascensionItem(ITEMS);if(order)grants.push(order.id);}
         else if(def.special==='matrix'){
-          const pool=ITEMS.filter(i=>matrixRule(i)?.points);
+          const pool=matrixCatalog(ITEMS);
           if(!pool.length)throw Error('Chưa có Ảo Hóa trong catalog');
           const owned=new Set(s.heroes.flatMap(h=>h.matrices||[]));
           const remaining=pool.filter(i=>!owned.has(i.id)&&!s.items.includes(i.id));
@@ -1420,6 +1420,7 @@ export function doAction(state, action, now = Date.now()) {
     }
     case 'allocatePotential': {const h=s.heroes.find(x=>x.id===action.heroId),stat=action.stat;if(!h||s.queues.march||!['attack','magic','defense'].includes(stat))throw Error('Không thể phân bổ');h.potential={...(h.potential??{})};const used=Object.values(h.potential).reduce((n,v)=>n+v,0),gifted=(h.mobilePotentialBonuses||[]).reduce((n,row)=>n+row.points,0);if(used>=h.level*2+(h.rebirths??0)*10+gifted)throw Error('Hết điểm tiềm năng');h.potential[stat]=(h.potential[stat]??0)+1;break;}
     case 'repairGear': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h||s.queues.march)throw Error('Thần tiên đang bận');const ids=Object.values(h.equipment??{}).filter(Boolean),loss=ids.reduce((n,id)=>n+100-(h.combatDurability?.[id]??100),0);if(!loss)throw Error('Trang bị không cần sửa');debit(s,{gold:Math.ceil(loss*5),iron:Math.ceil(loss/2)});h.combatDurability=Object.fromEntries(ids.map(id=>[id,100]));break;}
+    case 'exchangeFestivalItem': {const item=ITEMS.find(x=>String(x.mobileSourceId)==='6440'),index=item?s.items.indexOf(item.id):-1;if(index<0)throw Error('Cần Bánh Trôi Nguyên Tiêu');s.items.splice(index,1);s.gameplay.liveProduct.tokens+=3;note(s,'Đổi Bánh Trôi lấy 3 tín vật Miếu Hội');break;}
     case 'switchMatrix': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h?.matrices?.includes(action.itemId)||s.queues.march)throw Error('Ma trận chưa mở');h.activeMatrix=action.itemId;break;}
     case 'claimSourceQuest': {credit(s,claimSourceQuest(s,action.questId,productionPerHour));note(s,'Đã nhận thưởng nhiệm vụ legacy (mô phỏng).');break;}
     case 'redeemQuestVouchers': {const max=Math.floor(Math.max(0,Number(s.gameplay.questVouchers)||0)/1000);if(max<1)throw Error('Cần 1.000 thẻ quà nhiệm vụ để đổi 1 linh ngọc.');const count=Math.min(max,Math.max(1,Math.floor(Number(action.count)||1)));s.gameplay.questVouchers-=count*1000;credit(s,{jade:count});note(s,`Đã đổi ${count*1000} thẻ quà nhiệm vụ thành ${count} linh ngọc (tỷ lệ mô phỏng).`);break;}
@@ -1907,7 +1908,7 @@ export function doAction(state, action, now = Date.now()) {
         const resource=candidates[(hash>>>0)%candidates.length],roll=effect.minimum+((hash>>>8)%(effect.maximum-effect.minimum+1)),amount=Math.min(roll,storageCapacity(s)-s.resources[resource]);
         credit(s,{[resource]:amount});s.items.splice(itemIndex,1);note(s,`Mở ${item.name}: nhận ${formatNumber(amount)} ${RESOURCE_INFO[resource].short} · loại và số lượng SIMULATED trong giới hạn nguồn.`);break;
       }
-      if(effect?.kind==='matrix'){const h=s.heroes.find(x=>x.id===action.heroId)||s.heroes.find(x=>x.assigned);if(!h||s.queues.march)throw Error('Chọn thần tiên đang nghỉ');h.matrices=[...new Set(h.matrices??[])];if(h.matrices.includes(item.id))throw Error('Ma trận đã mở');if(!matrixRule(item)?.points)throw Error('Chưa xác minh phẩm chất Ma Trận');h.matrices.push(item.id);h.activeMatrix=item.id;s.items.splice(itemIndex,1);note(s,'Đã mở Ma trận '+item.name);break;}
+      if(effect?.kind==='matrix'){const h=s.heroes.find(x=>x.id===action.heroId)||s.heroes.find(x=>x.assigned);if(!h||s.queues.march)throw Error('Chọn thần tiên đang nghỉ');h.matrices=[...new Set(h.matrices??[])];if(h.matrices.includes(item.id))throw Error('Ma trận đã mở');const rule=matrixRule(item),tier=MATRIX_TIERS.find(t=>t.name===rule?.tier);if(!tier)throw Error('Không phải Ảo Hóa Ma Trận');if((matrixStats(h,ITEMS).counts[tier.name]||0)>=tier.count)throw Error('Đã đủ Ma Trận phẩm chất này');h.matrices.push(item.id);h.activeMatrix=item.id;s.items.splice(itemIndex,1);note(s,'Đã mở Ma trận '+item.name);break;}
       if(!effect)throw new Error('Hiệu ứng của vật phẩm nguồn chưa được mô hình hóa; xem hồ sơ Mobile để biết dữ kiện đã xác minh.');
       if(effect.kind==='simulatedChest'){
         const tier=clamp(Number(item.tier)||1,1,10),amount=250*tier;
