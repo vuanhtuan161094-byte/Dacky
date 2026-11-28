@@ -59,7 +59,7 @@ def boot(browser,advanced=False,offline=False):
     errors=[]
     p.on('pageerror',lambda e:errors.append(str(e)))
     if advanced:
-        p.add_init_script('if(!localStorage.getItem('+json.dumps(KEY)+'))localStorage.setItem('+json.dumps(KEY)+','+json.dumps(json.dumps(fixture))+');')
+        p.add_init_script('if(!localStorage.getItem('+json.dumps(KEY)+'))localStorage.setItem('+json.dumps(KEY)+','+json.dumps(json.dumps(advanced if isinstance(advanced,dict) else fixture))+');')
     p.goto('http://127.0.0.1:4173/'+('offline.html' if offline else ''),wait_until='domcontentloaded',timeout=90000)
     if not advanced:
         p.locator('[data-form="new-game"] button').click(timeout=15000)
@@ -233,7 +233,184 @@ def library(p):
     nav(p,'library');p.locator('#source-query').fill('Na Tra')
     click(p,'[data-form="source-search"] button')
     assert p.locator('.source-entry-list').inner_text().strip()
-try:run()
+
+def run_p2():
+    meta=json.loads((out/'p2-meta.json').read_text())
+    f2=json.loads((out/'advanced-p2.json').read_text())
+    with sync_playwright() as pw:
+        browser=pw.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
+        ctx,p,err=boot(browser,f2)
+        seen=set()
+        def scan():
+            seen.update(p.locator('[data-action]').evaluate_all("(els)=>els.map(x=>x.dataset.action)"))
+        def run_case(name,fn):
+            case(p,'P2 '+name,fn)
+            scan()
+        def hero():
+            return state(p)['heroes'][0]
+        def bag(id):
+            nav(p,'inventory');tab(p,'data-bag-tab','bag');tab(p,'data-bag-filter','all')
+            click(p,'[data-bag-item="'+id+'"]')
+        def buy(a):
+            btn=p.locator('[data-action="'+a+'"]:not([disabled])').filter(visible=True).first
+            id=btn.get_attribute('data-item');old=state(p)['items'].count(id)
+            btn.click(timeout=3500);wait_state(p,lambda s:s['items'].count(id)>old)
+            return id
+        def recruit():
+            nav(p,'heroes');click(p,'[data-open-hero-support]')
+            btn=p.locator('.hero-recruit-card [data-action="recruit"]:not([disabled])').first
+            id=btn.get_attribute('data-hero');gold=state(p)['resources']['gold'];jade=state(p)['resources']['jade']
+            btn.click(timeout=3500);s=wait_state(p,lambda s:any(h['id']==id for h in s['heroes']))
+            assert s['resources']['gold']<gold and s['resources']['jade']<jade
+        def refresh():
+            nav(p,'heroes')
+            if not p.locator('.hero-support-drawer').get_attribute('open') and not p.locator('.hero-support-drawer').evaluate('(x)=>x.open'):click(p,'[data-open-hero-support]')
+            tracked(p,'refreshRecruitment')
+        def potential():
+            hero_tab(p,'growth')
+            before=hero().get('potential',{}).get('attack',0)
+            action(p,'allocatePotential',lambda s:s['heroes'][0]['potential']['attack']==before+1,'[data-stat="attack"]')
+        def repair():
+            hero_tab(p,'stats')
+            old=state(p)['resources']['gold']
+            action(p,'repairGear',lambda s:s['heroes'][0]['combatDurability']['item-01']==100)
+            assert state(p)['resources']['gold']<old
+            assert p.locator('[data-action="repairGear"]').first.is_disabled()
+        def enhance():
+            hero_tab(p,'stats')
+            old=state(p)['resources']['gold']
+            tracked(p,'enhanceGear','[data-item="item-01"]')
+            assert state(p)['resources']['gold']<old
+            assert 'item-01' in hero()['gearEnhancements']
+        def star():
+            hero_tab(p,'stats')
+            old=state(p)['items'].count('mobile-good-95601')
+            action(p,'starUpGear',lambda s:s['heroes'][0]['gearEnhancements']['item-01']['stars']==1,'[data-item="item-01"]')
+            assert state(p)['items'].count('mobile-good-95601')==old-1
+        def socket():
+            hero_tab(p,'stats')
+            select=p.locator('[data-gem-select="'+hero()['id']+':item-01"]')
+            select.select_option(meta['gem'])
+            old=state(p)['items'].count(meta['gem'])
+            action(p,'socketGearGem',lambda s:s['items'].count(meta['gem'])<old,'[data-item="item-01"]')
+            # Failure consumes gem per documented rule; retry with spare gem to prove success.
+            if meta['gem'] not in hero()['gearEnhancements']['item-01'].get('gems',[]):
+                p.locator('[data-gem-select="'+hero()['id']+':item-01"]').select_option(meta['gem'])
+                tracked(p,'socketGearGem','[data-item="item-01"]')
+            assert meta['gem'] in hero()['gearEnhancements']['item-01']['gems']
+        def rebirth():
+            hero_tab(p,'growth')
+            gold=state(p)['resources']['gold'];root=hero().get('rootBonus',0)
+            action(p,'rebirthHero',lambda s:s['heroes'][0].get('rebirths',0)==1)
+            assert hero()['level']==1 and hero()['rootBonus']==root+1 and state(p)['resources']['gold']<gold
+            assert p.locator('[data-action="rebirthHero"]').first.is_disabled()
+        def forge_sell():
+            nav(p,'inventory');tab(p,'data-bag-tab','forge');id=buy('forge')
+            bag(id);old=state(p)['items'].count(id)
+            action(p,'sellItem',lambda s:s['items'].count(id)==old-1)
+        def merchant():
+            nav(p,'inventory');tab(p,'data-bag-tab','merchant');buy('buyItem')
+        def exchange():
+            id=meta['exchange'];assert id
+            bag(id);old=state(p)['items'].count(id);army=sum(state(p)['army'].values())
+            action(p,'exchangeItem',lambda s:s['items'].count(id)==old-1)
+            assert sum(state(p)['army'].values())==army+1
+        def flag():
+            id=meta['flag'];assert id
+            bag(id);old=state(p)['items'].count(id)
+            p.locator('[data-item-flag="'+id+'"]').select_option('商')
+            action(p,'useItem',lambda s:s['gameplay']['flag']=='商' and s['items'].count(id)==old-1)
+        def plot():
+            nav(p,'city')
+            btn=p.locator('[data-action="cityPlotSelect"][data-occupied="false"][data-unlocked="true"]').filter(visible=True).first
+            id=btn.get_attribute('data-plot');btn.click(timeout=3500)
+            action(p,'upgradePlot',lambda s:bool(s['queues']['construction']),'[data-plot="'+id+'"]')
+            finish(p,'construction',lambda s:id in s['cityPlots'])
+            click(p,'[data-action="cityPlotSelect"][data-plot="'+id+'"]')
+            p.once('dialog',lambda d:d.accept())
+            action(p,'demolishPlot',lambda s:id not in s['cityPlots'])
+        def city_admin():
+            nav(p,'city')
+            drawer=p.locator('.city-management-drawer')
+            if not drawer.evaluate('(x)=>x.open'):drawer.locator('summary').click()
+            p.locator('#tax-rate').select_option('25');action(p,'setTaxRate',lambda s:s['gameplay']['taxRate']==25)
+            p.locator('#labor-rate').select_option('75');action(p,'setLaborRate',lambda s:s['gameplay']['laborRate']==75)
+        def city_action(a):
+            nav(p,'city')
+            drawer=p.locator('.city-management-drawer')
+            if not drawer.evaluate('(x)=>x.open'):drawer.locator('summary').click()
+            tracked(p,a)
+        def scout():
+            nav(p,'world');click(p,'[data-action="selectNode"][data-node="'+meta['uncaptured']+'"]')
+            n=len(state(p)['reports']);action(p,'scout',lambda s:len(s['reports'])>n)
+            assert state(p)['reports'][0]['type']=='scout' or state(p)['reports'][-1]['type']=='scout'
+        def diplomacy():
+            nav(p,'world');click(p,'[data-action="selectNode"][data-node="'+meta['uncaptured']+'"]')
+            n=len(state(p)['reports']);action(p,'diplomacy',lambda s:len(s['reports'])>n)
+        def strategic():
+            nav(p,'world');p.locator('#spell-target').select_option(meta['uncaptured'])
+            old=state(p)['items'].count('mobile-good-4912')
+            action(p,'strategicCast',lambda s:s['items'].count('mobile-good-4912')<old)
+        def city_level():
+            nav(p,'world');c=meta['city'];lv=next(x['level'] for x in state(p)['cities'] if x['id']==c)
+            action(p,'upgradeCity',lambda s:bool(s['queues']['construction']),'[data-city="'+c+'"]')
+            finish(p,'construction',lambda s:next(x['level'] for x in s['cities'] if x['id']==c)>lv)
+        def import_save():
+            nav(p,'settings')
+            with p.expect_download() as d:action(p,'export')
+            data=json.loads(pathlib.Path(d.value.path()).read_text())
+            data['save']['profile']['name']='QA imported'
+            p.locator('#import-file').set_input_files({'name':'qa-import.json','mimeType':'application/json','buffer':json.dumps(data).encode()})
+            click(p,'[data-dialog-confirm]',lambda s:s['profile']['name']=='QA imported')
+            p.reload(wait_until='domcontentloaded');p.locator('#primary-nav [data-view="city"]').wait_for()
+            assert state(p)['profile']['name']=='QA imported'
+        def choose_reward():
+            event_tab(p,'offers');action(p,'claimStarterDay',lambda s:s['gameplay']['liveProduct']['choice']=='hero')
+            n=len(state(p)['heroes'])
+            action(p,'chooseEventReward',lambda s:len(s['heroes'])==n+1 and not s['gameplay']['liveProduct']['choice'])
+        def select_pool():
+            event_tab(p,'activities');action(p,'selectPrizePool',lambda s:s['gameplay']['liveProduct']['pool']=='jade','[data-pool="jade"]')
+        def travel():
+            event_tab(p,'activities');action(p,'travelDice',lambda s:s['gameplay']['liveProduct']['travelUsed']==1)
+        def mountain():
+            nav(p,'pve')
+            btn=p.locator('[data-action="pveMarch"][data-node^="elfland:"]:not([disabled])').filter(visible=True).first
+            id=btn.get_attribute('data-node');pve(p,id)
+        def boss():
+            nav(p,'world')
+            # Select the chapter containing the final boss using the actual chapter selector.
+            sel=p.locator('#world-chapter')
+            if sel.count():sel.select_option(sel.locator('option').last.get_attribute('value'))
+            click(p,'[data-action="selectNode"][data-node="'+meta['boss']+'"]')
+            old=state(p)['stats']['battles']
+            p.locator('#march-count').fill(str(min(100000,int(p.locator('#march-count').get_attribute('max')))))
+            action(p,'march',lambda s:bool(s['queues']['march']))
+            finish(p,'march',lambda s:s['stats']['battles']==old+1)
+        for name,fn in [
+          ('recruit and payment',recruit),('refresh recruitment',refresh),('allocate potential',potential),
+          ('repair and lock after repair',repair),('enhance equipment',enhance),('star stone consumption',star),('compatible gem socket',socket),
+          ('forge then sell',forge_sell),('buy consumable',merchant),('buy artifact',lambda:(nav(p,'market'),buy('buyArtifact'))),
+          ('exchange item for troop',exchange),('use flag voucher',flag),
+          ('build and demolish extra plot',plot),('set tax and labor',city_admin),
+          *[(a,lambda a=a:city_action(a)) for a in ['bless','sacrifice','settlePopulation','disciplineLabor','relieveLabor','collectLaborTaxes','worldChat']],
+          ('scout report',scout),('NPC diplomacy',diplomacy),('strategic spell and pouch cost',strategic),
+          ('guild upgrade',lambda:(nav(p,'world'),tracked(p,'guild'))),('guild donate',lambda:(p.locator('#guild-donate').fill('100'),tracked(p,'guildDonate'))),
+          ('upgrade captured city',city_level),('redeem vouchers',lambda:(nav(p,'market'),tracked(p,'redeemQuestVouchers'))),
+          ('tax policy',lambda:tracked(p,'setTaxPolicy','[data-policy="relief"]')),
+          ('prize pool choice',select_pool),('spin milestone',lambda:action(p,'claimSpinMilestone',lambda s:5 in s['gameplay']['liveProduct']['spinClaims'],'[data-milestone="5"]')),
+          ('dice travel',travel),('festival pray',lambda:action(p,'claimFestival',lambda s:'pray' in s['gameplay']['liveProduct']['festivalClaims'],'[data-festival="pray"]')),
+          ('war reward',lambda:action(p,'claimWar',lambda s:s['gameplay']['liveProduct']['warClaimed'])),
+          ('rank milestone',lambda:(event_tab(p,'ranking'),action(p,'claimRank',lambda s:len(s['gameplay']['liveProduct']['rankClaims'])>0))),
+          ('starter reward choice',choose_reward),('rebirth, root and level reset',rebirth),
+          ('import exported save',import_save),
+          ('mountain battle',mountain),('final boss battle',boss)
+        ]:run_case(name,fn)
+        rec('P2 browser errors','PASS' if not err else 'FAIL',err)
+        (out/'p2-visible-actions.json').write_text(json.dumps(sorted(seen),ensure_ascii=False))
+        print('P2_VISIBLE_ACTIONS='+json.dumps(sorted(seen)),flush=True)
+        ctx.close();browser.close()
+
+try:run();run_p2()
 except Exception as e:rec('test harness','FAIL',traceback.format_exc())
 (out/'results.json').write_text(json.dumps(records,ensure_ascii=False,indent=2))
 print('PLAYTEST_RESULT='+json.dumps(records,ensure_ascii=False),flush=True)
