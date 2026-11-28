@@ -1,4 +1,4 @@
-import {ARTIFACT_SLOTS,normalizeSourceSquads,sourcePlan,setSourceTroops,releaseForMarch,settleSourceSquads} from './source-v4.js';
+import {ARTIFACT_SLOTS,normalizeSourceSquads,sourcePlan,setSourceTroops,releaseForMarch,settleSourceSquads,normalizeHeroTitles,claimHeroTitle,heroTitleBonus} from './source-v4.js';
 import {refreshR4,r4Action,R4_ACTIONS,titleBonus} from './completion-r4.js';
 import { refreshProduct,productAction,PRODUCT_ACTIONS,collectionBonus } from './live-product-p2.js';
 import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulated-world.js';
@@ -173,7 +173,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   };
   normalizeCityPlots(state);
   normalizeGameplay(state);
-  state.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(state);refreshProduct(state,now,ITEMS);refreshR4(state,now,TROOPS);normalizeSourceSquads(state,TROOPS);
+  state.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(state);refreshProduct(state,now,ITEMS);refreshR4(state,now,TROOPS);normalizeSourceSquads(state,TROOPS);normalizeHeroTitles(state,now);
   return state;
 }
 
@@ -339,7 +339,7 @@ export function migrateSave(input, now = Date.now()) {
   s.combatReceipts=Array.isArray(s.combatReceipts)?[...new Set(s.combatReceipts.filter(x=>typeof x==='string'&&x.length<=200))]:[];
   s.combatSequence=Math.max(0,Math.floor(Number(s.combatSequence)||0));
   for(const h of s.heroes){h.rebirths=clamp(Math.floor(Number(h.rebirths)||0),0,5);h.rootBonus=clamp(Math.floor(Number(h.rootBonus)||0),0,5);h.sourceRootBonus=clamp(Math.floor(Number(h.sourceRootBonus)||0),0,21);h.potential=Object.fromEntries(['attack','magic','defense'].map(k=>[k,clamp(Math.floor(Number(h.potential?.[k])||0),0,350)]));h.mobileRootBonuses=Object.fromEntries(Object.entries(h.mobileRootBonuses&&typeof h.mobileRootBonuses==='object'?h.mobileRootBonuses:{}).filter(([id])=>['4955','8011','8012','8954','8955','8956','95911'].includes(id)).map(([id,n])=>[id,clamp(Math.floor(Number(n)||0),0,({4955:45,8011:41,8012:41,8954:45,8955:150,8956:150,95911:50})[id])]));h.mobilePotentialBonuses=(Array.isArray(h.mobilePotentialBonuses)?h.mobilePotentialBonuses:[]).filter(row=>row&&row.sourceId==='8957'&&Number.isFinite(row.points)&&row.points>0).slice(0,200).map(row=>({sourceId:'8957',points:clamp(Math.floor(row.points),1,3),evidence:'VERIFIED_MOBILE',runtimeFormula:'SIMULATED_SEEDED_RANGE'}));h.matrices=[...new Set((Array.isArray(h.matrices)?h.matrices:[]).filter(id=>ITEMS.some(i=>i.id===id)))];for(const k of ['combatMana','combatVitality','combatUpdatedAt','combatLoyalty'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
-  s.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(s);refreshProduct(s,now,ITEMS);refreshR4(s,now,TROOPS);normalizeSourceSquads(s,TROOPS);
+  s.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(s);refreshProduct(s,now,ITEMS);refreshR4(s,now,TROOPS);normalizeSourceSquads(s,TROOPS);normalizeHeroTitles(s,now);
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   if (sourceVersion < 3) s.settings.combatV13 = true;
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
@@ -454,8 +454,8 @@ export function heroPower(hero, state) {
     return sum+base*(1+(upgrade?.rank||0)*0.08+(upgrade?.gems?.length||0)*0.06+(upgrade?.stars||0)*0.025);
   }, 0);
   const affinity=1+clamp(Number(hero.affinity)||0,0,100)*0.0015;
-  const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1,c=collectionBonus(state),t=titleBonus(state);
-  return Math.round((heroBaseRating(def) + gear + c.attack+c.magic+c.defense+t.attack+t.magic+t.defense + matrixStats(hero,ITEMS).physical*3 + (hero.divineLevel||0)*12) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * affinity);
+  const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1,c=collectionBonus(state),t=titleBonus(state),ht=heroTitleBonus(hero,state.lastTickAt??0);
+  return Math.round((heroBaseRating(def) + gear + c.attack+c.magic+c.defense+t.attack+t.magic+t.defense+ht.attack+ht.magic+ht.defense + matrixStats(hero,ITEMS).physical*3 + (hero.divineLevel||0)*12) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * affinity);
 }
 
 function awardHeroXp(hero, amount) {
@@ -2169,6 +2169,7 @@ export function doAction(state, action, now = Date.now()) {
       note(s, `Đã nhận thưởng nhiệm vụ: ${q.title}.`);
       break;
     }
+    case 'claimHeroTitle':claimHeroTitle(s,s.heroes.find(h=>h.id===action.heroId),action.titleId,now);break;
     case 'setSourceTroops':setSourceTroops(s,action.heroId,action.troopId,Number(action.count),TROOPS,HEROES);break;
     case 'unequipArtifact': {if(s.queues.march)throw Error('Đang hành quân');const h=s.heroes.find(x=>x.id===action.heroId),slot=action.slot;if(!h||!ARTIFACT_SLOTS.includes(slot)||!h.equipment[slot]||s.items.length>=500)throw Error('Không thể tháo pháp bảo');s.items.push(h.equipment[slot]);h.equipment[slot]=null;break;}
     case 'setSquadWeight': {const h=s.heroes.find(x=>x.id===action.heroId),w=Number(action.weight);if(!h||s.queues.march||!Number.isInteger(w)||w<1||w>100)throw Error('Tỷ lệ phối binh cần từ 1–100, tướng rảnh');h.squadWeight=w;break;}
