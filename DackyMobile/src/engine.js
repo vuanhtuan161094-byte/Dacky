@@ -2,8 +2,10 @@ import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulate
 import { getPveEncounter, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot, resolvePveLootAward } from './pve-campaign.js';
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
-import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,sourceGearGemRule,gearProtectionRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,pendingBattleBuff,equipmentSlot } from './gameplay-p15.js';
+import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,sourceGearGemRule,gearProtectionRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,pendingBattleBuff,equipmentSlot,equipmentSets } from './gameplay-p15.js';
 import { createProductCombat } from './combat/product-v13.js';
+import { sourceGrowth } from './combat/hero-progression.js';
+import { matrixRule,ascensionQuote,normalizeLiveHero,normalizeLiveEvents,COMBAT_SKILLS,LIVE_EVENTS,claimLiveEvent,dropBonusForHeroes } from './live-source-p1.js';
 
 export const SAVE_VERSION = 4;
 const HERO_LEVEL_CAP = 150;
@@ -168,6 +170,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   };
   normalizeCityPlots(state);
   normalizeGameplay(state);
+  state.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(state);
   return state;
 }
 
@@ -332,6 +335,7 @@ export function migrateSave(input, now = Date.now()) {
   s.combatReceipts=Array.isArray(s.combatReceipts)?[...new Set(s.combatReceipts.filter(x=>typeof x==='string'&&x.length<=200))]:[];
   s.combatSequence=Math.max(0,Math.floor(Number(s.combatSequence)||0));
   for(const h of s.heroes){h.rebirths=clamp(Math.floor(Number(h.rebirths)||0),0,5);h.rootBonus=clamp(Math.floor(Number(h.rootBonus)||0),0,5);h.sourceRootBonus=clamp(Math.floor(Number(h.sourceRootBonus)||0),0,21);h.potential=Object.fromEntries(['attack','magic','defense'].map(k=>[k,clamp(Math.floor(Number(h.potential?.[k])||0),0,350)]));h.mobileRootBonuses=Object.fromEntries(Object.entries(h.mobileRootBonuses&&typeof h.mobileRootBonuses==='object'?h.mobileRootBonuses:{}).filter(([id])=>['4955','8011','8012','8954','8955','8956','95911'].includes(id)).map(([id,n])=>[id,clamp(Math.floor(Number(n)||0),0,({4955:45,8011:41,8012:41,8954:45,8955:150,8956:150,95911:50})[id])]));h.mobilePotentialBonuses=(Array.isArray(h.mobilePotentialBonuses)?h.mobilePotentialBonuses:[]).filter(row=>row&&row.sourceId==='8957'&&Number.isFinite(row.points)&&row.points>0).slice(0,200).map(row=>({sourceId:'8957',points:clamp(Math.floor(row.points),1,3),evidence:'VERIFIED_MOBILE',runtimeFormula:'SIMULATED_SEEDED_RANGE'}));h.matrices=[...new Set((Array.isArray(h.matrices)?h.matrices:[]).filter(id=>ITEMS.some(i=>i.id===id)))];for(const k of ['combatMana','combatVitality','combatUpdatedAt','combatLoyalty'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
+  s.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(s);
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   if (sourceVersion < 3) s.settings.combatV13 = true;
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
@@ -879,7 +883,8 @@ function finishProductMarch(state,now,commands=null){
       report.itemDrop=null;
       report.genericItemDropSuppressed='SOURCE_FLOOR_RULE';
     }
-    const drop=rollPveLoot(node,q.seed);
+    const party=result.state.heroes.filter(h=>(q.commanderIds??result.state.heroes.filter(x=>x.assigned).map(x=>x.id)).includes(h.id));
+    const drop=rollPveLoot(node,q.seed,dropBonusForHeroes(party,equipmentSets,node.kind));
     if(drop){
       const award=resolvePveLootAward(drop,node,{inventoryCount:result.state.items.length,inventoryCapacity:500});
       if(award?.kind==='item')for(let i=0;i<award.granted;i++)result.state.items.push(award.item.id);
@@ -1346,20 +1351,39 @@ export function advance(state, now = Date.now()) {
 export function doAction(state, action, now = Date.now()) {
   let s = advance(state, now).state;
   switch (action.type) {
-    case 'rebirthHero': {
-      if(!s.settings.combatV13||s.queues.march)throw Error('Chưa sẵn sàng chuyển sinh');
+    case 'ascendHero': {
+      const h=s.heroes.find(x=>x.id===action.heroId),q=ascensionQuote(s,h,ITEMS);
+      if(!q.available)throw Error('Phi thăng cần cấp 80, Lệnh Phi Thăng, 100.000 vàng và tướng rảnh.');
+      const def=HEROES.find(x=>x.id===h.id),p=def&&combat().runtime.index.heroes[String(def.mobileSourceId)];
+      if(!p)throw Error('Thiếu hồ sơ nguồn thần tiên');
+      const v=sourceGrowth(p,h.level).values,key=p.occupation==='Giáp sĩ'?'physical':p.occupation==='Đạo sĩ'?'arcane':'strategy';
+      debit(s,{gold:q.gold});s.items.splice(s.items.indexOf(q.itemId),1);
+      h.ascended=true;h.ascensionRetained={[key]:Math.floor(v[key]/2)};h.level=1;h.xp=0;delete h.combatMana;delete h.combatVitality;
+      note(s,'Phi thăng · cấp 1; giữ nửa chỉ số theo nghề (ánh xạ chỉ số mô phỏng).');break;
+    }
+    case 'deifyHero': {
       const h=s.heroes.find(x=>x.id===action.heroId);
-      if(!h||h.assigned||h.level<60||(h.rebirths??0)>=5)throw Error('Cần cấp 60, nghỉ đội hình, tối đa 5 lần chuyển sinh');
-      const def=HEROES.find(x=>x.id===h.id),profile=def&&combat().runtime.index.heroes[String(def.mobileSourceId)];
-      if(!profile)throw Error('Thiếu hồ sơ nguồn thần tiên.');
-      const root=Number(profile.root||0)+(h.rootBonus||0)+(h.sourceRootBonus||0)+Object.values(h.mobileRootBonuses||{}).reduce((sum,value)=>sum+(Number(value)||0),0);
-      const order=ITEMS.find(item=>String(item.mobileSourceId)==='8746'),orderIndex=order?s.items.indexOf(order.id):-1,requiresOrder=root<45;
-      if(requiresOrder&&orderIndex<0)throw Error('Căn cốt dưới 45 cần Lệnh Phong Thần (8746) · SIMULATED; vật phẩm chưa bị tiêu hao.');
-      const rebirthCost=8_000+3_000*(h.rebirths||0);
-      debit(s,{gold:rebirthCost});
-      if(requiresOrder)s.items.splice(orderIndex,1);
-      h.rebirths=(h.rebirths??0)+1;h.rootBonus=(h.rootBonus??0)+1;h.level=clamp(profile.baseLevel??1,1,HERO_LEVEL_CAP);h.xp=0;h.skillLevel=1;delete h.combatMana;delete h.combatVitality;
-      note(s,'Chuyển sinh thành công'+(requiresOrder?' · đã dùng Lệnh Phong Thần cho căn cốt dưới 45':'')+' · công thức tăng trưởng SIMULATED.');break;
+      if(!h?.ascended||h.deified||h.assigned||s.queues.march)throw Error('Cần Phi thăng và tướng rảnh.');
+      throw Error('Phong thần: chưa xác minh chi phí và hiệu ứng nguồn.');
+    }
+    case 'rebirthHero': {
+      const h=s.heroes.find(x=>x.id===action.heroId);
+      if(!h?.ascended||h.level<59||h.assigned||s.queues.march)throw Error('Cần Phi thăng, cấp 59 và tướng rảnh.');
+      throw Error('Chuyển sinh: cần xác minh lò luyện, chi phí và kết quả nguồn.');
+    }
+    case 'learnCombatSkill':case 'advanceCombatSkill':case 'selectCombatSkill': {
+      const h=s.heroes.find(x=>x.id===action.heroId),name=action.skill;
+      if(!h||h.assigned||s.queues.march||!COMBAT_SKILLS.includes(name))throw Error('Chọn Chiến Kỹ và thần tiên rảnh.');
+      normalizeLiveHero(h);const row=h.combatSkills[name];
+      if(action.type==='selectCombatSkill'){if(!row)throw Error('Chưa học Chiến Kỹ');h.activeCombatSkill=name;break;}
+      if(name!=='Truy kích')throw Error('Chưa xác minh giá học Chiến Kỹ này');
+      if(action.type==='learnCombatSkill'){if(row||h.combatSkillPoints<15000)throw Error('Cần 15.000 điểm và chưa học');h.combatSkillPoints-=15000;h.combatSkills[name]={level:1,advanced:false};}
+      else {if(!row||row.advanced||h.combatSkillPoints<25500)throw Error('Cần 25.500 điểm và đã học');h.combatSkillPoints-=25500;row.advanced=true;}
+      note(s,'Đã cập nhật Chiến Kỹ '+name+'; hiệu ứng từng cấp đang xác minh.');break;
+    }
+    case 'claimLiveEvent': {
+      const def=LIVE_EVENTS.find(e=>e.id===action.eventId);if(!def)throw Error('Sự kiện không tồn tại');
+      claimLiveEvent(s,def,now,rewards=>{for(const row of rewards){if(!ITEMS.some(i=>i.id===row.itemId)||!Number.isSafeInteger(row.count)||row.count<1||s.items.length+row.count>500)throw Error('Phần thưởng không hợp lệ');for(let n=0;n<row.count;n++)s.items.push(row.itemId);}});break;
     }
     case 'allocatePotential': {const h=s.heroes.find(x=>x.id===action.heroId),stat=action.stat;if(!h||s.queues.march||!['attack','magic','defense'].includes(stat))throw Error('Không thể phân bổ');h.potential={...(h.potential??{})};const used=Object.values(h.potential).reduce((n,v)=>n+v,0),gifted=(h.mobilePotentialBonuses||[]).reduce((n,row)=>n+row.points,0);if(used>=h.level*2+(h.rebirths??0)*10+gifted)throw Error('Hết điểm tiềm năng');h.potential[stat]=(h.potential[stat]??0)+1;break;}
     case 'repairGear': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h||s.queues.march)throw Error('Thần tiên đang bận');const ids=Object.values(h.equipment??{}).filter(Boolean),loss=ids.reduce((n,id)=>n+100-(h.combatDurability?.[id]??100),0);if(!loss)throw Error('Trang bị không cần sửa');debit(s,{gold:Math.ceil(loss*5),iron:Math.ceil(loss/2)});h.combatDurability=Object.fromEntries(ids.map(id=>[id,100]));break;}
@@ -1850,7 +1874,7 @@ export function doAction(state, action, now = Date.now()) {
         const resource=candidates[(hash>>>0)%candidates.length],roll=effect.minimum+((hash>>>8)%(effect.maximum-effect.minimum+1)),amount=Math.min(roll,storageCapacity(s)-s.resources[resource]);
         credit(s,{[resource]:amount});s.items.splice(itemIndex,1);note(s,`Mở ${item.name}: nhận ${formatNumber(amount)} ${RESOURCE_INFO[resource].short} · loại và số lượng SIMULATED trong giới hạn nguồn.`);break;
       }
-      if(effect?.kind==='matrix'){const h=s.heroes.find(x=>x.id===action.heroId)||s.heroes.find(x=>x.assigned);if(!h||s.queues.march)throw Error('Chọn thần tiên đang nghỉ');h.matrices=[...new Set(h.matrices??[])];if(h.matrices.includes(item.id))throw Error('Ma trận đã mở');h.matrices.push(item.id);h.activeMatrix=item.id;s.items.splice(itemIndex,1);note(s,'Đã mở Ma trận '+item.name);break;}
+      if(effect?.kind==='matrix'){const h=s.heroes.find(x=>x.id===action.heroId)||s.heroes.find(x=>x.assigned);if(!h||s.queues.march)throw Error('Chọn thần tiên đang nghỉ');h.matrices=[...new Set(h.matrices??[])];if(h.matrices.includes(item.id))throw Error('Ma trận đã mở');if(!matrixRule(item)?.points)throw Error('Chưa xác minh phẩm chất Ma Trận');h.matrices.push(item.id);h.activeMatrix=item.id;s.items.splice(itemIndex,1);note(s,'Đã mở Ma trận '+item.name);break;}
       if(!effect)throw new Error('Hiệu ứng của vật phẩm nguồn chưa được mô hình hóa; xem hồ sơ Mobile để biết dữ kiện đã xác minh.');
       if(effect.kind==='simulatedChest'){
         const tier=clamp(Number(item.tier)||1,1,10),amount=250*tier;
