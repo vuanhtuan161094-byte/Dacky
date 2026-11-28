@@ -37,6 +37,12 @@ with sync_playwright() as p:
                 assert page.locator('.world-map-art').evaluate('(img) => img.naturalWidth')>0
                 page.locator('.map-node').last.click()
                 assert page.locator('.map-node.selected').count()==1
+                if label=='mobile-landscape':
+                    page.locator('[data-world-pane-choice="target"]').click()
+                    assert page.locator('.map-side').is_visible()
+                    page.screenshot(path=str(out/(label+'-world-target.png')))
+                    page.locator('[data-world-pane-choice="map"]').click()
+                    assert page.locator('.world-map').is_visible()
             if view=='inventory':
                 page.locator('[data-bag-filter="all"]').click()
                 if page.locator('[data-bag-item]').count():
@@ -66,12 +72,16 @@ with sync_playwright() as p:
             battle.wait_for_timeout(110)
     capture_round(8)
     assert battle.locator('.r3-field-commander').count()==2
+    battle.locator('.fidelity-arena .battle-scenery').evaluate('(img) => img.decode()')
+    assert battle.locator('.fidelity-arena .battle-scenery').evaluate('(img) => img.naturalWidth')==1176
     for _ in range(8):
         command=battle.locator('[data-action="battleCommand"]')
         if not command.count() or not command.first.is_visible():break
         command.first.click()
         battle.wait_for_timeout(250)
         capture_round(8)
+        if battle.locator('.fidelity-arena').count():
+            battle.screenshot(path=str(out/('battle-round-%02d.png'%_)))
     if battle.locator('[data-action="battleAuto"]').count() and battle.locator('[data-action="battleAuto"]').first.is_visible():
         battle.locator('[data-action="battleAuto"]').first.click()
         battle.wait_for_timeout(400)
