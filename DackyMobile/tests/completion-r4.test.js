@@ -52,7 +52,8 @@ test('R4 garrison transfers preserve troops, survive migration, and return exact
 });
 test('R4 unmapped legacy objectives have playable offline fallback without changing raw source',()=>{
  let rows=0;for(const q of LEGACY_QUESTS){const o=sourceQuestObjectives(q);assert.ok(o.length);assert.ok(o.every(x=>x.kind!=='hold'));rows+=o.filter(x=>x.evidence==='SIMULATED_LOCAL_OBJECTIVE').length;}
- assert.ok(rows>0);
+ const fallback=sourceQuestObjectives({id:'r4-test-unknown',title:'Tu luyện thử nghiệm',conditions:[{sourceId:99999,typeCode:1,title:'Tu luyện thử nghiệm',data:[0,999,999,1,0]}]});
+ assert.equal(fallback[0].kind,'action');assert.equal(fallback[0].id,'trainHero');assert.equal(fallback[0].evidence,'SIMULATED_LOCAL_OBJECTIVE');
 });
 test('R4 replenishment preference and saved squad plan persist',()=>{
  let s=createNewGame('R4',now),id=s.heroes[0].id,unit=Object.keys(s.army)[0];
