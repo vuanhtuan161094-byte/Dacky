@@ -1,0 +1,41 @@
+name: Dacky accelerated real playtest
+on:
+  push:
+    branches: [integration/dacky-total-finalization]
+    paths: ['DackyMobile/qa/playtest*','DackyMobile/src/**','DackyMobile/styles.css','.github/workflows/dacky-accelerated-playtest.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: dacky-accelerated-playtest
+  cancel-in-progress: true
+jobs:
+  playtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    defaults:
+      run:
+        working-directory: DackyMobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow playwright
+      - run: npm run build
+      - run: node qa/playtest-fixtures.mjs
+      - name: Real UI playthrough with fast-forward clock
+        run: |
+          npm run serve >/tmp/dacky-playtest-http.log 2>&1 &
+          for i in {1..20}; do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          python qa/playtest-r4.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dacky-accelerated-playtest
+          path: DackyMobile/qa/playtest/
+      - name: Fail if an interaction failed
+        run: python -c "import json; r=json.load(open('qa/playtest/results.json')); assert r and all(x['status']=='PASS' for x in r), [x['name'] for x in r if x['status']!='PASS']"
