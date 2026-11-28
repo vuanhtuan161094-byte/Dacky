@@ -9,8 +9,9 @@ export function matrixRule(item){
  const text=norm([item.name,item.mobileDescription,item.effect,item.mobileQuality].join(' '));
  const exact=MATRIX_TIERS.find(t=>text.includes(norm(t.name)));
  const mapped=exact??MATRIX_TIERS.find(t=>t.points===({tim:2,cam:4,do:8,kim:8,than:8})[norm(item.mobileQuality)])??MATRIX_TIERS[0];
- return {points:mapped?.points??null,tier:mapped?.name??null,evidence:exact?'LIVE_UI_TIER':'SIMULATED_QUALITY_JOIN'};
+ return {points:mapped?.points??null,tier:mapped?.name??null,evidence:item.localMatrix?'SIMULATED_LOCAL_POLICY':exact?'LIVE_UI_TIER':'SIMULATED_QUALITY_JOIN'};
 }
+export function matrixCatalog(items){return MATRIX_TIERS.flatMap(t=>{const candidates=items.filter(i=>matrixRule(i)?.tier===t.name);return [...candidates.filter(i=>!i.localMatrix),...candidates.filter(i=>i.localMatrix)].slice(0,t.count);});}
 export function matrixStats(hero,items){
  const ids=[...new Set(hero?.matrices??[])],byId=new Map(items.map(i=>[i.id,i])),counts={},unknown=[];
  let points=0;for(const id of ids){const rule=matrixRule(byId.get(id));if(!rule?.points){unknown.push(id);continue;}
