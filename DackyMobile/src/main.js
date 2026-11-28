@@ -279,8 +279,8 @@ document.body.addEventListener('click', async event => {
     case 'duel': return perform('duel',{mode:button.dataset.mode,mountainId:button.dataset.mountain});
     case 'claimSourceQuest':return perform(action,{questId:button.dataset.quest});
     case 'allocatePotential':return perform(action,{heroId:button.dataset.hero,stat:button.dataset.stat});
-    case 'repairGear':case 'rebirthHero':case 'ascendHero':case 'deifyHero':return perform(action,{heroId:button.dataset.hero});
-    case 'learnCombatSkill':case 'advanceCombatSkill':case 'selectCombatSkill':return perform(action,{heroId:button.dataset.hero,skill:button.dataset.skill});
+    case 'repairGear':case 'rebirthHero':case 'ascendHero':case 'deifyHero':case 'trainDivine':return perform(action,{heroId:button.dataset.hero});
+    case 'learnCombatSkill':case 'advanceCombatSkill':case 'upgradeCombatSkill':case 'selectCombatSkill':return perform(action,{heroId:button.dataset.hero,skill:button.dataset.skill});
     case 'switchMatrix':return perform(action,{heroId:button.dataset.hero,itemId:button.dataset.item});
     case 'useMatrix':return perform('useItem',{heroId:button.dataset.hero,itemId:button.dataset.item});
     case 'claimLiveEvent':return perform(action,{eventId:button.dataset.event});
