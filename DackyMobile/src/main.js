@@ -391,7 +391,7 @@ document.body.addEventListener('submit', async event => {
 document.body.addEventListener('change', async event => {
   const target=event.target;
   if (target.id==='combat-mode') {
-    uiState.combatMode=['manual','squad'].includes(target.value)?target.value:'auto';
+    uiState.combatMode=['auto','manual','squad','squad-auto'].includes(target.value)?target.value:'squad-auto';
   } else if (target.matches('[data-source-category]')) {
     uiState.sourceCategory=target.value;
     uiState.sourcePage=0;
