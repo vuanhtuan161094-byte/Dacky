@@ -7,7 +7,7 @@ let game = null;
 let activeView = 'city';
 let dirty = false;
 let busy = false;
-const uiState = { chapter: 1, nodeId: 'node-001', combatMode: 'auto', cityOverview:true };
+const uiState = { chapter: 1, nodeId: 'node-001', combatMode: 'squad-auto', cityOverview:true };
 const HUD_KEYS=['top','nav','heading','status','cityToolbar','cityCommands','cityTools','cityLabels','battleHeader','battleControls'];
 const HUD_STORAGE='dacky-hud-v1:'+location.pathname.replace(/index\.html$/,'').replace(/offline\.html$/,'');
 let hudPrefs=Object.fromEntries(HUD_KEYS.map(k=>[k,true])),hudFocus=false,hudMenuOpen=false;
@@ -285,6 +285,8 @@ document.body.addEventListener('click', async event => {
     case 'learnCombatSkill':case 'advanceCombatSkill':case 'upgradeCombatSkill':case 'selectCombatSkill':return perform(action,{heroId:button.dataset.hero,skill:button.dataset.skill});
     case 'switchMatrix':return perform(action,{heroId:button.dataset.hero,itemId:button.dataset.item});
     case 'useMatrix':return perform('useItem',{heroId:button.dataset.hero,itemId:button.dataset.item});
+    case 'setSquadWeight':return perform(action,{heroId:button.dataset.hero,weight:Number(document.querySelector('[data-squad-weight="'+button.dataset.hero+'"]')?.value)});
+    case 'exchangeFestivalItem':return perform(action,{});
     case 'claimLiveEvent':return perform(action,{eventId:button.dataset.event});
     case 'selectPrizePool':return perform(action,{pool:button.dataset.pool});
     case 'spinPrize':case 'travelDice':case 'claimTravel':case 'registerWar':case 'claimWar':case 'claimStarterDay':return perform(action,{});
