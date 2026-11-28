@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { MATRIX_TIERS,matrixStats,normalizeLiveHero,ascensionQuote,hoanHiBonus,dropBonusForHeroes,eventQuote,claimLiveEvent,normalizeLiveEvents,LIVE_EVENTS } from '../src/live-source-p1.js';
+test('37 matrix types add 176 each; duplicate and excess do not stack',()=>{
+ const items=MATRIX_TIERS.flatMap(t=>Array.from({length:t.count},(_,i)=>({id:t.name+i,name:'Ảo Hóa '+t.name+i,effect:'Mở Ma Trận '+t.name})));
+ const h={matrices:[...items.map(i=>i.id),items[0].id]};
+ const v=matrixStats(h,items);assert.equal(v.physical,176);assert.equal(v.arcane,176);assert.equal(v.strategy,176);assert.equal(v.unknown.length,0);
+});
+test('Hoan Hi uses highest threshold and only verified scopes',()=>{assert.deepEqual([0,2,4,6].map(hoanHiBonus),[0,.1,.15,.3]);const sets=()=>[{name:'Bộ Hoan Hỉ',count:6}];assert.equal(dropBonusForHeroes([{}],sets,'Tiên Sơn'),.3);assert.equal(dropBonusForHeroes([{}],sets,'Danh thành'),0);});
+test('ascension costs exactly 100000 gold and source item, only once',()=>{const items=[{id:'a',name:'Lệnh Phi Thăng',mobileSourceId:1}],s={queues:{},resources:{gold:100000},items:['a']},h={level:80};assert.equal(ascensionQuote(s,h,items).available,true);assert.equal(ascensionQuote(s,{...h,ascended:true},items).available,false);assert.equal(ascensionQuote(s,{...h,level:79},items).available,false);});
+test('save migration preserves one active known skill',()=>{const h={ascended:true,deified:true,combatSkills:{'Truy kích':{level:17,advanced:true}},activeCombatSkill:'Truy kích'};normalizeLiveHero(h);assert.equal(h.activeCombatSkill,'Truy kích');assert.equal(h.combatSkills['Truy kích'].level,17);});
+test('event gate locks unknown rewards, verified claim receipt prevents duplicates',()=>{const s={gameplay:{}};normalizeLiveEvents(s);assert.equal(LIVE_EVENTS.length,12);assert.ok(LIVE_EVENTS.every(e=>!eventQuote(s,e,1).available));const def={id:'test',daily:true,rewardTable:[{itemId:'a',count:1}]};let n=0;claimLiveEvent(s,def,1,()=>n++);assert.throws(()=>claimLiveEvent(s,def,1,()=>n++));assert.equal(n,1);assert.equal(eventQuote(s,def,86400000).available,true);});
