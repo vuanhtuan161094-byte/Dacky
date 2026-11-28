@@ -259,9 +259,14 @@ const simulatedQuestGoods=[...legacyQuestGoods.values()].map(row=>({
   mobileSourceId:null,mobileImage:'',mobileGroup:'Nhiệm vụ',mobileQuality:'UNKNOWN',mobileOccupation:'',mobileRequiredLevel:null,mobileStats:[],mobileDescription:'Tạo token runtime từ ID vật phẩm trong điều kiện nhiệm vụ legacy. Tên, hình ảnh, giá và nguồn kiếm chưa được xác minh.',mobileAcquisition:[],
   mobileAvailableAtMerchant:false,mobileSaleGold:null,legacySourceId:row.sourceId,legacySourceRecords:row.sourceRecordIds,legacySuggestedCount:row.suggestedCount,sourceFieldStatus:'SIMULATED'
 }));
+const localHoanHiSlots=[['Mũ','giáp','helmet'],['Vũ Khí','vũ khí','weapon'],['Giáp','giáp','armor'],['Tay','giáp','gloves'],['Đai','giáp','belt'],['Giày','giáp','boots']];
+const localHoanHi=localHoanHiSlots.map(([label,type,slot])=>({id:'offline-hoan-hi-'+slot,name:'Hoan Hỉ '+label,type,glyph:'福',tier:2,bonus:5,mobileEquipmentSlot:label,mobileRequiredLevel:5,mobileSourceId:null,mobileGroup:'Trang bị',mobileStats:[],mobileDescription:'Bộ Hoan Hỉ · phiên bản offline',evidence:'SIMULATED_LOCAL_POLICY',localSet:'Hoan Hỉ'}));
+const localMatrix=Array.from({length:37},(_,i)=>({id:'offline-matrix-'+(i+1),name:'Ảo Hóa '+(i<12?'Sử Thi':i<24?'Truyền Thuyết':'Thần Thánh')+' '+(i+1),type:'vật phẩm',glyph:'陣',tier:i<12?3:i<24?4:5,bonus:0,effect:'Kích hoạt Ma Trận',mobileDescription:'Mở Ma Trận '+(i<12?'Sử Thi':i<24?'Truyền Thuyết':'Thần Thánh'),mobileGroup:'Vật phẩm',mobileQuality:i<12?'Tím':i<24?'Cam':'Đỏ',mobileSourceId:null,evidence:'SIMULATED_LOCAL_POLICY',localMatrix:true}));
 export const ITEMS = Object.freeze([
   ...adaptedItemRows.map(item => item.mobileSourceId ? { ...item, bonus: 0, bonusEvidence: 'SIMULATED' } : item),
   ...simulatedQuestGoods,
+  ...localHoanHi,
+  ...localMatrix,
   ...(!adaptedItemRows.some(i=>i.mobileSourceId!=null&&i.name.trim().toLowerCase()==='lệnh phi thăng')?[{id:'offline-ascension-order',name:'Lệnh Phi Thăng',type:'vật phẩm',glyph:'令',tier:4,bonus:0,effect:'Dùng để Phi thăng thần tiên cấp 80',mobileSourceId:null,mobileGroup:'Nhiệm vụ',mobileQuality:'Tím',mobileStats:[],mobileDescription:'Lệnh Phi Thăng · vật phẩm thay thế offline khi danh mục nguồn chưa có',evidence:'SIMULATED_LOCAL_POLICY'}]:[])
 ]);
 
