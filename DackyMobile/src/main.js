@@ -263,7 +263,7 @@ document.body.addEventListener('click', async event => {
       const troopId=document.querySelector('#pve-unit')?.value,count=Math.max(0,Number(document.querySelector('#pve-count')?.value)||0),troops={};
       if(troopId&&count)troops[troopId]=count;
       document.querySelectorAll('[data-pve-support]').forEach(input=>{const id=input.dataset.pveSupport,n=Math.max(0,Number(input.value)||0);if(id&&id!==troopId&&n)troops[id]=n;});
-      return perform('march',{nodeId:button.dataset.node,troops,combatMode:document.querySelector('#combat-mode')?.value||'auto'});
+      return perform('march',{nodeId:button.dataset.node,troops,replenish:true,combatMode:document.querySelector('#combat-mode')?.value||'auto'});
     }
     case 'battleCommand': {
       const artifact=document.querySelector('#battle-artifact')?.value||'auto',switchTo=document.querySelector('#battle-switch')?.value||'';
@@ -442,7 +442,8 @@ document.addEventListener('visibilitychange',()=>{
   if (document.visibilityState!=='visible'||!game) return;
   const oldQueues=JSON.stringify(game.queues);
   const result=advance(game,Date.now()); game=result.state;
-  if (JSON.stringify(game.queues)!==oldQueues) { renderCurrent(); dirty=true; persist(true).catch(()=>{}); }
+  renderCurrent();
+  if (JSON.stringify(game.queues)!==oldQueues||result.elapsedSeconds>0) { dirty=true; persist(true).catch(()=>{}); }
   if (result.offlineCapped) showToast('Tiến trình offline đã tính tối đa 8 giờ.');
 });
 
@@ -450,7 +451,10 @@ let lastHud=0, lastSave=0,lastForeground=Date.now();
 setInterval(()=>{
   if (!game) return;
   const before=JSON.stringify(game.queues),now=Date.now(),seconds=Math.floor((now-lastForeground)/1000);lastForeground=now;
+  const previousTick=game.lastTickAt,oldDay=game.gameplay?.liveProduct?.day,due=game.gameplay?.liveProduct?.travelDue||0;
   const result=advance(game,now); game=result.state;
+  const periodChanged=oldDay!==game.gameplay?.liveProduct?.day,travelReady=due>previousTick&&due<=now;
+  if(periodChanged||(travelReady&&activeView==='events')){renderCurrent();dirty=true;persist(true).catch(()=>{});}
   if(document.visibilityState==='visible'&&seconds>0&&seconds<=5){const prior=game.gameplay.r4.onlineSeconds;addForegroundTime(game,seconds);dirty=true;if(activeView==='events'&&uiState.eventTab==='honors'&&Math.floor(prior/60)!==Math.floor(game.gameplay.r4.onlineSeconds/60))renderCurrent();}
   const queueChanged=JSON.stringify(game.queues)!==before;
   updateClock(game,Date.now());
