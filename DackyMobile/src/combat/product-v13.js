@@ -7,7 +7,7 @@ import { createCombatRuntime } from './runtime-v7.js';
 import { createSourceDuelHero } from './hero-progression.js';
 import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff,pendingBattleBuff,itemUseRule,sourceGearGemRule } from '../gameplay-p15.js';
 import { canEquip } from './army-artifacts.js';
-import { distributeSquads, validateSquadAllocation } from './squad-ownership.js';
+import { distributeSquads, validateSquadAllocation,distributeWeightedSquads } from './squad-ownership.js';
 import { matrixStats,isHoanHi,dropBonusForHeroes,LOCAL_GROWTH,skillBattlePolicy } from '../live-source-p1.js';
 // Three source artifacts omit an energy cost and two use a conversion effect.
 // The runtime applies a bounded, explicit fallback policy instead of silently
@@ -72,7 +72,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const p=profileFor(save),level=integer(save.level,'hero level',1),stats=duelStats(p,save,state);
   const gear=byItem.get(save.equipment?.artifact),aid=gear?.mobileSourceId==null?null:String(gear.mobileSourceId),artifact=rt.index.artifacts[aid];
   const ids=artifact&&(save.combatDurability?.[gear.id]??100)>0&&canEquip(artifact,p,{level}).ok?[aid]:[];
-  return {heroId:p.id,instanceId:save.id,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,commandAttack:clamp((stats.attack+stats.magic*.3)*.0005,0,1),commandDefense:clamp(gearBonus(save,'armor')*.001,0,.3),activeCombatSkill:skillBattlePolicy(save).name,activeCombatSkillLevel:skillBattlePolicy(save).level,troopRecoverySuppression:save.activeCombatSkill==='Truy kích'&&save.combatSkills?.['Truy kích']?.advanced&&save.combatSkills['Truy kích'].level>=17?.30:0,evidence:p.evidence};
+  return {heroId:p.id,instanceId:save.id,activeMatrix:save.activeMatrix??null,level,mana:clamp(Math.floor(save.combatMana??stats.maxMana),0,stats.maxMana),maxMana:stats.maxMana,vitality:clamp(Math.floor(save.combatVitality??stats.maxHp),0,stats.maxHp),maxVitality:stats.maxHp,equippedArtifactIds:ids,ownedArtifactIds:ids,commandAttack:clamp((stats.attack+stats.magic*.3)*.0005,0,1),commandDefense:clamp(gearBonus(save,'armor')*.001,0,.3),activeCombatSkill:skillBattlePolicy(save).name,activeCombatSkillLevel:skillBattlePolicy(save).level,troopRecoverySuppression:save.activeCombatSkill==='Truy kích'&&save.combatSkills?.['Truy kích']?.advanced&&save.combatSkills['Truy kích'].level>=17?.30:0,evidence:p.evidence};
  }
  function recover(state,now){if(!Number.isFinite(now))throw Error('INVALID_TIME');const s=copy(state);for(const h of s.heroes){const last=h.combatUpdatedAt;if(!Number.isFinite(last)||now<=last)continue;const c=commander(h,s),ticks=Math.floor((now-last)/60000);if(ticks<=0)continue;h.combatMana=Math.min(c.maxMana,c.mana+Math.ceil(c.maxMana*.05)*ticks);h.combatVitality=Math.min(c.maxVitality,c.vitality+Math.ceil(c.maxVitality*.05)*ticks);h.combatUpdatedAt=last+ticks*60000;}return s;}
  function enemyCommander(n, requestedLevel, name, bossLoadout=null){
@@ -106,7 +106,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const ownMagic=cityEffects(state,state.lastTickAt??0),enemyMagic=npcEffects(state,node.id,state.lastTickAt??0),enemyStacks=[...e].map(([id,count])=>({id,count})),ownPower=formationAttackPower(rt.troops,stacks),enemyPower=formationAttackPower(rt.troops,enemyStacks),armyGems=party.flatMap(hero=>Object.values(hero.equipment??{}).filter(id=>id&&(hero.combatDurability?.[id]??100)>0).flatMap(id=>hero.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(byItem.get(id)))).filter(gem=>gem?.kind==='armyCombatGem');
   let ownSquads,enemySquads,enemyReserves=[];
   if(q.squadMode===true){
-   ownSquads=q.squadAllocation?validateSquadAllocation(stacks,q.squadAllocation,party.length):distributeSquads(stacks,[a,...reserves]);
+   ownSquads=q.squadAllocation?validateSquadAllocation(stacks,q.squadAllocation,party.length):q.squadCap?distributeWeightedSquads(stacks,[a,...reserves],party.map(h=>h.squadWeight||50),q.squadCap):distributeSquads(stacks,[a,...reserves]);
    const named=new Map();if(!override)for(const r of formation){const name=r.commander;if(!name)continue;const g=named.get(name)||new Map();g.set(r.unitId,(g.get(r.unitId)||0)+r.count);named.set(name,g);}
    if(named.size>0&&named.size<=5&&formation.every(r=>r.commander)){
     const entries=[...named];enemySquads=entries.map(([,g])=>[...g].map(([id,count])=>({id,count})));
