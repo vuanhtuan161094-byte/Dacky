@@ -1,5 +1,6 @@
-import {createNewGame,migrateSave,storageCapacity} from '../src/engine.js';
+import {createNewGame,migrateSave,storageCapacity,quoteGearGemSocket} from '../src/engine.js';
 import {HEROES,ITEMS,TROOPS,WORLD_NODES} from '../src/catalog.js';
+import {itemUseRule} from '../src/gameplay-p15.js';
 import {ascensionItem,matrixCatalog} from '../src/live-source-p1.js';
 import {writeFile,mkdir} from 'node:fs/promises';
 const now=Date.UTC(2026,10,28,9);
@@ -21,3 +22,19 @@ s.gameplay.liveProduct.tokens=10;s.gameplay.liveProduct.totalSpins=20;s.gameplay
 const dest='qa/playtest';await mkdir(dest,{recursive:true});
 await writeFile(dest+'/advanced.json',JSON.stringify(s));
 console.log('QA fixture only: '+JSON.stringify({now,hero:h.id,city:city.id,army:s.army,resources:s.resources,items:s.items}));
+
+const p2=structuredClone(s),ph=p2.heroes[0];
+ph.level=59;ph.ascended=true;ph.assigned=false;ph.equipment={...ph.equipment,weapon:'item-01'};ph.combatDurability={'item-01':60};
+p2.items.splice(p2.items.indexOf('item-01'),1);
+const candidate=ITEMS.find(i=>{if(i.type!=='vật phẩm')return false;p2.items.push(i.id);const ok=quoteGearGemSocket(p2,ph.id,'item-01',i.id)?.available;p2.items.pop();return ok;});
+if(!candidate)throw Error('No compatible gem fixture');
+p2.items.push(candidate.id,candidate.id);
+const exchange=ITEMS.find(i=>itemUseRule(i)?.exchangeTroopSourceId);
+const voucher=ITEMS.find(i=>itemUseRule(i)?.kind==='flagVoucher');
+const cosmetic=ITEMS.find(i=>itemUseRule(i)?.kind==='cosmeticUnlock');
+for(const i of [exchange,voucher,cosmetic])if(i)p2.items.push(i.id);
+p2.gameplay.questVouchers=3000;p2.morale=65;
+p2.gameplay.liveProduct.travelDue=0;p2.gameplay.liveProduct.starterDay=2;p2.gameplay.liveProduct.starterLast=-1;
+p2.gameplay.liveProduct.warBase=0;p2.gameplay.liveProduct.registered=true;
+await writeFile(dest+'/advanced-p2.json',JSON.stringify(p2));
+await writeFile(dest+'/p2-meta.json',JSON.stringify({gem:candidate.id,exchange:exchange?.id,flag:voucher?.id,cosmetic:cosmetic?.id,city:city.id,boss:WORLD_NODES.find(n=>n.isBoss)?.id,uncaptured:WORLD_NODES.find(n=>n.kind==='Danh thành'&&n.id!==city.id)?.id}));
