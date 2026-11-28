@@ -1978,7 +1978,8 @@ export function doAction(state, action, now = Date.now()) {
         const troopId = action.troopId || Object.keys(s.army).find(id => s.army[id] > 0);
         if (troopId && s.army[troopId]) troops[troopId]=Math.min(requested,s.army[troopId]);
       }
-      if(action.replenish===true){const ids=s.heroes.filter(h=>h.assigned&&s.gameplay.r4.replenish[h.id]).map(h=>h.id);for(const id of ids){const plan=s.gameplay.r4.lastSquads?.[id]||{};for(const [unit,n] of Object.entries(plan)){const room=marchTroopCapacity(s)-Object.values(troops).reduce((a,b)=>a+b,0);const extra=Math.min(Math.max(0,n-(troops[unit]||0)),Math.max(0,(s.army[unit]||0)-(troops[unit]||0)),Math.max(0,room));if(extra>0)troops[unit]=(troops[unit]||0)+extra;}}}
+      if(action.replenish===true){const desired={};for(const h of s.heroes.filter(h=>h.assigned&&s.gameplay.r4.replenish[h.id]))for(const [id,n] of Object.entries(s.gameplay.r4.lastSquads?.[h.id]||{}))desired[id]=(desired[id]||0)+n;for(const [id,n] of Object.entries(desired)){const room=marchTroopCapacity(s)-Object.values(troops).reduce((a,b)=>a+b,0);const extra=Math.min(Math.max(0,n-(troops[id]||0)),Math.max(0,(s.army[id]||0)-(troops[id]||0)),Math.max(0,room));if(extra>0)troops[id]=(troops[id]||0)+extra;}}
+
       const count=Object.values(troops).reduce((sum,n)=>sum+n,0);
       if(!count)throw new Error('Chưa có binh sĩ sẵn sàng hành quân.');
       const leadLimit=marchTroopCapacity(s);
