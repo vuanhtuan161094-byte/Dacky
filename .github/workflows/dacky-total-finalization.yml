@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install Pillow playwright
+      - run: python -m pip install Pillow playwright imageio-ffmpeg
       - run: node --test tests/combat-squad-d2.test.js
       - run: npm test
       - run: DACKY_COMBAT_PREVIEW=1 npm run build
@@ -37,7 +37,7 @@ jobs:
           npm run serve > /tmp/dacky-p1-serve.log 2>&1 &
           for i in {1..30}; do curl -fsS http://127.0.0.1:4173/ > /dev/null && break; sleep 1; done
           python qa/live-source-p1.py
-          ffmpeg -hide_banner -loglevel error -y -framerate 8 -i qa/total-finalization/battle-frames/frame-%04d.png -c:v libx264 -pix_fmt yuv420p qa/total-finalization/battle-runtime.mp4
+          "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" -hide_banner -loglevel error -y -framerate 8 -i qa/total-finalization/battle-frames/frame-%04d.png -c:v libx264 -pix_fmt yuv420p qa/total-finalization/battle-runtime.mp4
           rm -rf qa/total-finalization/battle-frames
       - uses: actions/upload-artifact@v4
         if: always()
