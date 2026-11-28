@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 execFileSync('python3', [path.join(root,'scripts/install-art13.py'),path.join(root,'assets/art01-city-ground.svg')],{cwd:root,stdio:'inherit'});
 execFileSync(process.execPath,[path.join(root,'scripts/import-r3-field.mjs')],{cwd:root,stdio:'inherit'});
+if(process.env.DACKY_SOURCE_V3_INTERNAL==='1')execFileSync('python3',[path.join(root,'scripts/import-v4-visual.py')],{cwd:root,stdio:'inherit'});
 const dist = process.env.DACKY_BUILD_OUT
   ? path.resolve(root, process.env.DACKY_BUILD_OUT)
   : path.join(root, 'dist');
@@ -66,6 +67,7 @@ for (const [name,url] of inlineImages) html = html.replaceAll(`./assets/${name}`
 const sourceAssetManifests = await Promise.all(['mobile-source-manifest.json','visual-art-manifest.json'].map(async file=>JSON.parse(await readFile(path.join(root,'assets',file),'utf8'))));
 const sourceAssetUrls = new Map();
 sourceAssetUrls.set('./assets/r3/hog-open-field.webp',await dataUrl('r3/hog-open-field.webp'));
+if(process.env.DACKY_SOURCE_V3_INTERNAL==='1'){const m=JSON.parse(await readFile(path.join(root,'assets/v4-internal/manifest.json'),'utf8'));for(const a of m.assets)sourceAssetUrls.set('./'+a.path,await dataUrl(a.path.replace(/^assets\//,'')));}
 const art09=JSON.parse(await readFile(path.join(root,'assets/art09-buildings/manifest.json'),'utf8'));
 for(const id of Object.keys(art09)){const name='art09-buildings/'+id+'.webp';sourceAssetUrls.set('./assets/'+name,await dataUrl(name));}
 for (const asset of sourceAssetManifests.flatMap(manifest=>manifest.assets)) {
