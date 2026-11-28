@@ -1443,3 +1443,41 @@ body:not(.art01-city-mode) .game-dock{background:linear-gradient(#34372e,#1b2723
 .r3-impact{z-index:6!important;pointer-events:none}.r3-damage{position:absolute;z-index:8;top:42%;font-size:clamp(20px,3vw,36px);font-weight:800;color:#ffe0af;text-shadow:0 2px 2px #5c2013,1px 0 #a63724,-1px 0 #a63724;pointer-events:none;animation:r3-float 1.2s ease-out both}.r3-damage.ally{left:28%}.r3-damage.enemy{right:28%}@keyframes r3-float{from{transform:translateY(8px);opacity:1}to{transform:translateY(-22px);opacity:.2}}
 @media(max-height:480px) and (orientation:landscape){.r3-world{grid-template-columns:minmax(0,1.6fr) minmax(200px,.8fr)}.r3-world .world-map{min-height:120px}.r3-world .world-map-toolbar{grid-template-columns:1fr auto}.r3-world .world-map-toolbar>span,.r3-world .world-map-toolbar>label{display:none}.r3-world .map-node>img{width:40px;height:32px}.r3-world .map-node-name{font-size:8px}.r3-map-legend{font-size:7px;padding:3px}.r3-inventory{padding:5px;gap:4px}.r3-screen-header{padding:4px 7px}.r3-screen-header h2{font-size:14px}.r3-bag-tabs button,.r3-bag-filters button{padding:5px;font-size:10px}.r3-bag-layout{grid-template-columns:1.4fr 1fr}.r3-bag-list,.r3-bag-detail{padding:5px}.r3-bag-grid{grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:4px}.r3-bag-tile{grid-template-rows:35px auto;padding:4px}.r3-bag-tile img{width:34px;height:34px}.r3-bag-tile b{font-size:8px}.r3-bag-detail h3{font-size:14px}.r3-field-commander{transform:scale(.65);transform-origin:top center}.r3-commander{top:12%}}
 @media(max-width:650px) and (orientation:portrait){.r3-world,.r3-bag-layout{grid-template-columns:1fr;height:auto}.r3-world .world-map{min-height:300px}.r3-world .map-side,.r3-bag-detail{overflow:visible}.r3-inventory{height:auto}.r3-bag-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+
+/* R3.1: mobile atlas and shared battlefield on real ground art. */
+.r3-mobile-map-tabs{display:none}
+.fidelity-arena>.battle-scenery{object-position:center center;filter:none;object-fit:cover}
+.r3-battle-ground{inset:24% 0 0;background:linear-gradient(180deg,transparent,#172d1420)}
+.fidelity-ranks i:before{content:"";position:absolute;left:10%;right:10%;bottom:0;height:14%;background:#15211365;border-radius:50%;filter:blur(2px);z-index:-1}
+.r3-field-commander:after{content:"";position:absolute;width:65%;height:13%;bottom:22px;background:#1a26155c;filter:blur(3px);border-radius:50%;z-index:-1}
+.r3-commander{top:18%}
+.fidelity-line{top:36%;bottom:7%}
+@media(max-height:480px) and (orientation:landscape){
+ body.hud-ready.r3-focus-mode .main-stage{padding:3px 5px!important}
+ body.hud-ready.r3-focus-mode .page-heading{display:none!important}
+ body.hud-ready.r3-focus-mode .scene{min-height:0!important;overflow:hidden!important}
+ .r3-world{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:29px minmax(0,1fr);gap:3px;height:100%}
+ .r3-mobile-map-tabs{display:flex;gap:4px;grid-column:1/-1}
+ .r3-mobile-map-tabs button{flex:1;background:#daceb0;color:#473622;border:1px solid #ac925f;border-radius:3px;font-size:12px;font-weight:650}
+ .r3-mobile-map-tabs button.active{background:#ae8640;color:#fff1cf}
+ .r3-world[data-world-pane="map"] .map-side{display:none}
+ .r3-world[data-world-pane="target"] .world-screen-panel{display:none}
+ .r3-world>.world-screen-panel>.panel-title{display:none}
+ .r3-world>.world-screen-panel>.panel-body{padding:3px;gap:3px}
+ .r3-world .world-map-toolbar{grid-template-columns:minmax(115px,1fr) auto}
+ .r3-world .world-map-toolbar .input{min-height:24px;font-size:11px}
+ .r3-world .world-map-toolbar .button{min-height:24px}
+ .r3-world .world-map{height:auto;min-height:0}
+ .r3-world .world-map-content{width:100%;height:100%}
+ .r3-world .world-map-nameplate{font-size:11px;padding:2px 6px}
+ .r3-world .map-node{min-width:45px}
+ .r3-world .map-node>img{width:44px;height:34px}
+ .r3-world .map-node-name{font-size:8px;padding:2px 3px}
+ .r3-world .map-location-seal{width:26px;height:26px;font-size:13px}
+ .r3-map-legend{left:3px;bottom:3px;font-size:8px;padding:3px}
+ .r3-world .world-map-pan-hint{font-size:7px;bottom:3px;right:3px}
+ .r3-world .world-screen-panel>.panel-body>.tiny{display:none}
+ .r3-inventory .r3-bag-detail .inventory-item>img{width:54px;height:54px}
+ .r3-inventory .r3-bag-detail .inventory-item small{font-size:10px}
+}
