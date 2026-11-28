@@ -1,3 +1,4 @@
+import { refreshProduct,productAction,PRODUCT_ACTIONS,collectionBonus } from './live-product-p2.js';
 import { experienceForLevel, recruitmentPromotion, worldOffer } from './simulated-world.js';
 import { getPveEncounter, getMountainBattles, pveAssaultProgress, pveLock, rollPveLoot, resolvePveLootAward } from './pve-campaign.js';
 import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, MOBILE_SOURCE_DATABASE, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
@@ -170,7 +171,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
   };
   normalizeCityPlots(state);
   normalizeGameplay(state);
-  state.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(state);
+  state.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(state);refreshProduct(state,now,ITEMS);
   return state;
 }
 
@@ -335,7 +336,7 @@ export function migrateSave(input, now = Date.now()) {
   s.combatReceipts=Array.isArray(s.combatReceipts)?[...new Set(s.combatReceipts.filter(x=>typeof x==='string'&&x.length<=200))]:[];
   s.combatSequence=Math.max(0,Math.floor(Number(s.combatSequence)||0));
   for(const h of s.heroes){h.rebirths=clamp(Math.floor(Number(h.rebirths)||0),0,5);h.rootBonus=clamp(Math.floor(Number(h.rootBonus)||0),0,5);h.sourceRootBonus=clamp(Math.floor(Number(h.sourceRootBonus)||0),0,21);h.potential=Object.fromEntries(['attack','magic','defense'].map(k=>[k,clamp(Math.floor(Number(h.potential?.[k])||0),0,350)]));h.mobileRootBonuses=Object.fromEntries(Object.entries(h.mobileRootBonuses&&typeof h.mobileRootBonuses==='object'?h.mobileRootBonuses:{}).filter(([id])=>['4955','8011','8012','8954','8955','8956','95911'].includes(id)).map(([id,n])=>[id,clamp(Math.floor(Number(n)||0),0,({4955:45,8011:41,8012:41,8954:45,8955:150,8956:150,95911:50})[id])]));h.mobilePotentialBonuses=(Array.isArray(h.mobilePotentialBonuses)?h.mobilePotentialBonuses:[]).filter(row=>row&&row.sourceId==='8957'&&Number.isFinite(row.points)&&row.points>0).slice(0,200).map(row=>({sourceId:'8957',points:clamp(Math.floor(row.points),1,3),evidence:'VERIFIED_MOBILE',runtimeFormula:'SIMULATED_SEEDED_RANGE'}));h.matrices=[...new Set((Array.isArray(h.matrices)?h.matrices:[]).filter(id=>ITEMS.some(i=>i.id===id)))];for(const k of ['combatMana','combatVitality','combatUpdatedAt','combatLoyalty'])if(h[k]!==undefined){if(!Number.isFinite(h[k])||h[k]<0)delete h[k];else h[k]=Math.floor(h[k]);}}
-  s.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(s);
+  s.heroes.forEach(normalizeLiveHero);normalizeLiveEvents(s);refreshProduct(s,now,ITEMS);
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   if (sourceVersion < 3) s.settings.combatV13 = true;
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
@@ -450,8 +451,8 @@ export function heroPower(hero, state) {
     return sum+base*(1+(upgrade?.rank||0)*0.08+(upgrade?.gems?.length||0)*0.06+(upgrade?.stars||0)*0.025);
   }, 0);
   const affinity=1+clamp(Number(hero.affinity)||0,0,100)*0.0015;
-  const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1;
-  return Math.round((heroBaseRating(def) + gear + matrixStats(hero,ITEMS).physical*3 + (hero.divineLevel||0)*12) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * affinity);
+  const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1,c=collectionBonus(state);
+  return Math.round((heroBaseRating(def) + gear + c.attack+c.magic+c.defense + matrixStats(hero,ITEMS).physical*3 + (hero.divineLevel||0)*12) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * affinity);
 }
 
 function awardHeroXp(hero, amount) {
@@ -1350,13 +1351,24 @@ export function advance(state, now = Date.now()) {
 
 export function doAction(state, action, now = Date.now()) {
   let s = advance(state, now).state;
+  if(PRODUCT_ACTIONS.includes(action.type)){
+    productAction(s,action,now,{items:ITEMS,debit:cost=>debit(s,cost),grant:reward=>{
+      const {token,treasure,...resources}=reward;credit(s,resources);
+      if(token)s.gameplay.liveProduct.tokens+=token;
+      if(treasure){const pool=ITEMS.filter(i=>i.type==='pháp bảo'&&i.mobileSourceId);if(!pool.length||s.items.length>=500)throw Error('Túi đồ đầy hoặc chưa có bảo vật');s.items.push(pool[(Math.floor(now/86400000)+s.gameplay.liveProduct.totalSpins)%pool.length].id);}
+    },grantChoice:(kind,id)=>{
+      if(kind==='hero'){const d=HEROES.find(x=>x.id===id&&x.mobileSourceId);if(!d||s.heroes.some(h=>h.id===id)||s.heroes.length>=Math.min(60,3+(s.levels.manor||0)*2))throw Error('Thần tiên không hợp lệ, đã sở hữu hoặc phủ đầy');s.heroes.push({id,level:clamp(combat().runtime.index.heroes[String(d.mobileSourceId)]?.baseLevel??1,1,HERO_LEVEL_CAP),xp:0,assigned:false,equipment:{weapon:null,armor:null,artifact:null},skillLevel:1,affinity:0});s.stats.heroesRecruited++;}
+      else {const d=ITEMS.find(x=>x.id===id&&x.type==='pháp bảo'&&x.mobileSourceId);if(!d||s.items.length>=500)throw Error('Bảo vật không hợp lệ hoặc túi đồ đầy');s.items.push(id);}
+    }});
+    note(s,'Đã cập nhật hoạt động sự kiện.');return migrateSave(s,now);
+  }
   switch (action.type) {
     case 'ascendHero': {
       const h=s.heroes.find(x=>x.id===action.heroId),q=ascensionQuote(s,h,ITEMS);
       if(!q.available)throw Error('Phi thăng cần cấp 80, Lệnh Phi Thăng, 100.000 vàng và tướng rảnh.');
       const def=HEROES.find(x=>x.id===h.id),p=def&&combat().runtime.index.heroes[String(def.mobileSourceId)];
-      if(!p)throw Error('Thiếu hồ sơ nguồn thần tiên');
-      const v=sourceGrowth(p,h.level).values,key=p.occupation==='Giáp sĩ'?'physical':p.occupation==='Đạo sĩ'?'arcane':'strategy';
+      const profile=p??{baseLevel:1,root:0,physical:def.attack||1,arcane:def.wisdom||1,strategy:def.wisdom||1,vitality:Math.max(1,def.defense*15),spirit:Math.max(1,def.wisdom*10),occupation:def.mobileOccupation||'Giáp sĩ'};
+      const v=sourceGrowth(profile,h.level).values,key=profile.occupation==='Giáp sĩ'?'physical':profile.occupation==='Đạo sĩ'?'arcane':'strategy';
       debit(s,{gold:q.gold});s.items.splice(s.items.indexOf(q.itemId),1);
       h.ascended=true;h.ascensionRetained={[key]:Math.floor(v[key]/2)};h.level=1;h.xp=0;delete h.combatMana;delete h.combatVitality;
       note(s,'Phi thăng · cấp 1; giữ nửa chỉ số theo nghề (ánh xạ chỉ số mô phỏng).');break;
@@ -1396,15 +1408,14 @@ export function doAction(state, action, now = Date.now()) {
           grants.push((remaining.length?remaining:pool)[Math.floor(now/86400000)%(remaining.length||pool.length)].id);
         }else if(def.special==='hoan_hi'){
           const pool=ITEMS.filter(i=>i.type!=='vật phẩm'&&isHoanHi(i.name));
-          const slots=new Map();for(const i of pool)if(!slots.has(equipmentSlot(i)))slots.set(equipmentSlot(i),i);
-          if(slots.size<6)throw Error('Bộ Hoan Hỉ chưa đủ sáu vị trí trong catalog.');
-          grants.push(...[...slots.values()].slice(0,6).map(i=>i.id));
+          const slots=new Map();for(const i of pool.filter(i=>!i.localSet))if(!slots.has(equipmentSlot(i)))slots.set(equipmentSlot(i),i);for(const i of pool.filter(i=>i.localSet))if(!slots.has(equipmentSlot(i)))slots.set(equipmentSlot(i),i);
+          const wanted=['helmet','weapon','armor','gloves','belt','boots'];if(wanted.some(k=>!slots.has(k)))throw Error('Thiếu vị trí bộ Hoan Hỉ');grants.push(...wanted.map(k=>slots.get(k).id));
         }
         for(const row of rewards||[]){if(row.itemId){if(!ITEMS.some(i=>i.id===row.itemId)||!Number.isSafeInteger(row.count)||row.count<1)throw Error('Phần thưởng không hợp lệ');for(let n=0;n<row.count;n++)grants.push(row.itemId);}}
         if(s.items.length+grants.length>500)throw Error('Túi đồ đã đầy');
         debit(s,def.cost||{});for(const row of rewards||[])if(row.resource)credit(s,{[row.resource]:row.count});
         s.items.push(...grants);
-        if(def.streak){const ev=normalizeLiveEvents(s),day=Math.floor(now/86400000),old=ev.progress[def.id]||{},streak=old.lastDay===day-1?(old.streak||0)%8+1:1;ev.progress[def.id]={lastDay:day,streak};if(streak===7||streak===8){const pool=ITEMS.filter(i=>i.type==='pháp bảo'&&i.mobileSourceId);if(pool.length&&s.items.length<500)s.items.push(pool[day%pool.length].id);}}
+        if(def.streak){const ev=normalizeLiveEvents(s),day=Math.floor(now/86400000),old=ev.progress[def.id]||{},streak=old.lastDay===day-1?(old.streak||0)%8+1:1;ev.progress[def.id]={lastDay:day,streak};if(streak===7||streak===8){if(s.gameplay.liveProduct.choice)throw Error('Hãy mở rương lựa chọn hiện có trước');s.gameplay.liveProduct.choice=streak===7?'hero':'treasure';}}
       });note(s,'Đã tham gia '+def.name);break;
     }
     case 'allocatePotential': {const h=s.heroes.find(x=>x.id===action.heroId),stat=action.stat;if(!h||s.queues.march||!['attack','magic','defense'].includes(stat))throw Error('Không thể phân bổ');h.potential={...(h.potential??{})};const used=Object.values(h.potential).reduce((n,v)=>n+v,0),gifted=(h.mobilePotentialBonuses||[]).reduce((n,row)=>n+row.points,0);if(used>=h.level*2+(h.rebirths??0)*10+gifted)throw Error('Hết điểm tiềm năng');h.potential[stat]=(h.potential[stat]??0)+1;break;}
