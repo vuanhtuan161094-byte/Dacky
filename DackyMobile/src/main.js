@@ -239,6 +239,10 @@ document.body.addEventListener('click', async event => {
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
     case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero,slot:document.querySelector(`[data-artifact-slot="${button.dataset.item}"]`)?.value});
+    case 'selectBuzhouRoute':return perform(action,{route:button.dataset.route});
+    case 'selectWarGate':return perform(action,{gate:Number(button.dataset.gate)});
+    case 'registerStronghold':case 'claimSourceWar':case 'claimStronghold':return perform(action,{});
+    case 'marchSourceEvent':{const plan=game.heroes.some(h=>h.assigned&&Object.values(h.sourceSquad||{}).some(n=>n>0));const unit=Object.keys(game.army).find(k=>game.army[k]>0);return perform('march',{nodeId:button.dataset.node,sourceEvent:{kind:button.dataset.eventKind,index:Number(button.dataset.eventIndex)},sourceOwned:plan,troopId:unit,count:Math.min(1000,game.army[unit]||0),combatMode:'squad-auto'});}
     case 'claimHeroTitle':return perform(action,{heroId:document.querySelector('[data-v4-title-hero]')?.value,titleId:button.dataset.title});
     case 'unequipArtifact':return perform(action,{heroId:button.dataset.hero,slot:button.dataset.slot});
     case 'setSourceTroops':return perform(action,{heroId:button.dataset.hero,troopId:button.dataset.troop,count:Number(document.querySelector('[data-source-troop="'+button.dataset.hero+':'+button.dataset.troop+'"]')?.value)});
