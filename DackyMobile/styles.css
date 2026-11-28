@@ -1284,3 +1284,5 @@ body.hud-ready:not(.startup-mode) .resource-pill:nth-child(6) .resource-glyph{ba
 .live-matrix-card b,.live-skill-grid b{font-size:12px;color:#f3dda4}
 .hero-equipment-dock{grid-template-columns:repeat(5,minmax(0,1fr));flex-wrap:wrap}
 @media(max-width:650px){.live-matrix-grid,.live-skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-equipment-dock{grid-template-columns:repeat(3,minmax(0,1fr))}.live-stage-grid{grid-template-columns:1fr}}
+
+.live-hero-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:10px 0;border-bottom:1px solid #ad925a66;padding-bottom:7px}.live-hero-tab{padding:9px 5px;background:#19352f;color:#d9d6ba;border:1px solid #a78a544d;border-radius:4px;font-size:12px;cursor:pointer}.live-hero-tab.active{background:linear-gradient(#8c713c,#5e4828);color:#fff1be;border-color:#dbbf78}.hero-dossier [data-live-hero-panel][hidden]{display:none!important}.hero-dossier [data-live-hero-panel]{min-width:0}.live-hero-tabs .live-hero-tab:focus-visible{outline:2px solid #e4c97e;outline-offset:2px}
