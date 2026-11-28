@@ -32,14 +32,16 @@ for (const rule of LEGACY_ELFLAND_REWARD_RULES) {
   rewardRulesByFloor.set(key,rows);
 }
 
-export function rollPveLoot(node,seed=1){
+export function rollPveLoot(node,seed=1,dropBonus=0){
   const candidates=node?.lootRuleCandidates??[];
   if(!candidates.length)return null;
   let x=Number(seed)>>>0;
   const random=()=>{x=(Math.imul(x,1664525)+1013904223)>>>0;return x/4294967296;};
   const rule=candidates[Math.floor(random()*candidates.length)];
-  const roll=1+Math.floor(random()*Math.max(1,rule.randBase));
-  const hit=rule.entries.find(row=>roll>=row.from&&roll<=row.to);
+  let roll=1+Math.floor(random()*Math.max(1,rule.randBase));
+  let hit=rule.entries.find(row=>roll>=row.from&&roll<=row.to);
+  // Relative chance increase; original interval semantics are simulated. No second award.
+  if(!hit&&dropBonus>0){const hits=new Set();for(const e of rule.entries)for(let n=Math.max(1,e.from);n<=Math.min(rule.randBase,e.to)&&n<=100000;n++)hits.add(n);const chance=hits.size/Math.max(1,rule.randBase);if(chance>0&&chance<1&&random()<Math.min(1,chance*dropBonus/(1-chance))){const choices=[...hits];roll=choices[Math.floor(random()*choices.length)];hit=rule.entries.find(row=>roll>=row.from&&roll<=row.to);}}
   if(!hit)return {sourceTable:rule.sourceTable,sourceRowIndex:rule.sourceRowIndex,cfgClass:rule.cfgClass,roll,randBase:rule.randBase,itemSourceId:null,count:0,evidence:'SIMULATED_LEGACY_INTERVAL_INTERPRETATION'};
   const count=rule.openMin+Math.floor(random()*(Math.max(rule.openMin,rule.openMax)-rule.openMin+1));
   return {sourceTable:rule.sourceTable,sourceRowIndex:rule.sourceRowIndex,cfgClass:rule.cfgClass,roll,randBase:rule.randBase,itemSourceId:String(hit.sourceItemId),sourceField:hit.sourceField,count,evidence:'SIMULATED_LEGACY_INTERVAL_INTERPRETATION'};
