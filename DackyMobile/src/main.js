@@ -164,6 +164,8 @@ document.body.addEventListener('click', async event => {
   if(event.target.closest('.art01-camera')&&!event.target.closest('button')&&(uiState.cityBuildingId||uiState.cityPlotId)){uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;}
   const heroSupportSummary=event.target.closest('.hero-support-drawer > summary');
   if(heroSupportSummary)uiState.heroSupportOpen=!heroSupportSummary.parentElement.open;
+  const heroTabChoice=event.target.closest('[data-live-hero-tab]');
+  if(heroTabChoice){uiState.heroTab=heroTabChoice.dataset.liveHeroTab;renderCurrent();return;}
   const heroChoice=event.target.closest('[data-select-hero]');
   if(heroChoice){uiState.selectedHeroId=heroChoice.dataset.selectHero;renderCurrent();return;}
   const recruitPane=event.target.closest('[data-open-hero-support]');
