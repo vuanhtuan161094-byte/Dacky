@@ -239,6 +239,7 @@ document.body.addEventListener('click', async event => {
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
     case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero,slot:document.querySelector(`[data-artifact-slot="${button.dataset.item}"]`)?.value});
+    case 'claimHeroTitle':return perform(action,{heroId:document.querySelector('[data-v4-title-hero]')?.value,titleId:button.dataset.title});
     case 'unequipArtifact':return perform(action,{heroId:button.dataset.hero,slot:button.dataset.slot});
     case 'setSourceTroops':return perform(action,{heroId:button.dataset.hero,troopId:button.dataset.troop,count:Number(document.querySelector('[data-source-troop="'+button.dataset.hero+':'+button.dataset.troop+'"]')?.value)});
     case 'marchOwned':return perform('march',{nodeId:button.dataset.node,sourceOwned:true,combatMode:document.querySelector('#combat-mode')?.value==='squad'?'squad':'squad-auto'});
