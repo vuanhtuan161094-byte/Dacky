@@ -6,6 +6,7 @@ import { createCombatRuntime } from './runtime-v7.js';
 import { createSourceDuelHero } from './hero-progression.js';
 import { buzhouPlan,cityEffects,npcEffects,equipmentSets,itemBuff,pendingBattleBuff,itemUseRule,sourceGearGemRule } from '../gameplay-p15.js';
 import { canEquip } from './army-artifacts.js';
+import { distributeSquads, validateSquadAllocation } from './squad-ownership.js';
 // Three source artifacts omit an energy cost and two use a conversion effect.
 // The runtime applies a bounded, explicit fallback policy instead of silently
 // leaving those five records inert. Source effect operations remain intact.
@@ -98,6 +99,15 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const rate=(id,fallback)=>{const row=TECHNOLOGIES.find(x=>x.id===id)?.mobileLevelCosts?.find(x=>Number(x.level)===1),m=String(row?.effect??'').match(/([+-]?\\d+(?:[.,]\\d+)?)\\s*%/);return m?Number(m[1].replace(',','.'))/100:fallback;};
   const research=(id,fallback)=>clamp((state.technologies?.[id]??0)*rate(id,fallback),0,1);
   const ownMagic=cityEffects(state,state.lastTickAt??0),enemyMagic=npcEffects(state,node.id,state.lastTickAt??0),enemyStacks=[...e].map(([id,count])=>({id,count})),ownPower=formationAttackPower(rt.troops,stacks),enemyPower=formationAttackPower(rt.troops,enemyStacks),armyGems=party.flatMap(hero=>Object.values(hero.equipment??{}).filter(id=>id&&(hero.combatDurability?.[id]??100)>0).flatMap(id=>hero.gearEnhancements?.[id]?.gems??[]).map(id=>sourceGearGemRule(byItem.get(id)))).filter(gem=>gem?.kind==='armyCombatGem');
+  let ownSquads,enemySquads,enemyReserves=[];
+  if(q.squadMode===true){
+   ownSquads=q.squadAllocation?validateSquadAllocation(stacks,q.squadAllocation,party.length):distributeSquads(stacks,[a,...reserves]);
+   const named=new Map();if(!override)for(const r of formation){const name=r.commander;if(!name)continue;const g=named.get(name)||new Map();g.set(r.unitId,(g.get(r.unitId)||0)+r.count);named.set(name,g);}
+   if(named.size>0&&named.size<=5&&formation.every(r=>r.commander)){
+    const entries=[...named];enemySquads=entries.map(([,g])=>[...g].map(([id,count])=>({id,count})));
+    enemyReserves=entries.slice(1).map(([name],i)=>({...enemyCommander(n*10+i+1,node.commanderLevel,name),instanceId:'npc:'+n+':'+(i+1)}));
+   }else enemySquads=[enemyStacks];
+  }
   // Army core has no per-stack colored-socket events. Keep troop-class effects
   // in this product adapter; first-round effects use a simulated six-round mean.
   let armyGemAttack=0,armyGemDefense=0;for(const gem of armyGems){const sourceShare=ownPower?formationAttackPower(rt.troops,stacks,gem.sourceClass)/ownPower:0;if(!sourceShare)continue;if(gem.effect==='firstRoundGuard')armyGemDefense+=gem.ratio*sourceShare/6;else if(gem.effect==='firstRoundAttack')armyGemAttack+=gem.ratio*sourceShare/6;else {const targetShare=gem.targetClass&&enemyPower?formationAttackPower(rt.troops,enemyStacks,gem.targetClass)/enemyPower:gem.targetClass?0:1;armyGemAttack+=gem.ratio*sourceShare*targetShare;}}
@@ -105,7 +115,7 @@ export function createProductCombat({storageCapacity, runtime=null}={}){
   const cityWallHp = 8 + (node.mobileWallLevel ?? node.level ?? 1) * (1 + node.chapter / 2) + node.power * .025;
   const siege=node.kind==='Thành trì NPC'?{hp:Math.max(1,node.wallLevel*60),armor:12}:node.kind==='Danh thành'?{hp:Math.max(1,Math.round(cityWallHp)),armor:4+node.chapter}:null;
   const attritionAttack=Math.min(.35,battleBuff('enemyTroopLoss')*3);
-  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks,armyAttack:research('tech-10',.012)+(ownMagic.attack??0)+battleBuff('attack')+attritionAttack+armyGemAttack,armyDefense:research('tech-11',.004)+(ownMagic.defense??0)+(ownMagic.wallDefense??0)+battleBuff('defense')+armyGemDefense,armyLife:research('tech-12',.02),armyMorale:clamp((state.morale??80)/500,0,.2)},{...enemy,stance:'auto',armyAttack:(state.world.treaties.includes(node.id)?-.12:0)+(enemyMagic.attack??0)-battleBuff('enemyAttackReduction'),armyDefense:(enemyMagic.defense??0)-battleBuff('enemyDefenseReduction'),stacks:enemyStacks}],siege,policy:{...PRODUCT_POLICY}}};
+  return {node,input:{battleId:q.battleId??'march:'+q.nodeId+':'+q.startAt+':'+q.seed,seed:q.seed,sides:[{...a,reserves,stance:'auto',commanderMode:'adaptive',stacks,...(ownSquads?{squadStacks:ownSquads}:{}),armyAttack:research('tech-10',.012)+(ownMagic.attack??0)+battleBuff('attack')+attritionAttack+armyGemAttack,armyDefense:research('tech-11',.004)+(ownMagic.defense??0)+(ownMagic.wallDefense??0)+battleBuff('defense')+armyGemDefense,armyLife:research('tech-12',.02),armyMorale:clamp((state.morale??80)/500,0,.2)},{...enemy,stance:'auto',armyAttack:(state.world.treaties.includes(node.id)?-.12:0)+(enemyMagic.attack??0)-battleBuff('enemyAttackReduction'),armyDefense:(enemyMagic.defense??0)-battleBuff('enemyDefenseReduction'),stacks:enemyStacks,...(enemySquads?{reserves:enemyReserves,squadStacks:enemySquads}: {})}],siege,policy:{...PRODUCT_POLICY}}};
  }
  function credit(s,reward){const cap=storageCapacity(s);if(!Number.isFinite(cap)||cap<0)throw Error('INVALID_CAPACITY');const granted={};for(const [k,v] of Object.entries(reward)){if(!Object.hasOwn(s.resources,k)||!Number.isFinite(v)||v<0)continue;const before=s.resources[k];s.resources[k]=Math.min(k==='jade'?99999:cap,before+v);granted[k]=s.resources[k]-before}return granted;}
  function report(s,entry,now){s.reports.unshift({id:s.nextReportId++,at:now,...entry});s.reports=s.reports.slice(0,100);}
