@@ -5,7 +5,7 @@ import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUN
 import { populationCapacity,questQuote,claimSourceQuest,itemUseRule,sourceGearGemRule,gearProtectionRule,reservedQuestItemCount,normalizeGameplay,trackAction,castWorldSpell,cityEffects,itemBuff,pendingBattleBuff,equipmentSlot,equipmentSets } from './gameplay-p15.js';
 import { createProductCombat } from './combat/product-v13.js';
 import { sourceGrowth } from './combat/hero-progression.js';
-import { matrixRule,ascensionQuote,normalizeLiveHero,normalizeLiveEvents,COMBAT_SKILLS,LIVE_EVENTS,claimLiveEvent,dropBonusForHeroes } from './live-source-p1.js';
+import { matrixRule,ascensionQuote,normalizeLiveHero,normalizeLiveEvents,COMBAT_SKILLS,LIVE_EVENTS,claimLiveEvent,dropBonusForHeroes,LOCAL_GROWTH,growthQuote,skillQuote,matrixStats,isHoanHi } from './live-source-p1.js';
 
 export const SAVE_VERSION = 4;
 const HERO_LEVEL_CAP = 150;
@@ -451,7 +451,7 @@ export function heroPower(hero, state) {
   }, 0);
   const affinity=1+clamp(Number(hero.affinity)||0,0,100)*0.0015;
   const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1;
-  return Math.round((heroBaseRating(def) + gear) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * affinity);
+  return Math.round((heroBaseRating(def) + gear + matrixStats(hero,ITEMS).physical*3 + (hero.divineLevel||0)*12) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * affinity);
 }
 
 function awardHeroXp(hero, amount) {
@@ -1361,29 +1361,50 @@ export function doAction(state, action, now = Date.now()) {
       h.ascended=true;h.ascensionRetained={[key]:Math.floor(v[key]/2)};h.level=1;h.xp=0;delete h.combatMana;delete h.combatVitality;
       note(s,'Phi thăng · cấp 1; giữ nửa chỉ số theo nghề (ánh xạ chỉ số mô phỏng).');break;
     }
-    case 'deifyHero': {
-      const h=s.heroes.find(x=>x.id===action.heroId);
-      if(!h?.ascended||h.deified||h.assigned||s.queues.march)throw Error('Cần Phi thăng và tướng rảnh.');
-      throw Error('Phong thần: chưa xác minh chi phí và hiệu ứng nguồn.');
+    case 'deifyHero':case 'rebirthHero':case 'trainDivine': {
+      const h=s.heroes.find(x=>x.id===action.heroId),kind=action.type==='deifyHero'?'deify':action.type==='rebirthHero'?'rebirth':'divine',q=growthQuote(s,h,kind);
+      if(!q.available)throw Error(kind==='rebirth'?'Cần Phi thăng, cấp 59, lò luyện, tướng rảnh và đủ vàng.':kind==='deify'?'Cần Phi thăng, tướng rảnh và đủ vàng.':'Cần Phong thần, tướng rảnh, chưa đạt tối đa và đủ vàng.');
+      debit(s,{gold:q.gold});
+      if(kind==='deify'){h.deified=true;h.divineLevel=1;}
+      else if(kind==='divine'){h.divineLevel++;}
+      else{h.rebirths=(h.rebirths||0)+1;h.rootBonus=Math.min(5,(h.rootBonus||0)+1);h.level=1;h.xp=0;delete h.combatMana;delete h.combatVitality;}
+      note(s,kind==='deify'?'Phong thần thành công':kind==='divine'?'Phép thần thông cấp '+h.divineLevel:'Chuyển sinh thành công · căn cốt +1');break;
     }
-    case 'rebirthHero': {
-      const h=s.heroes.find(x=>x.id===action.heroId);
-      if(!h?.ascended||h.level<59||h.assigned||s.queues.march)throw Error('Cần Phi thăng, cấp 59 và tướng rảnh.');
-      throw Error('Chuyển sinh: cần xác minh lò luyện, chi phí và kết quả nguồn.');
-    }
-    case 'learnCombatSkill':case 'advanceCombatSkill':case 'selectCombatSkill': {
+    case 'learnCombatSkill':case 'advanceCombatSkill':case 'upgradeCombatSkill':case 'selectCombatSkill': {
       const h=s.heroes.find(x=>x.id===action.heroId),name=action.skill;
       if(!h||h.assigned||s.queues.march||!COMBAT_SKILLS.includes(name))throw Error('Chọn Chiến Kỹ và thần tiên rảnh.');
       normalizeLiveHero(h);const row=h.combatSkills[name];
       if(action.type==='selectCombatSkill'){if(!row)throw Error('Chưa học Chiến Kỹ');h.activeCombatSkill=name;break;}
-      if(name!=='Truy kích')throw Error('Chưa xác minh giá học Chiến Kỹ này');
-      if(action.type==='learnCombatSkill'){if(row||h.combatSkillPoints<15000)throw Error('Cần 15.000 điểm và chưa học');h.combatSkillPoints-=15000;h.combatSkills[name]={level:1,advanced:false};}
-      else {if(!row||row.advanced||h.combatSkillPoints<25500)throw Error('Cần 25.500 điểm và đã học');h.combatSkillPoints-=25500;row.advanced=true;}
-      note(s,'Đã cập nhật Chiến Kỹ '+name+'; hiệu ứng từng cấp đang xác minh.');break;
+      const kind=action.type==='learnCombatSkill'?'learn':action.type==='advanceCombatSkill'?'advanced':'upgrade',q=skillQuote(h,name,kind);
+      if(!q.available)throw Error('Không đủ điểm hoặc chưa đạt điều kiện Chiến Kỹ.');
+      h.combatSkillPoints-=q.points;
+      if(kind==='learn'){h.combatSkills[name]={level:1,advanced:false};if(!h.activeCombatSkill)h.activeCombatSkill=name;}
+      else if(kind==='advanced')row.advanced=true;
+      else row.level++;
+      note(s,'Đã cập nhật Chiến Kỹ '+name);break;
     }
     case 'claimLiveEvent': {
       const def=LIVE_EVENTS.find(e=>e.id===action.eventId);if(!def)throw Error('Sự kiện không tồn tại');
-      claimLiveEvent(s,def,now,rewards=>{for(const row of rewards){if(!ITEMS.some(i=>i.id===row.itemId)||!Number.isSafeInteger(row.count)||row.count<1||s.items.length+row.count>500)throw Error('Phần thưởng không hợp lệ');for(let n=0;n<row.count;n++)s.items.push(row.itemId);}});break;
+      claimLiveEvent(s,def,now,rewards=>{
+        const grants=[];
+        if(def.special==='matrix'){
+          const pool=ITEMS.filter(i=>matrixRule(i)?.points);
+          if(!pool.length)throw Error('Chưa có Ảo Hóa trong catalog');
+          const owned=new Set(s.heroes.flatMap(h=>h.matrices||[]));
+          const remaining=pool.filter(i=>!owned.has(i.id)&&!s.items.includes(i.id));
+          grants.push((remaining.length?remaining:pool)[Math.floor(now/86400000)%(remaining.length||pool.length)].id);
+        }else if(def.special==='hoan_hi'){
+          const pool=ITEMS.filter(i=>i.type!=='vật phẩm'&&isHoanHi(i.name));
+          const slots=new Map();for(const i of pool)if(!slots.has(equipmentSlot(i)))slots.set(equipmentSlot(i),i);
+          if(slots.size<6)throw Error('Bộ Hoan Hỉ chưa đủ sáu vị trí trong catalog.');
+          grants.push(...[...slots.values()].slice(0,6).map(i=>i.id));
+        }
+        for(const row of rewards||[]){if(row.itemId){if(!ITEMS.some(i=>i.id===row.itemId)||!Number.isSafeInteger(row.count)||row.count<1)throw Error('Phần thưởng không hợp lệ');for(let n=0;n<row.count;n++)grants.push(row.itemId);}}
+        if(s.items.length+grants.length>500)throw Error('Túi đồ đã đầy');
+        debit(s,def.cost||{});for(const row of rewards||[])if(row.resource)credit(s,{[row.resource]:row.count});
+        s.items.push(...grants);
+        if(def.streak){const ev=normalizeLiveEvents(s),day=Math.floor(now/86400000),old=ev.progress[def.id]||{},streak=old.lastDay===day-1?(old.streak||0)%8+1:1;ev.progress[def.id]={lastDay:day,streak};if(streak===7||streak===8){const pool=ITEMS.filter(i=>i.type==='pháp bảo'&&i.mobileSourceId);if(pool.length&&s.items.length<500)s.items.push(pool[day%pool.length].id);}}
+      });note(s,'Đã tham gia '+def.name);break;
     }
     case 'allocatePotential': {const h=s.heroes.find(x=>x.id===action.heroId),stat=action.stat;if(!h||s.queues.march||!['attack','magic','defense'].includes(stat))throw Error('Không thể phân bổ');h.potential={...(h.potential??{})};const used=Object.values(h.potential).reduce((n,v)=>n+v,0),gifted=(h.mobilePotentialBonuses||[]).reduce((n,row)=>n+row.points,0);if(used>=h.level*2+(h.rebirths??0)*10+gifted)throw Error('Hết điểm tiềm năng');h.potential[stat]=(h.potential[stat]??0)+1;break;}
     case 'repairGear': {const h=s.heroes.find(x=>x.id===action.heroId);if(!h||s.queues.march)throw Error('Thần tiên đang bận');const ids=Object.values(h.equipment??{}).filter(Boolean),loss=ids.reduce((n,id)=>n+100-(h.combatDurability?.[id]??100),0);if(!loss)throw Error('Trang bị không cần sửa');debit(s,{gold:Math.ceil(loss*5),iron:Math.ceil(loss/2)});h.combatDurability=Object.fromEntries(ids.map(id=>[id,100]));break;}
@@ -1557,7 +1578,7 @@ export function doAction(state, action, now = Date.now()) {
       const cost = { food: 65 * hero.level, gold: 85 * hero.level };
       debit(s, cost);
       const levels=hero.level<HERO_LEVEL_CAP?awardHeroXp(hero,Math.floor((80+hero.level*16)*(1+itemBuff(s,'heroXp',now)))):0;
-      awardHeroAffinity(hero,3);
+      awardHeroAffinity(hero,3);hero.combatSkillPoints=(hero.combatSkillPoints||0)+LOCAL_GROWTH.skillTraining;
       note(s, `${HEROES.find(def => def.id === hero.id)?.name} đã tu luyện${levels?` và tăng ${levels} cấp`:''} · cấp ${hero.level} · linh căn ${hero.affinity}/100${levels&&hero.level%4===0?` · kỹ năng ${hero.skillLevel}`:''}.`);
       break;
     }
