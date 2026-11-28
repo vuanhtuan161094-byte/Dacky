@@ -86,7 +86,9 @@ def research(p):
     btn.click(timeout=3500);wait_state(p,lambda s:bool(s['queues']['research']))
     finish(p,'research',lambda s:s['technologies'][k]>old)
 def hero_tab(p,key):
-    nav(p,'heroes');tab(p,'data-live-hero-tab',key)
+    nav(p,'heroes')
+    if p.locator('.hero-support-drawer[open]').count():click(p,'.hero-support-drawer > summary')
+    tab(p,'data-live-hero-tab',key)
 def equip(p):
     nav(p,'inventory');click(p,'[data-bag-item="item-01"]')
     old=state(p)['stats']['itemsEquipped']
@@ -352,7 +354,9 @@ def run_p2():
             old=state(p)['items'].count('mobile-good-4912')
             action(p,'strategicCast',lambda s:s['items'].count('mobile-good-4912')<old)
         def city_level():
-            nav(p,'world');c=meta['city'];lv=next(x['level'] for x in state(p)['cities'] if x['id']==c)
+            nav(p,'city');c=meta['city'];lv=next(x['level'] for x in state(p)['cities'] if x['id']==c)
+            drawer=p.locator('.city-management-drawer')
+            if not drawer.evaluate('(x)=>x.open'):drawer.locator('summary').click()
             action(p,'upgradeCity',lambda s:bool(s['queues']['construction']),'[data-city="'+c+'"]')
             finish(p,'construction',lambda s:next(x['level'] for x in s['cities'] if x['id']==c)>lv)
         def import_save():
