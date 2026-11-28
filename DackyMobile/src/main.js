@@ -164,6 +164,9 @@ document.body.addEventListener('click', async event => {
   if(event.target.closest('.art01-camera')&&!event.target.closest('button')&&(uiState.cityBuildingId||uiState.cityPlotId)){uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;}
   const heroSupportSummary=event.target.closest('.hero-support-drawer > summary');
   if(heroSupportSummary)uiState.heroSupportOpen=!heroSupportSummary.parentElement.open;
+  const bagTabChoice=event.target.closest('[data-bag-tab]');if(bagTabChoice){uiState.bagTab=bagTabChoice.dataset.bagTab;renderCurrent();return;}
+  const bagFilterChoice=event.target.closest('[data-bag-filter]');if(bagFilterChoice){uiState.bagFilter=bagFilterChoice.dataset.bagFilter;uiState.bagPage=0;uiState.bagSelected=null;renderCurrent();return;}
+  const bagItemChoice=event.target.closest('[data-bag-item]');if(bagItemChoice){uiState.bagSelected=bagItemChoice.dataset.bagItem;renderCurrent();return;}
   const eventTabChoice=event.target.closest('[data-event-tab]');
   if(eventTabChoice){uiState.eventTab=eventTabChoice.dataset.eventTab;renderCurrent();return;}
   const heroTabChoice=event.target.closest('[data-live-hero-tab]');
@@ -191,7 +194,7 @@ document.body.addEventListener('click', async event => {
   switch(action) {
     case 'catalogPage': {
       const key=button.dataset.pageKey;
-      if(['heroPage','forgePage','consumablePage','questPage','mountainPage','sourcePage','legacyGameplayPage','artifactPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
+      if(['heroPage','bagPage','forgePage','consumablePage','questPage','mountainPage','sourcePage','legacyGameplayPage','artifactPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
       return;
     }
     case 'selectNode':
