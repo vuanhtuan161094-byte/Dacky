@@ -164,6 +164,8 @@ document.body.addEventListener('click', async event => {
   if(event.target.closest('.art01-camera')&&!event.target.closest('button')&&(uiState.cityBuildingId||uiState.cityPlotId)){uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;}
   const heroSupportSummary=event.target.closest('.hero-support-drawer > summary');
   if(heroSupportSummary)uiState.heroSupportOpen=!heroSupportSummary.parentElement.open;
+  const eventTabChoice=event.target.closest('[data-event-tab]');
+  if(eventTabChoice){uiState.eventTab=eventTabChoice.dataset.eventTab;renderCurrent();return;}
   const heroTabChoice=event.target.closest('[data-live-hero-tab]');
   if(heroTabChoice){uiState.heroTab=heroTabChoice.dataset.liveHeroTab;renderCurrent();return;}
   const heroChoice=event.target.closest('[data-select-hero]');
@@ -284,6 +286,14 @@ document.body.addEventListener('click', async event => {
     case 'switchMatrix':return perform(action,{heroId:button.dataset.hero,itemId:button.dataset.item});
     case 'useMatrix':return perform('useItem',{heroId:button.dataset.hero,itemId:button.dataset.item});
     case 'claimLiveEvent':return perform(action,{eventId:button.dataset.event});
+    case 'selectPrizePool':return perform(action,{pool:button.dataset.pool});
+    case 'spinPrize':case 'travelDice':case 'claimTravel':case 'registerWar':case 'claimWar':case 'claimStarterDay':return perform(action,{});
+    case 'claimSpinMilestone':return perform(action,{milestone:Number(button.dataset.milestone)});
+    case 'claimFestival':return perform(action,{festivalId:button.dataset.festival});
+    case 'festivalExchange':return perform(action,{quantity:1});
+    case 'claimRank':return perform(action,{rank:button.dataset.rank,milestone:Number(button.dataset.milestone)});
+    case 'claimCollection':return perform(action,{collection:button.dataset.collection,milestone:Number(button.dataset.milestone)});
+    case 'chooseEventReward':return perform(action,{choiceId:button.dataset.choice});
     case 'setTaxRate':return perform(action,{rate:document.querySelector('#tax-rate')?.value});
     case 'setLaborRate':return perform(action,{rate:document.querySelector('#labor-rate')?.value});
     case 'guildDonate':return perform(action,{amount:document.querySelector('#guild-donate')?.value});
