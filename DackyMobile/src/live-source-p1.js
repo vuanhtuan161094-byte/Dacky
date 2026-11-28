@@ -24,7 +24,7 @@ export function ascensionQuote(state,hero,items){const item=ascensionItem(items)
 export function normalizeLiveHero(h){
  h.ascended=h.ascended===true;h.deified=h.ascended&&h.deified===true;h.divineLevel=h.deified?Math.min(10,Math.max(1,Math.floor(Number(h.divineLevel)||1))):0;
  h.ascensionRetained=Object.fromEntries(['physical','arcane','strategy'].flatMap(k=>Number.isFinite(h.ascensionRetained?.[k])&&h.ascensionRetained[k]>=0?[[k,Math.floor(h.ascensionRetained[k])]]:[]));
- h.combatSkillPoints=Math.max(0,Math.floor(Number(h.combatSkillPoints)||0));
+ h.squadWeight=Math.min(100,Math.max(1,Math.floor(Number(h.squadWeight)||50)));h.combatSkillPoints=Math.max(0,Math.floor(Number(h.combatSkillPoints)||0));
  h.combatSkills=Object.fromEntries(COMBAT_SKILLS.flatMap(name=>{const row=h.combatSkills?.[name];return row&&Number.isSafeInteger(row.level)&&row.level>=1?[[name,{level:Math.min(25,row.level),advanced:row.advanced===true}]]:[]}));
  h.activeCombatSkill=Object.hasOwn(h.combatSkills,h.activeCombatSkill)?h.activeCombatSkill:null;
  if(!h.matrices?.includes(h.activeMatrix))h.activeMatrix=null;
