@@ -1504,3 +1504,9 @@ body:not(.art01-city-mode) .game-dock{background:linear-gradient(#34372e,#1b2723
 @keyframes r4-banner{0%{opacity:0;translate:0 -8px}15%,80%{opacity:1;translate:0 0}100%{opacity:0}}
 .effects-off .fidelity-ranks i,.reduce-motion .fidelity-ranks i,.effects-off .r4-cast-banner,.reduce-motion .r4-cast-banner{animation:none!important}
 @media(max-height:480px) and (orientation:landscape){.r4-honor-grid article,.r4-garrison{padding:5px;font-size:10px}.r4-cast-banner{font-size:11px;padding:4px 10px}}
+
+/* P2: recruit is a dedicated screen inside hero view, never overlapping hero controls. */
+.p4-paper-mode .hero-command-view:has(>.hero-support-drawer[open]){grid-template-rows:minmax(0,1fr);height:100%;min-height:0}
+.p4-paper-mode .hero-command-view:has(>.hero-support-drawer[open])>.hero-roster-window{display:none}
+.p4-paper-mode .hero-command-view>.hero-support-drawer[open]{min-height:0;overflow:auto;align-self:stretch}
+.p4-paper-mode .hero-support-drawer[open]>summary{position:sticky;top:0;z-index:10;background:#302b25;color:#f7e9c7}
