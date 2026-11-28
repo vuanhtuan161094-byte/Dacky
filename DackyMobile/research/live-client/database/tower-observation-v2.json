@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "source": "LIVE_UI",
+  "activity": "Phong Thần Tháp",
+  "lobby": {
+    "crossServerRanking": true,
+    "heroesDisplayedAsCompeting": 568,
+    "registrationRequiredBeforeChallenge": true,
+    "dailyAttemptsDisplayed": 10,
+    "artifactSlotsDisplayed": 4,
+    "tabs": ["Khiêu chiến", "Xếp chiêu", "Bảng hạng", "Quầy đổi"]
+  },
+  "interaction": {
+    "registrationStarted": false,
+    "challengeStarted": false,
+    "reason": "Competitive cross-server activity; lobby inspected only."
+  },
+  "unknown": [
+    "Registration cost, eligibility, schedule and reset timezone",
+    "Battle rules, matchmaking, rank scoring, rewards and exchange inventory",
+    "Whether 568 is a live participant count or a configured display count"
+  ],
+  "dackyComparison": {
+    "status": "MISSING",
+    "gap": "No verified cross-server signup, ranking, challenge or rewards loop in current Dacky gameplay."
+  },
+  "evidence": "../evidence/v2/tower-lobby-v2.png",
+  "clientModule": "PUBLIC_CLIENT:/mods/tower.js"
+}

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "source": "PUBLIC_CLIENT",
+  "module": "/mods/danh-hieu.js",
+  "clientCommentCatalogCount": 55,
+  "rules": {
+    "oneEquippedTitlePerHero": true,
+    "expiryStarts": "When the title reward is claimed from mail.",
+    "normalTitleRemoval": "Cannot remove an equipped title until it expires.",
+    "warTitleException": "Client comment/UI text says a Quốc chiến title can be removed from the Quốc chiến screen.",
+    "displayContexts": [
+      "above the hero in battle",
+      "on the army"
+    ],
+    "acquisitionSourcesListedByClient": [
+      "Đại Hội Tỷ Võ",
+      "Quốc chiến",
+      "Bảng Phú Hào",
+      "Phong Thần Tháp",
+      "Lộc Đài"
+    ]
+  },
+  "clientFieldContract": {
+    "flatStats": [
+      "vu",
+      "tri",
+      "noi",
+      "thong"
+    ],
+    "percentageStatsStoredPerThousandAndDisplayedAsPercent": [
+      "cong",
+      "thu",
+      "bao"
+    ],
+    "otherField": "toc",
+    "notes": "Các field và phép chia giá trị trên là hợp đồng render của client; giá trị thưởng cụ thể được gửi trong state game, không suy ra từ source UI."
+  },
+  "animationEvidence": {
+    "animatedStrips": [
+      {
+        "id": "title001",
+        "frames": 9,
+        "frameWidth": 150,
+        "frameHeight": 90,
+        "fps": 10
+      },
+      {
+        "id": "title033",
+        "frames": 9,
+        "frameWidth": 150,
+        "frameHeight": 88,
+        "fps": 10
+      },
+      {
+        "id": "title105",
+        "frames": 9,
+        "frameWidth": 144,
+        "frameHeight": 89,
+        "fps": 10
+      },
+      {
+        "id": "title107",
+        "frames": 9,
+        "frameWidth": 149,
+        "frameHeight": 90,
+        "fps": 10
+      },
+      {
+        "id": "title109",
+        "frames": 9,
+        "frameWidth": 150,
+        "frameHeight": 90,
+        "fps": 10
+      },
+      {
+        "id": "title_01",
+        "frames": 10,
+        "frameWidth": 152,
+        "frameHeight": 108,
+        "fps": 8
+      }
+    ],
+    "representativeStrip": "../evidence/assets-v3/title001.png"
+  },
+  "confidence": {
+    "countAndSlotRule": "PUBLIC_CLIENT comment, not fully enumerated from authenticated UI.",
+    "namedSources": "PUBLIC_CLIENT empty-state text.",
+    "individualTitleNamesStatsDurationsAndRewards": "UNKNOWN until the title catalog/state is opened in UI."
+  },
+  "dackyComparison": {
+    "status": "MISSING",
+    "note": "No equivalent per-hero time-limited title inventory/equip lifecycle was identified in current Dacky source; confirm against a dedicated source search before implementation."
+  },
+  "liveHeroSlotObservation": {
+    "source": "LIVE_UI",
+    "hero": "ThiênMệnh",
+    "displayedTitle": "—",
+    "displayedMatrix": "—",
+    "interpretation": "This account snapshot has no title or matrix displayed for this selected hero; it does not disprove that the systems exist.",
+    "evidence": "../evidence/v3/hero-growth-v3.png"
+  }
+}

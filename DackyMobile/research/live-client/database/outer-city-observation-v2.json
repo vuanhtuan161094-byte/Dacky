@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "source": "LIVE_UI",
+  "screen": "Ngoại thành",
+  "visual": {
+    "scene": "snow-covered isometric city outskirts",
+    "plotLevelsVisible": [7, 8, 9],
+    "plotCount": null,
+    "shortcuts": ["Địa đồ", "Nội thành"]
+  },
+  "interaction": {"constructionStarted": false, "upgradeStarted": false},
+  "unknown": [
+    "Whether each visible plot is owned, unlocked or occupied",
+    "Per-plot production, construction prerequisites, costs and timers",
+    "Outer-city rules across additional cities"
+  ],
+  "helpTextFromPublicClient": {
+    "source": "PUBLIC_CLIENT",
+    "outerCityFacilities": ["Ruộng", "Trại gỗ", "Mỏ đá", "Mỏ đồng"],
+    "note": "Help module text; not a live build/upgrade validation."
+  },
+  "dackyComparison": {
+    "status": "PARTIAL",
+    "gap": "Dacky contains building profiles, but live outer-city plot state and per-plot rules were not verified."
+  },
+  "evidence": "../evidence/v2/outside-city-v2.png"
+}

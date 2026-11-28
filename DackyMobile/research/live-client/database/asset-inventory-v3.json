@@ -1,0 +1,6045 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "source": "PUBLIC_DEPLOYED_CLIENT",
+  "scope": {
+    "origin": "https://dackytruvuong.com",
+    "tlsVerification": "HTTPS GET via curl with default certificate validation; no -k / insecure TLS option",
+    "catalogs": [
+      "/mods/battle-ng-catalog.js",
+      "/mods/battle-fx-catalog.js",
+      "/mods/battle-fx-script.js",
+      "/mods/battle-tnl-data.js",
+      "/mods/ma-tran.js",
+      "/mods/danh-hieu.js"
+    ],
+    "rawSourceCommitted": false,
+    "gameplayCodeModified": false,
+    "provenanceCaution": "These are catalogs and render rules exposed by the deployed Dacky client. They describe the deployed presentation/resources; they do not by themselves prove canonical legacy server rules."
+  },
+  "battleSpriteCatalog": {
+    "sourceModule": "/mods/battle-ng-catalog.js",
+    "troopFamilies": 18,
+    "troopAnimationStates": 144,
+    "troopFrames": 1424,
+    "commanderFamilies": 6,
+    "commanderAnimationStates": 30,
+    "commanderFrames": 384,
+    "troopTypes": 4,
+    "records": [
+      {
+        "family": "army00",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army00-stand.png",
+        "frameWidth": 57,
+        "frameHeight": 42,
+        "frames": 13,
+        "fps": 24,
+        "durationMs": 542,
+        "anchor": {
+          "x": 0.3508771929824561,
+          "y": 0.7857142857142857
+        }
+      },
+      {
+        "family": "army00",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army00-run.png",
+        "frameWidth": 64,
+        "frameHeight": 39,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.265625,
+          "y": 0.7692307692307693
+        }
+      },
+      {
+        "family": "army00",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army00-attack.png",
+        "frameWidth": 84,
+        "frameHeight": 41,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.35714285714285715,
+          "y": 0.7804878048780488
+        }
+      },
+      {
+        "family": "army00",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army00-injured1.png",
+        "frameWidth": 39,
+        "frameHeight": 56,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.4358974358974359,
+          "y": 0.8214285714285714
+        }
+      },
+      {
+        "family": "army00",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army00-injured2.png",
+        "frameWidth": 39,
+        "frameHeight": 55,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.4358974358974359,
+          "y": 0.8363636363636363
+        }
+      },
+      {
+        "family": "army00",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army00-dead1.png",
+        "frameWidth": 66,
+        "frameHeight": 31,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.3181818181818182,
+          "y": 0.3870967741935484
+        }
+      },
+      {
+        "family": "army00",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army00-dead2.png",
+        "frameWidth": 63,
+        "frameHeight": 34,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.38095238095238093,
+          "y": 0.5
+        }
+      },
+      {
+        "family": "army00",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army00-cheer.png",
+        "frameWidth": 39,
+        "frameHeight": 85,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.2564102564102564,
+          "y": 0.9058823529411765
+        }
+      },
+      {
+        "family": "army01",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army01-stand.png",
+        "frameWidth": 39,
+        "frameHeight": 38,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.48717948717948717,
+          "y": 0.7368421052631579
+        }
+      },
+      {
+        "family": "army01",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army01-run.png",
+        "frameWidth": 42,
+        "frameHeight": 39,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.5238095238095238,
+          "y": 0.7435897435897436
+        }
+      },
+      {
+        "family": "army01",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army01-attack.png",
+        "frameWidth": 67,
+        "frameHeight": 53,
+        "frames": 11,
+        "fps": 24,
+        "durationMs": 458,
+        "anchor": {
+          "x": 0.4626865671641791,
+          "y": 0.8113207547169812
+        }
+      },
+      {
+        "family": "army01",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army01-injured1.png",
+        "frameWidth": 39,
+        "frameHeight": 35,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.48717948717948717,
+          "y": 0.7142857142857143
+        }
+      },
+      {
+        "family": "army01",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army01-injured2.png",
+        "frameWidth": 39,
+        "frameHeight": 35,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.48717948717948717,
+          "y": 0.7142857142857143
+        }
+      },
+      {
+        "family": "army01",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army01-dead1.png",
+        "frameWidth": 44,
+        "frameHeight": 34,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.45454545454545453,
+          "y": 0.6176470588235294
+        }
+      },
+      {
+        "family": "army01",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army01-dead2.png",
+        "frameWidth": 50,
+        "frameHeight": 21,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.54,
+          "y": 0.6190476190476191
+        }
+      },
+      {
+        "family": "army01",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army01-cheer.png",
+        "frameWidth": 39,
+        "frameHeight": 66,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.48717948717948717,
+          "y": 0.8484848484848485
+        }
+      },
+      {
+        "family": "army04",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army04-stand.png",
+        "frameWidth": 59,
+        "frameHeight": 43,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.3898305084745763,
+          "y": 0.7906976744186046
+        }
+      },
+      {
+        "family": "army04",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army04-run.png",
+        "frameWidth": 60,
+        "frameHeight": 44,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.3,
+          "y": 0.7954545454545454
+        }
+      },
+      {
+        "family": "army04",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army04-attack.png",
+        "frameWidth": 84,
+        "frameHeight": 41,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.38095238095238093,
+          "y": 0.7804878048780488
+        }
+      },
+      {
+        "family": "army04",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army04-injured1.png",
+        "frameWidth": 40,
+        "frameHeight": 55,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.45,
+          "y": 0.8363636363636363
+        }
+      },
+      {
+        "family": "army04",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army04-injured2.png",
+        "frameWidth": 40,
+        "frameHeight": 55,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.45,
+          "y": 0.8363636363636363
+        }
+      },
+      {
+        "family": "army04",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army04-dead1.png",
+        "frameWidth": 61,
+        "frameHeight": 30,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.3442622950819672,
+          "y": 0.4
+        }
+      },
+      {
+        "family": "army04",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army04-dead2.png",
+        "frameWidth": 68,
+        "frameHeight": 34,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.35294117647058826,
+          "y": 0.5
+        }
+      },
+      {
+        "family": "army04",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army04-cheer.png",
+        "frameWidth": 40,
+        "frameHeight": 81,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.475,
+          "y": 0.8888888888888888
+        }
+      },
+      {
+        "family": "army05",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army05-stand.png",
+        "frameWidth": 52,
+        "frameHeight": 43,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.5961538461538461,
+          "y": 0.7674418604651163
+        }
+      },
+      {
+        "family": "army05",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army05-run.png",
+        "frameWidth": 49,
+        "frameHeight": 45,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.5306122448979592,
+          "y": 0.7555555555555555
+        }
+      },
+      {
+        "family": "army05",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army05-attack.png",
+        "frameWidth": 105,
+        "frameHeight": 66,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.4666666666666667,
+          "y": 0.8181818181818182
+        }
+      },
+      {
+        "family": "army05",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army05-injured1.png",
+        "frameWidth": 52,
+        "frameHeight": 44,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.5961538461538461,
+          "y": 0.7272727272727273
+        }
+      },
+      {
+        "family": "army05",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army05-injured2.png",
+        "frameWidth": 52,
+        "frameHeight": 44,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.5961538461538461,
+          "y": 0.7272727272727273
+        }
+      },
+      {
+        "family": "army05",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army05-dead1.png",
+        "frameWidth": 62,
+        "frameHeight": 31,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.3387096774193548,
+          "y": 0.3870967741935484
+        }
+      },
+      {
+        "family": "army05",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army05-dead2.png",
+        "frameWidth": 59,
+        "frameHeight": 34,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.4067796610169492,
+          "y": 0.5
+        }
+      },
+      {
+        "family": "army05",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army05-cheer.png",
+        "frameWidth": 42,
+        "frameHeight": 54,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8148148148148148
+        }
+      },
+      {
+        "family": "army02",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army02-stand.png",
+        "frameWidth": 38,
+        "frameHeight": 37,
+        "frames": 13,
+        "fps": 12,
+        "durationMs": 1083,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.7567567567567568
+        }
+      },
+      {
+        "family": "army02",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army02-run.png",
+        "frameWidth": 41,
+        "frameHeight": 39,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.4634146341463415,
+          "y": 0.7692307692307693
+        }
+      },
+      {
+        "family": "army02",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army02-attack.png",
+        "frameWidth": 68,
+        "frameHeight": 53,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.4411764705882353,
+          "y": 0.6037735849056604
+        }
+      },
+      {
+        "family": "army02",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army02-injured1.png",
+        "frameWidth": 38,
+        "frameHeight": 37,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.47368421052631576,
+          "y": 0.7567567567567568
+        }
+      },
+      {
+        "family": "army02",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army02-injured2.png",
+        "frameWidth": 38,
+        "frameHeight": 37,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.47368421052631576,
+          "y": 0.7567567567567568
+        }
+      },
+      {
+        "family": "army02",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army02-dead1.png",
+        "frameWidth": 41,
+        "frameHeight": 30,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.5121951219512195,
+          "y": 0.6333333333333333
+        }
+      },
+      {
+        "family": "army02",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army02-dead2.png",
+        "frameWidth": 45,
+        "frameHeight": 19,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.5333333333333333,
+          "y": 0.5263157894736842
+        }
+      },
+      {
+        "family": "army02",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army02-cheer.png",
+        "frameWidth": 36,
+        "frameHeight": 69,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8695652173913043
+        }
+      },
+      {
+        "family": "army03",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army03-stand.png",
+        "frameWidth": 39,
+        "frameHeight": 40,
+        "frames": 13,
+        "fps": 12,
+        "durationMs": 1083,
+        "anchor": {
+          "x": 0.46153846153846156,
+          "y": 0.775
+        }
+      },
+      {
+        "family": "army03",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army03-run.png",
+        "frameWidth": 47,
+        "frameHeight": 42,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.425531914893617,
+          "y": 0.7619047619047619
+        }
+      },
+      {
+        "family": "army03",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army03-attack.png",
+        "frameWidth": 83,
+        "frameHeight": 60,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.46987951807228917,
+          "y": 0.85
+        }
+      },
+      {
+        "family": "army03",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army03-injured1.png",
+        "frameWidth": 37,
+        "frameHeight": 37,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.4594594594594595,
+          "y": 0.7567567567567568
+        }
+      },
+      {
+        "family": "army03",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army03-injured2.png",
+        "frameWidth": 37,
+        "frameHeight": 37,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.4594594594594595,
+          "y": 0.7567567567567568
+        }
+      },
+      {
+        "family": "army03",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army03-dead1.png",
+        "frameWidth": 42,
+        "frameHeight": 29,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.6206896551724138
+        }
+      },
+      {
+        "family": "army03",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army03-dead2.png",
+        "frameWidth": 51,
+        "frameHeight": 28,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.49019607843137253,
+          "y": 0.5714285714285714
+        }
+      },
+      {
+        "family": "army03",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army03-cheer.png",
+        "frameWidth": 37,
+        "frameHeight": 73,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.4864864864864865,
+          "y": 0.8767123287671232
+        }
+      },
+      {
+        "family": "army20",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army20-stand.png",
+        "frameWidth": 39,
+        "frameHeight": 39,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.48717948717948717,
+          "y": 0.7435897435897436
+        }
+      },
+      {
+        "family": "army20",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army20-run.png",
+        "frameWidth": 48,
+        "frameHeight": 40,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.4583333333333333,
+          "y": 0.75
+        }
+      },
+      {
+        "family": "army20",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army20-attack.png",
+        "frameWidth": 46,
+        "frameHeight": 48,
+        "frames": 10,
+        "fps": 24,
+        "durationMs": 417,
+        "anchor": {
+          "x": 0.41304347826086957,
+          "y": 0.7916666666666666
+        }
+      },
+      {
+        "family": "army20",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army20-injured1.png",
+        "frameWidth": 39,
+        "frameHeight": 37,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.48717948717948717,
+          "y": 0.7297297297297297
+        }
+      },
+      {
+        "family": "army20",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army20-injured2.png",
+        "frameWidth": 39,
+        "frameHeight": 37,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.48717948717948717,
+          "y": 0.7297297297297297
+        }
+      },
+      {
+        "family": "army20",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army20-dead1.png",
+        "frameWidth": 55,
+        "frameHeight": 26,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.45454545454545453,
+          "y": 0.5769230769230769
+        }
+      },
+      {
+        "family": "army20",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army20-dead2.png",
+        "frameWidth": 46,
+        "frameHeight": 30,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.5434782608695652,
+          "y": 0.4
+        }
+      },
+      {
+        "family": "army20",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army20-cheer.png",
+        "frameWidth": 39,
+        "frameHeight": 60,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.48717948717948717,
+          "y": 0.8333333333333334
+        }
+      },
+      {
+        "family": "army21",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army21-stand.png",
+        "frameWidth": 43,
+        "frameHeight": 39,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.4418604651162791,
+          "y": 0.7435897435897436
+        }
+      },
+      {
+        "family": "army21",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army21-run.png",
+        "frameWidth": 49,
+        "frameHeight": 39,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.40816326530612246,
+          "y": 0.7435897435897436
+        }
+      },
+      {
+        "family": "army21",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army21-attack.png",
+        "frameWidth": 48,
+        "frameHeight": 51,
+        "frames": 10,
+        "fps": 24,
+        "durationMs": 417,
+        "anchor": {
+          "x": 0.4166666666666667,
+          "y": 0.803921568627451
+        }
+      },
+      {
+        "family": "army21",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army21-injured1.png",
+        "frameWidth": 40,
+        "frameHeight": 38,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.475,
+          "y": 0.7368421052631579
+        }
+      },
+      {
+        "family": "army21",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army21-injured2.png",
+        "frameWidth": 40,
+        "frameHeight": 38,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.475,
+          "y": 0.7368421052631579
+        }
+      },
+      {
+        "family": "army21",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army21-dead1.png",
+        "frameWidth": 53,
+        "frameHeight": 26,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.4339622641509434,
+          "y": 0.5
+        }
+      },
+      {
+        "family": "army21",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army21-dead2.png",
+        "frameWidth": 47,
+        "frameHeight": 30,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.5106382978723404,
+          "y": 0.3
+        }
+      },
+      {
+        "family": "army21",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army21-cheer.png",
+        "frameWidth": 41,
+        "frameHeight": 59,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.4634146341463415,
+          "y": 0.8305084745762712
+        }
+      },
+      {
+        "family": "army22",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army22-stand.png",
+        "frameWidth": 41,
+        "frameHeight": 44,
+        "frames": 16,
+        "fps": 12,
+        "durationMs": 1333,
+        "anchor": {
+          "x": 0.4634146341463415,
+          "y": 0.7954545454545454
+        }
+      },
+      {
+        "family": "army22",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army22-run.png",
+        "frameWidth": 51,
+        "frameHeight": 41,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.37254901960784315,
+          "y": 0.7804878048780488
+        }
+      },
+      {
+        "family": "army22",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army22-attack.png",
+        "frameWidth": 47,
+        "frameHeight": 50,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.425531914893617,
+          "y": 0.82
+        }
+      },
+      {
+        "family": "army22",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army22-injured1.png",
+        "frameWidth": 41,
+        "frameHeight": 38,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.4634146341463415,
+          "y": 0.7631578947368421
+        }
+      },
+      {
+        "family": "army22",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army22-injured2.png",
+        "frameWidth": 41,
+        "frameHeight": 38,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.4634146341463415,
+          "y": 0.7631578947368421
+        }
+      },
+      {
+        "family": "army22",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army22-dead1.png",
+        "frameWidth": 54,
+        "frameHeight": 28,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.4444444444444444,
+          "y": 0.5357142857142857
+        }
+      },
+      {
+        "family": "army22",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army22-dead2.png",
+        "frameWidth": 47,
+        "frameHeight": 28,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.5106382978723404,
+          "y": 0.32142857142857145
+        }
+      },
+      {
+        "family": "army22",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army22-cheer.png",
+        "frameWidth": 40,
+        "frameHeight": 62,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.475,
+          "y": 0.8548387096774194
+        }
+      },
+      {
+        "family": "army23",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army23-stand.png",
+        "frameWidth": 41,
+        "frameHeight": 45,
+        "frames": 16,
+        "fps": 12,
+        "durationMs": 1333,
+        "anchor": {
+          "x": 0.43902439024390244,
+          "y": 0.7777777777777778
+        }
+      },
+      {
+        "family": "army23",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army23-run.png",
+        "frameWidth": 54,
+        "frameHeight": 42,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.37037037037037035,
+          "y": 0.7857142857142857
+        }
+      },
+      {
+        "family": "army23",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army23-attack.png",
+        "frameWidth": 49,
+        "frameHeight": 53,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.3673469387755102,
+          "y": 0.8113207547169812
+        }
+      },
+      {
+        "family": "army23",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army23-injured1.png",
+        "frameWidth": 39,
+        "frameHeight": 39,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.46153846153846156,
+          "y": 0.7435897435897436
+        }
+      },
+      {
+        "family": "army23",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army23-injured2.png",
+        "frameWidth": 39,
+        "frameHeight": 39,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.46153846153846156,
+          "y": 0.7435897435897436
+        }
+      },
+      {
+        "family": "army23",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army23-dead1.png",
+        "frameWidth": 55,
+        "frameHeight": 27,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.45454545454545453,
+          "y": 0.5185185185185185
+        }
+      },
+      {
+        "family": "army23",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army23-dead2.png",
+        "frameWidth": 50,
+        "frameHeight": 30,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.48,
+          "y": 0.4
+        }
+      },
+      {
+        "family": "army23",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army23-cheer.png",
+        "frameWidth": 42,
+        "frameHeight": 61,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.4523809523809524,
+          "y": 0.8360655737704918
+        }
+      },
+      {
+        "family": "army24",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army24-stand.png",
+        "frameWidth": 43,
+        "frameHeight": 45,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.4186046511627907,
+          "y": 0.8
+        }
+      },
+      {
+        "family": "army24",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army24-run.png",
+        "frameWidth": 52,
+        "frameHeight": 44,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.34615384615384615,
+          "y": 0.7954545454545454
+        }
+      },
+      {
+        "family": "army24",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army24-attack.png",
+        "frameWidth": 52,
+        "frameHeight": 56,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.38461538461538464,
+          "y": 0.8214285714285714
+        }
+      },
+      {
+        "family": "army24",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army24-injured1.png",
+        "frameWidth": 41,
+        "frameHeight": 41,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.5121951219512195,
+          "y": 0.7804878048780488
+        }
+      },
+      {
+        "family": "army24",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army24-injured2.png",
+        "frameWidth": 41,
+        "frameHeight": 41,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.5121951219512195,
+          "y": 0.7804878048780488
+        }
+      },
+      {
+        "family": "army24",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army24-dead1.png",
+        "frameWidth": 54,
+        "frameHeight": 30,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.46296296296296297,
+          "y": 0.5333333333333333
+        }
+      },
+      {
+        "family": "army24",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army24-dead2.png",
+        "frameWidth": 51,
+        "frameHeight": 31,
+        "frames": 1,
+        "fps": 24,
+        "durationMs": 42,
+        "anchor": {
+          "x": 0.49019607843137253,
+          "y": 0.3870967741935484
+        }
+      },
+      {
+        "family": "army24",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army24-cheer.png",
+        "frameWidth": 45,
+        "frameHeight": 67,
+        "frames": 11,
+        "fps": 12,
+        "durationMs": 917,
+        "anchor": {
+          "x": 0.4,
+          "y": 0.8656716417910447
+        }
+      },
+      {
+        "family": "army25",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army25-stand.png",
+        "frameWidth": 49,
+        "frameHeight": 50,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.46938775510204084,
+          "y": 0.82
+        }
+      },
+      {
+        "family": "army25",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army25-run.png",
+        "frameWidth": 63,
+        "frameHeight": 45,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.47619047619047616,
+          "y": 0.8
+        }
+      },
+      {
+        "family": "army25",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army25-attack.png",
+        "frameWidth": 49,
+        "frameHeight": 54,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.4489795918367347,
+          "y": 0.8333333333333334
+        }
+      },
+      {
+        "family": "army25",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army25-injured1.png",
+        "frameWidth": 50,
+        "frameHeight": 50,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.46,
+          "y": 0.82
+        }
+      },
+      {
+        "family": "army25",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army25-injured2.png",
+        "frameWidth": 50,
+        "frameHeight": 50,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.46,
+          "y": 0.82
+        }
+      },
+      {
+        "family": "army25",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army25-dead1.png",
+        "frameWidth": 128,
+        "frameHeight": 29,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7372881355932204,
+          "y": 0.6919929865575687
+        }
+      },
+      {
+        "family": "army25",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army25-dead2.png",
+        "frameWidth": 128,
+        "frameHeight": 28,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7372881355932204,
+          "y": 0.7167070217917676
+        }
+      },
+      {
+        "family": "army25",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army25-cheer.png",
+        "frameWidth": 49,
+        "frameHeight": 68,
+        "frames": 11,
+        "fps": 12,
+        "durationMs": 917,
+        "anchor": {
+          "x": 0.4489795918367347,
+          "y": 0.8676470588235294
+        }
+      },
+      {
+        "family": "army10",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army10-stand.png",
+        "frameWidth": 49,
+        "frameHeight": 47,
+        "frames": 13,
+        "fps": 12,
+        "durationMs": 1083,
+        "anchor": {
+          "x": 0.4489795918367347,
+          "y": 0.8085106382978723
+        }
+      },
+      {
+        "family": "army10",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army10-run.png",
+        "frameWidth": 65,
+        "frameHeight": 45,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.4461538461538462,
+          "y": 0.8
+        }
+      },
+      {
+        "family": "army10",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army10-attack.png",
+        "frameWidth": 78,
+        "frameHeight": 50,
+        "frames": 9,
+        "fps": 20,
+        "durationMs": 450,
+        "anchor": {
+          "x": 0.3333333333333333,
+          "y": 0.82
+        }
+      },
+      {
+        "family": "army10",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army10-injured1.png",
+        "frameWidth": 50,
+        "frameHeight": 54,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8333333333333334
+        }
+      },
+      {
+        "family": "army10",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army10-injured2.png",
+        "frameWidth": 50,
+        "frameHeight": 54,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8333333333333334
+        }
+      },
+      {
+        "family": "army10",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army10-dead1.png",
+        "frameWidth": 128,
+        "frameHeight": 33,
+        "frames": 26,
+        "fps": 24,
+        "durationMs": 1083,
+        "anchor": {
+          "x": 0.6271186440677966,
+          "y": 0.7231638418079096
+        }
+      },
+      {
+        "family": "army10",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army10-dead2.png",
+        "frameWidth": 128,
+        "frameHeight": 33,
+        "frames": 26,
+        "fps": 24,
+        "durationMs": 1083,
+        "anchor": {
+          "x": 0.6271186440677966,
+          "y": 0.7231638418079096
+        }
+      },
+      {
+        "family": "army10",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army10-cheer.png",
+        "frameWidth": 48,
+        "frameHeight": 76,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.4583333333333333,
+          "y": 0.881578947368421
+        }
+      },
+      {
+        "family": "army11",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army11-stand.png",
+        "frameWidth": 49,
+        "frameHeight": 47,
+        "frames": 13,
+        "fps": 12,
+        "durationMs": 1083,
+        "anchor": {
+          "x": 0.4489795918367347,
+          "y": 0.8085106382978723
+        }
+      },
+      {
+        "family": "army11",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army11-run.png",
+        "frameWidth": 66,
+        "frameHeight": 46,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.45454545454545453,
+          "y": 0.8043478260869565
+        }
+      },
+      {
+        "family": "army11",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army11-attack.png",
+        "frameWidth": 78,
+        "frameHeight": 49,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.32051282051282054,
+          "y": 0.8163265306122449
+        }
+      },
+      {
+        "family": "army11",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army11-injured1.png",
+        "frameWidth": 49,
+        "frameHeight": 54,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.46938775510204084,
+          "y": 0.8333333333333334
+        }
+      },
+      {
+        "family": "army11",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army11-injured2.png",
+        "frameWidth": 49,
+        "frameHeight": 54,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.46938775510204084,
+          "y": 0.8333333333333334
+        }
+      },
+      {
+        "family": "army11",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army11-dead1.png",
+        "frameWidth": 128,
+        "frameHeight": 28,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.6902654867256637,
+          "y": 0.7079646017699115
+        }
+      },
+      {
+        "family": "army11",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army11-dead2.png",
+        "frameWidth": 128,
+        "frameHeight": 27,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.6902654867256637,
+          "y": 0.7341855129465749
+        }
+      },
+      {
+        "family": "army11",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army11-cheer.png",
+        "frameWidth": 48,
+        "frameHeight": 76,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.4583333333333333,
+          "y": 0.881578947368421
+        }
+      },
+      {
+        "family": "army12",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army12-stand.png",
+        "frameWidth": 53,
+        "frameHeight": 49,
+        "frames": 13,
+        "fps": 12,
+        "durationMs": 1083,
+        "anchor": {
+          "x": 0.5094339622641509,
+          "y": 0.8163265306122449
+        }
+      },
+      {
+        "family": "army12",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army12-run.png",
+        "frameWidth": 63,
+        "frameHeight": 49,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.4444444444444444,
+          "y": 0.8163265306122449
+        }
+      },
+      {
+        "family": "army12",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army12-attack.png",
+        "frameWidth": 84,
+        "frameHeight": 52,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.39285714285714285,
+          "y": 0.8269230769230769
+        }
+      },
+      {
+        "family": "army12",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army12-injured1.png",
+        "frameWidth": 49,
+        "frameHeight": 55,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.5306122448979592,
+          "y": 0.8363636363636363
+        }
+      },
+      {
+        "family": "army12",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army12-injured2.png",
+        "frameWidth": 49,
+        "frameHeight": 55,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.5306122448979592,
+          "y": 0.8363636363636363
+        }
+      },
+      {
+        "family": "army12",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army12-dead1.png",
+        "frameWidth": 128,
+        "frameHeight": 26,
+        "frames": 28,
+        "fps": 24,
+        "durationMs": 1167,
+        "anchor": {
+          "x": 0.7130044843049327,
+          "y": 0.6843739220420834
+        }
+      },
+      {
+        "family": "army12",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army12-dead2.png",
+        "frameWidth": 128,
+        "frameHeight": 28,
+        "frames": 28,
+        "fps": 24,
+        "durationMs": 1167,
+        "anchor": {
+          "x": 0.7130044843049327,
+          "y": 0.6354900704676488
+        }
+      },
+      {
+        "family": "army12",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army12-cheer.png",
+        "frameWidth": 49,
+        "frameHeight": 79,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.46938775510204084,
+          "y": 0.8860759493670886
+        }
+      },
+      {
+        "family": "army13",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army13-stand.png",
+        "frameWidth": 49,
+        "frameHeight": 49,
+        "frames": 17,
+        "fps": 12,
+        "durationMs": 1417,
+        "anchor": {
+          "x": 0.46938775510204084,
+          "y": 0.8367346938775511
+        }
+      },
+      {
+        "family": "army13",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army13-run.png",
+        "frameWidth": 64,
+        "frameHeight": 50,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.453125,
+          "y": 0.82
+        }
+      },
+      {
+        "family": "army13",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army13-attack.png",
+        "frameWidth": 82,
+        "frameHeight": 52,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.3780487804878049,
+          "y": 0.8461538461538461
+        }
+      },
+      {
+        "family": "army13",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army13-injured1.png",
+        "frameWidth": 50,
+        "frameHeight": 54,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.52,
+          "y": 0.8518518518518519
+        }
+      },
+      {
+        "family": "army13",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army13-injured2.png",
+        "frameWidth": 50,
+        "frameHeight": 54,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.52,
+          "y": 0.8518518518518519
+        }
+      },
+      {
+        "family": "army13",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army13-dead1.png",
+        "frameWidth": 128,
+        "frameHeight": 25,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7203389830508474,
+          "y": 0.7159322033898304
+        }
+      },
+      {
+        "family": "army13",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army13-dead2.png",
+        "frameWidth": 128,
+        "frameHeight": 23,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7203389830508474,
+          "y": 0.7781871775976418
+        }
+      },
+      {
+        "family": "army13",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army13-cheer.png",
+        "frameWidth": 48,
+        "frameHeight": 78,
+        "frames": 7,
+        "fps": 12,
+        "durationMs": 583,
+        "anchor": {
+          "x": 0.4791666666666667,
+          "y": 0.8974358974358975
+        }
+      },
+      {
+        "family": "army14",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army14-stand.png",
+        "frameWidth": 54,
+        "frameHeight": 50,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.84
+        }
+      },
+      {
+        "family": "army14",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army14-run.png",
+        "frameWidth": 67,
+        "frameHeight": 48,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.44776119402985076,
+          "y": 0.8333333333333334
+        }
+      },
+      {
+        "family": "army14",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army14-attack.png",
+        "frameWidth": 87,
+        "frameHeight": 51,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.39080459770114945,
+          "y": 0.8431372549019608
+        }
+      },
+      {
+        "family": "army14",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army14-injured1.png",
+        "frameWidth": 52,
+        "frameHeight": 56,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8571428571428571
+        }
+      },
+      {
+        "family": "army14",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army14-injured2.png",
+        "frameWidth": 52,
+        "frameHeight": 56,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8571428571428571
+        }
+      },
+      {
+        "family": "army14",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army14-dead1.png",
+        "frameWidth": 128,
+        "frameHeight": 18,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7865168539325842,
+          "y": 0.7191011235955056
+        }
+      },
+      {
+        "family": "army14",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army14-dead2.png",
+        "frameWidth": 128,
+        "frameHeight": 18,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7865168539325842,
+          "y": 0.7191011235955056
+        }
+      },
+      {
+        "family": "army14",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army14-cheer.png",
+        "frameWidth": 49,
+        "frameHeight": 81,
+        "frames": 11,
+        "fps": 12,
+        "durationMs": 917,
+        "anchor": {
+          "x": 0.46938775510204084,
+          "y": 0.9012345679012346
+        }
+      },
+      {
+        "family": "army15",
+        "state": "stand",
+        "path": "assets/battle-ng/quan/army15-stand.png",
+        "frameWidth": 54,
+        "frameHeight": 50,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.84
+        }
+      },
+      {
+        "family": "army15",
+        "state": "run",
+        "path": "assets/battle-ng/quan/army15-run.png",
+        "frameWidth": 65,
+        "frameHeight": 48,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.46153846153846156,
+          "y": 0.8333333333333334
+        }
+      },
+      {
+        "family": "army15",
+        "state": "attack",
+        "path": "assets/battle-ng/quan/army15-attack.png",
+        "frameWidth": 87,
+        "frameHeight": 52,
+        "frames": 8,
+        "fps": 12,
+        "durationMs": 667,
+        "anchor": {
+          "x": 0.40229885057471265,
+          "y": 0.8461538461538461
+        }
+      },
+      {
+        "family": "army15",
+        "state": "injured1",
+        "path": "assets/battle-ng/quan/army15-injured1.png",
+        "frameWidth": 51,
+        "frameHeight": 55,
+        "frames": 12,
+        "fps": 24,
+        "durationMs": 500,
+        "anchor": {
+          "x": 0.5098039215686274,
+          "y": 0.8545454545454545
+        }
+      },
+      {
+        "family": "army15",
+        "state": "injured2",
+        "path": "assets/battle-ng/quan/army15-injured2.png",
+        "frameWidth": 51,
+        "frameHeight": 55,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.5098039215686274,
+          "y": 0.8545454545454545
+        }
+      },
+      {
+        "family": "army15",
+        "state": "dead1",
+        "path": "assets/battle-ng/quan/army15-dead1.png",
+        "frameWidth": 128,
+        "frameHeight": 18,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.8005865102639296,
+          "y": 0.750733137829912
+        }
+      },
+      {
+        "family": "army15",
+        "state": "dead2",
+        "path": "assets/battle-ng/quan/army15-dead2.png",
+        "frameWidth": 128,
+        "frameHeight": 21,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.8005865102639296,
+          "y": 0.6434855467113532
+        }
+      },
+      {
+        "family": "army15",
+        "state": "cheer",
+        "path": "assets/battle-ng/quan/army15-cheer.png",
+        "frameWidth": 50,
+        "frameHeight": 82,
+        "frames": 11,
+        "fps": 12,
+        "durationMs": 917,
+        "anchor": {
+          "x": 0.48,
+          "y": 0.9024390243902439
+        }
+      },
+      {
+        "family": "hero_01",
+        "state": "stand",
+        "path": "assets/battle-ng/tuong/hero_01-stand.png",
+        "frameWidth": 80,
+        "frameHeight": 70,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.5125,
+          "y": 0.8714285714285714
+        }
+      },
+      {
+        "family": "hero_01",
+        "state": "run",
+        "path": "assets/battle-ng/tuong/hero_01-run.png",
+        "frameWidth": 94,
+        "frameHeight": 70,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.48936170212765956,
+          "y": 0.8714285714285714
+        }
+      },
+      {
+        "family": "hero_01",
+        "state": "attack",
+        "path": "assets/battle-ng/tuong/hero_01-attack.png",
+        "frameWidth": 131,
+        "frameHeight": 73,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.37404580152671757,
+          "y": 0.8767123287671232
+        }
+      },
+      {
+        "family": "hero_01",
+        "state": "dead1",
+        "path": "assets/battle-ng/tuong/hero_01-dead1.png",
+        "frameWidth": 200,
+        "frameHeight": 29,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7249466950959489,
+          "y": 0.7499448569958092
+        }
+      },
+      {
+        "family": "hero_01",
+        "state": "cheer",
+        "path": "assets/battle-ng/tuong/hero_01-cheer.png",
+        "frameWidth": 69,
+        "frameHeight": 117,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.463768115942029,
+          "y": 0.9230769230769231
+        }
+      },
+      {
+        "family": "hero_02",
+        "state": "stand",
+        "path": "assets/battle-ng/tuong/hero_02-stand.png",
+        "frameWidth": 70,
+        "frameHeight": 70,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.45714285714285713,
+          "y": 0.8714285714285714
+        }
+      },
+      {
+        "family": "hero_02",
+        "state": "run",
+        "path": "assets/battle-ng/tuong/hero_02-run.png",
+        "frameWidth": 91,
+        "frameHeight": 70,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.4835164835164835,
+          "y": 0.8714285714285714
+        }
+      },
+      {
+        "family": "hero_02",
+        "state": "attack",
+        "path": "assets/battle-ng/tuong/hero_02-attack.png",
+        "frameWidth": 106,
+        "frameHeight": 72,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.330188679245283,
+          "y": 0.875
+        }
+      },
+      {
+        "family": "hero_02",
+        "state": "dead1",
+        "path": "assets/battle-ng/tuong/hero_02-dead1.png",
+        "frameWidth": 200,
+        "frameHeight": 38,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7309782608695652,
+          "y": 0.7294050343249427
+        }
+      },
+      {
+        "family": "hero_02",
+        "state": "cheer",
+        "path": "assets/battle-ng/tuong/hero_02-cheer.png",
+        "frameWidth": 69,
+        "frameHeight": 110,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.4782608695652174,
+          "y": 0.9181818181818182
+        }
+      },
+      {
+        "family": "hero_03",
+        "state": "stand",
+        "path": "assets/battle-ng/tuong/hero_03-stand.png",
+        "frameWidth": 77,
+        "frameHeight": 70,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.5064935064935064,
+          "y": 0.8714285714285714
+        }
+      },
+      {
+        "family": "hero_03",
+        "state": "run",
+        "path": "assets/battle-ng/tuong/hero_03-run.png",
+        "frameWidth": 91,
+        "frameHeight": 70,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.4945054945054945,
+          "y": 0.8714285714285714
+        }
+      },
+      {
+        "family": "hero_03",
+        "state": "attack",
+        "path": "assets/battle-ng/tuong/hero_03-attack.png",
+        "frameWidth": 128,
+        "frameHeight": 74,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.3828125,
+          "y": 0.8783783783783784
+        }
+      },
+      {
+        "family": "hero_03",
+        "state": "dead1",
+        "path": "assets/battle-ng/tuong/hero_03-dead1.png",
+        "frameWidth": 200,
+        "frameHeight": 33,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.6642335766423357,
+          "y": 0.7520460075204601
+        }
+      },
+      {
+        "family": "hero_03",
+        "state": "cheer",
+        "path": "assets/battle-ng/tuong/hero_03-cheer.png",
+        "frameWidth": 69,
+        "frameHeight": 120,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.463768115942029,
+          "y": 0.925
+        }
+      },
+      {
+        "family": "hero_04",
+        "state": "stand",
+        "path": "assets/battle-ng/tuong/hero_04-stand.png",
+        "frameWidth": 76,
+        "frameHeight": 70,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8714285714285714
+        }
+      },
+      {
+        "family": "hero_04",
+        "state": "run",
+        "path": "assets/battle-ng/tuong/hero_04-run.png",
+        "frameWidth": 94,
+        "frameHeight": 71,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.46808510638297873,
+          "y": 0.8732394366197183
+        }
+      },
+      {
+        "family": "hero_04",
+        "state": "attack",
+        "path": "assets/battle-ng/tuong/hero_04-attack.png",
+        "frameWidth": 128,
+        "frameHeight": 74,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.3984375,
+          "y": 0.8783783783783784
+        }
+      },
+      {
+        "family": "hero_04",
+        "state": "dead1",
+        "path": "assets/battle-ng/tuong/hero_04-dead1.png",
+        "frameWidth": 200,
+        "frameHeight": 34,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.6876574307304786,
+          "y": 0.7556675062972292
+        }
+      },
+      {
+        "family": "hero_04",
+        "state": "cheer",
+        "path": "assets/battle-ng/tuong/hero_04-cheer.png",
+        "frameWidth": 70,
+        "frameHeight": 117,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.4857142857142857,
+          "y": 0.9230769230769231
+        }
+      },
+      {
+        "family": "hero_05",
+        "state": "stand",
+        "path": "assets/battle-ng/tuong/hero_05-stand.png",
+        "frameWidth": 73,
+        "frameHeight": 70,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.4931506849315068,
+          "y": 0.8714285714285714
+        }
+      },
+      {
+        "family": "hero_05",
+        "state": "run",
+        "path": "assets/battle-ng/tuong/hero_05-run.png",
+        "frameWidth": 89,
+        "frameHeight": 67,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.5168539325842697,
+          "y": 0.8656716417910447
+        }
+      },
+      {
+        "family": "hero_05",
+        "state": "attack",
+        "path": "assets/battle-ng/tuong/hero_05-attack.png",
+        "frameWidth": 111,
+        "frameHeight": 71,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.4144144144144144,
+          "y": 0.8732394366197183
+        }
+      },
+      {
+        "family": "hero_05",
+        "state": "dead1",
+        "path": "assets/battle-ng/tuong/hero_05-dead1.png",
+        "frameWidth": 200,
+        "frameHeight": 44,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7319034852546917,
+          "y": 0.6214964660004875
+        }
+      },
+      {
+        "family": "hero_05",
+        "state": "cheer",
+        "path": "assets/battle-ng/tuong/hero_05-cheer.png",
+        "frameWidth": 67,
+        "frameHeight": 110,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.47761194029850745,
+          "y": 0.9181818181818182
+        }
+      },
+      {
+        "family": "hero_06",
+        "state": "stand",
+        "path": "assets/battle-ng/tuong/hero_06-stand.png",
+        "frameWidth": 77,
+        "frameHeight": 72,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.4675324675324675,
+          "y": 0.875
+        }
+      },
+      {
+        "family": "hero_06",
+        "state": "run",
+        "path": "assets/battle-ng/tuong/hero_06-run.png",
+        "frameWidth": 92,
+        "frameHeight": 70,
+        "frames": 9,
+        "fps": 24,
+        "durationMs": 375,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.8428571428571429
+        }
+      },
+      {
+        "family": "hero_06",
+        "state": "attack",
+        "path": "assets/battle-ng/tuong/hero_06-attack.png",
+        "frameWidth": 123,
+        "frameHeight": 73,
+        "frames": 9,
+        "fps": 12,
+        "durationMs": 750,
+        "anchor": {
+          "x": 0.3902439024390244,
+          "y": 0.8767123287671232
+        }
+      },
+      {
+        "family": "hero_06",
+        "state": "dead1",
+        "path": "assets/battle-ng/tuong/hero_06-dead1.png",
+        "frameWidth": 200,
+        "frameHeight": 34,
+        "frames": 27,
+        "fps": 24,
+        "durationMs": 1125,
+        "anchor": {
+          "x": 0.7338709677419354,
+          "y": 0.8064516129032258
+        }
+      },
+      {
+        "family": "hero_06",
+        "state": "cheer",
+        "path": "assets/battle-ng/tuong/hero_06-cheer.png",
+        "frameWidth": 68,
+        "frameHeight": 114,
+        "frames": 10,
+        "fps": 12,
+        "durationMs": 833,
+        "anchor": {
+          "x": 0.5,
+          "y": 0.9210526315789473
+        }
+      }
+    ]
+  },
+  "combatVfxCatalog": {
+    "sourceModule": "/mods/battle-fx-catalog.js",
+    "effectAssets": 337,
+    "shippedInHotUpdate": 35,
+    "webOnly": 302,
+    "totalCatalogFrames": 5269,
+    "records": [
+      {
+        "id": "army863",
+        "path": "assets/battle-fx-all/army863.webp",
+        "width": 242,
+        "height": 230,
+        "frames": 9,
+        "durationMs": 2999,
+        "estimatedKb": 160,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang002",
+        "path": "assets/battle-fx-all/bang002.webp",
+        "width": 512,
+        "height": 471,
+        "frames": 28,
+        "durationMs": 2333,
+        "estimatedKb": 380,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang006",
+        "path": "assets/battle-fx-all/bang006.webp",
+        "width": 512,
+        "height": 369,
+        "frames": 20,
+        "durationMs": 2749,
+        "estimatedKb": 130,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang007",
+        "path": "assets/battle-fx-all/bang007.webp",
+        "width": 512,
+        "height": 426,
+        "frames": 15,
+        "durationMs": 1249,
+        "estimatedKb": 101,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang008",
+        "path": "assets/battle-fx-all/bang008.webp",
+        "width": 408,
+        "height": 512,
+        "frames": 27,
+        "durationMs": 2700,
+        "estimatedKb": 838,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang009",
+        "path": "assets/battle-fx-all/bang009.webp",
+        "width": 512,
+        "height": 512,
+        "frames": 15,
+        "durationMs": 1500,
+        "estimatedKb": 337,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang124",
+        "path": "assets/battle-fx-all/bang124.webp",
+        "width": 512,
+        "height": 235,
+        "frames": 38,
+        "durationMs": 2532,
+        "estimatedKb": 384,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang125",
+        "path": "assets/battle-fx-all/bang125.webp",
+        "width": 512,
+        "height": 153,
+        "frames": 43,
+        "durationMs": 2866,
+        "estimatedKb": 397,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang126",
+        "path": "assets/battle-fx-all/bang126.webp",
+        "width": 437,
+        "height": 512,
+        "frames": 31,
+        "durationMs": 2066,
+        "estimatedKb": 587,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang127",
+        "path": "assets/battle-fx-all/bang127.webp",
+        "width": 359,
+        "height": 494,
+        "frames": 43,
+        "durationMs": 2866,
+        "estimatedKb": 695,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang128",
+        "path": "assets/battle-fx-all/bang128.webp",
+        "width": 512,
+        "height": 290,
+        "frames": 11,
+        "durationMs": 932,
+        "estimatedKb": 148,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang150",
+        "path": "assets/battle-fx-all/bang150.webp",
+        "width": 247,
+        "height": 295,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 227,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang151",
+        "path": "assets/battle-fx-all/bang151.webp",
+        "width": 410,
+        "height": 410,
+        "frames": 14,
+        "durationMs": 1166,
+        "estimatedKb": 213,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang152",
+        "path": "assets/battle-fx-all/bang152.webp",
+        "width": 492,
+        "height": 512,
+        "frames": 10,
+        "durationMs": 1250,
+        "estimatedKb": 80,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang156",
+        "path": "assets/battle-fx-all/bang156.webp",
+        "width": 442,
+        "height": 457,
+        "frames": 20,
+        "durationMs": 2100,
+        "estimatedKb": 249,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang226",
+        "path": "assets/battle-fx-all/bang226.webp",
+        "width": 376,
+        "height": 276,
+        "frames": 13,
+        "durationMs": 1300,
+        "estimatedKb": 128,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang232",
+        "path": "assets/battle-fx-all/bang232.webp",
+        "width": 324,
+        "height": 254,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 235,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang233",
+        "path": "assets/battle-fx-all/bang233.webp",
+        "width": 512,
+        "height": 478,
+        "frames": 20,
+        "durationMs": 2000,
+        "estimatedKb": 276,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang235",
+        "path": "assets/battle-fx/bang235.webp",
+        "width": 362,
+        "height": 432,
+        "frames": 21,
+        "durationMs": 2100,
+        "estimatedKb": 157,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bang236",
+        "path": "assets/battle-fx-all/bang236.webp",
+        "width": 427,
+        "height": 449,
+        "frames": 23,
+        "durationMs": 1532,
+        "estimatedKb": 585,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang238",
+        "path": "assets/battle-fx/bang238.webp",
+        "width": 442,
+        "height": 444,
+        "frames": 21,
+        "durationMs": 1399,
+        "estimatedKb": 445,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bang239",
+        "path": "assets/battle-fx-all/bang239.webp",
+        "width": 415,
+        "height": 512,
+        "frames": 23,
+        "durationMs": 2300,
+        "estimatedKb": 407,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang240",
+        "path": "assets/battle-fx-all/bang240.webp",
+        "width": 462,
+        "height": 382,
+        "frames": 20,
+        "durationMs": 832,
+        "estimatedKb": 396,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang2401",
+        "path": "assets/battle-fx-all/bang2401.webp",
+        "width": 394,
+        "height": 335,
+        "frames": 14,
+        "durationMs": 1166,
+        "estimatedKb": 279,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang242",
+        "path": "assets/battle-fx-all/bang242.webp",
+        "width": 358,
+        "height": 408,
+        "frames": 11,
+        "durationMs": 1666,
+        "estimatedKb": 151,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang2420",
+        "path": "assets/battle-fx-all/bang2420.webp",
+        "width": 512,
+        "height": 324,
+        "frames": 18,
+        "durationMs": 1800,
+        "estimatedKb": 211,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang244",
+        "path": "assets/battle-fx-all/bang244.webp",
+        "width": 512,
+        "height": 438,
+        "frames": 19,
+        "durationMs": 1900,
+        "estimatedKb": 336,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang2442",
+        "path": "assets/battle-fx-all/bang2442.webp",
+        "width": 500,
+        "height": 478,
+        "frames": 17,
+        "durationMs": 1700,
+        "estimatedKb": 126,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang2443",
+        "path": "assets/battle-fx-all/bang2443.webp",
+        "width": 512,
+        "height": 227,
+        "frames": 23,
+        "durationMs": 2300,
+        "estimatedKb": 277,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang2445",
+        "path": "assets/battle-fx-all/bang2445.webp",
+        "width": 446,
+        "height": 485,
+        "frames": 8,
+        "durationMs": 800,
+        "estimatedKb": 188,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang245",
+        "path": "assets/battle-fx-all/bang245.webp",
+        "width": 460,
+        "height": 380,
+        "frames": 18,
+        "durationMs": 1499,
+        "estimatedKb": 103,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang2462",
+        "path": "assets/battle-fx-all/bang2462.webp",
+        "width": 512,
+        "height": 436,
+        "frames": 13,
+        "durationMs": 1625,
+        "estimatedKb": 118,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang247",
+        "path": "assets/battle-fx/bang247.webp",
+        "width": 505,
+        "height": 457,
+        "frames": 26,
+        "durationMs": 2166,
+        "estimatedKb": 461,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bang248",
+        "path": "assets/battle-fx-all/bang248.webp",
+        "width": 512,
+        "height": 350,
+        "frames": 21,
+        "durationMs": 2100,
+        "estimatedKb": 491,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang2543",
+        "path": "assets/battle-fx-all/bang2543.webp",
+        "width": 512,
+        "height": 490,
+        "frames": 14,
+        "durationMs": 1400,
+        "estimatedKb": 101,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang275",
+        "path": "assets/battle-fx-all/bang275.webp",
+        "width": 512,
+        "height": 312,
+        "frames": 19,
+        "durationMs": 1900,
+        "estimatedKb": 338,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang300",
+        "path": "assets/battle-fx-all/bang300.webp",
+        "width": 464,
+        "height": 512,
+        "frames": 11,
+        "durationMs": 1375,
+        "estimatedKb": 183,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang302",
+        "path": "assets/battle-fx-all/bang302.webp",
+        "width": 213,
+        "height": 459,
+        "frames": 18,
+        "durationMs": 2083,
+        "estimatedKb": 309,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang303",
+        "path": "assets/battle-fx-all/bang303.webp",
+        "width": 469,
+        "height": 512,
+        "frames": 24,
+        "durationMs": 1999,
+        "estimatedKb": 552,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang304",
+        "path": "assets/battle-fx-all/bang304.webp",
+        "width": 512,
+        "height": 480,
+        "frames": 28,
+        "durationMs": 3500,
+        "estimatedKb": 512,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang305",
+        "path": "assets/battle-fx-all/bang305.webp",
+        "width": 466,
+        "height": 335,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 379,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang306",
+        "path": "assets/battle-fx-all/bang306.webp",
+        "width": 512,
+        "height": 488,
+        "frames": 13,
+        "durationMs": 1856,
+        "estimatedKb": 365,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang307",
+        "path": "assets/battle-fx-all/bang307.webp",
+        "width": 272,
+        "height": 255,
+        "frames": 18,
+        "durationMs": 2250,
+        "estimatedKb": 237,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang4383",
+        "path": "assets/battle-fx-all/bang4383.webp",
+        "width": 337,
+        "height": 344,
+        "frames": 15,
+        "durationMs": 1500,
+        "estimatedKb": 316,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7011",
+        "path": "assets/battle-fx-all/bang7011.webp",
+        "width": 480,
+        "height": 480,
+        "frames": 16,
+        "durationMs": 1266,
+        "estimatedKb": 271,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang707",
+        "path": "assets/battle-fx-all/bang707.webp",
+        "width": 316,
+        "height": 210,
+        "frames": 16,
+        "durationMs": 2000,
+        "estimatedKb": 120,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7071",
+        "path": "assets/battle-fx-all/bang7071.webp",
+        "width": 448,
+        "height": 428,
+        "frames": 21,
+        "durationMs": 2100,
+        "estimatedKb": 372,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7081",
+        "path": "assets/battle-fx-all/bang7081.webp",
+        "width": 372,
+        "height": 512,
+        "frames": 37,
+        "durationMs": 2466,
+        "estimatedKb": 325,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7091",
+        "path": "assets/battle-fx-all/bang7091.webp",
+        "width": 512,
+        "height": 415,
+        "frames": 13,
+        "durationMs": 1315,
+        "estimatedKb": 165,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7101",
+        "path": "assets/battle-fx-all/bang7101.webp",
+        "width": 307,
+        "height": 512,
+        "frames": 32,
+        "durationMs": 2666,
+        "estimatedKb": 512,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7131",
+        "path": "assets/battle-fx-all/bang7131.webp",
+        "width": 430,
+        "height": 512,
+        "frames": 15,
+        "durationMs": 1900,
+        "estimatedKb": 285,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang713X",
+        "path": "assets/battle-fx-all/bang713X.webp",
+        "width": 512,
+        "height": 473,
+        "frames": 18,
+        "durationMs": 2250,
+        "estimatedKb": 308,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7141",
+        "path": "assets/battle-fx-all/bang7141.webp",
+        "width": 319,
+        "height": 512,
+        "frames": 21,
+        "durationMs": 1749,
+        "estimatedKb": 672,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang714r",
+        "path": "assets/battle-fx-all/bang714r.webp",
+        "width": 512,
+        "height": 469,
+        "frames": 31,
+        "durationMs": 3100,
+        "estimatedKb": 761,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7161",
+        "path": "assets/battle-fx-all/bang7161.webp",
+        "width": 359,
+        "height": 494,
+        "frames": 26,
+        "durationMs": 2166,
+        "estimatedKb": 489,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7171",
+        "path": "assets/battle-fx-all/bang7171.webp",
+        "width": 412,
+        "height": 512,
+        "frames": 40,
+        "durationMs": 3333,
+        "estimatedKb": 1664,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang717r",
+        "path": "assets/battle-fx/bang717r.webp",
+        "width": 510,
+        "height": 512,
+        "frames": 24,
+        "durationMs": 1999,
+        "estimatedKb": 681,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bang7181",
+        "path": "assets/battle-fx-all/bang7181.webp",
+        "width": 355,
+        "height": 433,
+        "frames": 36,
+        "durationMs": 3600,
+        "estimatedKb": 1314,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7211",
+        "path": "assets/battle-fx-all/bang7211.webp",
+        "width": 406,
+        "height": 438,
+        "frames": 37,
+        "durationMs": 3083,
+        "estimatedKb": 971,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7231",
+        "path": "assets/battle-fx-all/bang7231.webp",
+        "width": 483,
+        "height": 512,
+        "frames": 38,
+        "durationMs": 3166,
+        "estimatedKb": 992,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7241",
+        "path": "assets/battle-fx-all/bang7241.webp",
+        "width": 459,
+        "height": 481,
+        "frames": 38,
+        "durationMs": 3166,
+        "estimatedKb": 632,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang724X",
+        "path": "assets/battle-fx-all/bang724X.webp",
+        "width": 512,
+        "height": 192,
+        "frames": 30,
+        "durationMs": 1777,
+        "estimatedKb": 265,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang725r",
+        "path": "assets/battle-fx-all/bang725r.webp",
+        "width": 512,
+        "height": 412,
+        "frames": 24,
+        "durationMs": 1999,
+        "estimatedKb": 549,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang731r",
+        "path": "assets/battle-fx-all/bang731r.webp",
+        "width": 504,
+        "height": 468,
+        "frames": 9,
+        "durationMs": 1284,
+        "estimatedKb": 191,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7491",
+        "path": "assets/battle-fx-all/bang7491.webp",
+        "width": 390,
+        "height": 500,
+        "frames": 17,
+        "durationMs": 1700,
+        "estimatedKb": 309,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7590",
+        "path": "assets/battle-fx-all/bang7590.webp",
+        "width": 304,
+        "height": 401,
+        "frames": 9,
+        "durationMs": 2250,
+        "estimatedKb": 90,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7611",
+        "path": "assets/battle-fx-all/bang7611.webp",
+        "width": 381,
+        "height": 356,
+        "frames": 45,
+        "durationMs": 3749,
+        "estimatedKb": 1699,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7650a",
+        "path": "assets/battle-fx-all/bang7650a.webp",
+        "width": 512,
+        "height": 376,
+        "frames": 13,
+        "durationMs": 1300,
+        "estimatedKb": 385,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang765r",
+        "path": "assets/battle-fx-all/bang765r.webp",
+        "width": 512,
+        "height": 431,
+        "frames": 31,
+        "durationMs": 3100,
+        "estimatedKb": 617,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang778a",
+        "path": "assets/battle-fx-all/bang778a.webp",
+        "width": 512,
+        "height": 275,
+        "frames": 35,
+        "durationMs": 2999,
+        "estimatedKb": 210,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang778r",
+        "path": "assets/battle-fx-all/bang778r.webp",
+        "width": 121,
+        "height": 121,
+        "frames": 26,
+        "durationMs": 2166,
+        "estimatedKb": 59,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang7800a",
+        "path": "assets/battle-fx-all/bang7800a.webp",
+        "width": 512,
+        "height": 488,
+        "frames": 8,
+        "durationMs": 1300,
+        "estimatedKb": 141,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang785",
+        "path": "assets/battle-fx-all/bang785.webp",
+        "width": 446,
+        "height": 512,
+        "frames": 34,
+        "durationMs": 3400,
+        "estimatedKb": 441,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang786a",
+        "path": "assets/battle-fx-all/bang786a.webp",
+        "width": 201,
+        "height": 207,
+        "frames": 13,
+        "durationMs": 1300,
+        "estimatedKb": 144,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang789",
+        "path": "assets/battle-fx-all/bang789.webp",
+        "width": 378,
+        "height": 232,
+        "frames": 11,
+        "durationMs": 1375,
+        "estimatedKb": 210,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang793",
+        "path": "assets/battle-fx-all/bang793.webp",
+        "width": 340,
+        "height": 350,
+        "frames": 10,
+        "durationMs": 833,
+        "estimatedKb": 66,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang794",
+        "path": "assets/battle-fx/bang794.webp",
+        "width": 512,
+        "height": 394,
+        "frames": 13,
+        "durationMs": 1800,
+        "estimatedKb": 121,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bang797",
+        "path": "assets/battle-fx-all/bang797.webp",
+        "width": 512,
+        "height": 361,
+        "frames": 28,
+        "durationMs": 2800,
+        "estimatedKb": 491,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang798",
+        "path": "assets/battle-fx-all/bang798.webp",
+        "width": 512,
+        "height": 338,
+        "frames": 11,
+        "durationMs": 1900,
+        "estimatedKb": 142,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang798a",
+        "path": "assets/battle-fx-all/bang798a.webp",
+        "width": 352,
+        "height": 352,
+        "frames": 21,
+        "durationMs": 2625,
+        "estimatedKb": 294,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang826",
+        "path": "assets/battle-fx-all/bang826.webp",
+        "width": 512,
+        "height": 399,
+        "frames": 25,
+        "durationMs": 2083,
+        "estimatedKb": 151,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang827",
+        "path": "assets/battle-fx-all/bang827.webp",
+        "width": 375,
+        "height": 512,
+        "frames": 8,
+        "durationMs": 666,
+        "estimatedKb": 166,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang861",
+        "path": "assets/battle-fx-all/bang861.webp",
+        "width": 334,
+        "height": 512,
+        "frames": 16,
+        "durationMs": 2000,
+        "estimatedKb": 420,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang862",
+        "path": "assets/battle-fx-all/bang862.webp",
+        "width": 512,
+        "height": 203,
+        "frames": 28,
+        "durationMs": 2333,
+        "estimatedKb": 368,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang863",
+        "path": "assets/battle-fx-all/bang863.webp",
+        "width": 512,
+        "height": 406,
+        "frames": 17,
+        "durationMs": 1416,
+        "estimatedKb": 622,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang865",
+        "path": "assets/battle-fx-all/bang865.webp",
+        "width": 321,
+        "height": 512,
+        "frames": 19,
+        "durationMs": 2166,
+        "estimatedKb": 336,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang960",
+        "path": "assets/battle-fx-all/bang960.webp",
+        "width": 512,
+        "height": 408,
+        "frames": 13,
+        "durationMs": 2083,
+        "estimatedKb": 298,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang961",
+        "path": "assets/battle-fx-all/bang961.webp",
+        "width": 500,
+        "height": 476,
+        "frames": 16,
+        "durationMs": 2583,
+        "estimatedKb": 194,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang961_",
+        "path": "assets/battle-fx-all/bang961_.webp",
+        "width": 456,
+        "height": 415,
+        "frames": 21,
+        "durationMs": 1749,
+        "estimatedKb": 352,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang970",
+        "path": "assets/battle-fx-all/bang970.webp",
+        "width": 512,
+        "height": 471,
+        "frames": 31,
+        "durationMs": 3249,
+        "estimatedKb": 470,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bang971",
+        "path": "assets/battle-fx-all/bang971.webp",
+        "width": 460,
+        "height": 448,
+        "frames": 14,
+        "durationMs": 1400,
+        "estimatedKb": 231,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangG101",
+        "path": "assets/battle-fx-all/bangG101.webp",
+        "width": 512,
+        "height": 327,
+        "frames": 23,
+        "durationMs": 1916,
+        "estimatedKb": 174,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangG102",
+        "path": "assets/battle-fx-all/bangG102.webp",
+        "width": 492,
+        "height": 512,
+        "frames": 21,
+        "durationMs": 2100,
+        "estimatedKb": 469,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangG104",
+        "path": "assets/battle-fx-all/bangG104.webp",
+        "width": 477,
+        "height": 379,
+        "frames": 22,
+        "durationMs": 2300,
+        "estimatedKb": 354,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangG200",
+        "path": "assets/battle-fx-all/bangG200.webp",
+        "width": 512,
+        "height": 262,
+        "frames": 16,
+        "durationMs": 1333,
+        "estimatedKb": 220,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangG202",
+        "path": "assets/battle-fx-all/bangG202.webp",
+        "width": 483,
+        "height": 512,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 1451,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangG302",
+        "path": "assets/battle-fx-all/bangG302.webp",
+        "width": 212,
+        "height": 274,
+        "frames": 16,
+        "durationMs": 1600,
+        "estimatedKb": 163,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangG303",
+        "path": "assets/battle-fx-all/bangG303.webp",
+        "width": 248,
+        "height": 512,
+        "frames": 17,
+        "durationMs": 1749,
+        "estimatedKb": 395,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangG303_1",
+        "path": "assets/battle-fx-all/bangG303_1.webp",
+        "width": 512,
+        "height": 463,
+        "frames": 14,
+        "durationMs": 1166,
+        "estimatedKb": 210,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangH00",
+        "path": "assets/battle-fx-all/bangH00.webp",
+        "width": 316,
+        "height": 276,
+        "frames": 11,
+        "durationMs": 916,
+        "estimatedKb": 153,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangH01",
+        "path": "assets/battle-fx-all/bangH01.webp",
+        "width": 379,
+        "height": 356,
+        "frames": 23,
+        "durationMs": 3284,
+        "estimatedKb": 176,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangH02",
+        "path": "assets/battle-fx-all/bangH02.webp",
+        "width": 408,
+        "height": 391,
+        "frames": 28,
+        "durationMs": 2333,
+        "estimatedKb": 493,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangH10",
+        "path": "assets/battle-fx-all/bangH10.webp",
+        "width": 512,
+        "height": 382,
+        "frames": 9,
+        "durationMs": 749,
+        "estimatedKb": 105,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangH11",
+        "path": "assets/battle-fx-all/bangH11.webp",
+        "width": 251,
+        "height": 187,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 193,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangH12",
+        "path": "assets/battle-fx/bangH12.webp",
+        "width": 512,
+        "height": 473,
+        "frames": 24,
+        "durationMs": 1999,
+        "estimatedKb": 223,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bangS000",
+        "path": "assets/battle-fx-all/bangS000.webp",
+        "width": 343,
+        "height": 343,
+        "frames": 10,
+        "durationMs": 833,
+        "estimatedKb": 154,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS001",
+        "path": "assets/battle-fx-all/bangS001.webp",
+        "width": 441,
+        "height": 334,
+        "frames": 8,
+        "durationMs": 1000,
+        "estimatedKb": 111,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS003",
+        "path": "assets/battle-fx/bangS003.webp",
+        "width": 408,
+        "height": 459,
+        "frames": 14,
+        "durationMs": 1166,
+        "estimatedKb": 349,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bangS008",
+        "path": "assets/battle-fx-all/bangS008.webp",
+        "width": 377,
+        "height": 278,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 389,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS009",
+        "path": "assets/battle-fx-all/bangS009.webp",
+        "width": 512,
+        "height": 275,
+        "frames": 11,
+        "durationMs": 1749,
+        "estimatedKb": 209,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS010",
+        "path": "assets/battle-fx-all/bangS010.webp",
+        "width": 247,
+        "height": 239,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 161,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS102",
+        "path": "assets/battle-fx-all/bangS102.webp",
+        "width": 326,
+        "height": 427,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 207,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS103",
+        "path": "assets/battle-fx-all/bangS103.webp",
+        "width": 451,
+        "height": 350,
+        "frames": 25,
+        "durationMs": 2083,
+        "estimatedKb": 346,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS104",
+        "path": "assets/battle-fx-all/bangS104.webp",
+        "width": 495,
+        "height": 481,
+        "frames": 11,
+        "durationMs": 916,
+        "estimatedKb": 247,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS106",
+        "path": "assets/battle-fx-all/bangS106.webp",
+        "width": 330,
+        "height": 337,
+        "frames": 20,
+        "durationMs": 1666,
+        "estimatedKb": 320,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS200",
+        "path": "assets/battle-fx-all/bangS200.webp",
+        "width": 419,
+        "height": 512,
+        "frames": 15,
+        "durationMs": 1249,
+        "estimatedKb": 320,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS205",
+        "path": "assets/battle-fx-all/bangS205.webp",
+        "width": 274,
+        "height": 512,
+        "frames": 9,
+        "durationMs": 1125,
+        "estimatedKb": 121,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS206",
+        "path": "assets/battle-fx/bangS206.webp",
+        "width": 321,
+        "height": 512,
+        "frames": 16,
+        "durationMs": 1333,
+        "estimatedKb": 610,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bangS209",
+        "path": "assets/battle-fx-all/bangS209.webp",
+        "width": 331,
+        "height": 200,
+        "frames": 13,
+        "durationMs": 1083,
+        "estimatedKb": 175,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangS210",
+        "path": "assets/battle-fx-all/bangS210.webp",
+        "width": 447,
+        "height": 399,
+        "frames": 6,
+        "durationMs": 750,
+        "estimatedKb": 215,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeA",
+        "path": "assets/battle-fx-all/bangTypeA.webp",
+        "width": 351,
+        "height": 446,
+        "frames": 18,
+        "durationMs": 1499,
+        "estimatedKb": 60,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeA1",
+        "path": "assets/battle-fx-all/bangTypeA1.webp",
+        "width": 512,
+        "height": 303,
+        "frames": 30,
+        "durationMs": 3000,
+        "estimatedKb": 224,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeB",
+        "path": "assets/battle-fx-all/bangTypeB.webp",
+        "width": 506,
+        "height": 286,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 278,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeC",
+        "path": "assets/battle-fx-all/bangTypeC.webp",
+        "width": 250,
+        "height": 164,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 51,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeC1",
+        "path": "assets/battle-fx-all/bangTypeC1.webp",
+        "width": 368,
+        "height": 402,
+        "frames": 18,
+        "durationMs": 1800,
+        "estimatedKb": 367,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeD",
+        "path": "assets/battle-fx-all/bangTypeD.webp",
+        "width": 512,
+        "height": 445,
+        "frames": 10,
+        "durationMs": 833,
+        "estimatedKb": 148,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeD1",
+        "path": "assets/battle-fx-all/bangTypeD1.webp",
+        "width": 512,
+        "height": 197,
+        "frames": 23,
+        "durationMs": 2300,
+        "estimatedKb": 126,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeE",
+        "path": "assets/battle-fx-all/bangTypeE.webp",
+        "width": 512,
+        "height": 282,
+        "frames": 31,
+        "durationMs": 1291,
+        "estimatedKb": 317,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeE1",
+        "path": "assets/battle-fx-all/bangTypeE1.webp",
+        "width": 510,
+        "height": 512,
+        "frames": 26,
+        "durationMs": 3400,
+        "estimatedKb": 185,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeF",
+        "path": "assets/battle-fx-all/bangTypeF.webp",
+        "width": 512,
+        "height": 185,
+        "frames": 29,
+        "durationMs": 2416,
+        "estimatedKb": 496,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeF1",
+        "path": "assets/battle-fx-all/bangTypeF1.webp",
+        "width": 512,
+        "height": 483,
+        "frames": 19,
+        "durationMs": 1900,
+        "estimatedKb": 272,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeG",
+        "path": "assets/battle-fx-all/bangTypeG.webp",
+        "width": 400,
+        "height": 353,
+        "frames": 19,
+        "durationMs": 1916,
+        "estimatedKb": 225,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeH",
+        "path": "assets/battle-fx-all/bangTypeH.webp",
+        "width": 362,
+        "height": 498,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 122,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeH_",
+        "path": "assets/battle-fx-all/bangTypeH_.webp",
+        "width": 425,
+        "height": 334,
+        "frames": 6,
+        "durationMs": 999,
+        "estimatedKb": 79,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeI",
+        "path": "assets/battle-fx-all/bangTypeI.webp",
+        "width": 346,
+        "height": 456,
+        "frames": 14,
+        "durationMs": 1166,
+        "estimatedKb": 214,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bangTypeK1",
+        "path": "assets/battle-fx-all/bangTypeK1.webp",
+        "width": 241,
+        "height": 512,
+        "frames": 30,
+        "durationMs": 4200,
+        "estimatedKb": 195,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "buff216",
+        "path": "assets/battle-fx-all/buff216.webp",
+        "width": 66,
+        "height": 58,
+        "frames": 13,
+        "durationMs": 1083,
+        "estimatedKb": 22,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "buff217",
+        "path": "assets/battle-fx-all/buff217.webp",
+        "width": 42,
+        "height": 46,
+        "frames": 8,
+        "durationMs": 800,
+        "estimatedKb": 8,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "buff230",
+        "path": "assets/battle-fx-all/buff230.webp",
+        "width": 54,
+        "height": 54,
+        "frames": 10,
+        "durationMs": 1000,
+        "estimatedKb": 13,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "buff232",
+        "path": "assets/battle-fx-all/buff232.webp",
+        "width": 32,
+        "height": 64,
+        "frames": 8,
+        "durationMs": 800,
+        "estimatedKb": 8,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "buff239",
+        "path": "assets/battle-fx-all/buff239.webp",
+        "width": 48,
+        "height": 43,
+        "frames": 11,
+        "durationMs": 916,
+        "estimatedKb": 13,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "buff246",
+        "path": "assets/battle-fx-all/buff246.webp",
+        "width": 74,
+        "height": 134,
+        "frames": 7,
+        "durationMs": 350,
+        "estimatedKb": 11,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "buff781r",
+        "path": "assets/battle-fx-all/buff781r.webp",
+        "width": 62,
+        "height": 64,
+        "frames": 31,
+        "durationMs": 1291,
+        "estimatedKb": 69,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "buff971",
+        "path": "assets/battle-fx/buff971.webp",
+        "width": 34,
+        "height": 38,
+        "frames": 11,
+        "durationMs": 916,
+        "estimatedKb": 11,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "buffS002",
+        "path": "assets/battle-fx-all/buffS002.webp",
+        "width": 34,
+        "height": 36,
+        "frames": 7,
+        "durationMs": 2000,
+        "estimatedKb": 7,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet102",
+        "path": "assets/battle-fx/bullet102.webp",
+        "width": 25,
+        "height": 7,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 0,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bullet103",
+        "path": "assets/battle-fx/bullet103.webp",
+        "width": 15,
+        "height": 31,
+        "frames": 10,
+        "durationMs": 416,
+        "estimatedKb": 5,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bullet113",
+        "path": "assets/battle-fx-all/bullet113.webp",
+        "width": 54,
+        "height": 33,
+        "frames": 7,
+        "durationMs": 291,
+        "estimatedKb": 10,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet122",
+        "path": "assets/battle-fx-all/bullet122.webp",
+        "width": 28,
+        "height": 11,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 0,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet123",
+        "path": "assets/battle-fx-all/bullet123.webp",
+        "width": 90,
+        "height": 56,
+        "frames": 4,
+        "durationMs": 166,
+        "estimatedKb": 9,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet220",
+        "path": "assets/battle-fx-all/bullet220.webp",
+        "width": 111,
+        "height": 37,
+        "frames": 8,
+        "durationMs": 332,
+        "estimatedKb": 11,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet223",
+        "path": "assets/battle-fx-all/bullet223.webp",
+        "width": 111,
+        "height": 37,
+        "frames": 8,
+        "durationMs": 332,
+        "estimatedKb": 12,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet224",
+        "path": "assets/battle-fx-all/bullet224.webp",
+        "width": 130,
+        "height": 46,
+        "frames": 5,
+        "durationMs": 500,
+        "estimatedKb": 11,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet300",
+        "path": "assets/battle-fx-all/bullet300.webp",
+        "width": 96,
+        "height": 44,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 2,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet301",
+        "path": "assets/battle-fx-all/bullet301.webp",
+        "width": 136,
+        "height": 17,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 2,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet302",
+        "path": "assets/battle-fx-all/bullet302.webp",
+        "width": 76,
+        "height": 52,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 20,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet303",
+        "path": "assets/battle-fx-all/bullet303.webp",
+        "width": 102,
+        "height": 66,
+        "frames": 9,
+        "durationMs": 749,
+        "estimatedKb": 34,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet304",
+        "path": "assets/battle-fx-all/bullet304.webp",
+        "width": 106,
+        "height": 64,
+        "frames": 6,
+        "durationMs": 499,
+        "estimatedKb": 31,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet305",
+        "path": "assets/battle-fx-all/bullet305.webp",
+        "width": 54,
+        "height": 78,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 19,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet307",
+        "path": "assets/battle-fx-all/bullet307.webp",
+        "width": 144,
+        "height": 87,
+        "frames": 41,
+        "durationMs": 3416,
+        "estimatedKb": 118,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet3203",
+        "path": "assets/battle-fx-all/bullet3203.webp",
+        "width": 38,
+        "height": 46,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 1,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet3210",
+        "path": "assets/battle-fx-all/bullet3210.webp",
+        "width": 60,
+        "height": 40,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 1,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet3211",
+        "path": "assets/battle-fx-all/bullet3211.webp",
+        "width": 28,
+        "height": 14,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 1,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet3212",
+        "path": "assets/battle-fx-all/bullet3212.webp",
+        "width": 50,
+        "height": 46,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 1,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet707",
+        "path": "assets/battle-fx-all/bullet707.webp",
+        "width": 454,
+        "height": 232,
+        "frames": 6,
+        "durationMs": 499,
+        "estimatedKb": 143,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet7650a",
+        "path": "assets/battle-fx-all/bullet7650a.webp",
+        "width": 512,
+        "height": 321,
+        "frames": 3,
+        "durationMs": 300,
+        "estimatedKb": 104,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet782",
+        "path": "assets/battle-fx/bullet782.webp",
+        "width": 222,
+        "height": 84,
+        "frames": 3,
+        "durationMs": 249,
+        "estimatedKb": 20,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "bullet826",
+        "path": "assets/battle-fx-all/bullet826.webp",
+        "width": 222,
+        "height": 84,
+        "frames": 3,
+        "durationMs": 249,
+        "estimatedKb": 18,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "bullet827",
+        "path": "assets/battle-fx-all/bullet827.webp",
+        "width": 160,
+        "height": 286,
+        "frames": 4,
+        "durationMs": 333,
+        "estimatedKb": 36,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "effTower0",
+        "path": "assets/battle-fx-all/effTower0.webp",
+        "width": 331,
+        "height": 484,
+        "frames": 17,
+        "durationMs": 850,
+        "estimatedKb": 19,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "effTower1",
+        "path": "assets/battle-fx-all/effTower1.webp",
+        "width": 395,
+        "height": 418,
+        "frames": 27,
+        "durationMs": 1124,
+        "estimatedKb": 147,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "equipH000",
+        "path": "assets/battle-fx-all/equipH000.webp",
+        "width": 72,
+        "height": 481,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 74,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire004",
+        "path": "assets/battle-fx-all/fire004.webp",
+        "width": 58,
+        "height": 96,
+        "frames": 12,
+        "durationMs": 1200,
+        "estimatedKb": 16,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire035",
+        "path": "assets/battle-fx/fire035.webp",
+        "width": 126,
+        "height": 166,
+        "frames": 11,
+        "durationMs": 1100,
+        "estimatedKb": 12,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "fire203",
+        "path": "assets/battle-fx-all/fire203.webp",
+        "width": 60,
+        "height": 60,
+        "frames": 5,
+        "durationMs": 500,
+        "estimatedKb": 6,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire205",
+        "path": "assets/battle-fx-all/fire205.webp",
+        "width": 50,
+        "height": 68,
+        "frames": 14,
+        "durationMs": 582,
+        "estimatedKb": 27,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire206",
+        "path": "assets/battle-fx-all/fire206.webp",
+        "width": 50,
+        "height": 68,
+        "frames": 14,
+        "durationMs": 582,
+        "estimatedKb": 30,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire207",
+        "path": "assets/battle-fx-all/fire207.webp",
+        "width": 97,
+        "height": 110,
+        "frames": 9,
+        "durationMs": 374,
+        "estimatedKb": 22,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire2106",
+        "path": "assets/battle-fx-all/fire2106.webp",
+        "width": 92,
+        "height": 100,
+        "frames": 10,
+        "durationMs": 1000,
+        "estimatedKb": 18,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire211",
+        "path": "assets/battle-fx-all/fire211.webp",
+        "width": 50,
+        "height": 68,
+        "frames": 14,
+        "durationMs": 582,
+        "estimatedKb": 27,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire217",
+        "path": "assets/battle-fx-all/fire217.webp",
+        "width": 46,
+        "height": 66,
+        "frames": 10,
+        "durationMs": 416,
+        "estimatedKb": 16,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire219",
+        "path": "assets/battle-fx-all/fire219.webp",
+        "width": 108,
+        "height": 94,
+        "frames": 15,
+        "durationMs": 1249,
+        "estimatedKb": 42,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire223",
+        "path": "assets/battle-fx-all/fire223.webp",
+        "width": 72,
+        "height": 72,
+        "frames": 16,
+        "durationMs": 666,
+        "estimatedKb": 21,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire224",
+        "path": "assets/battle-fx-all/fire224.webp",
+        "width": 50,
+        "height": 72,
+        "frames": 8,
+        "durationMs": 800,
+        "estimatedKb": 11,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire225",
+        "path": "assets/battle-fx/fire225.webp",
+        "width": 154,
+        "height": 130,
+        "frames": 8,
+        "durationMs": 443,
+        "estimatedKb": 44,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "fire241",
+        "path": "assets/battle-fx-all/fire241.webp",
+        "width": 386,
+        "height": 512,
+        "frames": 10,
+        "durationMs": 833,
+        "estimatedKb": 119,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire260",
+        "path": "assets/battle-fx-all/fire260.webp",
+        "width": 56,
+        "height": 90,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 16,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire261",
+        "path": "assets/battle-fx-all/fire261.webp",
+        "width": 50,
+        "height": 60,
+        "frames": 8,
+        "durationMs": 666,
+        "estimatedKb": 19,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire270",
+        "path": "assets/battle-fx-all/fire270.webp",
+        "width": 60,
+        "height": 60,
+        "frames": 12,
+        "durationMs": 499,
+        "estimatedKb": 36,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire272",
+        "path": "assets/battle-fx/fire272.webp",
+        "width": 78,
+        "height": 70,
+        "frames": 6,
+        "durationMs": 856,
+        "estimatedKb": 11,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "fire273",
+        "path": "assets/battle-fx-all/fire273.webp",
+        "width": 512,
+        "height": 512,
+        "frames": 19,
+        "durationMs": 1583,
+        "estimatedKb": 302,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire290",
+        "path": "assets/battle-fx-all/fire290.webp",
+        "width": 46,
+        "height": 66,
+        "frames": 10,
+        "durationMs": 416,
+        "estimatedKb": 17,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire291",
+        "path": "assets/battle-fx-all/fire291.webp",
+        "width": 50,
+        "height": 68,
+        "frames": 14,
+        "durationMs": 582,
+        "estimatedKb": 30,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire292",
+        "path": "assets/battle-fx/fire292.webp",
+        "width": 50,
+        "height": 68,
+        "frames": 14,
+        "durationMs": 582,
+        "estimatedKb": 30,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "fire300",
+        "path": "assets/battle-fx-all/fire300.webp",
+        "width": 164,
+        "height": 242,
+        "frames": 36,
+        "durationMs": 2999,
+        "estimatedKb": 360,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire301",
+        "path": "assets/battle-fx-all/fire301.webp",
+        "width": 186,
+        "height": 194,
+        "frames": 32,
+        "durationMs": 2666,
+        "estimatedKb": 334,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire302",
+        "path": "assets/battle-fx-all/fire302.webp",
+        "width": 305,
+        "height": 284,
+        "frames": 28,
+        "durationMs": 2333,
+        "estimatedKb": 519,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire303",
+        "path": "assets/battle-fx-all/fire303.webp",
+        "width": 155,
+        "height": 399,
+        "frames": 29,
+        "durationMs": 2416,
+        "estimatedKb": 321,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire304",
+        "path": "assets/battle-fx-all/fire304.webp",
+        "width": 176,
+        "height": 321,
+        "frames": 29,
+        "durationMs": 2066,
+        "estimatedKb": 515,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire305",
+        "path": "assets/battle-fx-all/fire305.webp",
+        "width": 91,
+        "height": 369,
+        "frames": 15,
+        "durationMs": 1866,
+        "estimatedKb": 143,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire306",
+        "path": "assets/battle-fx-all/fire306.webp",
+        "width": 488,
+        "height": 512,
+        "frames": 26,
+        "durationMs": 3083,
+        "estimatedKb": 390,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire307",
+        "path": "assets/battle-fx-all/fire307.webp",
+        "width": 89,
+        "height": 76,
+        "frames": 12,
+        "durationMs": 1749,
+        "estimatedKb": 41,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire308",
+        "path": "assets/battle-fx-all/fire308.webp",
+        "width": 369,
+        "height": 160,
+        "frames": 27,
+        "durationMs": 1400,
+        "estimatedKb": 154,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire309",
+        "path": "assets/battle-fx-all/fire309.webp",
+        "width": 369,
+        "height": 160,
+        "frames": 28,
+        "durationMs": 1450,
+        "estimatedKb": 150,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire310",
+        "path": "assets/battle-fx-all/fire310.webp",
+        "width": 369,
+        "height": 56,
+        "frames": 24,
+        "durationMs": 2083,
+        "estimatedKb": 88,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire311",
+        "path": "assets/battle-fx-all/fire311.webp",
+        "width": 110,
+        "height": 110,
+        "frames": 6,
+        "durationMs": 750,
+        "estimatedKb": 13,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire313",
+        "path": "assets/battle-fx-all/fire313.webp",
+        "width": 242,
+        "height": 142,
+        "frames": 26,
+        "durationMs": 2166,
+        "estimatedKb": 117,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire313f",
+        "path": "assets/battle-fx/fire313f.webp",
+        "width": 270,
+        "height": 231,
+        "frames": 11,
+        "durationMs": 1416,
+        "estimatedKb": 88,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "fire314",
+        "path": "assets/battle-fx-all/fire314.webp",
+        "width": 242,
+        "height": 142,
+        "frames": 26,
+        "durationMs": 2166,
+        "estimatedKb": 108,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire314f",
+        "path": "assets/battle-fx-all/fire314f.webp",
+        "width": 270,
+        "height": 231,
+        "frames": 11,
+        "durationMs": 1416,
+        "estimatedKb": 89,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire315",
+        "path": "assets/battle-fx-all/fire315.webp",
+        "width": 234,
+        "height": 206,
+        "frames": 27,
+        "durationMs": 2249,
+        "estimatedKb": 208,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire707",
+        "path": "assets/battle-fx-all/fire707.webp",
+        "width": 199,
+        "height": 186,
+        "frames": 19,
+        "durationMs": 1583,
+        "estimatedKb": 156,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire7650a",
+        "path": "assets/battle-fx-all/fire7650a.webp",
+        "width": 198,
+        "height": 222,
+        "frames": 9,
+        "durationMs": 1000,
+        "estimatedKb": 43,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire789",
+        "path": "assets/battle-fx-all/fire789.webp",
+        "width": 198,
+        "height": 202,
+        "frames": 15,
+        "durationMs": 1249,
+        "estimatedKb": 71,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire861",
+        "path": "assets/battle-fx-all/fire861.webp",
+        "width": 503,
+        "height": 315,
+        "frames": 20,
+        "durationMs": 1833,
+        "estimatedKb": 86,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "fire863",
+        "path": "assets/battle-fx-all/fire863.webp",
+        "width": 512,
+        "height": 157,
+        "frames": 15,
+        "durationMs": 1249,
+        "estimatedKb": 103,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit007",
+        "path": "assets/battle-fx-all/hit007.webp",
+        "width": 90,
+        "height": 96,
+        "frames": 13,
+        "durationMs": 1583,
+        "estimatedKb": 34,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit100",
+        "path": "assets/battle-fx/hit100.webp",
+        "width": 100,
+        "height": 73,
+        "frames": 7,
+        "durationMs": 410,
+        "estimatedKb": 11,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "hit101",
+        "path": "assets/battle-fx/hit101.webp",
+        "width": 78,
+        "height": 57,
+        "frames": 5,
+        "durationMs": 332,
+        "estimatedKb": 10,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "hit102",
+        "path": "assets/battle-fx/hit102.webp",
+        "width": 74,
+        "height": 100,
+        "frames": 3,
+        "durationMs": 229,
+        "estimatedKb": 8,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "hit103",
+        "path": "assets/battle-fx/hit103.webp",
+        "width": 79,
+        "height": 81,
+        "frames": 6,
+        "durationMs": 399,
+        "estimatedKb": 13,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "hit122",
+        "path": "assets/battle-fx-all/hit122.webp",
+        "width": 158,
+        "height": 141,
+        "frames": 10,
+        "durationMs": 555,
+        "estimatedKb": 40,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit123",
+        "path": "assets/battle-fx-all/hit123.webp",
+        "width": 106,
+        "height": 108,
+        "frames": 14,
+        "durationMs": 777,
+        "estimatedKb": 59,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit203",
+        "path": "assets/battle-fx-all/hit203.webp",
+        "width": 74,
+        "height": 56,
+        "frames": 4,
+        "durationMs": 333,
+        "estimatedKb": 6,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit204",
+        "path": "assets/battle-fx-all/hit204.webp",
+        "width": 68,
+        "height": 68,
+        "frames": 3,
+        "durationMs": 249,
+        "estimatedKb": 7,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit205",
+        "path": "assets/battle-fx-all/hit205.webp",
+        "width": 74,
+        "height": 56,
+        "frames": 4,
+        "durationMs": 333,
+        "estimatedKb": 6,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit206",
+        "path": "assets/battle-fx-all/hit206.webp",
+        "width": 50,
+        "height": 50,
+        "frames": 9,
+        "durationMs": 374,
+        "estimatedKb": 14,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit207",
+        "path": "assets/battle-fx-all/hit207.webp",
+        "width": 91,
+        "height": 103,
+        "frames": 6,
+        "durationMs": 499,
+        "estimatedKb": 16,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit209",
+        "path": "assets/battle-fx-all/hit209.webp",
+        "width": 72,
+        "height": 48,
+        "frames": 8,
+        "durationMs": 443,
+        "estimatedKb": 7,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit210",
+        "path": "assets/battle-fx-all/hit210.webp",
+        "width": 72,
+        "height": 48,
+        "frames": 8,
+        "durationMs": 332,
+        "estimatedKb": 7,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit216",
+        "path": "assets/battle-fx-all/hit216.webp",
+        "width": 114,
+        "height": 80,
+        "frames": 8,
+        "durationMs": 666,
+        "estimatedKb": 35,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit218",
+        "path": "assets/battle-fx-all/hit218.webp",
+        "width": 105,
+        "height": 104,
+        "frames": 4,
+        "durationMs": 333,
+        "estimatedKb": 22,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit224",
+        "path": "assets/battle-fx-all/hit224.webp",
+        "width": 92,
+        "height": 66,
+        "frames": 13,
+        "durationMs": 541,
+        "estimatedKb": 18,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit225",
+        "path": "assets/battle-fx/hit225.webp",
+        "width": 86,
+        "height": 82,
+        "frames": 6,
+        "durationMs": 428,
+        "estimatedKb": 19,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "hit226",
+        "path": "assets/battle-fx-all/hit226.webp",
+        "width": 120,
+        "height": 128,
+        "frames": 6,
+        "durationMs": 499,
+        "estimatedKb": 24,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit227",
+        "path": "assets/battle-fx-all/hit227.webp",
+        "width": 120,
+        "height": 118,
+        "frames": 7,
+        "durationMs": 583,
+        "estimatedKb": 24,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit228",
+        "path": "assets/battle-fx-all/hit228.webp",
+        "width": 78,
+        "height": 118,
+        "frames": 10,
+        "durationMs": 833,
+        "estimatedKb": 24,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit229",
+        "path": "assets/battle-fx/hit229.webp",
+        "width": 80,
+        "height": 24,
+        "frames": 5,
+        "durationMs": 207,
+        "estimatedKb": 6,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "hit233",
+        "path": "assets/battle-fx-all/hit233.webp",
+        "width": 94,
+        "height": 82,
+        "frames": 6,
+        "durationMs": 499,
+        "estimatedKb": 16,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit236",
+        "path": "assets/battle-fx-all/hit236.webp",
+        "width": 103,
+        "height": 96,
+        "frames": 5,
+        "durationMs": 416,
+        "estimatedKb": 25,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit239",
+        "path": "assets/battle-fx-all/hit239.webp",
+        "width": 44,
+        "height": 44,
+        "frames": 5,
+        "durationMs": 416,
+        "estimatedKb": 6,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit2403",
+        "path": "assets/battle-fx/hit2403.webp",
+        "width": 106,
+        "height": 186,
+        "frames": 4,
+        "durationMs": 400,
+        "estimatedKb": 18,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "hit241",
+        "path": "assets/battle-fx-all/hit241.webp",
+        "width": 147,
+        "height": 146,
+        "frames": 7,
+        "durationMs": 700,
+        "estimatedKb": 48,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit242",
+        "path": "assets/battle-fx-all/hit242.webp",
+        "width": 114,
+        "height": 106,
+        "frames": 9,
+        "durationMs": 749,
+        "estimatedKb": 35,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit289",
+        "path": "assets/battle-fx-all/hit289.webp",
+        "width": 74,
+        "height": 56,
+        "frames": 4,
+        "durationMs": 333,
+        "estimatedKb": 6,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit290",
+        "path": "assets/battle-fx-all/hit290.webp",
+        "width": 74,
+        "height": 56,
+        "frames": 4,
+        "durationMs": 333,
+        "estimatedKb": 7,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit300",
+        "path": "assets/battle-fx-all/hit300.webp",
+        "width": 90,
+        "height": 82,
+        "frames": 14,
+        "durationMs": 1700,
+        "estimatedKb": 28,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit302",
+        "path": "assets/battle-fx-all/hit302.webp",
+        "width": 20,
+        "height": 36,
+        "frames": 18,
+        "durationMs": 1207,
+        "estimatedKb": 9,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit7011",
+        "path": "assets/battle-fx-all/hit7011.webp",
+        "width": 104,
+        "height": 60,
+        "frames": 5,
+        "durationMs": 416,
+        "estimatedKb": 8,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit7051",
+        "path": "assets/battle-fx-all/hit7051.webp",
+        "width": 62,
+        "height": 68,
+        "frames": 6,
+        "durationMs": 499,
+        "estimatedKb": 13,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit707",
+        "path": "assets/battle-fx-all/hit707.webp",
+        "width": 92,
+        "height": 122,
+        "frames": 8,
+        "durationMs": 624,
+        "estimatedKb": 40,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit7081",
+        "path": "assets/battle-fx-all/hit7081.webp",
+        "width": 126,
+        "height": 96,
+        "frames": 7,
+        "durationMs": 583,
+        "estimatedKb": 30,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit7101",
+        "path": "assets/battle-fx-all/hit7101.webp",
+        "width": 76,
+        "height": 62,
+        "frames": 9,
+        "durationMs": 749,
+        "estimatedKb": 18,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit7141",
+        "path": "assets/battle-fx-all/hit7141.webp",
+        "width": 72,
+        "height": 74,
+        "frames": 8,
+        "durationMs": 666,
+        "estimatedKb": 22,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit7161",
+        "path": "assets/battle-fx-all/hit7161.webp",
+        "width": 62,
+        "height": 58,
+        "frames": 4,
+        "durationMs": 333,
+        "estimatedKb": 8,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit7211",
+        "path": "assets/battle-fx-all/hit7211.webp",
+        "width": 62,
+        "height": 58,
+        "frames": 4,
+        "durationMs": 333,
+        "estimatedKb": 8,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hit7231",
+        "path": "assets/battle-fx-all/hit7231.webp",
+        "width": 60,
+        "height": 72,
+        "frames": 9,
+        "durationMs": 749,
+        "estimatedKb": 23,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hitH00",
+        "path": "assets/battle-fx-all/hitH00.webp",
+        "width": 74,
+        "height": 75,
+        "frames": 5,
+        "durationMs": 500,
+        "estimatedKb": 12,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hitH01",
+        "path": "assets/battle-fx-all/hitH01.webp",
+        "width": 120,
+        "height": 108,
+        "frames": 6,
+        "durationMs": 499,
+        "estimatedKb": 14,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "hitH10",
+        "path": "assets/battle-fx-all/hitH10.webp",
+        "width": 68,
+        "height": 82,
+        "frames": 10,
+        "durationMs": 833,
+        "estimatedKb": 16,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special000",
+        "path": "assets/battle-fx-all/special000.webp",
+        "width": 230,
+        "height": 396,
+        "frames": 13,
+        "durationMs": 1083,
+        "estimatedKb": 150,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special001",
+        "path": "assets/battle-fx-all/special001.webp",
+        "width": 259,
+        "height": 370,
+        "frames": 21,
+        "durationMs": 1749,
+        "estimatedKb": 257,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special003",
+        "path": "assets/battle-fx-all/special003.webp",
+        "width": 400,
+        "height": 368,
+        "frames": 11,
+        "durationMs": 1570,
+        "estimatedKb": 58,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special0031",
+        "path": "assets/battle-fx-all/special0031.webp",
+        "width": 256,
+        "height": 512,
+        "frames": 17,
+        "durationMs": 707,
+        "estimatedKb": 85,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special004",
+        "path": "assets/battle-fx-all/special004.webp",
+        "width": 232,
+        "height": 242,
+        "frames": 12,
+        "durationMs": 1500,
+        "estimatedKb": 74,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special005",
+        "path": "assets/battle-fx-all/special005.webp",
+        "width": 298,
+        "height": 320,
+        "frames": 19,
+        "durationMs": 1583,
+        "estimatedKb": 121,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special009",
+        "path": "assets/battle-fx-all/special009.webp",
+        "width": 308,
+        "height": 342,
+        "frames": 8,
+        "durationMs": 1000,
+        "estimatedKb": 76,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special101",
+        "path": "assets/battle-fx-all/special101.webp",
+        "width": 512,
+        "height": 345,
+        "frames": 84,
+        "durationMs": 4943,
+        "estimatedKb": 727,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special211",
+        "path": "assets/battle-fx-all/special211.webp",
+        "width": 512,
+        "height": 58,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 69,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special222",
+        "path": "assets/battle-fx-all/special222.webp",
+        "width": 167,
+        "height": 176,
+        "frames": 11,
+        "durationMs": 1749,
+        "estimatedKb": 55,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special225",
+        "path": "assets/battle-fx/special225.webp",
+        "width": 363,
+        "height": 512,
+        "frames": 17,
+        "durationMs": 850,
+        "estimatedKb": 124,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "special227",
+        "path": "assets/battle-fx-all/special227.webp",
+        "width": 362,
+        "height": 331,
+        "frames": 11,
+        "durationMs": 916,
+        "estimatedKb": 144,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special228",
+        "path": "assets/battle-fx-all/special228.webp",
+        "width": 118,
+        "height": 123,
+        "frames": 10,
+        "durationMs": 1000,
+        "estimatedKb": 65,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special229",
+        "path": "assets/battle-fx/special229.webp",
+        "width": 289,
+        "height": 244,
+        "frames": 17,
+        "durationMs": 1700,
+        "estimatedKb": 259,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "special230",
+        "path": "assets/battle-fx-all/special230.webp",
+        "width": 252,
+        "height": 242,
+        "frames": 20,
+        "durationMs": 2000,
+        "estimatedKb": 205,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special237",
+        "path": "assets/battle-fx/special237.webp",
+        "width": 306,
+        "height": 288,
+        "frames": 14,
+        "durationMs": 1750,
+        "estimatedKb": 156,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "special241",
+        "path": "assets/battle-fx-all/special241.webp",
+        "width": 483,
+        "height": 321,
+        "frames": 10,
+        "durationMs": 833,
+        "estimatedKb": 206,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special2421",
+        "path": "assets/battle-fx-all/special2421.webp",
+        "width": 512,
+        "height": 166,
+        "frames": 11,
+        "durationMs": 1100,
+        "estimatedKb": 112,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special2423",
+        "path": "assets/battle-fx-all/special2423.webp",
+        "width": 378,
+        "height": 467,
+        "frames": 13,
+        "durationMs": 1300,
+        "estimatedKb": 376,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special243",
+        "path": "assets/battle-fx-all/special243.webp",
+        "width": 512,
+        "height": 276,
+        "frames": 84,
+        "durationMs": 4666,
+        "estimatedKb": 692,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special276",
+        "path": "assets/battle-fx-all/special276.webp",
+        "width": 284,
+        "height": 284,
+        "frames": 23,
+        "durationMs": 1916,
+        "estimatedKb": 283,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special292",
+        "path": "assets/battle-fx/special292.webp",
+        "width": 410,
+        "height": 410,
+        "frames": 9,
+        "durationMs": 916,
+        "estimatedKb": 196,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "special300",
+        "path": "assets/battle-fx-all/special300.webp",
+        "width": 484,
+        "height": 454,
+        "frames": 18,
+        "durationMs": 2100,
+        "estimatedKb": 109,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special301",
+        "path": "assets/battle-fx-all/special301.webp",
+        "width": 287,
+        "height": 293,
+        "frames": 25,
+        "durationMs": 2083,
+        "estimatedKb": 605,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special304",
+        "path": "assets/battle-fx-all/special304.webp",
+        "width": 474,
+        "height": 254,
+        "frames": 11,
+        "durationMs": 916,
+        "estimatedKb": 168,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special305",
+        "path": "assets/battle-fx-all/special305.webp",
+        "width": 301,
+        "height": 512,
+        "frames": 15,
+        "durationMs": 1249,
+        "estimatedKb": 196,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special4182",
+        "path": "assets/battle-fx-all/special4182.webp",
+        "width": 512,
+        "height": 421,
+        "frames": 12,
+        "durationMs": 1200,
+        "estimatedKb": 114,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special7001",
+        "path": "assets/battle-fx-all/special7001.webp",
+        "width": 447,
+        "height": 443,
+        "frames": 17,
+        "durationMs": 1700,
+        "estimatedKb": 221,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special7002",
+        "path": "assets/battle-fx-all/special7002.webp",
+        "width": 432,
+        "height": 274,
+        "frames": 21,
+        "durationMs": 2100,
+        "estimatedKb": 403,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special7051",
+        "path": "assets/battle-fx-all/special7051.webp",
+        "width": 512,
+        "height": 424,
+        "frames": 73,
+        "durationMs": 3041,
+        "estimatedKb": 1342,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special707X",
+        "path": "assets/battle-fx/special707X.webp",
+        "width": 243,
+        "height": 323,
+        "frames": 17,
+        "durationMs": 1700,
+        "estimatedKb": 298,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "special714X",
+        "path": "assets/battle-fx-all/special714X.webp",
+        "width": 314,
+        "height": 512,
+        "frames": 20,
+        "durationMs": 2000,
+        "estimatedKb": 383,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special7201",
+        "path": "assets/battle-fx-all/special7201.webp",
+        "width": 512,
+        "height": 491,
+        "frames": 27,
+        "durationMs": 2249,
+        "estimatedKb": 483,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special721r",
+        "path": "assets/battle-fx-all/special721r.webp",
+        "width": 425,
+        "height": 408,
+        "frames": 14,
+        "durationMs": 1400,
+        "estimatedKb": 234,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special763r",
+        "path": "assets/battle-fx-all/special763r.webp",
+        "width": 337,
+        "height": 512,
+        "frames": 13,
+        "durationMs": 1499,
+        "estimatedKb": 194,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special7700",
+        "path": "assets/battle-fx-all/special7700.webp",
+        "width": 445,
+        "height": 385,
+        "frames": 14,
+        "durationMs": 1400,
+        "estimatedKb": 122,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special770a",
+        "path": "assets/battle-fx-all/special770a.webp",
+        "width": 356,
+        "height": 380,
+        "frames": 6,
+        "durationMs": 750,
+        "estimatedKb": 83,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special792a",
+        "path": "assets/battle-fx/special792a.webp",
+        "width": 178,
+        "height": 171,
+        "frames": 12,
+        "durationMs": 1200,
+        "estimatedKb": 90,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "special795",
+        "path": "assets/battle-fx-all/special795.webp",
+        "width": 416,
+        "height": 428,
+        "frames": 10,
+        "durationMs": 1000,
+        "estimatedKb": 63,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special860",
+        "path": "assets/battle-fx-all/special860.webp",
+        "width": 462,
+        "height": 512,
+        "frames": 18,
+        "durationMs": 1499,
+        "estimatedKb": 770,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special861",
+        "path": "assets/battle-fx-all/special861.webp",
+        "width": 486,
+        "height": 467,
+        "frames": 11,
+        "durationMs": 1375,
+        "estimatedKb": 215,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special965",
+        "path": "assets/battle-fx/special965.webp",
+        "width": 154,
+        "height": 377,
+        "frames": 17,
+        "durationMs": 1499,
+        "estimatedKb": 124,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "special972",
+        "path": "assets/battle-fx-all/special972.webp",
+        "width": 408,
+        "height": 382,
+        "frames": 17,
+        "durationMs": 1700,
+        "estimatedKb": 393,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special973",
+        "path": "assets/battle-fx-all/special973.webp",
+        "width": 512,
+        "height": 278,
+        "frames": 18,
+        "durationMs": 1800,
+        "estimatedKb": 197,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "special975",
+        "path": "assets/battle-fx-all/special975.webp",
+        "width": 512,
+        "height": 331,
+        "frames": 9,
+        "durationMs": 900,
+        "estimatedKb": 159,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialG302",
+        "path": "assets/battle-fx-all/specialG302.webp",
+        "width": 512,
+        "height": 423,
+        "frames": 18,
+        "durationMs": 2400,
+        "estimatedKb": 345,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialLose0",
+        "path": "assets/battle-fx/specialLose0.webp",
+        "width": 244,
+        "height": 198,
+        "frames": 6,
+        "durationMs": 499,
+        "estimatedKb": 43,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "specialLose1",
+        "path": "assets/battle-fx/specialLose1.webp",
+        "width": 176,
+        "height": 166,
+        "frames": 8,
+        "durationMs": 666,
+        "estimatedKb": 54,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "specialLose2",
+        "path": "assets/battle-fx-all/specialLose2.webp",
+        "width": 150,
+        "height": 290,
+        "frames": 7,
+        "durationMs": 666,
+        "estimatedKb": 53,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialLose20",
+        "path": "assets/battle-fx-all/specialLose20.webp",
+        "width": 223,
+        "height": 244,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 193,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS005",
+        "path": "assets/battle-fx-all/specialS005.webp",
+        "width": 388,
+        "height": 411,
+        "frames": 16,
+        "durationMs": 1333,
+        "estimatedKb": 329,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS011",
+        "path": "assets/battle-fx-all/specialS011.webp",
+        "width": 495,
+        "height": 276,
+        "frames": 11,
+        "durationMs": 1499,
+        "estimatedKb": 53,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS100",
+        "path": "assets/battle-fx-all/specialS100.webp",
+        "width": 419,
+        "height": 411,
+        "frames": 11,
+        "durationMs": 1100,
+        "estimatedKb": 203,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS102",
+        "path": "assets/battle-fx-all/specialS102.webp",
+        "width": 287,
+        "height": 381,
+        "frames": 14,
+        "durationMs": 1166,
+        "estimatedKb": 18,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS103",
+        "path": "assets/battle-fx-all/specialS103.webp",
+        "width": 350,
+        "height": 452,
+        "frames": 12,
+        "durationMs": 999,
+        "estimatedKb": 338,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS105",
+        "path": "assets/battle-fx-all/specialS105.webp",
+        "width": 512,
+        "height": 199,
+        "frames": 34,
+        "durationMs": 3400,
+        "estimatedKb": 127,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS107",
+        "path": "assets/battle-fx-all/specialS107.webp",
+        "width": 202,
+        "height": 400,
+        "frames": 14,
+        "durationMs": 2284,
+        "estimatedKb": 115,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS201",
+        "path": "assets/battle-fx-all/specialS201.webp",
+        "width": 339,
+        "height": 235,
+        "frames": 11,
+        "durationMs": 1100,
+        "estimatedKb": 209,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS202",
+        "path": "assets/battle-fx-all/specialS202.webp",
+        "width": 363,
+        "height": 209,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 166,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS203",
+        "path": "assets/battle-fx/specialS203.webp",
+        "width": 412,
+        "height": 423,
+        "frames": 10,
+        "durationMs": 1111,
+        "estimatedKb": 105,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "specialS204",
+        "path": "assets/battle-fx-all/specialS204.webp",
+        "width": 354,
+        "height": 427,
+        "frames": 22,
+        "durationMs": 1833,
+        "estimatedKb": 286,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS206",
+        "path": "assets/battle-fx-all/specialS206.webp",
+        "width": 228,
+        "height": 512,
+        "frames": 10,
+        "durationMs": 833,
+        "estimatedKb": 123,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS207",
+        "path": "assets/battle-fx-all/specialS207.webp",
+        "width": 512,
+        "height": 227,
+        "frames": 14,
+        "durationMs": 1750,
+        "estimatedKb": 345,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS208",
+        "path": "assets/battle-fx-all/specialS208.webp",
+        "width": 340,
+        "height": 464,
+        "frames": 9,
+        "durationMs": 749,
+        "estimatedKb": 208,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "specialS211",
+        "path": "assets/battle-fx-all/specialS211.webp",
+        "width": 348,
+        "height": 367,
+        "frames": 13,
+        "durationMs": 1083,
+        "estimatedKb": 331,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "stick204",
+        "path": "assets/battle-fx/stick204.webp",
+        "width": 100,
+        "height": 74,
+        "frames": 3,
+        "durationMs": 249,
+        "estimatedKb": 15,
+        "shippedInHotUpdate": true
+      },
+      {
+        "id": "stick209",
+        "path": "assets/battle-fx-all/stick209.webp",
+        "width": 95,
+        "height": 58,
+        "frames": 5,
+        "durationMs": 207,
+        "estimatedKb": 10,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "stick213",
+        "path": "assets/battle-fx-all/stick213.webp",
+        "width": 110,
+        "height": 32,
+        "frames": 5,
+        "durationMs": 207,
+        "estimatedKb": 13,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "stick216",
+        "path": "assets/battle-fx-all/stick216.webp",
+        "width": 72,
+        "height": 39,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 2,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "stick217",
+        "path": "assets/battle-fx-all/stick217.webp",
+        "width": 110,
+        "height": 32,
+        "frames": 5,
+        "durationMs": 207,
+        "estimatedKb": 13,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "stick218",
+        "path": "assets/battle-fx-all/stick218.webp",
+        "width": 72,
+        "height": 30,
+        "frames": 7,
+        "durationMs": 291,
+        "estimatedKb": 9,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "stick291",
+        "path": "assets/battle-fx-all/stick291.webp",
+        "width": 36,
+        "height": 106,
+        "frames": 8,
+        "durationMs": 332,
+        "estimatedKb": 18,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "stick301",
+        "path": "assets/battle-fx-all/stick301.webp",
+        "width": 100,
+        "height": 96,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 2,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "stick302",
+        "path": "assets/battle-fx-all/stick302.webp",
+        "width": 93,
+        "height": 84,
+        "frames": 0,
+        "durationMs": 0,
+        "estimatedKb": 3,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "stick962",
+        "path": "assets/battle-fx-all/stick962.webp",
+        "width": 121,
+        "height": 66,
+        "frames": 5,
+        "durationMs": 207,
+        "estimatedKb": 24,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "trailing303",
+        "path": "assets/battle-fx-all/trailing303.webp",
+        "width": 32,
+        "height": 6,
+        "frames": 13,
+        "durationMs": 1083,
+        "estimatedKb": 3,
+        "shippedInHotUpdate": false
+      },
+      {
+        "id": "trailing304",
+        "path": "assets/battle-fx-all/trailing304.webp",
+        "width": 257,
+        "height": 276,
+        "frames": 6,
+        "durationMs": 499,
+        "estimatedKb": 25,
+        "shippedInHotUpdate": false
+      }
+    ]
+  },
+  "combatVfxScripts": {
+    "sourceModule": "/mods/battle-fx-script.js",
+    "effectScripts": 624,
+    "scriptEventTypes": [
+      "bang",
+      "bannerTime",
+      "bullet",
+      "fire",
+      "hurt",
+      "move",
+      "noHurt",
+      "noReStand",
+      "range",
+      "rangeLock",
+      "speed"
+    ],
+    "interpretation": "Presentation event choreography (fire, move, hurt, bang, bullet, banner, timing and rendering flags), not the server damage formula."
+  },
+  "battleFormationRendering": {
+    "sourceModule": "/mods/battle-tnl-data.js",
+    "frontRearLayers": 2,
+    "formationVariantsPerLayer": [
+      4,
+      4
+    ],
+    "positionsPerVariant": [
+      [
+        54,
+        54,
+        36,
+        24
+      ],
+      [
+        54,
+        54,
+        36,
+        24
+      ]
+    ],
+    "note": "Coordinates are render placement, not troop capacity or combat stats."
+  },
+  "titleAnimationCatalog": {
+    "sourceModule": "/mods/danh-hieu.js",
+    "catalogTitleCountClaimedInClientComment": 55,
+    "animatedFrameStrips": [
+      {
+        "id": "title001",
+        "frames": 9,
+        "frameWidth": 150,
+        "frameHeight": 90,
+        "fps": 10,
+        "path": "assets/ty-vo/danh-hieu/fx/title001.png"
+      },
+      {
+        "id": "title033",
+        "frames": 9,
+        "frameWidth": 150,
+        "frameHeight": 88,
+        "fps": 10,
+        "path": "assets/ty-vo/danh-hieu/fx/title033.png"
+      },
+      {
+        "id": "title105",
+        "frames": 9,
+        "frameWidth": 144,
+        "frameHeight": 89,
+        "fps": 10,
+        "path": "assets/ty-vo/danh-hieu/fx/title105.png"
+      },
+      {
+        "id": "title107",
+        "frames": 9,
+        "frameWidth": 149,
+        "frameHeight": 90,
+        "fps": 10,
+        "path": "assets/ty-vo/danh-hieu/fx/title107.png"
+      },
+      {
+        "id": "title109",
+        "frames": 9,
+        "frameWidth": 150,
+        "frameHeight": 90,
+        "fps": 10,
+        "path": "assets/ty-vo/danh-hieu/fx/title109.png"
+      },
+      {
+        "id": "title_01",
+        "frames": 10,
+        "frameWidth": 152,
+        "frameHeight": 108,
+        "fps": 8,
+        "path": "assets/ty-vo/danh-hieu/fx/title_01.png"
+      }
+    ],
+    "baseBannerViewBox": [
+      150,
+      90
+    ],
+    "sourcesAndDurationAreServerPayload": true
+  },
+  "matrixAnimationSample": {
+    "sourceModule": "/mods/ma-tran.js",
+    "path": "assets/ma-tran/foot/jlfoot001",
+    "format": "Egret MovieClip: PNG atlas + JSON frame rectangles, offsets, scale and fps",
+    "sample": {
+      "atlasPath": "evidence/assets-v3/ma-tran-jlfoot001.png",
+      "atlasBytes": 88958,
+      "atlasSha256": "12a09a0a46430346c02c8bc7a1306dbfad48cd7f837727efa1ed82d6a9363f91",
+      "atlasDimensions": [
+        605,
+        602
+      ],
+      "jsonPath": "evidence/assets-v3/ma-tran-jlfoot001.json",
+      "jsonBytes": 1412,
+      "jsonSha256": "fa462f0cf3489e974f66733ce2642d9071df0d8befae3852c6b8c870483a63b1",
+      "movieClip": "jlfoot001",
+      "fps": 10,
+      "frames": 20,
+      "rectResources": 20
+    }
+  },
+  "representativeAcquiredAssets": [
+    {
+      "kind": "matrix-atlas",
+      "path": "evidence/assets-v3/ma-tran-jlfoot001.png",
+      "sourceUrl": "https://dackytruvuong.com/assets/ma-tran/foot/jlfoot001.png?v=427",
+      "bytes": 88958,
+      "sha256": "12a09a0a46430346c02c8bc7a1306dbfad48cd7f837727efa1ed82d6a9363f91",
+      "mediaDimensions": [
+        605,
+        602
+      ]
+    },
+    {
+      "kind": "matrix-frame-map",
+      "path": "evidence/assets-v3/ma-tran-jlfoot001.json",
+      "sourceUrl": "https://dackytruvuong.com/assets/ma-tran/foot/jlfoot001.json?v=427",
+      "bytes": 1412,
+      "sha256": "fa462f0cf3489e974f66733ce2642d9071df0d8befae3852c6b8c870483a63b1",
+      "frames": 20,
+      "fps": 10
+    },
+    {
+      "kind": "title-animation-strip",
+      "path": "evidence/assets-v3/title001.png",
+      "sourceUrl": "https://dackytruvuong.com/assets/ty-vo/danh-hieu/fx/title001.png?v=602",
+      "bytes": 19901,
+      "sha256": "c8e0e19f3996d060af1030a603368e6e7795fe9f10ca494e9404c062cbec7d6d",
+      "mediaDimensions": [
+        1350,
+        90
+      ],
+      "frameCount": 9
+    },
+    {
+      "kind": "battle-vfx-animation",
+      "path": "evidence/assets-v3/battle-fx-bang235.webp",
+      "sourceUrl": "https://dackytruvuong.com/assets/battle-fx/bang235.webp",
+      "bytes": 161130,
+      "sha256": "6279337bb98e42727fe40d326eeaa12296e86d088492050d5dcdcb2f86a2fb3c",
+      "mediaDimensions": [
+        362,
+        432
+      ],
+      "frameCount": 21,
+      "durationMs": 2100
+    }
+  ],
+  "existingAcquisition": {
+    "manifestPath": "../../../assets/visual-art-manifest.json",
+    "sourceLabel": "Public current Dacky Trụ Vương HTML5 client, not War of Legends legacy galleries",
+    "assetCount": 144,
+    "totalBytes": 6046444,
+    "byKind": {
+      "current-mobile-battle-sprite": 90,
+      "current-mobile-commander-sprite": 30,
+      "normal": 1,
+      "critical": 1,
+      "skill": 1,
+      "artifact": 1,
+      "current-mobile-scene-art": 17,
+      "current-client-audio": 3
+    }
+  },
+  "limitation": "Complete animation metadata and the 391-file binary acquisition batch are recorded. The batch contains 337 public-client VFX files and 54 troop sprite files stored under evidence/assets-v3/source-client; acquired-assets-v3.json records each path, byte count and SHA-256. Four representative matrix/title/VFX files are additionally copied to evidence/assets-v3 root for quick inspection. Public availability does not establish ownership or redistribution rights, and these assets are not part of the Dacky build manifest.",
+  "acquiredBinaryBatch": {
+    "manifest": "database/acquired-assets-v3.json",
+    "requestedCount": 391,
+    "acquiredCount": 391,
+    "failedCount": 0,
+    "totalBytes": 70572382,
+    "byKind": {
+      "battle-vfx": 337,
+      "battle-sprite": 54
+    },
+    "storageRoot": "evidence/assets-v3/source-client/assets/",
+    "transport": "HTTPS GET with default TLS verification, same-origin URLs, no cookies or auth headers"
+  }
+}

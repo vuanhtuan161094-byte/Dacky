@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "evidenceSource": "LIVE_UI",
+  "encounters": [
+    {
+      "id": "buzhou-floor1-attempt1",
+      "mode": "Bất Chu Sơn",
+      "route": "Tầm bảo",
+      "floor": 1,
+      "partySelected": [
+        {"name": "Đặng Thiền Ngọc", "troopCount": 447},
+        {"name": "Cao Thể Càn", "troopCount": 240}
+      ],
+      "selectedTroopTotal": 687,
+      "roundsObserved": [1, 2, 3],
+      "waveObserved": {"current": 1, "total": 2},
+      "playerHudHero": {"name": "Cao Thể Càn", "level": 38, "hp": [934, 934], "mp": [621, 621], "force": 78, "attack": 416, "defense": 182},
+      "npcHudHero": {"name": "Tinh Thần", "level": 51, "hp": [100, 100], "mp": [100, 100], "force": 34, "attack": 232, "defense": 130},
+      "endState": {"result": "loss", "ownTroops": 0, "npcActiveTroops": 7080, "npcReserveCountsVisible": [18000, 18000, 18000, 18000]},
+      "rewards": {"reputation": 150, "experience": 1499, "items": []},
+      "replayButtonInvoked": true,
+      "autoModeUsed": false,
+      "partyMappingAnomaly": null,
+      "substitutionObservedInVideo": {
+        "evidenceSource": "LIVE_UI_VIDEO",
+        "sequence": [
+          { "approxSecond": 1, "hero": "Đặng Thiền Ngọc", "troopsDisplayed": 447, "phase": "Lượt 1 / Hiệp 1" },
+          { "approxSecond": 11, "hero": "Đặng Thiền Ngọc", "troopsDisplayed": 426, "phase": "Lượt 2 / Hiệp 2" },
+          { "approxSecond": 12, "hero": "Đặng Thiền Ngọc", "troopsDisplayed": 0, "phase": "Lượt 2 / Hiệp 2" },
+          { "approxSecond": 13, "hero": "Cao Thể Càn", "troopsDisplayed": 240, "phase": "Lượt 3 / Hiệp 3" },
+          { "approxSecond": 20, "hero": "Cao Thể Càn", "troopsDisplayed": 225, "phase": "Lượt 3 / Hiệp 3" }
+        ],
+        "interpretation": "In this encounter, Cao becomes the visible active hero in the next phase after Đặng reaches zero troops. This resolves the selected-party/HUD mismatch for this video and is consistent with sequential substitution on depletion; the general rule still has one live encounter as evidence.",
+        "artifactOrSkillUseConfirmed": false
+      },
+      "unresolved": [
+        "No full per-event combat log was exported; the video shows phase transitions, troop totals, ordinary hit VFX, and a critical-damage popup, but not a reliable artifact/skill event order.",
+        "The four visible reserve counts are not the floor's full initial total.",
+        "Post-battle assigned troop count is not a dead/wounded split."
+      ],
+      "evidence": {
+        "video": "../evidence/combat/buzhou-floor1-pve.mp4",
+        "resultScreen": "../evidence/v2/buzhou-battle1-result.png",
+        "preBattleParty": "../evidence/v2/buzhou-roster-before-battle.png",
+        "postBattleRoster": "../evidence/v2/buzhou-roster-after-loss.png"
+      }
+    }
+  ],
+  "attemptsBlockedAfterFirst": [
+    {
+      "system": "Bất Chu Sơn",
+      "displayedPrompt": "Mua thêm 1 lượt vào núi với 20 Xu?",
+      "confirmationPressed": true,
+      "result": "Vào núi remained disabled; purchase/eligibility state did not advance",
+      "cause": "UNKNOWN",
+      "realMoney": false,
+      "evidence": "../evidence/v2/buzhou-extra-turn-confirm.png"
+    },
+    {
+      "system": "Phong Thần Tháp",
+      "reason": "Cross-server ranking/challenge lobby requires registration; no PvP challenge was started",
+      "status": "not entered"
+    },
+    {
+      "system": "Cứ Điểm Chiến",
+      "reason": "Guild scheduled competitive event; no signup or match was started",
+      "status": "not entered"
+    }
+  ],
+    "recording": {"seconds": 25, "fps": 25, "resolution": "1600x900", "codec": "H.264", "content": "Real PVE encounter viewed through the replay UI; Đặng Thiền Ngọc reaches zero troops before Cao Thể Càn enters."}
+}

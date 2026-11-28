@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "observedAt": "2026-11-28",
+  "source": "LIVE_UI",
+  "character": "ThiênMệnh",
+  "carousel": {"pages": 5, "allPagesOpened": true},
+  "activeEntries": [
+    {
+      "key": "vietnamese_hero_wildlands",
+      "title": "Buff sự kiện: Thần tiên nước Việt",
+      "timeRemainingAtCapture": "1 ngày 8 giờ",
+      "target": {"mapType": "đất hoang", "levelRange": [10, 15]},
+      "effects": {"heroExperiencePercent": 100, "itemDropPercent": 20},
+      "activation": "when attacking wildlands in the displayed level range",
+      "serverEventId": null,
+      "evidenceFile": "../evidence/v2/events/event-carousel-1-buff.png"
+    },
+    {
+      "key": "thanksgiving_and_teachers_day_drops",
+      "title": "Sự kiện rơi đồ (2)",
+      "status": "Đang diễn ra",
+      "dropRules": [
+        {"event": "Lễ Tạ Ơn", "trigger": "win against wildland or clear Tiên Sơn", "items": ["Gà Tây", "Gà Tây Lễ Tạ Ơn"], "itemIds": null},
+        {"event": "Ngày Nhà giáo Việt Nam 20/11", "trigger": "win against wildland or clear Tiên Sơn", "items": ["Hoa Cẩm Chướng Trắng", "Hoa Cẩm Chướng Vàng", "Hoa Cẩm Chướng Xanh"], "itemIds": null}
+      ],
+      "timeRemaining": "displayed as ongoing; exact end time unknown",
+      "evidenceFile": "../evidence/v2/events/event-carousel-2-drop.png"
+    },
+    {
+      "key": "roi_bach_thao_than_nong",
+      "title": "Roi Bách Thảo Thần Nông",
+      "timeRemainingAtCapture": "3 ngày 6 giờ",
+      "description": "Tăng 25% sản lượng lương thực trong 7 ngày; dùng liên tục cộng dồn thời gian hiệu lực.",
+      "effect": {"resource": "foodProduction", "percent": 25, "durationDays": 7, "stacking": "duration stacks"},
+      "serverItemId": null,
+      "consumed": false,
+      "evidenceFile": "../evidence/v2/events/event-carousel-3-artifact.png"
+    },
+    {
+      "key": "high_grade_tax_order",
+      "title": "Lệnh Tăng Thuế Cao Cấp",
+      "timeRemainingAtCapture": "11 ngày 6 giờ",
+      "description": "Tăng 25% thu nhập thuế vàng trong 7 ngày; dùng liên tục kéo dài thời gian hiệu lực.",
+      "effect": {"resource": "goldTaxIncome", "percent": 25, "durationDays": 7, "stacking": "duration stacks"},
+      "serverItemId": null,
+      "consumed": false,
+      "evidenceFile": "../evidence/v2/events/event-carousel-4-tax.png"
+    },
+    {
+      "key": "alliance_permanent_bonus",
+      "title": "Tăng ích liên minh",
+      "durationLabel": "Thường trực",
+      "effects": {"staminaRecoveryPercent": 50, "manaRecoveryPercent": 50},
+      "triggerOrEligibility": "not exposed in the tooltip",
+      "serverBuffId": null,
+      "evidenceFile": "../evidence/v2/events/event-carousel-5-alliance.png"
+    }
+  ],
+  "relatedGameplayEvidence": {
+    "freeLoginRewardClaimed": [
+      {"name": "Binh Pháp Dị Chí", "quantity": 20},
+      {"name": "Tiên Đan", "quantity": 10}
+    ],
+    "purchasesOrRealMoney": false,
+    "buzhouFreeEntryUsed": true,
+    "extraEntryConfirmationDisplayed": true,
+    "extraEntryResult": "button remained disabled; reason unknown; no real-money action"
+  },
+  "dackyComparison": {
+    "eventScheduleAndEligibility": "MISSING",
+    "timedBuffCatalog": "PARTIAL; source item text can be represented but live stacking is not yet modeled as verified",
+    "alliancePermanentBuff": "MISSING_OR_UNKNOWN",
+    "evidenceNote": "No locally simulated effect is promoted to a verified live formula."
+  }
+}

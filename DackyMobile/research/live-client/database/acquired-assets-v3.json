@@ -1,0 +1,3143 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "source": "PUBLIC_DEPLOYED_CLIENT",
+  "fetch": {
+    "method": "HTTPS GET via curl; default TLS verification; no cookies/auth headers; same-origin URLs only",
+    "requestedCount": 391,
+    "acquiredCount": 391,
+    "totalBytes": 70572382,
+    "failedCount": 0
+  },
+  "failures": [],
+  "assets": [
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/army863.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/army863.webp",
+      "contentType": "image/webp",
+      "bytes": 163378,
+      "sha256": "3e02d4ee8db10bb205eb33cda469bc31099e9a1c8104447c58b8e02c56dd2acc"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang002.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang002.webp",
+      "contentType": "image/webp",
+      "bytes": 389618,
+      "sha256": "8ca023b2dbf5de1f2327e9197931a51370309924a70117c50f03eaac700f89b0"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang006.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang006.webp",
+      "contentType": "image/webp",
+      "bytes": 132884,
+      "sha256": "44ccccbbb2ee1ce247ad2208c70f17ac4865c50bc18e43bea9b26e1fcc14b76a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang007.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang007.webp",
+      "contentType": "image/webp",
+      "bytes": 103112,
+      "sha256": "467ac631607d46cfc873f50ae6c0e1de2c6549a6cec70eb9c7204b424b48c3b5"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang008.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang008.webp",
+      "contentType": "image/webp",
+      "bytes": 857688,
+      "sha256": "ca84f4553a8ea74e9901429d4fcb03ba6cc6202eba59e3da1eb2bcd279cb819f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang009.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang009.webp",
+      "contentType": "image/webp",
+      "bytes": 344950,
+      "sha256": "538bcd4692e21361ef8193fb7d687587c239b0b59fe948d8d5b05ce0d9b2c551"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang124.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang124.webp",
+      "contentType": "image/webp",
+      "bytes": 392836,
+      "sha256": "3abfdc18df6e751237a43f975c9c5b89b59c16b7cabb0ac59322292526f6c9c9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang125.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang125.webp",
+      "contentType": "image/webp",
+      "bytes": 406934,
+      "sha256": "36508a61d2ba53b8d01f6190296e74b88317a09aaee2d413f02abbd802220931"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang126.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang126.webp",
+      "contentType": "image/webp",
+      "bytes": 600944,
+      "sha256": "bf8d8d868768f009e63ea536279d770e8b3091b5bbd1c3bfe993bd435057949e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang127.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang127.webp",
+      "contentType": "image/webp",
+      "bytes": 711274,
+      "sha256": "c079dd2437e81d8343cf9a0c055f74a7ba1fad2fa1fb85de1cb7ec8544421834"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang128.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang128.webp",
+      "contentType": "image/webp",
+      "bytes": 151214,
+      "sha256": "bd583c32bf3a80a295cd21c218a573b4898cd45b52587adf2401b0074863cda5"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang150.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang150.webp",
+      "contentType": "image/webp",
+      "bytes": 232864,
+      "sha256": "d0f354d0976588f119e61c7b87190c96d88b2c51ab1e29a1dda606a8677dd157"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang151.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang151.webp",
+      "contentType": "image/webp",
+      "bytes": 218546,
+      "sha256": "067c9c8cb472a69f0431eb9f2bcbc78f7ee8686075bb931cc561792f3afd0234"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang152.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang152.webp",
+      "contentType": "image/webp",
+      "bytes": 82328,
+      "sha256": "0589c6cc9c3ab704ab09137d52742c59c9c395f5d7b832c16c72c9a9a0dcfb51"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang156.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang156.webp",
+      "contentType": "image/webp",
+      "bytes": 254656,
+      "sha256": "b5f8907679e8326b1275633936862c62dea630f2a35b44bd3175b8a67e8c3799"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang226.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang226.webp",
+      "contentType": "image/webp",
+      "bytes": 131570,
+      "sha256": "3021121dfadaa5f90506d2f63e3e816c65ae70d42925e97829acb399c0048888"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang232.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang232.webp",
+      "contentType": "image/webp",
+      "bytes": 240314,
+      "sha256": "003aca7e1d52ec223db124f218074bcf206a49ea84a6bff4ae0ba995750a4304"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang233.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang233.webp",
+      "contentType": "image/webp",
+      "bytes": 283114,
+      "sha256": "c9c8b3d2939963ead3410a4db7db281c649ae1d75a29605d181c0f50643b1d09"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang236.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang236.webp",
+      "contentType": "image/webp",
+      "bytes": 598602,
+      "sha256": "a3308d0a98904a15a857490136f5ed09f587f624f9b2da0884cbfeb619e45b92"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang239.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang239.webp",
+      "contentType": "image/webp",
+      "bytes": 417146,
+      "sha256": "806571e0c12250f9a87b4748d2c930018504096e28d54c5b04c68852a1ac4392"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang240.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang240.webp",
+      "contentType": "image/webp",
+      "bytes": 405428,
+      "sha256": "328a672b97d0af335531b10906922812a80b12488f5637aca30ff88bee97fa90"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang2401.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang2401.webp",
+      "contentType": "image/webp",
+      "bytes": 286164,
+      "sha256": "c67a15084cf140eefb95f875b293c9dad54f230f8525938c6cc80efe1b08abd8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang242.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang242.webp",
+      "contentType": "image/webp",
+      "bytes": 154858,
+      "sha256": "50a13c1b602644a6b580b5083d67199fc22bceb42c9b2f415ebf25f684f18042"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang2420.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang2420.webp",
+      "contentType": "image/webp",
+      "bytes": 215722,
+      "sha256": "e94df7811a6646257a7e904ee2d3abcbb93d6df691c3431fe1c1603b0b13b88f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang244.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang244.webp",
+      "contentType": "image/webp",
+      "bytes": 344574,
+      "sha256": "70a936b19e72ac66d9dc271d9891d26b844931515bf4ec8cb9fd4c17d7e64583"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang2442.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang2442.webp",
+      "contentType": "image/webp",
+      "bytes": 129062,
+      "sha256": "d6f4ec33216008c37bbc59d2ebf298b8e14fb7b5e1b0289058bdefe23ffc5446"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang2443.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang2443.webp",
+      "contentType": "image/webp",
+      "bytes": 283578,
+      "sha256": "1cf8ccb015ba681d3dcc7c67de3f1cf0a47bc02b6f532450b0f5e1991347a653"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang2445.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang2445.webp",
+      "contentType": "image/webp",
+      "bytes": 192236,
+      "sha256": "9392cde3abaa6152652d14b9adad545800e34b12c799f8b50f7f494f71c8eddb"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang245.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang245.webp",
+      "contentType": "image/webp",
+      "bytes": 105458,
+      "sha256": "8404993570820c65c9c1c70158b287b81035fd23ebfe46c9730ef09fc5c1782d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang2462.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang2462.webp",
+      "contentType": "image/webp",
+      "bytes": 120950,
+      "sha256": "4747a0886f55b58916ec13a008a90fb703575c24b13f7a9e2f7cd03fbb44d402"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang248.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang248.webp",
+      "contentType": "image/webp",
+      "bytes": 503210,
+      "sha256": "82db3a8fc142170126809ebb8812310daf666279dd7143b4bd3e484e47d1907d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang2543.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang2543.webp",
+      "contentType": "image/webp",
+      "bytes": 103120,
+      "sha256": "db0db34b4753461764188d1e73e465dbbd2d637956b039b007cff38f7654614d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang275.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang275.webp",
+      "contentType": "image/webp",
+      "bytes": 346498,
+      "sha256": "4873f2917624aea45b7fee9a273f1604f31ad8d6bc19895663fa2f462d0e706c"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang300.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang300.webp",
+      "contentType": "image/webp",
+      "bytes": 187736,
+      "sha256": "888e8daa01eb28184af45d6a9a9d26b0ad79b3f495a2ded484ac3a90664a4cfb"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang302.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang302.webp",
+      "contentType": "image/webp",
+      "bytes": 316828,
+      "sha256": "4ad030d554efc7ee7ec9025705185c32f9d8591a3855fe131372548e258229f2"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang303.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang303.webp",
+      "contentType": "image/webp",
+      "bytes": 565078,
+      "sha256": "52e1c63fa79b52e58c657e2d04642f1d2dbd0a9a6316220de02bcb02d3e2bf1a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang304.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang304.webp",
+      "contentType": "image/webp",
+      "bytes": 524082,
+      "sha256": "fcfb079616f983c4bcea627f4d3a91dbe431f20e190134c1ec59d847ee4b09dc"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang305.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang305.webp",
+      "contentType": "image/webp",
+      "bytes": 388218,
+      "sha256": "520b68416a3e80251189d4bbd8439c9ff22f4037eb48aa158b6711943d440e42"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang306.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang306.webp",
+      "contentType": "image/webp",
+      "bytes": 373676,
+      "sha256": "d5d5d3f49ad326e1ae1a11ca5aa5cff40ca74e9d025c9d277b96ef5afbb95bb9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang307.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang307.webp",
+      "contentType": "image/webp",
+      "bytes": 242340,
+      "sha256": "cee5eb76a410dabe73117089c31b93758b09c19142372e50d9762c8f98f860d7"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang4383.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang4383.webp",
+      "contentType": "image/webp",
+      "bytes": 323866,
+      "sha256": "9a4c7afb2e168820e832612190db65322ddd9a130363d88e8a3c11dbbfa5b2ce"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7011.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7011.webp",
+      "contentType": "image/webp",
+      "bytes": 277538,
+      "sha256": "3f0f008d7eeba2801c3437755d14bc90f9ff8cea76ed9194a20369bddd38f2a9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang707.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang707.webp",
+      "contentType": "image/webp",
+      "bytes": 123178,
+      "sha256": "bc14004625299105a509b722ddb7d17aeafccc857d412c6fc252b2733c2a764f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7071.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7071.webp",
+      "contentType": "image/webp",
+      "bytes": 380730,
+      "sha256": "7ab321e907122b625dace195c8c0151232b9275426e4b5586dffad18c55f3152"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7081.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7081.webp",
+      "contentType": "image/webp",
+      "bytes": 332436,
+      "sha256": "2760273c58f722a24f87e76edaf40c46f851eff64e33b82a6466ba66a631b7a5"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7091.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7091.webp",
+      "contentType": "image/webp",
+      "bytes": 168576,
+      "sha256": "63cec65ef713baccfeeaf1481cf98a6d0f2f437af1efea71085f1a01d2a4a037"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7101.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7101.webp",
+      "contentType": "image/webp",
+      "bytes": 524444,
+      "sha256": "9588720e8c6f3bcbf0a8c1e2020e8f3fab5ef7f7a36826c1c791418f396693e9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7131.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7131.webp",
+      "contentType": "image/webp",
+      "bytes": 292052,
+      "sha256": "4ab93ece39c09028430ecebb8f583435450e8430a1e932f50021e838a441cee6"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang713X.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang713X.webp",
+      "contentType": "image/webp",
+      "bytes": 315720,
+      "sha256": "bddc372897f52e844934219e73099398cf51670385af1c719f265eefb59c0a13"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7141.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7141.webp",
+      "contentType": "image/webp",
+      "bytes": 687924,
+      "sha256": "a40b3c998f6e875032d3e870058e41b98b3ab4ed24043f2e8ff2641cb41eeec3"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang714r.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang714r.webp",
+      "contentType": "image/webp",
+      "bytes": 779728,
+      "sha256": "6d91acb366d848b3eba702cedc69ed2bae947f7fe10ddf49de764741800e180f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7161.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7161.webp",
+      "contentType": "image/webp",
+      "bytes": 500298,
+      "sha256": "940081cbccc45b424554b6f5bc0df9e14df6018110380a543a02b5d3478473df"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7171.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7171.webp",
+      "contentType": "image/webp",
+      "bytes": 1704186,
+      "sha256": "50f0014226f2b2fb7a44adabd4a7b43c1ea5629a5091e8ac0e2bd508308a0d55"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7181.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7181.webp",
+      "contentType": "image/webp",
+      "bytes": 1345068,
+      "sha256": "8b778e43fd43d4b580a99a3838d85ac811bf65287e512cc2c81dec90e87f1d17"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7211.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7211.webp",
+      "contentType": "image/webp",
+      "bytes": 993876,
+      "sha256": "d0ea41c52246b3fbe5a8c3bbfaf825db837ad041318e7c64f82a6b5e53107a20"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7231.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7231.webp",
+      "contentType": "image/webp",
+      "bytes": 1015916,
+      "sha256": "3e82375b203233b2f657f63a9d855b39b83d1104bffaaf2c6179453ba171b4f8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7241.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7241.webp",
+      "contentType": "image/webp",
+      "bytes": 646728,
+      "sha256": "59e104e1a1548eafa5eadf8ae0607a32c836c59669f703b34b4ad7fc5b013f60"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang724X.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang724X.webp",
+      "contentType": "image/webp",
+      "bytes": 271310,
+      "sha256": "06d50194f572c40c242968d6770b1e856127fac6d921698ec437c5d2a45d6c97"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang725r.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang725r.webp",
+      "contentType": "image/webp",
+      "bytes": 561864,
+      "sha256": "ccd446236b48a2a9e1b72798c7087cc061b90e045a5e1e671845d900d0943f93"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang731r.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang731r.webp",
+      "contentType": "image/webp",
+      "bytes": 195548,
+      "sha256": "776dab516e0008cb82a06599d2c7d836c2739267f8d52844b29f319b467b5075"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7491.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7491.webp",
+      "contentType": "image/webp",
+      "bytes": 316624,
+      "sha256": "4c78fdc96807414a04ac476878807f8463588a72e911206c41c07e6ff58d3e96"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7590.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7590.webp",
+      "contentType": "image/webp",
+      "bytes": 91972,
+      "sha256": "482e8c6eece675cad79b605e8ea92de4e284ac697754fd44a409872d9f392f61"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7611.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7611.webp",
+      "contentType": "image/webp",
+      "bytes": 1739630,
+      "sha256": "5415cac73fc0091b8febe2eb52259bf858511e9f219b7d779d79c84a07bf2a56"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7650a.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7650a.webp",
+      "contentType": "image/webp",
+      "bytes": 394114,
+      "sha256": "99e1468f3785f032db82391d3fcbf1ebf5b537e545fee98e3985661953d17974"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang765r.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang765r.webp",
+      "contentType": "image/webp",
+      "bytes": 631640,
+      "sha256": "10155c85c9d2703de5d8c22cc139e39b24f121b4534597487fd5feb1106b6506"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang778a.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang778a.webp",
+      "contentType": "image/webp",
+      "bytes": 214604,
+      "sha256": "34f8e836658d1feff42ec88b3957222458e626e657381eb3534c69327f990559"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang778r.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang778r.webp",
+      "contentType": "image/webp",
+      "bytes": 59952,
+      "sha256": "024e29751396abae10b1a334155e290d003f3782457b74bc1025adf412737fb0"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang7800a.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang7800a.webp",
+      "contentType": "image/webp",
+      "bytes": 144872,
+      "sha256": "5b530cbe4b19a4d8f84d2ee30a178801d442f9a7631d127c7d6d1150ce8b75be"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang785.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang785.webp",
+      "contentType": "image/webp",
+      "bytes": 451782,
+      "sha256": "b0272f7ea1da2cb6da1ffb5e03b04c10baf3caf5ddfd9221c47ab603bef99bdf"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang786a.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang786a.webp",
+      "contentType": "image/webp",
+      "bytes": 147194,
+      "sha256": "bd306e5e9f32fc27baed4a265bb3edebf2f8ba9204055dd757d7156584932674"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang789.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang789.webp",
+      "contentType": "image/webp",
+      "bytes": 215232,
+      "sha256": "4bcd7efd363885844a94a76f7211f8d10b4768688d648838ceba28187c64e8ed"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang793.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang793.webp",
+      "contentType": "image/webp",
+      "bytes": 67592,
+      "sha256": "fbb18ffd0b61793c169af7426ca19af9d316e5317a6aadda47af799122d2e1fa"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang797.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang797.webp",
+      "contentType": "image/webp",
+      "bytes": 502812,
+      "sha256": "6fe94f2b6778d01381a6a3792ab429b7b8f94159fd9ab7fe9e6d8673fe97fd2a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang798.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang798.webp",
+      "contentType": "image/webp",
+      "bytes": 145570,
+      "sha256": "86ac7d369456809e97d34238483a0a4cd0762624cd94a6d54912f4206c7de568"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang798a.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang798a.webp",
+      "contentType": "image/webp",
+      "bytes": 300684,
+      "sha256": "69d74823d0b0aa805a1a2064d5cf872211afc6abe9d0d96529c14f399df6877d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang826.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang826.webp",
+      "contentType": "image/webp",
+      "bytes": 154328,
+      "sha256": "4f80fba82bf18ba345b7261fa986335e2b99f70720203e085ce72f94dab24ad0"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang827.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang827.webp",
+      "contentType": "image/webp",
+      "bytes": 169904,
+      "sha256": "5d22739ffb8247a9b7fdf5242432673360e46f8e526c567175f24348e9f03ffe"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang861.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang861.webp",
+      "contentType": "image/webp",
+      "bytes": 430522,
+      "sha256": "bca10c7db62fb33a402a913d37545f5bb371904a7468393e6784400eda84326f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang862.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang862.webp",
+      "contentType": "image/webp",
+      "bytes": 376854,
+      "sha256": "b987dcc9fd3b82c8d6e3b2e37b339079fef1b33f2127b5fcca8fa62b84bac6ec"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang863.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang863.webp",
+      "contentType": "image/webp",
+      "bytes": 636882,
+      "sha256": "d15fdc3c1a2a262e0c4639f58de99266298f6f05ee7dd0e07084ddb2fe7328a2"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang865.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang865.webp",
+      "contentType": "image/webp",
+      "bytes": 344132,
+      "sha256": "bcd87e6b17b3728b762c72ec00e29cdaee5896547c4bbf009741e9b17d71b913"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang960.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang960.webp",
+      "contentType": "image/webp",
+      "bytes": 305150,
+      "sha256": "9cb99783dd1b7f727f600f53e7100929552a9ec4ebe515294b548cbf0b1d09be"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang961_.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang961_.webp",
+      "contentType": "image/webp",
+      "bytes": 360176,
+      "sha256": "9a812ea2874a3e577405521e606bbba7d227bcbbcc1507e4c652e91fb4336d15"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang961.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang961.webp",
+      "contentType": "image/webp",
+      "bytes": 198378,
+      "sha256": "c744bb2e888256ff6605490cfd642b24c659466e2ff115107f151c0271eaaad8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang970.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang970.webp",
+      "contentType": "image/webp",
+      "bytes": 481126,
+      "sha256": "a2d714fbd18e5b55ffeba61458d6cb5eedf2db57c5a72ccc18c3440d88e9131b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bang971.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bang971.webp",
+      "contentType": "image/webp",
+      "bytes": 236388,
+      "sha256": "c7698034ee733ef985a9c85f4553d3e422bce91a8bc619b00e2fd786b5be352f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangG101.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangG101.webp",
+      "contentType": "image/webp",
+      "bytes": 178078,
+      "sha256": "1095ff3a7ac65a26aaefdccbdc256feb75d1cc3386344033ae16def95ff68093"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangG102.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangG102.webp",
+      "contentType": "image/webp",
+      "bytes": 480674,
+      "sha256": "fce88fb20636b50e340275cbd5da3ffa3f9f41ce6b4c8eacdd8f45a044c63049"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangG104.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangG104.webp",
+      "contentType": "image/webp",
+      "bytes": 362738,
+      "sha256": "a5a3865e50e77343251b4cc3b6a8dd0fac481a8a8e6ecdc50fb5e11999b4e133"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangG200.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangG200.webp",
+      "contentType": "image/webp",
+      "bytes": 225588,
+      "sha256": "ac1f0b0409b7fb1fde8967eb39dfd0d78e426e4e39811a13fe043e2095a759a6"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangG202.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangG202.webp",
+      "contentType": "image/webp",
+      "bytes": 1486254,
+      "sha256": "97d27f4f8f8fe73f54e15929efdd6de5fb78e7406721f3e6399b7b1e07941852"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangG302.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangG302.webp",
+      "contentType": "image/webp",
+      "bytes": 166838,
+      "sha256": "d6153dfc1fa907778aab6d756fae87e8e764fc4e7d6976cbda8828d06a06de67"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangG303_1.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangG303_1.webp",
+      "contentType": "image/webp",
+      "bytes": 215276,
+      "sha256": "3742c6105d610ee11cf151c241aced449cab5278eb1f92633ad5f51a162f62e8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangG303.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangG303.webp",
+      "contentType": "image/webp",
+      "bytes": 404554,
+      "sha256": "53fa58ff0fec97f24a531226e65a4ba2b3bb0a76bd8e53817b251a51ec799981"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangH00.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangH00.webp",
+      "contentType": "image/webp",
+      "bytes": 157178,
+      "sha256": "d4605a4d1a5e6fccd3edd9551d3afb761e96feb5f5664b841274edb130176252"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangH01.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangH01.webp",
+      "contentType": "image/webp",
+      "bytes": 180604,
+      "sha256": "779c9ff6cccd334ae8e6b2b2235980104521b90f5dbad191fa52ac75fee189da"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangH02.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangH02.webp",
+      "contentType": "image/webp",
+      "bytes": 504844,
+      "sha256": "8567d80844e32ccd8ef5925ca4133eb14b546f776bbaffdf9c074c5a9b2b608d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangH10.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangH10.webp",
+      "contentType": "image/webp",
+      "bytes": 107848,
+      "sha256": "4f4526402bd3d68c281d4783aa218540b304ed819cd7eb47c7aafb850817f79b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangH11.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangH11.webp",
+      "contentType": "image/webp",
+      "bytes": 197998,
+      "sha256": "e2c2aa3903eee8b52946252985357f6e6e5530f691d865678f412403014d4927"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS000.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS000.webp",
+      "contentType": "image/webp",
+      "bytes": 157200,
+      "sha256": "9df48c0dc81c21547b72b619362a230b63afef10f6e3e25b87f026a6d688c757"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS001.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS001.webp",
+      "contentType": "image/webp",
+      "bytes": 113646,
+      "sha256": "f2e8d55a8a5fdfd29e4f7799cbcaeb9f091e04ff94fbdac0146bd9305b440517"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS008.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS008.webp",
+      "contentType": "image/webp",
+      "bytes": 398174,
+      "sha256": "90936a0a852ec48ec606be2ce46ea0ae02502ee993e8dd9d8b919c1d0f268e1b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS009.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS009.webp",
+      "contentType": "image/webp",
+      "bytes": 214002,
+      "sha256": "2367019b8937726fe9637779a29ff80ef4b664547d3260c76e1e4e9962b40dd6"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS010.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS010.webp",
+      "contentType": "image/webp",
+      "bytes": 164646,
+      "sha256": "4a83f20fb949179c3b1a0a2611ca638cf2143891475da0400dbc4a248d02eb6a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS102.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS102.webp",
+      "contentType": "image/webp",
+      "bytes": 211594,
+      "sha256": "70b6342b1f53f7154991f6cf0245525f46c87e6ed682e197d50e0d97c69affd5"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS103.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS103.webp",
+      "contentType": "image/webp",
+      "bytes": 354368,
+      "sha256": "1eecedf1ccb3eace6ddc096a9e93bb6691b48c99b58be0d15aa93f53372081ad"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS104.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS104.webp",
+      "contentType": "image/webp",
+      "bytes": 253294,
+      "sha256": "dae4cacd7cc5e50d55a241ca02652065946ca37f131fdb52a5b74aded2e11f77"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS106.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS106.webp",
+      "contentType": "image/webp",
+      "bytes": 328168,
+      "sha256": "3c986ff55fd997f21a724ab828d42fa863c18fa1f37f9bcca55fb7df4cee3109"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS200.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS200.webp",
+      "contentType": "image/webp",
+      "bytes": 328188,
+      "sha256": "df2939334252dcfc4eb0109ac8491df9e4411df313869f6afeb38e45efa4e830"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS205.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS205.webp",
+      "contentType": "image/webp",
+      "bytes": 124166,
+      "sha256": "99abfd44bbac0c46473e7511cb76d94a92554bc182cf16cefe2ca643d5234cfd"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS209.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS209.webp",
+      "contentType": "image/webp",
+      "bytes": 179070,
+      "sha256": "f3ab8adc454d95233a63aa497fd2a55fefaf9add277ec68e8085af7b86539635"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangS210.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangS210.webp",
+      "contentType": "image/webp",
+      "bytes": 220642,
+      "sha256": "c8e8805e1cc138d8c8e2bff22a8de19d46e48040d669c0522a3c80e9164aa4e6"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeA.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeA.webp",
+      "contentType": "image/webp",
+      "bytes": 61184,
+      "sha256": "a9b0a567fd6d12626747764708f33172d41c9caca5bd408ccfdfa837835d54fa"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeA1.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeA1.webp",
+      "contentType": "image/webp",
+      "bytes": 229828,
+      "sha256": "490e5334a4b64993112dd5f1d0aaf58a45dd8a8ede181fc98e1503d58c53f23c"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeB.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeB.webp",
+      "contentType": "image/webp",
+      "bytes": 284772,
+      "sha256": "a74cc1d2f715d00510ca1ca7b713fcf169d58ffe166e62076afe8c545a3b312a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeC.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeC.webp",
+      "contentType": "image/webp",
+      "bytes": 52178,
+      "sha256": "da238034c55d758b7a65dab84e8b03ec2c6114460ef29334cb90d7328e00392f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeC1.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeC1.webp",
+      "contentType": "image/webp",
+      "bytes": 376254,
+      "sha256": "fcc029aa83a1c270a6768bd95b868043550f81d3c7a8005659b1652f0af7033b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeD.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeD.webp",
+      "contentType": "image/webp",
+      "bytes": 151240,
+      "sha256": "acb9b7301fd4d0a3c72d5fd54a6e8befaa3425c6d290928ba349a22bf2ee6264"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeD1.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeD1.webp",
+      "contentType": "image/webp",
+      "bytes": 128610,
+      "sha256": "8d5bc77fd09060eb92eb4b2c7d0d5c0fd9bfe0157b45884a9b0d2aa37593f62e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeE.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeE.webp",
+      "contentType": "image/webp",
+      "bytes": 324456,
+      "sha256": "ea337f2ec2e4fd56669fffecf4d429bfc0a24b6111cedf0845ea74f797a8f35d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeE1.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeE1.webp",
+      "contentType": "image/webp",
+      "bytes": 189772,
+      "sha256": "a8f1c281da2829d8914f4323b6b899b991827bba712c5e1279aed2cf31ef7d46"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeF.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeF.webp",
+      "contentType": "image/webp",
+      "bytes": 507456,
+      "sha256": "ac82574366d2c93a327bceb8d377e1605be243fcfcdddc355b0274e4782f6366"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeF1.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeF1.webp",
+      "contentType": "image/webp",
+      "bytes": 278260,
+      "sha256": "e1124564fe4dca8a8e510cb0ec4f83bfd2654d7e5e666774dc4f2a6282d9ac99"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeG.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeG.webp",
+      "contentType": "image/webp",
+      "bytes": 230278,
+      "sha256": "f5b99e53fc38730d27dd99ef05a2c9b37601ebb52278c40c18955a1c6528db98"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeH_.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeH_.webp",
+      "contentType": "image/webp",
+      "bytes": 81048,
+      "sha256": "52a4842580c90b99b5dc50117a6e693b1adbc0ece0029352d2a511ef29005d02"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeH.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeH.webp",
+      "contentType": "image/webp",
+      "bytes": 124758,
+      "sha256": "c613d156f8fbbe77c63fd2162ecba5d0dbf382b380307b9ef43e075c363cb2b9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeI.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeI.webp",
+      "contentType": "image/webp",
+      "bytes": 218764,
+      "sha256": "0319928cefe8b774b9f71f6429b3ae0f8fc04a5f4e7d940842c018559e3a329e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bangTypeK1.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bangTypeK1.webp",
+      "contentType": "image/webp",
+      "bytes": 199998,
+      "sha256": "0de351de0e1edec063864236b36499b80a78cd6bd45392437add8f862862a257"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/buff216.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/buff216.webp",
+      "contentType": "image/webp",
+      "bytes": 22162,
+      "sha256": "31785a1eb5d3fdece7dbf5112e7f59f8a55ca34e2fac92999d11554f94a0923f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/buff217.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/buff217.webp",
+      "contentType": "image/webp",
+      "bytes": 8636,
+      "sha256": "02e4dad63ef85bd6cee65030e467490f019276f6d086b325955a13a22c35efea"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/buff230.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/buff230.webp",
+      "contentType": "image/webp",
+      "bytes": 13548,
+      "sha256": "070e726759f6263e13e2d893f1f8e827629f8a50a91aaa4545ff030cbe6408b9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/buff232.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/buff232.webp",
+      "contentType": "image/webp",
+      "bytes": 7744,
+      "sha256": "c6eb2d20019c2b382911b0a07a60ad04101babdb50827ed821a6c2b63bb7633f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/buff239.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/buff239.webp",
+      "contentType": "image/webp",
+      "bytes": 13010,
+      "sha256": "fa8223dea88b37be64ea2c727d975b75d6203cc6071b1cbafbfb36cfbdd416e1"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/buff246.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/buff246.webp",
+      "contentType": "image/webp",
+      "bytes": 11252,
+      "sha256": "638713a0555d4f53e94d9622c180ed0c4d5ad5577da5a5ecbabefe2e63d4746b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/buff781r.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/buff781r.webp",
+      "contentType": "image/webp",
+      "bytes": 70662,
+      "sha256": "b8981805e4b7e60a16fbba9246e77aaed41724fb548b2e40f176382236008c4d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/buffS002.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/buffS002.webp",
+      "contentType": "image/webp",
+      "bytes": 7002,
+      "sha256": "706ba8bffc560db3e0b0796e6656f1a19c49b8b534d05617895c1ce5485730f6"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet113.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet113.webp",
+      "contentType": "image/webp",
+      "bytes": 10150,
+      "sha256": "a4a741dd26de44161017a9da7a12a964a36e6e2c2607e87e073a3037adb0b308"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet122.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet122.webp",
+      "contentType": "image/webp",
+      "bytes": 486,
+      "sha256": "ab9b84653612571656cb2f9ab77b2eeac17abc8967de1aba6a707957c506cdc7"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet123.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet123.webp",
+      "contentType": "image/webp",
+      "bytes": 9552,
+      "sha256": "d2a12dad106d03b7d63c737fbde7518debad2d1139a21d78cd398d57140c4d5a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet220.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet220.webp",
+      "contentType": "image/webp",
+      "bytes": 11076,
+      "sha256": "470e649acfb442aef110a88894504d0afbc44df323fd93faecea3092b8828a79"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet223.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet223.webp",
+      "contentType": "image/webp",
+      "bytes": 12606,
+      "sha256": "21dbb6eb8b7a08a72fee5a4c5b49bd2272fca62f63f11cc1229efee66cc6caff"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet224.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet224.webp",
+      "contentType": "image/webp",
+      "bytes": 11538,
+      "sha256": "0aa49aee03b125a622a164797cb7f1541e66a518b2bd70d4eae0958165190c04"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet300.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet300.webp",
+      "contentType": "image/webp",
+      "bytes": 1538,
+      "sha256": "bf706b969812415cdeaa19ee7dcefde2e51bcb59cfd25a3f8f021f374a9553e2"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet301.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet301.webp",
+      "contentType": "image/webp",
+      "bytes": 1944,
+      "sha256": "d685aad0f7ecddb2ae37d8b268d7849e4656895f4ca3fb0c1c6e3ff8484e64e9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet302.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet302.webp",
+      "contentType": "image/webp",
+      "bytes": 20876,
+      "sha256": "0c5e3c9482522f78d7a7b1f3a5e55820bd20a8a6802892acb69818512eb1223a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet303.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet303.webp",
+      "contentType": "image/webp",
+      "bytes": 35236,
+      "sha256": "8d0ff37f50c51a17f26a42ec600a957a484fdd893f8c5933cd900cfefeaad7dd"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet304.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet304.webp",
+      "contentType": "image/webp",
+      "bytes": 31772,
+      "sha256": "2e2e4776d8e57eaff7cc75dee0f7a931a3961d8ee969a867954197c04a9a81b8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet305.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet305.webp",
+      "contentType": "image/webp",
+      "bytes": 19604,
+      "sha256": "22a961d96bc7522fa7e5b8b845d75938cb33e2bcfebd4099dda19873af0630a1"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet307.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet307.webp",
+      "contentType": "image/webp",
+      "bytes": 121052,
+      "sha256": "8435a100de82c76550ea24a6e462fb5d6adfb9140521874588764538821b9687"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet3203.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet3203.webp",
+      "contentType": "image/webp",
+      "bytes": 1050,
+      "sha256": "f7ef071fe618c333699ad831facad337d91cf07405422e13b7c66a5c14c7647d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet3210.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet3210.webp",
+      "contentType": "image/webp",
+      "bytes": 1378,
+      "sha256": "e76bad1b5b815b5e4c66d66dcd4754c27dffbd111ee36459c702b3db8803850c"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet3211.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet3211.webp",
+      "contentType": "image/webp",
+      "bytes": 562,
+      "sha256": "9e5992b8da9a5fc55a2a6464c0ece43c090bd8dc59f5fb8c2a4a3f20ab7661bf"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet3212.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet3212.webp",
+      "contentType": "image/webp",
+      "bytes": 928,
+      "sha256": "7b1c9ddd0ae698f0616b623ded182264068e92bd64847cb265acd18fbbc7603a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet707.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet707.webp",
+      "contentType": "image/webp",
+      "bytes": 146482,
+      "sha256": "1a362adde35a34150075a266dcd81b9cc5220c7fedff511c23d033b647f34fd9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet7650a.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet7650a.webp",
+      "contentType": "image/webp",
+      "bytes": 106132,
+      "sha256": "147a63cce07379dea6271faa341803a7b06b347c97b9021f0bc10a314cf26fe2"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet826.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet826.webp",
+      "contentType": "image/webp",
+      "bytes": 18710,
+      "sha256": "fb2d90ce8a74f14272c88b3206f382dd30c2a8a3f7c14f7f7c22d245147a920f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/bullet827.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/bullet827.webp",
+      "contentType": "image/webp",
+      "bytes": 36734,
+      "sha256": "739cead85576c99b57a3b011aae21bd3e4e49fe7f2ec731684dd98ee604554d6"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/effTower0.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/effTower0.webp",
+      "contentType": "image/webp",
+      "bytes": 19526,
+      "sha256": "981ee6fe18957bbd7058d00b716483c791fd814099235a5833c4a5a8fcb989ec"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/effTower1.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/effTower1.webp",
+      "contentType": "image/webp",
+      "bytes": 150210,
+      "sha256": "be10bd84f3056c69d12ebb406f669e6649770b9a454eb12a46159584517c64b8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/equipH000.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/equipH000.webp",
+      "contentType": "image/webp",
+      "bytes": 76042,
+      "sha256": "4073cf6d2f591ed55a9a848067d1f0ed9f2ce66d7d93c7e89c5180601ae0622f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire004.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire004.webp",
+      "contentType": "image/webp",
+      "bytes": 16462,
+      "sha256": "0e53e2ba2dbfa3fe54c41c3c9a3ee54d1090b2669caa9bd8af47adda61133c18"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire203.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire203.webp",
+      "contentType": "image/webp",
+      "bytes": 5948,
+      "sha256": "a24b7ff246bcd667c5c94d251ce4b6be5c6ee2a45b922e6de86981c11b6c7cd4"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire205.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire205.webp",
+      "contentType": "image/webp",
+      "bytes": 28120,
+      "sha256": "86418c11586a53a632b67d9661b3c05a3012bc78ebf4cec298e8ee166ce29b2b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire206.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire206.webp",
+      "contentType": "image/webp",
+      "bytes": 30972,
+      "sha256": "828c7498f6e43a9bcda9554fa3aab72b467542c441c0775524c4c920803e2afd"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire207.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire207.webp",
+      "contentType": "image/webp",
+      "bytes": 22474,
+      "sha256": "c7547954de2e1e1930e7ea8bb7cfb72de68f6191f032e77ca822a5bc8c82a9a8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire2106.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire2106.webp",
+      "contentType": "image/webp",
+      "bytes": 18472,
+      "sha256": "aad5a8ef419cf335df5ae1623a1c06581188c7220678ab697ea668bd45135232"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire211.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire211.webp",
+      "contentType": "image/webp",
+      "bytes": 27728,
+      "sha256": "6c5aecdc3aa706c4552bdec0f32a4d719468cd921de0f65afd0006c749b08c80"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire217.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire217.webp",
+      "contentType": "image/webp",
+      "bytes": 16632,
+      "sha256": "8fc9c4cc4288ce2d11479314431a3d8031220582b8afdd3b00484c4e5616913c"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire219.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire219.webp",
+      "contentType": "image/webp",
+      "bytes": 43196,
+      "sha256": "ec30c4e2568e7616f47edfb6ac1de955ab8826fa3803798236a92e1411e44775"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire223.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire223.webp",
+      "contentType": "image/webp",
+      "bytes": 21172,
+      "sha256": "dde575278594e29f503fa11bcf1cd3d93341efc200fda0b98aa00cd1f63a8b3c"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire224.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire224.webp",
+      "contentType": "image/webp",
+      "bytes": 10868,
+      "sha256": "d0c68191346fc4d9802403e7e3e19778ed989588727ab6ab5757bba603e05394"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire241.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire241.webp",
+      "contentType": "image/webp",
+      "bytes": 121738,
+      "sha256": "f3b82877dd73cd9ba1005c98fe343ea3c312e033cf5f4358e2a203d1628772b1"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire260.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire260.webp",
+      "contentType": "image/webp",
+      "bytes": 15980,
+      "sha256": "55c9c01cc96c92232ad97eeb4a312b23dcadfc7cc3725a43969dc47df3020201"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire261.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire261.webp",
+      "contentType": "image/webp",
+      "bytes": 19438,
+      "sha256": "6df49c0b4f7565add2159fddc19804b10e6ff18a0aed9dafd9a805fc13e0f567"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire270.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire270.webp",
+      "contentType": "image/webp",
+      "bytes": 36430,
+      "sha256": "c9a99c6333670c7822ee4ca1469d02c525a9f8bf00804b12cc85df95ba96d079"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire273.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire273.webp",
+      "contentType": "image/webp",
+      "bytes": 309528,
+      "sha256": "7c205f83ff7813873ecfcd3f7800756b288eed520989cc1325a453715672061d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire290.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire290.webp",
+      "contentType": "image/webp",
+      "bytes": 17368,
+      "sha256": "5d4e0875ed90ec21c7e3efdbbf40612b0ce44c0afbc443ad6ead735d3f30001e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire291.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire291.webp",
+      "contentType": "image/webp",
+      "bytes": 30264,
+      "sha256": "cb218850f6434d9a30b93673724f59d8cbc7a93ef80f1ca33b7a818e59f99d98"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire300.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire300.webp",
+      "contentType": "image/webp",
+      "bytes": 369062,
+      "sha256": "c1eab4cdd42988da238464459aab3eff5a618d9b6c8b457db576cf3c30047bea"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire301.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire301.webp",
+      "contentType": "image/webp",
+      "bytes": 342230,
+      "sha256": "2a530897cd166702291a4045396a3d3cf7fe21fcea4379fa916532414ac47411"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire302.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire302.webp",
+      "contentType": "image/webp",
+      "bytes": 531336,
+      "sha256": "cf43cad9de0684b10687eadc511d26e416ae8d156323c9ac3bed73b45a7b4100"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire303.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire303.webp",
+      "contentType": "image/webp",
+      "bytes": 328782,
+      "sha256": "e73224015eb170621c708882b4c2a095bbbc09c2a904bb0b60197a5a0cb3776e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire304.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire304.webp",
+      "contentType": "image/webp",
+      "bytes": 527196,
+      "sha256": "b9118c9c3f90abbc54b84851fdffdc554c9bd3c1792b023005e2a109ad8a00f7"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire305.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire305.webp",
+      "contentType": "image/webp",
+      "bytes": 146934,
+      "sha256": "b1f339425a2329c432f0ac08d0f2c072e3bbab30f1812985a986fdd13d5e430b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire306.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire306.webp",
+      "contentType": "image/webp",
+      "bytes": 399244,
+      "sha256": "4531f25b9256478968b63784091fc382e31841b869d692775664b9e1335736c8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire307.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire307.webp",
+      "contentType": "image/webp",
+      "bytes": 41632,
+      "sha256": "a6402ec02b40ac8c7895007eabf27a786d1a7fadcea5813545902d01e7508f20"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire308.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire308.webp",
+      "contentType": "image/webp",
+      "bytes": 157616,
+      "sha256": "3e2981e925db233f7ff5005f3ad136b88c717b757ab7f650b5c036214b6fca5f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire309.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire309.webp",
+      "contentType": "image/webp",
+      "bytes": 153954,
+      "sha256": "44c69db595d4b6635c5b89662a73007d95422c8407f1d750b528937735692f7e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire310.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire310.webp",
+      "contentType": "image/webp",
+      "bytes": 90272,
+      "sha256": "af6fe1f7a5d4cd38fbbc669998c1fc3f8f2935047ca130c7fb9d7220a0908b8b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire311.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire311.webp",
+      "contentType": "image/webp",
+      "bytes": 13444,
+      "sha256": "ae335a621f41967a29a319da6a971c2db7d5248aab16994bd9835000413e2157"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire313.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire313.webp",
+      "contentType": "image/webp",
+      "bytes": 120070,
+      "sha256": "b06852030dd036c548062c43b50cf762414a6dfae2836c029895cca55897f92d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire314.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire314.webp",
+      "contentType": "image/webp",
+      "bytes": 110312,
+      "sha256": "1be3f309d7d7b4705eddbe80d6473221861179d7c14d1a25ecb389195c50d023"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire314f.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire314f.webp",
+      "contentType": "image/webp",
+      "bytes": 90684,
+      "sha256": "e767782406e8e929bad7385f4ac30c587615f8038a44df8a95217c6409fc2af3"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire315.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire315.webp",
+      "contentType": "image/webp",
+      "bytes": 212888,
+      "sha256": "6acfaf155d16eef5abe67a66a72d791b2bc4f79a9055f2287dd0547e08b6ee5e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire707.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire707.webp",
+      "contentType": "image/webp",
+      "bytes": 159686,
+      "sha256": "afb4c6ac4cfeae7a8c0b911cf3cf0739a5baf16893ebb508cb578d4dd8f935eb"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire7650a.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire7650a.webp",
+      "contentType": "image/webp",
+      "bytes": 44008,
+      "sha256": "33d6d071c0fd3816dd8e2fb6842c0434dd978c3b809b947af85afb05e9d52aec"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire789.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire789.webp",
+      "contentType": "image/webp",
+      "bytes": 73088,
+      "sha256": "48d63619155a74fbb218fbe39b7d58fcfe71441d1ff7558c394fe6dc6e2ed372"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire861.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire861.webp",
+      "contentType": "image/webp",
+      "bytes": 87804,
+      "sha256": "8ec5c6ee3e1e66fd1c7e1acbe6c011c44a0ee66b45b65f23b2f83cbb84bf24c2"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/fire863.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/fire863.webp",
+      "contentType": "image/webp",
+      "bytes": 105758,
+      "sha256": "726e3bf453a4aec8fdaa91dfde8d365b64040ad2e11c943ef8b560fcb4bebe07"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit007.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit007.webp",
+      "contentType": "image/webp",
+      "bytes": 35142,
+      "sha256": "91ebc4397adb7dca661887e9b9fba88c2c436403eedbb7b996018b81ad92713f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit122.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit122.webp",
+      "contentType": "image/webp",
+      "bytes": 41190,
+      "sha256": "9e349068ef75f369ab0633d8f86defb63b97eaca3810b3cdc1c3805ef922b929"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit123.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit123.webp",
+      "contentType": "image/webp",
+      "bytes": 60090,
+      "sha256": "e587ebb28f32a7022cf5f4643254ddf36e00a04db7d718eae8f29733fb494be2"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit203.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit203.webp",
+      "contentType": "image/webp",
+      "bytes": 6304,
+      "sha256": "02acdae325b0928bd180fcf3bf8d1093f517ce439ccdf9a0e73be6ec3a62383c"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit204.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit204.webp",
+      "contentType": "image/webp",
+      "bytes": 7114,
+      "sha256": "9e8793f078f6a3526a8917716c4469af8ef99cf4f2ca457ebaf014988a20b7df"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit205.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit205.webp",
+      "contentType": "image/webp",
+      "bytes": 6406,
+      "sha256": "9f76acbf9def590b42b9200439ed8c88303976c90b2a6ccf8fd0b67a973c64f9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit206.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit206.webp",
+      "contentType": "image/webp",
+      "bytes": 14316,
+      "sha256": "5eb9912cc533c96527ce6f34396558e883e652dcf987479592ad0c3929b785f4"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit207.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit207.webp",
+      "contentType": "image/webp",
+      "bytes": 16272,
+      "sha256": "42a82a4c779a4ded93f85c91a287e34e81099f7a4667dfd97bf2f25ef9920d3e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit209.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit209.webp",
+      "contentType": "image/webp",
+      "bytes": 6938,
+      "sha256": "e533d4af2d359854cf7e8e3e6b7f79dc6a16548b28c5df1dbc361cd8552c7f8b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit210.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit210.webp",
+      "contentType": "image/webp",
+      "bytes": 7536,
+      "sha256": "c6c4d411cdf77a8f08d5aed4569545cd58df186a7f6f5b206f397f26cc91d4d2"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit216.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit216.webp",
+      "contentType": "image/webp",
+      "bytes": 35486,
+      "sha256": "0c764de99efc957270d95caf66a690350c336f301758a5e0e4465e2eeb74708d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit218.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit218.webp",
+      "contentType": "image/webp",
+      "bytes": 22912,
+      "sha256": "cadcbbd605595eedc4b23b4763bfeb2b71ece2c725ed560dc27e355ee79adfeb"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit224.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit224.webp",
+      "contentType": "image/webp",
+      "bytes": 18256,
+      "sha256": "7893e1fb1bd5b5189ebe52a9f34ae0d04cb1cf40472647c6ebc29bbd98436fca"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit226.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit226.webp",
+      "contentType": "image/webp",
+      "bytes": 25038,
+      "sha256": "062c38535773b638711b8a972c59575eb46b8e19098903e4721741d463432908"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit227.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit227.webp",
+      "contentType": "image/webp",
+      "bytes": 24930,
+      "sha256": "40257406f8ccea02d0a0044d05aa735d70358efb56d07d66bfa9cb5867453f56"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit228.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit228.webp",
+      "contentType": "image/webp",
+      "bytes": 24970,
+      "sha256": "9e245adf5d6fa1913660be01d2a6cbc55b9a1f52487295b51965d2b6897b5b51"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit233.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit233.webp",
+      "contentType": "image/webp",
+      "bytes": 16154,
+      "sha256": "6b92577b79e20d94e6f54d349e7c5a0d56ce1d7d379435de79bcb705b16fb3de"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit236.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit236.webp",
+      "contentType": "image/webp",
+      "bytes": 25202,
+      "sha256": "2231efcfe1f9aa15ca88a2f06547f082dc6644fedb7ceee7a0f2447d7e6e4d18"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit239.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit239.webp",
+      "contentType": "image/webp",
+      "bytes": 6488,
+      "sha256": "c915c40aaf851687768754e7ec8d2ae4073b476bf33ac0d5ffa2fee96fa513f0"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit241.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit241.webp",
+      "contentType": "image/webp",
+      "bytes": 48980,
+      "sha256": "70a299a72ccb2600eefc77cfe029069409c462a604826b6109c62e87a48abc52"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit242.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit242.webp",
+      "contentType": "image/webp",
+      "bytes": 35502,
+      "sha256": "e892a9bbc57367d6926a08b84bce741200ad79db4f8643fa1418e82d3665068a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit289.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit289.webp",
+      "contentType": "image/webp",
+      "bytes": 6424,
+      "sha256": "0aa82e6c701aec1733b574f73e00e1e29644292e4ee06233598178ed7575d3d8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit290.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit290.webp",
+      "contentType": "image/webp",
+      "bytes": 6694,
+      "sha256": "33487e06889b38c3fc30c673b9f26d8acfc24658c765eefbe91b6b573ac2ddaa"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit300.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit300.webp",
+      "contentType": "image/webp",
+      "bytes": 28790,
+      "sha256": "66510373bb4f25caf1161c1175075f6d105e0fdead7d04e86e758b3ade821f60"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit302.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit302.webp",
+      "contentType": "image/webp",
+      "bytes": 8754,
+      "sha256": "d000150f1fcf1c2c29fc5960c86c8100e922ddec0dfdcee38ba7e9a93002898f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit7011.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit7011.webp",
+      "contentType": "image/webp",
+      "bytes": 8296,
+      "sha256": "41b61e370b493937d99c91c3e31d9a6c15fdf0e41d6dba13ea71b14d02b6625e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit7051.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit7051.webp",
+      "contentType": "image/webp",
+      "bytes": 13350,
+      "sha256": "b61c41a21b0c038649cbe48c4e2c1988bc6c0aac46eef656ef67d75680cc85d7"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit707.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit707.webp",
+      "contentType": "image/webp",
+      "bytes": 40482,
+      "sha256": "663232c567629ac1ecc6daac98dc8e03e9f6ca96e822a72919853d81c1dfc034"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit7081.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit7081.webp",
+      "contentType": "image/webp",
+      "bytes": 30554,
+      "sha256": "2adb4b0ab05aeef5a7c561fecba6faa0213e716125b9e47ca01d50256486ecf7"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit7101.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit7101.webp",
+      "contentType": "image/webp",
+      "bytes": 18830,
+      "sha256": "7ddb47bb7edd81b6f7637467aadc02d6653addc0274f3653c0e476fd7ae8ce3b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit7141.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit7141.webp",
+      "contentType": "image/webp",
+      "bytes": 22164,
+      "sha256": "1302264f4941501c74951b0066852e9467e32229c3113cd88f6cd17f1a64a6c9"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit7161.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit7161.webp",
+      "contentType": "image/webp",
+      "bytes": 8654,
+      "sha256": "b71177508ba2b9fbc5a54127cd3d8ca117083aebd22745427125ca41026b4f56"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit7211.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit7211.webp",
+      "contentType": "image/webp",
+      "bytes": 8496,
+      "sha256": "8e29e9c1e188acd3a2b92423122e6a6bc45e496609932c9e21cde994d037b925"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hit7231.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hit7231.webp",
+      "contentType": "image/webp",
+      "bytes": 23474,
+      "sha256": "23c7aa8d63d48712264d049b13c890b09f9dca744337aeb648415898d7dd4918"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hitH00.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hitH00.webp",
+      "contentType": "image/webp",
+      "bytes": 12268,
+      "sha256": "15d00bd69c961e3f9024760ff6dd6e443ec6f66a0d1a338adced234898d3a76f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hitH01.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hitH01.webp",
+      "contentType": "image/webp",
+      "bytes": 14456,
+      "sha256": "d64158d459b95350ee7a1fd0f69928388edf5ba550c0177e4e370da01dc4c0d0"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/hitH10.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/hitH10.webp",
+      "contentType": "image/webp",
+      "bytes": 16476,
+      "sha256": "d5d8c64281eaf3092b4e1b4fcd01a405dcbebbc74bf50aab57d7f83b0de9c739"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special000.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special000.webp",
+      "contentType": "image/webp",
+      "bytes": 153118,
+      "sha256": "406bef457c07bd472a85744d8343f86f4cc38eeba20b097ffce70a5441a73c98"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special001.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special001.webp",
+      "contentType": "image/webp",
+      "bytes": 262890,
+      "sha256": "129f40f6927ebc0090ce2a437681d81072fec684665faeb12ad801fe52d5ae10"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special003.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special003.webp",
+      "contentType": "image/webp",
+      "bytes": 59698,
+      "sha256": "b5e15cde1a9f786f22d2056a40a2bf65f2270c2869ec4147dcc844c4cc12f910"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special0031.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special0031.webp",
+      "contentType": "image/webp",
+      "bytes": 87456,
+      "sha256": "88dd00cc399995b6f91d6b92896db8ea2b80c0054be137de132cd1cbf829b610"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special004.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special004.webp",
+      "contentType": "image/webp",
+      "bytes": 76006,
+      "sha256": "71f95fd137ba3e07e2df6292d9d82c4eeba300523abe5807b49d7321d8a991cc"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special005.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special005.webp",
+      "contentType": "image/webp",
+      "bytes": 123514,
+      "sha256": "6524dd7525e5d2f4ebb14793e2afdbc89e1d669a0d7e70e03eaa696de75aba7f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special009.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special009.webp",
+      "contentType": "image/webp",
+      "bytes": 77482,
+      "sha256": "551204641c268de639e1ad8ccd4ddced243bcd354e5902063b01c38c3c851059"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special101.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special101.webp",
+      "contentType": "image/webp",
+      "bytes": 744302,
+      "sha256": "c415321b452743fb97423e538ccebdbfcebe8e422750d6429930f1537617a8a5"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special211.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special211.webp",
+      "contentType": "image/webp",
+      "bytes": 71056,
+      "sha256": "2339b73817ed53231ecce93bae09a69087fd30ed2f485f53694117e8586522b4"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special222.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special222.webp",
+      "contentType": "image/webp",
+      "bytes": 56534,
+      "sha256": "915562a64cd69c5ea4b4f0192642fe3edb9f3f880936e7d2ab1792ead62e5af7"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special227.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special227.webp",
+      "contentType": "image/webp",
+      "bytes": 147692,
+      "sha256": "32bb34643a7c1ea6c0f69fa34c935167583464827b284661539d7e78af8ef365"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special228.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special228.webp",
+      "contentType": "image/webp",
+      "bytes": 66692,
+      "sha256": "f106295a134ba102b39ecbf5940136c44b97877bc7fa88a4df74d669d10a489a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special230.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special230.webp",
+      "contentType": "image/webp",
+      "bytes": 209950,
+      "sha256": "6acabad680c0037baf78f5ad89381c44fac19c9f7ac911a3287261d17e07b040"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special241.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special241.webp",
+      "contentType": "image/webp",
+      "bytes": 210560,
+      "sha256": "a47d695e9443e798705e68bd9758296a3fea1fce38680c2e2b0434942994590f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special2421.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special2421.webp",
+      "contentType": "image/webp",
+      "bytes": 115048,
+      "sha256": "f8e1fa018c6e4d30d2b6be8cc11a76312eae4adab35c97b5f9e6e7f822afd6ee"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special2423.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special2423.webp",
+      "contentType": "image/webp",
+      "bytes": 384790,
+      "sha256": "2d077b883f0c2ac6ca54114816087070a1d79352689b9b966556abfa3f715740"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special243.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special243.webp",
+      "contentType": "image/webp",
+      "bytes": 708668,
+      "sha256": "fca546b5f846e06b07378d3e75c6da7d9f5209d2ca2c337c9ee6eff0202b6a68"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special276.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special276.webp",
+      "contentType": "image/webp",
+      "bytes": 289746,
+      "sha256": "54f8276920ac2bae3e6a56ce060e4f4e55119a93f649b7446433788fcf0a427d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special300.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special300.webp",
+      "contentType": "image/webp",
+      "bytes": 112118,
+      "sha256": "7b20280dbdb67dad3010bfa1b603d85d26290bfc58a1e34264f2c58429a03719"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special301.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special301.webp",
+      "contentType": "image/webp",
+      "bytes": 619446,
+      "sha256": "41e3697da6c7a7289a44f493bae007e44edfd9466646a9df254d692025cff42d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special304.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special304.webp",
+      "contentType": "image/webp",
+      "bytes": 171520,
+      "sha256": "6f6b5675d7f2182490abdc5d672cb023db49ee83356d13987300038cb4c8778f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special305.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special305.webp",
+      "contentType": "image/webp",
+      "bytes": 200204,
+      "sha256": "62b58fd0d50b74eb67ec8c640ebe80661ba6318a9d7ccc550997a7ffc1e17010"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special4182.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special4182.webp",
+      "contentType": "image/webp",
+      "bytes": 116376,
+      "sha256": "543b1eb17172bfb737515778a7aae8cebb16946ad212875a91a699601f5897cd"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special7001.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special7001.webp",
+      "contentType": "image/webp",
+      "bytes": 225896,
+      "sha256": "dc810cf78214c0ecfc069b8863ca8d53b4b04ff34aba2027c79337181576bbc3"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special7002.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special7002.webp",
+      "contentType": "image/webp",
+      "bytes": 413102,
+      "sha256": "adadb619a8925fa20947e9657c9bd87ab3f4c05b8c871635295933584b993b4b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special7051.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special7051.webp",
+      "contentType": "image/webp",
+      "bytes": 1373768,
+      "sha256": "535cfb4b55f378aa017aafb5e98e2c8d4367ff4f3ab7f7dfe398d10e9b44cebf"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special714X.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special714X.webp",
+      "contentType": "image/webp",
+      "bytes": 391836,
+      "sha256": "59244ac2d35153ce5c9c18dec5b20327a6966436a5263d62c977940959ee584f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special7201.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special7201.webp",
+      "contentType": "image/webp",
+      "bytes": 494878,
+      "sha256": "dccd14334de81a0b37c548f093b50e39406034ba6cc67e460ea237d3296b9a61"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special721r.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special721r.webp",
+      "contentType": "image/webp",
+      "bytes": 240092,
+      "sha256": "da07ca65755e48afcb14b2967e2104b7b0c8bbf8ef05734f0109e74ea8832c7c"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special763r.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special763r.webp",
+      "contentType": "image/webp",
+      "bytes": 198942,
+      "sha256": "cd00e131e1eb5e750b68778aa332a1a457fcfa2f3f03a9a7e20df10d3e3eaf13"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special7700.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special7700.webp",
+      "contentType": "image/webp",
+      "bytes": 124834,
+      "sha256": "88c02909de0ac9388fec6eef24f68ee1cf1eb6adf9a6d627c98c3f3d3ec40cbd"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special770a.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special770a.webp",
+      "contentType": "image/webp",
+      "bytes": 84498,
+      "sha256": "56c131c350b646c286e48567165ac6636a8dc009d345124ea020d407b2f8460b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special795.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special795.webp",
+      "contentType": "image/webp",
+      "bytes": 64972,
+      "sha256": "08949f27bba8c5f99c3b4ac527eeb5dae24c7c2410b4ff63cb325bf866a9bfde"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special860.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special860.webp",
+      "contentType": "image/webp",
+      "bytes": 788092,
+      "sha256": "f7f13de4e0ad519ec76d5472a3104afad37f0137817ab176da877d191c8a0ca6"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special861.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special861.webp",
+      "contentType": "image/webp",
+      "bytes": 220636,
+      "sha256": "44ca6692a920834422e75fed34fae0f36a6f5e77b5842c6dd31965831cbdcdee"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special972.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special972.webp",
+      "contentType": "image/webp",
+      "bytes": 402312,
+      "sha256": "3199de8e4f1a47e27b25a69390336739fd6b788d3735a4d5d596941083bb4284"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special973.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special973.webp",
+      "contentType": "image/webp",
+      "bytes": 201672,
+      "sha256": "7852190a7c5b54de6c990b2b34ef054d47ff43139de86eb5b395559688e34146"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/special975.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/special975.webp",
+      "contentType": "image/webp",
+      "bytes": 163110,
+      "sha256": "1d1df05c2f5490306d96087f7a58dee2771cbdb729ebd8f1fe1b74557847f8c1"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialG302.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialG302.webp",
+      "contentType": "image/webp",
+      "bytes": 353368,
+      "sha256": "c864928fc98b98c1329c54fefde92d23aa9b3f6d72bdf69fbd46aa80f6894a81"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialLose2.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialLose2.webp",
+      "contentType": "image/webp",
+      "bytes": 54186,
+      "sha256": "d3c84c4cbf2c789bde6634cf035fbfe8ba05bd5193e61ca55e1fede0eb266b11"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialLose20.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialLose20.webp",
+      "contentType": "image/webp",
+      "bytes": 197278,
+      "sha256": "d499516c4a2b9c51b8092097116979bf00a15d16b05b85220a927c5f094a033d"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS005.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS005.webp",
+      "contentType": "image/webp",
+      "bytes": 337280,
+      "sha256": "e832041821435a850c77bb5aa9bfc0e07b398bdb8f2aa8ebf5c9cedd45eb534a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS011.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS011.webp",
+      "contentType": "image/webp",
+      "bytes": 54778,
+      "sha256": "abdc8f29192ac06cd72217803d678906864b7334315eaf04e18aae2636561344"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS100.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS100.webp",
+      "contentType": "image/webp",
+      "bytes": 208014,
+      "sha256": "9423fa227b094e060d2d2d0b86fbd224fdd544c88462270e9b2b766a173ab085"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS102.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS102.webp",
+      "contentType": "image/webp",
+      "bytes": 17966,
+      "sha256": "cb2909dc975bc36ab1c335d994de1a6c2daddd7a8f15bd9d01b6eff27078667e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS103.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS103.webp",
+      "contentType": "image/webp",
+      "bytes": 345646,
+      "sha256": "6adb10403f9323b5b231678c767297a653aec6108a774240592610a8d9673184"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS105.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS105.webp",
+      "contentType": "image/webp",
+      "bytes": 129634,
+      "sha256": "804472caa52da8ed484aa5c27a04ff2e5d0713948c2e9347758a09fd77007490"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS107.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS107.webp",
+      "contentType": "image/webp",
+      "bytes": 117668,
+      "sha256": "3bd18d7b61d9f304924d349904510b147275d9172dd67396907e11d2bc2139d8"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS201.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS201.webp",
+      "contentType": "image/webp",
+      "bytes": 213584,
+      "sha256": "ccc007292c98c5839a57aebdefe4cf466cd78383e54cb76bf59a1f07b7271136"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS202.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS202.webp",
+      "contentType": "image/webp",
+      "bytes": 169574,
+      "sha256": "8ad1ac3470f2b9546dd7acdaf4f1319c1a61a867d94cf11dcf932b621e1c5cda"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS204.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS204.webp",
+      "contentType": "image/webp",
+      "bytes": 292500,
+      "sha256": "560d925f94a60efccf0f580ab46fff88d4409a1a3c5394e40b47b1a66b7728e4"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS206.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS206.webp",
+      "contentType": "image/webp",
+      "bytes": 125828,
+      "sha256": "a224b3e3dc7698382b6064151aa1aa93ae40d2168c854feb904d92f726a20084"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS207.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS207.webp",
+      "contentType": "image/webp",
+      "bytes": 353020,
+      "sha256": "354f0b35e6df296c4ca2d882533ab5349eab87957eefb7d083a0f045cb0aefde"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS208.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS208.webp",
+      "contentType": "image/webp",
+      "bytes": 213256,
+      "sha256": "5015a8534f02874b0f10efebb69a7eb4616a57f3e42afb2d895e345756089b0b"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/specialS211.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/specialS211.webp",
+      "contentType": "image/webp",
+      "bytes": 338626,
+      "sha256": "e64d2b4c7d1af5c2f9c4154ef078e606f5f85dffd54eb92804166f2becd4db14"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/stick209.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/stick209.webp",
+      "contentType": "image/webp",
+      "bytes": 10676,
+      "sha256": "279332435239e175f2a2ba8c05025c1f374016ac3caa2de2c9ced04d0146db59"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/stick213.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/stick213.webp",
+      "contentType": "image/webp",
+      "bytes": 13652,
+      "sha256": "74c55d0ffefb51f5151eee2b3935f0e9966e810f8122bf0baa0101308a6780ad"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/stick216.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/stick216.webp",
+      "contentType": "image/webp",
+      "bytes": 1940,
+      "sha256": "fc7e4d43ba26fefc87864204ed935b7d5a346287bfc01c2fb4d13b985ace6eac"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/stick217.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/stick217.webp",
+      "contentType": "image/webp",
+      "bytes": 13764,
+      "sha256": "e6183d0077d04cf4456221fdc7d52d2bbb9a2eae77572f55d925f2b6985d1826"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/stick218.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/stick218.webp",
+      "contentType": "image/webp",
+      "bytes": 8954,
+      "sha256": "d9df3f55addf7acb2974a233bc3f193b2461d3344343f9baaa74f8488c021cf7"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/stick291.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/stick291.webp",
+      "contentType": "image/webp",
+      "bytes": 18910,
+      "sha256": "7cdef8a2ca221fe83e8ded0dbb62489df22b511ade41e35c3315135a28420ab1"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/stick301.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/stick301.webp",
+      "contentType": "image/webp",
+      "bytes": 2056,
+      "sha256": "0495a27c50239bf97f4e9a8d5bec4305c2be31d89c94ef83f52db599e11ac4ad"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/stick302.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/stick302.webp",
+      "contentType": "image/webp",
+      "bytes": 3364,
+      "sha256": "36881bcd8c770205cc7d22780d598b4d6ce9543981b81fbbc254b676c51b2100"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/stick962.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/stick962.webp",
+      "contentType": "image/webp",
+      "bytes": 25066,
+      "sha256": "36308d1d2a95e344f2139930c4e83f6b82dd1f1f8005aeb9efe3d3489fec06f6"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/trailing303.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/trailing303.webp",
+      "contentType": "image/webp",
+      "bytes": 2692,
+      "sha256": "8a18eb4a27496fc72501b4ce719f741d8700d329b768cff9adf8d8e7ca391e61"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx-all/trailing304.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx-all/trailing304.webp",
+      "contentType": "image/webp",
+      "bytes": 25572,
+      "sha256": "389a922c93996753ea7f57f48225f34870f2ff5565b96507f7869c6c1f592608"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bang235.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bang235.webp",
+      "contentType": "image/webp",
+      "bytes": 161130,
+      "sha256": "6279337bb98e42727fe40d326eeaa12296e86d088492050d5dcdcb2f86a2fb3c"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bang238.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bang238.webp",
+      "contentType": "image/webp",
+      "bytes": 455606,
+      "sha256": "f321c223032c46f38c9eda593bfe67275bf41423331f94bc15b3e16714915fba"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bang247.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bang247.webp",
+      "contentType": "image/webp",
+      "bytes": 471926,
+      "sha256": "8e8133f1e4b342cbbe83cc210b6102ba8956d8288c20b1f2898bcc01a964bd2e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bang717r.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bang717r.webp",
+      "contentType": "image/webp",
+      "bytes": 696952,
+      "sha256": "57a446723dee0f263ea5e0b437152a105ce95377107cc3ad8779907a0063ecec"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bang794.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bang794.webp",
+      "contentType": "image/webp",
+      "bytes": 123986,
+      "sha256": "55c76ccfd9c7296ca4fd0d1c132eb55bbbb76f5f086fbb2c9482ad29e6130d03"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bangH12.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bangH12.webp",
+      "contentType": "image/webp",
+      "bytes": 228006,
+      "sha256": "b9c53b8d69ada682ffdbe4f9317e504b911942c349d093e9fdb9a6aa7f612431"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bangS003.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bangS003.webp",
+      "contentType": "image/webp",
+      "bytes": 356926,
+      "sha256": "20687ff4c631ad2183e7c2e2122b97091c461144da4f16490d735bd7e1d0d876"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bangS206.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bangS206.webp",
+      "contentType": "image/webp",
+      "bytes": 624326,
+      "sha256": "9337783c295f75e01ccab813b5252db9cfd173a1a932abd3cb9d56dfcf3cbd0f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/buff971.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/buff971.webp",
+      "contentType": "image/webp",
+      "bytes": 10766,
+      "sha256": "8bfe5f0ebcfef512b866469bd56a702db116c6d4d44e64202de7e8953954cc67"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bullet102.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bullet102.webp",
+      "contentType": "image/webp",
+      "bytes": 358,
+      "sha256": "a6addd8830c12269d61fbdb153987d777a7812c42344b673021c36aab3bb89fa"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bullet103.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bullet103.webp",
+      "contentType": "image/webp",
+      "bytes": 5302,
+      "sha256": "15a7115780556de5267fa1f08a001f1e128b5524fce74caca7293db6350fbf5e"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/bullet782.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/bullet782.webp",
+      "contentType": "image/webp",
+      "bytes": 20052,
+      "sha256": "abe27dd83867ef0fdd899c859dc7fa7b57988bb9f12ee07cca5fa1d74cba5c28"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/fire035.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/fire035.webp",
+      "contentType": "image/webp",
+      "bytes": 11916,
+      "sha256": "5bae847f36828e38f4853d0861f9bb9d8cfe2b320e48ef33da2b69a41d4c3717"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/fire225.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/fire225.webp",
+      "contentType": "image/webp",
+      "bytes": 44766,
+      "sha256": "508fd6f5edc886ad2818bb11ad49c1153bb177141bf2452e548dfc4972589635"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/fire272.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/fire272.webp",
+      "contentType": "image/webp",
+      "bytes": 11048,
+      "sha256": "c750eb46ebf1f6a54fac2fdf18e95b23814de881281e449706d12c7cbd7cdb98"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/fire292.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/fire292.webp",
+      "contentType": "image/webp",
+      "bytes": 30704,
+      "sha256": "fb91c603755e544022c8c0cb617b9bf84b9d6a22cd0f0af41fa95e256949a5c5"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/fire313f.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/fire313f.webp",
+      "contentType": "image/webp",
+      "bytes": 89794,
+      "sha256": "301992d3c8183bde01fd4f138710d2dce16d78441dedf95844ec8f8db3f75c8c"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/hit100.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/hit100.webp",
+      "contentType": "image/webp",
+      "bytes": 10866,
+      "sha256": "513799d0d0903ff1aa24595a653b4f304f9c95feeaeee89fcbb26a00d164a289"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/hit101.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/hit101.webp",
+      "contentType": "image/webp",
+      "bytes": 10026,
+      "sha256": "dd4105c8ba9befdcbe1918eb6b51f1d03d5d47a07c06c923c05ddd76e09919de"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/hit102.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/hit102.webp",
+      "contentType": "image/webp",
+      "bytes": 8694,
+      "sha256": "d9d63f84c7d3bcad112be536031ecd058ff7facf7c4b07ad5dce8065cb16565a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/hit103.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/hit103.webp",
+      "contentType": "image/webp",
+      "bytes": 13116,
+      "sha256": "1c686e0385b0a1eb02e721ea53fae79e20eeafaf98268ad52b36150383054542"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/hit225.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/hit225.webp",
+      "contentType": "image/webp",
+      "bytes": 19328,
+      "sha256": "9225fcfed100aa17de8e3be121295970ea4500e281e6b082a58d66744628ce60"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/hit229.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/hit229.webp",
+      "contentType": "image/webp",
+      "bytes": 5724,
+      "sha256": "7f5352c770c89421423a0736f591ed33256ddf581b81d65d9578efca37374efd"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/hit2403.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/hit2403.webp",
+      "contentType": "image/webp",
+      "bytes": 18234,
+      "sha256": "279f4cdafd5b90ca05ba5d2a25f075977c77e879cfff56d8cb7e4116058e9ef3"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/special225.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/special225.webp",
+      "contentType": "image/webp",
+      "bytes": 126974,
+      "sha256": "f51e2dfee8ed00bf87805ee23acabd8ec77fbb2eabe20cce45645aade8f3bd19"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/special229.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/special229.webp",
+      "contentType": "image/webp",
+      "bytes": 265270,
+      "sha256": "2b47b2d3cfa698a2e85f98cdde78f84f9f658dc147e5134921757871f379da31"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/special237.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/special237.webp",
+      "contentType": "image/webp",
+      "bytes": 159352,
+      "sha256": "5ff09ffeb41ff70a752614c5ed0dbf9ebf9855fb29e7530fb86206381715fbc2"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/special292.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/special292.webp",
+      "contentType": "image/webp",
+      "bytes": 201156,
+      "sha256": "102551ad17c199ddd6e801a011224be3f6ec0b64d216a7e84fcdec5603892658"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/special707X.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/special707X.webp",
+      "contentType": "image/webp",
+      "bytes": 304848,
+      "sha256": "9669453636bd09c26bef34caca9a520b8424ba5a679c83b815282a926e1efb1a"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/special792a.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/special792a.webp",
+      "contentType": "image/webp",
+      "bytes": 92024,
+      "sha256": "087a8b346e9604fd15f0feea3f0ea3ba3f434d84f779f86be4d30bdf0c031f8f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/special965.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/special965.webp",
+      "contentType": "image/webp",
+      "bytes": 127430,
+      "sha256": "34152a6c9a6f7542f168c9135456b543589723485d43b39ee0f7f0f566541895"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/specialLose0.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/specialLose0.webp",
+      "contentType": "image/webp",
+      "bytes": 44502,
+      "sha256": "df3163766713c51c292f2d04ea3923dea151f624bf282dc4eec0e0b98ad2854f"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/specialLose1.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/specialLose1.webp",
+      "contentType": "image/webp",
+      "bytes": 55008,
+      "sha256": "31b4a39ed8062e629f4956c9499d693ddf1f27acc704aabc87b8f252a560e6a3"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/specialS203.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/specialS203.webp",
+      "contentType": "image/webp",
+      "bytes": 107668,
+      "sha256": "f845b10011d5d0bac50da855256310bf265fd9a0003cb6e043ebc3549d49db98"
+    },
+    {
+      "kind": "battle-vfx",
+      "sourcePath": "assets/battle-fx/stick204.webp",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-fx/stick204.webp",
+      "contentType": "image/webp",
+      "bytes": 15132,
+      "sha256": "c57c105cc0bf18f4a02d8a4e531a2299e976021b253e4535800392e10c62fd1b"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army00-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army00-cheer.png",
+      "contentType": "image/png",
+      "bytes": 13038,
+      "sha256": "f905719c8e7e5977bc21d48db9709affd54fa632f2f37bb2ddffd5a3c6d8f3f0"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army00-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army00-dead2.png",
+      "contentType": "image/png",
+      "bytes": 3333,
+      "sha256": "f1274680c5b0c9a0dd2a61f862f505c82e5eb64b0b4e9b4118511b6d90f2f4e9"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army00-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army00-injured2.png",
+      "contentType": "image/png",
+      "bytes": 6731,
+      "sha256": "59eb997a6bbdf20aebd0751dbb47b38ff3483d1f58aaf548bc42a20b483317f0"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army01-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army01-cheer.png",
+      "contentType": "image/png",
+      "bytes": 10704,
+      "sha256": "0e503f38e5385b04d8eea3cb9fb3ece1100921162635a3c50e03ddc4a8b82d89"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army01-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army01-dead2.png",
+      "contentType": "image/png",
+      "bytes": 2696,
+      "sha256": "78f52353e4dc2ba232dbbb6b9f993245da854101076e5c69d8ee6137117883ae"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army01-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army01-injured2.png",
+      "contentType": "image/png",
+      "bytes": 5107,
+      "sha256": "c1fd1c5aaa50478b736ba1f6919da3ca0a911bfb56a561f17a4b3a7ae39e0726"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army02-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army02-cheer.png",
+      "contentType": "image/png",
+      "bytes": 10936,
+      "sha256": "4b6200c47196fac471d9284b87d660a4fea947c15b78e4166ce18409d49ac76d"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army02-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army02-dead2.png",
+      "contentType": "image/png",
+      "bytes": 2262,
+      "sha256": "2ada91f18aea7d5ddf9c946bc0e1edb8837b8c18c03790abfb4f41d9f758a7ba"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army02-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army02-injured2.png",
+      "contentType": "image/png",
+      "bytes": 5561,
+      "sha256": "0622d52ebdbb646a70b169311d200015822f6ac76ac9fce9c84d7b1be60e9545"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army03-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army03-cheer.png",
+      "contentType": "image/png",
+      "bytes": 13079,
+      "sha256": "5c793f53ded2ac6bfb0791445e184fe26f27c7fa85ff35964c0a1e10b1d66ff9"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army03-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army03-dead2.png",
+      "contentType": "image/png",
+      "bytes": 2986,
+      "sha256": "1ccf682616fd3b814a3b034ee4608954e8e40b478759a0cfbba00b72cf51d3f1"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army03-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army03-injured2.png",
+      "contentType": "image/png",
+      "bytes": 6078,
+      "sha256": "08a310bffcbe8032afc1aceb7cb95a4f802802b8b50ae1cbedb70b7eb4f36bec"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army04-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army04-cheer.png",
+      "contentType": "image/png",
+      "bytes": 14890,
+      "sha256": "951839a5a948685f4f8b3e0b7038de9c328332eddb494fea9a932da966d523a6"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army04-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army04-dead2.png",
+      "contentType": "image/png",
+      "bytes": 3753,
+      "sha256": "bb7f146fc2fca2d6bd9f39dc6a14119002bdc48e9fe9df987655bbab591ec9f4"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army04-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army04-injured2.png",
+      "contentType": "image/png",
+      "bytes": 7506,
+      "sha256": "02e0e3a75a484a850072ea64d053d92387730d86ebe5b3066adaaf2726a00618"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army05-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army05-cheer.png",
+      "contentType": "image/png",
+      "bytes": 13963,
+      "sha256": "606d88d2f562912cb8edfcb2ce21276832be61f2759234a51758509c201c16f9"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army05-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army05-dead2.png",
+      "contentType": "image/png",
+      "bytes": 3750,
+      "sha256": "37d4db43b09e0bd9d2c07530c681b9d4c9f2afbd39ae6a8c5462c8f9682a143a"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army05-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army05-injured2.png",
+      "contentType": "image/png",
+      "bytes": 8151,
+      "sha256": "e4338be4fc75e79a788365cd7ac5b02f41668046cf34dae2394ea8aa05a3a6cb"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army10-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army10-cheer.png",
+      "contentType": "image/png",
+      "bytes": 22399,
+      "sha256": "db3141f1e8a6ec39c8a506a3302938a9ca2a6d6f67b6255cf49514d54343addd"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army10-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army10-dead2.png",
+      "contentType": "image/png",
+      "bytes": 40336,
+      "sha256": "ce8d36ff822e698805f73578a239f944a7a97408398f5abb0b15c1e1a186b352"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army10-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army10-injured2.png",
+      "contentType": "image/png",
+      "bytes": 9542,
+      "sha256": "03ee331f0c58fa36ffb34eac1c143a578d01421ed354049ef958efa31576ab9e"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army11-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army11-cheer.png",
+      "contentType": "image/png",
+      "bytes": 21975,
+      "sha256": "adb466dfaff6c81bf970c6407f876319624be5ba7d3dc05ada29d4931b3bbaa9"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army11-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army11-dead2.png",
+      "contentType": "image/png",
+      "bytes": 28499,
+      "sha256": "4d156b3ad9b35df475006820a3227066d19c5d5e7ee82fd86c11a97c8ec06bbf"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army11-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army11-injured2.png",
+      "contentType": "image/png",
+      "bytes": 9406,
+      "sha256": "325f92c3de3e2d09a3426365e553df105a0c3dcf6e9ecd0a9de68b809a9f3b84"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army12-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army12-cheer.png",
+      "contentType": "image/png",
+      "bytes": 19545,
+      "sha256": "260ec8e8b6489c2eb7370ce661cfd82d69534def8abf45d862f254c3687f8f5a"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army12-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army12-dead2.png",
+      "contentType": "image/png",
+      "bytes": 28888,
+      "sha256": "1fa9e45d9d33b13d083ed7819c7da1478313e4446aac817794f50965bcb5e7cb"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army12-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army12-injured2.png",
+      "contentType": "image/png",
+      "bytes": 9998,
+      "sha256": "d0b85733df83abbacfafcd15b0f58086f30219d6a9fe93d1fb00ab366002ebf1"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army13-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army13-cheer.png",
+      "contentType": "image/png",
+      "bytes": 20323,
+      "sha256": "7b0206d7117cd768b45363462e51e6fc6393278d32e33141eaaec681620dfc5a"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army13-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army13-dead2.png",
+      "contentType": "image/png",
+      "bytes": 28628,
+      "sha256": "b65a292b6da30dc3fcc8578363deff5ccc3960ff4a05fb85e8b85f7b2be899ce"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army13-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army13-injured2.png",
+      "contentType": "image/png",
+      "bytes": 10104,
+      "sha256": "2598a395607c934ef93446ea96a5b314450bdc1cbf6b9aa6b8b9380ab0cfbbf5"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army14-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army14-cheer.png",
+      "contentType": "image/png",
+      "bytes": 27600,
+      "sha256": "e6aa661106c0aff0f9e8ad2159537cf50b85f56ebf1f1e40bd45e80e312c3982"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army14-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army14-dead2.png",
+      "contentType": "image/png",
+      "bytes": 14259,
+      "sha256": "b831203c722b94152a32751a917c808f988f30964e06e41747008d20fb596ec3"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army14-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army14-injured2.png",
+      "contentType": "image/png",
+      "bytes": 10864,
+      "sha256": "b14e4b5c4270df3a150fef12ea3ad56368ae2d93a87304fc515d28aadde56960"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army15-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army15-cheer.png",
+      "contentType": "image/png",
+      "bytes": 29187,
+      "sha256": "20ba70dd9047f22c0389fb13ac4e472ba1a92bf323ffde6b19db5e407244c32a"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army15-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army15-dead2.png",
+      "contentType": "image/png",
+      "bytes": 15188,
+      "sha256": "9ecad023e5bb29bc708b4c2fc0c77d22b094de5d8fb4229c6098fe909ffbef83"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army15-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army15-injured2.png",
+      "contentType": "image/png",
+      "bytes": 10986,
+      "sha256": "da364537080dc41cc18da2dcb525dce1e3dc0d8e71746ed30639afe4cf118b5d"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army20-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army20-cheer.png",
+      "contentType": "image/png",
+      "bytes": 14997,
+      "sha256": "e623fc2077aff3daf3725844cb0cf1dc09b33ec7816fbed7cd1ad6dcad2122c9"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army20-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army20-dead2.png",
+      "contentType": "image/png",
+      "bytes": 2625,
+      "sha256": "903d980ebabb83b8027edf1e78bcbadf7b7ef03170501651c66f41538ea41eeb"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army20-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army20-injured2.png",
+      "contentType": "image/png",
+      "bytes": 5328,
+      "sha256": "4804839597088552aee062fff00f90b45a386be5e3e76b88daf4947f9915d3a7"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army21-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army21-cheer.png",
+      "contentType": "image/png",
+      "bytes": 15039,
+      "sha256": "02bda1d46d385fe4d891c7f738520ca7be97d0789e40d2c3b95de0b11d42b945"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army21-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army21-dead2.png",
+      "contentType": "image/png",
+      "bytes": 2600,
+      "sha256": "266a885d5c547e0753dee4b14c6f44004592599343c5bb1fc4ad0f439b6f76ca"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army21-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army21-injured2.png",
+      "contentType": "image/png",
+      "bytes": 5580,
+      "sha256": "ba9b2be3237b3003bfd98d070d2f3254d1bf8574bb0f082d613690047f05af5c"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army22-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army22-cheer.png",
+      "contentType": "image/png",
+      "bytes": 12445,
+      "sha256": "674216c3b5671c688a3636cc0c1ffc5481b52b6eee9d82ecdf8346dcd7d7b37b"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army22-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army22-dead2.png",
+      "contentType": "image/png",
+      "bytes": 2746,
+      "sha256": "65cf6e8ae5e9c18d5d0901c8a9b79713ee603e52aff11ecf318642d3eef4116f"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army22-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army22-injured2.png",
+      "contentType": "image/png",
+      "bytes": 5591,
+      "sha256": "45affccfcbec3d40d62c920c318416dfa1fdb5aaeb40699357f82d5d08c9a277"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army23-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army23-cheer.png",
+      "contentType": "image/png",
+      "bytes": 12653,
+      "sha256": "676a6b91188d3237e554863b1f8f63c71e82517933e82b28962d61d6c9d7d010"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army23-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army23-dead2.png",
+      "contentType": "image/png",
+      "bytes": 3198,
+      "sha256": "de819b36e142ad3c157471b3e3950874ad419c97588bab14173280b08dc338bb"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army23-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army23-injured2.png",
+      "contentType": "image/png",
+      "bytes": 6137,
+      "sha256": "7630939c1746f56ad028548fcb08afc534ac992fb56b1bcb050f41c1b8283df1"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army24-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army24-cheer.png",
+      "contentType": "image/png",
+      "bytes": 19023,
+      "sha256": "c7754679b0facd2d9a325082bf4800c37a0b63c68ec7fae243c120dc527db378"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army24-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army24-dead2.png",
+      "contentType": "image/png",
+      "bytes": 3453,
+      "sha256": "4b7f448c5c05edf19aa68ffe1d3fa16009e7c5a1c53de0d5079daf71b2eaaef5"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army24-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army24-injured2.png",
+      "contentType": "image/png",
+      "bytes": 6654,
+      "sha256": "b75b487a72c0dd100ed0be3a4ea4a527b13908b4ec4fe61d6d2e6ccf79e23b42"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army25-cheer.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army25-cheer.png",
+      "contentType": "image/png",
+      "bytes": 27148,
+      "sha256": "e4a9774ce222a3409ffbc77c56423cf153b211a9141276b9a8d590eb508b81c5"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army25-dead2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army25-dead2.png",
+      "contentType": "image/png",
+      "bytes": 26561,
+      "sha256": "f1c2ba3cb9e6ed5678184bab751edae1d99b4c1b441f51240981ba59924c4675"
+    },
+    {
+      "kind": "battle-sprite",
+      "sourcePath": "assets/battle-ng/quan/army25-injured2.png",
+      "storedPath": "evidence/assets-v3/source-client/assets/battle-ng/quan/army25-injured2.png",
+      "contentType": "image/png",
+      "bytes": 9327,
+      "sha256": "1847ff31dbb52c2b97248b4e5fdb7986258cb03cfe1a943b0b1b14e2262aa568"
+    }
+  ]
+}

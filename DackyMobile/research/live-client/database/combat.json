@@ -1,67 +1,227 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "observedAt": "2026-11-28",
-  "verifiedLiveRules": [
-    {
-      "key": "troop_types",
-      "values": [
-        "Trường Kích",
-        "Đao Thuẫn",
-        "Cung Tiễn",
-        "Kỵ Binh"
+  "sources": [
+    "LIVE_UI",
+    "PUBLIC_CLIENT",
+    "DACKY_CODE"
+  ],
+  "formation": {
+    "troopTypes": [
+      "Trường Kích",
+      "Đao Thuẫn",
+      "Cung Tiễn",
+      "Kỵ Binh"
+    ],
+    "assignmentRuleText": "thống suất ÷ dân số lính",
+    "zeroAssignment": "returns all assigned troops to the barracks",
+    "liveAssignments": [
+      {
+        "hero": "ThiênMệnh",
+        "level": 6,
+        "command": 881,
+        "troopType": "Cung Tiễn",
+        "assigned": 440,
+        "source": "LIVE_UI"
+      },
+      {
+        "hero": "Kim Tố",
+        "level": 36,
+        "command": 4408,
+        "troopType": "Cung Tiễn",
+        "assigned": 2204,
+        "source": "LIVE_UI"
+      },
+      {
+        "hero": "Đặng Thiền Ngọc",
+        "level": 40,
+        "troopType": "Cung Tiễn",
+        "assignedBeforeBuzhou": 447,
+        "source": "LIVE_UI"
+      },
+      {
+        "hero": "Cao Thể Càn",
+        "level": 38,
+        "troopType": "Cung Tiễn",
+        "assignedBeforeBuzhou": 240,
+        "assignedAfterLoss": 6,
+        "source": "LIVE_UI",
+        "casualtyClassification": "UNKNOWN"
+      },
+      {
+        "hero": "ThiênMệnh",
+        "level": 6,
+        "command": 881,
+        "troopType": "Cung Tiễn",
+        "assigned": 440,
+        "displayedMaximum": 440,
+        "barracksPool": 7993,
+        "assignedToOtherHeroes": 2651,
+        "freeReserve": 5342,
+        "autoReplenishChecked": true,
+        "replenishOutcomeTested": false,
+        "evidence": "../evidence/v3/hero-army-v3.png",
+        "source": "LIVE_UI"
+      }
+    ],
+    "autoReplenishAfterBattle": "checkbox exists; checked on ThiênMệnh in V3; unchecked on Kim Tố in V2; actual post-battle replenishment effect has not been tested.",
+    "evidenceFiles": [
+      "../evidence/v2/formation-thienmenh-440.png",
+      "../evidence/v2/formation-kimto-2204-full.png",
+      "../evidence/v3/hero-army-v3.png"
+    ]
+  },
+  "livePveBattle": {
+    "mode": "Bất Chu Sơn",
+    "route": "Tầm bảo",
+    "floor": 1,
+    "attempt": "first free entry",
+    "selectedPartyBeforeBattle": [
+      {
+        "hero": "Đặng Thiền Ngọc",
+        "troops": 447
+      },
+      {
+        "hero": "Cao Thể Càn",
+        "troops": 240
+      }
+    ],
+    "partyTotal": 687,
+    "partyCount": 2,
+    "floorGuardSpec": {
+      "generals": 10,
+      "levelRange": [
+        50,
+        60
       ],
-      "evidence": "LIVE_UI",
-      "file": "../evidence/hero-formation.png"
+      "totalTroops": 360000,
+      "statMultiplier": 1,
+      "evidence": "LIVE_UI"
     },
-    {
-      "key": "troop_allocation",
-      "formulaText": "thống suất ÷ dân số lính (440)",
-      "zeroAssignment": "returns all troops",
-      "autoReplenishAfterBattle": true,
-      "evidence": "LIVE_UI",
-      "file": "../evidence/hero-formation.png"
+    "battleHud": {
+      "playerHero": {
+        "name": "Cao Thể Càn",
+        "level": 38,
+        "hp": 934,
+        "hpMax": 934,
+        "mp": 621,
+        "mpMax": 621,
+        "force": 78,
+        "attack": 416,
+        "defense": 182
+      },
+      "npcHero": {
+        "name": "Tinh Thần",
+        "level": 51,
+        "hp": 100,
+        "hpMax": 100,
+        "mp": 100,
+        "mpMax": 100,
+        "force": 34,
+        "attack": 232,
+        "defense": 130
+      }
     },
-    {
-      "key": "army_lists",
-      "values": [
-        "Xuất chinh",
-        "Cảnh giới",
-        "Đóng quân",
-        "Liên minh"
+    "outcome": {
+      "result": "loss",
+      "wave": 1,
+      "totalWavesShown": 2,
+      "round": 3,
+      "ownTroopsRemaining": 0,
+      "npcActiveTroopsRemaining": 7080,
+      "visibleNpcReserveRows": [
+        18000,
+        18000,
+        18000,
+        18000
       ],
-      "evidence": "LIVE_UI",
-      "files": [
-        "../evidence/army-overview.png",
-        "../evidence/army-scout.png",
-        "../evidence/army-garrison.png",
-        "../evidence/army-alliance.png"
+      "visibleNpcReserveRowsAreNotInitialArmyTotal": true,
+      "rewards": {
+        "reputation": 150,
+        "experience": 1499,
+        "items": []
+      },
+      "mountainState": "withdrawn; next entry returns to floor 1",
+      "postBattleCaoAssigned": 6,
+      "unknown": [
+        "The video resolves this encounter's order: Đặng Thiền Ngọc is active first; at zero troops Cao Thể Càn appears with 240 troops in the next visible phase. More encounters are needed to generalize the substitution rule.",
+        "The floor UI says 10 defenders and 360,000 troops; this one loss did not expose the full per-hero/per-wave allocation.",
+        "The remaining count does not distinguish dead, wounded, or unassigned troops."
       ]
     },
-    {
-      "key": "matrix_aura",
-      "scope": "one hero; all activated matrix stats stack; one displayed aura; switch free",
-      "evidence": "LIVE_UI"
-    }
-  ],
-  "battleExecution": {
-    "liveBattleObserved": false,
-    "replayObserved": false,
-    "videoSaved": false,
-    "reason": "No battle was started because it can consume troops/resources; the preview card was not played.",
-    "status": "UNKNOWN"
+    "replayOpened": true,
+    "autoFightToggled": false,
+    "artifactSelectedInBattle": false,
+    "videoSubstitutionEvidence": {
+      "firstHero": {
+        "name": "Đặng Thiền Ngọc",
+        "initialTroops": 447,
+        "troopsBeforeTransition": 426,
+        "troopsAtTransition": 0
+      },
+      "nextHero": {
+        "name": "Cao Thể Càn",
+        "troopsOnEntry": 240
+      },
+      "phaseTransition": "Lượt 2 / Hiệp 2 to Lượt 3 / Hiệp 3",
+      "approximateVideoSeconds": [
+        12,
+        13
+      ],
+      "interpretation": "Sequential entry after depletion is directly visible in this one replay; the generalized rule still needs more encounters."
+    },
+    "source": "LIVE_UI",
+    "evidenceFiles": [
+      "../evidence/v2/buzhou-entry-rules.png",
+      "../evidence/v2/buzhou-floor1-specs.png",
+      "../evidence/v2/buzhou-roster-before-battle.png",
+      "../evidence/v2/buzhou-battle1-result.png",
+      "../evidence/v2/buzhou-roster-after-loss.png",
+      "../evidence/combat/buzhou-floor1-pve.mp4"
+    ]
   },
-  "publicClientModules": [
-    "/mods/battle-live.js",
-    "/mods/battle-tnl.js",
-    "/mods/battle-fx-catalog.js",
-    "/mods/battle-hit-fx.js"
-  ],
+  "buzhouPublicClientRules": {
+    "maxGenerals": 5,
+    "dailyEntryCap": 6,
+    "freeEntryThenCredits": true,
+    "defaultDisplayedExtraEntryCostXu": 20,
+    "maxPurchasesDisplayed": 5,
+    "defendersPerWave": 5,
+    "casualtiesCarryAcrossWaves": true,
+    "lossOrDrawWithdraws": true,
+    "lossResetsNextEntryToFloor": 1,
+    "rewardsByRoute": {
+      "Tầm bảo": "one floor-specific experience book per floor cleared",
+      "Chiêu hiền": "one captured guard per floor cleared; ordinary/general chance data is in server state",
+      "Đoạt khí": "equipment reward rates for one floor clear"
+    },
+    "artifactSelection": "per hero before departure; only the lead/commander uses one, with next unit behavior described in code but not live-tested",
+    "source": "PUBLIC_CLIENT",
+    "module": "/mods/buzhou.js"
+  },
+  "recording": {
+    "path": "../evidence/combat/buzhou-floor1-pve.mp4",
+    "durationSeconds": 25,
+    "width": 1600,
+    "height": 900,
+    "fps": 25,
+    "codec": "H.264",
+    "content": "one real PVE encounter viewed through the replay UI from the first visible round through loss/result; Đặng Thiền Ngọc reaches zero troops before Cao Thể Càn enters",
+    "chatOrOtherPlayerDataVisible": false
+  },
   "dackyComparison": {
-    "commands": [
-      "battleCommand",
-      "battleAuto"
+    "currentPath": [
+      "src/combat/battle-session-v10.js",
+      "src/combat/runtime-v7.js",
+      "src/engine.js",
+      "src/pve-campaign.js"
     ],
-    "status": "UNKNOWN for parity",
-    "note": "Dacky provides a local simulated battle and report path; no live result was available for formula comparison."
+    "battleLoop": "PARTIAL",
+    "selectedHeroOrderInThisEncounter": "VERIFIED for this one encounter: Đặng Thiền Ngọc then Cao Thể Càn after Đặng's displayed troop count reaches zero; broader substitution rules still need more battles",
+    "damageFormulaParity": "UNKNOWN; local coefficients are SIMULATED or MIXED",
+    "casualtyParity": "UNKNOWN",
+    "waveCarryAndWithdrawalParity": "MISSING_OR_UNKNOWN",
+    "replayPresentation": "PARTIAL",
+    "sourceTruth": "Do not label the local simulation formula as the live game's formula."
   }
 }

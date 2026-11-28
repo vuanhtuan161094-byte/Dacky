@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "evidenceSource": "LIVE_UI",
+  "screen": "Thần tướng > Thuộc tính > Bảo vật",
+  "hero": "ThiênMệnh",
+  "observations": [
+    {
+      "name": "Roi Bách Thảo Thần Nông",
+      "scopeDisplayed": "toàn quốc",
+      "remainingHoursDisplayed": 77,
+      "descriptionDisplayed": "Pháp bảo mà Thần Nông dùng khi nếm khắp trăm loài cỏ để phân biệt dược tính, dùng vật phẩm.",
+      "effectFromEventCarousel": {
+        "foodProductionPercent": 25,
+        "durationDays": 7,
+        "continuousUseAddsDuration": true
+      },
+      "itemId": null,
+      "sourceNote": "The numeric effect is from the earlier LIVE_UI event carousel; this V3 panel directly confirms active state and remaining time."
+    },
+    {
+      "name": "Lệnh Tăng Thuế Cao Cấp",
+      "scopeDisplayed": "toàn quốc",
+      "remainingHoursDisplayed": 269,
+      "descriptionDisplayed": "Lệnh trưng thu vàng ban bố nhân danh quân vương, khiến phú hộ và bách tính trong thành... [phần sau bị cắt trong panel]",
+      "effectFromEventCarousel": {
+        "taxGoldIncomePercent": 25,
+        "durationDays": 7,
+        "continuousUseAddsDuration": true
+      },
+      "itemId": null,
+      "sourceNote": "The numeric effect is from the earlier LIVE_UI event carousel; this V3 panel directly confirms active state and remaining time."
+    },
+    {
+      "name": "Tăng ích liên minh",
+      "statusDisplayed": "Đang bật",
+      "staminaRecoveryPercent": 50,
+      "manaRecoveryPercent": 50,
+      "durationDisplayed": null,
+      "itemId": null
+    }
+  ],
+  "terminology": {
+    "panelNamedBaoVat": "Shows active buffs on the selected hero in this capture.",
+    "heroGearRowNamedPhapBao": "A separate set of four artifact equipment slots below the mount row.",
+    "notEquivalent": true
+  },
+  "actions": {
+    "itemsUsed": false,
+    "buffsActivated": false
+  },
+  "unknown": [
+    "Server item IDs, exact expiration timestamps, reset timezone and eligibility rules.",
+    "Whether separate effects stack with each other or with other sources.",
+    "Exact full text clipped from the Lệnh Tăng Thuế panel."
+  ],
+  "evidence": [
+    "../evidence/v3/hero-artifacts-v3.png"
+  ]
+}

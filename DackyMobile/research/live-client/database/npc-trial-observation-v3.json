@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "evidenceSource": "LIVE_UI",
+  "activity": "Tỷ Thí Tướng / An Phá Bại",
+  "target": {
+    "name": "An Phá Bại",
+    "coordinates": "314 · 467",
+    "distanceFromResearchCityPlots": 8,
+    "generals": 2,
+    "generalLevel": 10,
+    "guardTroops": 1482,
+    "difficultyIncreasePercent": 30,
+    "repetitionRuleDisplayed": "Thắng nhận quà bên dưới; lần sau gặp lại, tướng này sẽ mạnh hơn."
+  },
+  "rewardPreview": [
+    {
+      "name": "Chỉ Nam Binh Pháp",
+      "quantity": 2,
+      "itemId": null,
+      "tooltipOpened": false
+    },
+    {
+      "name": "Binh Pháp Dị Chí",
+      "quantity": 1,
+      "itemId": null,
+      "tooltipOpened": false
+    },
+    {
+      "name": "Cáo Thị Chiêu Binh",
+      "quantity": 1,
+      "itemId": null,
+      "tooltipOpened": false
+    }
+  ],
+  "refresh": {
+    "freeUsesRemainingAtObservation": 5,
+    "priceAfterFreeUses": "20 Xu",
+    "used": false
+  },
+  "sortieSetup": {
+    "selectedParty": [
+      {
+        "hero": "Đặng Thiền Ngọc",
+        "level": 40,
+        "command": 5118,
+        "assignedTroops": 447,
+        "role": "commander"
+      },
+      {
+        "hero": "Cao Thể Càn",
+        "level": 38,
+        "assignedTroops": 6
+      },
+      {
+        "hero": "Kim Tố",
+        "level": 36,
+        "command": 4408,
+        "assignedTroops": 2204
+      }
+    ],
+    "partyCount": 3,
+    "partyLimit": 5,
+    "totalTroops": 2657,
+    "troopTypeSelectedForLead": "Cung Tiễn",
+    "rationsDisplayed": 615,
+    "staminaCostDisplayed": 5,
+    "staminaRemainingDisplayed": 500,
+    "travelTimeDisplayed": "00:01:28",
+    "arrivalTimeDisplayed": "09:57:35",
+    "unavailableHeroCountDisplayed": 1,
+    "unavailableHero": {
+      "name": "ThiênMệnh",
+      "status": "Thành thủ · Cấp 6"
+    },
+    "artifactForLead": "none equipped; selector says no item fits this slot",
+    "artifactSelectorMessage": "Không có đồ vừa ô này — tìm trong rương, Thương Thành hoặc Chuồng ngựa.",
+    "troopAssignmentEditorAtCapture": {
+      "hero": "Kim Tố",
+      "assignedTroopsDisplayed": "2204 / 2204",
+      "availableCungTienReserveDisplayed": 7106
+    }
+  },
+  "actions": {
+    "npcPanelTythiClicked": true,
+    "partyCompositionChangedForInspection": true,
+    "xuatchinhClicked": true,
+    "battleStarted": false,
+    "visibleStateChangedAfterXuatchinh": false,
+    "refreshClicked": false,
+    "purchaseOrPayment": false,
+    "resourceSpendObserved": false,
+    "uiBlockText": "Chưa xuất chinh được · 1",
+    "blockReason": "UNKNOWN: the UI identifies one unavailable city defender but does not explain why the displayed sortie button does not start a march."
+  },
+  "interpretation": {
+    "verified": [
+      "The NPC challenge advertises two level-10 generals, 1,482 troops and +30% difficulty.",
+      "The challenge preview lists the three named reward items and quantities.",
+      "The sortie setup allows up to five heroes and displays food/ration, stamina and travel information.",
+      "A standard artifact item was unavailable in the selected hero's artifact slot; no shop or chest was opened."
+    ],
+    "notVerified": [
+      "Combat turn order, damage, troop casualties, result, rewards and replay for this NPC challenge because the sortie did not start.",
+      "Why the ordinary Xuất chinh click did not transition from setup to march."
+    ]
+  },
+  "dackyComparison": {
+    "status": "PARTIAL",
+    "currentImplementation": "Dacky has Tiên Sơn nodes built from legacy Elfland tables, and generic duel modes. Its advanced-field boss catalog also creates boss nodes from legacy records.",
+    "implementationDetails": [
+      "src/pve-campaign.js builds Tiên Sơn floors from legacy location, floor and formation tables; it generates a fallback formation when the imported roster is empty.",
+      "src/pve-campaign.js derives advanced boss level from a local formula and labels the boss equipment/spell adapter SIMULATED_FROM_VERIFIED_LEGACY_IDS.",
+      "src/engine.js resolves duel through runDuel when combatV13 is enabled; the legacy path uses resolveImmortalDuel and generic victory rewards, and reports evidence SIMULATED."
+    ],
+    "gap": "The live An Phá Bại target, +30% repeat difficulty, refresh limit/cost, displayed reward quantities, sortie gate and outcome are not mapped to a verified Dacky encounter. The V3 sortie attempt did not start, so live combat parity remains unverified.",
+    "sourceFiles": [
+      "../../../src/pve-campaign.js",
+      "../../../src/engine.js"
+    ],
+    "evidenceSource": "DACKY_CODE plus LIVE_UI observation above"
+  },
+  "evidence": [
+    "../evidence/v3/npc-boss-panel-v3.png",
+    "../evidence/v3/npc-sortie-v3.png",
+    "../evidence/v3/hero-artifact-slot-v3.png"
+  ]
+}

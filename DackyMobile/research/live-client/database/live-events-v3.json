@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "evidenceSource": "LIVE_UI",
+  "scope": "Một sự kiện đang hoạt động trên giao diện; không tham gia trận PvP.",
+  "events": [
+    {
+      "key": "loan-chien-active-2026-11-29",
+      "name": "Loạn Chiến",
+      "activeRegistrationWindow": true,
+      "scheduleDisplayed": {
+        "start": "01:00 2026-11-29",
+        "end": "15:00 2026-11-29",
+        "durationHours": 14,
+        "countdownAtObservation": "00:15:55:00",
+        "timezone": null
+      },
+      "registration": {
+        "buttonDisplayed": "Đăng ký tham gia",
+        "clickAttempted": true,
+        "registrationConfirmed": false,
+        "visibleStateChanged": false,
+        "reasonNotContinued": "UI warns that entering without participating incurs a penalty; research session could not stay for the scheduled battle."
+      },
+      "aggregateRegistrationsDisplayed": {
+        "total": 101,
+        "servers": [
+          { "server": "S1-Triều Ca", "count": 21 },
+          { "server": "S2-Tây Kỳ", "count": 19 },
+          { "server": "S3-Thanh Nguyên", "count": 40 },
+          { "server": "S4-Kỳ Sơn", "count": 21 }
+        ],
+        "note": "Chỉ lưu số tổng hợp trong UI; không ghi danh sách hay danh tính người chơi."
+      },
+      "entryAndBattleRulesDisplayed": {
+        "requiresKingLevelAtLeast": 10,
+        "lateRegistrationWindowMinutes": 30,
+        "cityRelocation": "Người tham gia được chuyển từ thành chính sang bản đồ chiến trường khi khai chiến.",
+        "warMapDurationHours": 14,
+        "movementSpeedMultiplier": 5,
+        "productionMultiplier": 5,
+        "troopTrainingSpeedMultiplier": 5,
+        "centralArea": {
+          "entryGates": 4,
+          "matrixCount": 12,
+          "matrixBuff": {
+            "troopRecoveryPercent": 3,
+            "recoveryIntervalSeconds": 10,
+            "troopAttackPercent": 20,
+            "troopDefensePercent": 20
+          },
+          "throneRule": "Nếu chỉ còn quân một máy chủ trong vùng Ngai Vàng, mỗi người giữ đủ một phút được +100 điểm."
+        },
+        "serverCombatModifiers": [
+          { "server": "S2-Tây Kỳ", "troopAttackPercent": 10, "troopDefensePercent": 10 },
+          { "server": "S3-Thanh Nguyên", "troopAttackPercent": 30, "troopDefensePercent": 30 },
+          { "server": "S4-Kỳ Sơn", "troopAttackPercent": 50, "troopDefensePercent": 50 }
+        ],
+        "scoreRulesDisplayed": {
+          "enemyTroopKilled": 1,
+          "battleWin": 500,
+          "successfulCityDefense": 200,
+          "powerRatioMultiplierRange": [0.3, 3]
+        },
+        "sameDeviceOrNetwork": "Battles between accounts using the same device or network do not award points."
+      },
+      "rewardRows": [
+        { "placement": "registration", "visibleQuantities": [50, 1], "itemIds": null, "tooltipsOpened": false },
+        { "placement": "server-rank-1", "visibleQuantities": [100, 50, 1, 1, 3, 3, 1], "itemIds": null, "tooltipsOpened": false },
+        { "placement": "server-rank-2", "visibleQuantities": [80, 40, 1, 1, 2, 1], "itemIds": null, "tooltipsOpened": false },
+        { "placement": "server-rank-3", "visibleQuantities": [50, 30, 1, 1, 1, 1], "itemIds": null, "tooltipsOpened": false },
+        { "placement": "server-rank-4-10", "visibleQuantities": [40, 20, 1, 1, 1], "itemIds": null, "tooltipsOpened": false },
+        { "placement": "server-rank-11-20", "visibleQuantities": [20, 10, 1], "itemIds": null, "tooltipsOpened": false }
+      ],
+      "unknown": [
+        "Displayed schedule timezone and the authoritative server-side registration state.",
+        "Reward icon IDs and exact item names because item tooltips were not opened.",
+        "Map traversal, battle protocol, casualty handling, and reward settlement were not exercised."
+      ],
+      "evidence": ["../evidence/v3/loanchien-active.png"]
+    }
+  ],
+  "scopeNotes": [
+    "No payment or real-money transaction was made.",
+    "This records the event's own stated production multiplier only; no economy model was studied.",
+    "All other-player information is limited to aggregate registration counts shown by the event UI."
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "evidenceSource": "LIVE_UI",
+  "screen": "Túi đồ",
+  "ownedInventorySnapshot": {
+    "totalItems": 58,
+    "categories": [
+      { "name": "Trang bị", "count": 4 },
+      { "name": "Bảo rương", "count": 0, "countDisplay": null },
+      { "name": "Bảo vật", "count": 17 },
+      { "name": "Tăng tốc", "count": 11 },
+      { "name": "Sản xuất", "count": 14 },
+      { "name": "Châu báu", "count": 3 },
+      { "name": "Nguyên liệu", "count": 2 },
+      { "name": "Nhiệm vụ", "count": 7 }
+    ],
+    "note": "Các con số là snapshot của tài khoản nghiên cứu. Mục Bảo rương không hiện số đếm."
+  },
+  "tooltipObservations": [
+    {
+      "displayName": "Sách Kinh Nghiệm Cao Cấp",
+      "category": "Bảo vật",
+      "rarity": "Phẩm Tím",
+      "ownedCount": 3,
+      "tradeable": false,
+      "effectDisplayed": "Dùng cho thần tiên xong, tăng 500000 kinh nghiệm thần tiên.",
+      "used": false,
+      "itemId": null
+    },
+    {
+      "displayName": null,
+      "tooltipLabel": "Hộp cơm nóng cho quân sĩ.",
+      "category": "Bảo vật",
+      "ownedCount": 4,
+      "tradeable": false,
+      "effectDisplayed": "Dùng trong Túi đồ hoặc ở Trợ Thủ Hoạt Lực để hồi Hoạt Lực; vượt được trần hồi tự nhiên, tới trần tối đa.",
+      "used": false,
+      "itemId": null
+    }
+  ],
+  "collectionFinding": {
+    "dedicatedPermanentAlbumFound": false,
+    "status": "UNKNOWN",
+    "reason": "Đã mở Túi đồ và các mục menu được khảo sát, nhưng chưa thấy sổ/bộ sưu tập tài khoản có mốc tăng chỉ số. Ma Trận và Danh hiệu được lưu thành hệ riêng.",
+    "evidence": ["../evidence/v3/inventory-all.png", "../COLLECTION_SYSTEM.md"]
+  },
+  "actions": {
+    "itemsUsedDuringInspection": false,
+    "freeClaimButtonPressed": false
+  }
+}

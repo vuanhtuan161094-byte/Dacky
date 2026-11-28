@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "source": "LIVE_UI",
+  "screen": "Mạnh Hơn",
+  "tabsOpened": ["Hướng đi", "Tài nguyên", "Cẩm nang"],
+  "recommendations": [
+    {"topic": "Quân số", "guideText": "Phối đủ quân", "ctaLabel": "Đi", "target": "Phối binh"},
+    {"topic": "Trang bị", "guideText": "Trang bị 6 món", "ctaLabel": "Đi", "target": "Thần tướng equipment"},
+    {"topic": "Công trình", "guideText": "Nâng Binh doanh, Lò Rèn, Tu Tiên Viện", "ctaLabel": "Nâng", "target": "Building interfaces"},
+    {"topic": "Farm Tiên Thạch", "guideText": "Đánh ô đất cấp 0–7", "ctaLabel": "Đi", "target": "Địa đồ"}
+  ],
+  "resourceRoutes": [
+    {"resource": "quân", "routes": ["Binh doanh"]},
+    {"resource": "thần tiên", "routes": ["Dẫn Tiên Đài", "Bất Chu Sơn"]},
+    {"resource": "tu vi", "routes": ["Thương Thành", "Địa đồ"]},
+    {"resource": "trang bị", "routes": ["ô đất"]},
+    {"resource": "Tiên Thạch", "routes": ["Thương Thành"]},
+    {"resource": "bảo thạch", "routes": ["Thương Thành"]},
+    {"resource": "pháp bảo", "routes": ["quầy pháp bảo", "rương"]},
+    {"resource": "thú cưỡi", "routes": ["Chuồng ngựa"]},
+    {"resource": "danh vọng", "routes": ["Cứ điểm", "Địa đồ"]}
+  ],
+  "interaction": {"ctaExecuted": false, "note": "Screen was inspected; navigation recommendations were not executed."},
+  "interpretation": {
+    "isProgressionGuide": true,
+    "unlockPredicatesVerified": false,
+    "resourceDropSourcesVerified": false
+  },
+  "dackyComparison": {
+    "status": "PARTIAL",
+    "gap": "Dacky has local progression recommendations; screen-specific predicates and route parity are not verified."
+  },
+  "evidence": [
+    "../evidence/v2/manhon-progress-v2.png",
+    "../evidence/v2/manhon-guide-v2.png"
+  ],
+  "clientModule": "PUBLIC_CLIENT:/mods/manh-hon.js"
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "source": "LIVE_UI",
+  "activity": "Cứ Điểm Chiến",
+  "map": {
+    "strongpointCountDisplayed": 27,
+    "selected": "Đồng Quan",
+    "legend": ["bang ta", "bang khác", "còn trống", "chưa mở"]
+  },
+  "schedule": {
+    "weekdayLabel": "Thứ Năm",
+    "startTimeLabel": "13:00",
+    "durationHours": 6,
+    "timeRemainingAtCapture": "5 ngày 4 giờ",
+    "timezone": null,
+    "calendarDate": "2026-12-03",
+    "calendarDateIsDerived": true
+  },
+  "selectedStrongpointDefense": {
+    "npcHeroCount": 5,
+    "npcHeroLevelRange": [80, 100],
+    "troopTotalDisplayed": 272000,
+    "wallLevel": 20,
+    "beaconLevel": 10
+  },
+  "interaction": {
+    "guildRegistered": false,
+    "battleStarted": false
+  },
+  "unknown": [
+    "Schedule timezone and exact reset rules",
+    "Signup criteria, guild roster roles, troop contribution and match assignment",
+    "Battle sequence, casualty, capture, scoring and reward rules"
+  ],
+  "dackyComparison": {
+    "status": "MISSING",
+    "gap": "Existing local guild/territory state does not establish scheduled multi-guild battle parity."
+  },
+  "evidence": "../evidence/v2/strongpoint-lobby-v2.png",
+  "clientModule": "PUBLIC_CLIENT:/mods/strongpoint.js"
+}

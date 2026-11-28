@@ -1,0 +1,1268 @@
+{
+  "schemaVersion": 2,
+  "observedAt": "2026-11-28",
+  "scope": {
+    "origin": "https://dackytruvuong.com",
+    "observedSameOriginModulePaths": 145,
+    "downloadedPublicModules": 138,
+    "excludedPaths": 7,
+    "excludedCategories": [
+      "chat",
+      "group chat",
+      "customer support",
+      "account helpers",
+      "rank/leaderboard panels",
+      "server selection",
+      "mail/reward notification surfaces"
+    ],
+    "fetchMethod": "GET public same-origin /mods JavaScript referenced by the public game client; TLS certificate verification remained enabled",
+    "networkApisQueried": false,
+    "adminPathsProbed": false,
+    "rawClientCodeCommitted": false,
+    "existingMobileCatalogReused": true
+  },
+  "modules": [
+    {
+      "path": "/mods/anh-than-tuong.js",
+      "bytes": 9795,
+      "sha256": "b5800c540e5b4e1452742deb671f05a3b7172f6aa18d02a7d5a0a84e8e72e019",
+      "module": "anh-than-tuong.js",
+      "system": "hero-growth",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/avatar-data.js",
+      "bytes": 5757,
+      "sha256": "713e80debb05ff0fb0a37a0512429f13d7e6a5b57de46795b8293fd61570e16a",
+      "module": "avatar-data.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/avatar.js",
+      "bytes": 27109,
+      "sha256": "e33aa794c8b5a3e0789eb1962b6a7575ec4bc179d1cf1167dbee1d50de9030eb",
+      "module": "avatar.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/bag.js",
+      "bytes": 88285,
+      "sha256": "ccc9f899a19988b4eba9abbd0fd98a102bdae2f91980f4424bf7876f51c63380",
+      "module": "bag.js",
+      "system": "items",
+      "reviewTier": "survey",
+      "analysis": "Inventory listing, filtering and item detail/use surfaces; no item use performed in this batch."
+    },
+    {
+      "path": "/mods/ban-phim-ngang.js",
+      "bytes": 33593,
+      "sha256": "18a1017690eaaf83243f93557b73c342afba8eba49506fcfc7b4aa2d4d7bf496",
+      "module": "ban-phim-ngang.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/bao-long.js",
+      "bytes": 21477,
+      "sha256": "da8352c4753c24a1fd0c64913836c048249286192380aacc3be670ba344e4a38",
+      "module": "bao-long.js",
+      "system": "events",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/barrack-calc.js",
+      "bytes": 7431,
+      "sha256": "1aedc1b457f360254d1f69718d15dff3b664ee7a8d34f94e300e1f417cda4544",
+      "module": "barrack-calc.js",
+      "system": "army",
+      "reviewTier": "deep",
+      "analysis": "Troop-capacity and allocation calculations; cross-checked against the live formation screen."
+    },
+    {
+      "path": "/mods/battle-fx-catalog.js",
+      "bytes": 39444,
+      "sha256": "a79b9a9418c362139882bd335f7cfcdc39546293d1865f06b329c4feef636b7c",
+      "module": "battle-fx-catalog.js",
+      "system": "combat-vfx",
+      "reviewTier": "deep",
+      "analysis": "VFX catalog maps named effects to sprite/animation metadata and timing; classify as client presentation evidence."
+    },
+    {
+      "path": "/mods/battle-fx-run.js",
+      "bytes": 9814,
+      "sha256": "5b6a2bc419e80f43146674a32cd9edffe007aa2f9abdce947f0f0dac95797a91",
+      "module": "battle-fx-run.js",
+      "system": "combat-vfx",
+      "reviewTier": "survey",
+      "analysis": "Effect playback runner. Timing and rendering only."
+    },
+    {
+      "path": "/mods/battle-fx-script.js",
+      "bytes": 206869,
+      "sha256": "2cad117b1f767b8c2b115f178ca1659d859caffff837a34d37af93bc3528c490",
+      "module": "battle-fx-script.js",
+      "system": "combat-vfx",
+      "reviewTier": "deep",
+      "analysis": "Large scripted effect catalog provides event/effect frame sequences; not a damage or status-effect rules table."
+    },
+    {
+      "path": "/mods/battle-hit-fx.js",
+      "bytes": 13466,
+      "sha256": "1f16627fa8df7e4bedd64ebe34c5bb5ab3093602a5f8b57a15d7d2fac5c32e28",
+      "module": "battle-hit-fx.js",
+      "system": "combat-vfx",
+      "reviewTier": "deep",
+      "analysis": "Hit, injury, impact and screen-shake effect helpers. Presentation only."
+    },
+    {
+      "path": "/mods/battle-hud.js",
+      "bytes": 19888,
+      "sha256": "ec9af8964eb120ca1f8ecb739bf3d0ed623a5fb9e28ce2bb8629af7aec3aa78d",
+      "module": "battle-hud.js",
+      "system": "combat",
+      "reviewTier": "deep",
+      "analysis": "Combat HUD controls and state fields."
+    },
+    {
+      "path": "/mods/battle-live.js",
+      "bytes": 46210,
+      "sha256": "f5d1f395db233b604a892f7bff03f7d8ba2bbd493022a87522e80bb8647e0611",
+      "module": "battle-live.js",
+      "system": "combat",
+      "reviewTier": "deep",
+      "analysis": "Realtime battle presentation consumes server turn events; pre-turn magic choice and next-turn team swap are UI commands; auto mode, end-turn, effect toggle, retreat, reconnect and full-round replay are represented. Does not establish damage formulas."
+    },
+    {
+      "path": "/mods/battle-ng-catalog.js",
+      "bytes": 29800,
+      "sha256": "5d3b08eb8dbcf5d541002674bdd883fc0de0b41bacfaa7551e2cada22d225704",
+      "module": "battle-ng-catalog.js",
+      "system": "combat",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/battle-ng-hd.js",
+      "bytes": 17117,
+      "sha256": "87b305733caaf53c67de65c7b084ee493a65d89c4276cfaa3d71548670040546",
+      "module": "battle-ng-hd.js",
+      "system": "combat",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/battle-ng-san.js",
+      "bytes": 55019,
+      "sha256": "68022a7a44d4d5be88ae89a68cdc2fb677d8a5f56689151f505b4cb9e752ecb4",
+      "module": "battle-ng-san.js",
+      "system": "combat",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/battle-ng-unit.js",
+      "bytes": 21054,
+      "sha256": "5ed3017d32a0d9a6d0fe90af09299aee08f8ac2afdd4ae61036e3f403f229071",
+      "module": "battle-ng-unit.js",
+      "system": "combat",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/battle-scene.js",
+      "bytes": 62662,
+      "sha256": "c042787bf4747d2c314c2b8f18a8c314f8fcb9ca680914026e10a5e7e570cf25",
+      "module": "battle-scene.js",
+      "system": "combat-vfx",
+      "reviewTier": "survey",
+      "analysis": "Pixi battle scene and unit layers; rendering implementation."
+    },
+    {
+      "path": "/mods/battle-screen.js",
+      "bytes": 55665,
+      "sha256": "5e3bf76f8912a14251cda1970986296094e84dd1bf813ea3ac39ef07f8853601",
+      "module": "battle-screen.js",
+      "system": "combat",
+      "reviewTier": "survey",
+      "analysis": "Battle screen state and replay/results rendering."
+    },
+    {
+      "path": "/mods/battle-tnl-data.js",
+      "bytes": 4879,
+      "sha256": "93dced43ae59c66c447d79365de55fdd0d5bd81a9ef1226cd26d2085aad2384f",
+      "module": "battle-tnl-data.js",
+      "system": "combat-vfx",
+      "reviewTier": "deep",
+      "analysis": "Generated display geometry: front and rear formation positions, hero placement and animation timing/scales. These are rendering constants, not gameplay balance values."
+    },
+    {
+      "path": "/mods/battle-tnl.js",
+      "bytes": 70702,
+      "sha256": "1817df18082e3e1994f48a9df5a71019aacb8d6e248256fd009a3f6a9b660049",
+      "module": "battle-tnl.js",
+      "system": "combat-vfx",
+      "reviewTier": "deep",
+      "analysis": "Presentation layer maps TNL troop groups to front/rear formations, animations, projectile/hit effects, hurt timing, casualties and troop substitutions. It animates server outcomes; it is not the outcome formula."
+    },
+    {
+      "path": "/mods/beachhead.js",
+      "bytes": 1006,
+      "sha256": "c838f63c6d8ad23db8c96c70bfec1b10271284b5d91f56e56702fcb2a63d9a85",
+      "module": "beachhead.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/binh-doanh.js",
+      "bytes": 66020,
+      "sha256": "6fbdf136418eb96effd7f93b45ff581a3377dda48d7549ca56fc879c43c0923f",
+      "module": "binh-doanh.js",
+      "system": "army",
+      "reviewTier": "deep",
+      "analysis": "Barracks/training and troop allocation interface; live helper text separately verifies unit population divisor and zero-assignment return behavior."
+    },
+    {
+      "path": "/mods/binh-thu-tran-thien.js",
+      "bytes": 24641,
+      "sha256": "9790126f0d9f395184969747ff7c87ccf5a33fd46bfa3c62b366c565a24af9d6",
+      "module": "binh-thu-tran-thien.js",
+      "system": "army",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/but-dan-binh.js",
+      "bytes": 21706,
+      "sha256": "ee9b893daecf1952e3a50129fadcbf403609ef312ee2e42cf09940c9c1b45546",
+      "module": "but-dan-binh.js",
+      "system": "army",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/buzhou-fx.js",
+      "bytes": 15005,
+      "sha256": "95b1129962d5cdf1c773cf3f7c7c209e52617952deba7f2b56f622ab8a94a6f3",
+      "module": "buzhou-fx.js",
+      "system": "buzhou-vfx",
+      "reviewTier": "survey",
+      "analysis": "Buzhou mountain effects and stage presentation."
+    },
+    {
+      "path": "/mods/buzhou.js",
+      "bytes": 38727,
+      "sha256": "31c1632f83abd3b197433ec191eaa1caaf68173e8fb92fe85a234ad852fdb47a",
+      "module": "buzhou.js",
+      "system": "buzhou",
+      "reviewTier": "deep",
+      "analysis": "Buzhou has three locked-per-run routes (Tầm bảo, Chiêu hiền, Đoạt khí), max five free assigned generals, commander-first ordering, per-hero artifact selection, six daily entries and up to five purchased entries. Loss/draw withdraws the party; a run resets to floor 1. Floors can be fought only in order, in groups of five defenders; casualties carry across waves. UI shows one floor book, one capture, or equipment rates according to route."
+    },
+    {
+      "path": "/mods/chan-lenh-trung.js",
+      "bytes": 5651,
+      "sha256": "5c3a0c696d9af436b12f005d726984d8909849e90f8e9ec16fa1115036fd898e",
+      "module": "chan-lenh-trung.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/chu-cong.js",
+      "bytes": 28250,
+      "sha256": "8bc0b92ab6f80a8c029867bef704b23ee947848b984ff9021914d7bdbb0e7c2c",
+      "module": "chu-cong.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/chu-tran.js",
+      "bytes": 7960,
+      "sha256": "4b4a638228d397fdb4fd811f11771486e426bcd931bee8f72bc69cec3fdfe149",
+      "module": "chu-tran.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/co-cam-khi.js",
+      "bytes": 11826,
+      "sha256": "be320b523cf5d474290b46e7a1b6deed9987673353c76bfff52f2ef5a7bd8fb9",
+      "module": "co-cam-khi.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/college.js",
+      "bytes": 37148,
+      "sha256": "784f595d25d0cfe54ceed06dd9d4c77b13b1fdd675c149ccfbaa7da600ff79ed",
+      "module": "college.js",
+      "system": "city-tech",
+      "reviewTier": "deep",
+      "analysis": "Technology UI groups techniques, reads per-level costs/effects/prerequisites, checks Tu Tiên Viện and related buildings/tech/official rank/items, and displays research duration with city-guard strategy reduction. Data values are supplied by client game data."
+    },
+    {
+      "path": "/mods/cung-dien.js",
+      "bytes": 50057,
+      "sha256": "bd67e524378f2c394b1de5f962086a881bb85567a32fb3f7a5a0c135bddb0c0d",
+      "module": "cung-dien.js",
+      "system": "city",
+      "reviewTier": "survey",
+      "analysis": "Palace and city-government UI."
+    },
+    {
+      "path": "/mods/dak.js",
+      "bytes": 3287,
+      "sha256": "46b9f3772f0b61b64dc1915461b247b6d9cd4bdd2a87543f531df0a8ed0c4a49",
+      "module": "dak.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/danh-hieu.js",
+      "bytes": 22924,
+      "sha256": "5fed675d97437ad88c9d8044e891954b00a54ec9f7ca60f550fb4abd488f2435",
+      "module": "danh-hieu.js",
+      "system": "hero-growth",
+      "reviewTier": "deep",
+      "analysis": "Title inventory/preview and equip UI. Source comments identify 55 titles, one equipped title per hero, expiration measured from receipt, and no removal before expiry; title banners include animated overlay frames."
+    },
+    {
+      "path": "/mods/depot.js",
+      "bytes": 4512,
+      "sha256": "acb53a8f1c446a5d8d5d0b0363826997af35685cc0280598ffb258b7e733b00d",
+      "module": "depot.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/diem-danh-8.js",
+      "bytes": 13240,
+      "sha256": "31fd44e475234585da5e809c2ad4144251faafbd28eedbfe3ab5c910dd6e78fe",
+      "module": "diem-danh-8.js",
+      "system": "rewards",
+      "reviewTier": "deep",
+      "analysis": "Eight-day attendance UI; each reward tile opens detail; eligible rewards can be claimed together; selectable rewards require explicit choice/confirmation."
+    },
+    {
+      "path": "/mods/do-hanh-vi.js",
+      "bytes": 11516,
+      "sha256": "23336cb150e8398bee00472da5436f38913bb95b1688593e6bacf4286db893e8",
+      "module": "do-hanh-vi.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/do-hoi.js",
+      "bytes": 4063,
+      "sha256": "39f9b1f30104efae8ce5b0b8d33838d63393103cce90ae28e87a394fcb5c0cfd",
+      "module": "do-hoi.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/do-tran.js",
+      "bytes": 7552,
+      "sha256": "e840f976485dbe75598e521b37bd94e8d70eb701a6eb38058803bf9946a9b6f1",
+      "module": "do-tran.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/dong-trang-bi.js",
+      "bytes": 4813,
+      "sha256": "598c7337bf71f8b822392b4e5c9a54c62cdb0e2a80b244ecee8ee9659b0fd80b",
+      "module": "dong-trang-bi.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/dua-top.js",
+      "bytes": 19263,
+      "sha256": "db48e09b1881b8cff35890e9f23eb62a8fa87ba9ea101f4d57fb60af7936dc00",
+      "module": "dua-top.js",
+      "system": "events",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/events.js",
+      "bytes": 29355,
+      "sha256": "86622541f7a0e9ac951aea5ad292570fd34300d22d3f58c9e4a0140b2300927f",
+      "module": "events.js",
+      "system": "events",
+      "reviewTier": "deep",
+      "analysis": "Event landing cards and introductions, including Lộc Đài Mật Tàng selection/milestones and Tuần Du Thần Linh. Module presence does not prove live availability."
+    },
+    {
+      "path": "/mods/fx-blob.js",
+      "bytes": 2954,
+      "sha256": "1d53583bb0ff645504fb7de0dbb76d75a5d2c918b919c9b0b85ab26eeb6efaa0",
+      "module": "fx-blob.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/ghi-vet-vang.js",
+      "bytes": 10674,
+      "sha256": "97cf4ab286790b8e9fa790e4632584c343d18a3535b379ac442baa3acce7158d",
+      "module": "ghi-vet-vang.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/giu-khung-phim.js",
+      "bytes": 9960,
+      "sha256": "f77872f73c920eb5ea0858e3fce34382bb8eac97439d1a7fb87cc53a7db5a26a",
+      "module": "giu-khung-phim.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/goi-danh-tien.js",
+      "bytes": 15358,
+      "sha256": "1bd60c453022ecb9c850c6e1afcfc061f85963fe904825bc1acb249a526d035a",
+      "module": "goi-danh-tien.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/goi-hoan-hi.js",
+      "bytes": 13863,
+      "sha256": "250dbd0262a4530ff1a88e71981c85c33f9e4329d0b2d189470b2d49413b1490",
+      "module": "goi-hoan-hi.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/hop-chon.js",
+      "bytes": 29099,
+      "sha256": "1ce2b299bc7b2eee9f751764081c9124d0a6562b26be1fd45a93c33f78857876",
+      "module": "hop-chon.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/hop-thoai-blr.js",
+      "bytes": 2173,
+      "sha256": "577fa971b8040045d66ac6d99f51a9fd4bc9a5effa3d89a545c669a7db549459",
+      "module": "hop-thoai-blr.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/hotel.js",
+      "bytes": 43116,
+      "sha256": "6a7d47f8b9627f399c2367cc56df0cceb556c20590ed40a2b978c70f744a6503",
+      "module": "hotel.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/hud-be.js",
+      "bytes": 24262,
+      "sha256": "1bf81f1f7845e5286090a78bdd3456d5c27bfacfab4405077a30d5d86e3f0d7e",
+      "module": "hud-be.js",
+      "system": "ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/hud-icon.js",
+      "bytes": 27015,
+      "sha256": "325dcf2e9c7ce06928a327bd1b77306dc6d2518a55c5ecfc7ef5f75e8030a55c",
+      "module": "hud-icon.js",
+      "system": "ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/huong-dan-co-gai.js",
+      "bytes": 10938,
+      "sha256": "7166a50bd733746c7e130938935cd2b595688827e0d4c94545601a1a9737f0b9",
+      "module": "huong-dan-co-gai.js",
+      "system": "ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/huong-dan-kb.js",
+      "bytes": 69007,
+      "sha256": "5845a397f9855cad9f6505433ecd522157441ff6bbfa0883f0e3593545bc6b3f",
+      "module": "huong-dan-kb.js",
+      "system": "ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/huong-dan-may.js",
+      "bytes": 19253,
+      "sha256": "0cbe0815817d0ee727676ec9f4c4c173a3c411f6a0003a56f3518059b7551076",
+      "module": "huong-dan-may.js",
+      "system": "ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/huong-dan-tn.js",
+      "bytes": 6006,
+      "sha256": "275807924890eb644e36b8d10c5fb5a8a1935abf6afd5d6965dcb3c66905d81a",
+      "module": "huong-dan-tn.js",
+      "system": "ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/huong-dan.js",
+      "bytes": 105315,
+      "sha256": "5108b134220b2bebd9ed637eabcd005478d5983e4f194959157a2f707c5a2db3",
+      "module": "huong-dan.js",
+      "system": "ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/img-loi.js",
+      "bytes": 5850,
+      "sha256": "18c28036ba0b0098dc22428553c20d0c91f16f4a0a8f5ca583bcc0f27f9ede3b",
+      "module": "img-loi.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/iron-house.js",
+      "bytes": 54190,
+      "sha256": "ed6f8e58453ceb49dbe54b8c85663a0e5804b67414f66bf54017155196e22682",
+      "module": "iron-house.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/item-supplement.js",
+      "bytes": 14658,
+      "sha256": "6391f2247d1f5eab063694785a898e01a700c7ea4667bfc4e1d932a060336b1f",
+      "module": "item-supplement.js",
+      "system": "items",
+      "reviewTier": "survey",
+      "analysis": "Item supplement and merchant-contract panels. No transaction was made."
+    },
+    {
+      "path": "/mods/ket-tran-fx.js",
+      "bytes": 19562,
+      "sha256": "195d94c1e188b565a33e752801d66afad1aa2bcf851d28950154c92d3c26fbb0",
+      "module": "ket-tran-fx.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/league-temple.js",
+      "bytes": 55986,
+      "sha256": "4ac1d541fd39d45b488be64e2f3f74619a0b5a51e947e3904e8e3abba9c3f1a1",
+      "module": "league-temple.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/loan-chien.js",
+      "bytes": 30253,
+      "sha256": "add24ae8e748a7f0b49feb14ef2bccafad20a31d131d7cbe6a85e972e0e9584b",
+      "module": "loan-chien.js",
+      "system": "events",
+      "reviewTier": "deep",
+      "analysis": "Scheduled cross-server event UI: registration, server ranking, prize tables and battle entry affordances. No signup or PvP performed in this research."
+    },
+    {
+      "path": "/mods/ma-tran.js",
+      "bytes": 37334,
+      "sha256": "a6b2ae93298f02dc8ae027e1a75390c02bc06e7a116a3bdd4d609652318effb7",
+      "module": "ma-tran.js",
+      "system": "hero-growth",
+      "reviewTier": "deep",
+      "analysis": "Reads per-hero server matrix state and renders 37 matrix activations across quality tabs; each activation is a separate record, activated bonuses accumulate, while the displayed aura can be switched freely. Animated MovieClip atlas parsing uses frame and trim metadata; combat aura is rendered beneath the hero."
+    },
+    {
+      "path": "/mods/mall.js",
+      "bytes": 28892,
+      "sha256": "5c6470cb84252158bf8b151c4e1899421c898b5003e9cdd74b4f0773f39e91fe",
+      "module": "mall.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/manh-hon.js",
+      "bytes": 12979,
+      "sha256": "5f1b923e1cad7e1741283f1af4f6a0f47b67e1bac22ea36d8587be9ad89eac59",
+      "module": "manh-hon.js",
+      "system": "progress-guide",
+      "reviewTier": "deep",
+      "analysis": "Three tabs give progression recommendations for troop allocation, officials, seals, military tactics, VIP/city skins, troop/gear/building/stone resources and role archetypes."
+    },
+    {
+      "path": "/mods/market.js",
+      "bytes": 72479,
+      "sha256": "ea752203dc8ee4f77b65292f8d622d0c9aae92eb8bf8e2c36fafc229636256c1",
+      "module": "market.js",
+      "system": "items",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/mieu-hoi-popup.js",
+      "bytes": 6215,
+      "sha256": "e994094545965c6ee398ec55a767283ab87da9230b2767addd132c7d3f369d01",
+      "module": "mieu-hoi-popup.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/mieu-hoi.js",
+      "bytes": 46262,
+      "sha256": "511aac0e3910401ebcb881054e9cc18b48c41cfe290a3b89423724fd39fb9ab8",
+      "module": "mieu-hoi.js",
+      "system": "events",
+      "reviewTier": "survey",
+      "analysis": "Shrine event collection, dig and milestone panels."
+    },
+    {
+      "path": "/mods/mo-cua.js",
+      "bytes": 6579,
+      "sha256": "4dbeda9547fc487f1baabe234f56a47d8f13ddc9cfe174e94ce4071a192b1361",
+      "module": "mo-cua.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/mua-dung.js",
+      "bytes": 24464,
+      "sha256": "c5ffd78b799191777067525db4943c1c6817bf06c773226c69ba0aa937553150",
+      "module": "mua-dung.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/nang-cap-ct.js",
+      "bytes": 32425,
+      "sha256": "335ca794c47384e3e9a5c17e46d6f6e64dd15b9b7a5c10a14d57f7c820375e4a",
+      "module": "nang-cap-ct.js",
+      "system": "city",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/nap-dau.js",
+      "bytes": 19722,
+      "sha256": "0587b4febd45cd057bbd237761c8e52b102ea6e3ab4a80bf957b6a043513b0dc",
+      "module": "nap-dau.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/ngoai-giao.js",
+      "bytes": 76338,
+      "sha256": "386f43beefecb26172ddf2b0608bdba1ac2ecffd1502a0ceed6b88f15344b68a",
+      "module": "ngoai-giao.js",
+      "system": "guild",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/nhat-ky-loi.js",
+      "bytes": 11193,
+      "sha256": "355430e1f359f9955afb61b1752b9835c56d32429f121148f653de86cb931d4e",
+      "module": "nhat-ky-loi.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/nhip-ve.js",
+      "bytes": 16298,
+      "sha256": "a01f26d4df3ad6b4ea2b5578d2110cc9daec12f38670387d1de47d6f386dedb7",
+      "module": "nhip-ve.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/noi-chinh.js",
+      "bytes": 45976,
+      "sha256": "8ffec9fe5e369e2031de4b1bdcf4cb2be823d81653b10f1a0eb428b58a37a1ff",
+      "module": "noi-chinh.js",
+      "system": "city",
+      "reviewTier": "deep",
+      "analysis": "City resources, taxation, government, territory and technique navigation."
+    },
+    {
+      "path": "/mods/nv-chu.js",
+      "bytes": 6378,
+      "sha256": "1e6db1f78e1b456d1c9fa26bb0056dfc25911a390061d5cda6454079f4b736bb",
+      "module": "nv-chu.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/official.js",
+      "bytes": 20775,
+      "sha256": "480f411e4947b68f93c852cc1e9fb33c917dcc2804a1cf8324f16530e048f08e",
+      "module": "official.js",
+      "system": "hero-growth",
+      "reviewTier": "survey",
+      "analysis": "Official rank progression display."
+    },
+    {
+      "path": "/mods/parade.js",
+      "bytes": 50167,
+      "sha256": "79e123d63771bb073235d1d7430a7df2b7c52e370a99d6ee628a895c2ebd24da",
+      "module": "parade.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/phap-bao-tich.js",
+      "bytes": 25452,
+      "sha256": "f9f2b5e3c437ca6d0d95c9dcb24e9e8185e59d7c3f0d89793d3e18d3e803531f",
+      "module": "phap-bao-tich.js",
+      "system": "hero-growth",
+      "reviewTier": "deep",
+      "analysis": "Artifact and spellbook detail/picker UI."
+    },
+    {
+      "path": "/mods/phong-an.js",
+      "bytes": 2511,
+      "sha256": "1bc74fd37ce854232bc9e85bfd967d41b52f1418b4ed92ce23639e9a0cf6d4b9",
+      "module": "phong-an.js",
+      "system": "city",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/phong-than-lenh.js",
+      "bytes": 181288,
+      "sha256": "cb3f5d2309fdc422d6f73ce72281ffc4cd691dfeef02e006dfd47cf327763e06",
+      "module": "phong-than-lenh.js",
+      "system": "hero-growth",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/popup-dang-nhap.js",
+      "bytes": 6276,
+      "sha256": "bfe5d4b36e6cc36e55cfa1bbee080104c5a8f2f426b5e1f0b553217e06f51a2d",
+      "module": "popup-dang-nhap.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/qua-moi-ngay.js",
+      "bytes": 11212,
+      "sha256": "2edd651f0b77f332c220fcb34ab92e03ec8539a8f8a3db839a26e0088e7c84f0",
+      "module": "qua-moi-ngay.js",
+      "system": "rewards",
+      "reviewTier": "survey",
+      "analysis": "Daily reward/top-up offer UI; purchase flow exists but was not used."
+    },
+    {
+      "path": "/mods/quests.js",
+      "bytes": 30331,
+      "sha256": "ec985806e6fb5957fd22aa07cc2329b3c437d0f329c1f3500afa25394b84866a",
+      "module": "quests.js",
+      "system": "quests",
+      "reviewTier": "deep",
+      "analysis": "Quest state UI links first-battle target search to a nearby level-0 wilderness tile and distinguishes wilderness from remaining Tiên Sơn floors."
+    },
+    {
+      "path": "/mods/recruit-house.js",
+      "bytes": 1913,
+      "sha256": "8437f7063da940c818e80ba630c7a55aa57c81d3779c0be5ca4db74388908517",
+      "module": "recruit-house.js",
+      "system": "hero-growth",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/registry.js",
+      "bytes": 13048,
+      "sha256": "18db0753fe731ebf90abe2c8f761d8f44fcaef07e3346d762c26685faa6a74cb",
+      "module": "registry.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/reports.js",
+      "bytes": 66158,
+      "sha256": "0c695e74d44fa99a3848629ae13dde460507fa6da565273a86d41d562dcf96ef",
+      "module": "reports.js",
+      "system": "reports",
+      "reviewTier": "survey",
+      "analysis": "Battle report UI; dynamic reports were not opened to avoid unrelated records."
+    },
+    {
+      "path": "/mods/shop-phuc-loi.js",
+      "bytes": 24016,
+      "sha256": "c952b7a440e25621fbabdc5ac577c2ec8ac0dc1cdafcd7236e0055bfdcf105bb",
+      "module": "shop-phuc-loi.js",
+      "system": "items",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/sieu-sale.js",
+      "bytes": 17050,
+      "sha256": "4781b57f86595d6086ad9254237665d7faff036bd5b7539e571cd89f6965c1dc",
+      "module": "sieu-sale.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/signal-fire.js",
+      "bytes": 3858,
+      "sha256": "6fc8cb29fb9f2af245545e78382db8ac674f3c4b5e71e1ec169c613f8defed69",
+      "module": "signal-fire.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/skirmisher.js",
+      "bytes": 2120,
+      "sha256": "2d00586e96db908548a65f7e8d8aba878f3f7f71bc49e9d87c4b29792761fb98",
+      "module": "skirmisher.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/stable.js",
+      "bytes": 37751,
+      "sha256": "4eefeb8c6bb16b4df29b3d106a471afc453863f14677ada21dc6cfbc25fe34a4",
+      "module": "stable.js",
+      "system": "army",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/strongpoint.js",
+      "bytes": 88320,
+      "sha256": "449984d168483c55b3aa180353de463762197690041e6098569fbd0427fd1555",
+      "module": "strongpoint.js",
+      "system": "guild-event",
+      "reviewTier": "deep",
+      "analysis": "Guild strongpoint event UI separates map, signup, troop store, contribution, exchange and scheduled match; individual map card describes NPC garrisons. Registration/fee requirements are not inferred from static UI alone."
+    },
+    {
+      "path": "/mods/su-kien-tnl.js",
+      "bytes": 22298,
+      "sha256": "3580ce29a7de3cfd5ad522a32f58c55856536c698cce351469e074c328f970d9",
+      "module": "su-kien-tnl.js",
+      "system": "events",
+      "reviewTier": "deep",
+      "analysis": "TNL event adapters expose wheel, free-turn, selected reward pool and accumulation milestones."
+    },
+    {
+      "path": "/mods/subcity.js",
+      "bytes": 6962,
+      "sha256": "42ea70a3fe9024f01effd0f55017fac4df52f33edf662748d0019d49117250e9",
+      "module": "subcity.js",
+      "system": "city",
+      "reviewTier": "survey",
+      "analysis": "Sub-city/outer-city construction and placement UI."
+    },
+    {
+      "path": "/mods/tai-lan-dau.js",
+      "bytes": 5951,
+      "sha256": "3d9e3e55f426b16fbf089e2f2b4e18e57382d00350a27c1a146a99952e445e06",
+      "module": "tai-lan-dau.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/ten-than-tien.js",
+      "bytes": 18016,
+      "sha256": "62b92ed6cf837a303f691a142441ac9ec1e7b57fe95254403e16c9e11c4f164b",
+      "module": "ten-than-tien.js",
+      "system": "hero-growth",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/than-tien-anim.js",
+      "bytes": 5965,
+      "sha256": "929fee4370c9e5bfde667d28f20991d2ac59c3eea515b4bee1272b34db17a530",
+      "module": "than-tien-anim.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/than-tuong.js",
+      "bytes": 82790,
+      "sha256": "df84d2c8255b7b2e8bbb157f5d3e013a78f66cda7740d7e6663f982b53aacd7c",
+      "module": "than-tuong.js",
+      "system": "hero-growth",
+      "reviewTier": "deep",
+      "analysis": "Hero roster/profile UI, attribute, cultivation, skills and formation panels."
+    },
+    {
+      "path": "/mods/theurgy.js",
+      "bytes": 25781,
+      "sha256": "641d5648046445b3ac9a5d91a8bd068785f383ed7a2d332d19f37b1d24e52d90",
+      "module": "theurgy.js",
+      "system": "hero-growth",
+      "reviewTier": "deep",
+      "analysis": "Per-city Taoist spell selection/effect UI."
+    },
+    {
+      "path": "/mods/thieu-dieu-kien.js",
+      "bytes": 12570,
+      "sha256": "70d51652e413cf32f391d00b46d180fe3c8fbb592170451fc634134c10b2c739",
+      "module": "thieu-dieu-kien.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tiet-pin.js",
+      "bytes": 3594,
+      "sha256": "cecb739da6b97bd1e116a46bf4c231a920fb29c27e668fd575c955b6e828615e",
+      "module": "tiet-pin.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-event-hud.js",
+      "bytes": 4934,
+      "sha256": "410a3bae4f1490281eedb18d6eaa4815a15c4e8ce5667a4450f13fbe35fb773d",
+      "module": "tnl-event-hud.js",
+      "system": "ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-events-fx.js",
+      "bytes": 8302,
+      "sha256": "9e63a09649c7af3797c7e255b8f5b8bcbbf5a525411491b06627b106025080c0",
+      "module": "tnl-events-fx.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-events.js",
+      "bytes": 47304,
+      "sha256": "0c1d9ab7cfdb88955d60f614896c9672ffa280e6bad725a884c6df4a94e5a473",
+      "module": "tnl-events.js",
+      "system": "events",
+      "reviewTier": "survey",
+      "analysis": "TNL event state/rendering helpers."
+    },
+    {
+      "path": "/mods/tnl-item-fx.js",
+      "bytes": 11841,
+      "sha256": "f1daa515db118e005951df8588f9fbb66e84c29d14ff546353c627c50868c8c2",
+      "module": "tnl-item-fx.js",
+      "system": "items",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-panel-adapters.js",
+      "bytes": 22814,
+      "sha256": "2df1a2285803f1ae048ca3eb987260e26f34d3d5e767208cf774a2220dfeadf0",
+      "module": "tnl-panel-adapters.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-panels.js",
+      "bytes": 17347,
+      "sha256": "475051da68ac187fbd885cf39ffc976ac6a4aca2b2ce8f8f192f89faf142ffa7",
+      "module": "tnl-panels.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-training.js",
+      "bytes": 12880,
+      "sha256": "5121bf38819a0e81799673ef8494d518303176466bb08858f29e3ad67c45683e",
+      "module": "tnl-training.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-war-army.js",
+      "bytes": 29702,
+      "sha256": "c654f2f9db35da72ed6543459fe59d15a037e9e40fc822d793f66e6f0915f5c4",
+      "module": "tnl-war-army.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-war-estate.js",
+      "bytes": 15473,
+      "sha256": "7a3defb5d8de22ec7695d2aa45538a94f8017cba1b137e90004bade6b0462418",
+      "module": "tnl-war-estate.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-war-shop.js",
+      "bytes": 8546,
+      "sha256": "7ea14bba9cb02cdf56db0b93aebb301313e6299d83100b9a489327493fc83f3d",
+      "module": "tnl-war-shop.js",
+      "system": "items",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-war-wallet.js",
+      "bytes": 13213,
+      "sha256": "ca52e4fb69cf50a34348ad2e03f0e1847cb08ce7451cb1158e94ebb653fa5fe5",
+      "module": "tnl-war-wallet.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tnl-war.js",
+      "bytes": 94578,
+      "sha256": "d285f5136a8a9961fd751b349edcaef7cb6eadfa25fb17d4879297b0b058929e",
+      "module": "tnl-war.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tower-arena-fx.js",
+      "bytes": 2029,
+      "sha256": "95d457fc9aef213b7613198fd5eaa9289a685f54e22f7fe939e967afc50bfe1b",
+      "module": "tower-arena-fx.js",
+      "system": "arena",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tower-arena.js",
+      "bytes": 54076,
+      "sha256": "7c8498c789dc411cbba6395983e096e33ebeec010e238acd92dc2b3670e3fd98",
+      "module": "tower-arena.js",
+      "system": "arena",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tower-fx.js",
+      "bytes": 8914,
+      "sha256": "56dd7fa625946eca89af5f03f182dba14bde551313881f9cd929cc2f4303e6ad",
+      "module": "tower-fx.js",
+      "system": "arena",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tower.js",
+      "bytes": 85481,
+      "sha256": "a34d4d25e89f5ceac542931a1d466d6301ca5b17253a362f203aa1d9c4a3de6e",
+      "module": "tower.js",
+      "system": "arena",
+      "reviewTier": "deep",
+      "analysis": "Phong Thần Tháp interface requires registration for ranking/challenge, reports daily attempts and four artifact slots; opponent matching is competitive, so not entered."
+    },
+    {
+      "path": "/mods/transit.js",
+      "bytes": 13228,
+      "sha256": "269c8887d6cf7ce7cb60fb0139b312f2055557a08312b1ce72a34c295f92cfdc",
+      "module": "transit.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tro-thu.js",
+      "bytes": 91141,
+      "sha256": "beb4500f618021e0d3a51ccd4d70d8c11485a3cd787b222dafcf64a22f27262f",
+      "module": "tro-thu.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/trong-dong.js",
+      "bytes": 27707,
+      "sha256": "666edef103f43760b4e14781211b1824c508d8dbc0c34fe78440c7f5939a6602",
+      "module": "trong-dong.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tu-phat-am.js",
+      "bytes": 7410,
+      "sha256": "fe0d000d5b1a3149747f87d77af7e5a61d208d409d573150c3df2096064a3a06",
+      "module": "tu-phat-am.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tu-phat-san.js",
+      "bytes": 37707,
+      "sha256": "bea2f8c96846462dc33ccd059a6ca5636a82084204d6e7d5e8338aad1b00d7f2",
+      "module": "tu-phat-san.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/tu-phat.js",
+      "bytes": 52802,
+      "sha256": "02cb5324a4e6d5bfe3c98fa71e5578b1158f6be171ac695e62eac47966df734b",
+      "module": "tu-phat.js",
+      "system": "hero-growth",
+      "reviewTier": "deep",
+      "analysis": "Meditation/cultivation room, selected hero/package/duration and timed reward UI."
+    },
+    {
+      "path": "/mods/tuong-tro.js",
+      "bytes": 37695,
+      "sha256": "ff54059077b9fb4342f1921580a2280255aee6a0c3a4ebfc0b3c6215fff856ab",
+      "module": "tuong-tro.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/ty-vo-tran.js",
+      "bytes": 10383,
+      "sha256": "bd604741503f13a69bc1391ef62e7e8f883ffa86ea09a4326aab90d251ae09eb",
+      "module": "ty-vo-tran.js",
+      "system": "arena",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/ty-vo.js",
+      "bytes": 56703,
+      "sha256": "7f26b3763c1ba4b90eb31ddf63b278b7e97be851c540b366cd7f171eb8b32e1e",
+      "module": "ty-vo.js",
+      "system": "arena",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/vach-9slice.js",
+      "bytes": 11115,
+      "sha256": "db4957274d94bcc6ccc056b066c8ef7bd21c8ed6ee13203b7ede2c2fd1b826a3",
+      "module": "vach-9slice.js",
+      "system": "ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/vi-vnd.js",
+      "bytes": 875,
+      "sha256": "b9b965b60b686ff59dbca58825b948909d673ef28cb2d5b7a08c6bde29373960",
+      "module": "vi-vnd.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/vip-cap.js",
+      "bytes": 8312,
+      "sha256": "345f2140fa1dad5e5d1ce33c757ed53bda7a7084a176bc4449238f8232e20019",
+      "module": "vip-cap.js",
+      "system": "benefits",
+      "reviewTier": "survey",
+      "analysis": "VIP level/progression display."
+    },
+    {
+      "path": "/mods/vip.js",
+      "bytes": 43685,
+      "sha256": "6a233d9d50130fd412beb01f9c83348b20d025cc5b50e20988837e4c9f9bcd0e",
+      "module": "vip.js",
+      "system": "benefits",
+      "reviewTier": "survey",
+      "analysis": "VIP status and benefit UI; paid actions not used."
+    },
+    {
+      "path": "/mods/voice.js",
+      "bytes": 6680,
+      "sha256": "68e066f680b3e1e977ade6e5cc992d205e6a6682b3d4c46723ce6181f8046ff1",
+      "module": "voice.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/vong-sang-tt.js",
+      "bytes": 1908,
+      "sha256": "9b41c4d0e1e404422e939f4796a34b212e876afc63a6a937b2e154670fa5e94b",
+      "module": "vong-sang-tt.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/vuot-dau.js",
+      "bytes": 13897,
+      "sha256": "243628d8b47822c112e9125dd93472be6b8d7764cea46dad1fedb4908e96c326",
+      "module": "vuot-dau.js",
+      "system": "other-public-ui",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    },
+    {
+      "path": "/mods/xay-o-trong.js",
+      "bytes": 12421,
+      "sha256": "9af759f49b8af8d83eebf6239c82f2818bbabefc454e627829c8d2da1d155de6",
+      "module": "xay-o-trong.js",
+      "system": "city",
+      "reviewTier": "inventory",
+      "analysis": "Public client module fetched and included in the inventory; no live behavior or server availability is asserted."
+    }
+  ]
+}

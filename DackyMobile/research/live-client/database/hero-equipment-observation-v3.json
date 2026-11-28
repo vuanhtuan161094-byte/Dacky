@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-28",
+  "evidenceSource": "LIVE_UI",
+  "screen": "Thần tướng > Tu luyện",
+  "mainGearSlots": {
+    "count": 8,
+    "labels": [
+      "Mũ",
+      "Giáp",
+      "Đai",
+      "Cổ Khí",
+      "Giày",
+      "Tay",
+      "Vũ Khí",
+      "Cấm Khí"
+    ],
+    "columns": {
+      "left": [
+        "Mũ",
+        "Giáp",
+        "Đai",
+        "Cổ Khí"
+      ],
+      "right": [
+        "Giày",
+        "Tay",
+        "Vũ Khí",
+        "Cấm Khí"
+      ]
+    },
+    "evidence": [
+      "../evidence/hero-growth.png",
+      "../evidence/v3/hero-growth-v3.png",
+      "../evidence/v3/hero-army-v3.png"
+    ]
+  },
+  "separateControls": [
+    {
+      "label": "Ngựa",
+      "classification": "separate mount slot below the eight-slot gear grid"
+    },
+    {
+      "label": "Pháp bảo",
+      "classification": "four separate artifact slots below the mount row, not part of the eight main gear slots"
+    }
+  ],
+  "dackyComparison": {
+    "status": "INCORRECT",
+    "currentIssue": "Dacky dossier surfaces only a reduced set of primary equipment controls; it does not match the eight named live slots and separate mount/artifact controls."
+  },
+  "confidence": "High for the displayed layout; per-slot eligibility and equipment stat formulas were not tested in this capture.",
+  "liveSelectedHeroSnapshot": {
+    "hero": "ThiênMệnh",
+    "level": 6,
+    "command": 881,
+    "troopType": "Cung Tiễn",
+    "assignedTroops": 440,
+    "displayedMaximum": 440,
+    "assignmentRuleDisplayed": "một loại = thống suất ÷ dân số lính (440); phối 0 trả hết lính",
+    "barracksPool": 7993,
+    "assignedToOtherHeroes": 2651,
+    "freeReserve": 5342,
+    "autoReplenishCheckbox": "checked in the displayed formation UI; post-battle replenishment outcome not tested",
+    "source": "LIVE_UI",
+    "evidence": "../evidence/v3/hero-army-v3.png"
+  },
+  "artifactSlotInspection": {
+    "source": "LIVE_UI",
+    "selectedHero": "ThiênMệnh",
+    "slotCountDisplayed": 4,
+    "eligibleItemsFound": 0,
+    "selectorMessage": "Không có đồ vừa ô này — tìm trong rương, Thương Thành hoặc Chuồng ngựa.",
+    "shopsOrChestsOpened": false,
+    "evidence": "../evidence/v3/hero-artifact-slot-v3.png"
+  }
+}
