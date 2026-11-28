@@ -2,7 +2,7 @@
 import { canEquip } from './army-artifacts.js';
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
 export const TACTICAL_STANCES=Object.freeze({assault:{attack:1.18,defense:.86},balanced:{attack:1,defense:1},guard:{attack:.84,defense:1.22},siege:{attack:.90,defense:1.05}});
-const resourceKeys=['heroId','instanceId','level','mana','maxMana','vitality','maxVitality','equippedArtifactIds','ownedArtifactIds','legacyPassiveName','legacyDuelPassiveIds','commandAttack','commandDefense','troopRecoverySuppression','activeCombatSkill','activeCombatSkillLevel'];
+const resourceKeys=['heroId','instanceId','level','mana','maxMana','vitality','maxVitality','equippedArtifactIds','ownedArtifactIds','legacyPassiveName','legacyDuelPassiveIds','commandAttack','commandDefense','troopRecoverySuppression','activeCombatSkill','activeCombatSkillLevel','activeMatrix'];
 export function commanderSnapshot(s){return Object.fromEntries(resourceKeys.filter(k=>s[k]!==undefined).map(k=>[k,Array.isArray(s[k])?[...s[k]]:s[k]]))}
 export function prepareCommanders(side,index){
  const roster=[commanderSnapshot(side),...(side.reserves??[]).map(commanderSnapshot)].map(c=>({...c,instanceId:String(c.instanceId??c.heroId),equippedArtifactIds:[...(c.equippedArtifactIds??[])]}));
