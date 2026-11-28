@@ -32,6 +32,21 @@ with sync_playwright() as p:
         for view in ('city','army','inventory','world','pve','tech','quests','market','reports','settings','library'):
             page.locator('#primary-nav [data-view="'+view+'"]').click()
             page.evaluate('document.fonts.ready')
+            if view=='world':
+                page.locator('.world-map-art').evaluate('(img) => img.decode()')
+                assert page.locator('.world-map-art').evaluate('(img) => img.naturalWidth')>0
+                page.locator('.map-node').last.click()
+                assert page.locator('.map-node.selected').count()==1
+            if view=='inventory':
+                page.locator('[data-bag-filter="all"]').click()
+                if page.locator('[data-bag-item]').count():
+                    page.locator('[data-bag-item]').first.click()
+                    assert page.locator('.r3-bag-detail .inventory-item').count()==1
+                for tab in ('merchant','forge','equipped'):
+                    page.locator('[data-bag-tab="'+tab+'"]').click()
+                    assert page.locator('.r3-bag-catalog').count()==1
+                    page.screenshot(path=str(out/(label+'-bag-'+tab+'.png')))
+                page.locator('[data-bag-tab="bag"]').click()
             page.screenshot(path=str(out/(label+'-'+view+'.png')))
         audit.append({'viewport':label,'pageErrors':errors})
         assert not errors,errors
@@ -50,6 +65,7 @@ with sync_playwright() as p:
             frame+=1
             battle.wait_for_timeout(110)
     capture_round(8)
+    assert battle.locator('.r3-field-commander').count()==2
     for _ in range(8):
         command=battle.locator('[data-action="battleCommand"]')
         if not command.count() or not command.first.is_visible():break
@@ -68,7 +84,7 @@ with sync_playwright() as p:
 # Visual evidence small enough for text-only CI inspection (actual runtime, not a mockup).
 from PIL import Image, ImageOps, ImageDraw
 import base64, io
-names=['desktop-city.png','desktop-hero-stats.png','desktop-events-before.png','desktop-collections.png','desktop-world.png','desktop-inventory.png','desktop-hero-formation.png','battle.png']
+names=['desktop-world.png','desktop-inventory.png','desktop-bag-merchant.png','desktop-bag-forge.png','mobile-landscape-world.png','mobile-landscape-inventory.png','battle.png','battle-after.png']
 sheet=Image.new('RGB',(1000,4*300),'#1c2622');draw=ImageDraw.Draw(sheet)
 for i,name in enumerate(names):
     file=out/name
