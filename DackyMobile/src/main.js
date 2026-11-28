@@ -164,6 +164,7 @@ document.body.addEventListener('click', async event => {
   if(event.target.closest('.art01-camera')&&!event.target.closest('button')&&(uiState.cityBuildingId||uiState.cityPlotId)){uiState.cityBuildingId=null;uiState.cityPlotId=null;renderCurrent();return;}
   const heroSupportSummary=event.target.closest('.hero-support-drawer > summary');
   if(heroSupportSummary)uiState.heroSupportOpen=!heroSupportSummary.parentElement.open;
+  const worldPaneChoice=event.target.closest('[data-world-pane-choice]');if(worldPaneChoice){uiState.worldPane=worldPaneChoice.dataset.worldPaneChoice;renderCurrent();return;}
   const bagTabChoice=event.target.closest('[data-bag-tab]');if(bagTabChoice){uiState.bagTab=bagTabChoice.dataset.bagTab;renderCurrent();return;}
   const bagFilterChoice=event.target.closest('[data-bag-filter]');if(bagFilterChoice){uiState.bagFilter=bagFilterChoice.dataset.bagFilter;uiState.bagPage=0;uiState.bagSelected=null;renderCurrent();return;}
   const bagItemChoice=event.target.closest('[data-bag-item]');if(bagItemChoice){uiState.bagSelected=bagItemChoice.dataset.bagItem;renderCurrent();return;}
