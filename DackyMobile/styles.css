@@ -1510,3 +1510,16 @@ body:not(.art01-city-mode) .game-dock{background:linear-gradient(#34372e,#1b2723
 .p4-paper-mode .hero-command-view:has(>.hero-support-drawer[open])>.hero-roster-window{display:none}
 .p4-paper-mode .hero-command-view>.hero-support-drawer[open]{min-height:0;overflow:auto;align-self:stretch}
 .p4-paper-mode .hero-support-drawer[open]>summary{position:sticky;top:0;z-index:10;background:#302b25;color:#f7e9c7}
+
+
+/* V4 — source-aligned equipment, troop ownership and offline battle events. */
+.v4-artifact-dock{padding:7px;background:#f2e5c9;border:1px solid #c7b48c;border-radius:4px;margin:4px 0 9px;color:#5b4024}
+.v4-artifact-dock h4{margin:0 0 5px;font-size:14px}.v4-artifact-dock>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.v4-artifact-dock article{display:grid;justify-items:center;gap:3px;padding:5px;background:#fff8e9;border:1px solid #beaa82;min-width:0}.v4-artifact-dock article img{width:42px;height:42px;object-fit:contain}.v4-artifact-dock article b{font-size:11px;overflow-wrap:anywhere;text-align:center}.v4-artifact-dock article small{font-size:10px}.v4-artifact-dock .button{min-height:23px;padding:2px 6px}
+.v4-troops{display:grid;gap:5px}.v4-troops>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(60px,100px) auto;gap:4px;align-items:center;background:#faf2df;border:1px solid #c7b48c;padding:6px;color:#54391d}.v4-troops b,.v4-troops small{grid-column:1}.v4-troops input{grid-row:1/3;grid-column:2;width:100%;min-width:0}.v4-troops .button{grid-row:1/3;grid-column:3}
+.v4-title-list,.v4-war-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;max-height:440px;overflow:auto;padding:3px}.v4-title-list>div,.v4-war-grid>article{display:grid;align-content:start;gap:3px;background:#f2e6cd;border:1px solid #c5b18a;padding:6px;color:#614526;min-width:0}.v4-title-list b,.v4-war-grid b{font-size:12px}.v4-war-grid>article.captured{background:#d4e3c0;border-color:#80945b}.v4-title-badge{display:block;font-size:10px;color:#8e501a}
+.v4-buzhou-routes{display:flex;gap:5px;flex-wrap:wrap}.v4-buzhou-routes>small{width:100%;font-size:11px}
+.v4-projectile{position:absolute;z-index:6;top:53%;left:27%;background-repeat:no-repeat;pointer-events:none;animation:v4-projectile .48s linear both}.v4-projectile.enemy{left:69%;animation-name:v4-projectile-enemy;scale:-1 1}
+@keyframes v4-projectile{0%{left:27%;opacity:0}12%{opacity:1}100%{left:69%;opacity:0}}@keyframes v4-projectile-enemy{0%{left:69%;opacity:0}12%{opacity:1}100%{left:27%;opacity:0}}
+.v4-switch-banner{position:absolute;z-index:12;top:14%;left:50%;transform:translateX(-50%);background:#332913e8;border:1px solid #d6b87c;color:#fff1bd;font-size:13px;font-weight:700;padding:5px 10px;white-space:nowrap;animation:r4-banner 1.5s both}
+@media(max-height:480px) and (orientation:landscape){.v4-artifact-dock article img{width:26px;height:26px}.v4-artifact-dock article b{font-size:8px}.v4-troops>div{grid-template-columns:1fr 55px auto;padding:3px}.v4-troops .button{font-size:9px}.v4-title-list,.v4-war-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-height:230px}.v4-title-list b,.v4-war-grid b{font-size:10px}}
