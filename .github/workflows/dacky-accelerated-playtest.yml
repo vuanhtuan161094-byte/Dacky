@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install pillow playwright
-      - run: npm run build
+      - run: DACKY_SOURCE_V3_INTERNAL=1 npm run build
       - run: node qa/playtest-fixtures.mjs
       - name: Real UI playthrough with fast-forward clock
         run: |
