@@ -1,5 +1,5 @@
 import { cityPlotZone, cityPrimarySite, activeQuest, advance, createNewGame, doAction, TUTORIAL_STEPS } from './engine.js';
-import { QUESTS } from './catalog.js';
+import { QUESTS, HEROES } from './catalog.js';
 import { exportSave, importSaveFile, loadGame, saveGame } from './store.js';
 import { CITY_OUTER_IDS, NAV, renderScreen, renderShell, renderStartup, showBattleReplay, showDialog, showToast, updateClock } from './ui.js';
 
@@ -373,7 +373,7 @@ document.body.addEventListener('submit', async event => {
 document.body.addEventListener('change', async event => {
   const target=event.target;
   if (target.id==='combat-mode') {
-    uiState.combatMode=target.value==='manual'?'manual':'auto';
+    uiState.combatMode=['manual','squad'].includes(target.value)?target.value:'auto';
   } else if (target.matches('[data-source-category]')) {
     uiState.sourceCategory=target.value;
     uiState.sourcePage=0;
@@ -439,7 +439,21 @@ setInterval(()=>{
   if (game.settings.autosave && dirty && Date.now()-lastSave>25000) { lastSave=Date.now(); persist().catch(()=>{}); }
 },1000);
 
-if(globalThis.__DACKY_COMBAT_PREVIEW__&&new URLSearchParams(location.search).get('productSmoke')==='1'){
+if(globalThis.__DACKY_COMBAT_PREVIEW__&&new URLSearchParams(location.search).get('squadSmoke')==='1'){
+ try{
+  const t=Date.now()-60000;game=createNewGame('Tây Kỳ · D2 DEV',t);
+  const second=HEROES.find(h=>h.id!==game.heroes[0].id&&h.mobileSourceId);
+  if(!second)throw Error('Missing second hero');
+  game.heroes.push({...structuredClone(game.heroes[0]),id:second.id});
+  const id=Object.keys(game.army)[0];game.army[id]=5000;
+  game=doAction(game,{type:'march',nodeId:'node-001',troopId:id,count:5000,combatMode:'squad'},t);
+  game=advance(game,Math.ceil(game.queues.march.finishAt)).state;
+  if(!game.queues.march?.arrivedAt||game.queues.march.squadAllocation.length!==2)throw Error('Squad march absent');
+  document.body.classList.remove('startup-mode');renderCurrent();
+  if(document.querySelectorAll('.fidelity-roster.ally .fidelity-squad-card').length!==2)throw Error('Squad UI absent');
+  document.body.dataset.squadSmoke='PASS';
+ }catch(error){document.body.dataset.squadSmoke='FAIL';document.body.dataset.squadError=error.message;}
+}else if(globalThis.__DACKY_COMBAT_PREVIEW__&&new URLSearchParams(location.search).get('productSmoke')==='1'){
   try{
     const t=Date.now();game=createNewGame('Tân chủ DEV',t);
     game=doAction(game,{type:'equip',heroId:game.heroes[0].id,itemId:'item-01'},t);
