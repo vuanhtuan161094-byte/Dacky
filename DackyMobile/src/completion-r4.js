@@ -8,7 +8,7 @@ export const TITLES=Object.freeze([
 export const ONLINE_MINUTES=Object.freeze([5,15,30,60]);
 export const WEEKLY=Object.freeze([['build','Kiến thiết','upgrades',5],['battle','Chinh phạt','victories',5],['train','Luyện binh','troopsTrained',100],['duel','Đấu pháp','duels',5],['trade','Giao thương','tradeCount',3]]);
 export const VIP_THRESHOLDS=Object.freeze([0,50,150,350,700,1200,2000,3200,5000,8000,12000]);
-export const R4_ACTIONS=Object.freeze(['claimTitle','equipTitle','claimOnlineGift','claimVipGift','claimWeekly','claimGuildMission','setGarrison','recallGarrison','upgradeOutpost','setReplenish','claimMonthly']);
+export const R4_ACTIONS=Object.freeze(['claimTitle','equipTitle','claimOnlineGift','claimVipGift','claimWeekly','claimGuildMission','setGarrison','recallGarrison','setReplenish','claimMonthly']);
 export function refreshR4(s,now,troops=[]){
  const g=s.gameplay??(s.gameplay={}),o=g.r4??{},day=Math.floor(now/DAY),week=Math.floor(now/WEEK),month=new Date(now).toISOString().slice(0,7);
  const validCities=new Set((s.cities||[]).map(c=>c.id)),validTroops=new Set(troops.map(t=>t.id));
@@ -35,7 +35,6 @@ export function r4Action(s,a,now,{troops,credit,debit}){
  case 'claimGuildMission':if(!s.world.guildLevel||x.guildClaim||(s.stats.victories||0)-x.guildBase<1)throw Error('Cần gia nhập minh hội và thắng một trận hôm nay');x.guildClaim=true;x.contribution+=10;s.gameplay.guildDonation=(s.gameplay.guildDonation||0)+10;credit({gold:500,jade:1});break;
  case 'setGarrison':{guard();const c=city(),n=Number(a.count),id=a.troopId;if(!troops.some(t=>t.id===id)||!Number.isSafeInteger(n)||n<1||n>(s.army[id]||0))throw Error('Quân dự bị không đủ');const rows=x.garrisons[c.id]??(x.garrisons[c.id]={});if(Object.values(rows).reduce((a,b)=>a+b,0)+n>c.level*10000)throw Error('Vượt sức chứa đồn trú');s.army[id]-=n;rows[id]=(rows[id]||0)+n;break;}
  case 'recallGarrison':{guard();const c=city(),rows=x.garrisons[c.id]||{};for(const [id,n] of Object.entries(rows))s.army[id]=(s.army[id]||0)+n;delete x.garrisons[c.id];break;}
- case 'upgradeOutpost':{guard();const c=city();if(c.level>=10)throw Error('Thành phụ đã đạt cấp tối đa');debit({gold:500*c.level,stone:500*c.level});c.level++;break;}
  case 'setReplenish':{guard();if(!s.heroes.some(h=>h.id===a.heroId))throw Error('Không tìm thấy thần tiên');x.replenish[a.heroId]=a.value===true;break;}
  default:throw Error('Mệnh lệnh R4 không hợp lệ');
  }return x;
