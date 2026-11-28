@@ -243,7 +243,7 @@ test('all four red Mobile gems expose their verified stat or army effect and req
 
 test('Live source rebirth requires ascension and furnace, preserves old order, and is playable',()=>{
  const state=createNewGame('Thử chuyển sinh',now),hero=state.heroes[0],order=sourceItem('8746');
- hero.level=59;hero.assigned=false;state.levels.storehouse=30;state.resources.gold=200000;state.items.push(order.id);
+ hero.level=59;hero.assigned=false;state.levels.storehouse=30;state.cityPlots={i1:{buildingId:'storehouse',level:30},i2:{buildingId:'storehouse',level:30},i3:{buildingId:'storehouse',level:30},i4:{buildingId:'storehouse',level:30}};state.resources.gold=200000;state.items.push(order.id);
  assert.throws(()=>doAction(state,{type:'rebirthHero',heroId:hero.id},now),/Phi thăng/);
  hero.ascended=true;assert.throws(()=>doAction(state,{type:'rebirthHero',heroId:hero.id},now),/lò luyện/);
  state.levels.foundry=1;const next=doAction(state,{type:'rebirthHero',heroId:hero.id},now);
